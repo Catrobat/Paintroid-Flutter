@@ -11,7 +11,7 @@ class PocketPaint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title), centerTitle: false),
-      body: const Center(child: DrawingBoard()),
+      body: const DrawingBoard(),
       bottomNavigationBar: const _BottomNavigationBar(),
     );
   }

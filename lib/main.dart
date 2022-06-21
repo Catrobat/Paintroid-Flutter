@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pocket_paint.dart';
+import 'ui/pocket_paint.dart';
 
 void main() {
   runApp(const PocketPaintApp());
@@ -9,7 +9,6 @@ void main() {
 class PocketPaintApp extends StatelessWidget {
   const PocketPaintApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
