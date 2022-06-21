@@ -2,10 +2,13 @@ import 'package:flutter/widgets.dart';
 
 import 'draw_command.dart';
 
-class DrawPath extends DrawCommand {
-  DrawPath(this.path, Paint paint) : super(paint);
+class DrawPath implements DrawCommand {
+  const DrawPath(this.path, this.paint);
 
   final Path path;
+
+  @override
+  final Paint paint;
 
   @override
   void call(Canvas canvas) {

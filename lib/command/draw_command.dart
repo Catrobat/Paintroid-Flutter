@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'command.dart';
 
 abstract class DrawCommand extends Command {
-  DrawCommand(this.paint);
+  const DrawCommand(this.paint);
 
   final Paint paint;
 

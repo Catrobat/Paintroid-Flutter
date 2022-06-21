@@ -1,1 +1,3 @@
-abstract class Command {}
+abstract class Command {
+  const Command();
+}
