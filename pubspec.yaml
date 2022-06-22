@@ -42,6 +42,7 @@ dev_dependencies:
     sdk: flutter
   mockito:
   build_runner:
+  flutter_launcher_icons:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
