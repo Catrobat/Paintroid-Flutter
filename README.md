@@ -11,7 +11,9 @@ For more information oriented towards developers please visit our [developers pa
 ## Getting Started
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install)
-2. Run `flutter run lib/main.dart`
+2. Get dependencies - `flutter pub get`
+3. Build supporting files - `flutter pub run build_runner build`
+4. Run app - `flutter run lib/main.dart`
 
 ## Tests
 
