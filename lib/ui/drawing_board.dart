@@ -8,7 +8,14 @@ import 'package:paintroid/tool/brush_tool.dart';
 import 'draw_command_painter.dart';
 
 class DrawingBoard extends StatefulWidget {
-  const DrawingBoard({Key? key}) : super(key: key);
+  final VoidCallback startedDrawing;
+  final VoidCallback stoppedDrawing;
+
+  const DrawingBoard({
+    Key? key,
+    required this.startedDrawing,
+    required this.stoppedDrawing,
+  }) : super(key: key);
 
   @override
   State<DrawingBoard> createState() => _DrawingBoardState();
@@ -34,12 +41,14 @@ class _DrawingBoardState extends State<DrawingBoard> {
 
     return GestureDetector(
       onPanDown: (details) {
+        widget.startedDrawing();
         setState(() => brushTool.onDown(details.localPosition));
       },
       onPanUpdate: (details) {
         setState(() => brushTool.onDrag(details.localPosition));
       },
       onPanEnd: (_) {
+        widget.stoppedDrawing();
         setState(() => brushTool.onUp(null));
       },
       child: CustomPaint(

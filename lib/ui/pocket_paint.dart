@@ -14,6 +14,7 @@ class PocketPaint extends StatefulWidget {
 
 class _PocketPaintState extends State<PocketPaint> {
   bool _isFullscreen = false;
+  bool _isDrawing = false;
 
   void _toggleOnFullscreen() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -51,14 +52,21 @@ class _PocketPaintState extends State<PocketPaint> {
         body: SafeArea(
           child: Stack(
             children: [
-              const DrawingBoard(),
+              DrawingBoard(
+                startedDrawing: () => setState(() => _isDrawing = true),
+                stoppedDrawing: () => setState(() => _isDrawing = false),
+              ),
               if (_isFullscreen)
                 Positioned(
                   top: 2,
                   right: 2,
-                  child: IconButton(
-                    onPressed: () => _toggleOffFullscreen(),
-                    icon: const Icon(Icons.fullscreen_exit),
+                  child: AnimatedOpacity(
+                    opacity: _isDrawing ? 0 : 1,
+                    duration: const Duration(milliseconds: 200),
+                    child: IconButton(
+                      onPressed: () => _toggleOffFullscreen(),
+                      icon: const Icon(Icons.fullscreen_exit),
+                    ),
                   ),
                 ),
             ],
