@@ -64,8 +64,9 @@ class _Tests {
     test(
       'Should NOT add another DrawPath Command to CommandManager on "drag" event',
       () {
+        final originalLength = mockCommandManager.commands.length;
         brushTool.onDrag(Offset.zero);
-        expect(mockCommandManager.commands.length, equals(1));
+        expect(mockCommandManager.commands.length, equals(originalLength));
       },
     );
 
@@ -73,14 +74,15 @@ class _Tests {
       'Should NOT add another DrawPath Command to CommandManager on "tap up" event',
       () {
         test('With tap location coordination provided', () {
+          final originalLength = mockCommandManager.commands.length;
           brushTool.onUp(null);
-          expect(mockCommandManager.commands.length, equals(1));
+          expect(mockCommandManager.commands.length, equals(originalLength));
         });
 
         test('With tap location coordination NOT provided', () {
-          // brushTool.onDown(Offset.zero);
+          final originalLength = mockCommandManager.commands.length;
           brushTool.onUp(Offset.zero);
-          expect(mockCommandManager.commands.length, equals(1));
+          expect(mockCommandManager.commands.length, equals(originalLength));
         });
       },
     );
@@ -95,8 +97,9 @@ class _Tests {
           paint: mockPaint,
           commandManager: mockCommandManager,
         );
+        final originalLength = mockCommandManager.commands.length;
         brushTool.onDown(Offset.zero);
-        expect(mockCommandManager.commands.length, equals(1));
+        expect(mockCommandManager.commands.length, equals(originalLength + 1));
         expect(mockCommandManager.commands.first, isA<DrawPath>());
       },
     );
