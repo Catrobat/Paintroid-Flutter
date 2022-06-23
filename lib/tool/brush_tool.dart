@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:paintroid/command/graphic_command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 
 import 'tool.dart';
 
-class BrushTool extends Tool<GraphicCommand> {
+class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
   BrushTool({
     required super.paint,
     required super.commandManager,
@@ -38,4 +39,8 @@ class BrushTool extends Tool<GraphicCommand> {
       pathToDraw.close();
     }
   }
+
+  @override
+  List<Object?> get props =>
+      [paint, commandManager, commandFactory, graphicFactory];
 }

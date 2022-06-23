@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
 import 'graphic_command.dart';
 
-class DrawPathCommand extends GraphicCommand {
+class DrawPathCommand extends GraphicCommand with EquatableMixin {
   const DrawPathCommand(this._path, super.paint);
 
   final Path _path;
@@ -11,4 +12,7 @@ class DrawPathCommand extends GraphicCommand {
   void call(Canvas canvas) {
     canvas.drawPath(_path, paint);
   }
+
+  @override
+  List<Object?> get props => [paint, _path];
 }
