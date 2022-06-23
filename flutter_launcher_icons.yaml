@@ -2,7 +2,5 @@ flutter_icons:
   image_path: "assets/icon/app_icon.png"
   android: true
   ios: true
-
-  # For android: https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
   adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
   adaptive_icon_background: "#bff8fb"

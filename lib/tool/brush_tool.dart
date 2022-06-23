@@ -34,7 +34,6 @@ class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
 
   @override
   void onUp(Offset? point) {
-    // This basically makes the path a point.
     if (pathToDraw.getBounds().size == Size.zero) {
       pathToDraw.close();
     }
