@@ -5,8 +5,9 @@ Paintroid, also known as **Pocket Paint**, is associated to [Catroid](https://gi
 
 Since Pocket Paint is now available in **Google Play store** you can also download Paintroid (Pocket Paint) from [here](https://play.google.com/store/apps/details?id=org.catrobat.paintroid). Alternatively, you can find it on **F-Droid** [here](https://f-droid.org/packages/org.catrobat.paintroid/).
 
-
 For more information oriented towards developers please visit our [developers page](http://developer.catrobat.org/).
+
+> **Note** This repository is the Flutter version of [Paintroid](https://github.com/Catrobat/Paintroid)
 
 ## Getting Started
 
