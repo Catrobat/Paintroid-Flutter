@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/command/draw_command.dart';
+import 'package:paintroid/command/command_factory.dart';
+import 'package:paintroid/command/graphic_command.dart';
 import 'package:paintroid/command/sync_command_manager.dart';
+import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 
 import 'draw_command_painter.dart';
@@ -13,13 +15,15 @@ class DrawingBoard extends StatefulWidget {
 }
 
 class _DrawingBoardState extends State<DrawingBoard> {
-  late final commandManger = SyncCommandManager<DrawCommand>(commands: []);
+  late final commandManger = SyncCommandManager<GraphicCommand>(commands: []);
   late final brushTool = BrushTool(
     paint: Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2,
     commandManager: commandManger,
+    commandFactory: CommandFactory(),
+    graphicFactory: GraphicFactory(),
   );
 
   @override

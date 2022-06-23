@@ -29,6 +29,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+coverage
+*.mocks.dart
 
 # Web related
 lib/generated_plugin_registrant.dart

@@ -1,45 +1,41 @@
 import 'dart:ui';
 
-import 'package:paintroid/command/command_manager.dart';
-import 'package:paintroid/command/draw_command.dart';
-import 'package:paintroid/command/draw_path.dart';
+import 'package:flutter/foundation.dart';
+import 'package:paintroid/command/graphic_command.dart';
+import 'package:paintroid/core/graphic_factory.dart';
 
 import 'tool.dart';
 
-class BrushTool implements Tool {
-  BrushTool({required this.paint, required this.commandManager})  {
-    if (commandManager.commands.isNotEmpty) {
-      final command = commandManager.commands.last;
-      if (command is DrawPath) {
-        _drawPath = command;
-      }
-    }
-  }
+class BrushTool extends Tool<GraphicCommand> {
+  BrushTool({
+    required super.paint,
+    required super.commandManager,
+    required super.commandFactory,
+    required this.graphicFactory,
+  });
 
-  @override
-  final Paint paint;
+  final GraphicFactory graphicFactory;
 
-  @override
-  final CommandManager<DrawCommand> commandManager;
-
-  late DrawPath _drawPath;
+  @visibleForTesting
+  late Path pathToDraw;
 
   @override
   void onDown(Offset point) {
-    final path = Path()..moveTo(point.dx, point.dy);
-    _drawPath = DrawPath(path, paint);
-    commandManager.commands.add(_drawPath);
+    pathToDraw = graphicFactory.createPath()..moveTo(point.dx, point.dy);
+    final command = commandFactory.createDrawPathCommand(pathToDraw, paint);
+    commandManager.commands.add(command);
   }
 
   @override
   void onDrag(Offset point) {
-    _drawPath.path.lineTo(point.dx, point.dy);
+    pathToDraw.lineTo(point.dx, point.dy);
   }
 
   @override
   void onUp(Offset? point) {
-    if (_drawPath.path.getBounds().size == Size.zero) {
-      _drawPath.path.close();
+    // This basically makes the path a point.
+    if (pathToDraw.getBounds().size == Size.zero) {
+      pathToDraw.close();
     }
   }
 }
