@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/ui/app_colors.dart';
 
 import 'ui/pocket_paint.dart';
 
@@ -16,14 +17,14 @@ class PocketPaintApp extends StatelessWidget {
       theme: ThemeData.from(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0097A7),
+          seedColor: AppColors.primary,
           brightness: Brightness.light
         ),
       ),
       darkTheme: ThemeData.from(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00838F),
+          seedColor: AppColors.primary,
           brightness: Brightness.dark,
         ),
       ),
