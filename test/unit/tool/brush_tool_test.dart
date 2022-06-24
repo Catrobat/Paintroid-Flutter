@@ -1,0 +1,148 @@
+import 'dart:ui';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:paintroid/command/command_factory.dart';
+import 'package:paintroid/command/command_manager.dart';
+import 'package:paintroid/command/draw_path_command.dart';
+import 'package:paintroid/command/graphic_command.dart';
+import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/tool/brush_tool.dart';
+
+import 'brush_tool_test.mocks.dart';
+
+@GenerateMocks([
+  Path,
+  Offset,
+  GraphicCommand,
+  DrawPathCommand,
+  CommandManager,
+  CommandFactory,
+  GraphicFactory,
+])
+void main() {
+  late MockPath mockPath;
+  late MockOffset mockOffset;
+  late MockDrawPathCommand mockDrawPathCommand;
+  late MockCommandManager<GraphicCommand> mockCommandManager;
+  late MockCommandFactory mockCommandFactory;
+  late MockGraphicFactory mockGraphicFactory;
+
+  late Offset testOffset;
+  late Path testPath;
+  late Paint testPaint;
+  late DrawPathCommand testDrawPathCommand;
+
+  late BrushTool sut;
+
+  setUp(() {
+    mockPath = MockPath();
+    mockOffset = MockOffset();
+    mockDrawPathCommand = MockDrawPathCommand();
+    mockCommandManager = MockCommandManager();
+    mockCommandFactory = MockCommandFactory();
+    mockGraphicFactory = MockGraphicFactory();
+
+    testOffset = const Offset(12, 13);
+    testPath = Path();
+    testPaint = Paint();
+    testDrawPathCommand = DrawPathCommand(testPath, testPaint);
+
+    sut = BrushTool(
+      paint: testPaint,
+      commandManager: mockCommandManager,
+      commandFactory: mockCommandFactory,
+      graphicFactory: mockGraphicFactory,
+    );
+  });
+
+  group('On tap down event', () {
+    test('Should create one DrawPathCommand with a new Path', () {
+      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockCommandFactory.createDrawPathCommand(any, any))
+          .thenReturn(testDrawPathCommand);
+      when(mockCommandManager.commands).thenReturn([]);
+      sut.onDown(testOffset);
+      verify(mockGraphicFactory.createPath()).called(1);
+      verify(mockCommandFactory.createDrawPathCommand(testPath, testPaint))
+          .called(1);
+      verifyNoMoreInteractions(mockCommandFactory);
+      verifyNoMoreInteractions(mockGraphicFactory);
+    });
+
+    test('Should append one DrawPathCommand in CommandManager', () {
+      final testCommands = <GraphicCommand>[MockGraphicCommand()];
+      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockCommandFactory.createDrawPathCommand(any, any))
+          .thenReturn(testDrawPathCommand);
+      when(mockCommandManager.commands).thenReturn(testCommands);
+      final originalSize = testCommands.length;
+      sut.onDown(testOffset);
+      expect(testCommands.length, equals(originalSize + 1));
+      expect(testCommands.last, isA<DrawPathCommand>());
+      verify(mockCommandManager.commands).called(1);
+      verifyNoMoreInteractions(mockCommandManager);
+    });
+
+    test('Should move Path to point supplied in event', () {
+      when(mockGraphicFactory.createPath()).thenReturn(mockPath);
+      when(mockPath.moveTo(testOffset.dx, testOffset.dy)).thenReturn(null);
+      when(mockCommandFactory.createDrawPathCommand(any, any))
+          .thenReturn(testDrawPathCommand);
+      when(mockCommandManager.commands).thenReturn([]);
+      sut.onDown(testOffset);
+      verify(mockPath.moveTo(testOffset.dx, testOffset.dy)).called(1);
+      verifyNoMoreInteractions(mockPath);
+    });
+
+    test('Should not interact with DrawPathCommand', () {
+      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockCommandFactory.createDrawPathCommand(any, any))
+          .thenReturn(mockDrawPathCommand);
+      when(mockCommandManager.commands).thenReturn([]);
+      sut.onDown(testOffset);
+      verifyZeroInteractions(mockDrawPathCommand);
+    });
+  });
+
+  group('On drag event', () {
+    test('Should not add DrawPathCommand to CommandManager', () {
+      sut.pathToDraw = testPath;
+      sut.onDrag(testOffset);
+      verifyZeroInteractions(mockCommandManager);
+      verifyZeroInteractions(mockCommandFactory);
+    });
+
+    test('Should extend Path to coordinate passed in event', () {
+      sut.pathToDraw = mockPath;
+      when(mockPath.lineTo(testOffset.dx, testOffset.dy)).thenReturn(null);
+      sut.onDrag(testOffset);
+      verify(mockPath.lineTo(testOffset.dx, testOffset.dy)).called(1);
+      verifyNoMoreInteractions(mockPath);
+    });
+  });
+
+  group('On tap up event', () {
+    test('Should not interact with coordinate', () {
+      sut.pathToDraw = testPath;
+      sut.onUp(mockOffset);
+      verifyZeroInteractions(mockOffset);
+    });
+
+    test('Should not add DrawPathCommand to CommandManager', () {
+      sut.pathToDraw = testPath;
+      sut.onUp(null);
+      verifyZeroInteractions(mockCommandManager);
+      verifyZeroInteractions(mockCommandFactory);
+    });
+
+    test('Should close Path if bound size is zero', () {
+      sut.pathToDraw = mockPath;
+      when(mockPath.getBounds()).thenReturn(Rect.zero);
+      sut.onUp(null);
+      verifyInOrder([mockPath.getBounds(), mockPath.close()]);
+      verifyNoMoreInteractions(mockPath);
+    });
+  });
+}
