@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import 'theme.dart';
+import 'bottom_bar.dart';
 import 'drawing_board.dart';
 
 class PocketPaint extends StatelessWidget {
@@ -10,51 +13,20 @@ class PocketPaint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title), centerTitle: false),
+      appBar: AppBar(
+        title: Text(
+          title,
+          style: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20),
+        ),
+        centerTitle: false,
+        backgroundColor: AppTheme.primary,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+        ),
+      ),
       body: const DrawingBoard(),
-      bottomNavigationBar: const _BottomNavigationBar(),
-    );
-  }
-}
-
-class _BottomNavigationBar extends StatelessWidget {
-  const _BottomNavigationBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: 1,
-      items: [
-        BottomNavigationBarItem(
-          label: "Tools",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.handyman),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Brush",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.brush),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Color",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.square),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Layers",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.layers),
-          ),
-        )
-      ],
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }
