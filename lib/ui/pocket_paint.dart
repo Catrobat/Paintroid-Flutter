@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'theme.dart';
-import 'bottom_bar.dart';
+import 'custom_navigation_bar.dart';
 import 'drawing_board.dart';
 
 class PocketPaint extends StatelessWidget {
@@ -14,19 +12,11 @@ class PocketPaint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          title,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20),
-        ),
+        title: Text(title),
         centerTitle: false,
-        backgroundColor: AppTheme.primary,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.light,
-        ),
       ),
       body: const DrawingBoard(),
-      bottomNavigationBar: const CustomBottomBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

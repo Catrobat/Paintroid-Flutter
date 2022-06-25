@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/ui/theme.dart';
+import 'package:paintroid/ui/color_schemes.g.dart';
 
 import 'ui/pocket_paint.dart';
 
@@ -14,18 +14,7 @@ class PocketPaintApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pocket Paint',
-      theme: ThemeData.from(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: AppTheme.primary, brightness: Brightness.light),
-      ),
-      darkTheme: ThemeData.from(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppTheme.primary,
-          brightness: Brightness.dark,
-        ),
-      ),
+      theme: ThemeData.from(useMaterial3: true, colorScheme: lightColorScheme),
       home: const PocketPaint(title: 'Pocket Paint'),
     );
   }
