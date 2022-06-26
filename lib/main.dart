@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/ui/color_schemes.g.dart';
+import 'package:paintroid/ui/color_schemes.dart';
 
 import 'ui/pocket_paint.dart';
 
