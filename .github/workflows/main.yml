@@ -1,4 +1,4 @@
-name: Static Analysis and Testing
+name: Build, Test and Analyze
 
 on: [ push, pull_request ]
 
@@ -12,6 +12,13 @@ jobs:
         run: |
           flutter pub get
           flutter pub run build_runner build
+      - name: Build release package
+        run: flutter build apk --release
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-release.apk
       - name: Static Analysis
         run: flutter analyze
       - name: Unit Tests
