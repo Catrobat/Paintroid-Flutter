@@ -1,18 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/command/command_factory.dart';
-import 'package:paintroid/command/draw_path_command.dart';
+import 'package:paintroid/command/command.dart';
+import 'package:paintroid/core/path_with_action_history.dart';
 
 void main() {
-  late Path testPath;
+  late PathWithActionHistory testPath;
   late Paint testPaint;
   late CommandFactory sut;
 
   setUp(() {
-    testPath = Path();
+    testPath = PathWithActionHistory();
     testPaint = Paint();
-    sut = CommandFactory();
+    sut = const CommandFactory();
   });
 
   test('Should return a valid instance of DrawPathCommand', () {

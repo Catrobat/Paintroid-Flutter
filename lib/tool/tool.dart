@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:paintroid/command/command.dart';
-import 'package:paintroid/command/command_factory.dart';
-import 'package:paintroid/command/command_manager.dart';
 
 abstract class Tool<C extends Command> {
   const Tool({

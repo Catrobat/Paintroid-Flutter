@@ -3,17 +3,15 @@ import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:paintroid/command/command_factory.dart';
-import 'package:paintroid/command/command_manager.dart';
-import 'package:paintroid/command/draw_path_command.dart';
-import 'package:paintroid/command/graphic_command.dart';
+import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/path_with_action_history.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 
 import 'brush_tool_test.mocks.dart';
 
 @GenerateMocks([
-  Path,
+  PathWithActionHistory,
   Offset,
   GraphicCommand,
   DrawPathCommand,
@@ -22,7 +20,7 @@ import 'brush_tool_test.mocks.dart';
   GraphicFactory,
 ])
 void main() {
-  late MockPath mockPath;
+  late MockPathWithActionHistory mockPath;
   late MockOffset mockOffset;
   late MockDrawPathCommand mockDrawPathCommand;
   late MockCommandManager<GraphicCommand> mockCommandManager;
@@ -30,14 +28,14 @@ void main() {
   late MockGraphicFactory mockGraphicFactory;
 
   late Offset testOffset;
-  late Path testPath;
+  late PathWithActionHistory testPath;
   late Paint testPaint;
   late DrawPathCommand testDrawPathCommand;
 
   late BrushTool sut;
 
   setUp(() {
-    mockPath = MockPath();
+    mockPath = MockPathWithActionHistory();
     mockOffset = MockOffset();
     mockDrawPathCommand = MockDrawPathCommand();
     mockCommandManager = MockCommandManager();
@@ -45,7 +43,7 @@ void main() {
     mockGraphicFactory = MockGraphicFactory();
 
     testOffset = const Offset(12, 13);
-    testPath = Path();
+    testPath = PathWithActionHistory();
     testPaint = Paint();
     testDrawPathCommand = DrawPathCommand(testPath, testPaint);
 
@@ -59,12 +57,12 @@ void main() {
 
   group('On tap down event', () {
     test('Should create one DrawPathCommand with a new Path', () {
-      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockGraphicFactory.createPathWithActionHistory()).thenReturn(testPath);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
       when(mockCommandManager.commands).thenReturn([]);
       sut.onDown(testOffset);
-      verify(mockGraphicFactory.createPath()).called(1);
+      verify(mockGraphicFactory.createPathWithActionHistory()).called(1);
       verify(mockCommandFactory.createDrawPathCommand(testPath, testPaint))
           .called(1);
       verifyNoMoreInteractions(mockCommandFactory);
@@ -73,7 +71,7 @@ void main() {
 
     test('Should append one DrawPathCommand in CommandManager', () {
       final testCommands = <GraphicCommand>[MockGraphicCommand()];
-      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockGraphicFactory.createPathWithActionHistory()).thenReturn(testPath);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
       when(mockCommandManager.commands).thenReturn(testCommands);
@@ -86,7 +84,7 @@ void main() {
     });
 
     test('Should move Path to point supplied in event', () {
-      when(mockGraphicFactory.createPath()).thenReturn(mockPath);
+      when(mockGraphicFactory.createPathWithActionHistory()).thenReturn(mockPath);
       when(mockPath.moveTo(testOffset.dx, testOffset.dy)).thenReturn(null);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
@@ -97,7 +95,7 @@ void main() {
     });
 
     test('Should not interact with DrawPathCommand', () {
-      when(mockGraphicFactory.createPath()).thenReturn(testPath);
+      when(mockGraphicFactory.createPathWithActionHistory()).thenReturn(testPath);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(mockDrawPathCommand);
       when(mockCommandManager.commands).thenReturn([]);

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/command/command_factory.dart';
-import 'package:paintroid/command/graphic_command.dart';
-import 'package:paintroid/command/sync_command_manager.dart';
+import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 
@@ -29,8 +27,8 @@ class _DrawingBoardState extends State<DrawingBoard> {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2,
     commandManager: commandManger,
-    commandFactory: CommandFactory(),
-    graphicFactory: GraphicFactory(),
+    commandFactory: const CommandFactory(),
+    graphicFactory: const GraphicFactory(),
   );
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/command/graphic_command.dart';
+import 'package:paintroid/command/command.dart';
 
 class DrawCommandPainter extends CustomPainter {
   DrawCommandPainter({required Iterable<GraphicCommand> commands})

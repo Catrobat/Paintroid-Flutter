@@ -1,0 +1,12 @@
+syntax = 'proto3';
+
+message SerializablePaint {
+  int32 color = 1;
+  float strokeWidth = 2;
+  enum StrokeCap {
+    ROUND = 0;
+    BUTT = 1;
+    SQUARE = 2;
+  }
+  StrokeCap cap = 3;
+}

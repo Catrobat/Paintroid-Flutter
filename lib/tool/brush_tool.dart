@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:paintroid/command/graphic_command.dart';
+import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/path_with_action_history.dart';
 
 import 'tool.dart';
 
@@ -18,11 +19,11 @@ class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
   final GraphicFactory graphicFactory;
 
   @visibleForTesting
-  late Path pathToDraw;
+  late PathWithActionHistory pathToDraw;
 
   @override
   void onDown(Offset point) {
-    pathToDraw = graphicFactory.createPath()..moveTo(point.dx, point.dy);
+    pathToDraw = graphicFactory.createPathWithActionHistory()..moveTo(point.dx, point.dy);
     final command = commandFactory.createDrawPathCommand(pathToDraw, paint);
     commandManager.commands.add(command);
   }
