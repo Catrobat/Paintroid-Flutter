@@ -16,7 +16,7 @@ void main() {
   testWidgets('Should have a top and bottom app bar', (tester) async {
     await tester.pumpWidget(sut);
     expect(find.byType(AppBar), findsOneWidget);
-    expect(find.byType(BottomNavigationBar), findsOneWidget);
+    expect(find.byType(NavigationBar), findsOneWidget);
   });
 
   testWidgets('Should have the title in app bar', (tester) async {
@@ -54,7 +54,7 @@ void main() {
           await tester.tap(buttonFinder);
           await tester.pumpAndSettle();
           expect(find.byType(AppBar), findsNothing);
-          expect(find.byType(BottomNavigationBar), findsNothing);
+          expect(find.byType(NavigationBar), findsNothing);
         },
       );
 
@@ -79,7 +79,7 @@ void main() {
           await tester.tap(exitFullscreenButtonFinder);
           await tester.pumpAndSettle();
           expect(find.byType(AppBar), findsOneWidget);
-          expect(find.byType(BottomNavigationBar), findsOneWidget);
+          expect(find.byType(NavigationBar), findsOneWidget);
         },
       );
     });
