@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'custom_navigation_bar.dart';
 import 'drawing_board.dart';
 
 class PocketPaint extends StatefulWidget {
@@ -73,50 +74,8 @@ class _PocketPaintState extends State<PocketPaint> {
           ),
         ),
         bottomNavigationBar:
-            _isFullscreen ? null : const _BottomNavigationBar(),
+            _isFullscreen ? null : const CustomNavigationBar(),
       ),
-    );
-  }
-}
-
-class _BottomNavigationBar extends StatelessWidget {
-  const _BottomNavigationBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: 1,
-      items: [
-        BottomNavigationBarItem(
-          label: "Tools",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.handyman),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Brush",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.brush),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Color",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.square),
-          ),
-        ),
-        BottomNavigationBarItem(
-          label: "Layers",
-          icon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.layers),
-          ),
-        )
-      ],
     );
   }
 }
