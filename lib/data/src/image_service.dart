@@ -11,6 +11,8 @@ abstract class IImageService {
 }
 
 class ImageService implements IImageService {
+  const ImageService();
+
   @override
   Future<Uint8List> exportAsJpg(ui.Image image, int quality) async {
     final byteData = await image.toByteData();
