@@ -17,7 +17,7 @@ class PocketPaintApp extends StatelessWidget {
       theme: ThemeData.from(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme:
           ThemeData.from(useMaterial3: true, colorScheme: darkColorScheme),
-      home: const PocketPaint(title: 'Pocket Paint'),
+      home: const PocketPaint(),
     );
   }
 }

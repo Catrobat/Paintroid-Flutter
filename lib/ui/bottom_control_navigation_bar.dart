@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomNavigationBar extends StatelessWidget {
-  const CustomNavigationBar({Key? key}) : super(key: key);
+class BottomControlNavigationBar extends StatelessWidget {
+  const BottomControlNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +10,7 @@ class CustomNavigationBar extends StatelessWidget {
       data: NavigationBarThemeData(
         indicatorColor: Colors.transparent,
         labelTextStyle: MaterialStateProperty.all(
-          TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+          TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
       ),
       child: NavigationBar(

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:paintroid/ui/top_app_bar.dart';
 
-import 'custom_navigation_bar.dart';
+import 'bottom_control_navigation_bar.dart';
 import 'drawing_board.dart';
 
 class PocketPaint extends StatefulWidget {
-  final String title;
-
-  const PocketPaint({Key? key, required this.title}) : super(key: key);
+  const PocketPaint({Key? key}) : super(key: key);
 
   @override
   State<PocketPaint> createState() => _PocketPaintState();
@@ -32,23 +31,15 @@ class _PocketPaintState extends State<PocketPaint> {
     return WillPopScope(
       onWillPop: () async {
         final willPop = !_isFullscreen;
-        if (_isFullscreen) {
-          _toggleOffFullscreen();
-        }
+        if (_isFullscreen) _toggleOffFullscreen();
         return willPop;
       },
       child: Scaffold(
         appBar: _isFullscreen
             ? null
-            : AppBar(
-                title: Text(widget.title),
-                centerTitle: false,
-                actions: [
-                  IconButton(
-                    onPressed: () => _toggleOnFullscreen(),
-                    icon: const Icon(Icons.fullscreen),
-                  )
-                ],
+            : TopAppBar(
+                title: "Pocket Paint",
+                onFullscreenPressed: _toggleOnFullscreen,
               ),
         body: SafeArea(
           child: Stack(
@@ -57,24 +48,27 @@ class _PocketPaintState extends State<PocketPaint> {
                 startedDrawing: () => setState(() => _isDrawing = true),
                 stoppedDrawing: () => setState(() => _isDrawing = false),
               ),
-              if (_isFullscreen)
-                Positioned(
-                  top: 2,
-                  right: 2,
-                  child: AnimatedOpacity(
-                    opacity: _isDrawing ? 0 : 1,
-                    duration: const Duration(milliseconds: 200),
-                    child: IconButton(
-                      onPressed: () => _toggleOffFullscreen(),
-                      icon: const Icon(Icons.fullscreen_exit),
-                    ),
-                  ),
-                ),
+              if (_isFullscreen) _exitFullscreenButton,
             ],
           ),
         ),
         bottomNavigationBar:
-            _isFullscreen ? null : const CustomNavigationBar(),
+            _isFullscreen ? null : const BottomControlNavigationBar(),
+      ),
+    );
+  }
+
+  Positioned get _exitFullscreenButton {
+    return Positioned(
+      top: 2,
+      right: 2,
+      child: AnimatedOpacity(
+        opacity: _isDrawing ? 0 : 1,
+        duration: const Duration(milliseconds: 200),
+        child: IconButton(
+          onPressed: _toggleOffFullscreen,
+          icon: const Icon(Icons.fullscreen_exit),
+        ),
       ),
     );
   }

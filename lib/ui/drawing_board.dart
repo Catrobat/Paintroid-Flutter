@@ -3,7 +3,7 @@ import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 
-import 'draw_command_painter.dart';
+import 'graphic_command_painter.dart';
 
 class DrawingBoard extends StatefulWidget {
   final VoidCallback startedDrawing;
@@ -50,7 +50,7 @@ class _DrawingBoardState extends State<DrawingBoard> {
         setState(() => brushTool.onUp(null));
       },
       child: CustomPaint(
-        painter: DrawCommandPainter(commands: commandManger.commands),
+        painter: GraphicCommandPainter(commands: commandManger.commands),
         willChange: true,
         child: const Center(),
       ),

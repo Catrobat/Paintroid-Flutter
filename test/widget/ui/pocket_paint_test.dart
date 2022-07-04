@@ -8,8 +8,8 @@ void main() {
 
   setUp(() {
     testTitle = "Test Title";
-    sut = MaterialApp(
-      home: PocketPaint(title: testTitle),
+    sut = const MaterialApp(
+      home: PocketPaint(),
     );
   });
 
