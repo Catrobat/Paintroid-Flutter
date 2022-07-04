@@ -1,34 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/command/command.dart';
-import 'package:paintroid/core/graphic_factory.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/provider/providers.dart';
+import 'package:paintroid/provider/state_providers.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 
 import 'graphic_command_painter.dart';
 
-class DrawingBoard extends StatefulWidget {
-  final VoidCallback startedDrawing;
-  final VoidCallback stoppedDrawing;
-
-  const DrawingBoard({
-    Key? key,
-    required this.startedDrawing,
-    required this.stoppedDrawing,
-  }) : super(key: key);
+class DrawingBoard extends ConsumerStatefulWidget {
+  const DrawingBoard({Key? key}) : super(key: key);
 
   @override
-  State<DrawingBoard> createState() => _DrawingBoardState();
+  ConsumerState<DrawingBoard> createState() => _DrawingBoardState();
 }
 
-class _DrawingBoardState extends State<DrawingBoard> {
-  late final commandManger = SyncCommandManager<GraphicCommand>(commands: []);
+class _DrawingBoardState extends ConsumerState<DrawingBoard> {
+  late final commandManger = ref.read(Providers.graphicCommandManager);
   late final brushTool = BrushTool(
     paint: Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2,
     commandManager: commandManger,
-    commandFactory: const CommandFactory(),
-    graphicFactory: const GraphicFactory(),
+    commandFactory: ref.read(Providers.commandFactory),
+    graphicFactory: ref.read(Providers.graphicFactory),
   );
 
   @override
@@ -39,14 +33,14 @@ class _DrawingBoardState extends State<DrawingBoard> {
 
     return GestureDetector(
       onPanDown: (details) {
-        widget.startedDrawing();
+        ref.read(StateProviders.isUserDrawing.notifier).state = true;
         setState(() => brushTool.onDown(details.localPosition));
       },
       onPanUpdate: (details) {
         setState(() => brushTool.onDrag(details.localPosition));
       },
       onPanEnd: (_) {
-        widget.stoppedDrawing();
+        ref.read(StateProviders.isUserDrawing.notifier).state = false;
         setState(() => brushTool.onUp(null));
       },
       child: CustomPaint(

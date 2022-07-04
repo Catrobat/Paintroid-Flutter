@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/ui/pocket_paint.dart';
+import 'package:paintroid/ui/top_app_bar.dart';
 
 void main() {
-  late String testTitle;
   late Widget sut;
 
   setUp(() {
-    testTitle = "Test Title";
-    sut = const MaterialApp(
-      home: PocketPaint(),
+    sut = const ProviderScope(
+      child: MaterialApp(
+        home: PocketPaint(),
+      ),
     );
   });
 
   testWidgets('Should have a top and bottom app bar', (tester) async {
     await tester.pumpWidget(sut);
-    expect(find.byType(AppBar), findsOneWidget);
+    expect(find.byType(TopAppBar), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 
-  testWidgets('Should have the title in app bar', (tester) async {
-    await tester.pumpWidget(sut);
-    final titleFinder = find.widgetWithText(AppBar, testTitle);
-    expect(titleFinder, findsOneWidget);
-  });
+  testWidgets(
+    'Should have the title "Pocket Paint" in app bar',
+    (tester) async {
+      await tester.pumpWidget(sut);
+      final titleFinder = find.widgetWithText(TopAppBar, "Pocket Paint");
+      expect(titleFinder, findsOneWidget);
+    },
+  );
 
   group('Fullscreen functionality', () {
     final enterFullscreenButtonFinder =
@@ -32,13 +37,13 @@ void main() {
         find.widgetWithIcon(IconButton, Icons.fullscreen_exit);
 
     testWidgets(
-      'Should have a fullscreen button in AppBar',
+      'Should have a fullscreen button in TopAppBar',
       (tester) async {
         await tester.pumpWidget(sut);
         expect(enterFullscreenButtonFinder, findsOneWidget);
         final buttonAncestorFinder = find.ancestor(
           of: enterFullscreenButtonFinder,
-          matching: find.byType(AppBar),
+          matching: find.byType(TopAppBar),
         );
         expect(buttonAncestorFinder, findsOneWidget);
       },
@@ -53,7 +58,7 @@ void main() {
               find.widgetWithIcon(IconButton, Icons.fullscreen);
           await tester.tap(buttonFinder);
           await tester.pumpAndSettle();
-          expect(find.byType(AppBar), findsNothing);
+          expect(find.byType(TopAppBar), findsNothing);
           expect(find.byType(NavigationBar), findsNothing);
         },
       );
@@ -78,7 +83,7 @@ void main() {
           await tester.pumpAndSettle();
           await tester.tap(exitFullscreenButtonFinder);
           await tester.pumpAndSettle();
-          expect(find.byType(AppBar), findsOneWidget);
+          expect(find.byType(TopAppBar), findsOneWidget);
           expect(find.byType(NavigationBar), findsOneWidget);
         },
       );

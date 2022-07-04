@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/ui/color_schemes.dart';
 
 import 'ui/pocket_paint.dart';
 
 void main() {
-  runApp(const PocketPaintApp());
+  runApp(const ProviderScope(child: PocketPaintApp()));
 }
 
 class PocketPaintApp extends StatelessWidget {

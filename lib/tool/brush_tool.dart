@@ -23,7 +23,8 @@ class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
 
   @override
   void onDown(Offset point) {
-    pathToDraw = graphicFactory.createPathWithActionHistory()..moveTo(point.dx, point.dy);
+    pathToDraw = graphicFactory.createPathWithActionHistory()
+      ..moveTo(point.dx, point.dy);
     final command = commandFactory.createDrawPathCommand(pathToDraw, paint);
     commandManager.commands.add(command);
   }
@@ -41,6 +42,5 @@ class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
   }
 
   @override
-  List<Object?> get props =>
-      [paint, commandManager, commandFactory, graphicFactory];
+  List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 }

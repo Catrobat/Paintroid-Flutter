@@ -17,6 +17,7 @@ dependencies:
   protobuf:
   path:
   path_provider:
+  flutter_riverpod:
 
 dev_dependencies:
   flutter_test:
