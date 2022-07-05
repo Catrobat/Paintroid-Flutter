@@ -1,35 +1,36 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class IFileService {
-  Future<File?> saveToPhotos(String filename, Uint8List data);
+  Future<void> saveToPhotos(String filename, Uint8List data);
 
   Future<File?> saveToDocuments(String filename, Uint8List data);
 }
 
 class FileService implements IFileService {
-  final platform = const MethodChannel("org.catrobat.paintroid/photo_gallery");
-
-  const FileService();
+  final photoLibraryChannel =
+      const MethodChannel("org.catrobat.paintroid/photo_library")
+        ..setMethodCallHandler((call) async {
+          switch (call.method) {
+            case "saveToPhotosCallback":
+              debugPrint(call.arguments.toString());
+              break;
+          }
+        });
 
   @override
-  Future<File?> saveToPhotos(String filename, Uint8List data) async {
-    if (Platform.isAndroid) {
-      final dirs =
-          await getExternalStorageDirectories(type: StorageDirectory.pictures);
-      final directory = dirs?[0];
-      if (directory == null) return null;
-      final file = File(join(directory.path, filename));
-      return await file.writeAsBytes(data);
-    } else if (Platform.isIOS) {
-      final args = {"fileName": filename, "data": data};
-      await platform.invokeMethod("saveToPhotos", args);
+  Future<void> saveToPhotos(String filename, Uint8List data) async {
+    final args = {"fileName": filename, "data": data};
+    try {
+      await photoLibraryChannel.invokeMethod("saveToPhotos", args);
+    } on PlatformException catch (e) {
+      debugPrint(e.code);
     }
-    return null;
   }
 
   @override
