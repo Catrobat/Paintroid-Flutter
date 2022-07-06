@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
 
 abstract class IImageService {
@@ -8,6 +9,9 @@ abstract class IImageService {
   Future<Uint8List> exportAsJpg(ui.Image image, int quality);
 
   Future<Uint8List> exportAsPng(ui.Image image);
+
+  static final provider =
+      Provider<IImageService>((ref) => const ImageService());
 }
 
 class ImageService implements IImageService {

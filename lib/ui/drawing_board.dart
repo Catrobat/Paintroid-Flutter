@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/provider/providers.dart';
+import 'package:paintroid/command/command.dart';
+import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 import 'package:paintroid/ui/transparency_grid_pattern.dart';
 import 'package:paintroid/workspace/workspace.dart';
@@ -15,7 +17,7 @@ class DrawingBoard extends ConsumerStatefulWidget {
 }
 
 class _DrawingBoardState extends ConsumerState<DrawingBoard> {
-  late final commandManger = ref.read(Providers.graphicCommandManager);
+  late final commandManger = ref.read(SyncCommandManager.provider);
   late final brushTool = BrushTool(
     paint: Paint()
       ..style = PaintingStyle.stroke
@@ -23,19 +25,38 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5,
     commandManager: commandManger,
-    commandFactory: ref.read(Providers.commandFactory),
-    graphicFactory: ref.read(Providers.graphicFactory),
+    commandFactory: ref.read(CommandFactory.provider),
+    graphicFactory: ref.read(GraphicFactory.provider),
   );
+
+  final drawCanvasKey = GlobalKey(debugLabel: "drawCanvas");
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final ctx = drawCanvasKey.currentContext!;
+      final renderBox = ctx.findRenderObject() as RenderBox;
+      ref
+          .read(WorkspaceStateNotifier.provider.notifier)
+          .setCanvasWidth(renderBox.size.width);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ratio = ref.watch(
+      WorkspaceStateNotifier.provider.select(
+        (state) => state.canvasState.aspectRatio,
+      ),
+    );
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
         border: Border.fromBorderSide(BorderSide(width: 0.5)),
       ),
       child: AspectRatio(
-        aspectRatio: 9 / 16,
+        aspectRatio: ratio,
         child: GestureDetector(
           onPanDown: (details) {
             ref
@@ -60,6 +81,7 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
 
   CustomPaint get _drawingCanvas {
     return CustomPaint(
+      key: drawCanvasKey,
       foregroundPainter: GraphicCommandPainter(
         commands: commandManger.commands,
       ),

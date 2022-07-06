@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,6 +11,8 @@ abstract class IFileService {
   Future<void> saveToPhotos(String filename, Uint8List data);
 
   Future<File?> saveToDocuments(String filename, Uint8List data);
+
+  static final provider = Provider<IFileService>((ref) => FileService());
 }
 
 class FileService implements IFileService {

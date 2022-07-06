@@ -11,11 +11,9 @@ class TransparencyGridPattern extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: ClipRect(
-        child: CustomPaint(
-          painter: _PatternPainter(numberOfSquaresAlongWidth),
-          child: child,
-        ),
+      child: CustomPaint(
+        painter: _PatternPainter(numberOfSquaresAlongWidth),
+        child: child,
       ),
     );
   }
@@ -28,6 +26,7 @@ class _PatternPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     final squareSize = size.width / squaresAlongWidth;
     final boxPaint = Paint()..color = Colors.grey.shade400;
     canvas.drawPaint(Paint()..color = Colors.white);
