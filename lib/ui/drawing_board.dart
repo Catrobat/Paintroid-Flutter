@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/provider/providers.dart';
 import 'package:paintroid/provider/state_providers.dart';
 import 'package:paintroid/tool/brush_tool.dart';
+import 'package:paintroid/ui/transparency_grid_pattern.dart';
 
 import 'graphic_command_painter.dart';
 
@@ -18,8 +19,9 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
   late final brushTool = BrushTool(
     paint: Paint()
       ..style = PaintingStyle.stroke
+      ..color = Colors.white
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 2,
+      ..strokeWidth = 5,
     commandManager: commandManger,
     commandFactory: ref.read(Providers.commandFactory),
     graphicFactory: ref.read(Providers.graphicFactory),
@@ -27,26 +29,39 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
-    brushTool.paint.color = isDarkTheme ? Colors.white70 : Colors.black87;
+    return Container(
+      margin: const EdgeInsets.all(24),
+      decoration: const BoxDecoration(
+        border: Border.fromBorderSide(BorderSide(width: 0.5)),
+      ),
+      child: AspectRatio(
+        aspectRatio: 9 / 16,
+        child: GestureDetector(
+          onPanDown: (details) {
+            ref.read(StateProviders.isUserDrawing.notifier).state = true;
+            setState(() => brushTool.onDown(details.localPosition));
+          },
+          onPanUpdate: (details) {
+            setState(() => brushTool.onDrag(details.localPosition));
+          },
+          onPanEnd: (_) {
+            ref.read(StateProviders.isUserDrawing.notifier).state = false;
+            setState(() => brushTool.onUp(null));
+          },
+          child: _drawingCanvas,
+        ),
+      ),
+    );
+  }
 
-    return GestureDetector(
-      onPanDown: (details) {
-        ref.read(StateProviders.isUserDrawing.notifier).state = true;
-        setState(() => brushTool.onDown(details.localPosition));
-      },
-      onPanUpdate: (details) {
-        setState(() => brushTool.onDrag(details.localPosition));
-      },
-      onPanEnd: (_) {
-        ref.read(StateProviders.isUserDrawing.notifier).state = false;
-        setState(() => brushTool.onUp(null));
-      },
-      child: CustomPaint(
-        painter: GraphicCommandPainter(commands: commandManger.commands),
-        willChange: true,
-        child: const Center(),
+  CustomPaint get _drawingCanvas {
+    return CustomPaint(
+      foregroundPainter: GraphicCommandPainter(
+        commands: commandManger.commands,
+      ),
+      willChange: true,
+      child: const TransparencyGridPattern(
+        numberOfSquaresAlongWidth: 100,
       ),
     );
   }

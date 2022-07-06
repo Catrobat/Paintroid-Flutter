@@ -6,6 +6,7 @@ import 'package:paintroid/ui/top_app_bar.dart';
 
 import 'bottom_control_navigation_bar.dart';
 import 'drawing_board.dart';
+import 'exit_fullscreen_button.dart';
 
 class PocketPaint extends ConsumerWidget {
   const PocketPaint({Key? key}) : super(key: key);
@@ -33,38 +34,22 @@ class PocketPaint extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: isFullscreen ? null : TopAppBar(title: "Pocket Paint"),
+        backgroundColor: Colors.grey.shade400,
         body: SafeArea(
           child: Stack(
             children: [
-              const DrawingBoard(),
-              if (isFullscreen) _exitFullscreenButton,
+              const Center(child: DrawingBoard()),
+              if (isFullscreen)
+                const Positioned(
+                  top: 2,
+                  right: 2,
+                  child: ExitFullscreenButton(),
+                ),
             ],
           ),
         ),
         bottomNavigationBar:
             isFullscreen ? null : const BottomControlNavigationBar(),
-      ),
-    );
-  }
-
-  Positioned get _exitFullscreenButton {
-    return Positioned(
-      top: 2,
-      right: 2,
-      child: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final isUserDrawing = ref.watch(StateProviders.isUserDrawing);
-          return AnimatedOpacity(
-            opacity: isUserDrawing ? 0 : 1,
-            duration: const Duration(milliseconds: 200),
-            child: IconButton(
-              onPressed: () {
-                ref.read(StateProviders.isFullscreen.notifier).state = false;
-              },
-              icon: const Icon(Icons.fullscreen_exit),
-            ),
-          );
-        },
       ),
     );
   }
