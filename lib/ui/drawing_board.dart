@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/provider/providers.dart';
-import 'package:paintroid/provider/state_providers.dart';
 import 'package:paintroid/tool/brush_tool.dart';
 import 'package:paintroid/ui/transparency_grid_pattern.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 import 'graphic_command_painter.dart';
 
@@ -38,14 +38,18 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
         aspectRatio: 9 / 16,
         child: GestureDetector(
           onPanDown: (details) {
-            ref.read(StateProviders.isUserDrawing.notifier).state = true;
+            ref
+                .read(WorkspaceStateNotifier.provider.notifier)
+                .toggleDrawingState(true);
             setState(() => brushTool.onDown(details.localPosition));
           },
           onPanUpdate: (details) {
             setState(() => brushTool.onDrag(details.localPosition));
           },
           onPanEnd: (_) {
-            ref.read(StateProviders.isUserDrawing.notifier).state = false;
+            ref
+                .read(WorkspaceStateNotifier.provider.notifier)
+                .toggleDrawingState(false);
             setState(() => brushTool.onUp(null));
           },
           child: _drawingCanvas,

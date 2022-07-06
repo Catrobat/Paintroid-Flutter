@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/provider/state_providers.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 class EnterFullscreenButton extends ConsumerWidget {
   const EnterFullscreenButton({Key? key}) : super(key: key);
@@ -9,10 +9,9 @@ class EnterFullscreenButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       onPressed: () => ref
-          .read(StateProviders.isFullscreen.notifier)
-          .state = true,
+          .read(WorkspaceStateNotifier.provider.notifier)
+          .toggleFullscreen(true),
       icon: const Icon(Icons.fullscreen),
     );
   }
 }
-

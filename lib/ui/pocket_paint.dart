@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/provider/state_providers.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 import 'bottom_control_navigation_bar.dart';
 import 'drawing_board.dart';
@@ -19,16 +19,20 @@ class PocketPaint extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isFullscreen = ref.watch(StateProviders.isFullscreen);
+    final isFullscreen = ref.watch(
+      WorkspaceStateNotifier.provider.select((state) => state.isFullscreen),
+    );
     ref.listen<bool>(
-      StateProviders.isFullscreen,
+      WorkspaceStateNotifier.provider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
     return WillPopScope(
       onWillPop: () async {
         final willPop = !isFullscreen;
         if (isFullscreen) {
-          ref.read(StateProviders.isFullscreen.notifier).state = false;
+          ref
+              .read(WorkspaceStateNotifier.provider.notifier)
+              .toggleFullscreen(false);
         }
         return willPop;
       },
