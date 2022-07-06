@@ -25,7 +25,7 @@ class BottomControlNavigationBar extends StatelessWidget {
             icon: _BottomBarIcon(asset: 'assets/svg/ic_brush.svg'),
           ),
           NavigationDestination(
-            label: "Colour",
+            label: "Color",
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
