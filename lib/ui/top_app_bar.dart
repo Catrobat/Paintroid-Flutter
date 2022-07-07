@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'enter_fullscreen_button.dart';
-import 'save_button.dart';
+import 'save_image_button.dart';
 
 class TopAppBar extends AppBar {
   TopAppBar({Key? key, required String title})
@@ -10,7 +10,7 @@ class TopAppBar extends AppBar {
           title: Text(title),
           centerTitle: false,
           actions: const [
-            SaveButton(),
+            SaveImageButton(),
             EnterFullscreenButton(),
           ],
         );

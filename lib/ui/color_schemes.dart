@@ -14,12 +14,12 @@ const lightColorScheme = ColorScheme(
   onTertiary: Color(0xFF003739),
   tertiaryContainer: Color(0xFF004F52),
   onTertiaryContainer: Color(0xFF6FF6FC),
-  error: Color(0xFFFFB4AB),
+  error: Color(0xFFFF5454),
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF191C1D),
-  onBackground: Color(0xFFE1E3E3),
+  background: Color(0xFFE1E3E3),
+  onBackground: Color(0xFF191C1D),
   surface: Color(0xFF0097A7),
   onSurface: Color(0xFFFFFFFF),
   surfaceVariant: Color(0xFF3F484A),
@@ -31,5 +31,3 @@ const lightColorScheme = ColorScheme(
   shadow: Color(0xFF000000),
   surfaceTint: Color(0xFF4FD8EB),
 );
-
-final darkColorScheme = lightColorScheme.copyWith(brightness: Brightness.dark);

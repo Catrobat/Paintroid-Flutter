@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/data/data.dart';
 
-enum FileType {
+enum ImageFormat {
   png("png"),
   jpg("jpg");
 
-  const FileType(this.extension);
+  const ImageFormat(this.extension);
 
   final String extension;
 }
@@ -26,17 +26,19 @@ class SaveImage {
 
   Future<void> call({
     required String name,
-    required FileType type,
+    required ImageFormat type,
     required Image image,
+    /// From 1-100
+    int quality = 100,
   }) async {
     final nameWithExt = "$name.${type.extension}";
     switch (type) {
-      case FileType.png:
+      case ImageFormat.png:
         final imageBytes = await imageService.exportAsPng(image);
         await fileService.saveToPhotos(nameWithExt, imageBytes);
         break;
-      case FileType.jpg:
-        final imageBytes = await imageService.exportAsJpg(image, 100);
+      case ImageFormat.jpg:
+        final imageBytes = await imageService.exportAsJpg(image, quality);
         await fileService.saveToPhotos(nameWithExt, imageBytes);
         break;
     }
