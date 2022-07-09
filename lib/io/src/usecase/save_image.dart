@@ -22,7 +22,7 @@ class SaveImage {
     required ImageMetaData metaData,
     required Image image,
   }) async {
-    final nameWithExt = "$metaData.name.${metaData.format.extension}";
+    final nameWithExt = "${metaData.name}.${metaData.format.extension}";
     switch (metaData.format) {
       case ImageFormat.png:
         final imageBytes = await imageService.exportAsPng(image);
