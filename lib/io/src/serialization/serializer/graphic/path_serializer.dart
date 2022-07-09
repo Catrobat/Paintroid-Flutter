@@ -3,7 +3,9 @@ import 'dart:ui';
 
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
-import 'package:paintroid/data/serializable.dart';
+
+import '../../proto/output/graphic/path.pb.dart';
+import '../../proto_serializer.dart';
 
 class PathSerializer
     implements ProtoSerializer<PathWithActionHistory, SerializablePath> {

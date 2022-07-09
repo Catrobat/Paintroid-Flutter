@@ -1,21 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:paintroid/domain/save_image.dart';
+import 'package:paintroid/io/io.dart';
 
 part 'image_format_info.dart';
-
-@immutable
-class SaveImageData {
-  final String name;
-  final ImageFormat format;
-  final int quality;
-
-  const SaveImageData(this.name, this.format, this.quality);
-
-  @override
-  String toString() => "$name.${format.extension}";
-}
 
 class SaveImageDialog extends StatefulWidget {
   const SaveImageDialog({Key? key}) : super(key: key);
@@ -31,7 +17,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   var imageQualityValue = 100;
 
   void _dismissDialogWithData() {
-    final data = SaveImageData(
+    final data = ImageMetaData(
       nameFieldController.text,
       selectedFormat,
       imageQualityValue,

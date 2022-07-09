@@ -1,16 +1,10 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/data/data.dart';
 
-enum ImageFormat {
-  png("png"),
-  jpg("jpg");
-
-  const ImageFormat(this.extension);
-
-  final String extension;
-}
+import '../service/file_service.dart';
+import '../service/image_service.dart';
 
 class SaveImage {
   final IImageService imageService;
@@ -25,22 +19,43 @@ class SaveImage {
   });
 
   Future<void> call({
-    required String name,
-    required ImageFormat type,
+    required ImageMetaData metaData,
     required Image image,
-    /// From 1-100
-    int quality = 100,
   }) async {
-    final nameWithExt = "$name.${type.extension}";
-    switch (type) {
+    final nameWithExt = "$metaData.name.${metaData.format.extension}";
+    switch (metaData.format) {
       case ImageFormat.png:
         final imageBytes = await imageService.exportAsPng(image);
         await fileService.saveToPhotos(nameWithExt, imageBytes);
         break;
       case ImageFormat.jpg:
-        final imageBytes = await imageService.exportAsJpg(image, quality);
+        final imageBytes =
+            await imageService.exportAsJpg(image, metaData.quality);
         await fileService.saveToPhotos(nameWithExt, imageBytes);
         break;
     }
   }
+}
+
+enum ImageFormat {
+  png("png"),
+  jpg("jpg");
+
+  const ImageFormat(this.extension);
+
+  final String extension;
+}
+
+@immutable
+class ImageMetaData {
+  final String name;
+  final ImageFormat format;
+
+  /// From 1-100
+  final int quality;
+
+  const ImageMetaData(this.name, this.format, this.quality);
+
+  @override
+  String toString() => "$name.${format.extension}";
 }

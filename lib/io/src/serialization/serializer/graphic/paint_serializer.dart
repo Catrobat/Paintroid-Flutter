@@ -2,7 +2,9 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:paintroid/core/graphic_factory.dart';
-import 'package:paintroid/data/serializable.dart';
+
+import '../../proto/output/graphic/paint.pb.dart';
+import '../../proto_serializer.dart';
 
 class PaintSerializer implements ProtoSerializer<Paint, SerializablePaint> {
   final GraphicFactory graphicFactory;

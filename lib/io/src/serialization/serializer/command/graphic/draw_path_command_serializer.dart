@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:paintroid/command/command.dart';
-import 'package:paintroid/data/serializable.dart';
-import 'package:paintroid/data/src/serialization/serializer/graphic/paint_serializer.dart';
-import 'package:paintroid/data/src/serialization/serializer/graphic/path_serializer.dart';
+
+import '../../../proto/output/command/graphic/draw_path_command.pb.dart';
+import '../../../proto_serializer.dart';
+import '../../graphic/paint_serializer.dart';
+import '../../graphic/path_serializer.dart';
 
 class DrawPathCommandSerializer
     implements ProtoSerializer<DrawPathCommand, SerializableDrawPathCommand> {

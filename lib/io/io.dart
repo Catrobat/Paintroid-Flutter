@@ -1,5 +1,9 @@
+export './src/dialog/save_image_dialog.dart';
 export './src/serialization/proto/output/command/graphic/draw_path_command.pb.dart';
 export './src/serialization/proto/output/graphic/paint.pb.dart';
 export './src/serialization/proto/output/graphic/path.pb.dart';
 export './src/serialization/proto_serializer.dart';
 export './src/serialization/serializer.dart';
+export './src/service/file_service.dart';
+export './src/service/image_service.dart';
+export './src/usecase/save_image.dart';

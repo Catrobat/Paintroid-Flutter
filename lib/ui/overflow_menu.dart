@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:paintroid/domain/save_image.dart';
+import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
-
-import 'save_image_dialog.dart';
 
 enum OverflowMenuOption {
   fullscreen("Fullscreen"),
@@ -65,18 +63,13 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   void _saveImage() async {
     final saveImage = ref.read(SaveImage.provider);
     final image = await ref.read(Workspace.provider).scaledCanvasImage;
-    final imageData = await showGeneralDialog<SaveImageData?>(
+    final imageData = await showGeneralDialog<ImageMetaData?>(
         context: context,
         pageBuilder: (_, __, ___) => const SaveImageDialog(),
         barrierDismissible: true,
         barrierLabel: "Dismiss save image dialog box");
     if (imageData != null) {
-      await saveImage.call(
-        name: imageData.name,
-        type: imageData.format,
-        quality: imageData.quality,
-        image: image,
-      );
+      await saveImage.call(metaData: imageData, image: image);
     }
   }
 
