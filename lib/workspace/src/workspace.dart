@@ -24,14 +24,15 @@ class Workspace {
     final exportHeight = workspaceState.exportHeight;
     final scaledSize = Size(exportWidth.toDouble(), exportHeight.toDouble());
     final painter = GraphicCommandPainter(commands: commandManager.commands);
-    canvas.scale(exportWidth / canvasWidth);
     if (workspaceState.loadedImage != null) {
       paintImage(
-          canvas: canvas,
-          rect: Rect.fromLTWH(0, 0, scaledSize.width, scaledSize.height),
-          image: workspaceState.loadedImage!,
-          fit: BoxFit.cover);
+        canvas: canvas,
+        rect: Rect.fromLTWH(0, 0, scaledSize.width, scaledSize.height),
+        image: workspaceState.loadedImage!,
+        fit: BoxFit.fill,
+      );
     }
+    canvas.scale(exportWidth / canvasWidth);
     painter.paint(canvas, scaledSize);
     final picture = recorder.endRecording();
     return await picture.toImage(exportWidth, exportHeight);
