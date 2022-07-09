@@ -4,17 +4,19 @@ class TransparencyGridPattern extends StatelessWidget {
   final Widget? child;
   final int numberOfSquaresAlongWidth;
 
-  const TransparencyGridPattern(
-      {Key? key, this.numberOfSquaresAlongWidth = 50, this.child})
-      : super(key: key);
+  const TransparencyGridPattern({
+    Key? key,
+    this.numberOfSquaresAlongWidth = 50,
+    this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        painter: _PatternPainter(numberOfSquaresAlongWidth),
-        child: child,
-      ),
+    return CustomPaint(
+      painter: _PatternPainter(numberOfSquaresAlongWidth),
+      isComplex: true,
+      willChange: false,
+      child: child,
     );
   }
 }

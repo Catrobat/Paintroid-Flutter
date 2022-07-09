@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/tool/brush_tool.dart';
-import 'package:paintroid/ui/transparency_grid_pattern.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 import 'graphic_command_painter.dart';
+import 'transparency_grid_pattern.dart';
 
 class DrawingBoard extends ConsumerStatefulWidget {
   const DrawingBoard({Key? key}) : super(key: key);
@@ -31,25 +31,33 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
 
   final drawCanvasKey = GlobalKey(debugLabel: "drawCanvas");
 
-  @override
-  void initState() {
+  void _updateCanvasSizeToStateNotifier() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       final ctx = drawCanvasKey.currentContext!;
       final renderBox = ctx.findRenderObject() as RenderBox;
       ref
-          .read(WorkspaceStateNotifier.provider.notifier)
-          .setCanvasWidth(renderBox.size.width);
+          .read(CanvasStateNotifier.provider.notifier)
+          .setCanvasSize(renderBox.size.width, renderBox.size.height);
     });
+  }
+
+  @override
+  void initState() {
+    _updateCanvasSizeToStateNotifier();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final ratio = ref.watch(
-      WorkspaceStateNotifier.provider.select(
-        (state) => state.canvasState.aspectRatio,
-      ),
+      WorkspaceStateNotifier.provider.select((state) => state.aspectRatio),
     );
+    ref.listen<WorkspaceState>(WorkspaceStateNotifier.provider,
+        (previous, next) {
+      if (previous?.loadedImage != next.loadedImage) {
+        _updateCanvasSizeToStateNotifier();
+      }
+    });
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
@@ -80,14 +88,22 @@ class _DrawingBoardState extends ConsumerState<DrawingBoard> {
   }
 
   CustomPaint get _drawingCanvas {
+    final loadedImage = ref.watch(
+      WorkspaceStateNotifier.provider.select((value) => value.loadedImage),
+    );
     return CustomPaint(
       key: drawCanvasKey,
       foregroundPainter: GraphicCommandPainter(
         commands: commandManger.commands,
       ),
       willChange: true,
-      child: const TransparencyGridPattern(
-        numberOfSquaresAlongWidth: 100,
+      child: RepaintBoundary(
+        child: TransparencyGridPattern(
+          numberOfSquaresAlongWidth: 100,
+          child: loadedImage != null
+              ? RawImage(image: loadedImage, fit: BoxFit.fill)
+              : null,
+        ),
       ),
     );
   }

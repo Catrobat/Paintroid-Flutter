@@ -3,24 +3,34 @@ part of 'workspace_state_notifier.dart';
 @immutable
 class WorkspaceState {
   const WorkspaceState({
-    this.isFullscreen = false,
-    this.isUserDrawing = false,
-    required this.canvasState
-  });
+    required this.isFullscreen,
+    required this.isUserDrawing,
+    this.loadedImage,
+    required this.exportWidth,
+    required this.exportHeight,
+  }) : aspectRatio = exportWidth / exportHeight;
 
   final bool isFullscreen;
   final bool isUserDrawing;
-  final CanvasState canvasState;
+
+  final int exportWidth;
+  final int exportHeight;
+  final double aspectRatio;
+  final ui.Image? loadedImage;
 
   WorkspaceState copyWith({
     bool? isFullscreen,
     bool? isUserDrawing,
-    CanvasState? canvasState,
+    int? exportWidth,
+    int? exportHeight,
+    ui.Image? loadedImage,
   }) {
     return WorkspaceState(
       isFullscreen: isFullscreen ?? this.isFullscreen,
       isUserDrawing: isUserDrawing ?? this.isUserDrawing,
-      canvasState: canvasState ?? this.canvasState,
+      exportWidth: exportWidth ?? this.exportWidth,
+      exportHeight: exportHeight ?? this.exportHeight,
+      loadedImage: loadedImage ?? this.loadedImage,
     );
   }
 }

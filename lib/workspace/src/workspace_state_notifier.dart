@@ -1,18 +1,24 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'canvas_state.dart';
 part 'workspace_state.dart';
 
 class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
-  WorkspaceStateNotifier()
-      : super(const WorkspaceState(
-          canvasState: CanvasState(aspectRatio: 9 / 16, width: 1080),
-        ));
+  WorkspaceStateNotifier(super.state);
 
   static final provider =
       StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
-          (ref) => WorkspaceStateNotifier());
+    (ref) => WorkspaceStateNotifier(
+      const WorkspaceState(
+        isUserDrawing: false,
+        isFullscreen: false,
+        exportWidth: 1080,
+        exportHeight: 1920,
+      ),
+    ),
+  );
 
   void toggleFullscreen(bool isEnabled) =>
       state = state.copyWith(isFullscreen: isEnabled);
@@ -20,6 +26,9 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   void toggleDrawingState(bool isDrawing) =>
       state = state.copyWith(isUserDrawing: isDrawing);
 
-  void setCanvasWidth(double width) => state =
-      state.copyWith(canvasState: state.canvasState.copyWith(width: width));
+  void loadImage(ui.Image image) => state = state.copyWith(
+        loadedImage: image,
+        exportWidth: image.width,
+        exportHeight: image.height,
+      );
 }

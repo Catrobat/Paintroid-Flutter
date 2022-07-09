@@ -1,22 +1,23 @@
-part of 'workspace_state_notifier.dart';
+part of 'canvas_state_notifier.dart';
 
 @immutable
 class CanvasState {
   const CanvasState({
-    required this.aspectRatio,
     required this.width,
-  });
+    required this.height,
+  }) : aspectRatio = width / height;
 
-  final double aspectRatio;
   final double width;
+  final double height;
+  final double aspectRatio;
 
   CanvasState copyWith({
-    double? aspectRatio,
     double? width,
+    double? height,
   }) {
     return CanvasState(
-      aspectRatio: aspectRatio ?? this.aspectRatio,
       width: width ?? this.width,
+      height: height ?? this.height,
     );
   }
 }

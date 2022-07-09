@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:paintroid/domain/save_image.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -7,7 +8,8 @@ import 'save_image_dialog.dart';
 
 enum OverflowMenuOption {
   fullscreen("Fullscreen"),
-  saveImage("Save Image");
+  saveImage("Save Image"),
+  loadImage("Load Image");
 
   const OverflowMenuOption(this.label);
 
@@ -26,7 +28,10 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   Widget build(BuildContext context) {
     return PopupMenuButton<OverflowMenuOption>(
       color: Theme.of(context).colorScheme.background,
-      shape: RoundedRectangleBorder(side: const BorderSide(), borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(),
+        borderRadius: BorderRadius.circular(20),
+      ),
       onSelected: (option) {
         switch (option) {
           case OverflowMenuOption.fullscreen:
@@ -34,6 +39,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
             break;
           case OverflowMenuOption.saveImage:
             _saveImage();
+            break;
+          case OverflowMenuOption.loadImage:
+            _loadImage();
             break;
         }
       },
@@ -43,6 +51,15 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         }).toList();
       },
     );
+  }
+
+  void _loadImage() async {
+    final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (file != null) {
+      final bytes = await file.readAsBytes();
+      final image = await decodeImageFromList(bytes);
+      ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(image);
+    }
   }
 
   void _saveImage() async {
