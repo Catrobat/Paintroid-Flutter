@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -52,10 +51,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   }
 
   void _loadImage() async {
-    final file = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      final bytes = await file.readAsBytes();
-      final image = await decodeImageFromList(bytes);
+    final loadImage = ref.read(LoadImage.provider);
+    final image = await loadImage.call();
+    if (image != null) {
       ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(image);
     }
   }

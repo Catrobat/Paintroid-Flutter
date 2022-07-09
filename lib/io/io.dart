@@ -6,4 +6,5 @@ export './src/serialization/proto_serializer.dart';
 export './src/serialization/serializer.dart';
 export './src/service/file_service.dart';
 export './src/service/image_service.dart';
+export './src/usecase/load_image.dart';
 export './src/usecase/save_image.dart';
