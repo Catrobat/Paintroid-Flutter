@@ -25,6 +25,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   Widget build(BuildContext context) {
     return PopupMenuButton<OverflowMenuOption>(
       color: Theme.of(context).colorScheme.background,
+      icon: const Icon(Icons.more_vert),
       shape: RoundedRectangleBorder(
         side: const BorderSide(),
         borderRadius: BorderRadius.circular(20),

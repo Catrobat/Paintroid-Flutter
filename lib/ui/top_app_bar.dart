@@ -8,11 +8,6 @@ class TopAppBar extends AppBar {
           key: key,
           title: Text(title),
           centerTitle: false,
-          actions: const [
-            RotatedBox(
-              quarterTurns: 1,
-              child: OverflowMenu(),
-            )
-          ],
+          actions: const [OverflowMenu()],
         );
 }
