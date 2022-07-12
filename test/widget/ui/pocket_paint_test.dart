@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:paintroid/ui/overflow_menu.dart';
 import 'package:paintroid/ui/pocket_paint.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 void main() {
   late Widget sut;
@@ -30,34 +32,39 @@ void main() {
     },
   );
 
+  testWidgets('Should an overflow menu button in app bar', (tester) async {
+    await tester.pumpWidget(sut);
+    final overflowMenuButtonFinder = find.widgetWithIcon(
+      PopupMenuButton<OverflowMenuOption>,
+      Icons.more_vert,
+    );
+    expect(overflowMenuButtonFinder, findsOneWidget);
+  });
+
   group('Fullscreen functionality', () {
-    final enterFullscreenButtonFinder =
-        find.widgetWithIcon(IconButton, Icons.fullscreen);
+    late WorkspaceState testWorkspaceState;
+
+    setUp(() {
+      testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
+      sut = ProviderScope(
+        overrides: [
+          WorkspaceStateNotifier.provider
+              .overrideWithValue(WorkspaceStateNotifier(testWorkspaceState))
+        ],
+        child: const MaterialApp(
+          home: PocketPaint(),
+        ),
+      );
+    });
+
     final exitFullscreenButtonFinder =
         find.widgetWithIcon(IconButton, Icons.fullscreen_exit);
-
-    testWidgets(
-      'Should have a fullscreen button in TopAppBar',
-      (tester) async {
-        await tester.pumpWidget(sut);
-        expect(enterFullscreenButtonFinder, findsOneWidget);
-        final buttonAncestorFinder = find.ancestor(
-          of: enterFullscreenButtonFinder,
-          matching: find.byType(TopAppBar),
-        );
-        expect(buttonAncestorFinder, findsOneWidget);
-      },
-    );
 
     group('After going fullscreen', () {
       testWidgets(
         'Should hide top and bottom bar',
         (tester) async {
           await tester.pumpWidget(sut);
-          final buttonFinder =
-              find.widgetWithIcon(IconButton, Icons.fullscreen);
-          await tester.tap(buttonFinder);
-          await tester.pumpAndSettle();
           expect(find.byType(TopAppBar), findsNothing);
           expect(find.byType(NavigationBar), findsNothing);
         },
@@ -67,8 +74,6 @@ void main() {
         'Should have an exit fullscreen button',
         (tester) async {
           await tester.pumpWidget(sut);
-          await tester.tap(enterFullscreenButtonFinder);
-          await tester.pumpAndSettle();
           expect(exitFullscreenButtonFinder, findsOneWidget);
         },
       );
@@ -79,8 +84,6 @@ void main() {
         'Should show top and bottom bar',
         (tester) async {
           await tester.pumpWidget(sut);
-          await tester.tap(enterFullscreenButtonFinder);
-          await tester.pumpAndSettle();
           await tester.tap(exitFullscreenButtonFinder);
           await tester.pumpAndSettle();
           expect(find.byType(TopAppBar), findsOneWidget);

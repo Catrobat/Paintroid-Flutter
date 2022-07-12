@@ -10,6 +10,12 @@ class WorkspaceState {
     required this.exportHeight,
   }) : aspectRatio = exportWidth / exportHeight;
 
+  static const initial = WorkspaceState(
+      isFullscreen: false,
+      isUserDrawing: false,
+      exportWidth: 1080,
+      exportHeight: 1920);
+
   final bool isFullscreen;
   final bool isUserDrawing;
 

@@ -10,14 +10,7 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
 
   static final provider =
       StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
-    (ref) => WorkspaceStateNotifier(
-      const WorkspaceState(
-        isUserDrawing: false,
-        isFullscreen: false,
-        exportWidth: 1080,
-        exportHeight: 1920,
-      ),
-    ),
+    (ref) => WorkspaceStateNotifier(WorkspaceState.initial),
   );
 
   void toggleFullscreen(bool isEnabled) =>
