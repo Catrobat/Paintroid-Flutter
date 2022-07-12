@@ -1,8 +1,10 @@
 package org.catrobat.paintroid
 
 import android.Manifest
+import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.os.Environment
+import android.os.Build
+import android.provider.MediaStore
 import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -10,13 +12,19 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.io.File
+import java.io.IOException
 
 class MainActivity : FlutterActivity() {
     private val externalStorageRequestCode = 123
     private var photoLibraryChannel: MethodChannel? = null
-
     private var saveImageData: Pair<String, ByteArray>? = null
+
+    private val hasWritePermission: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
+                ContextCompat.checkSelfPermission(
+                    this@MainActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -28,11 +36,7 @@ class MainActivity : FlutterActivity() {
                     "saveToPhotos" -> {
                         saveImageData = extractImageData(call, result)
                             ?: return@setMethodCallHandler
-                        if (ContextCompat.checkSelfPermission(
-                                this@MainActivity,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
+                        if (!hasWritePermission) {
                             ActivityCompat.requestPermissions(
                                 this@MainActivity,
                                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -51,11 +55,20 @@ class MainActivity : FlutterActivity() {
     private fun saveImageToPictures() {
         saveImageData?.let {
             val (filename, data) = it
-            val picturesDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES
-            )
-            val imgFile = File(picturesDir, filename)
-            imgFile.writeBytes(data)
+            val picturesUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            } else {
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            }
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/*")
+            }
+            contentResolver.insert(picturesUri, contentValues)?.also { uri ->
+                contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    outputStream.write(data)
+                } ?: throw IOException("Could not open output stream for uri: $uri")
+            } ?: throw IOException("Could not create image MediaStore entry")
             photoLibraryChannel?.invokeMethod("saveToPhotosCallback", mapOf("success" to true))
             saveImageData = null
         }
