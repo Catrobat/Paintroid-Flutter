@@ -11,13 +11,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable:
+  equatable: ^2.0.3
   flutter_svg: ^1.1.0
-  image:
-  protobuf:
-  path:
-  path_provider:
-  flutter_riverpod:
+  image: ^3.2.0
+  protobuf: ^2.1.0
+  path: ^1.8.1
+  path_provider: ^2.0.11
+  flutter_riverpod: ^1.0.4
   image_picker: ^0.8.5+3
 
 dev_dependencies:
@@ -25,10 +25,10 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  mockito:
-  build_runner:
-  flutter_launcher_icons:
-  flutter_lints:
+  mockito: ^5.2.0
+  build_runner: ^2.2.0
+  flutter_launcher_icons: ^0.9.3
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
