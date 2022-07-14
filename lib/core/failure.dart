@@ -1,13 +1,8 @@
-import 'package:equatable/equatable.dart';
-
-class Failure extends Equatable {
-  final String message;
-
+abstract class Failure {
   const Failure(this.message);
 
-  @override
-  List<Object?> get props => [message];
+  final String message;
 
   @override
-  String toString() => 'Failure{message: $message}';
+  String toString() => '$runtimeType{message: $message}';
 }

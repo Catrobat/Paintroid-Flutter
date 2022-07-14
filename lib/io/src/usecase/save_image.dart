@@ -12,8 +12,6 @@ class SaveImage {
   final IImageService imageService;
   final IFileService fileService;
 
-  final imageSaveFailure = const Failure("Failed to save image");
-
   const SaveImage({required this.imageService, required this.fileService});
 
   static final provider = Provider((ref) {
@@ -26,25 +24,16 @@ class SaveImage {
     required ImageMetaData metaData,
     required Image image,
   }) {
-    return TaskEither(() async {
-      final nameWithExt = "${metaData.name}.${metaData.format.extension}";
-      switch (metaData.format) {
-        case ImageFormat.png:
-          final option = await imageService
-              .exportAsPng(image)
-              .flatMap((imageBytes) =>
-                  fileService.saveToPhotoLibrary(nameWithExt, imageBytes))
-              .run();
-          return option.toEither(() => imageSaveFailure);
-        case ImageFormat.jpg:
-          final option = await imageService
-              .exportAsJpg(image, metaData.quality)
-              .flatMap((imageBytes) =>
-                  fileService.saveToPhotoLibrary(nameWithExt, imageBytes))
-              .run();
-          return option.toEither(() => imageSaveFailure);
-      }
-    });
+    final nameWithExt = "${metaData.name}.${metaData.format.extension}";
+    switch (metaData.format) {
+      case ImageFormat.png:
+        return imageService.exportAsPng(image).flatMap((imageBytes) =>
+            fileService.saveToPhotoLibrary(nameWithExt, imageBytes));
+      case ImageFormat.jpg:
+        return imageService.exportAsJpg(image, metaData.quality).flatMap(
+            (imageBytes) =>
+                fileService.saveToPhotoLibrary(nameWithExt, imageBytes));
+    }
   }
 }
 

@@ -36,9 +36,9 @@ void main() {
       test('For png format', () async {
         const expectedFilename = "$testName.png";
         when(mockImageService.exportAsPng(fakeImage))
-            .thenReturn(TaskOption.of(fakeBytes));
+            .thenReturn(TaskEither.right(fakeBytes));
         when(mockFileService.saveToPhotoLibrary(expectedFilename, fakeBytes))
-            .thenReturn(TaskOption.of(unit));
+            .thenReturn(TaskEither.right(unit));
         testMetaData =
             const ImageMetaData(testName, ImageFormat.png, testQuality);
         await sut.prepareTask(metaData: testMetaData, image: fakeImage).run();
@@ -51,9 +51,9 @@ void main() {
       test('For jpg format', () async {
         const expectedFilename = "$testName.jpg";
         when(mockImageService.exportAsJpg(fakeImage, testQuality))
-            .thenReturn(TaskOption.of(fakeBytes));
+            .thenReturn(TaskEither.right(fakeBytes));
         when(mockFileService.saveToPhotoLibrary(expectedFilename, fakeBytes))
-            .thenReturn(TaskOption.of(unit));
+            .thenReturn(TaskEither.right(unit));
         testMetaData =
             const ImageMetaData(testName, ImageFormat.jpg, testQuality);
         await sut.prepareTask(metaData: testMetaData, image: fakeImage).run();

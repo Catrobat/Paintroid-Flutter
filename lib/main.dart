@@ -1,11 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:logging/logging.dart';
 import 'package:paintroid/ui/color_schemes.dart';
 
 import 'ui/pocket_paint.dart';
 
 void main() {
+  Logger.root.onRecord.listen((record) {
+    log(record.message,
+        time: record.time,
+        sequenceNumber: record.sequenceNumber,
+        level: record.level.value,
+        name: record.loggerName,
+        zone: record.zone,
+        error: record.error,
+        stackTrace: record.stackTrace);
+  });
   runApp(const ProviderScope(child: PocketPaintApp()));
 }
 

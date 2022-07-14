@@ -12,13 +12,12 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import kotlinx.coroutines.*
 import java.io.IOException
 
 class MainActivity : FlutterActivity() {
     private val externalStorageRequestCode = 123
-    private var photoLibraryChannel: MethodChannel? = null
-    private var saveImageData: Pair<String, ByteArray>? = null
-
+    private var requestPermissionJob = Job()
     private val hasWritePermission: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
                 ContextCompat.checkSelfPermission(
@@ -28,23 +27,26 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        photoLibraryChannel = MethodChannel(
+        MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/photo_library"
         ).apply {
             setMethodCallHandler { call, result ->
                 when (call.method) {
                     "saveToPhotos" -> {
-                        saveImageData = extractImageData(call, result)
-                            ?: return@setMethodCallHandler
                         if (!hasWritePermission) {
-                            ActivityCompat.requestPermissions(
-                                this@MainActivity,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                externalStorageRequestCode
-                            )
-                        } else {
-                            saveImageToPictures()
+                            requestWriteExternalStoragePermission()
+                            if (!hasWritePermission) {
+                                result.error(
+                                    "PERMISSION_DENIED",
+                                    "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
+                                    null
+                                )
+                                return@setMethodCallHandler
+                            }
                         }
+                        val (filename, imageData) = extractImageData(call, result)
+                            ?: return@setMethodCallHandler
+                        saveImageToPictures(filename, imageData)
                         result.success(null)
                     }
                     else -> result.notImplemented()
@@ -53,43 +55,40 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun saveImageToPictures() {
-        saveImageData?.let {
-            val (filename, data) = it
-            val picturesUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            } else {
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            }
-            val contentValues = ContentValues().apply {
-                put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-                put(MediaStore.Images.Media.MIME_TYPE, "image/*")
-            }
-            contentResolver.insert(picturesUri, contentValues)?.also { uri ->
-                contentResolver.openOutputStream(uri)?.use { outputStream ->
-                    outputStream.write(data)
-                } ?: throw IOException("Could not open output stream for uri: $uri")
-            } ?: throw IOException("Could not create image MediaStore entry")
-            photoLibraryChannel?.invokeMethod("saveToPhotosCallback", mapOf("success" to true))
-            saveImageData = null
+    private fun requestWriteExternalStoragePermission() = runBlocking {
+        if (!requestPermissionJob.isCompleted) {
+            requestPermissionJob.cancelAndJoin()
         }
+        requestPermissionJob = Job()
+        ActivityCompat.requestPermissions(
+            this@MainActivity,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            externalStorageRequestCode
+        )
+        requestPermissionJob.join()
+    }
+
+    private fun saveImageToPictures(filename: String, data: ByteArray) {
+        val picturesUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/*")
+        }
+        contentResolver.insert(picturesUri, contentValues)?.also { uri ->
+            contentResolver.openOutputStream(uri)?.use { outputStream ->
+                outputStream.write(data)
+            } ?: throw IOException("Could not open output stream for uri: $uri")
+        } ?: throw IOException("Could not create image MediaStore entry")
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            externalStorageRequestCode -> {
-                if (!grantResults.contains(PackageManager.PERMISSION_DENIED)) {
-                    saveImageToPictures()
-                } else {
-                    photoLibraryChannel?.invokeMethod(
-                        "saveToPhotosCallback", mapOf(
-                            "success" to false,
-                            "error" to "Permission denied to save in external storage"
-                        )
-                    )
-                }
-            }
+            externalStorageRequestCode -> requestPermissionJob.complete()
         }
     }
 

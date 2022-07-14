@@ -11,8 +11,6 @@ class LoadImage {
   final IImageService imageService;
   final IFileService fileService;
 
-  final loadImageFailure = const Failure("Failed to load image");
-
   const LoadImage(this.imageService, this.fileService);
 
   static final provider = Provider((ref) {
@@ -21,13 +19,7 @@ class LoadImage {
     return LoadImage(imageService, fileService);
   });
 
-  TaskEither<Failure, Image> prepareTask() {
-    return TaskEither(() async {
-      final option = await fileService
-          .loadFromPhotoLibrary()
-          .flatMap((imageBytes) => imageService.import(imageBytes))
-          .run();
-      return option.toEither(() => loadImageFailure);
-    });
-  }
+  TaskEither<Failure, Image> prepareTask() => fileService
+      .loadFromPhotoLibrary()
+      .flatMap((imageBytes) => imageService.import(imageBytes));
 }

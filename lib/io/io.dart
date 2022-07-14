@@ -1,4 +1,6 @@
 export './src/dialog/save_image_dialog.dart';
+export './src/failure/load_image_failure.dart';
+export './src/failure/save_image_failure.dart';
 export './src/serialization/proto/output/command/graphic/draw_path_command.pb.dart';
 export './src/serialization/proto/output/graphic/paint.pb.dart';
 export './src/serialization/proto/output/graphic/path.pb.dart';
