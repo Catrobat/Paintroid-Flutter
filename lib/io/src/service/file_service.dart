@@ -1,45 +1,65 @@
-import 'dart:io';
+import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:paintroid/core/loggable_mixin.dart';
 
 abstract class IFileService {
-  Future<void> saveToPhotos(String filename, Uint8List data);
+  TaskOption<Unit> saveToPhotoLibrary(String filename, Uint8List data);
 
-  Future<File?> saveToDocuments(String filename, Uint8List data);
+  TaskOption<Uint8List> loadFromPhotoLibrary();
 
-  static final provider = Provider<IFileService>((ref) => FileService());
+  static final provider = Provider<IFileService>(
+    (ref) => FileService(ImagePicker()),
+  );
 }
 
-class FileService implements IFileService {
-  final photoLibraryChannel =
+class FileService with LoggableMixin implements IFileService {
+  late final photoLibraryChannel =
       const MethodChannel("org.catrobat.paintroid/photo_library")
         ..setMethodCallHandler((call) async {
           switch (call.method) {
             case "saveToPhotosCallback":
-              debugPrint(call.arguments.toString());
+              Map<String, dynamic> response = Map.from(call.arguments);
+              if (response["success"] == true) {
+                _savePhotoCompleter.complete(null);
+              } else {
+                _savePhotoCompleter.completeError(response["error"]);
+              }
               break;
           }
         });
 
-  @override
-  Future<void> saveToPhotos(String filename, Uint8List data) async {
-    final args = {"fileName": filename, "data": data};
-    try {
-      await photoLibraryChannel.invokeMethod("saveToPhotos", args);
-    } on PlatformException catch (e) {
-      debugPrint(e.code);
-    }
-  }
+  final ImagePicker imagePicker;
+  final _savePhotoCompleter = Completer<void>();
+
+  FileService(this.imagePicker);
 
   @override
-  Future<File?> saveToDocuments(String filename, Uint8List data) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File(join(directory.path, filename));
-    return await file.writeAsBytes(data);
-  }
+  TaskOption<Unit> saveToPhotoLibrary(String filename, Uint8List data) =>
+      TaskOption(() async {
+        try {
+          final args = {"fileName": filename, "data": data};
+          await photoLibraryChannel.invokeMethod("saveToPhotos", args);
+          await _savePhotoCompleter.future;
+          return Option.of(unit);
+        } catch (err, stacktrace) {
+          log.severe("Could not load photo from library", err, stacktrace);
+          return const None();
+        }
+      });
+
+  @override
+  TaskOption<Uint8List> loadFromPhotoLibrary() => TaskOption(() async {
+        try {
+          final file = await imagePicker.pickImage(source: ImageSource.gallery);
+          return Option.fromNullable(await file?.readAsBytes());
+        } catch (err, stacktrace) {
+          log.severe("Could not load photo from library", err, stacktrace);
+          return const None();
+        }
+      });
 }

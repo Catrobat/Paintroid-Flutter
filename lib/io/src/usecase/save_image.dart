@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:paintroid/core/failure.dart';
 
 import '../service/file_service.dart';
 import '../service/image_service.dart';
@@ -9,6 +11,8 @@ import '../service/image_service.dart';
 class SaveImage {
   final IImageService imageService;
   final IFileService fileService;
+
+  final imageSaveFailure = const Failure("Failed to save image");
 
   const SaveImage({required this.imageService, required this.fileService});
 
@@ -18,22 +22,29 @@ class SaveImage {
     return SaveImage(imageService: imageService, fileService: fileService);
   });
 
-  Future<void> call({
+  TaskEither<Failure, Unit> prepareTask({
     required ImageMetaData metaData,
     required Image image,
-  }) async {
-    final nameWithExt = "${metaData.name}.${metaData.format.extension}";
-    switch (metaData.format) {
-      case ImageFormat.png:
-        final imageBytes = await imageService.exportAsPng(image);
-        await fileService.saveToPhotos(nameWithExt, imageBytes);
-        break;
-      case ImageFormat.jpg:
-        final imageBytes =
-            await imageService.exportAsJpg(image, metaData.quality);
-        await fileService.saveToPhotos(nameWithExt, imageBytes);
-        break;
-    }
+  }) {
+    return TaskEither(() async {
+      final nameWithExt = "${metaData.name}.${metaData.format.extension}";
+      switch (metaData.format) {
+        case ImageFormat.png:
+          final option = await imageService
+              .exportAsPng(image)
+              .flatMap((imageBytes) =>
+                  fileService.saveToPhotoLibrary(nameWithExt, imageBytes))
+              .run();
+          return option.toEither(() => imageSaveFailure);
+        case ImageFormat.jpg:
+          final option = await imageService
+              .exportAsJpg(image, metaData.quality)
+              .flatMap((imageBytes) =>
+                  fileService.saveToPhotoLibrary(nameWithExt, imageBytes))
+              .run();
+          return option.toEither(() => imageSaveFailure);
+      }
+    });
   }
 }
 

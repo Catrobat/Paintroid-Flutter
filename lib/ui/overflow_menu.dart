@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -53,10 +54,12 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
   void _loadImage() async {
     final loadImage = ref.read(LoadImage.provider);
-    final image = await loadImage.call();
-    if (image != null) {
-      ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(image);
-    }
+    final image = await loadImage.prepareTask().run();
+    image.fold(
+      (failure) => showToast(failure.message),
+      (img) =>
+          ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(img),
+    );
   }
 
   void _saveImage() async {
@@ -68,7 +71,12 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         barrierDismissible: true,
         barrierLabel: "Dismiss save image dialog box");
     if (imageData != null) {
-      await saveImage.call(metaData: imageData, image: image);
+      final either =
+          await saveImage.prepareTask(metaData: imageData, image: image).run();
+      either.fold(
+        (failure) => showToast(failure.message),
+        (_) => showToast("Saved to Photos"),
+      );
     }
   }
 

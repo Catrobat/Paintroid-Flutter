@@ -1,55 +1,64 @@
-import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:image/image.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:paintroid/core/loggable_mixin.dart';
 
 abstract class IImageService {
-  Future<ui.Image?> loadFromPhotoLibrary();
+  TaskOption<ui.Image> import(Uint8List fileData);
 
   /// Quality: 1-100
-  Future<Uint8List> exportAsJpg(ui.Image image, int quality);
+  TaskOption<Uint8List> exportAsJpg(ui.Image image, int quality);
 
-  Future<Uint8List> exportAsPng(ui.Image image);
+  TaskOption<Uint8List> exportAsPng(ui.Image image);
 
   static final provider = Provider<IImageService>(
-    (ref) => ImageService(ImagePicker()),
+    (ref) => ImageService(),
   );
 }
 
-class ImageService implements IImageService {
-  final ImagePicker imagePicker;
-
-  const ImageService(this.imagePicker);
+class ImageService with LoggableMixin implements IImageService {
+  ImageService();
 
   @override
-  Future<ui.Image?> loadFromPhotoLibrary() async {
-    final file = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      final bytes = await file.readAsBytes();
-      return await decodeImageFromList(bytes);
-    }
-    return null;
-  }
+  TaskOption<ui.Image> import(Uint8List fileData) => TaskOption(() async {
+        try {
+          return Some(await decodeImageFromList(fileData));
+        } catch (e, stacktrace) {
+          log.severe("Couldn't decode image from fileData", e, stacktrace);
+          return const None();
+        }
+      });
 
   @override
-  Future<Uint8List> exportAsJpg(ui.Image image, int quality) async {
-    final byteData = await image.toByteData();
-    if (byteData == null) throw "Unable to convert canvas Image to bytes";
-    final rawBytes = byteData.buffer.asUint8List();
-    final img = Image.fromBytes(image.width, image.height, rawBytes);
-    return Uint8List.fromList(encodeJpg(img, quality: quality));
-  }
+  TaskOption<Uint8List> exportAsJpg(ui.Image image, int quality) =>
+      TaskOption(() async {
+        try {
+          final byteData = await image.toByteData();
+          if (byteData == null) throw "Unable to convert canvas Image to bytes";
+          final rawBytes = byteData.buffer.asUint8List();
+          final img = Image.fromBytes(image.width, image.height, rawBytes);
+          return Some(Uint8List.fromList(encodeJpg(img, quality: quality)));
+        } catch (err, stacktrace) {
+          log.severe("Could not export to Jpg", err, stacktrace);
+          return const None();
+        }
+      });
 
   @override
-  Future<Uint8List> exportAsPng(ui.Image image) async {
-    final byteData = await image.toByteData();
-    if (byteData == null) throw "Unable to convert canvas Image to bytes";
-    final rawBytes = byteData.buffer.asUint8List();
-    final img = Image.fromBytes(image.width, image.height, rawBytes);
-    return Uint8List.fromList(encodePng(img));
-  }
+  TaskOption<Uint8List> exportAsPng(ui.Image image) => TaskOption(() async {
+        try {
+          final byteData = await image.toByteData();
+          if (byteData == null) throw "Unable to convert canvas Image to bytes";
+          final rawBytes = byteData.buffer.asUint8List();
+          final img = Image.fromBytes(image.width, image.height, rawBytes);
+          return Some(Uint8List.fromList(encodePng(img)));
+        } catch (err, stacktrace) {
+          log.severe("Could not export to Jpg", err, stacktrace);
+          return const None();
+        }
+      });
 }
