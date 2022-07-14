@@ -12,12 +12,12 @@ class SaveImage {
   final IImageService imageService;
   final IFileService fileService;
 
-  const SaveImage({required this.imageService, required this.fileService});
+  const SaveImage(this.imageService, this.fileService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final fileService = ref.watch(IFileService.provider);
-    return SaveImage(imageService: imageService, fileService: fileService);
+    return SaveImage(imageService, fileService);
   });
 
   TaskEither<Failure, Unit> prepareTask({
