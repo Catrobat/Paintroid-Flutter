@@ -45,6 +45,7 @@ class MainActivity : FlutterActivity() {
                         } else {
                             saveImageToPictures()
                         }
+                        result.success(null)
                     }
                     else -> result.notImplemented()
                 }

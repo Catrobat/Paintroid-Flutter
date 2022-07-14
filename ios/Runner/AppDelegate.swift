@@ -17,13 +17,7 @@ import Photos
             [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
             switch(call.method) {
             case "saveToPhotos":
-                if let imageData = self?.extractImageData(from: call, with: result) {
-                    guard let image = UIImage(data: imageData) else {
-                        result(FlutterError(code: "INVALID_IMAGE",
-                                            message: "Could not convert supplied data to UIImage",
-                                            details: nil))
-                        return
-                    }
+                if let (filename, imageData) = self?.extractImageData(from: call, with: result) {
                     let access: PHAuthorizationStatus
                     if #available(iOS 14, *) {
                         access = PHPhotoLibrary.authorizationStatus(for: .addOnly)
@@ -36,7 +30,8 @@ import Photos
                                             message: "User explicitly denied access to add photos",
                                             details: nil))
                     case .authorized, .notDetermined:
-                        self?.saveImageToPhotos(image)
+                        self?.saveImageToPhotos(imageData, with: filename)
+                        result(nil)
                     default:
                         result(FlutterError(code: "UNKNOWN_ACCESS",
                                             message: "Don't have appropriate access to add photos",
@@ -50,28 +45,35 @@ import Photos
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    private func saveImageToPhotos(_ image: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-    }
-    
-    @objc func image(_ image: UIImage,
-                     didFinishSavingWithError error: Error?,
-                     contextInfo: UnsafeRawPointer) {
-        if let error = error {
-            photoLibraryChannel?.invokeMethod("saveToPhotosCallback", arguments: [
-                "success": false,
-                "error": "Could not save image to gallery. \nDETAIL - \(error)",
-            ])
-        } else {
-            photoLibraryChannel?.invokeMethod("saveToPhotosCallback", arguments: ["success": true])
+    private func saveImageToPhotos(_ image: Data, with name: String) {
+        PHPhotoLibrary.shared().performChanges {
+            let options = PHAssetResourceCreationOptions()
+            options.originalFilename = name
+            let request = PHAssetCreationRequest.forAsset()
+            request.addResource(with: .photo, data: image, options: options)
+        } completionHandler: { [weak self] success, error in
+            if success {
+                self?.photoLibraryChannel?.invokeMethod("saveToPhotosCallback", arguments: ["success": true])
+            } else {
+                self?.photoLibraryChannel?.invokeMethod("saveToPhotosCallback", arguments: [
+                    "success": false,
+                    "error": "Could not save image to gallery. \nDETAIL - \(error?.localizedDescription ?? "nil")",
+                ])
+            }
         }
     }
-    
-    private func extractImageData(from call: FlutterMethodCall, with result: FlutterResult) -> Data? {
+
+    private func extractImageData(from call: FlutterMethodCall, with result: FlutterResult) -> (String, Data)? {
         guard let args = call.arguments as? [String:Any] else {
             result(FlutterError(code: "INVALID_ARGS",
                                 message: "Arguments must be in a dictionary format with the key as String and value as dynamic",
                                 details: call.arguments))
+            return nil
+        }
+        guard let filename = args["fileName"] as? String else {
+            result(FlutterError(code: "INVALID_FILE_NAME",
+                                message: "File name is either not supplied or not of type String",
+                                details: args["data"]))
             return nil
         }
         guard let imageBytes = args["data"] as? FlutterStandardTypedData else {
@@ -80,6 +82,6 @@ import Photos
                                 details: args["data"]))
             return nil
         }
-        return imageBytes.data
+        return (filename, imageBytes.data)
     }
 }
