@@ -56,7 +56,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     final loadImage = ref.read(LoadImage.provider);
     final image = await loadImage.prepareTask().run();
     image.fold(
-      (failure) => showToast(failure.message),
+      (failure) {
+        if (failure != LoadImageFailure.userCancelled) {
+          showToast(failure.message);
+        }
+      },
       (img) =>
           ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(img),
     );

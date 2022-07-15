@@ -16,17 +16,19 @@ abstract class IFileService {
   TaskEither<Failure, Uint8List> loadFromPhotoLibrary();
 
   static final provider = Provider<IFileService>(
-    (ref) => FileService(ImagePicker()),
+    (ref) {
+      const photoLibraryChannel =
+          MethodChannel("org.catrobat.paintroid/photo_library");
+      return FileService(ImagePicker(), photoLibraryChannel);
+    },
   );
 }
 
 class FileService with LoggableMixin implements IFileService {
-  final photoLibraryChannel =
-      const MethodChannel("org.catrobat.paintroid/photo_library");
+  FileService(this.imagePicker, this.photoLibraryChannel);
 
   final ImagePicker imagePicker;
-
-  FileService(this.imagePicker);
+  final MethodChannel photoLibraryChannel;
 
   @override
   TaskEither<Failure, Unit> saveToPhotoLibrary(
@@ -42,7 +44,8 @@ class FileService with LoggableMixin implements IFileService {
                 stacktrace);
             return const Left(SaveImageFailure.permissionDenied);
           } else {
-            rethrow;
+            log.severe("Could not save photo to library", err, stacktrace);
+            return const Left(SaveImageFailure.unidentified);
           }
         } catch (err, stacktrace) {
           log.severe("Could not save photo to library", err, stacktrace);
@@ -54,10 +57,9 @@ class FileService with LoggableMixin implements IFileService {
   TaskEither<Failure, Uint8List> loadFromPhotoLibrary() => TaskEither(() async {
         try {
           final file = await imagePicker.pickImage(source: ImageSource.gallery);
-          if (file == null) {
-            throw "Either failed to load image or user cancelled";
-          }
-          return Right(await file.readAsBytes());
+          return file == null
+              ? const Left(LoadImageFailure.userCancelled)
+              : Right(await file.readAsBytes());
         } on PlatformException catch (err, stacktrace) {
           // This error code is from ImagePicker
           if (err.code == "photo_access_denied") {
@@ -65,7 +67,8 @@ class FileService with LoggableMixin implements IFileService {
                 stacktrace);
             return const Left(LoadImageFailure.permissionDenied);
           } else {
-            rethrow;
+            log.severe("Could not load photo from library", err, stacktrace);
+            return const Left(LoadImageFailure.unidentified);
           }
         } catch (err, stacktrace) {
           log.severe("Could not load photo from library", err, stacktrace);
