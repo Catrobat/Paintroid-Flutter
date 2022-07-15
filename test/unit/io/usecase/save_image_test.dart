@@ -35,6 +35,11 @@ void main() {
     sut = SaveImage(mockImageService, mockFileService);
   });
 
+  test('Verify string representation of ImageMetaData', () async {
+    const testMetaData = ImageMetaData("image", ImageFormat.png, 23);
+    expect(testMetaData.toString(), "image.png");
+  });
+
   test('Should provide SaveImage with correct dependencies', () {
     final container = ProviderContainer(overrides: [
       IImageService.provider.overrideWithValue(mockImageService),
