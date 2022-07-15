@@ -1,0 +1,1 @@
+protoc --dart_out=output --proto_path=schema "$(find schema -iname "*.proto")"
