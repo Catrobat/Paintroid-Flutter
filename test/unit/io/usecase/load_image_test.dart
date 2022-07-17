@@ -15,43 +15,43 @@ class FakeImage extends Fake implements Image {}
 
 class FakeFailure extends Fake implements Failure {}
 
-@GenerateMocks([IImageService, IFileService])
+@GenerateMocks([IImageService, IPhotoLibraryService])
 void main() {
   late FakeImage fakeImage;
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
-  late MockIFileService mockFileService;
+  late MockIFileService mockPhotoLibraryService;
   late LoadImage sut;
 
   setUp(() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
-    mockFileService = MockIFileService();
-    sut = LoadImage(mockImageService, mockFileService);
+    mockPhotoLibraryService = MockIFileService();
+    sut = LoadImage(mockImageService, mockPhotoLibraryService);
   });
 
   test('Should provide LoadImage with correct dependencies', () {
     final container = ProviderContainer(overrides: [
       IImageService.provider.overrideWithValue(mockImageService),
-      IFileService.provider.overrideWithValue(mockFileService),
+      IPhotoLibraryService.provider.overrideWithValue(mockPhotoLibraryService),
     ]);
     final loadImage = container.read(LoadImage.provider);
     expect(loadImage.imageService, mockImageService);
-    expect(loadImage.fileService, mockFileService);
+    expect(loadImage.photoLibraryService, mockPhotoLibraryService);
     verifyZeroInteractions(mockImageService);
-    verifyZeroInteractions(mockFileService);
+    verifyZeroInteractions(mockPhotoLibraryService);
   });
 
   test('Should successfully load image from photo library', () async {
-    when(mockFileService.loadFromPhotoLibrary())
+    when(mockPhotoLibraryService.pick())
         .thenReturn(TaskEither.right(fakeBytes));
     when(mockImageService.import(any)).thenReturn(TaskEither.right(fakeImage));
     final result = await sut.prepareTask().run();
     expect(result, Right(fakeImage));
-    verify(mockFileService.loadFromPhotoLibrary());
+    verify(mockPhotoLibraryService.pick());
     verify(mockImageService.import(fakeBytes));
-    verifyNoMoreInteractions(mockFileService);
+    verifyNoMoreInteractions(mockPhotoLibraryService);
     verifyNoMoreInteractions(mockImageService);
   });
 
@@ -65,25 +65,25 @@ void main() {
       });
 
       test('On failure from file service', () async {
-        when(mockFileService.loadFromPhotoLibrary())
+        when(mockPhotoLibraryService.pick())
             .thenReturn(TaskEither.left(fakeFailure));
         final result = await sut.prepareTask().run();
         expect(result, Left(fakeFailure));
-        verify(mockFileService.loadFromPhotoLibrary());
-        verifyNoMoreInteractions(mockFileService);
+        verify(mockPhotoLibraryService.pick());
+        verifyNoMoreInteractions(mockPhotoLibraryService);
         verifyZeroInteractions(mockImageService);
       });
 
       test('On failure from image service', () async {
-        when(mockFileService.loadFromPhotoLibrary())
+        when(mockPhotoLibraryService.pick())
             .thenReturn(TaskEither.right(fakeBytes));
         when(mockImageService.import(any))
             .thenReturn(TaskEither.left(fakeFailure));
         final result = await sut.prepareTask().run();
         expect(result, Left(fakeFailure));
-        verify(mockFileService.loadFromPhotoLibrary());
+        verify(mockPhotoLibraryService.pick());
         verify(mockImageService.import(any));
-        verifyNoMoreInteractions(mockFileService);
+        verifyNoMoreInteractions(mockPhotoLibraryService);
         verifyNoMoreInteractions(mockImageService);
       });
     },

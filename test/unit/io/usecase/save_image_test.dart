@@ -15,14 +15,14 @@ class FakeImage extends Fake implements Image {}
 
 class FakeFailure extends Fake implements Failure {}
 
-@GenerateMocks([IImageService, IFileService])
+@GenerateMocks([IImageService, IPhotoLibraryService])
 void main() {
   late String testName;
   late int testQuality;
   late FakeImage fakeImage;
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
-  late MockIFileService mockFileService;
+  late MockIFileService mockPhotoLibraryService;
   late SaveImage sut;
 
   setUp(() {
@@ -31,8 +31,8 @@ void main() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
-    mockFileService = MockIFileService();
-    sut = SaveImage(mockImageService, mockFileService);
+    mockPhotoLibraryService = MockIFileService();
+    sut = SaveImage(mockImageService, mockPhotoLibraryService);
   });
 
   test('Verify string representation of ImageMetaData', () async {
@@ -43,13 +43,13 @@ void main() {
   test('Should provide SaveImage with correct dependencies', () {
     final container = ProviderContainer(overrides: [
       IImageService.provider.overrideWithValue(mockImageService),
-      IFileService.provider.overrideWithValue(mockFileService),
+      IPhotoLibraryService.provider.overrideWithValue(mockPhotoLibraryService),
     ]);
     final saveImage = container.read(SaveImage.provider);
     expect(saveImage.imageService, mockImageService);
-    expect(saveImage.fileService, mockFileService);
+    expect(saveImage.photoLibraryService, mockPhotoLibraryService);
     verifyZeroInteractions(mockImageService);
-    verifyZeroInteractions(mockFileService);
+    verifyZeroInteractions(mockPhotoLibraryService);
   });
 
   group(
@@ -59,7 +59,7 @@ void main() {
         final expectedFilename = "$testName.png";
         when(mockImageService.exportAsPng(any))
             .thenReturn(TaskEither.right(fakeBytes));
-        when(mockFileService.saveToPhotoLibrary(any, any))
+        when(mockPhotoLibraryService.save(any, any))
             .thenReturn(TaskEither.right(unit));
         final testMetaData =
             ImageMetaData(testName, ImageFormat.png, testQuality);
@@ -68,16 +68,16 @@ void main() {
             .run();
         expect(result, const Right(unit));
         verify(mockImageService.exportAsPng(fakeImage));
-        verify(mockFileService.saveToPhotoLibrary(expectedFilename, fakeBytes));
+        verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
         verifyNoMoreInteractions(mockImageService);
-        verifyNoMoreInteractions(mockFileService);
+        verifyNoMoreInteractions(mockPhotoLibraryService);
       });
 
       test('When format is jpg', () async {
         final expectedFilename = "$testName.jpg";
         when(mockImageService.exportAsJpg(any, any))
             .thenReturn(TaskEither.right(fakeBytes));
-        when(mockFileService.saveToPhotoLibrary(any, any))
+        when(mockPhotoLibraryService.save(any, any))
             .thenReturn(TaskEither.right(unit));
         final testMetaData =
             ImageMetaData(testName, ImageFormat.jpg, testQuality);
@@ -86,9 +86,9 @@ void main() {
             .run();
         expect(result, const Right(unit));
         verify(mockImageService.exportAsJpg(fakeImage, testQuality));
-        verify(mockFileService.saveToPhotoLibrary(expectedFilename, fakeBytes));
+        verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
         verifyNoMoreInteractions(mockImageService);
-        verifyNoMoreInteractions(mockFileService);
+        verifyNoMoreInteractions(mockPhotoLibraryService);
       });
     },
   );
@@ -106,7 +106,7 @@ void main() {
         test('When format is jpg', () async {
           when(mockImageService.exportAsJpg(any, any))
               .thenReturn(TaskEither.right(fakeBytes));
-          when(mockFileService.saveToPhotoLibrary(any, any))
+          when(mockPhotoLibraryService.save(any, any))
               .thenReturn(TaskEither.left(fakeFailure));
           final testMetaData =
               ImageMetaData(testName, ImageFormat.jpg, testQuality);
@@ -115,15 +115,15 @@ void main() {
               .run();
           expect(result, Left(fakeFailure));
           verify(mockImageService.exportAsJpg(any, any));
-          verify(mockFileService.saveToPhotoLibrary(any, any));
+          verify(mockPhotoLibraryService.save(any, any));
           verifyNoMoreInteractions(mockImageService);
-          verifyNoMoreInteractions(mockFileService);
+          verifyNoMoreInteractions(mockPhotoLibraryService);
         });
 
         test('When format is png', () async {
           when(mockImageService.exportAsPng(any))
               .thenReturn(TaskEither.right(fakeBytes));
-          when(mockFileService.saveToPhotoLibrary(any, any))
+          when(mockPhotoLibraryService.save(any, any))
               .thenReturn(TaskEither.left(fakeFailure));
           final testMetaData =
               ImageMetaData(testName, ImageFormat.png, testQuality);
@@ -132,9 +132,9 @@ void main() {
               .run();
           expect(result, Left(fakeFailure));
           verify(mockImageService.exportAsPng(any));
-          verify(mockFileService.saveToPhotoLibrary(any, any));
+          verify(mockPhotoLibraryService.save(any, any));
           verifyNoMoreInteractions(mockImageService);
-          verifyNoMoreInteractions(mockFileService);
+          verifyNoMoreInteractions(mockPhotoLibraryService);
         });
       });
 
@@ -150,7 +150,7 @@ void main() {
           expect(result, Left(fakeFailure));
           verify(mockImageService.exportAsJpg(any, any));
           verifyNoMoreInteractions(mockImageService);
-          verifyZeroInteractions(mockFileService);
+          verifyZeroInteractions(mockPhotoLibraryService);
         });
 
         test('When format is png', () async {
@@ -164,7 +164,7 @@ void main() {
           expect(result, Left(fakeFailure));
           verify(mockImageService.exportAsPng(any));
           verifyNoMoreInteractions(mockImageService);
-          verifyZeroInteractions(mockFileService);
+          verifyZeroInteractions(mockPhotoLibraryService);
         });
       });
     },

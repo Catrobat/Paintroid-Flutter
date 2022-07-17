@@ -5,19 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:paintroid/core/failure.dart';
 
-import '../service/file_service.dart';
 import '../service/image_service.dart';
+import '../service/photo_library_service.dart';
 
 class SaveImage {
   final IImageService imageService;
-  final IFileService fileService;
+  final IPhotoLibraryService photoLibraryService;
 
-  const SaveImage(this.imageService, this.fileService);
+  const SaveImage(this.imageService, this.photoLibraryService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
-    final fileService = ref.watch(IFileService.provider);
-    return SaveImage(imageService, fileService);
+    final photoLibraryService = ref.watch(IPhotoLibraryService.provider);
+    return SaveImage(imageService, photoLibraryService);
   });
 
   TaskEither<Failure, Unit> prepareTask({
@@ -28,11 +28,11 @@ class SaveImage {
     switch (metaData.format) {
       case ImageFormat.png:
         return imageService.exportAsPng(image).flatMap((imageBytes) =>
-            fileService.saveToPhotoLibrary(nameWithExt, imageBytes));
+            photoLibraryService.save(nameWithExt, imageBytes));
       case ImageFormat.jpg:
         return imageService.exportAsJpg(image, metaData.quality).flatMap(
             (imageBytes) =>
-                fileService.saveToPhotoLibrary(nameWithExt, imageBytes));
+                photoLibraryService.save(nameWithExt, imageBytes));
     }
   }
 }

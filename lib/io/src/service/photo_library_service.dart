@@ -10,32 +10,31 @@ import 'package:paintroid/core/loggable_mixin.dart';
 import '../failure/load_image_failure.dart';
 import '../failure/save_image_failure.dart';
 
-abstract class IFileService {
-  TaskEither<Failure, Unit> saveToPhotoLibrary(String filename, Uint8List data);
+abstract class IPhotoLibraryService {
+  TaskEither<Failure, Unit> save(String filename, Uint8List data);
 
-  TaskEither<Failure, Uint8List> loadFromPhotoLibrary();
+  TaskEither<Failure, Uint8List> pick();
 
-  static final provider = Provider<IFileService>(
+  static final provider = Provider<IPhotoLibraryService>(
     (ref) {
       const photoLibraryChannel =
           MethodChannel("org.catrobat.paintroid/photo_library");
-      return FileService(ImagePicker(), photoLibraryChannel);
+      return PhotoLibraryService(ImagePicker(), photoLibraryChannel);
     },
   );
 }
 
-class FileService with LoggableMixin implements IFileService {
-  FileService(this.imagePicker, this.photoLibraryChannel);
+class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
+  PhotoLibraryService(this.imagePicker, this.photoLibraryChannel);
 
   final ImagePicker imagePicker;
   final MethodChannel photoLibraryChannel;
 
   @override
-  TaskEither<Failure, Unit> saveToPhotoLibrary(
-          String filename, Uint8List data) =>
+  TaskEither<Failure, Unit> save(String name, Uint8List data) =>
       TaskEither(() async {
         try {
-          final args = {"fileName": filename, "data": data};
+          final args = {"fileName": name, "data": data};
           await photoLibraryChannel.invokeMethod("saveToPhotos", args);
           return const Right(unit);
         } on PlatformException catch (err, stacktrace) {
@@ -54,7 +53,7 @@ class FileService with LoggableMixin implements IFileService {
       });
 
   @override
-  TaskEither<Failure, Uint8List> loadFromPhotoLibrary() => TaskEither(() async {
+  TaskEither<Failure, Uint8List> pick() => TaskEither(() async {
         try {
           final file = await imagePicker.pickImage(source: ImageSource.gallery);
           return file == null
