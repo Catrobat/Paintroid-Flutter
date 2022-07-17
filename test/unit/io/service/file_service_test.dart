@@ -33,8 +33,9 @@ void main() {
 
   test('Should provide FileService with correct MethodChannel name', () async {
     final container = ProviderContainer();
-    final fileService = container.read(IFileService.provider) as FileService;
-    expect(fileService.photoLibraryChannel.name,
+    final fileService = container.read(IFileService.provider);
+    expect(fileService, isA<FileService>());
+    expect((fileService as FileService).photoLibraryChannel.name,
         "org.catrobat.paintroid/photo_library");
   });
 
@@ -145,7 +146,8 @@ void main() {
         'Should return unidentified failure when any unhandled Exception is thrown',
         () {
       test('From ImagePicker', () async {
-        when(mockImagePicker.pickImage(source: anyNamed("source"))).thenThrow(testException);
+        when(mockImagePicker.pickImage(source: anyNamed("source")))
+            .thenThrow(testException);
         final result = await sut.loadFromPhotoLibrary().run();
         expect(result, const Left(LoadImageFailure.unidentified));
         verify(mockImagePicker.pickImage(source: anyNamed("source")));

@@ -39,3 +39,4 @@ flutter:
   assets:
     - assets/icon/
     - assets/svg/
+    - test/fixture/image/
