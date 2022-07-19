@@ -61,29 +61,34 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
           showToast(failure.message);
         }
       },
-      (img) =>
-          ref.read(WorkspaceStateNotifier.provider.notifier).loadImage(img),
+      (img) async {
+        ref.read(WorkspaceState.provider.notifier).loadImage(img);
+        final size = await ref.read(DrawCanvas.sizeProvider.future);
+        ref.read(CanvasState.provider.notifier).updateCanvasSize(size);
+      },
     );
   }
 
   void _saveImage() async {
+    final imageData = await showSaveImageDialog(context);
+    if (imageData == null) return;
     final saveImage = ref.read(SaveImage.provider);
-    final image = await ref.read(Workspace.provider).scaledCanvasImage;
-    final imageData = await showGeneralDialog<ImageMetaData?>(
-        context: context,
-        pageBuilder: (_, __, ___) => const SaveImageDialog(),
-        barrierDismissible: true,
-        barrierLabel: "Dismiss save image dialog box");
-    if (imageData != null) {
-      final either =
-          await saveImage.prepareTask(metaData: imageData, image: image).run();
-      either.fold(
-        (failure) => showToast(failure.message),
-        (_) => showToast("Saved to Photos"),
-      );
-    }
+    final scaleImage = ref.read(ScaleImage.provider);
+    final canvasSize = await ref.read(DrawCanvas.sizeProvider.future);
+    final workspaceState = ref.read(WorkspaceState.provider);
+    final exportSize = workspaceState.exportSize;
+    final loadedImage = workspaceState.loadedImage;
+    final scaledImage =
+        await scaleImage.call(canvasSize, exportSize, loadedImage);
+    final either = await saveImage
+        .prepareTask(metaData: imageData, image: scaledImage)
+        .run();
+    either.fold(
+      (failure) => showToast(failure.message),
+      (_) => showToast("Saved to Photos"),
+    );
   }
 
   void _enterFullscreen() =>
-      ref.read(WorkspaceStateNotifier.provider.notifier).toggleFullscreen(true);
+      ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
 }

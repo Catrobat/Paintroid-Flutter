@@ -48,7 +48,7 @@ void main() {
       testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
       sut = ProviderScope(
         overrides: [
-          WorkspaceStateNotifier.provider
+          WorkspaceState.provider
               .overrideWithValue(WorkspaceStateNotifier(testWorkspaceState))
         ],
         child: const MaterialApp(

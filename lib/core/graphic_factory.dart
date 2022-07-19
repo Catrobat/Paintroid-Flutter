@@ -12,4 +12,14 @@ class GraphicFactory {
 
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
+
+  PictureRecorder createPictureRecorder() => PictureRecorder();
+
+  Canvas createCanvasWithRecorder(PictureRecorder recorder) => Canvas(recorder);
+
+  Future<Image> createBlankImage(int width, int height) {
+    final recorder = createPictureRecorder();
+    createCanvasWithRecorder(recorder);
+    return recorder.endRecording().toImage(width, height);
+  }
 }

@@ -1,9 +1,35 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/command/command.dart';
+import 'dart:ui';
 
-class SyncCommandManager<C extends Command> extends CommandManager<C> {
-  SyncCommandManager({required List<C> commands}) : super(commands: commands);
+import '../../command.dart';
+import '../../command_manager.dart';
+import '../../graphic_command.dart';
 
-  static final provider =
-      Provider((ref) => SyncCommandManager<GraphicCommand>(commands: []));
+class SyncCommandManager implements CommandManager {
+  SyncCommandManager({required List<Command> commands})
+      : _history = commands;
+
+  final List<Command> _history;
+
+  @override
+  void addGraphicCommand(GraphicCommand command) {
+    _history.add(command);
+  }
+
+  @override
+  void executeLastCommand(Canvas canvas) {
+    if (_history.isEmpty) return;
+    final lastCommand = _history.last;
+    if (lastCommand is GraphicCommand) {
+      lastCommand.call(canvas);
+    }
+  }
+
+  @override
+  void executeAllCommands(Canvas canvas) {
+    for (final command in _history) {
+      if (command is GraphicCommand) {
+        command.call(canvas);
+      }
+    }
+  }
 }

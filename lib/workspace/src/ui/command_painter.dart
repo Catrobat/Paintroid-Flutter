@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/command/command.dart';
 
-class GraphicCommandPainter extends CustomPainter {
-  GraphicCommandPainter({required Iterable<GraphicCommand> commands})
-      : _graphicCommands = commands;
+class CommandPainter extends CustomPainter {
+  CommandPainter(this.commandManager);
 
-  final Iterable<GraphicCommand> _graphicCommands;
+  final CommandManager commandManager;
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    for (final command in _graphicCommands) {
-      command.call(canvas);
-    }
+    commandManager.executeLastCommand(canvas);
   }
 
   @override

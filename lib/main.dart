@@ -5,10 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:logging/logging.dart';
 import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 import 'ui/pocket_paint.dart';
 
-void main() {
+void main() async {
   Logger.root.onRecord.listen((record) {
     log(record.message,
         time: record.time,
@@ -19,7 +20,15 @@ void main() {
         error: record.error,
         stackTrace: record.stackTrace);
   });
-  runApp(const ProviderScope(child: PocketPaintApp()));
+  final container = ProviderContainer();
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const PocketPaintApp(),
+    ),
+  );
+  final size = await container.read(DrawCanvas.sizeProvider.future);
+  container.read(CanvasState.provider.notifier).updateCanvasSize(size);
 }
 
 class PocketPaintApp extends StatelessWidget {

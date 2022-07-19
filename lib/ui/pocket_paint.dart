@@ -5,7 +5,6 @@ import 'package:paintroid/ui/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 import 'bottom_control_navigation_bar.dart';
-import 'drawing_board.dart';
 import 'exit_fullscreen_button.dart';
 
 class PocketPaint extends ConsumerWidget {
@@ -20,10 +19,10 @@ class PocketPaint extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFullscreen = ref.watch(
-      WorkspaceStateNotifier.provider.select((state) => state.isFullscreen),
+      WorkspaceState.provider.select((state) => state.isFullscreen),
     );
     ref.listen<bool>(
-      WorkspaceStateNotifier.provider.select((state) => state.isFullscreen),
+      WorkspaceState.provider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
     return WillPopScope(
@@ -31,7 +30,7 @@ class PocketPaint extends ConsumerWidget {
         final willPop = !isFullscreen;
         if (isFullscreen) {
           ref
-              .read(WorkspaceStateNotifier.provider.notifier)
+              .read(WorkspaceState.provider.notifier)
               .toggleFullscreen(false);
         }
         return willPop;
@@ -42,7 +41,7 @@ class PocketPaint extends ConsumerWidget {
         body: SafeArea(
           child: Stack(
             children: [
-              const Center(child: DrawingBoard()),
+              const Center(child: Workspace()),
               if (isFullscreen)
                 const Positioned(
                   top: 2,

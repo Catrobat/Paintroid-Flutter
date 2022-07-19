@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:paintroid/core/failure.dart';
 
+import '../entity/image_format.dart';
 import '../service/image_service.dart';
 import '../service/photo_library_service.dart';
 
@@ -27,23 +28,13 @@ class SaveImage {
     final nameWithExt = "${metaData.name}.${metaData.format.extension}";
     switch (metaData.format) {
       case ImageFormat.png:
-        return imageService.exportAsPng(image).flatMap((imageBytes) =>
-            photoLibraryService.save(nameWithExt, imageBytes));
+        return imageService.exportAsPng(image).flatMap(
+            (imageBytes) => photoLibraryService.save(nameWithExt, imageBytes));
       case ImageFormat.jpg:
         return imageService.exportAsJpg(image, metaData.quality).flatMap(
-            (imageBytes) =>
-                photoLibraryService.save(nameWithExt, imageBytes));
+            (imageBytes) => photoLibraryService.save(nameWithExt, imageBytes));
     }
   }
-}
-
-enum ImageFormat {
-  png("png"),
-  jpg("jpg");
-
-  const ImageFormat(this.extension);
-
-  final String extension;
 }
 
 @immutable

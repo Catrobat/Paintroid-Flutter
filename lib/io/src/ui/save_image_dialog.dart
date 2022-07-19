@@ -3,6 +3,13 @@ import 'package:paintroid/io/io.dart';
 
 part 'image_format_info.dart';
 
+Future<ImageMetaData?> showSaveImageDialog(BuildContext context) =>
+    showGeneralDialog<ImageMetaData?>(
+        context: context,
+        pageBuilder: (_, __, ___) => const SaveImageDialog(),
+        barrierDismissible: true,
+        barrierLabel: "Dismiss save image dialog box");
+
 class SaveImageDialog extends StatefulWidget {
   const SaveImageDialog({Key? key}) : super(key: key);
 

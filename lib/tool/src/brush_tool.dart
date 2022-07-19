@@ -2,19 +2,33 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
 
 import 'tool.dart';
 
-class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
+class BrushTool extends Tool with EquatableMixin {
   BrushTool({
     required super.paint,
-    required super.commandManager,
     required super.commandFactory,
+    required super.commandManager,
     required this.graphicFactory,
   });
+
+  static final provider = Provider(
+    (ref) => BrushTool(
+      paint: ref.watch(GraphicFactory.provider).createPaint()
+        ..style = PaintingStyle.stroke
+        ..color = const Color(0xFFFFFFFF)
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = 5,
+      commandManager: ref.watch(CommandManager.provider),
+      commandFactory: ref.watch(CommandFactory.provider),
+      graphicFactory: ref.watch(GraphicFactory.provider),
+    ),
+  );
 
   final GraphicFactory graphicFactory;
 
@@ -26,7 +40,7 @@ class BrushTool extends Tool<GraphicCommand> with EquatableMixin {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     final command = commandFactory.createDrawPathCommand(pathToDraw, paint);
-    commandManager.commands.add(command);
+    commandManager.addGraphicCommand(command);
   }
 
   @override

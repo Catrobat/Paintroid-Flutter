@@ -20,14 +20,14 @@ void main() {
   late FakeImage fakeImage;
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
-  late MockIFileService mockPhotoLibraryService;
+  late MockIPhotoLibraryService mockPhotoLibraryService;
   late LoadImage sut;
 
   setUp(() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
-    mockPhotoLibraryService = MockIFileService();
+    mockPhotoLibraryService = MockIPhotoLibraryService();
     sut = LoadImage(mockImageService, mockPhotoLibraryService);
   });
 

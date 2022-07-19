@@ -22,7 +22,7 @@ void main() {
   late FakeImage fakeImage;
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
-  late MockIFileService mockPhotoLibraryService;
+  late MockIPhotoLibraryService mockPhotoLibraryService;
   late SaveImage sut;
 
   setUp(() {
@@ -31,7 +31,7 @@ void main() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
-    mockPhotoLibraryService = MockIFileService();
+    mockPhotoLibraryService = MockIPhotoLibraryService();
     sut = SaveImage(mockImageService, mockPhotoLibraryService);
   });
 
