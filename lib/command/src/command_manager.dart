@@ -11,7 +11,9 @@ abstract class CommandManager {
     (ref) => SyncCommandManager(commands: []),
   );
 
-  Iterable<Command> get commands;
+  Iterable<Command> get history;
+
+  int get count;
 
   void addGraphicCommand(GraphicCommand command);
 

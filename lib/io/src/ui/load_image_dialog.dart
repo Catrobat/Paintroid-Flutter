@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/io/src/entity/image_location.dart';
 
+/// Returns null if user dismissed the dialog by tapping outside
 Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
     showGeneralDialog<ImageLocation>(
         context: context,

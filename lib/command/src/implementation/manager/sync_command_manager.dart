@@ -10,7 +10,10 @@ class SyncCommandManager implements CommandManager {
   final List<Command> _history;
 
   @override
-  Iterable<Command> get commands => List.unmodifiable(_history);
+  Iterable<Command> get history => List.unmodifiable(_history);
+
+  @override
+  int get count => _history.length;
 
   @override
   void addGraphicCommand(GraphicCommand command) {

@@ -42,16 +42,34 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
             break;
           case OverflowMenuOption.saveImage:
             final imageData = await showSaveImageDialog(context);
-            if (imageData == null) return; // User cancelled
-            ioHandler.saveImage(imageData);
+            if (imageData == null) return;
+            await ioHandler.saveImage(imageData);
+            ref
+                .read(WorkspaceState.provider.notifier)
+                .updateLastSavedCommandCount();
             break;
           case OverflowMenuOption.loadImage:
+            final hasSavedLastWork =
+                ref.read(WorkspaceState.provider.notifier).hasSavedLastWork;
+            if (!hasSavedLastWork) {
+              final shouldDiscard = await showDiscardChangesDialog(context);
+              if (shouldDiscard == null || !mounted) return;
+              if (!shouldDiscard) {
+                final imageData = await showSaveImageDialog(context);
+                if (imageData == null) return;
+                await ioHandler.saveImage(imageData);
+                ref
+                    .read(WorkspaceState.provider.notifier)
+                    .updateLastSavedCommandCount();
+              }
+            }
             if (Platform.isIOS) {
+              if (!mounted) return;
               final location = await showLoadImageDialog(context);
               if (location == null) return;
-              ioHandler.loadImage(location);
+              await ioHandler.loadImage(location);
             } else {
-              ioHandler.loadImage(ImageLocation.files);
+              await ioHandler.loadImage(ImageLocation.files);
             }
             break;
         }

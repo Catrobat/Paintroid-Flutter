@@ -18,7 +18,7 @@ class IOHandler {
 
   static final provider = Provider((ref) => IOHandler(ref));
 
-  void loadImage(ImageLocation location) async {
+  Future<void> loadImage(ImageLocation location) async {
     switch (location) {
       case ImageLocation.photos:
         await _loadFromPhotos();
@@ -70,7 +70,7 @@ class IOHandler {
     );
   }
 
-  void saveImage(ImageMetaData imageData) async {
+  Future<void> saveImage(ImageMetaData imageData) async {
     if (imageData is JpgMetaData || imageData is PngMetaData) {
       await _saveAsRasterImage(imageData);
     } else if (imageData is CatrobatImageMetaData) {
@@ -94,7 +94,7 @@ class IOHandler {
   }
 
   Future<void> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
-    final commands = ref.read(CommandManager.provider).commands;
+    final commands = ref.read(CommandManager.provider).history;
     final loadedImage = ref.read(WorkspaceState.provider).loadedImage;
     final imageService = ref.read(IImageService.provider);
     Uint8List? bytes;

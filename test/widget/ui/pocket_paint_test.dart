@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:paintroid/command/command.dart' show CommandManager;
 import 'package:paintroid/ui/overflow_menu.dart';
 import 'package:paintroid/ui/pocket_paint.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
+
+class FakeCommandManager extends Fake implements CommandManager {}
 
 void main() {
   late Widget sut;
@@ -43,13 +46,15 @@ void main() {
 
   group('Fullscreen functionality', () {
     late WorkspaceState testWorkspaceState;
+    late FakeCommandManager fakeCommandManager;
 
     setUp(() {
       testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
+      fakeCommandManager = FakeCommandManager();
       sut = ProviderScope(
         overrides: [
-          WorkspaceState.provider
-              .overrideWithValue(WorkspaceStateNotifier(testWorkspaceState))
+          WorkspaceState.provider.overrideWithValue(
+              WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
         ],
         child: const MaterialApp(
           home: PocketPaint(),

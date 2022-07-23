@@ -3,6 +3,7 @@ import 'package:paintroid/io/io.dart';
 
 part 'image_format_info.dart';
 
+/// Returns null if user dismissed the dialog by tapping outside
 Future<ImageMetaData?> showSaveImageDialog(BuildContext context) =>
     showGeneralDialog<ImageMetaData?>(
         context: context,
