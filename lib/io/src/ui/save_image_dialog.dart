@@ -24,18 +24,25 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   var imageQualityValue = 100;
 
   void _dismissDialogWithData() {
-    final data = ImageMetaData(
-      nameFieldController.text,
-      selectedFormat,
-      imageQualityValue,
-    );
+    late ImageMetaData data;
+    switch (selectedFormat) {
+      case ImageFormat.png:
+        data = PngMetaData(nameFieldController.text);
+        break;
+      case ImageFormat.jpg:
+        data = JpgMetaData(nameFieldController.text, imageQualityValue);
+        break;
+      case ImageFormat.catrobatImage:
+        data = CatrobatImageMetaData(nameFieldController.text);
+        break;
+    }
     Navigator.of(context).pop(data);
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Save Image"),
+      title: const Text("Save image"),
       actions: [_cancelButton, _saveButton],
       contentTextStyle: Theme.of(context).textTheme.bodyLarge,
       content: Form(

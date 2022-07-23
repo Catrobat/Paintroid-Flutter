@@ -5,10 +5,12 @@ import '../../command_manager.dart';
 import '../../graphic_command.dart';
 
 class SyncCommandManager implements CommandManager {
-  SyncCommandManager({required List<Command> commands})
-      : _history = commands;
+  SyncCommandManager({required List<Command> commands}) : _history = commands;
 
   final List<Command> _history;
+
+  @override
+  Iterable<Command> get commands => List.unmodifiable(_history);
 
   @override
   void addGraphicCommand(GraphicCommand command) {
@@ -30,6 +32,14 @@ class SyncCommandManager implements CommandManager {
       if (command is GraphicCommand) {
         command.call(canvas);
       }
+    }
+  }
+
+  @override
+  void resetHistory({Iterable<Command>? newCommands}) {
+    _history.clear();
+    if (newCommands != null) {
+      _history.addAll(newCommands);
     }
   }
 }

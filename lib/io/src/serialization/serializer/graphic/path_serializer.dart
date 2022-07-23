@@ -1,28 +1,25 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/loggable_mixin.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
+import 'package:paintroid/io/serialization.dart';
 
-import '../../proto/output/graphic/path.pb.dart';
-import '../../proto_serializer.dart';
+class PathSerializer extends ProtoSerializerWithVersioning<
+    PathWithActionHistory, SerializablePath> with LoggableMixin {
+  final GraphicFactory _graphicFactory;
 
-class PathSerializer
-    implements ProtoSerializer<PathWithActionHistory, SerializablePath> {
-  final GraphicFactory graphicFactory;
+  PathSerializer(super.version, this._graphicFactory);
 
-  const PathSerializer(this.graphicFactory);
-
-  @override
-  PathWithActionHistory deserialize(Uint8List binary) {
-    final serializablePath = SerializablePath.fromBuffer(binary);
-    return deserializeFromProto(serializablePath);
-  }
+  static final provider = Provider.family(
+    (ref, int ver) => PathSerializer(ver, ref.watch(GraphicFactory.provider)),
+  );
 
   @override
-  PathWithActionHistory deserializeFromProto(SerializablePath serializable) {
-    final path = graphicFactory.createPathWithActionHistory();
-    switch (serializable.fillType) {
+  PathWithActionHistory deserializeWithLatestVersion(SerializablePath data) {
+    final path = _graphicFactory.createPathWithActionHistory();
+    switch (data.fillType) {
       case SerializablePath_FillType.EVEN_ODD:
         path.fillType = PathFillType.evenOdd;
         break;
@@ -30,24 +27,26 @@ class PathSerializer
         path.fillType = PathFillType.nonZero;
         break;
     }
-    for (final action in serializable.actions) {
+    for (var i = 0; i < data.actions.length; i++) {
+      final action = data.actions[i];
       if (action.hasMoveTo()) {
         path.moveTo(action.moveTo.x, action.moveTo.y);
       } else if (action.hasLineTo()) {
         path.lineTo(action.lineTo.x, action.lineTo.y);
       } else if (action.hasClose()) {
         path.close();
+      } else {
+        logger.severe("No Path Action was set at index $i.");
       }
     }
     return path;
   }
 
   @override
-  Uint8List serialize(PathWithActionHistory object) =>
-      convertToProtoSerializable(object).writeToBuffer();
+  final fromBytesToSerializable = SerializablePath.fromBuffer;
 
   @override
-  SerializablePath convertToProtoSerializable(PathWithActionHistory object) {
+  SerializablePath serializeWithLatestVersion(PathWithActionHistory object) {
     final serializablePath = SerializablePath();
     switch (object.fillType) {
       case PathFillType.nonZero:
@@ -68,6 +67,8 @@ class PathSerializer
       } else if (action is CloseAction) {
         final close = SerializablePath_Action_Close();
         serializableAction = SerializablePath_Action(close: close);
+      } else {
+        logger.severe("Path Action serialization was not handled for $action");
       }
       serializablePath.actions.add(serializableAction);
     }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
+  static const height = 64.0;
+
   const BottomControlNavigationBar({Key? key}) : super(key: key);
 
   @override
@@ -14,7 +16,7 @@ class BottomControlNavigationBar extends StatelessWidget {
         ),
       ),
       child: NavigationBar(
-        height: 64,
+        height: height,
         destinations: [
           const NavigationDestination(
             label: "Tools",

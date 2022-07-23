@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:paintroid/io/src/entity/image_location.dart';
+import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 enum OverflowMenuOption {
@@ -24,6 +27,7 @@ class OverflowMenu extends ConsumerStatefulWidget {
 class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   @override
   Widget build(BuildContext context) {
+    final ioHandler = ref.watch(IOHandler.provider);
     return PopupMenuButton<OverflowMenuOption>(
       color: Theme.of(context).colorScheme.background,
       icon: const Icon(Icons.more_vert),
@@ -31,16 +35,24 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         side: const BorderSide(),
         borderRadius: BorderRadius.circular(20),
       ),
-      onSelected: (option) {
+      onSelected: (option) async {
         switch (option) {
           case OverflowMenuOption.fullscreen:
             _enterFullscreen();
             break;
           case OverflowMenuOption.saveImage:
-            _saveImage();
+            final imageData = await showSaveImageDialog(context);
+            if (imageData == null) return; // User cancelled
+            ioHandler.saveImage(imageData);
             break;
           case OverflowMenuOption.loadImage:
-            _loadImage();
+            if (Platform.isIOS) {
+              final location = await showLoadImageDialog(context);
+              if (location == null) return;
+              ioHandler.loadImage(location);
+            } else {
+              ioHandler.loadImage(ImageLocation.files);
+            }
             break;
         }
       },
@@ -49,43 +61,6 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
           return PopupMenuItem(value: option, child: Text(option.label));
         }).toList();
       },
-    );
-  }
-
-  void _loadImage() async {
-    final loadImage = ref.read(LoadImage.provider);
-    final image = await loadImage.prepareTask().run();
-    image.fold(
-      (failure) {
-        if (failure != LoadImageFailure.userCancelled) {
-          showToast(failure.message);
-        }
-      },
-      (img) async {
-        ref.read(WorkspaceState.provider.notifier).loadImage(img);
-        final size = await ref.read(DrawCanvas.sizeProvider.future);
-        ref.read(CanvasState.provider.notifier).updateCanvasSize(size);
-      },
-    );
-  }
-
-  void _saveImage() async {
-    final imageData = await showSaveImageDialog(context);
-    if (imageData == null) return;
-    final saveImage = ref.read(SaveImage.provider);
-    final scaleImage = ref.read(ScaleImage.provider);
-    final canvasSize = await ref.read(DrawCanvas.sizeProvider.future);
-    final workspaceState = ref.read(WorkspaceState.provider);
-    final exportSize = workspaceState.exportSize;
-    final loadedImage = workspaceState.loadedImage;
-    final scaledImage =
-        await scaleImage.call(canvasSize, exportSize, loadedImage);
-    final either = await saveImage
-        .prepareTask(metaData: imageData, image: scaledImage)
-        .run();
-    either.fold(
-      (failure) => showToast(failure.message),
-      (_) => showToast("Saved to Photos"),
     );
   }
 

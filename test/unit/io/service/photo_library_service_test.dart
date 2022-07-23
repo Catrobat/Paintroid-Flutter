@@ -9,7 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:paintroid/io/io.dart';
 
-import 'file_service_test.mocks.dart';
+import 'photo_library_service_test.mocks.dart';
 
 @GenerateMocks([ImagePicker, MethodChannel, XFile])
 void main() {

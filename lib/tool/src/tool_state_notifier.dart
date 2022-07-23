@@ -1,14 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/workspace/workspace.dart';
 
 import 'tool_state.dart';
 
 class ToolStateNotifier extends StateNotifier<ToolState> {
-  ToolStateNotifier(super.state, this._canvasStateNotifier);
-
-  final CanvasStateNotifier _canvasStateNotifier;
+  ToolStateNotifier(super.state);
 
   void didTapDown(Offset position) {
     state.currentTool.onDown(position);
@@ -21,7 +18,6 @@ class ToolStateNotifier extends StateNotifier<ToolState> {
 
   void didTapUp({Offset? position}) {
     state.currentTool.onUp(position);
-    _canvasStateNotifier.updateLastCompiledImage();
     state = state.copyWith(isDown: false);
   }
 }

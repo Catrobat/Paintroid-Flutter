@@ -2,31 +2,33 @@ part of 'canvas_state_notifier.dart';
 
 @immutable
 class CanvasState {
-  final Image? lastCompiledImage;
+  final Image? lastRenderedImage;
   final Size size;
 
   static const initial = CanvasState(size: Size.zero);
 
   static final provider =
       StateNotifierProvider<CanvasStateNotifier, CanvasState>(
-    (ref) => CanvasStateNotifier(
-      initial,
-      ref.watch(CommandManager.provider),
-      ref.watch(GraphicFactory.provider),
-    ),
+    (ref) {
+      return CanvasStateNotifier(
+        initial,
+        ref.watch(CommandManager.provider),
+        ref.watch(GraphicFactory.provider),
+      );
+    },
   );
 
   const CanvasState({
-    this.lastCompiledImage,
+    this.lastRenderedImage,
     required this.size,
   });
 
   CanvasState copyWith({
-    Image? lastCompiledImage,
+    Image? lastRenderedImage,
     Size? size,
   }) {
     return CanvasState(
-      lastCompiledImage: lastCompiledImage ?? this.lastCompiledImage,
+      lastRenderedImage: lastRenderedImage ?? this.lastRenderedImage,
       size: size ?? this.size,
     );
   }

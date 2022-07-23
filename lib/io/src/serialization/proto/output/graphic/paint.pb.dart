@@ -9,9 +9,10 @@ export 'paint.pbenum.dart';
 
 class SerializablePaint extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SerializablePaint', createEmptyInstance: create)
-    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'color', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'color', $pb.PbFieldType.OU3)
     ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'strokeWidth', $pb.PbFieldType.OF, protoName: 'strokeWidth')
     ..e<SerializablePaint_StrokeCap>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'cap', $pb.PbFieldType.OE, defaultOrMaker: SerializablePaint_StrokeCap.ROUND, valueOf: SerializablePaint_StrokeCap.valueOf, enumValues: SerializablePaint_StrokeCap.values)
+    ..e<SerializablePaint_PaintingStyle>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'style', $pb.PbFieldType.OE, defaultOrMaker: SerializablePaint_PaintingStyle.FILL, valueOf: SerializablePaint_PaintingStyle.valueOf, enumValues: SerializablePaint_PaintingStyle.values)
     ..hasRequiredFields = false
   ;
 
@@ -20,6 +21,7 @@ class SerializablePaint extends $pb.GeneratedMessage {
     $core.int? color,
     $core.double? strokeWidth,
     SerializablePaint_StrokeCap? cap,
+    SerializablePaint_PaintingStyle? style,
   }) {
     final _result = create();
     if (color != null) {
@@ -30,6 +32,9 @@ class SerializablePaint extends $pb.GeneratedMessage {
     }
     if (cap != null) {
       _result.cap = cap;
+    }
+    if (style != null) {
+      _result.style = style;
     }
     return _result;
   }
@@ -57,7 +62,7 @@ class SerializablePaint extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get color => $_getIZ(0);
   @$pb.TagNumber(1)
-  set color($core.int v) { $_setSignedInt32(0, v); }
+  set color($core.int v) { $_setUnsignedInt32(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasColor() => $_has(0);
   @$pb.TagNumber(1)
@@ -80,5 +85,14 @@ class SerializablePaint extends $pb.GeneratedMessage {
   $core.bool hasCap() => $_has(2);
   @$pb.TagNumber(3)
   void clearCap() => clearField(3);
+
+  @$pb.TagNumber(4)
+  SerializablePaint_PaintingStyle get style => $_getN(3);
+  @$pb.TagNumber(4)
+  set style(SerializablePaint_PaintingStyle v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasStyle() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearStyle() => clearField(4);
 }
 

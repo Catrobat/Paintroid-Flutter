@@ -4,12 +4,11 @@ part of 'workspace_state_notifier.dart';
 class WorkspaceState {
   final bool isFullscreen;
   final Size exportSize;
-  final double aspectRatio;
   final Image? loadedImage;
 
-  static final initial = WorkspaceState(
+  static const initial = WorkspaceState(
     isFullscreen: false,
-    exportSize: const Size(1080, 1920),
+    exportSize: Size(1080, 1920),
   );
 
   static final provider =
@@ -17,11 +16,11 @@ class WorkspaceState {
     (ref) => WorkspaceStateNotifier(initial),
   );
 
-  WorkspaceState({
+  const WorkspaceState({
     required this.isFullscreen,
     this.loadedImage,
     required this.exportSize,
-  }) : aspectRatio = exportSize.width / exportSize.height;
+  });
 
   WorkspaceState copyWith({
     bool? isFullscreen,

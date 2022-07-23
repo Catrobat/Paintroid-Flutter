@@ -15,4 +15,9 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
         loadedImage: image,
         exportSize: Size(image.width.toDouble(), image.height.toDouble()),
       );
+
+  void clearLoadedImage() => state = state.copyWith(
+        loadedImage: null,
+        exportSize: WorkspaceState.initial.exportSize,
+      );
 }

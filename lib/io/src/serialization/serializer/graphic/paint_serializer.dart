@@ -1,28 +1,28 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/io/serialization.dart';
 
-import '../../proto/output/graphic/paint.pb.dart';
-import '../../proto_serializer.dart';
+class PaintSerializer
+    extends ProtoSerializerWithVersioning<Paint, SerializablePaint> {
+  final GraphicFactory _graphicFactory;
 
-class PaintSerializer implements ProtoSerializer<Paint, SerializablePaint> {
-  final GraphicFactory graphicFactory;
+  const PaintSerializer(super.version, this._graphicFactory);
 
-  const PaintSerializer(this.graphicFactory);
-
-  @override
-  Paint deserialize(Uint8List binary) {
-    final serializablePaint = SerializablePaint.fromBuffer(binary);
-    return deserializeFromProto(serializablePaint);
-  }
+  static final provider = Provider.family(
+    (ref, int ver) => PaintSerializer(ver, ref.watch(GraphicFactory.provider)),
+  );
 
   @override
-  Paint deserializeFromProto(SerializablePaint serializable) {
-    final paint = graphicFactory.createPaint()
-      ..color = Color(serializable.color)
-      ..strokeWidth = serializable.strokeWidth;
-    switch (serializable.cap) {
+  final fromBytesToSerializable = SerializablePaint.fromBuffer;
+
+  @override
+  Paint deserializeWithLatestVersion(SerializablePaint data) {
+    final paint = _graphicFactory.createPaint()
+      ..color = Color(data.color)
+      ..strokeWidth = data.strokeWidth;
+    switch (data.cap) {
       case SerializablePaint_StrokeCap.BUTT:
         paint.strokeCap = StrokeCap.butt;
         break;
@@ -33,15 +33,19 @@ class PaintSerializer implements ProtoSerializer<Paint, SerializablePaint> {
         paint.strokeCap = StrokeCap.square;
         break;
     }
+    switch (data.style) {
+      case SerializablePaint_PaintingStyle.FILL:
+        paint.style = PaintingStyle.fill;
+        break;
+      case SerializablePaint_PaintingStyle.STROKE:
+        paint.style = PaintingStyle.stroke;
+        break;
+    }
     return paint;
   }
 
   @override
-  Uint8List serialize(Paint object) =>
-      convertToProtoSerializable(object).writeToBuffer();
-
-  @override
-  SerializablePaint convertToProtoSerializable(Paint object) {
+  SerializablePaint serializeWithLatestVersion(Paint object) {
     final serializable = SerializablePaint()
       ..color = object.color.value
       ..strokeWidth = object.strokeWidth;
@@ -54,6 +58,14 @@ class PaintSerializer implements ProtoSerializer<Paint, SerializablePaint> {
         break;
       case StrokeCap.square:
         serializable.cap = SerializablePaint_StrokeCap.SQUARE;
+        break;
+    }
+    switch(object.style) {
+      case PaintingStyle.fill:
+        serializable.style = SerializablePaint_PaintingStyle.FILL;
+        break;
+      case PaintingStyle.stroke:
+        serializable.style = SerializablePaint_PaintingStyle.STROKE;
         break;
     }
     return serializable;

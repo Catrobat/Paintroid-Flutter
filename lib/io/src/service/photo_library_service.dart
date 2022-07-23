@@ -39,15 +39,15 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
           return const Right(unit);
         } on PlatformException catch (err, stacktrace) {
           if (err.code == "PERMISSION_DENIED") {
-            log.warning("User explicitly denied permission to save images", err,
+            logger.warning("User explicitly denied permission to save images", err,
                 stacktrace);
             return const Left(SaveImageFailure.permissionDenied);
           } else {
-            log.severe("Could not save photo to library", err, stacktrace);
+            logger.severe("Could not save photo to library", err, stacktrace);
             return const Left(SaveImageFailure.unidentified);
           }
         } catch (err, stacktrace) {
-          log.severe("Could not save photo to library", err, stacktrace);
+          logger.severe("Could not save photo to library", err, stacktrace);
           return const Left(SaveImageFailure.unidentified);
         }
       });
@@ -62,15 +62,15 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
         } on PlatformException catch (err, stacktrace) {
           // This error code is from ImagePicker
           if (err.code == "photo_access_denied") {
-            log.warning("User explicitly denied permission to load images", err,
+            logger.warning("User explicitly denied permission to load images", err,
                 stacktrace);
             return const Left(LoadImageFailure.permissionDenied);
           } else {
-            log.severe("Could not load photo from library", err, stacktrace);
+            logger.severe("Could not load photo from library", err, stacktrace);
             return const Left(LoadImageFailure.unidentified);
           }
         } catch (err, stacktrace) {
-          log.severe("Could not load photo from library", err, stacktrace);
+          logger.severe("Could not load photo from library", err, stacktrace);
           return const Left(LoadImageFailure.unidentified);
         }
       });

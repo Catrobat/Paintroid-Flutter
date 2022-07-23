@@ -25,13 +25,14 @@ class PocketPaint extends ConsumerWidget {
       WorkspaceState.provider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
+    final canvasWidth =
+        ref.watch(CanvasState.provider.select((value) => value.size.width));
+    final scale = canvasWidth / (MediaQuery.of(context).size.width + 24);
     return WillPopScope(
       onWillPop: () async {
         final willPop = !isFullscreen;
         if (isFullscreen) {
-          ref
-              .read(WorkspaceState.provider.notifier)
-              .toggleFullscreen(false);
+          ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         }
         return willPop;
       },
@@ -41,7 +42,12 @@ class PocketPaint extends ConsumerWidget {
         body: SafeArea(
           child: Stack(
             children: [
-              const Center(child: Workspace()),
+              Center(
+                child: Transform.scale(
+                  scale: scale,
+                  child: const DrawingCanvas(),
+                ),
+              ),
               if (isFullscreen)
                 const Positioned(
                   top: 2,

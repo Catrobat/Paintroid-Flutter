@@ -7,16 +7,16 @@ import 'package:paintroid/core/failure.dart';
 import '../service/image_service.dart';
 import '../service/photo_library_service.dart';
 
-class LoadImage {
+class LoadImageFromPhotoLibrary {
   final IImageService imageService;
   final IPhotoLibraryService photoLibraryService;
 
-  const LoadImage(this.imageService, this.photoLibraryService);
+  const LoadImageFromPhotoLibrary(this.imageService, this.photoLibraryService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final photoLibraryService = ref.watch(IPhotoLibraryService.provider);
-    return LoadImage(imageService, photoLibraryService);
+    return LoadImageFromPhotoLibrary(imageService, photoLibraryService);
   });
 
   TaskEither<Failure, Image> prepareTask() => photoLibraryService

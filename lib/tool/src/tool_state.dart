@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/workspace/workspace.dart';
 
 import 'brush_tool.dart';
 import 'tool.dart';
@@ -17,7 +16,6 @@ class ToolState {
         currentTool: ref.watch(BrushTool.provider),
         isDown: false,
       ),
-      ref.watch(CanvasState.provider.notifier),
     ),
   );
 

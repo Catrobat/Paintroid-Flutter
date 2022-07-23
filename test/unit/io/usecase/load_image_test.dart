@@ -21,14 +21,14 @@ void main() {
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
   late MockIPhotoLibraryService mockPhotoLibraryService;
-  late LoadImage sut;
+  late LoadImageFromPhotoLibrary sut;
 
   setUp(() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
     mockPhotoLibraryService = MockIPhotoLibraryService();
-    sut = LoadImage(mockImageService, mockPhotoLibraryService);
+    sut = LoadImageFromPhotoLibrary(mockImageService, mockPhotoLibraryService);
   });
 
   test('Should provide LoadImage with correct dependencies', () {
@@ -36,7 +36,7 @@ void main() {
       IImageService.provider.overrideWithValue(mockImageService),
       IPhotoLibraryService.provider.overrideWithValue(mockPhotoLibraryService),
     ]);
-    final loadImage = container.read(LoadImage.provider);
+    final loadImage = container.read(LoadImageFromPhotoLibrary.provider);
     expect(loadImage.imageService, mockImageService);
     expect(loadImage.photoLibraryService, mockPhotoLibraryService);
     verifyZeroInteractions(mockImageService);

@@ -8,6 +8,6 @@ class TopAppBar extends AppBar {
           key: key,
           title: Text(title),
           centerTitle: false,
-          actions: const [OverflowMenu()],
+          actions: [const OverflowMenu()],
         );
 }
