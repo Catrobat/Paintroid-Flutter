@@ -24,12 +24,12 @@ class CanvasState {
   });
 
   CanvasState copyWith({
-    Nullable<Image>? lastRenderedImage,
+    Option<Image>? lastRenderedImage,
     Size? size,
   }) {
     return CanvasState(
       lastRenderedImage: lastRenderedImage != null
-          ? lastRenderedImage.value
+          ? lastRenderedImage.toNullable()
           : this.lastRenderedImage,
       size: size ?? this.size,
     );

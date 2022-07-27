@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show StateNotifier, StateNotifierProvider;
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
-import 'package:paintroid/core/nullable.dart';
 
 part 'canvas_state.dart';
 
@@ -30,12 +30,12 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
     final picture = recorder.endRecording();
     final image = await picture.toImage(
         state.size.width.toInt(), state.size.height.toInt());
-    state = state.copyWith(lastRenderedImage: Nullable(image));
+    state = state.copyWith(lastRenderedImage: Option.some(image));
   }
 
   void clearCanvas() {
     _commandManager.resetHistory();
-    state = state.copyWith(lastRenderedImage: const Nullable(null));
+    state = state.copyWith(lastRenderedImage: Option.none());
   }
 
   void renderAndReplaceImageWithCommands(Iterable<Command> commands) async {
@@ -47,6 +47,6 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
     final picture = recorder.endRecording();
     final image = await picture.toImage(
         state.size.width.toInt(), state.size.height.toInt());
-    state = state.copyWith(lastRenderedImage: Nullable(image));
+    state = state.copyWith(lastRenderedImage: Option.some(image));
   }
 }

@@ -1,3 +1,0 @@
-///
-export 'paint.pb.dart';
-

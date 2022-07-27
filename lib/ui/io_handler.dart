@@ -28,12 +28,12 @@ class IOHandler {
   Future<void> _loadFromPhotos() async {
     final loadImage = ref.read(LoadImageFromPhotoLibrary.provider);
     final result = await loadImage();
-    result.match(
-      (img) async {
+    result.when(
+      ok: (img) async {
         ref.read(CanvasState.provider.notifier).clearCanvas();
         ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
       },
-      (failure) {
+      err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
           showToast(failure.message);
         }
@@ -44,8 +44,8 @@ class IOHandler {
   Future<void> _loadFromFiles() async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
     final result = await loadImage();
-    result.match(
-      (imageFromFile) async {
+    result.when(
+      ok: (imageFromFile) async {
         ref.read(CanvasState.provider.notifier).clearCanvas();
         final workspaceNotifier = ref.read(WorkspaceState.provider.notifier);
         imageFromFile.rasterImage == null
@@ -58,7 +58,7 @@ class IOHandler {
               .renderAndReplaceImageWithCommands(commands);
         }
       },
-      (failure) {
+      err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
           showToast(failure.message);
         }
@@ -78,9 +78,9 @@ class IOHandler {
     final image = await ref
         .read(RenderImageForExport.provider)
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
-    await ref.read(SaveAsRasterImage.provider).call(imageData, image).match(
-          (_) => showToast("Saved to Photos"),
-          (failure) => showToast(failure.message),
+    await ref.read(SaveAsRasterImage.provider).call(imageData, image).when(
+          ok: (_) => showToast("Saved to Photos"),
+          err: (failure) => showToast(failure.message),
         );
   }
 
@@ -91,9 +91,9 @@ class IOHandler {
     Uint8List? bytes;
     if (backgroundImage != null) {
       final result = await imageService.export(backgroundImage);
-      bytes = result.match(
-        (imageBytes) => imageBytes,
-        (failure) {
+      bytes = result.when(
+        ok: (imageBytes) => imageBytes,
+        err: (failure) {
           showToast(failure.message);
           return null;
         },
@@ -103,9 +103,9 @@ class IOHandler {
     final catrobatImage = CatrobatImage(commands, bytes);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
     final result = await saveAsCatrobatImage(imageData, catrobatImage);
-    result.match(
-      (file) => showToast("Saved successfully"),
-      (failure) => showToast(failure.message),
+    result.when(
+      ok: (file) => showToast("Saved successfully"),
+      err: (failure) => showToast(failure.message),
     );
   }
 }

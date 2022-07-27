@@ -30,14 +30,14 @@ class WorkspaceState {
   WorkspaceState copyWith({
     bool? isFullscreen,
     Size? exportSize,
-    Nullable<Image>? backgroundImage,
+    Option<Image>? backgroundImage,
     int? updatedLastSavedCommandCount,
   }) {
     return WorkspaceState(
       isFullscreen: isFullscreen ?? this.isFullscreen,
       exportSize: exportSize ?? this.exportSize,
       backgroundImage: backgroundImage != null
-          ? backgroundImage.value
+          ? backgroundImage.toNullable()
           : this.backgroundImage,
       commandCountWhenLastSaved:
           updatedLastSavedCommandCount ?? _commandCountWhenLastSaved,
