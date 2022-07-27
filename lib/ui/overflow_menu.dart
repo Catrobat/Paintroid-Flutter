@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/io/src/entity/image_location.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -73,19 +72,18 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
   }
 
+  /// Returns [true] if user didn't tap outside of any dialogs
+  /// or if there is no unsaved work
   Future<bool> _handleUnsavedChanges() async {
-    final hasSavedLastWork =
-        ref.read(WorkspaceState.provider.notifier).hasSavedLastWork;
-    if (!hasSavedLastWork) {
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    if (!workspaceStateNotifier.hasSavedLastWork) {
       final shouldDiscard = await showDiscardChangesDialog(context);
       if (shouldDiscard == null || !mounted) return false;
       if (!shouldDiscard) {
         final imageData = await showSaveImageDialog(context);
         if (imageData == null) return false;
         await ioHandler.saveImage(imageData);
-        ref
-            .read(WorkspaceState.provider.notifier)
-            .updateLastSavedCommandCount();
+        workspaceStateNotifier.updateLastSavedCommandCount();
       }
     }
     return true;

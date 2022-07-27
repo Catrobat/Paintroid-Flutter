@@ -278,13 +278,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fpdart:
-    dependency: "direct main"
-    description:
-      name: fpdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -453,6 +446,13 @@ packages:
     dependency: "direct dev"
     description:
       name: mockito
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.2.0"
+  oxidized:
+    dependency: "direct main"
+    description:
+      name: oxidized
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"

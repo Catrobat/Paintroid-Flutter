@@ -3,10 +3,11 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:oxidized/oxidized.dart';
+import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 
 import 'photo_library_service_test.mocks.dart';
@@ -35,7 +36,8 @@ void main() {
     final container = ProviderContainer();
     final photoLibraryService = container.read(IPhotoLibraryService.provider);
     expect(photoLibraryService, isA<PhotoLibraryService>());
-    expect((photoLibraryService as PhotoLibraryService).photoLibraryChannel.name,
+    expect(
+        (photoLibraryService as PhotoLibraryService).photoLibraryChannel.name,
         "org.catrobat.paintroid/photo_library");
   });
 
@@ -49,9 +51,8 @@ void main() {
           "fileName": testFilename,
           "data": testImageData,
         };
-        final result =
-            await sut.save(testFilename, testImageData).run();
-        expect(result, const Right(unit));
+        final result = await sut.save(testFilename, testImageData);
+        expect(result, Ok<Unit, Failure>(unit));
         verify(mockMethodChannel.invokeMethod("saveToPhotos", expectedArgs));
         verifyNoMoreInteractions(mockMethodChannel);
         verifyZeroInteractions(mockImagePicker);
@@ -63,9 +64,8 @@ void main() {
         () async {
       when(mockMethodChannel.invokeMethod(any, any))
           .thenThrow(PlatformException(code: "PERMISSION_DENIED"));
-      final result =
-          await sut.save(testFilename, testImageData).run();
-      expect(result, const Left(SaveImageFailure.permissionDenied));
+      final result = await sut.save(testFilename, testImageData);
+      expect(result, Err<Unit, Failure>(SaveImageFailure.permissionDenied));
       verify(mockMethodChannel.invokeMethod(any, any));
       verifyNoMoreInteractions(mockMethodChannel);
       verifyZeroInteractions(mockImagePicker);
@@ -75,9 +75,8 @@ void main() {
       'Should return unidentified failure when any unhandled Exception is thrown',
       () async {
         when(mockMethodChannel.invokeMethod(any, any)).thenThrow(testException);
-        final result =
-            await sut.save(testFilename, testImageData).run();
-        expect(result, const Left(SaveImageFailure.unidentified));
+        final result = await sut.save(testFilename, testImageData);
+        expect(result, Err<Unit, Failure>(SaveImageFailure.unidentified));
         verify(mockMethodChannel.invokeMethod(any, any));
         verifyNoMoreInteractions(mockMethodChannel);
         verifyZeroInteractions(mockImagePicker);
@@ -89,9 +88,8 @@ void main() {
       () async {
         when(mockMethodChannel.invokeMethod(any, any))
             .thenThrow(testPlatformException);
-        final result =
-            await sut.save(testFilename, testImageData).run();
-        expect(result, const Left(SaveImageFailure.unidentified));
+        final result = await sut.save(testFilename, testImageData);
+        expect(result, Err<Unit, Failure>(SaveImageFailure.unidentified));
         verify(mockMethodChannel.invokeMethod(any, any));
         verifyNoMoreInteractions(mockMethodChannel);
         verifyZeroInteractions(mockImagePicker);
@@ -108,8 +106,8 @@ void main() {
             .thenAnswer((_) async => mockImageXFile);
         when(mockImageXFile.readAsBytes())
             .thenAnswer((_) async => testImageData);
-        final result = await sut.pick().run();
-        expect(result, Right(testImageData));
+        final result = await sut.pick();
+        expect(result, Ok<Uint8List, Failure>(testImageData));
         verify(mockImagePicker.pickImage(source: ImageSource.gallery));
         verify(mockImageXFile.readAsBytes());
         verifyNoMoreInteractions(mockImageXFile);
@@ -123,8 +121,8 @@ void main() {
         () async {
       when(mockImagePicker.pickImage(source: anyNamed("source")))
           .thenThrow(PlatformException(code: "photo_access_denied"));
-      final result = await sut.pick().run();
-      expect(result, const Left(LoadImageFailure.permissionDenied));
+      final result = await sut.pick();
+      expect(result, Err<Uint8List, Failure>(LoadImageFailure.permissionDenied));
       verify(mockImagePicker.pickImage(source: anyNamed("source")));
       verifyNoMoreInteractions(mockImagePicker);
       verifyZeroInteractions(mockMethodChannel);
@@ -135,8 +133,8 @@ void main() {
         () async {
       when(mockImagePicker.pickImage(source: anyNamed("source")))
           .thenAnswer((_) async => null);
-      final result = await sut.pick().run();
-      expect(result, const Left(LoadImageFailure.userCancelled));
+      final result = await sut.pick();
+      expect(result, Err<Uint8List, Failure>(LoadImageFailure.userCancelled));
       verify(mockImagePicker.pickImage(source: anyNamed("source")));
       verifyNoMoreInteractions(mockImagePicker);
       verifyZeroInteractions(mockMethodChannel);
@@ -148,8 +146,8 @@ void main() {
       test('From ImagePicker', () async {
         when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenThrow(testException);
-        final result = await sut.pick().run();
-        expect(result, const Left(LoadImageFailure.unidentified));
+        final result = await sut.pick();
+        expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
         verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verifyNoMoreInteractions(mockImagePicker);
         verifyZeroInteractions(mockMethodChannel);
@@ -160,8 +158,8 @@ void main() {
         when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenAnswer((_) async => mockImageXFile);
         when(mockImageXFile.readAsBytes()).thenThrow(testException);
-        final result = await sut.pick().run();
-        expect(result, const Left(LoadImageFailure.unidentified));
+        final result = await sut.pick();
+        expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
         verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verify(mockImageXFile.readAsBytes());
         verifyNoMoreInteractions(mockImageXFile);
@@ -175,8 +173,8 @@ void main() {
       () async {
         when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenThrow(testPlatformException);
-        final result = await sut.pick().run();
-        expect(result, const Left(LoadImageFailure.unidentified));
+        final result = await sut.pick();
+        expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
         verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verifyNoMoreInteractions(mockImagePicker);
         verifyZeroInteractions(mockMethodChannel);

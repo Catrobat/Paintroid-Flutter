@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 
 import '../service/image_service.dart';
@@ -19,7 +19,7 @@ class LoadImageFromPhotoLibrary {
     return LoadImageFromPhotoLibrary(imageService, photoLibraryService);
   });
 
-  TaskEither<Failure, Image> prepareTask() => photoLibraryService
+  Future<Result<Image, Failure>> call() => photoLibraryService
       .pick()
-      .flatMap((imageBytes) => imageService.import(imageBytes));
+      .andThenAsync((imageBytes) => imageService.import(imageBytes));
 }

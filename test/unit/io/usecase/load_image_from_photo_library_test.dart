@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 
@@ -44,11 +44,10 @@ void main() {
   });
 
   test('Should successfully load image from photo library', () async {
-    when(mockPhotoLibraryService.pick())
-        .thenReturn(TaskEither.right(fakeBytes));
-    when(mockImageService.import(any)).thenReturn(TaskEither.right(fakeImage));
-    final result = await sut.prepareTask().run();
-    expect(result, Right(fakeImage));
+    when(mockPhotoLibraryService.pick()).thenAnswer((_) async => Ok(fakeBytes));
+    when(mockImageService.import(any)).thenAnswer((_) async => Ok(fakeImage));
+    final result = await sut();
+    expect(result, Ok<Image, Failure>(fakeImage));
     verify(mockPhotoLibraryService.pick());
     verify(mockImageService.import(fakeBytes));
     verifyNoMoreInteractions(mockPhotoLibraryService);
@@ -66,9 +65,9 @@ void main() {
 
       test('On failure from file service', () async {
         when(mockPhotoLibraryService.pick())
-            .thenReturn(TaskEither.left(fakeFailure));
-        final result = await sut.prepareTask().run();
-        expect(result, Left(fakeFailure));
+            .thenAnswer((_) async => Err(fakeFailure));
+        final result = await sut();
+        expect(result, Err<Image, Failure>(fakeFailure));
         verify(mockPhotoLibraryService.pick());
         verifyNoMoreInteractions(mockPhotoLibraryService);
         verifyZeroInteractions(mockImageService);
@@ -76,11 +75,11 @@ void main() {
 
       test('On failure from image service', () async {
         when(mockPhotoLibraryService.pick())
-            .thenReturn(TaskEither.right(fakeBytes));
+            .thenAnswer((_) async => Ok(fakeBytes));
         when(mockImageService.import(any))
-            .thenReturn(TaskEither.left(fakeFailure));
-        final result = await sut.prepareTask().run();
-        expect(result, Left(fakeFailure));
+            .thenAnswer((_) async => Err(fakeFailure));
+        final result = await sut();
+        expect(result, Err<Image, Failure>(fakeFailure));
         verify(mockPhotoLibraryService.pick());
         verify(mockImageService.import(any));
         verifyNoMoreInteractions(mockPhotoLibraryService);

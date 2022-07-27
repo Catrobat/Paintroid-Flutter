@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 
@@ -53,13 +53,12 @@ void main() {
       test('When format is png', () async {
         final expectedFilename = "$testName.png";
         when(mockImageService.exportAsPng(any))
-            .thenReturn(TaskEither.right(fakeBytes));
+            .thenAnswer((_) async => Ok(fakeBytes));
         when(mockPhotoLibraryService.save(any, any))
-            .thenReturn(TaskEither.right(unit));
+            .thenAnswer((_) async => Ok(unit));
         final testMetaData = PngMetaData(testName);
-        final result =
-            await sut.prepareTaskForPng(testMetaData, fakeImage).run();
-        expect(result, const Right(unit));
+        final result = await sut(testMetaData, fakeImage);
+        expect(result, Ok<Unit, Failure>(unit));
         verify(mockImageService.exportAsPng(fakeImage));
         verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
         verifyNoMoreInteractions(mockImageService);
@@ -69,13 +68,12 @@ void main() {
       test('When format is jpg', () async {
         final expectedFilename = "$testName.jpg";
         when(mockImageService.exportAsJpg(any, any))
-            .thenReturn(TaskEither.right(fakeBytes));
+            .thenAnswer((_) async => Ok(fakeBytes));
         when(mockPhotoLibraryService.save(any, any))
-            .thenReturn(TaskEither.right(unit));
+            .thenAnswer((_) async => Ok(unit));
         final testMetaData = JpgMetaData(testName, testQuality);
-        final result =
-            await sut.prepareTaskForJpg(testMetaData, fakeImage).run();
-        expect(result, const Right(unit));
+        final result = await sut(testMetaData, fakeImage);
+        expect(result, Ok<Unit, Failure>(unit));
         verify(mockImageService.exportAsJpg(fakeImage, testQuality));
         verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
         verifyNoMoreInteractions(mockImageService);
@@ -96,13 +94,12 @@ void main() {
       group('On failure from file service', () {
         test('When format is jpg', () async {
           when(mockImageService.exportAsJpg(any, any))
-              .thenReturn(TaskEither.right(fakeBytes));
+              .thenAnswer((_) async => Ok(fakeBytes));
           when(mockPhotoLibraryService.save(any, any))
-              .thenReturn(TaskEither.left(fakeFailure));
+              .thenAnswer((_) async => Err(fakeFailure));
           final testMetaData = JpgMetaData(testName, testQuality);
-          final result =
-              await sut.prepareTaskForJpg(testMetaData, fakeImage).run();
-          expect(result, Left(fakeFailure));
+          final result = await sut(testMetaData, fakeImage);
+          expect(result, Err<Unit, Failure>(fakeFailure));
           verify(mockImageService.exportAsJpg(any, any));
           verify(mockPhotoLibraryService.save(any, any));
           verifyNoMoreInteractions(mockImageService);
@@ -111,13 +108,12 @@ void main() {
 
         test('When format is png', () async {
           when(mockImageService.exportAsPng(any))
-              .thenReturn(TaskEither.right(fakeBytes));
+              .thenAnswer((_) async => Ok(fakeBytes));
           when(mockPhotoLibraryService.save(any, any))
-              .thenReturn(TaskEither.left(fakeFailure));
+              .thenAnswer((_) async => Err(fakeFailure));
           final testMetaData = PngMetaData(testName);
-          final result =
-              await sut.prepareTaskForPng(testMetaData, fakeImage).run();
-          expect(result, Left(fakeFailure));
+          final result = await sut(testMetaData, fakeImage);
+          expect(result, Err<Unit, Failure>(fakeFailure));
           verify(mockImageService.exportAsPng(any));
           verify(mockPhotoLibraryService.save(any, any));
           verifyNoMoreInteractions(mockImageService);
@@ -128,11 +124,10 @@ void main() {
       group('On failure from image service', () {
         test('When format is jpg', () async {
           when(mockImageService.exportAsJpg(any, any))
-              .thenReturn(TaskEither.left(fakeFailure));
+              .thenAnswer((_) async => Err(fakeFailure));
           final testMetaData = JpgMetaData(testName, testQuality);
-          final result =
-              await sut.prepareTaskForJpg(testMetaData, fakeImage).run();
-          expect(result, Left(fakeFailure));
+          final result = await sut(testMetaData, fakeImage);
+          expect(result, Err<Unit, Failure>(fakeFailure));
           verify(mockImageService.exportAsJpg(any, any));
           verifyNoMoreInteractions(mockImageService);
           verifyZeroInteractions(mockPhotoLibraryService);
@@ -140,11 +135,10 @@ void main() {
 
         test('When format is png', () async {
           when(mockImageService.exportAsPng(any))
-              .thenReturn(TaskEither.left(fakeFailure));
+              .thenAnswer((_) async => Err(fakeFailure));
           final testMetaData = PngMetaData(testName);
-          final result =
-              await sut.prepareTaskForPng(testMetaData, fakeImage).run();
-          expect(result, Left(fakeFailure));
+          final result = await sut(testMetaData, fakeImage);
+          expect(result, Err<Unit, Failure>(fakeFailure));
           verify(mockImageService.exportAsPng(any));
           verifyNoMoreInteractions(mockImageService);
           verifyZeroInteractions(mockPhotoLibraryService);

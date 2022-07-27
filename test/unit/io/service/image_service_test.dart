@@ -21,15 +21,15 @@ void main() async {
 
   group('import method', () {
     test('Should return jpg image with valid dimensions', () async {
-      final result = await sut.import(testJpgFile.buffer.asUint8List()).run();
-      final img = result.getOrElse((failure) => fail(failure.message));
+      final result = await sut.import(testJpgFile.buffer.asUint8List());
+      final img = result.unwrapOrElse((failure) => fail(failure.message));
       expect(img.width, equals(50));
       expect(img.height, equals(50));
     });
 
     test('Should return jpg image with valid dimensions', () async {
-      final result = await sut.import(testPngFile.buffer.asUint8List()).run();
-      final img = result.getOrElse((failure) => fail(failure.message));
+      final result = await sut.import(testPngFile.buffer.asUint8List());
+      final img = result.unwrapOrElse((failure) => fail(failure.message));
       expect(img.width, equals(50));
       expect(img.height, equals(50));
     });

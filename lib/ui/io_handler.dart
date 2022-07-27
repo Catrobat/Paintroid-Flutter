@@ -2,12 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:fpdart/fpdart.dart' show TaskEither, Unit;
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/command.dart' show CommandManager;
-import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/io/src/entity/image_location.dart';
-import 'package:paintroid/io/src/usecase/load_image_from_file_manager.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class IOHandler {
@@ -30,29 +27,24 @@ class IOHandler {
 
   Future<void> _loadFromPhotos() async {
     final loadImage = ref.read(LoadImageFromPhotoLibrary.provider);
-    final result = await loadImage.prepareTask().run();
-    result.fold(
+    final result = await loadImage();
+    result.match(
+      (img) async {
+        ref.read(CanvasState.provider.notifier).clearCanvas();
+        ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
+      },
       (failure) {
         if (failure != LoadImageFailure.userCancelled) {
           showToast(failure.message);
         }
-      },
-      (img) async {
-        ref.read(CanvasState.provider.notifier).clearCanvas();
-        ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
       },
     );
   }
 
   Future<void> _loadFromFiles() async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
-    final result = await loadImage.prepareTask().run();
-    result.fold(
-      (failure) {
-        if (failure != LoadImageFailure.userCancelled) {
-          showToast(failure.message);
-        }
-      },
+    final result = await loadImage();
+    result.match(
       (imageFromFile) async {
         ref.read(CanvasState.provider.notifier).clearCanvas();
         final workspaceNotifier = ref.read(WorkspaceState.provider.notifier);
@@ -64,6 +56,11 @@ class IOHandler {
           ref
               .read(CanvasState.provider.notifier)
               .renderAndReplaceImageWithCommands(commands);
+        }
+      },
+      (failure) {
+        if (failure != LoadImageFailure.userCancelled) {
+          showToast(failure.message);
         }
       },
     );
@@ -81,17 +78,10 @@ class IOHandler {
     final image = await ref
         .read(RenderImageForExport.provider)
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
-    final saveAsRasterImage = ref.read(SaveAsRasterImage.provider);
-    late final TaskEither<Failure, Unit> task;
-    if (imageData is JpgMetaData) {
-      task = saveAsRasterImage.prepareTaskForJpg(imageData, image);
-    } else if (imageData is PngMetaData) {
-      task = saveAsRasterImage.prepareTaskForPng(imageData, image);
-    }
-    (await task.run()).fold(
-      (failure) => showToast(failure.message),
-      (_) => showToast("Saved to Photos"),
-    );
+    await ref.read(SaveAsRasterImage.provider).call(imageData, image).match(
+          (_) => showToast("Saved to Photos"),
+          (failure) => showToast(failure.message),
+        );
   }
 
   Future<void> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
@@ -100,23 +90,22 @@ class IOHandler {
     final imageService = ref.read(IImageService.provider);
     Uint8List? bytes;
     if (backgroundImage != null) {
-      final result = await imageService.export(backgroundImage).run();
-      bytes = result.fold(
+      final result = await imageService.export(backgroundImage);
+      bytes = result.match(
+        (imageBytes) => imageBytes,
         (failure) {
           showToast(failure.message);
           return null;
         },
-        (imageBytes) => imageBytes,
       );
       if (bytes == null) return;
     }
     final catrobatImage = CatrobatImage(commands, bytes);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
-    final result =
-        await saveAsCatrobatImage.prepareTask(imageData, catrobatImage).run();
-    result.fold(
-      (failure) => showToast(failure.message),
+    final result = await saveAsCatrobatImage(imageData, catrobatImage);
+    result.match(
       (file) => showToast("Saved successfully"),
+      (failure) => showToast(failure.message),
     );
   }
 }

@@ -19,7 +19,7 @@ dependencies:
   path_provider: ^2.0.11
   flutter_riverpod: ^1.0.4
   image_picker: ^0.8.5+3
-  fpdart: ^0.1.0
+  oxidized: ^5.2.0
   logging: ^1.0.2
   file_picker: ^4.6.1
   flutter_styled_toast: ^2.1.3

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
-import 'package:fpdart/fpdart.dart' show TaskEither, Unit;
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 
@@ -17,15 +17,12 @@ class SaveAsRasterImage {
     return SaveAsRasterImage(imageService, photoLibraryService);
   });
 
-  TaskEither<Failure, Unit> prepareTaskForJpg(JpgMetaData data, Image image) {
+  Future<Result<Unit, Failure>> call(ImageMetaData data, Image image) {
     final nameWithExt = "${data.name}.${data.format.extension}";
-    return imageService.exportAsJpg(image, data.quality).flatMap(
-        (imageBytes) => photoLibraryService.save(nameWithExt, imageBytes));
-  }
-
-  TaskEither<Failure, Unit> prepareTaskForPng(PngMetaData data, Image image) {
-    final nameWithExt = "${data.name}.${data.format.extension}";
-    return imageService.exportAsPng(image).flatMap(
-        (imageBytes) => photoLibraryService.save(nameWithExt, imageBytes));
+    return (data is JpgMetaData
+            ? imageService.exportAsJpg(image, data.quality)
+            : imageService.exportAsPng(image))
+        .andThenAsync(
+            (imageBytes) => photoLibraryService.save(nameWithExt, imageBytes));
   }
 }
