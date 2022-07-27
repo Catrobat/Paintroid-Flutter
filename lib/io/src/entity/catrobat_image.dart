@@ -8,11 +8,11 @@ class CatrobatImage {
 
   final int version;
   final Iterable<Command> commands;
-  final Uint8List? loadedImage;
+  final Uint8List? backgroundImageData;
 
   const CatrobatImage(
     this.commands,
-    this.loadedImage, {
+    this.backgroundImageData, {
     this.version = latestVersion,
   });
 }

@@ -10,7 +10,7 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'magicValue', protoName: 'magicValue')
     ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'version', $pb.PbFieldType.O3)
     ..pc<$2.Any>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'commands', $pb.PbFieldType.PM, subBuilder: $2.Any.create)
-    ..a<$core.List<$core.int>>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'loadedImage', $pb.PbFieldType.OY, protoName: 'loadedImage')
+    ..a<$core.List<$core.int>>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backgroundImage', $pb.PbFieldType.OY, protoName: 'backgroundImage')
     ..hasRequiredFields = false
   ;
 
@@ -19,7 +19,7 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
     $core.String? magicValue,
     $core.int? version,
     $core.Iterable<$2.Any>? commands,
-    $core.List<$core.int>? loadedImage,
+    $core.List<$core.int>? backgroundImage,
   }) {
     final _result = create();
     if (magicValue != null) {
@@ -31,8 +31,8 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
     if (commands != null) {
       _result.commands.addAll(commands);
     }
-    if (loadedImage != null) {
-      _result.loadedImage = loadedImage;
+    if (backgroundImage != null) {
+      _result.backgroundImage = backgroundImage;
     }
     return _result;
   }
@@ -79,12 +79,12 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
   $core.List<$2.Any> get commands => $_getList(2);
 
   @$pb.TagNumber(4)
-  $core.List<$core.int> get loadedImage => $_getN(3);
+  $core.List<$core.int> get backgroundImage => $_getN(3);
   @$pb.TagNumber(4)
-  set loadedImage($core.List<$core.int> v) { $_setBytes(3, v); }
+  set backgroundImage($core.List<$core.int> v) { $_setBytes(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasLoadedImage() => $_has(3);
+  $core.bool hasBackgroundImage() => $_has(3);
   @$pb.TagNumber(4)
-  void clearLoadedImage() => clearField(4);
+  void clearBackgroundImage() => clearField(4);
 }
 

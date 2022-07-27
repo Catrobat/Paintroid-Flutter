@@ -16,9 +16,11 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas>
     with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
+  late final toolStateNotifier = ref.read(ToolState.provider.notifier);
+  late final canvasStateNotifier = ref.read(CanvasState.provider.notifier);
+  late final canvasDirtyNotifier = ref.read(CanvasDirtyState.provider.notifier);
+
+  void _updateCanvasSize() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final renderBox = context.findRenderObject() as RenderBox;
       ref.read(CanvasState.provider.notifier).updateCanvasSize(renderBox.size);
@@ -26,21 +28,22 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas>
   }
 
   @override
+  void initState() {
+    super.initState();
+    _updateCanvasSize();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final toolStateNotifier = ref.watch(ToolState.provider.notifier);
-    final canvasStateNotifier = ref.watch(CanvasState.provider.notifier);
-    final canvasDirtyNotifier =
-        ref.watch(CanvasDirtyState.provider.notifier);
-    ref.listen(WorkspaceState.provider, (previous, next) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final renderBox = context.findRenderObject() as RenderBox;
-        ref.read(CanvasState.provider.notifier).updateCanvasSize(renderBox.size);
-      });
+    ref.listen<WorkspaceState>(WorkspaceState.provider, (previous, next) {
+      if (previous?.exportSize != next.exportSize) {
+        _updateCanvasSize();
+      }
     });
     return AspectRatio(
-      aspectRatio: ref.watch(
-        WorkspaceState.provider.select((value) => value.exportSize.aspectRatio),
-      ),
+      aspectRatio: ref
+          .watch(WorkspaceState.provider.select((state) => state.exportSize))
+          .aspectRatio,
       child: DecoratedBox(
         decoration: const BoxDecoration(
           border: Border.fromBorderSide(BorderSide(width: 0.5)),

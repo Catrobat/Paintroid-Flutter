@@ -8,7 +8,6 @@ import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/entity/image_location.dart';
 import 'package:paintroid/io/src/usecase/load_image_from_file_manager.dart';
-import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class IOHandler {
@@ -39,10 +38,8 @@ class IOHandler {
         }
       },
       (img) async {
-        ref.read(CanvasState.provider.notifier).clearLastRenderedImage();
-        ref.read(CommandManager.provider).resetHistory();
-        ref.read(WorkspaceState.provider.notifier).loadImage(img);
-
+        ref.read(CanvasState.provider.notifier).clearCanvas();
+        ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
       },
     );
   }
@@ -56,16 +53,18 @@ class IOHandler {
           showToast(failure.message);
         }
       },
-      (img) async {
-        ref.read(CanvasState.provider.notifier).clearLastRenderedImage();
+      (imageFromFile) async {
+        ref.read(CanvasState.provider.notifier).clearCanvas();
         final workspaceNotifier = ref.read(WorkspaceState.provider.notifier);
-        img == null
-            ? workspaceNotifier.clearLoadedImage()
-            : workspaceNotifier.loadImage(img);
-        ref
-            .read(CanvasState.provider.notifier)
-            .renderAndReplaceImageWithAllCommands();
-        ref.read(CanvasDirtyState.provider.notifier).repaint();
+        imageFromFile.rasterImage == null
+            ? workspaceNotifier.clearBackgroundImageAndResetDimensions()
+            : workspaceNotifier.setBackgroundImage(imageFromFile.rasterImage!);
+        if (imageFromFile.catrobatImage != null) {
+          final commands = imageFromFile.catrobatImage!.commands;
+          ref
+              .read(CanvasState.provider.notifier)
+              .renderAndReplaceImageWithCommands(commands);
+        }
       },
     );
   }
@@ -79,9 +78,9 @@ class IOHandler {
   }
 
   Future<void> _saveAsRasterImage(ImageMetaData imageData) async {
-    final image = await ref.read(RenderImageForExport.provider).call(
-      keepTransparency: imageData.format != ImageFormat.jpg
-    );
+    final image = await ref
+        .read(RenderImageForExport.provider)
+        .call(keepTransparency: imageData.format != ImageFormat.jpg);
     final saveAsRasterImage = ref.read(SaveAsRasterImage.provider);
     late final TaskEither<Failure, Unit> task;
     if (imageData is JpgMetaData) {
@@ -97,11 +96,11 @@ class IOHandler {
 
   Future<void> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
     final commands = ref.read(CommandManager.provider).history;
-    final loadedImage = ref.read(WorkspaceState.provider).loadedImage;
+    final backgroundImage = ref.read(WorkspaceState.provider).backgroundImage;
     final imageService = ref.read(IImageService.provider);
     Uint8List? bytes;
-    if (loadedImage != null) {
-      final result = await imageService.export(loadedImage).run();
+    if (backgroundImage != null) {
+      final result = await imageService.export(backgroundImage).run();
       bytes = result.fold(
         (failure) {
           showToast(failure.message);

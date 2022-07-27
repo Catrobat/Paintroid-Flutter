@@ -1,4 +1,5 @@
 export 'src/entity/catrobat_image.dart';
+export 'src/entity/image_from_file.dart';
 export 'src/entity/image_meta_data.dart';
 export 'src/failure/load_image_failure.dart';
 export 'src/failure/save_image_failure.dart';

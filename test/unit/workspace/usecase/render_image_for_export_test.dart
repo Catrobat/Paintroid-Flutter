@@ -170,7 +170,7 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      container.read(WorkspaceState.provider.notifier).loadImage(testImage);
+      container.read(WorkspaceState.provider.notifier).setBackgroundImage(testImage);
       await sut.call();
       verifyInOrder([
         mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
@@ -186,7 +186,7 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      container.read(WorkspaceState.provider.notifier).loadImage(testImage);
+      container.read(WorkspaceState.provider.notifier).setBackgroundImage(testImage);
       await sut.call(keepTransparency: false);
       verifyInOrder([
         mockCanvas.drawPaint(testPaint),

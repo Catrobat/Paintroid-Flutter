@@ -24,11 +24,13 @@ class CanvasState {
   });
 
   CanvasState copyWith({
-    Image? lastRenderedImage,
+    Nullable<Image>? lastRenderedImage,
     Size? size,
   }) {
     return CanvasState(
-      lastRenderedImage: lastRenderedImage ?? this.lastRenderedImage,
+      lastRenderedImage: lastRenderedImage != null
+          ? lastRenderedImage.value
+          : this.lastRenderedImage,
       size: size ?? this.size,
     );
   }

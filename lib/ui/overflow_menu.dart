@@ -10,7 +10,8 @@ import 'package:paintroid/workspace/workspace.dart';
 enum OverflowMenuOption {
   fullscreen("Fullscreen"),
   saveImage("Save Image"),
-  loadImage("Load Image");
+  loadImage("Load Image"),
+  newImage("New Image");
 
   const OverflowMenuOption(this.label);
 
@@ -25,9 +26,10 @@ class OverflowMenu extends ConsumerStatefulWidget {
 }
 
 class _OverflowMenuState extends ConsumerState<OverflowMenu> {
+  late final ioHandler = ref.read(IOHandler.provider);
+
   @override
   Widget build(BuildContext context) {
-    final ioHandler = ref.watch(IOHandler.provider);
     return PopupMenuButton<OverflowMenuOption>(
       color: Theme.of(context).colorScheme.background,
       icon: const Icon(Icons.more_vert),
@@ -35,45 +37,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         side: const BorderSide(),
         borderRadius: BorderRadius.circular(20),
       ),
-      onSelected: (option) async {
-        switch (option) {
-          case OverflowMenuOption.fullscreen:
-            _enterFullscreen();
-            break;
-          case OverflowMenuOption.saveImage:
-            final imageData = await showSaveImageDialog(context);
-            if (imageData == null) return;
-            await ioHandler.saveImage(imageData);
-            ref
-                .read(WorkspaceState.provider.notifier)
-                .updateLastSavedCommandCount();
-            break;
-          case OverflowMenuOption.loadImage:
-            final hasSavedLastWork =
-                ref.read(WorkspaceState.provider.notifier).hasSavedLastWork;
-            if (!hasSavedLastWork) {
-              final shouldDiscard = await showDiscardChangesDialog(context);
-              if (shouldDiscard == null || !mounted) return;
-              if (!shouldDiscard) {
-                final imageData = await showSaveImageDialog(context);
-                if (imageData == null) return;
-                await ioHandler.saveImage(imageData);
-                ref
-                    .read(WorkspaceState.provider.notifier)
-                    .updateLastSavedCommandCount();
-              }
-            }
-            if (Platform.isIOS) {
-              if (!mounted) return;
-              final location = await showLoadImageDialog(context);
-              if (location == null) return;
-              await ioHandler.loadImage(location);
-            } else {
-              await ioHandler.loadImage(ImageLocation.files);
-            }
-            break;
-        }
-      },
+      onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) {
         return OverflowMenuOption.values.map((option) {
           return PopupMenuItem(value: option, child: Text(option.label));
@@ -82,6 +46,70 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     );
   }
 
+  void _handleSelectedOption(OverflowMenuOption option) {
+    switch (option) {
+      case OverflowMenuOption.fullscreen:
+        _enterFullscreen();
+        break;
+      case OverflowMenuOption.saveImage:
+        _saveImage();
+        break;
+      case OverflowMenuOption.loadImage:
+        _loadImage();
+        break;
+      case OverflowMenuOption.newImage:
+        _newImage();
+        break;
+    }
+  }
+
   void _enterFullscreen() =>
       ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
+
+  Future<void> _saveImage() async {
+    final imageData = await showSaveImageDialog(context);
+    if (imageData == null) return;
+    await ioHandler.saveImage(imageData);
+    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+  }
+
+  Future<bool> _handleUnsavedChanges() async {
+    final hasSavedLastWork =
+        ref.read(WorkspaceState.provider.notifier).hasSavedLastWork;
+    if (!hasSavedLastWork) {
+      final shouldDiscard = await showDiscardChangesDialog(context);
+      if (shouldDiscard == null || !mounted) return false;
+      if (!shouldDiscard) {
+        final imageData = await showSaveImageDialog(context);
+        if (imageData == null) return false;
+        await ioHandler.saveImage(imageData);
+        ref
+            .read(WorkspaceState.provider.notifier)
+            .updateLastSavedCommandCount();
+      }
+    }
+    return true;
+  }
+
+  Future<void> _loadImage() async {
+    final shouldContinue = await _handleUnsavedChanges();
+    if (!shouldContinue) return;
+    if (Platform.isIOS) {
+      if (!mounted) return;
+      final location = await showLoadImageDialog(context);
+      if (location == null) return;
+      await ioHandler.loadImage(location);
+    } else {
+      await ioHandler.loadImage(ImageLocation.files);
+    }
+  }
+
+  Future<void> _newImage() async {
+    final shouldContinue = await _handleUnsavedChanges();
+    if (!shouldContinue) return;
+    ref
+        .read(WorkspaceState.provider.notifier)
+        .clearBackgroundImageAndResetDimensions();
+    ref.read(CanvasState.provider.notifier).clearCanvas();
+  }
 }

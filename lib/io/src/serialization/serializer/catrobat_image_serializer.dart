@@ -23,7 +23,7 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
     return SerializableCatrobatImage(
       magicValue: CatrobatImage.magicValue,
       version: CatrobatImage.latestVersion,
-      loadedImage: object.loadedImage,
+      backgroundImage: object.backgroundImageData,
       commands: object.commands.map((command) {
         if (command is DrawPathCommand) {
           return Any.pack(
@@ -48,9 +48,10 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
         throw "Invalid command type";
       }
     }
-    final loadedImage =
-        data.loadedImage.isEmpty ? null : Uint8List.fromList(data.loadedImage);
-    return CatrobatImage(commands, loadedImage, version: data.version);
+    final backgroundImage = data.backgroundImage.isEmpty
+        ? null
+        : Uint8List.fromList(data.backgroundImage);
+    return CatrobatImage(commands, backgroundImage, version: data.version);
   }
 
   @override

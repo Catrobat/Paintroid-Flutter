@@ -32,13 +32,13 @@ class RenderImageForExport {
     final canvasSize = _ref.read(CanvasState.provider).size;
     final workspaceState = _ref.read(WorkspaceState.provider);
     final exportSize = workspaceState.exportSize;
-    final loadedImage = workspaceState.loadedImage;
+    final backgroundImage = workspaceState.backgroundImage;
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);
-    if (loadedImage != null) {
+    if (backgroundImage != null) {
       paintImage(
         canvas: canvas,
         rect: scaledRect,
-        image: loadedImage,
+        image: backgroundImage,
         fit: BoxFit.fill,
       );
     }

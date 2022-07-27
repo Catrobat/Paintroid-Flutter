@@ -4,7 +4,7 @@ part of 'workspace_state_notifier.dart';
 class WorkspaceState {
   final bool isFullscreen;
   final Size exportSize;
-  final Image? loadedImage;
+  final Image? backgroundImage;
   final int _commandCountWhenLastSaved;
 
   static const initial = WorkspaceState(
@@ -22,7 +22,7 @@ class WorkspaceState {
 
   const WorkspaceState({
     required this.isFullscreen,
-    this.loadedImage,
+    this.backgroundImage,
     int commandCountWhenLastSaved = 0,
     required this.exportSize,
   }) : _commandCountWhenLastSaved = commandCountWhenLastSaved;
@@ -30,13 +30,15 @@ class WorkspaceState {
   WorkspaceState copyWith({
     bool? isFullscreen,
     Size? exportSize,
-    Image? loadedImage,
+    Nullable<Image>? backgroundImage,
     int? updatedLastSavedCommandCount,
   }) {
     return WorkspaceState(
       isFullscreen: isFullscreen ?? this.isFullscreen,
       exportSize: exportSize ?? this.exportSize,
-      loadedImage: loadedImage ?? this.loadedImage,
+      backgroundImage: backgroundImage != null
+          ? backgroundImage.value
+          : this.backgroundImage,
       commandCountWhenLastSaved:
           updatedLastSavedCommandCount ?? _commandCountWhenLastSaved,
     );

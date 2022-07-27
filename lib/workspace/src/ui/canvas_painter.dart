@@ -13,8 +13,8 @@ class CanvasPainter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loadedImage = ref.watch(
-      WorkspaceState.provider.select((value) => value.loadedImage),
+    final backgroundImage = ref.watch(
+      WorkspaceState.provider.select((value) => value.backgroundImage),
     );
     return Stack(
       fit: StackFit.expand,
@@ -22,8 +22,8 @@ class CanvasPainter extends ConsumerWidget {
         RepaintBoundary(
           child: TransparencyGridPattern(
             numberOfSquaresAlongWidth: 100,
-            child: loadedImage != null
-                ? RawImage(image: loadedImage, fit: BoxFit.fill)
+            child: backgroundImage != null
+                ? RawImage(image: backgroundImage, fit: BoxFit.fill)
                 : null,
           ),
         ),
