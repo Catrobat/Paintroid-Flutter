@@ -21,7 +21,7 @@ class BrushTool extends Tool with EquatableMixin {
     (ref) => BrushTool(
       paint: ref.watch(GraphicFactory.provider).createPaint()
         ..style = PaintingStyle.stroke
-        ..color = const Color(0xFFFFFFFF)
+        ..color = const Color(0xFF808080)
         ..strokeCap = StrokeCap.round
         ..strokeWidth = 5,
       commandManager: ref.watch(CommandManager.provider),

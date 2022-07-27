@@ -79,7 +79,9 @@ class IOHandler {
   }
 
   Future<void> _saveAsRasterImage(ImageMetaData imageData) async {
-    final image = await ref.read(RenderImageForExport.provider).call();
+    final image = await ref.read(RenderImageForExport.provider).call(
+      keepTransparency: imageData.format != ImageFormat.jpg
+    );
     final saveAsRasterImage = ref.read(SaveAsRasterImage.provider);
     late final TaskEither<Failure, Unit> task;
     if (imageData is JpgMetaData) {

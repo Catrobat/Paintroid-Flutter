@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 
-import 'load_image_test.mocks.dart';
+import 'load_image_from_photo_library_test.mocks.dart';
 
 class FakeImage extends Fake implements Image {}
 
