@@ -170,9 +170,13 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      container.read(WorkspaceState.provider.notifier).setBackgroundImage(testImage);
+      when(mockCommandManager.count).thenReturn(0);
+      container
+          .read(WorkspaceState.provider.notifier)
+          .setBackgroundImage(testImage);
       await sut.call();
       verifyInOrder([
+        mockCommandManager.count,
         mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
         mockCanvas.scale(testImageSize.width / testCanvasSize.width),
         mockCanvas.clipRect(testImageRect, doAntiAlias: false),
@@ -186,9 +190,13 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      container.read(WorkspaceState.provider.notifier).setBackgroundImage(testImage);
+      when(mockCommandManager.count).thenReturn(0);
+      container
+          .read(WorkspaceState.provider.notifier)
+          .setBackgroundImage(testImage);
       await sut.call(keepTransparency: false);
       verifyInOrder([
+        mockCommandManager.count,
         mockCanvas.drawPaint(testPaint),
         mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
         mockCanvas.scale(testImageSize.width / testCanvasSize.width),
