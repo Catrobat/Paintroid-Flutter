@@ -23,24 +23,32 @@ class CanvasPainter extends ConsumerWidget {
           child: TransparencyGridPattern(
             numberOfSquaresAlongWidth: 100,
             child: backgroundImage != null
-                ? RawImage(image: backgroundImage, fit: BoxFit.fill)
+                ? RawImage(image: backgroundImage)
                 : null,
           ),
         ),
-        Consumer(
-          builder: (context, ref, child) {
-            ref.watch(CanvasDirtyState.provider);
-            final canvasImage = ref.watch(
-              CanvasState.provider.select((value) => value.lastRenderedImage),
-            );
-            return CustomPaint(
-              foregroundPainter:
-                  CommandPainter(ref.watch(CommandManager.provider)),
-              child: canvasImage != null
-                  ? RawImage(image: canvasImage, fit: BoxFit.fill)
-                  : null,
-            );
-          },
+        RepaintBoundary(
+          child: Consumer(
+            builder: (context, ref, child) {
+              final commandsCachedImage = ref.watch(
+                CanvasState.provider.select((value) => value.lastRenderedImage),
+              );
+              return Consumer(
+                builder: (context, ref, child) {
+                  ref.watch(CanvasDirtyState.provider);
+                  return CustomPaint(
+                    foregroundPainter: CommandPainter(
+                      ref.watch(CommandManager.provider),
+                    ),
+                    child: child,
+                  );
+                },
+                child: commandsCachedImage != null
+                    ? RawImage(image: commandsCachedImage)
+                    : null,
+              );
+            },
+          ),
         ),
       ],
     );

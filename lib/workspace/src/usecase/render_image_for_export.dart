@@ -40,6 +40,7 @@ class RenderImageForExport {
         rect: scaledRect,
         image: backgroundImage,
         fit: BoxFit.fill,
+        filterQuality: FilterQuality.none,
       );
     }
     canvas.scale(exportSize.width / canvasSize.width);
