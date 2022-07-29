@@ -13,8 +13,7 @@ class ImageWithPixelInfo {
   const ImageWithPixelInfo._(this._width, this._height, this._byteData);
 
   static Future<ImageWithPixelInfo> initialize(Image image) async {
-    final data =
-        await image.toByteData(format: ImageByteFormat.rawStraightRgba);
+    final data = await image.toByteData();
     return ImageWithPixelInfo._(image.width, image.height, data!);
   }
 

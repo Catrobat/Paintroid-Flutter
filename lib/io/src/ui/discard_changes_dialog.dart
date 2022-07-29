@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Returns true if user chose to discard changes or null if user
+/// Returns [true] if user chose to discard changes or [null] if user
 /// dismissed the dialog by tapping outside
 Future<bool?> showDiscardChangesDialog(BuildContext context) =>
     showGeneralDialog<bool>(
