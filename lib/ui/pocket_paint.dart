@@ -40,6 +40,7 @@ class PocketPaint extends ConsumerWidget {
         appBar: isFullscreen ? null : TopAppBar(title: "Pocket Paint"),
         backgroundColor: Colors.grey.shade400,
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Stack(
             children: [
               Center(
