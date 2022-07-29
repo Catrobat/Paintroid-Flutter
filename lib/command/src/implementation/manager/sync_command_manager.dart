@@ -39,7 +39,7 @@ class SyncCommandManager implements CommandManager {
   }
 
   @override
-  void resetHistory({Iterable<Command>? newCommands}) {
+  void clearHistory({Iterable<Command>? newCommands}) {
     _history.clear();
     if (newCommands != null) {
       _history.addAll(newCommands);

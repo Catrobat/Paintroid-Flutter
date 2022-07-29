@@ -28,18 +28,18 @@ class DrawPathCommandSerializer extends ProtoSerializerWithVersioning<
   final fromBytesToSerializable = SerializableDrawPathCommand.fromBuffer;
 
   @override
-  DrawPathCommand deserializeWithLatestVersion(
-      SerializableDrawPathCommand data) {
-    final path = _pathSerializer.deserialize(data.path);
-    final paint = _paintSerializer.deserialize(data.paint);
+  Future<DrawPathCommand> deserializeWithLatestVersion(
+      SerializableDrawPathCommand data) async {
+    final path = await _pathSerializer.deserialize(data.path);
+    final paint = await _paintSerializer.deserialize(data.paint);
     return _commandFactory.createDrawPathCommand(path, paint);
   }
 
   @override
-  SerializableDrawPathCommand serializeWithLatestVersion(
-      DrawPathCommand object) {
-    final sPaint = _paintSerializer.serializeWithLatestVersion(object.paint);
-    final sPath = _pathSerializer.serializeWithLatestVersion(object.path);
+  Future<SerializableDrawPathCommand> serializeWithLatestVersion(
+      DrawPathCommand object) async {
+    final sPaint = await _paintSerializer.serializeWithLatestVersion(object.paint);
+    final sPath = await _pathSerializer.serializeWithLatestVersion(object.path);
     return SerializableDrawPathCommand(paint: sPaint, path: sPath);
   }
 }

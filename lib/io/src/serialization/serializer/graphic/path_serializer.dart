@@ -17,7 +17,8 @@ class PathSerializer extends ProtoSerializerWithVersioning<
   );
 
   @override
-  PathWithActionHistory deserializeWithLatestVersion(SerializablePath data) {
+  Future<PathWithActionHistory> deserializeWithLatestVersion(
+      SerializablePath data) async {
     final path = _graphicFactory.createPathWithActionHistory();
     switch (data.fillType) {
       case SerializablePath_FillType.EVEN_ODD:
@@ -46,7 +47,8 @@ class PathSerializer extends ProtoSerializerWithVersioning<
   final fromBytesToSerializable = SerializablePath.fromBuffer;
 
   @override
-  SerializablePath serializeWithLatestVersion(PathWithActionHistory object) {
+  Future<SerializablePath> serializeWithLatestVersion(
+      PathWithActionHistory object) async {
     final serializablePath = SerializablePath();
     switch (object.fillType) {
       case PathFillType.nonZero:

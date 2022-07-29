@@ -1,57 +1,76 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:paintroid/command/command.dart' show Command, DrawPathCommand;
-import 'package:paintroid/io/io.dart' show CatrobatImage;
+import 'package:paintroid/io/io.dart' show CatrobatImage, IImageService;
 import 'package:paintroid/io/serialization.dart';
 
 class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
     CatrobatImage, SerializableCatrobatImage> {
   final DrawPathCommandSerializer _drawPathCommandSerializer;
+  final IImageService _imageService;
 
-  const CatrobatImageSerializer(super.version, this._drawPathCommandSerializer);
+  const CatrobatImageSerializer(
+      super.version, this._imageService, this._drawPathCommandSerializer);
 
   static final provider = Provider.family(
     (ref, int ver) => CatrobatImageSerializer(
       ver,
+      ref.watch(IImageService.provider),
       ref.watch(DrawPathCommandSerializer.provider(ver)),
     ),
   );
 
   @override
-  SerializableCatrobatImage serializeWithLatestVersion(CatrobatImage object) {
+  Future<SerializableCatrobatImage> serializeWithLatestVersion(
+      CatrobatImage object) async {
+    Uint8List? backgroundImageData;
+    if (object.backgroundImage != null) {
+      final result = await _imageService.exportAsPng(object.backgroundImage!);
+      backgroundImageData =
+          result.unwrapOrElse((failure) => throw failure.message);
+    }
     return SerializableCatrobatImage(
       magicValue: CatrobatImage.magicValue,
       version: CatrobatImage.latestVersion,
-      backgroundImage: object.backgroundImageData,
-      commands: object.commands.map((command) {
+      width: object.width,
+      height: object.height,
+      backgroundImage: backgroundImageData,
+      commands: await Future.wait(object.commands.map((command) async {
         if (command is DrawPathCommand) {
           return Any.pack(
-            _drawPathCommandSerializer.serializeWithLatestVersion(command),
+            await _drawPathCommandSerializer
+                .serializeWithLatestVersion(command),
             typeUrlPrefix: ProtoSerializerWithVersioning.urlPrefix,
           );
         } else {
           throw "Invalid command type";
         }
-      }),
+      })),
     );
   }
 
   @override
-  CatrobatImage deserializeWithLatestVersion(SerializableCatrobatImage data) {
+  Future<CatrobatImage> deserializeWithLatestVersion(
+      SerializableCatrobatImage data) async {
     final commands = <Command>[];
     for (final cmd in data.commands) {
       if (cmd.canUnpackInto(SerializableDrawPathCommand.getDefault())) {
         final unpacked = cmd.unpackInto(SerializableDrawPathCommand());
-        commands.add(_drawPathCommandSerializer.deserialize(unpacked));
+        commands.add(await _drawPathCommandSerializer.deserialize(unpacked));
       } else {
         throw "Invalid command type";
       }
     }
-    final backgroundImage = data.backgroundImage.isEmpty
-        ? null
-        : Uint8List.fromList(data.backgroundImage);
-    return CatrobatImage(commands, backgroundImage, version: data.version);
+    Image? image;
+    if (data.hasBackgroundImage()) {
+      final result =
+          await _imageService.import(Uint8List.fromList(data.backgroundImage));
+      image = result.unwrapOrElse((failure) => throw failure.message);
+    }
+    return CatrobatImage(commands, data.width, data.height, image,
+        version: data.version);
   }
 
   @override

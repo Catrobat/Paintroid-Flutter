@@ -26,10 +26,18 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   void setBackgroundImage(Image image) => state = state.copyWith(
         backgroundImage: Option.some(image),
         exportSize: Size(image.width.toDouble(), image.height.toDouble()),
+        updatedLastSavedCommandCount: _commandManager.count,
       );
 
   void clearBackgroundImageAndResetDimensions() => state = state.copyWith(
         backgroundImage: Option.none(),
         exportSize: WorkspaceState.initial.exportSize,
+        updatedLastSavedCommandCount: _commandManager.count,
+      );
+
+  void resetWorkspace() => state = state.copyWith(
+        backgroundImage: Option.none(),
+        exportSize: WorkspaceState.initial.exportSize,
+        updatedLastSavedCommandCount: _commandManager.count,
       );
 }

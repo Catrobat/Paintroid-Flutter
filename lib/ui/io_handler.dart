@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:oxidized/oxidized.dart';
@@ -30,7 +28,7 @@ class IOHandler {
     final result = await loadImage();
     result.when(
       ok: (img) async {
-        ref.read(CanvasState.provider.notifier).clearCanvas();
+        ref.read(CanvasState.provider.notifier).clearCanvasAndCommandHistory();
         ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
       },
       err: (failure) {
@@ -46,17 +44,16 @@ class IOHandler {
     final result = await loadImage();
     result.when(
       ok: (imageFromFile) async {
-        ref.read(CanvasState.provider.notifier).clearCanvas();
+        ref.read(CanvasState.provider.notifier).clearCanvasAndCommandHistory();
+        if (imageFromFile.catrobatImage != null) {
+          final commands = imageFromFile.catrobatImage!.commands;
+          ref.read(CommandManager.provider).clearHistory(newCommands: commands);
+          ref.read(CanvasState.provider.notifier).reCacheImageForAllCommands();
+        }
         final workspaceNotifier = ref.read(WorkspaceState.provider.notifier);
         imageFromFile.rasterImage == null
             ? workspaceNotifier.clearBackgroundImageAndResetDimensions()
             : workspaceNotifier.setBackgroundImage(imageFromFile.rasterImage!);
-        if (imageFromFile.catrobatImage != null) {
-          final commands = imageFromFile.catrobatImage!.commands;
-          ref
-              .read(CanvasState.provider.notifier)
-              .renderAndReplaceImageWithCommands(commands);
-        }
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
@@ -86,21 +83,11 @@ class IOHandler {
 
   Future<void> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
     final commands = ref.read(CommandManager.provider).history;
-    final backgroundImage = ref.read(WorkspaceState.provider).backgroundImage;
-    final imageService = ref.read(IImageService.provider);
-    Uint8List? bytes;
-    if (backgroundImage != null) {
-      final result = await imageService.export(backgroundImage);
-      bytes = result.when(
-        ok: (imageBytes) => imageBytes,
-        err: (failure) {
-          showToast(failure.message);
-          return null;
-        },
-      );
-      if (bytes == null) return;
-    }
-    final catrobatImage = CatrobatImage(commands, bytes);
+    final workspaceState = ref.read(WorkspaceState.provider);
+    final imgWidth = workspaceState.exportSize.width.toInt();
+    final imgHeight = workspaceState.exportSize.height.toInt();
+    final catrobatImage = CatrobatImage(
+        commands, imgWidth, imgHeight, workspaceState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
     final result = await saveAsCatrobatImage(imageData, catrobatImage);
     result.when(

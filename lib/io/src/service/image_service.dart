@@ -14,8 +14,6 @@ import '../failure/save_image_failure.dart';
 abstract class IImageService {
   Future<Result<ui.Image, Failure>> import(Uint8List fileData);
 
-  Future<Result<Uint8List, Failure>> export(ui.Image image);
-
   /// Value between 1-100 (both inclusive)
   Future<Result<Uint8List, Failure>> exportAsJpg(ui.Image image, int quality);
 
@@ -32,18 +30,6 @@ class ImageService with LoggableMixin implements IImageService {
     } catch (e, stacktrace) {
       logger.severe("Couldn't decode image from fileData", e, stacktrace);
       return Result.err(LoadImageFailure.invalidImage);
-    }
-  }
-
-  @override
-  Future<Result<Uint8List, Failure>> export(ui.Image image) async {
-    try {
-      final byteData = await image.toByteData();
-      if (byteData == null) throw "Unable to convert canvas Image to bytes";
-      return Result.ok(byteData.buffer.asUint8List());
-    } catch (err, stacktrace) {
-      logger.severe("Could not export to Jpg", err, stacktrace);
-      return Result.err(SaveImageFailure.unidentified);
     }
   }
 

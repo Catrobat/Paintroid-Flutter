@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
@@ -42,22 +41,12 @@ class LoadImageFromFileManager with LoggableMixin {
                 .import(await file.readAsBytes())
                 .map((img) => ImageFromFile.rasterImage(img));
           case "catrobat-image":
-            final image =
-                catrobatImageSerializer.fromBytes(await file.readAsBytes());
-            final hasBackgroundImage = image.backgroundImageData != null &&
-                image.backgroundImageData!.isNotEmpty;
-            final Result<Option<Image>, Failure> backgroundImageResult =
-                (hasBackgroundImage
-                    ? await imageService
-                        .import(image.backgroundImageData!)
-                        .map(Option.some)
-                    : Result.ok(Option.none()));
-            return backgroundImageResult.map(
-              (img) => ImageFromFile.catrobatImage(
-                image,
-                backgroundImage: img.toNullable(),
-              ),
-            );
+            final image = await catrobatImageSerializer
+                .fromBytes(await file.readAsBytes());
+            return Result.ok(ImageFromFile.catrobatImage(
+              image,
+              backgroundImage: image.backgroundImage,
+            ));
           default:
             return Result.err(LoadImageFailure.invalidImage);
         }

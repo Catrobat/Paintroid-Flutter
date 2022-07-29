@@ -35,11 +35,14 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<WorkspaceState>(WorkspaceState.provider, (previous, next) {
-      if (previous?.exportSize != next.exportSize) {
-        _updateCanvasSize();
-      }
-    });
+    ref.listen<Size>(
+      WorkspaceState.provider.select((value) => value.exportSize),
+      (previous, next) {
+        if (previous != next) {
+          _updateCanvasSize();
+        }
+      },
+    );
     return AspectRatio(
       aspectRatio: ref
           .watch(WorkspaceState.provider.select((state) => state.exportSize))
@@ -63,7 +66,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas>
           },
           onPanEnd: (_) {
             toolStateNotifier.didTapUp();
-            canvasStateNotifier.renderImageWithLastCommand();
+            canvasStateNotifier.updateCachedImage();
           },
           child: const CanvasPainter(),
         ),

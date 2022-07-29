@@ -105,9 +105,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   Future<void> _newImage() async {
     final shouldContinue = await _handleUnsavedChanges();
     if (!shouldContinue) return;
-    ref
-        .read(WorkspaceState.provider.notifier)
-        .clearBackgroundImageAndResetDimensions();
-    ref.read(CanvasState.provider.notifier).clearCanvas();
+    ref.read(CanvasState.provider.notifier).clearCanvasAndCommandHistory();
+    ref.read(WorkspaceState.provider.notifier).resetWorkspace();
   }
 }

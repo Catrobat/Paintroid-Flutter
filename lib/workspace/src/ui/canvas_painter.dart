@@ -30,8 +30,8 @@ class CanvasPainter extends ConsumerWidget {
         RepaintBoundary(
           child: Consumer(
             builder: (context, ref, child) {
-              final commandsCachedImage = ref.watch(
-                CanvasState.provider.select((value) => value.lastRenderedImage),
+              final cachedImage = ref.watch(
+                CanvasState.provider.select((value) => value.cachedImage),
               );
               return Consumer(
                 builder: (context, ref, child) {
@@ -43,9 +43,8 @@ class CanvasPainter extends ConsumerWidget {
                     child: child,
                   );
                 },
-                child: commandsCachedImage != null
-                    ? RawImage(image: commandsCachedImage)
-                    : null,
+                child:
+                    cachedImage != null ? RawImage(image: cachedImage) : null,
               );
             },
           ),

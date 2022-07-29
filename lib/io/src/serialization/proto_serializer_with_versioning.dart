@@ -16,9 +16,10 @@ abstract class ProtoSerializerWithVersioning<T,
   SERIALIZABLE Function(Uint8List binary) get fromBytesToSerializable;
 
   @nonVirtual
-  T fromBytes(Uint8List binary) => deserialize(fromBytesToSerializable(binary));
+  Future<T> fromBytes(Uint8List binary) =>
+      deserialize(fromBytesToSerializable(binary));
 
   @nonVirtual
-  Uint8List toBytes(T object) =>
-      serializeWithLatestVersion(object).writeToBuffer();
+  Future<Uint8List> toBytes(T object) async =>
+      (await serializeWithLatestVersion(object)).writeToBuffer();
 }

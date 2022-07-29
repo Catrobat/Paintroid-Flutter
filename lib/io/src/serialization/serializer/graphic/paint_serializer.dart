@@ -18,7 +18,7 @@ class PaintSerializer
   final fromBytesToSerializable = SerializablePaint.fromBuffer;
 
   @override
-  Paint deserializeWithLatestVersion(SerializablePaint data) {
+  Future<Paint> deserializeWithLatestVersion(SerializablePaint data) async {
     final paint = _graphicFactory.createPaint()
       ..color = Color(data.color)
       ..strokeWidth = data.strokeWidth;
@@ -45,7 +45,7 @@ class PaintSerializer
   }
 
   @override
-  SerializablePaint serializeWithLatestVersion(Paint object) {
+  Future<SerializablePaint> serializeWithLatestVersion(Paint object) async {
     final serializable = SerializablePaint()
       ..color = object.color.value
       ..strokeWidth = object.strokeWidth;
@@ -60,7 +60,7 @@ class PaintSerializer
         serializable.cap = SerializablePaint_StrokeCap.SQUARE;
         break;
     }
-    switch(object.style) {
+    switch (object.style) {
       case PaintingStyle.fill:
         serializable.style = SerializablePaint_PaintingStyle.FILL;
         break;

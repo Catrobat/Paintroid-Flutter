@@ -2,7 +2,7 @@ part of 'canvas_state_notifier.dart';
 
 @immutable
 class CanvasState {
-  final Image? lastRenderedImage;
+  final Image? cachedImage;
   final Size size;
 
   static const initial = CanvasState(size: Size.zero);
@@ -19,18 +19,17 @@ class CanvasState {
   );
 
   const CanvasState({
-    this.lastRenderedImage,
+    this.cachedImage,
     required this.size,
   });
 
   CanvasState copyWith({
-    Option<Image>? lastRenderedImage,
+    Option<Image>? cachedImage,
     Size? size,
   }) {
     return CanvasState(
-      lastRenderedImage: lastRenderedImage != null
-          ? lastRenderedImage.toNullable()
-          : this.lastRenderedImage,
+      cachedImage:
+          cachedImage != null ? cachedImage.toNullable() : this.cachedImage,
       size: size ?? this.size,
     );
   }

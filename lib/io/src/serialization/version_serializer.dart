@@ -7,10 +7,10 @@ abstract class VersionSerializer<FROM, TO> {
 
   const VersionSerializer(this.version);
 
-  TO serializeWithLatestVersion(FROM object);
+  Future<TO> serializeWithLatestVersion(FROM object);
 
   @nonVirtual
-  FROM deserialize(TO data) {
+  Future<FROM> deserialize(TO data) {
     switch (version) {
       case v1:
         return deserializeV1(data);
@@ -20,8 +20,8 @@ abstract class VersionSerializer<FROM, TO> {
   }
 
   @protected
-  FROM deserializeV1(TO data) => deserializeWithLatestVersion(data);
+  Future<FROM> deserializeV1(TO data) => deserializeWithLatestVersion(data);
 
   @protected
-  FROM deserializeWithLatestVersion(TO data);
+  Future<FROM> deserializeWithLatestVersion(TO data);
 }

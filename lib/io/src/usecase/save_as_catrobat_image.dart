@@ -29,7 +29,7 @@ class SaveAsCatrobatImage with LoggableMixin {
       CatrobatImageMetaData data, CatrobatImage image) async {
     final nameWithExt = "${data.name}.${data.format.extension}";
     try {
-      final bytes = _catrobatImageSerializer.toBytes(image);
+      final bytes = await _catrobatImageSerializer.toBytes(image);
       return _fileService.save(nameWithExt, bytes);
     } catch (err, stacktrace) {
       logger.severe(
