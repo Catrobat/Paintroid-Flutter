@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:logging/logging.dart';
 import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/ui/loading_overlay.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
 import 'ui/pocket_paint.dart';
 
@@ -41,7 +43,17 @@ class PocketPaintApp extends StatelessWidget {
         textStyle: const TextStyle(color: Colors.black),
         borderRadius: BorderRadius.circular(20),
         locale: const Locale('en'),
-        child: const PocketPaint(),
+        child: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return LoadingOverlay(
+              isLoading: ref.watch(WorkspaceState.provider.select(
+                (state) => state.isPerformingIOTask,
+              )),
+              child: child,
+            );
+          },
+          child: const PocketPaint(),
+        ),
       ),
     );
   }

@@ -15,6 +15,13 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   bool get hasSavedLastWork =>
       state._commandCountWhenLastSaved == _commandManager.count;
 
+  Future<T> performIOTask<T>(Future<T> Function() task) async {
+    state = state.copyWith(isPerformingIOTask: true);
+    final result = await task();
+    state = state.copyWith(isPerformingIOTask: false);
+    return result;
+  }
+
   void updateLastSavedCommandCount() => state = state.copyWith(
         updatedLastSavedCommandCount: _commandManager.count,
       );

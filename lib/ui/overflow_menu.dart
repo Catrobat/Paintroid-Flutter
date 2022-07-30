@@ -66,10 +66,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
 
   Future<void> _saveImage() async {
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
     final imageData = await showSaveImageDialog(context);
     if (imageData == null) return;
-    await ioHandler.saveImage(imageData);
-    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    workspaceStateNotifier.performIOTask(() => ioHandler.saveImage(imageData));
+    workspaceStateNotifier.updateLastSavedCommandCount();
   }
 
   /// Returns [true] if user didn't tap outside of any dialogs
@@ -82,7 +83,8 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       if (!shouldDiscard) {
         final imageData = await showSaveImageDialog(context);
         if (imageData == null) return false;
-        await ioHandler.saveImage(imageData);
+        workspaceStateNotifier
+            .performIOTask(() => ioHandler.saveImage(imageData));
         workspaceStateNotifier.updateLastSavedCommandCount();
       }
     }
@@ -96,9 +98,13 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       if (!mounted) return;
       final location = await showLoadImageDialog(context);
       if (location == null) return;
-      await ioHandler.loadImage(location);
+      ref
+          .read(WorkspaceState.provider.notifier)
+          .performIOTask(() => ioHandler.loadImage(location));
     } else {
-      await ioHandler.loadImage(ImageLocation.files);
+      ref
+          .read(WorkspaceState.provider.notifier)
+          .performIOTask(() => ioHandler.loadImage(ImageLocation.files));
     }
   }
 
