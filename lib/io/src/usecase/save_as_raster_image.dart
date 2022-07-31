@@ -7,19 +7,26 @@ import 'package:paintroid/io/io.dart';
 
 class SaveAsRasterImage {
   final IImageService imageService;
+  final IPermissionService permissionService;
   final IPhotoLibraryService photoLibraryService;
 
-  const SaveAsRasterImage(this.imageService, this.photoLibraryService);
+  const SaveAsRasterImage(
+      this.imageService, this.permissionService, this.photoLibraryService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
+    final permissionService = ref.watch(IPermissionService.provider);
     final photoLibraryService = ref.watch(IPhotoLibraryService.provider);
-    return SaveAsRasterImage(imageService, photoLibraryService);
+    return SaveAsRasterImage(
+        imageService, permissionService, photoLibraryService);
   });
 
-  Future<Result<Unit, Failure>> call(ImageMetaData data, Image image) {
+  Future<Result<Unit, Failure>> call(ImageMetaData data, Image image) async {
     final nameWithExt = "${data.name}.${data.format.extension}";
-    return (data is JpgMetaData
+    if (!(await permissionService.requestAccessForSavingToPhotos())) {
+      return Result.err(SaveImageFailure.permissionDenied);
+    }
+    return await (data is JpgMetaData
             ? imageService.exportAsJpg(image, data.quality)
             : imageService.exportAsPng(image))
         .andThenAsync(

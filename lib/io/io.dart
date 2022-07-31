@@ -7,6 +7,7 @@ export 'src/failure/save_image_failure.dart';
 export 'src/serialization/serializer/catrobat_image_serializer.dart';
 export 'src/service/file_service.dart';
 export 'src/service/image_service.dart';
+export 'src/service/permission_service.dart';
 export 'src/service/photo_library_service.dart';
 export 'src/ui/discard_changes_dialog.dart';
 export 'src/ui/load_image_dialog.dart';

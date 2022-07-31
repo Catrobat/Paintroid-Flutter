@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.NonNull
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -16,8 +15,6 @@ import kotlinx.coroutines.*
 import java.io.IOException
 
 class MainActivity : FlutterActivity() {
-    private val externalStorageRequestCode = 123
-    private var requestPermissionJob = Job()
     private val hasWritePermission: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
                 ContextCompat.checkSelfPermission(
@@ -34,15 +31,12 @@ class MainActivity : FlutterActivity() {
                 when (call.method) {
                     "saveToPhotos" -> {
                         if (!hasWritePermission) {
-                            requestWriteExternalStoragePermission()
-                            if (!hasWritePermission) {
-                                result.error(
-                                    "PERMISSION_DENIED",
-                                    "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
-                                    null
-                                )
-                                return@setMethodCallHandler
-                            }
+                            result.error(
+                                "PERMISSION_DENIED",
+                                "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
+                                null
+                            )
+                            return@setMethodCallHandler
                         }
                         val (filename, imageData) = extractImageData(call, result)
                             ?: return@setMethodCallHandler
@@ -53,19 +47,6 @@ class MainActivity : FlutterActivity() {
                 }
             }
         }
-    }
-
-    private fun requestWriteExternalStoragePermission() = runBlocking {
-        if (!requestPermissionJob.isCompleted) {
-            requestPermissionJob.cancelAndJoin()
-        }
-        requestPermissionJob = Job()
-        ActivityCompat.requestPermissions(
-            this@MainActivity,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            externalStorageRequestCode
-        )
-        requestPermissionJob.join()
     }
 
     private fun saveImageToPictures(filename: String, data: ByteArray) {
@@ -83,13 +64,6 @@ class MainActivity : FlutterActivity() {
                 outputStream.write(data)
             } ?: throw IOException("Could not open output stream for uri: $uri")
         } ?: throw IOException("Could not create image MediaStore entry")
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            externalStorageRequestCode -> requestPermissionJob.complete()
-        }
     }
 
     private fun extractImageData(call: MethodCall, result: MethodChannel.Result): Pair<String, ByteArray>? {

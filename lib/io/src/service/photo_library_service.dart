@@ -36,15 +36,6 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
       final args = {"fileName": name, "data": data};
       await photoLibraryChannel.invokeMethod("saveToPhotos", args);
       return Result.ok(unit);
-    } on PlatformException catch (err, stacktrace) {
-      if (err.code == "PERMISSION_DENIED") {
-        logger.warning("User explicitly denied permission to save images", err,
-            stacktrace);
-        return Result.err(SaveImageFailure.permissionDenied);
-      } else {
-        logger.severe("Could not save photo to library", err, stacktrace);
-        return Result.err(SaveImageFailure.unidentified);
-      }
     } catch (err, stacktrace) {
       logger.severe("Could not save photo to library", err, stacktrace);
       return Result.err(SaveImageFailure.unidentified);
@@ -58,16 +49,6 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
       return file == null
           ? Result.err(LoadImageFailure.userCancelled)
           : Result.ok(await file.readAsBytes());
-    } on PlatformException catch (err, stacktrace) {
-      // This error code is from ImagePicker
-      if (err.code == "photo_access_denied") {
-        logger.warning("User explicitly denied permission to load images", err,
-            stacktrace);
-        return Result.err(LoadImageFailure.permissionDenied);
-      } else {
-        logger.severe("Could not load photo from library", err, stacktrace);
-        return Result.err(LoadImageFailure.unidentified);
-      }
     } catch (err, stacktrace) {
       logger.severe("Could not load photo from library", err, stacktrace);
       return Result.err(LoadImageFailure.unidentified);

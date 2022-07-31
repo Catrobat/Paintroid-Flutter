@@ -60,18 +60,6 @@ void main() {
     );
 
     test(
-        'Should return permissionDenied failure when user denies the permission',
-        () async {
-      when(mockMethodChannel.invokeMethod(any, any))
-          .thenThrow(PlatformException(code: "PERMISSION_DENIED"));
-      final result = await sut.save(testFilename, testImageData);
-      expect(result, Err<Unit, Failure>(SaveImageFailure.permissionDenied));
-      verify(mockMethodChannel.invokeMethod(any, any));
-      verifyNoMoreInteractions(mockMethodChannel);
-      verifyZeroInteractions(mockImagePicker);
-    });
-
-    test(
       'Should return unidentified failure when any unhandled Exception is thrown',
       () async {
         when(mockMethodChannel.invokeMethod(any, any)).thenThrow(testException);
@@ -115,18 +103,6 @@ void main() {
         verifyZeroInteractions(mockMethodChannel);
       },
     );
-
-    test(
-        'Should return permissionDenied failure when user denies the permission',
-        () async {
-      when(mockImagePicker.pickImage(source: anyNamed("source")))
-          .thenThrow(PlatformException(code: "photo_access_denied"));
-      final result = await sut.pick();
-      expect(result, Err<Uint8List, Failure>(LoadImageFailure.permissionDenied));
-      verify(mockImagePicker.pickImage(source: anyNamed("source")));
-      verifyNoMoreInteractions(mockImagePicker);
-      verifyZeroInteractions(mockMethodChannel);
-    });
 
     test(
         'Should return userCancelled failure when user dismisses picker without choosing an image',

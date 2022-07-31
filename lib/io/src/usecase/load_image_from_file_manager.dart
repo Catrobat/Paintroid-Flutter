@@ -17,21 +17,27 @@ extension on File {
 class LoadImageFromFileManager with LoggableMixin {
   final IFileService fileService;
   final IImageService imageService;
+  final IPermissionService permissionService;
   final CatrobatImageSerializer catrobatImageSerializer;
 
-  LoadImageFromFileManager(
-      this.fileService, this.imageService, this.catrobatImageSerializer);
+  LoadImageFromFileManager(this.fileService, this.imageService,
+      this.permissionService, this.catrobatImageSerializer);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final fileService = ref.watch(IFileService.provider);
+    final permissionService = ref.watch(IPermissionService.provider);
     const ver = CatrobatImage.latestVersion;
     final serializer = ref.watch(CatrobatImageSerializer.provider(ver));
-    return LoadImageFromFileManager(fileService, imageService, serializer);
+    return LoadImageFromFileManager(
+        fileService, imageService, permissionService, serializer);
   });
 
-  Future<Result<ImageFromFile, Failure>> call() {
-    return fileService.pick().andThenAsync((file) async {
+  Future<Result<ImageFromFile, Failure>> call() async {
+    if (!(await permissionService.requestAccessToSharedFileStorage())) {
+      return Result.err(SaveImageFailure.permissionDenied);
+    }
+    return await fileService.pick().andThenAsync((file) async {
       try {
         switch (file.extension) {
           case "jpg":

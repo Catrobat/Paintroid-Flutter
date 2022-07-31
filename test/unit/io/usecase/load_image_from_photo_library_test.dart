@@ -15,11 +15,12 @@ class FakeImage extends Fake implements Image {}
 
 class FakeFailure extends Fake implements Failure {}
 
-@GenerateMocks([IImageService, IPhotoLibraryService])
+@GenerateMocks([IImageService, IPermissionService, IPhotoLibraryService])
 void main() {
   late FakeImage fakeImage;
   late Uint8List fakeBytes;
   late MockIImageService mockImageService;
+  late MockIPermissionService mockPermissionService;
   late MockIPhotoLibraryService mockPhotoLibraryService;
   late LoadImageFromPhotoLibrary sut;
 
@@ -27,8 +28,10 @@ void main() {
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
     mockImageService = MockIImageService();
+    mockPermissionService = MockIPermissionService();
     mockPhotoLibraryService = MockIPhotoLibraryService();
-    sut = LoadImageFromPhotoLibrary(mockImageService, mockPhotoLibraryService);
+    sut = LoadImageFromPhotoLibrary(
+        mockImageService, mockPermissionService, mockPhotoLibraryService);
   });
 
   test('Should provide LoadImage with correct dependencies', () {
@@ -44,12 +47,16 @@ void main() {
   });
 
   test('Should successfully load image from photo library', () async {
+    when(mockPermissionService.requestAccessToPickPhotos())
+        .thenAnswer((_) async => true);
     when(mockPhotoLibraryService.pick()).thenAnswer((_) async => Ok(fakeBytes));
     when(mockImageService.import(any)).thenAnswer((_) async => Ok(fakeImage));
     final result = await sut();
     expect(result, Ok<Image, Failure>(fakeImage));
+    verify(mockPermissionService.requestAccessToPickPhotos());
     verify(mockPhotoLibraryService.pick());
     verify(mockImageService.import(fakeBytes));
+    verifyNoMoreInteractions(mockPermissionService);
     verifyNoMoreInteractions(mockPhotoLibraryService);
     verifyNoMoreInteractions(mockImageService);
   });
@@ -64,24 +71,32 @@ void main() {
       });
 
       test('On failure from file service', () async {
+        when(mockPermissionService.requestAccessToPickPhotos())
+            .thenAnswer((_) async => true);
         when(mockPhotoLibraryService.pick())
             .thenAnswer((_) async => Err(fakeFailure));
         final result = await sut();
         expect(result, Err<Image, Failure>(fakeFailure));
+        verify(mockPermissionService.requestAccessToPickPhotos());
         verify(mockPhotoLibraryService.pick());
+        verifyNoMoreInteractions(mockPermissionService);
         verifyNoMoreInteractions(mockPhotoLibraryService);
         verifyZeroInteractions(mockImageService);
       });
 
       test('On failure from image service', () async {
+        when(mockPermissionService.requestAccessToPickPhotos())
+            .thenAnswer((_) async => true);
         when(mockPhotoLibraryService.pick())
             .thenAnswer((_) async => Ok(fakeBytes));
         when(mockImageService.import(any))
             .thenAnswer((_) async => Err(fakeFailure));
         final result = await sut();
         expect(result, Err<Image, Failure>(fakeFailure));
+        verify(mockPermissionService.requestAccessToPickPhotos());
         verify(mockPhotoLibraryService.pick());
         verify(mockImageService.import(any));
+        verifyNoMoreInteractions(mockPermissionService);
         verifyNoMoreInteractions(mockPhotoLibraryService);
         verifyNoMoreInteractions(mockImageService);
       });
