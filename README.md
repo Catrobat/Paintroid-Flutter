@@ -12,9 +12,11 @@ For more information oriented towards developers please visit our [developers pa
 ## Getting Started
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install)
-2. Get dependencies - `flutter pub get`
-3. Build supporting files - `flutter pub run build_runner build`
-4. Run app - `flutter run lib/main.dart`
+2. Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler - `protoc` for Dart
+4. Get dependencies - `flutter pub get`
+5. Build supporting files - `flutter pub run build_runner build`
+6. Build protobuf files - `./generate_protos.sh`
+7. Run app - `flutter run lib/main.dart`
 
 ## Tests
 

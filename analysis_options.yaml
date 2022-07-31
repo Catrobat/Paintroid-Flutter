@@ -1,1 +1,7 @@
 include: package:flutter_lints/flutter.yaml
+analyzer:
+  errors:
+    missing_enum_constant_in_switch: error
+    exhaustive_cases: error
+  exclude:
+    - lib/**.pb*.dart

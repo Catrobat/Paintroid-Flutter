@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message SerializablePath {
+  message Action {
+    message MoveTo {
+      double x = 1;
+      double y = 2;
+    }
+    message LineTo {
+      double x = 1;
+      double y = 2;
+    }
+    message Close {}
+
+    oneof action {
+      MoveTo move_to = 1;
+      LineTo line_to = 2;
+      Close close = 3;
+    }
+  }
+  repeated Action actions = 1;
+  enum FillType {
+    NON_ZERO = 0;
+    EVEN_ODD = 1;
+  }
+  FillType fill_type = 2;
+}

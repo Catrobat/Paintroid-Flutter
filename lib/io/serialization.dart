@@ -1,0 +1,10 @@
+export 'src/serialization/proto/output/catrobat_image.pb.dart';
+export 'src/serialization/proto/output/command/graphic/draw_path_command.pb.dart';
+export 'src/serialization/proto/output/google/protobuf/any.pb.dart';
+export 'src/serialization/proto/output/graphic/paint.pb.dart';
+export 'src/serialization/proto/output/graphic/path.pb.dart';
+export 'src/serialization/proto_serializer_with_versioning.dart';
+export 'src/serialization/serializer/command/graphic/draw_path_command_serializer.dart';
+export 'src/serialization/serializer/graphic/paint_serializer.dart';
+export 'src/serialization/serializer/graphic/path_serializer.dart';
+export 'src/serialization/version_serializer.dart';

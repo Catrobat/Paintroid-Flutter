@@ -1,0 +1,1 @@
+enum ImageLocation { photos, files }

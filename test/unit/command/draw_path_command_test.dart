@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:paintroid/command/draw_path_command.dart';
+import 'package:paintroid/command/command.dart';
+import 'package:paintroid/core/path_with_action_history.dart';
 
 import 'draw_path_command_test.mocks.dart';
 
@@ -19,7 +20,7 @@ void main() {
   test(
     'drawPath method is called on the Canvas with given Path and Paint objects',
     () {
-      final testPath = Path();
+      final testPath = PathWithActionHistory();
       final testPaint = Paint();
       drawPath = DrawPathCommand(testPath, testPaint);
       when(mockCanvas.drawPath(testPath, testPaint)).thenReturn(null);
