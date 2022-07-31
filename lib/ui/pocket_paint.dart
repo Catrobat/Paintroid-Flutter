@@ -12,7 +12,8 @@ class PocketPaint extends ConsumerWidget {
 
   void _toggleStatusBar(bool isFullscreen) {
     SystemChrome.setEnabledSystemUIMode(
-      isFullscreen ? SystemUiMode.immersiveSticky : SystemUiMode.edgeToEdge,
+      isFullscreen ? SystemUiMode.immersiveSticky : SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
     );
   }
 
@@ -40,7 +41,6 @@ class PocketPaint extends ConsumerWidget {
         appBar: isFullscreen ? null : TopAppBar(title: "Pocket Paint"),
         backgroundColor: Colors.grey.shade400,
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Stack(
             children: [
               Center(
