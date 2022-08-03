@@ -28,8 +28,9 @@ class IOHandler {
     final result = await loadImage();
     result.when(
       ok: (img) async {
-        ref.read(CanvasState.provider.notifier).clearCanvasAndCommandHistory();
-        ref.read(WorkspaceState.provider.notifier).setBackgroundImage(img);
+        ref.read(CanvasState.provider.notifier)
+          ..setBackgroundImage(img)
+          ..resetCanvasWithNewCommands([]);
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
@@ -44,16 +45,17 @@ class IOHandler {
     final result = await loadImage();
     result.when(
       ok: (imageFromFile) async {
-        ref.read(CanvasState.provider.notifier).clearCanvasAndCommandHistory();
+        final canvasStateNotifier = ref.read(CanvasState.provider.notifier);
         if (imageFromFile.catrobatImage != null) {
           final commands = imageFromFile.catrobatImage!.commands;
-          ref.read(CommandManager.provider).clearHistory(newCommands: commands);
-          ref.read(CanvasState.provider.notifier).reCacheImageForAllCommands();
+          canvasStateNotifier.resetCanvasWithNewCommands(commands);
+        } else {
+          canvasStateNotifier.resetCanvasWithNewCommands([]);
         }
-        final workspaceNotifier = ref.read(WorkspaceState.provider.notifier);
         imageFromFile.rasterImage == null
-            ? workspaceNotifier.clearBackgroundImageAndResetDimensions()
-            : workspaceNotifier.setBackgroundImage(imageFromFile.rasterImage!);
+            ? canvasStateNotifier.clearBackgroundImageAndResetDimensions()
+            : canvasStateNotifier
+                .setBackgroundImage(imageFromFile.rasterImage!);
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
@@ -83,11 +85,11 @@ class IOHandler {
 
   Future<void> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
     final commands = ref.read(CommandManager.provider).history;
-    final workspaceState = ref.read(WorkspaceState.provider);
-    final imgWidth = workspaceState.exportSize.width.toInt();
-    final imgHeight = workspaceState.exportSize.height.toInt();
+    final canvasState = ref.read(CanvasState.provider);
+    final imgWidth = canvasState.size.width.toInt();
+    final imgHeight = canvasState.size.height.toInt();
     final catrobatImage = CatrobatImage(
-        commands, imgWidth, imgHeight, workspaceState.backgroundImage);
+        commands, imgWidth, imgHeight, canvasState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
     final result = await saveAsCatrobatImage(imageData, catrobatImage);
     result.when(

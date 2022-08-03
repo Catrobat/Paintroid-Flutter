@@ -16,31 +16,20 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
   final CommandManager _commandManager;
   final GraphicFactory _graphicFactory;
 
-  final _imageScale = window.devicePixelRatio;
+  void setBackgroundImage(Image image) => state = state.copyWith(
+        backgroundImage: Option.some(image),
+        size: Size(image.width.toDouble(), image.height.toDouble()),
+      );
 
-  void updateCanvasSize(Size newSize) async {
-    state = state.copyWith(size: newSize);
-    if (_commandManager.count > 0) {
-      reCacheImageForAllCommands();
-    }
-  }
-
-  void reCacheImageForAllCommands() async {
-    final recorder = _graphicFactory.createPictureRecorder();
-    final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
-    final size = state.size * _imageScale;
-    canvas.scale(_imageScale);
-    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    _commandManager.executeAllCommands(canvas);
-    final picture = recorder.endRecording();
-    final img = await picture.toImage(size.width.toInt(), size.height.toInt());
-    state = state.copyWith(cachedImage: Option.some(img));
-  }
+  void clearBackgroundImageAndResetDimensions() => state = state.copyWith(
+        backgroundImage: Option.none(),
+        size: CanvasState.initial.size,
+      );
 
   void updateCachedImage() async {
     final recorder = _graphicFactory.createPictureRecorder();
     final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
-    final size = state.size * _imageScale;
+    final size = state.size;
     final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
     if (state.cachedImage != null) {
       paintImage(
@@ -50,7 +39,6 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
           fit: BoxFit.fill,
           filterQuality: FilterQuality.none);
     }
-    canvas.scale(_imageScale);
     canvas.clipRect(bounds);
     _commandManager.executeLastCommand(canvas);
     final picture = recorder.endRecording();
@@ -58,8 +46,19 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
     state = state.copyWith(cachedImage: Option.some(img));
   }
 
-  void clearCanvasAndCommandHistory() {
-    _commandManager.clearHistory();
-    state = state.copyWith(cachedImage: Option.none());
+  void resetCanvasWithNewCommands(Iterable<Command> commands) async {
+    _commandManager.clearHistory(newCommands: commands);
+    if (commands.isEmpty) {
+      state = state.copyWith(cachedImage: Option.none());
+    } else {
+      final recorder = _graphicFactory.createPictureRecorder();
+      final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
+      final size = state.size;
+      canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+      _commandManager.executeAllCommands(canvas);
+      final picture = recorder.endRecording();
+      final img = await picture.toImage(size.width.toInt(), size.height.toInt());
+      state = state.copyWith(cachedImage: Option.some(img));
+    }
   }
 }

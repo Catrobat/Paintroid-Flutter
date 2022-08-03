@@ -51,14 +51,6 @@ final _testCanvasStateProvider =
   },
 );
 
-final _testWorkspaceStateProvider = StateNotifierProvider.family<
-    WorkspaceStateNotifier, WorkspaceState, WorkspaceState>(
-  (ref, initialState) => WorkspaceStateNotifier(
-    initialState,
-    ref.watch(CommandManager.provider),
-  ),
-);
-
 @GenerateMocks(
   [],
   customMocks: [
@@ -76,18 +68,12 @@ void main() {
   test(
     'Should return image with the workspace export dimensions',
     () async {
-      const testCanvasState = CanvasState(size: Size(300, 800));
       const expectedImageSize = Size(108, 192);
-      const testWorkspaceState = WorkspaceState(
-        isFullscreen: false,
-        exportSize: expectedImageSize,
-      );
+      const testCanvasState = CanvasState(size: expectedImageSize);
       container = ProviderContainer(
         overrides: [
           CanvasState.provider
               .overrideWithProvider(_testCanvasStateProvider(testCanvasState)),
-          WorkspaceState.provider.overrideWithProvider(
-              _testWorkspaceStateProvider(testWorkspaceState))
         ],
       );
       final sut = container.read(RenderImageForExport.provider);
@@ -113,12 +99,11 @@ void main() {
 
   group('Should paint on canvas in the correct order', () {
     const testCanvasSize = Size(300, 800);
-    const testExportSize = Size(108, 192);
     const testImageSize = Size(50, 50);
     final testImageRect =
         Rect.fromLTWH(0, 0, testImageSize.width, testImageSize.height);
-    final testExportRect =
-        Rect.fromLTRB(0, 0, testExportSize.width, testExportSize.height);
+    final testCanvasRect =
+        Rect.fromLTRB(0, 0, testCanvasSize.width, testCanvasSize.height);
     late Paint testPaint;
     late MockCanvas mockCanvas;
     late MockCommandManager mockCommandManager;
@@ -134,11 +119,6 @@ void main() {
         CommandManager.provider.overrideWithValue(mockCommandManager),
         CanvasState.provider.overrideWithProvider(
             _testCanvasStateProvider(const CanvasState(size: testCanvasSize))),
-        WorkspaceState.provider.overrideWithProvider(
-            _testWorkspaceStateProvider(const WorkspaceState(
-          isFullscreen: false,
-          exportSize: testExportSize,
-        ))),
       ]);
       sut = container.read(RenderImageForExport.provider);
     });
@@ -146,8 +126,7 @@ void main() {
     test('When transparency is enabled and no image is loaded', () async {
       await sut.call();
       verifyInOrder([
-        mockCanvas.scale(testExportSize.width / testCanvasSize.width),
-        mockCanvas.clipRect(testExportRect, doAntiAlias: false),
+        mockCanvas.clipRect(testCanvasRect, doAntiAlias: false),
         mockCommandManager.executeAllCommands(mockCanvas),
       ]);
       verifyNoMoreInteractions(mockCanvas);
@@ -158,8 +137,7 @@ void main() {
       await sut.call(keepTransparency: false);
       verifyInOrder([
         mockCanvas.drawPaint(testPaint),
-        mockCanvas.scale(testExportSize.width / testCanvasSize.width),
-        mockCanvas.clipRect(testExportRect, doAntiAlias: false),
+        mockCanvas.clipRect(testCanvasRect, doAntiAlias: false),
         mockCommandManager.executeAllCommands(mockCanvas),
       ]);
       verifyNoMoreInteractions(mockCanvas);
@@ -170,15 +148,12 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      when(mockCommandManager.count).thenReturn(0);
       container
-          .read(WorkspaceState.provider.notifier)
+          .read(CanvasState.provider.notifier)
           .setBackgroundImage(testImage);
       await sut.call();
       verifyInOrder([
-        mockCommandManager.count,
         mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
-        mockCanvas.scale(testImageSize.width / testCanvasSize.width),
         mockCanvas.clipRect(testImageRect, doAntiAlias: false),
         mockCommandManager.executeAllCommands(mockCanvas),
       ]);
@@ -192,14 +167,12 @@ void main() {
           height: testImageSize.height.toInt());
       when(mockCommandManager.count).thenReturn(0);
       container
-          .read(WorkspaceState.provider.notifier)
+          .read(CanvasState.provider.notifier)
           .setBackgroundImage(testImage);
       await sut.call(keepTransparency: false);
       verifyInOrder([
-        mockCommandManager.count,
         mockCanvas.drawPaint(testPaint),
         mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
-        mockCanvas.scale(testImageSize.width / testCanvasSize.width),
         mockCanvas.clipRect(testImageRect, doAntiAlias: false),
         mockCommandManager.executeAllCommands(mockCanvas),
       ]);

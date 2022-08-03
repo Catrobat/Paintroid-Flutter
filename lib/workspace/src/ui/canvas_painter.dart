@@ -4,7 +4,6 @@ import 'package:paintroid/command/command.dart';
 
 import '../state/canvas_dirty_state.dart';
 import '../state/canvas_state_notifier.dart';
-import '../state/workspace_state_notifier.dart';
 import 'command_painter.dart';
 import 'transparency_grid_pattern.dart';
 
@@ -14,7 +13,7 @@ class CanvasPainter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backgroundImage = ref.watch(
-      WorkspaceState.provider.select((value) => value.backgroundImage),
+      CanvasState.provider.select((value) => value.backgroundImage),
     );
     return Stack(
       fit: StackFit.expand,

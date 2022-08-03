@@ -29,10 +29,9 @@ class RenderImageForExport {
       final paint = _graphicFactory.createPaint();
       canvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
     }
-    final canvasSize = _ref.read(CanvasState.provider).size;
-    final workspaceState = _ref.read(WorkspaceState.provider);
-    final exportSize = workspaceState.exportSize;
-    final backgroundImage = workspaceState.backgroundImage;
+    final canvasState = _ref.read(CanvasState.provider);
+    final exportSize = canvasState.size;
+    final backgroundImage = canvasState.backgroundImage;
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);
     if (backgroundImage != null) {
       paintImage(
@@ -43,7 +42,6 @@ class RenderImageForExport {
         filterQuality: FilterQuality.none,
       );
     }
-    canvas.scale(exportSize.width / canvasSize.width);
     canvas.clipRect(scaledRect, doAntiAlias: false);
     _commandManager.executeAllCommands(canvas);
     final picture = recorder.endRecording();
