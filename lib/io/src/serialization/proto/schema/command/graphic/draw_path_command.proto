@@ -1,0 +1,9 @@
+syntax = 'proto3';
+
+import 'graphic/paint.proto';
+import 'graphic/path.proto';
+
+message SerializableDrawPathCommand {
+  SerializablePaint paint = 1;
+  SerializablePath path = 2;
+}

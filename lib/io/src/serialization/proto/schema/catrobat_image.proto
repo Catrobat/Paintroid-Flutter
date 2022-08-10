@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+message SerializableCatrobatImage {
+  string magicValue = 1;
+  int32 version = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  repeated google.protobuf.Any commands = 5;
+  optional bytes backgroundImage = 6;
+}

@@ -1,80 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/ui/top_app_bar.dart';
+import 'package:paintroid/workspace/workspace.dart';
 
-import 'custom_navigation_bar.dart';
-import 'drawing_board.dart';
+import 'bottom_control_navigation_bar.dart';
+import 'exit_fullscreen_button.dart';
 
-class PocketPaint extends StatefulWidget {
-  final String title;
+class PocketPaint extends ConsumerWidget {
+  const PocketPaint({Key? key}) : super(key: key);
 
-  const PocketPaint({Key? key, required this.title}) : super(key: key);
-
-  @override
-  State<PocketPaint> createState() => _PocketPaintState();
-}
-
-class _PocketPaintState extends State<PocketPaint> {
-  bool _isFullscreen = false;
-  bool _isDrawing = false;
-
-  void _toggleOnFullscreen() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    setState(() => _isFullscreen = true);
-  }
-
-  void _toggleOffFullscreen() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    setState(() => _isFullscreen = false);
+  void _toggleStatusBar(bool isFullscreen) {
+    SystemChrome.setEnabledSystemUIMode(
+      isFullscreen ? SystemUiMode.immersiveSticky : SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFullscreen = ref.watch(
+      WorkspaceState.provider.select((state) => state.isFullscreen),
+    );
+    ref.listen<bool>(
+      WorkspaceState.provider.select((state) => state.isFullscreen),
+      (_, isFullscreen) => _toggleStatusBar(isFullscreen),
+    );
     return WillPopScope(
       onWillPop: () async {
-        final willPop = !_isFullscreen;
-        if (_isFullscreen) {
-          _toggleOffFullscreen();
+        final willPop = !isFullscreen;
+        if (isFullscreen) {
+          ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         }
         return willPop;
       },
       child: Scaffold(
-        appBar: _isFullscreen
-            ? null
-            : AppBar(
-                title: Text(widget.title),
-                centerTitle: false,
-                actions: [
-                  IconButton(
-                    onPressed: () => _toggleOnFullscreen(),
-                    icon: const Icon(Icons.fullscreen),
-                  )
-                ],
-              ),
+        appBar: isFullscreen ? null : TopAppBar(title: "Pocket Paint"),
+        backgroundColor: Colors.grey.shade400,
         body: SafeArea(
           child: Stack(
+            clipBehavior: Clip.hardEdge,
             children: [
-              DrawingBoard(
-                startedDrawing: () => setState(() => _isDrawing = true),
-                stoppedDrawing: () => setState(() => _isDrawing = false),
+              Center(
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: ref.watch(CanvasState.provider).scale,
+                    child: const DrawingCanvas(),
+                  ),
+                ),
               ),
-              if (_isFullscreen)
-                Positioned(
+              if (isFullscreen)
+                const Positioned(
                   top: 2,
                   right: 2,
-                  child: AnimatedOpacity(
-                    opacity: _isDrawing ? 0 : 1,
-                    duration: const Duration(milliseconds: 200),
-                    child: IconButton(
-                      onPressed: () => _toggleOffFullscreen(),
-                      icon: const Icon(Icons.fullscreen_exit),
-                    ),
-                  ),
+                  child: ExitFullscreenButton(),
                 ),
             ],
           ),
         ),
         bottomNavigationBar:
-            _isFullscreen ? null : const CustomNavigationBar(),
+            isFullscreen ? null : const BottomControlNavigationBar(),
       ),
     );
   }
