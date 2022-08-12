@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:paintroid/core/app_localizations.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
   static const height = 64.0;
@@ -8,6 +9,7 @@ class BottomControlNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return NavigationBarTheme(
       data: NavigationBarThemeData(
         indicatorColor: Colors.transparent,
@@ -18,25 +20,25 @@ class BottomControlNavigationBar extends StatelessWidget {
       child: NavigationBar(
         height: height,
         destinations: [
-          const NavigationDestination(
-            label: "Tools",
-            icon: _BottomBarIcon(asset: 'asset/svg/ic_tools.svg'),
-          ),
-          const NavigationDestination(
-            label: "Brush",
-            icon: _BottomBarIcon(asset: 'asset/svg/ic_brush.svg'),
+          NavigationDestination(
+            label: localizations.tools,
+            icon: const _BottomBarIcon(asset: 'asset/svg/ic_tools.svg'),
           ),
           NavigationDestination(
-            label: "Color",
+            label: localizations.brush,
+            icon: const _BottomBarIcon(asset: 'asset/svg/ic_brush.svg'),
+          ),
+          NavigationDestination(
+            label: localizations.color,
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
               color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
-          const NavigationDestination(
-            label: "Layers",
-            icon: _BottomBarIcon(asset: 'asset/svg/ic_layers.svg'),
+          NavigationDestination(
+            label: localizations.layers,
+            icon: const _BottomBarIcon(asset: 'asset/svg/ic_layers.svg'),
           ),
         ],
       ),

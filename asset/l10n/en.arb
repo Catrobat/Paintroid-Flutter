@@ -1,4 +1,11 @@
 {
     "@@locale": "en",
-    "helloWorld": "Hello World!"
+    "fullscreen": "Fullscreen",
+    "saveImage": "Save image",
+    "loadImage": "Load image",
+    "newImage": "New image",
+    "tools": "Tools",
+    "brush": "Brush",
+    "color": "Color",
+    "layers": "Layers"
 }
