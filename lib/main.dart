@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:logging/logging.dart';
@@ -51,6 +52,8 @@ class PocketPaintApp extends StatelessWidget {
         },
         child: MaterialApp(
           title: 'Pocket Paint',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           theme:
               ThemeData.from(useMaterial3: true, colorScheme: lightColorScheme),
           initialRoute: "/",

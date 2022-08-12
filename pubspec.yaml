@@ -11,6 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
   equatable: ^2.0.3
   flutter_svg: ^1.1.0
   image: ^3.2.0
@@ -41,6 +44,7 @@ dev_dependencies:
   floor_generator: ^1.2.0
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
