@@ -46,10 +46,15 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     final toolStateNotifier = ref.watch(ToolState.provider.notifier);
     final canvasStateNotifier = ref.watch(CanvasState.provider.notifier);
     final canvasDirtyNotifier = ref.watch(CanvasDirtyState.provider.notifier);
+    final canvasSize = ref.watch(CanvasState.provider).size;
+    final panningMargin = (canvasSize - const Offset(5, 5)) as Size;
     return InteractiveViewer(
       clipBehavior: Clip.none,
       transformationController: _transformationController,
-      boundaryMargin: const EdgeInsets.all(double.infinity),
+      boundaryMargin: EdgeInsets.symmetric(
+        horizontal: panningMargin.width,
+        vertical: panningMargin.height,
+      ),
       minScale: 0.2,
       maxScale: 6.9,
       panEnabled: false,
@@ -77,7 +82,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         }
       },
       child: SizedBox.fromSize(
-        size: ref.watch(CanvasState.provider).size,
+        size: canvasSize,
         child: const DecoratedBox(
           decoration: BoxDecoration(
             border: Border.fromBorderSide(BorderSide(width: 0.5)),
