@@ -5,7 +5,6 @@ class CanvasState {
   final Image? backgroundImage;
   final Image? cachedImage;
   final Size size;
-  final double scale;
 
   static const initial = CanvasState(size: Size(1080, 1920));
 
@@ -23,7 +22,6 @@ class CanvasState {
   const CanvasState({
     this.backgroundImage,
     this.cachedImage,
-    this.scale = 0.85,
     required this.size,
   });
 
@@ -31,7 +29,6 @@ class CanvasState {
     Option<Image>? backgroundImage,
     Option<Image>? cachedImage,
     Size? size,
-    double? scale,
   }) {
     return CanvasState(
       backgroundImage: backgroundImage != null
@@ -40,7 +37,6 @@ class CanvasState {
       cachedImage:
           cachedImage != null ? cachedImage.toNullable() : this.cachedImage,
       size: size ?? this.size,
-      scale: scale ?? this.scale,
     );
   }
 }

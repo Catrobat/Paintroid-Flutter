@@ -41,13 +41,10 @@ class PocketPaint extends ConsumerWidget {
           child: Stack(
             clipBehavior: Clip.hardEdge,
             children: [
-              Center(
+              const Center(
                 child: FittedBox(
                   fit: BoxFit.contain,
-                  child: Transform.scale(
-                    scale: ref.watch(CanvasState.provider).scale,
-                    child: const DrawingCanvas(),
-                  ),
+                  child: DrawingCanvas(),
                 ),
               ),
               if (isFullscreen)

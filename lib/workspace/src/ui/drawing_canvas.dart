@@ -13,38 +13,77 @@ class DrawingCanvas extends ConsumerStatefulWidget {
   ConsumerState<DrawingCanvas> createState() => _DrawingCanvasState();
 }
 
-class _DrawingCanvasState extends ConsumerState<DrawingCanvas>
-    with WidgetsBindingObserver {
-  late final toolStateNotifier = ref.read(ToolState.provider.notifier);
-  late final canvasStateNotifier = ref.read(CanvasState.provider.notifier);
-  late final canvasDirtyNotifier = ref.read(CanvasDirtyState.provider.notifier);
+class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
+  final _transformationController = TransformationController();
+
+  void _resetCanvasScale() {
+    final box = context.findRenderObject() as RenderBox;
+    final widgetCenterOffset = Alignment.center.alongSize(box.size);
+    final scaledMatrix = _transformationController.value.clone()..scale(0.85);
+    _transformationController.value = scaledMatrix;
+    final scaleAdjustedCenterOffset =
+        _transformationController.toScene(widgetCenterOffset) -
+            widgetCenterOffset;
+    final centeredMatrix = _transformationController.value.clone()
+      ..translate(scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy);
+    _transformationController.value = centeredMatrix;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _resetCanvasScale());
+  }
+
+  @override
+  void didUpdateWidget(covariant DrawingCanvas oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _resetCanvasScale();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.fromSize(
-      size: ref.watch(CanvasState.provider).size,
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          border: Border.fromBorderSide(BorderSide(width: 0.5)),
-        ),
-        position: DecorationPosition.foreground,
-        child: GestureDetector(
-          onPanDown: (details) {
-            final box = context.findRenderObject() as RenderBox;
-            toolStateNotifier
-                .didTapDown(box.globalToLocal(details.globalPosition));
-          },
-          onPanUpdate: (details) {
-            final box = context.findRenderObject() as RenderBox;
-            toolStateNotifier
-                .didDrag(box.globalToLocal(details.globalPosition));
-            canvasDirtyNotifier.repaint();
-          },
-          onPanEnd: (_) {
-            toolStateNotifier.didTapUp();
-            canvasStateNotifier.updateCachedImage();
-          },
-          child: const CanvasPainter(),
+    final toolStateNotifier = ref.watch(ToolState.provider.notifier);
+    final canvasStateNotifier = ref.watch(CanvasState.provider.notifier);
+    final canvasDirtyNotifier = ref.watch(CanvasDirtyState.provider.notifier);
+    return InteractiveViewer(
+      clipBehavior: Clip.none,
+      transformationController: _transformationController,
+      boundaryMargin: const EdgeInsets.all(double.infinity),
+      minScale: 0.2,
+      maxScale: 6.9,
+      panEnabled: false,
+      onInteractionStart: (details) {
+        final transformedLocalPoint = _transformationController.toScene(
+          details.localFocalPoint,
+        );
+        if (details.pointerCount < 2) {
+          toolStateNotifier.didTapDown(transformedLocalPoint);
+        }
+      },
+      onInteractionUpdate: (details) {
+        if (details.pointerCount < 2) {
+          final transformedLocalPoint = _transformationController.toScene(
+            details.localFocalPoint,
+          );
+          toolStateNotifier.didDrag(transformedLocalPoint);
+          canvasDirtyNotifier.repaint();
+        }
+      },
+      onInteractionEnd: (details) {
+        if (details.pointerCount < 1) {
+          toolStateNotifier.didTapUp();
+          canvasStateNotifier.updateCachedImage();
+        }
+      },
+      child: SizedBox.fromSize(
+        size: ref.watch(CanvasState.provider).size,
+        child: const DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.fromBorderSide(BorderSide(width: 0.5)),
+          ),
+          position: DecorationPosition.foreground,
+          child: CanvasPainter(),
         ),
       ),
     );
