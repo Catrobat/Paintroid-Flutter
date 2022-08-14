@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:paintroid/tool/tool.dart';
 
-class BottomControlNavigationBar extends StatelessWidget {
+class BottomControlNavigationBar extends ConsumerWidget {
   static const height = 64.0;
 
   const BottomControlNavigationBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final toolNotifier = ref.watch(ToolState.provider.notifier);
     return NavigationBarTheme(
       data: NavigationBarThemeData(
         indicatorColor: Colors.transparent,
@@ -17,6 +20,12 @@ class BottomControlNavigationBar extends StatelessWidget {
       ),
       child: NavigationBar(
         height: height,
+        onDestinationSelected: (idx) {
+          switch (idx) {
+            case 1:
+              toolNotifier.toggleOptionsVisibility();
+          }
+        },
         destinations: [
           const NavigationDestination(
             label: "Tools",

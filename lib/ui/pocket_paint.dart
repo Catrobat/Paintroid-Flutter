@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/ui/tool_options.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -50,6 +51,7 @@ class PocketPaint extends ConsumerWidget {
                   ),
                 ),
               ),
+              const ToolOptions(),
               if (isFullscreen)
                 const Positioned(
                   top: 2,

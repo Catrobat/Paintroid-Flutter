@@ -20,4 +20,8 @@ class ToolStateNotifier extends StateNotifier<ToolState> {
     state.currentTool.onUp(position);
     state = state.copyWith(isDown: false);
   }
+
+  void toggleOptionsVisibility([bool? areVisible]) => state = state.copyWith(
+        areOptionsVisible: areVisible ?? !state.areOptionsVisible,
+      );
 }
