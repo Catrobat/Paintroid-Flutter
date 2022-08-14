@@ -4,6 +4,7 @@ import 'package:paintroid/tool/tool.dart';
 
 import '../state/canvas_dirty_state.dart';
 import '../state/canvas_state_notifier.dart';
+import '../state/workspace_state_notifier.dart';
 import 'canvas_painter.dart';
 
 class DrawingCanvas extends ConsumerStatefulWidget {
@@ -16,10 +17,13 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
 
-  void _resetCanvasScale() {
+  void _resetCanvasScale({bool fitToScreen = false}) {
     final box = context.findRenderObject() as RenderBox;
     final widgetCenterOffset = Alignment.center.alongSize(box.size);
-    final scaledMatrix = _transformationController.value.clone()..scale(0.85);
+    final scale = fitToScreen ? 1.0 : 0.85;
+    final scaledMatrix = _transformationController.value.clone()
+      ..setEntry(0, 0, scale)
+      ..setEntry(1, 1, scale);
     _transformationController.value = scaledMatrix;
     final scaleAdjustedCenterOffset =
         _transformationController.toScene(widgetCenterOffset) -
@@ -43,6 +47,12 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(
+      WorkspaceState.provider.select((value) => value.isFullscreen),
+      (wasFullscreen, isFullscreen) {
+        _resetCanvasScale(fitToScreen: isFullscreen);
+      },
+    );
     final toolStateNotifier = ref.watch(ToolState.provider.notifier);
     final canvasStateNotifier = ref.watch(CanvasState.provider.notifier);
     final canvasDirtyNotifier = ref.watch(CanvasDirtyState.provider.notifier);
