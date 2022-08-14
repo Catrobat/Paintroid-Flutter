@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/tool/tool.dart';
 import 'package:paintroid/ui/tool_options.dart';
@@ -11,8 +12,10 @@ class BrushToolOptions extends ConsumerStatefulWidget {
 }
 
 class _BrushToolOptionsState extends ConsumerState<BrushToolOptions> {
-  double _strokeWidth = 25;
-  StrokeCap _strokeCap = StrokeCap.round;
+  late final _brushPaint = ref.read(BrushTool.provider).paint;
+  late final _textEditingController = TextEditingController(
+    text: "${_brushPaint.strokeWidth.toInt()}",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,10 @@ class _BrushToolOptionsState extends ConsumerState<BrushToolOptions> {
             width: 100,
             child: CustomPaint(
               painter: _StrokePainter(
-                  _strokeWidth, _strokeCap, const Color(0xFF808080)),
+                _brushPaint.strokeWidth,
+                _brushPaint.strokeCap,
+                _brushPaint.color,
+              ),
             ),
           ),
         ],
@@ -75,11 +81,11 @@ class _BrushToolOptionsState extends ConsumerState<BrushToolOptions> {
           side: const BorderSide(width: 0.25)),
       labelPadding: const EdgeInsets.symmetric(horizontal: 12),
       selectedColor: Theme.of(context).primaryColor,
-      selected: _strokeCap == cap,
+      selected: _brushPaint.strokeCap == cap,
       onSelected: (selected) {
-        if (selected && _strokeCap != cap) {
+        if (selected && _brushPaint.strokeCap != cap) {
           setState(() {
-            _strokeCap = cap;
+            _brushPaint.strokeCap = cap;
             brushTool.paint.strokeCap = cap;
           });
         }
@@ -94,29 +100,59 @@ class _BrushToolOptionsState extends ConsumerState<BrushToolOptions> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 55,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Text(
-              "${_strokeWidth.toInt()}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
+          TextField(
+            controller: _textEditingController,
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              isDense: true,
+              isCollapsed: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(style: BorderStyle.none, width: 0),
               ),
+              contentPadding: EdgeInsets.symmetric(vertical: 2),
+              constraints: BoxConstraints(maxWidth: 55),
             ),
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(3),
+              FilteringTextInputFormatter.digitsOnly,
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                if (newValue.text.isEmpty) return newValue;
+                final num = int.parse(newValue.text);
+                return num >= 1 && num <= 100 ? newValue : oldValue;
+              }),
+            ],
+            autocorrect: false,
+            expands: false,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+            onChanged: (text) {
+              if (text.isEmpty) return;
+              setState(() {
+                _brushPaint.strokeWidth = double.parse(text);
+                brushTool.paint.strokeWidth = _brushPaint.strokeWidth;
+              });
+            },
+            onSubmitted: (text) {
+              if (text.isNotEmpty) return;
+              _textEditingController.text = "${_brushPaint.strokeWidth.toInt()}";
+            },
           ),
           Expanded(
             child: Slider(
-              value: _strokeWidth,
+              value: _brushPaint.strokeWidth,
               min: 1,
               max: 100,
               divisions: 100,
-              onChanged: (val) => setState(() => _strokeWidth = val),
+              onChanged: (val) => setState(() {
+                _brushPaint.strokeWidth = val;
+                _textEditingController.text = "${val.toInt()}";
+              }),
               onChangeEnd: (val) => brushTool.paint.strokeWidth = val,
             ),
           )
