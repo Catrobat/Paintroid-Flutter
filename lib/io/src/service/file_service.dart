@@ -7,9 +7,13 @@ import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/core/loggable_mixin.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:path_provider/path_provider.dart';
 
 abstract class IFileService {
   Future<Result<File, Failure>> save(String filename, Uint8List data);
+
+  Future<Result<File, Failure>> saveToApplicationDirectory(
+      String filename, Uint8List data);
 
   Future<Result<File, Failure>> pick();
 
@@ -45,6 +49,24 @@ class FileService with LoggableMixin implements IFileService {
       }
       final file =
           await File("$saveDirectory/$filename").create(recursive: true);
+      return Result.ok(await file.writeAsBytes(data));
+    } catch (err, stacktrace) {
+      logger.severe("Could not save file", err, stacktrace);
+      return Result.err(SaveImageFailure.unidentified);
+    }
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  @override
+  Future<Result<File, Failure>> saveToApplicationDirectory(
+      String filename, Uint8List data) async {
+    try {
+      String saveDirectory = "${await _localPath}/$filename";
+      final file = await File(saveDirectory).create(recursive: true);
       return Result.ok(await file.writeAsBytes(data));
     } catch (err, stacktrace) {
       logger.severe("Could not save file", err, stacktrace);
