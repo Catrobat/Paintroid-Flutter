@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -6,15 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:paintroid/core/loggable_mixin.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:intl/intl.dart';
+import 'package:paintroid/io/io.dart';
 import 'package:paintroid/ui/project_overflow_menu.dart';
 
-import '../core/failure.dart';
-import '../io/src/failure/load_image_failure.dart';
-import '../io/src/ui/delete_project_dialog.dart';
 import '../workspace/src/state/canvas_state_notifier.dart';
 import '../workspace/src/state/workspace_state_notifier.dart';
 import 'color_schemes.dart';
@@ -29,8 +25,10 @@ class LandingPage extends ConsumerStatefulWidget {
   ConsumerState<LandingPage> createState() => _LandingPageState();
 }
 
-class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
+class _LandingPageState extends ConsumerState<LandingPage> {
   late ProjectDatabase database;
+  late IFileService fileService;
+  late IImageService imageService;
 
   Future<List<Project>> _getProjects() async {
     return await database.projectDAO.getProjects();
@@ -41,21 +39,11 @@ class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
     setState(() {});
   }
 
-  Result<File, Failure> getFile(String path) {
-    try {
-      return Result.ok(File(path));
-    } catch (err, stacktrace) {
-      logger.severe("Could not load file", err, stacktrace);
-      return Result.err(LoadImageFailure.unidentified);
-    }
-  }
-
   Future<bool> _loadProject(IOHandler ioHandler, Project project) async {
     project.lastModified = DateTime.now();
     await database.projectDAO.insertProject(project);
-    return getFile(project.path).when(
+    return fileService.getFile(project.path).when(
       ok: (file) async {
-        print(file.lengthSync());
         return await ioHandler.loadFromFiles(Result.ok(file));
       },
       err: (failure) {
@@ -68,15 +56,13 @@ class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
   }
 
   Uint8List? _getProjectPreview(String? path) {
-    if (path != null) {
-      try {
-        File file = File(path);
-        return file.readAsBytesSync();
-      } catch (err, stacktrace) {
-        showToast(stacktrace.toString());
-      }
-    }
-    return null;
+    return imageService.getProjectPreview(path).when(
+          ok: (preview) => preview,
+          err: (failure) {
+            showToast(failure.message);
+            return null;
+          },
+        );
   }
 
   ImageProvider _getProjectPreviewImageProvider(Uint8List img) => Image.memory(
@@ -89,6 +75,8 @@ class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
     final db = ref.watch(ProjectDatabase.provider);
     db.whenData((value) => database = value);
     final ioHandler = ref.watch(IOHandler.provider);
+    fileService = ref.watch(IFileService.provider);
+    imageService = ref.watch(IImageService.provider);
     final size = MediaQuery.of(context).size;
     Project? latestModifiedProject;
 
@@ -104,15 +92,18 @@ class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
             BoxDecoration bigImg;
             if (snapshot.data!.isNotEmpty) {
               latestModifiedProject = snapshot.data![0];
-              bigImg = BoxDecoration(
-                color: Colors.white54,
-                image: DecorationImage(
-                  image: _getProjectPreviewImageProvider(
-                    _getProjectPreview(
-                        latestModifiedProject!.imagePreviewPath!)!,
+              Uint8List? img =
+                  _getProjectPreview(latestModifiedProject!.imagePreviewPath);
+              if (img != null) {
+                bigImg = BoxDecoration(
+                  color: Colors.white54,
+                  image: DecorationImage(
+                    image: _getProjectPreviewImageProvider(img),
                   ),
-                ),
-              );
+                );
+              } else {
+                bigImg = const BoxDecoration(color: Colors.white54);
+              }
             } else {
               bigImg = const BoxDecoration(color: Colors.white54);
             }
@@ -187,8 +178,8 @@ class _LandingPageState extends ConsumerState<LandingPage> with LoggableMixin {
                         Uint8List? img =
                             _getProjectPreview(project.imagePreviewPath);
                         if (img != null) {
-                          // decodeImageFromList(img).then((value) =>
-                          //     print("${value.height} X ${value.width}"));
+                          decodeImageFromList(img).then((value) =>
+                              print("${value.height} X ${value.width}"));
                           imagePreview = BoxDecoration(
                             color: Colors.white,
                             image: DecorationImage(

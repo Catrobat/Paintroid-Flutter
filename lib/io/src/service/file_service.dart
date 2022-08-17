@@ -17,6 +17,8 @@ abstract class IFileService {
 
   Future<Result<File, Failure>> pick();
 
+  Result<File, Failure> getFile(String path);
+
   static final provider = Provider<IFileService>((ref) => FileService());
 }
 
@@ -71,6 +73,16 @@ class FileService with LoggableMixin implements IFileService {
     } catch (err, stacktrace) {
       logger.severe("Could not save file", err, stacktrace);
       return Result.err(SaveImageFailure.unidentified);
+    }
+  }
+
+  @override
+  Result<File, Failure> getFile(String path) {
+    try {
+      return Result.ok(File(path));
+    } catch (err, stacktrace) {
+      logger.severe("Could not load file", err, stacktrace);
+      return Result.err(LoadImageFailure.unidentified);
     }
   }
 }
