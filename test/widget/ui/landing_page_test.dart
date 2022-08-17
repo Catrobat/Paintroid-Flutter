@@ -15,9 +15,12 @@ import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
+import 'package:paintroid/io/src/ui/about_dialog.dart';
 import 'package:paintroid/main.dart';
 import 'package:paintroid/ui/overflow_menu.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/ui/project_overflow_menu.dart';
+import 'package:paintroid/ui/main_overflow_menu.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
 
 import 'landing_page_test.mocks.dart';
@@ -82,6 +85,40 @@ void main() {
       verify(dao.getProjects());
       final titleFinder = find.widgetWithText(AppBar, "Pocket Paint");
       expect(titleFinder, findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should have the MainOverflowMenu in app bar',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+      expect(find.byType(MainOverflowMenu), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should have "Rate us!", "Help", "About", "Feedback" options in MainOverflowMenu',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+      final mainOverflowMenu = find.byType(MainOverflowMenu);
+      expect(mainOverflowMenu, findsOneWidget);
+      await tester.tap(mainOverflowMenu);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rate us!'), findsOneWidget);
+      expect(find.text('Help'), findsOneWidget);
+      expect(find.text('About'), findsOneWidget);
+      expect(find.text('Feedback'), findsOneWidget);
     },
   );
 
@@ -271,6 +308,41 @@ void main() {
       await tester.tap(cancelButton);
       await tester.pumpAndSettle();
       expect(deleteProjectDialog, findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Should show AboutDialog',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+      final mainOverflowMenu = find.byType(MainOverflowMenu);
+      expect(mainOverflowMenu, findsOneWidget);
+      await tester.tap(mainOverflowMenu);
+      await tester.pumpAndSettle();
+      PackageInfo.setMockInitialValues(
+        appName: 'Pocket Paint',
+        packageName: 'org.catrobat.paintroid',
+        version: '1.0.0',
+        buildNumber: '1',
+        buildSignature: 'testSignature',
+      );
+      final about = find.text('About');
+      await tester.tap(about);
+      await tester.pumpAndSettle();
+
+      expect(find.widgetWithText(MyAboutDialog, 'About'), findsOneWidget);
+      expect(find.text('Version 1.0.0'), findsOneWidget);
+
+      final doneButton = find.widgetWithText(ElevatedButton, 'DONE');
+      expect(doneButton, findsOneWidget);
+      await tester.tap(doneButton);
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(MyAboutDialog, 'About'), findsNothing);
     },
   );
 
