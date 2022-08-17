@@ -58,7 +58,9 @@ void main() {
         IImageService.provider.overrideWithValue(imageService),
         IFileService.provider.overrideWithValue(fileService),
       ],
-      child: const PocketPaintApp(),
+      child: const PocketPaintApp(
+        showOnboardingPage: false,
+      ),
     );
     projects = List.generate(5, (index) => _createProject('project$index'));
     dummyImage = await createTestImage(width: 1080, height: 1920);
