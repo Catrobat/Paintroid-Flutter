@@ -16,6 +16,8 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
+  var _pointersOnScreen = 0;
+  var _isZooming = false;
 
   void _resetCanvasScale({bool fitToScreen = false}) {
     final box = context.findRenderObject() as RenderBox;
@@ -58,47 +60,60 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     final canvasDirtyNotifier = ref.watch(CanvasDirtyState.provider.notifier);
     final canvasSize = ref.watch(CanvasState.provider).size;
     final panningMargin = (canvasSize - const Offset(5, 5)) as Size;
-    return InteractiveViewer(
-      clipBehavior: Clip.none,
-      transformationController: _transformationController,
-      boundaryMargin: EdgeInsets.symmetric(
-        horizontal: panningMargin.width,
-        vertical: panningMargin.height,
-      ),
-      minScale: 0.2,
-      maxScale: 6.9,
-      panEnabled: false,
-      onInteractionStart: (details) {
-        final transformedLocalPoint = _transformationController.toScene(
-          details.localFocalPoint,
-        );
-        if (details.pointerCount < 2) {
-          toolStateNotifier.didTapDown(transformedLocalPoint);
+    return Listener(
+      onPointerDown: (_) {
+        _pointersOnScreen++;
+        if (_pointersOnScreen >= 2) {
+          _isZooming = true;
+          toolStateNotifier.didSwitchToZooming();
         }
       },
-      onInteractionUpdate: (details) {
-        if (details.pointerCount < 2) {
-          final transformedLocalPoint = _transformationController.toScene(
-            details.localFocalPoint,
-          );
-          toolStateNotifier.didDrag(transformedLocalPoint);
-          canvasDirtyNotifier.repaint();
-        }
+      onPointerUp: (_) {
+        _pointersOnScreen--;
+        if ( _isZooming && _pointersOnScreen == 0) _isZooming = false;
       },
-      onInteractionEnd: (details) {
-        if (details.pointerCount < 1) {
-          toolStateNotifier.didTapUp();
-          canvasStateNotifier.updateCachedImage();
-        }
-      },
-      child: SizedBox.fromSize(
-        size: canvasSize,
-        child: const DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border.fromBorderSide(BorderSide(width: 0.5)),
+      child: InteractiveViewer(
+        clipBehavior: Clip.none,
+        transformationController: _transformationController,
+        boundaryMargin: EdgeInsets.symmetric(
+          horizontal: panningMargin.width,
+          vertical: panningMargin.height,
+        ),
+        minScale: 0.2,
+        maxScale: 6.9,
+        panEnabled: false,
+        onInteractionStart: (details) {
+          if (!_isZooming) {
+            final transformedLocalPoint = _transformationController.toScene(
+              details.localFocalPoint,
+            );
+            toolStateNotifier.didTapDown(transformedLocalPoint);
+          }
+        },
+        onInteractionUpdate: (details) {
+          if (!_isZooming) {
+            final transformedLocalPoint = _transformationController.toScene(
+              details.localFocalPoint,
+            );
+            toolStateNotifier.didDrag(transformedLocalPoint);
+            canvasDirtyNotifier.repaint();
+          }
+        },
+        onInteractionEnd: (details) {
+          if (!_isZooming) {
+            toolStateNotifier.didTapUp();
+            canvasStateNotifier.updateCachedImage();
+          }
+        },
+        child: SizedBox.fromSize(
+          size: canvasSize,
+          child: const DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.fromBorderSide(BorderSide(width: 0.5)),
+            ),
+            position: DecorationPosition.foreground,
+            child: CanvasPainter(),
           ),
-          position: DecorationPosition.foreground,
-          child: CanvasPainter(),
         ),
       ),
     );

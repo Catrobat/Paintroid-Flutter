@@ -18,4 +18,6 @@ abstract class Tool {
   void onDrag(Offset point);
 
   void onUp(Offset? point);
+
+  void onCancel();
 }

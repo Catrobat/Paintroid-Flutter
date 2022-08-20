@@ -20,4 +20,9 @@ class ToolStateNotifier extends StateNotifier<ToolState> {
     state.currentTool.onUp(position);
     state = state.copyWith(isDown: false);
   }
+
+  void didSwitchToZooming() {
+    state.currentTool.onCancel();
+    state = state.copyWith(isDown: false);
+  }
 }
