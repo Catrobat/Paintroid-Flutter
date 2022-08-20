@@ -6,7 +6,10 @@ class CanvasState {
   final Image? cachedImage;
   final Size size;
 
-  static const initial = CanvasState(size: Size(1080, 1920));
+  static CanvasState get initial {
+    final size = widgets.WidgetsBinding.instance.window.physicalSize;
+    return CanvasState(size: size);
+  }
 
   static final provider =
       StateNotifierProvider<CanvasStateNotifier, CanvasState>(
