@@ -1,4 +1,4 @@
-name: Synchronize Crowdin
+name: Synchronize Crowdin Translations
 
 on:
   schedule:
