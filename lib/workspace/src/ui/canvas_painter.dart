@@ -13,7 +13,7 @@ class CanvasPainter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backgroundImage = ref.watch(
-      CanvasState.provider.select((value) => value.backgroundImage),
+      CanvasState.provider.select((state) => state.backgroundImage),
     );
     return Stack(
       fit: StackFit.expand,
@@ -30,7 +30,7 @@ class CanvasPainter extends ConsumerWidget {
           child: Consumer(
             builder: (context, ref, child) {
               final cachedImage = ref.watch(
-                CanvasState.provider.select((value) => value.cachedImage),
+                CanvasState.provider.select((state) => state.cachedImage),
               );
               return Consumer(
                 builder: (context, ref, child) {

@@ -7,7 +7,12 @@ class CanvasState {
   final Size size;
 
   static CanvasState get initial {
-    final size = widgets.WidgetsBinding.instance.window.physicalSize;
+    final window = widgets.WidgetsBinding.instance.window;
+    final obscuredOffset = Offset(
+      window.viewPadding.left + window.viewPadding.right,
+      Platform.isIOS ? window.viewPadding.top + window.viewPadding.bottom : 0,
+    );
+    final size = window.physicalSize - obscuredOffset as Size;
     return CanvasState(size: size);
   }
 

@@ -15,6 +15,11 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 }
 
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
+  late final _toolStateNotifier = ref.read(ToolState.provider.notifier);
+  late final _canvasStateNotifier = ref.read(CanvasState.provider.notifier);
+  late final _canvasDirtyNotifier = ref.read(CanvasDirtyState.provider.notifier);
+
+  final _canvasPainterKey = GlobalKey(debugLabel: "CanvasPainter");
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
@@ -35,6 +40,44 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     _transformationController.value = centeredMatrix;
   }
 
+  void _onPointerDown(PointerDownEvent _) {
+    _pointersOnScreen++;
+    if (_pointersOnScreen >= 2) {
+      _isZooming = true;
+      _toolStateNotifier.didSwitchToZooming();
+    }
+  }
+
+  void _onPointerUp(PointerUpEvent _) {
+    _pointersOnScreen--;
+    if (_isZooming && _pointersOnScreen == 0) _isZooming = false;
+  }
+
+  Offset _globalToCanvas(Offset global) {
+    final canvasBox = _canvasPainterKey.currentContext!.findRenderObject() as RenderBox;
+    return canvasBox.globalToLocal(global);
+  }
+
+  void _onInteractionStart(ScaleStartDetails details) {
+    if (!_isZooming) {
+      _toolStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
+    }
+  }
+
+  void _onInteractionUpdate(ScaleUpdateDetails details) {
+    if (!_isZooming) {
+      _toolStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
+      _canvasDirtyNotifier.repaint();
+    }
+  }
+
+  void _onInteractionEnd(ScaleEndDetails details) {
+    if (!_isZooming) {
+      _toolStateNotifier.didTapUp();
+      _canvasStateNotifier.updateCachedImage();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,28 +93,18 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   @override
   Widget build(BuildContext context) {
     ref.listen<bool>(
-      WorkspaceState.provider.select((value) => value.isFullscreen),
+      WorkspaceState.provider.select((state) => state.isFullscreen),
       (wasFullscreen, isFullscreen) {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
-    final toolStateNotifier = ref.watch(ToolState.provider.notifier);
-    final canvasStateNotifier = ref.watch(CanvasState.provider.notifier);
-    final canvasDirtyNotifier = ref.watch(CanvasDirtyState.provider.notifier);
-    final canvasSize = ref.watch(CanvasState.provider).size;
+    final canvasSize = ref.watch(
+      CanvasState.provider.select((state) => state.size),
+    );
     final panningMargin = (canvasSize - const Offset(5, 5)) as Size;
     return Listener(
-      onPointerDown: (_) {
-        _pointersOnScreen++;
-        if (_pointersOnScreen >= 2) {
-          _isZooming = true;
-          toolStateNotifier.didSwitchToZooming();
-        }
-      },
-      onPointerUp: (_) {
-        _pointersOnScreen--;
-        if ( _isZooming && _pointersOnScreen == 0) _isZooming = false;
-      },
+      onPointerDown: _onPointerDown,
+      onPointerUp: _onPointerUp,
       child: InteractiveViewer(
         clipBehavior: Clip.none,
         transformationController: _transformationController,
@@ -82,37 +115,23 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         minScale: 0.2,
         maxScale: 6.9,
         panEnabled: false,
-        onInteractionStart: (details) {
-          if (!_isZooming) {
-            final transformedLocalPoint = _transformationController.toScene(
-              details.localFocalPoint,
-            );
-            toolStateNotifier.didTapDown(transformedLocalPoint);
-          }
-        },
-        onInteractionUpdate: (details) {
-          if (!_isZooming) {
-            final transformedLocalPoint = _transformationController.toScene(
-              details.localFocalPoint,
-            );
-            toolStateNotifier.didDrag(transformedLocalPoint);
-            canvasDirtyNotifier.repaint();
-          }
-        },
-        onInteractionEnd: (details) {
-          if (!_isZooming) {
-            toolStateNotifier.didTapUp();
-            canvasStateNotifier.updateCachedImage();
-          }
-        },
-        child: SizedBox.fromSize(
-          size: canvasSize,
-          child: const DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.fromBorderSide(BorderSide(width: 0.5)),
+        onInteractionStart: _onInteractionStart,
+        onInteractionUpdate: _onInteractionUpdate,
+        onInteractionEnd: _onInteractionEnd,
+        child: Center(
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: SizedBox.fromSize(
+              key: _canvasPainterKey,
+              size: canvasSize,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.fromBorderSide(BorderSide(width: 0.5)),
+                ),
+                position: DecorationPosition.foreground,
+                child: CanvasPainter(),
+              ),
             ),
-            position: DecorationPosition.foreground,
-            child: CanvasPainter(),
           ),
         ),
       ),
