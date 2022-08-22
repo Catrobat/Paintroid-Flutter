@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:intl/intl.dart';
 import 'package:paintroid/io/io.dart';
 
 import '../../../data/model/project.dart';
 import '../../../ui/color_schemes.dart';
-import '../service/image_service.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
     showGeneralDialog<bool>(
@@ -37,13 +35,15 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
     imageService = ref.watch(IImageService.provider);
     fileService = ref.watch(IFileService.provider);
 
-    _getImageDimenstions(widget.project.imagePreviewPath);
+    _getImageDimensions(widget.project.imagePreviewPath);
+
+    final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
     return AlertDialog(
       title: Text(widget.project.name),
       actions: [_okButton],
       content: FutureBuilder(
-        future: _getImageDimenstions(widget.project.imagePreviewPath),
+        future: _getImageDimensions(widget.project.imagePreviewPath),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             final dimensions = snapshot.data!;
@@ -53,8 +53,10 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text("Resolution: ${dimensions[0]} X ${dimensions[1]}"),
-                Text("Last edited: ${widget.project.lastModified}"),
-                Text("Creation date: ${widget.project.creationDate}"),
+                Text(
+                    "Last modified: ${formatter.format(widget.project.lastModified)}"),
+                Text(
+                    "Creation date: ${formatter.format(widget.project.creationDate)}"),
                 Text("Size: ${filesize(_getProjectSize())}"),
               ],
             );
@@ -78,17 +80,15 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
         child: const Text("OK", style: TextStyle(color: Colors.white)),
       );
 
-  int _getProjectSize() {
-    return fileService.getFile(widget.project.path).when(
-          ok: (file) => file.lengthSync(),
-          err: (failure) {
-            showToast(failure.message);
-            return 0;
-          },
-        );
-  }
+  int _getProjectSize() => fileService.getFile(widget.project.path).when(
+        ok: (file) => file.lengthSync(),
+        err: (failure) {
+          showToast(failure.message);
+          return 0;
+        },
+      );
 
-  Future<List<int>> _getImageDimenstions(String? path) async {
+  Future<List<int>> _getImageDimensions(String? path) async {
     List<int> dimensions = [];
     return imageService.getProjectPreview(path).when(
       ok: (img) async {

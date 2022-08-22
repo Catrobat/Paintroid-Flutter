@@ -55,15 +55,14 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     );
   }
 
-  Uint8List? _getProjectPreview(String? path) {
-    return imageService.getProjectPreview(path).when(
-          ok: (preview) => preview,
-          err: (failure) {
-            showToast(failure.message);
-            return null;
-          },
-        );
-  }
+  Uint8List? _getProjectPreview(String? path) =>
+      imageService.getProjectPreview(path).when(
+            ok: (preview) => preview,
+            err: (failure) {
+              showToast(failure.message);
+              return null;
+            },
+          );
 
   ImageProvider _getProjectPreviewImageProvider(Uint8List img) => Image.memory(
         img,
@@ -178,8 +177,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                         Uint8List? img =
                             _getProjectPreview(project.imagePreviewPath);
                         if (img != null) {
-                          decodeImageFromList(img).then((value) =>
-                              print("${value.height} X ${value.width}"));
                           imagePreview = BoxDecoration(
                             color: Colors.white,
                             image: DecorationImage(

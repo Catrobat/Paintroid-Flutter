@@ -72,7 +72,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   void _enterFullscreen() =>
       ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
 
-  Future<void> _saveProject() async {
+  void _saveProject() async {
     File? savedProject;
     final imageData = await showSaveImageDialog(context, true);
 

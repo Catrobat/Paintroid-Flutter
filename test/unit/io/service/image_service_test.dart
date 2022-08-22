@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,5 +35,12 @@ void main() async {
       expect(img.width, equals(50));
       expect(img.height, equals(50));
     });
+  });
+
+  test('Should return project preview', () {
+    const path = 'test/fixture/image/test.png';
+    final result = sut.getProjectPreview(path);
+    final imgPreview = result.unwrapOrElse((failure) => fail(failure.message));
+    expect(imgPreview, isA<Uint8List>());
   });
 }
