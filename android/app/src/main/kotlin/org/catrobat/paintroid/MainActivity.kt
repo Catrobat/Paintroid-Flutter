@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
+import androidx.window.layout.WindowMetricsCalculator
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
@@ -34,11 +35,9 @@ class MainActivity : FlutterActivity() {
             setMethodCallHandler { call, result ->
                 when (call.method) {
                     "getHeightInPixels" -> {
-                        val height = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            windowManager.maximumWindowMetrics.bounds.height()
-                        } else {
-                            resources.displayMetrics.heightPixels
-                        }
+                        val windowMetrics = WindowMetricsCalculator.getOrCreate()
+                            .computeMaximumWindowMetrics(activity)
+                        val height = windowMetrics.bounds.height()
                         result.success(height.toDouble())
                     }
                     else -> result.notImplemented()
