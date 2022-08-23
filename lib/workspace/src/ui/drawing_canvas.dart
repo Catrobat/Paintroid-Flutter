@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/service/device_service.dart';
 import 'package:paintroid/tool/tool.dart';
 
 import '../state/canvas_dirty_state.dart';
@@ -17,28 +18,31 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   late final _toolStateNotifier = ref.read(ToolState.provider.notifier);
   late final _canvasStateNotifier = ref.read(CanvasState.provider.notifier);
-  late final _canvasDirtyNotifier = ref.read(CanvasDirtyState.provider.notifier);
+  late final _canvasDirtyNotifier =
+      ref.read(CanvasDirtyState.provider.notifier);
 
   final _canvasPainterKey = GlobalKey(debugLabel: "CanvasPainter");
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
 
-  void _resetCanvasScale({bool fitToScreen = false}) {
-    final box = context.findRenderObject() as RenderBox;
-    final widgetCenterOffset = Alignment.center.alongSize(box.size);
-    final scale = fitToScreen ? 1.0 : 0.85;
-    final scaledMatrix = _transformationController.value.clone()
-      ..setEntry(0, 0, scale)
-      ..setEntry(1, 1, scale);
-    _transformationController.value = scaledMatrix;
-    final scaleAdjustedCenterOffset =
-        _transformationController.toScene(widgetCenterOffset) -
-            widgetCenterOffset;
-    final centeredMatrix = _transformationController.value.clone()
-      ..translate(scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy);
-    _transformationController.value = centeredMatrix;
-  }
+  void _resetCanvasScale({bool fitToScreen = false}) =>
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final box = context.findRenderObject() as RenderBox;
+        final widgetCenterOffset = Alignment.center.alongSize(box.size);
+        final scale = fitToScreen ? 1.0 : 0.85;
+        final scaledMatrix = _transformationController.value.clone()
+          ..setEntry(0, 0, scale)
+          ..setEntry(1, 1, scale);
+        _transformationController.value = scaledMatrix;
+        final scaleAdjustedCenterOffset =
+            _transformationController.toScene(widgetCenterOffset) -
+                widgetCenterOffset;
+        final centeredMatrix = _transformationController.value.clone()
+          ..translate(
+              scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy);
+        _transformationController.value = centeredMatrix;
+      });
 
   void _onPointerDown(PointerDownEvent _) {
     _pointersOnScreen++;
@@ -54,7 +58,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   }
 
   Offset _globalToCanvas(Offset global) {
-    final canvasBox = _canvasPainterKey.currentContext!.findRenderObject() as RenderBox;
+    final canvasBox =
+        _canvasPainterKey.currentContext!.findRenderObject() as RenderBox;
     return canvasBox.globalToLocal(global);
   }
 
@@ -81,7 +86,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _resetCanvasScale());
+    _resetCanvasScale();
   }
 
   @override
@@ -119,22 +124,18 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,
         child: Center(
-          child: FittedBox(
-            fit: BoxFit.contain,
-            child: SizedBox.fromSize(
-              key: _canvasPainterKey,
-              size: canvasSize,
-              child: const DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.fromBorderSide(BorderSide(width: 0.5)),
-                ),
-                position: DecorationPosition.foreground,
-                child: CanvasPainter(),
+          child: ref.watch(IDeviceService.sizeProvider).map(
+                data: (_) => _canvasInFittedBox,
+                error: (_) => _canvasInFittedBox,
+                loading: (_) => const SizedBox.shrink(),
               ),
-            ),
-          ),
         ),
       ),
     );
   }
+
+  Widget get _canvasInFittedBox => FittedBox(
+        fit: BoxFit.contain,
+        child: CanvasPainter(key: _canvasPainterKey),
+      );
 }

@@ -6,21 +6,21 @@ class CanvasState {
   final Image? cachedImage;
   final Size size;
 
-  static CanvasState get initial {
-    final window = widgets.WidgetsBinding.instance.window;
-    final obscuredOffset = Offset(
-      window.viewPadding.left + window.viewPadding.right,
-      Platform.isIOS ? window.viewPadding.top + window.viewPadding.bottom : 0,
-    );
-    final size = window.physicalSize - obscuredOffset as Size;
-    return CanvasState(size: size);
-  }
+  static var _initial = const CanvasState(size: Size.zero);
+
+  static CanvasState get initial => _initial;
 
   static final provider =
       StateNotifierProvider<CanvasStateNotifier, CanvasState>(
     (ref) {
+      final canvasSize = ref.watch(IDeviceService.sizeProvider).when(
+            data: (size) => size,
+            error: (_, __) => window.physicalSize,
+            loading: () => Size.zero,
+          );
+      _initial = CanvasState(size: canvasSize);
       return CanvasStateNotifier(
-        initial,
+        _initial,
         ref.watch(CommandManager.provider),
         ref.watch(GraphicFactory.provider),
       );

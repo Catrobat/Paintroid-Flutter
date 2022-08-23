@@ -12,43 +12,62 @@ class CanvasPainter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final backgroundImage = ref.watch(
-      CanvasState.provider.select((state) => state.backgroundImage),
+    final size = ref.watch(CanvasState.provider.select((state) => state.size));
+    return Container(
+      width: size.width,
+      height: size.height,
+      foregroundDecoration: const BoxDecoration(
+        border: Border.fromBorderSide(BorderSide(width: 0.5)),
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          _backgroundLayer,
+          _paintingLayer,
+        ],
+      ),
     );
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        RepaintBoundary(
-          child: TransparencyGridPattern(
+  }
+
+  Widget get _backgroundLayer {
+    return RepaintBoundary(
+      child: Consumer(
+        builder: (context, ref, child) {
+          final backgroundImage = ref.watch(
+            CanvasState.provider.select((state) => state.backgroundImage),
+          );
+          return TransparencyGridPattern(
             numberOfSquaresAlongWidth: 100,
             child: backgroundImage != null
                 ? RawImage(image: backgroundImage)
                 : null,
-          ),
-        ),
-        RepaintBoundary(
-          child: Consumer(
+          );
+        },
+      ),
+    );
+  }
+
+  Widget get _paintingLayer {
+    return RepaintBoundary(
+      child: Consumer(
+        builder: (context, ref, child) {
+          final cachedImage = ref.watch(
+            CanvasState.provider.select((state) => state.cachedImage),
+          );
+          return Consumer(
             builder: (context, ref, child) {
-              final cachedImage = ref.watch(
-                CanvasState.provider.select((state) => state.cachedImage),
-              );
-              return Consumer(
-                builder: (context, ref, child) {
-                  ref.watch(CanvasDirtyState.provider);
-                  return CustomPaint(
-                    foregroundPainter: CommandPainter(
-                      ref.watch(CommandManager.provider),
-                    ),
-                    child: child,
-                  );
-                },
-                child:
-                    cachedImage != null ? RawImage(image: cachedImage) : null,
+              ref.watch(CanvasDirtyState.provider);
+              return CustomPaint(
+                foregroundPainter: CommandPainter(
+                  ref.watch(CommandManager.provider),
+                ),
+                child: child,
               );
             },
-          ),
-        ),
-      ],
+            child: cachedImage != null ? RawImage(image: cachedImage) : null,
+          );
+        },
+      ),
     );
   }
 }

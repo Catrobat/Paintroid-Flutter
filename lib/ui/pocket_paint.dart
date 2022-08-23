@@ -37,19 +37,18 @@ class PocketPaint extends ConsumerWidget {
       child: Scaffold(
         appBar: isFullscreen ? null : TopAppBar(title: "Pocket Paint"),
         backgroundColor: Colors.grey.shade400,
-        body: SafeArea(
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            children: [
-              const DrawingCanvas(),
-              if (isFullscreen)
-                const Positioned(
-                  top: 2,
-                  right: 2,
-                  child: ExitFullscreenButton(),
-                ),
-            ],
-          ),
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          clipBehavior: Clip.hardEdge,
+          children: [
+            const DrawingCanvas(),
+            if (isFullscreen)
+              const Positioned(
+                top: 2,
+                right: 2,
+                child: SafeArea(child: ExitFullscreenButton()),
+              ),
+          ],
         ),
         bottomNavigationBar:
             isFullscreen ? null : const BottomControlNavigationBar(),
