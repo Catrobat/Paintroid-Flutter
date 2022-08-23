@@ -13,10 +13,7 @@ abstract class IDeviceService {
   });
 
   static final sizeProvider = FutureProvider(
-    (ref) {
-      print("Bro");
-      return ref.watch(provider).getSizeInPixels();
-    },
+    (ref) => ref.watch(provider).getSizeInPixels(),
   );
 }
 
