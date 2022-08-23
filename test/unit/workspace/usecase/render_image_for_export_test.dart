@@ -63,6 +63,17 @@ void main() {
 
   late ProviderContainer container;
 
+  setUp(() {
+    const nonZeroSize = Size(1, 1);
+    const testCanvasState = CanvasState(size: nonZeroSize);
+    container = ProviderContainer(
+      overrides: [
+        CanvasState.provider
+            .overrideWithProvider(_testCanvasStateProvider(testCanvasState)),
+      ],
+    );
+  });
+
   tearDown(() => container.dispose());
 
   test(
@@ -86,7 +97,6 @@ void main() {
   test(
     'Should paint the background white when keepTransparency is true',
     () async {
-      container = ProviderContainer();
       final sut = container.read(RenderImageForExport.provider);
       final img = await sut.call(keepTransparency: false);
       final image = await ImageWithPixelInfo.initialize(img);
