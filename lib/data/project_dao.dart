@@ -10,8 +10,8 @@ abstract class ProjectDAO {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertProjects(List<Project> projects);
 
-  @delete
-  Future<void> deleteProject(Project project);
+  @Query('DELETE FROM Project WHERE id = :id')
+  Future<void> deleteProject(int id);
 
   @delete
   Future<void> deleteProjects(List<Project> projects);

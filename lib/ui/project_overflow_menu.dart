@@ -72,8 +72,10 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       } catch (err, stacktrace) {
         print("$err + $stacktrace.toString()");
       }
-      await database.projectDAO.deleteProject(widget.project);
-      ref.refresh(ProjectDatabase.provider);
+      if (widget.project.id != null) {
+        await database.projectDAO.deleteProject(widget.project.id!);
+        ref.refresh(ProjectDatabase.provider);
+      }
     }
   }
 

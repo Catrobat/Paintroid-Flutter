@@ -7,6 +7,7 @@ import 'package:paintroid/workspace/workspace.dart';
 
 import 'bottom_control_navigation_bar.dart';
 import 'exit_fullscreen_button.dart';
+import 'io_handler.dart';
 
 class PocketPaint extends ConsumerStatefulWidget {
   const PocketPaint({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
       WorkspaceState.provider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
+    final ioHandler = ref.watch(IOHandler.provider);
 
     return WillPopScope(
       onWillPop: () async {
@@ -39,8 +41,11 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
         if (isFullscreen) {
           ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         } else {
-          var b = await showDiscardChangesDialog(context);
-          willPop = b!;
+          final shouldDiscard = await showDiscardChangesDialog(context);
+          if (shouldDiscard != null && !shouldDiscard && mounted) {
+            ioHandler.saveImage(context);
+          }
+          willPop = shouldDiscard!;
         }
         return willPop;
       },

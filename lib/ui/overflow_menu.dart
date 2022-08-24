@@ -55,7 +55,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         _enterFullscreen();
         break;
       case OverflowMenuOption.saveImage:
-        ioHandler.saveImage(context, null);
+        ioHandler.saveImage(context);
         break;
       case OverflowMenuOption.saveProject:
         _saveProject();
@@ -77,9 +77,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     final imageData = await showSaveImageDialog(context, true);
 
     if (imageData != null && mounted) {
-      savedProject = await ioHandler.saveImage(context, imageData);
-      String? imagePreview = await ioHandler.getPreviewPath(imageData);
+      savedProject = await ioHandler.saveProject(imageData);
       if (savedProject != null) {
+        String? imagePreview = await ioHandler.getPreviewPath(imageData);
         Project project = Project(
           name: imageData.name,
           path: savedProject.path,
@@ -93,10 +93,6 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
         final db = await ref.read(ProjectDatabase.provider.future);
         await db.projectDAO.insertProject(project);
-        // $FloorProjectDatabase
-        //     .databaseBuilder("project_database.db")
-        //     .build()
-        //     .then((db) => db.projectDAO.insertProject(project));
       }
     }
   }

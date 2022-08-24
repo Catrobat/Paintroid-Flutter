@@ -18,16 +18,23 @@ class IOHandler {
   static final provider = Provider((ref) => IOHandler(ref));
 
   /// Returns [true] if the image was saved successfully
-  Future<File?> saveImage(
-      BuildContext context, ImageMetaData? imageMetaData) async {
+  Future<bool> saveImage(BuildContext context) async {
     final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final imageMetaData = await showSaveImageDialog(context, false);
     if (imageMetaData == null) {
-      imageMetaData = await showSaveImageDialog(context, false);
-      if (imageMetaData == null) return null;
+      return false;
     }
+    final isFileSaved = await workspaceStateNotifier
+        .performIOTask(() => _saveImageWith(imageMetaData));
+    workspaceStateNotifier.updateLastSavedCommandCount();
+    return isFileSaved;
+  }
+
+  Future<File?> saveProject(ImageMetaData imageMetaData) async {
+    if (imageMetaData is! CatrobatImageMetaData) return null;
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
     final savedFile = await workspaceStateNotifier
-        .performIOTask(() => _saveImageWith(imageMetaData!));
-    // todo: fix this condition
+        .performIOTask(() => _saveAsCatrobatImage(imageMetaData));
     workspaceStateNotifier.updateLastSavedCommandCount();
     return savedFile;
   }
@@ -35,17 +42,17 @@ class IOHandler {
   /// Returns [true] if -
   /// - There was no unsaved work, or
   /// - The unsaved work was saved successfully
-  Future<File?> handleUnsavedChanges(BuildContext context, State state) async {
+  Future<bool> handleUnsavedChanges(BuildContext context, State state) async {
     final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
     if (!workspaceStateNotifier.hasSavedLastWork) {
       final shouldDiscard = await showDiscardChangesDialog(context);
-      if (shouldDiscard == null || !state.mounted) return null;
+      if (shouldDiscard == null || !state.mounted) return false;
       if (!shouldDiscard) {
-        final didSave = await saveImage(context, null);
-        return didSave;
+        final didSave = await saveImage(context);
+        if (!didSave) return false;
       }
     }
-    return null;
+    return true;
   }
 
   /// Returns [true] if the image was loaded successfully
@@ -53,7 +60,7 @@ class IOHandler {
       BuildContext context, State state, bool unsavedChanges) async {
     if (unsavedChanges) {
       final shouldContinue = await handleUnsavedChanges(context, state);
-      if (shouldContinue != null) return false;
+      if (!shouldContinue) return false;
     }
     if (Platform.isIOS) {
       if (!state.mounted) return false;
@@ -72,7 +79,7 @@ class IOHandler {
   /// Returns [true] if a new image canvas was created successfully
   Future<bool> newImage(BuildContext context, State state) async {
     final shouldContinue = await handleUnsavedChanges(context, state);
-    if (shouldContinue == null) return false;
+    if (!shouldContinue) return false;
     ref.read(CanvasState.provider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
@@ -135,14 +142,15 @@ class IOHandler {
     );
   }
 
-  Future<File?> _saveImageWith(ImageMetaData imageData) async {
-    File? savedFile;
+  Future<bool> _saveImageWith(ImageMetaData imageData) async {
+    bool isImageSaved = false;
     if (imageData is JpgMetaData || imageData is PngMetaData) {
-      await _saveAsRasterImage(imageData);
+      isImageSaved = await _saveAsRasterImage(imageData);
     } else if (imageData is CatrobatImageMetaData) {
-      savedFile = await _saveAsCatrobatImage(imageData);
+      final savedFile = await _saveAsCatrobatImage(imageData);
+      isImageSaved = (savedFile != null);
     }
-    return savedFile;
+    return isImageSaved;
   }
 
   Future<bool> _saveAsRasterImage(ImageMetaData imageData) async {
@@ -167,7 +175,7 @@ class IOHandler {
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
     final fileService = ref.watch(IFileService.provider);
     final pngImage = await ref.read(IImageService.provider).exportAsPng(image);
-    final img = pngImage.when(
+    return pngImage.when(
       ok: (img) async {
         final previewFile =
             await fileService.saveToApplicationDirectory(imageData.name, img);
@@ -184,7 +192,6 @@ class IOHandler {
         return null;
       },
     );
-    return img;
   }
 
   Future<File?> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
@@ -196,14 +203,15 @@ class IOHandler {
         commands, imgWidth, imgHeight, canvasState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
     final result = await saveAsCatrobatImage(imageData, catrobatImage);
-    File? savedFile;
-    result.when(
+    return result.when(
       ok: (file) {
         showToast("Saved successfully");
-        savedFile = file;
+        return file;
       },
-      err: (failure) => showToast(failure.message),
+      err: (failure) {
+        showToast(failure.message);
+        return null;
+      },
     );
-    return savedFile;
   }
 }

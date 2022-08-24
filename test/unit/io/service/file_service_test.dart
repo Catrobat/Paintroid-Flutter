@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:paintroid/io/src/service/file_service.dart';
-
-class MockFileService extends Mock implements FileService {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +15,10 @@ void main() async {
   const channel = MethodChannel(
     'plugins.flutter.io/path_provider_macos',
   );
+  channel
+      .setMockMethodCallHandler((MethodCall methodCall) async => testDirectory);
 
   setUp(() async {
-    channel.setMockMethodCallHandler(
-        (MethodCall methodCall) async => testDirectory);
     sut = FileService();
   });
 

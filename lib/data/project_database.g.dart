@@ -140,6 +140,12 @@ class _$ProjectDAO extends ProjectDAO {
   final DeletionAdapter<Project> _projectDeletionAdapter;
 
   @override
+  Future<void> deleteProject(int id) async {
+    await _queryAdapter
+        .queryNoReturn('DELETE FROM Project WHERE id = ?1', arguments: [id]);
+  }
+
+  @override
   Future<List<Project>> getProjects() async {
     return _queryAdapter.queryList(
         'SELECT * FROM Project order by lastModified desc',
@@ -165,11 +171,6 @@ class _$ProjectDAO extends ProjectDAO {
   Future<List<int>> insertProjects(List<Project> projects) {
     return _projectInsertionAdapter.insertListAndReturnIds(
         projects, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<void> deleteProject(Project project) async {
-    await _projectDeletionAdapter.delete(project);
   }
 
   @override
