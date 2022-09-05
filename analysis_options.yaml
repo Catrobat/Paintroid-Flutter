@@ -5,3 +5,5 @@ analyzer:
     exhaustive_cases: error
   exclude:
     - lib/**.pb*.dart
+    - lib/data/*.g.dart
+    - test/**
