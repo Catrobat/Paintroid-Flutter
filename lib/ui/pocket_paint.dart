@@ -41,11 +41,18 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
         if (isFullscreen) {
           ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         } else {
-          final shouldDiscard = await showDiscardChangesDialog(context);
-          if (shouldDiscard != null && !shouldDiscard && mounted) {
-            ioHandler.saveImage(context);
+          final workspaceStateNotifier = ref.watch(WorkspaceState.provider.notifier);
+          if (!workspaceStateNotifier.hasSavedLastWork) {
+            final shouldDiscard = await showDiscardChangesDialog(context);
+            if (shouldDiscard != null) {
+              if (!shouldDiscard && mounted) {
+                ioHandler.saveImage(context);
+              }
+              willPop = shouldDiscard;
+            } else {
+              willPop = false;
+            }
           }
-          willPop = shouldDiscard!;
         }
         return willPop;
       },

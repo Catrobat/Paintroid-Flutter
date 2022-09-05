@@ -35,7 +35,7 @@ class IOHandler {
     final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
     final savedFile = await workspaceStateNotifier
         .performIOTask(() => _saveAsCatrobatImage(imageMetaData));
-    workspaceStateNotifier.updateLastSavedCommandCount();
+    if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
     return savedFile;
   }
 
@@ -117,6 +117,8 @@ class IOHandler {
 
   Future<bool> loadFromFiles(Result<File, Failure>? file) async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+
     final result = await loadImage(file);
     return result.when(
       ok: (imageFromFile) async {
@@ -131,6 +133,7 @@ class IOHandler {
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
         }
+        workspaceStateNotifier.updateLastSavedCommandCount();
         return true;
       },
       err: (failure) {

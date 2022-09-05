@@ -30,9 +30,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late IFileService fileService;
   late IImageService imageService;
 
-  Future<List<Project>> _getProjects() async {
-    return await database.projectDAO.getProjects();
-  }
+  Future<List<Project>> _getProjects() async =>
+      database.projectDAO.getProjects();
 
   void _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
@@ -69,15 +68,40 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         fit: BoxFit.cover,
       ).image;
 
+  BoxDecoration _getPreviewForLatestModifiedProject(Project project) {
+    Uint8List? img = _getProjectPreview(project.imagePreviewPath);
+    if (img != null) {
+      return BoxDecoration(
+        color: Colors.white54,
+        image: DecorationImage(
+          image: _getProjectPreviewImageProvider(img),
+        ),
+      );
+    }
+    return const BoxDecoration(color: Colors.white54);
+  }
+
+  void _clearCanvas() {
+    ref.read(CanvasState.provider.notifier)
+      ..clearBackgroundImageAndResetDimensions()
+      ..resetCanvasWithNewCommands([]);
+    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     final db = ref.watch(ProjectDatabase.provider);
-    db.whenData((value) => database = value);
+    db.when(
+      data: (value) => database = value,
+      error: (err, stacktrace) => showToast("Error: $err"),
+      loading: () {},
+    );
     final ioHandler = ref.watch(IOHandler.provider);
+    final size = MediaQuery.of(context).size;
+    final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    Project? latestModifiedProject;
     fileService = ref.watch(IFileService.provider);
     imageService = ref.watch(IImageService.provider);
-    final size = MediaQuery.of(context).size;
-    Project? latestModifiedProject;
 
     return Scaffold(
       backgroundColor: lightColorScheme.primary,
@@ -87,22 +111,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       body: FutureBuilder(
         future: _getProjects(),
         builder: (BuildContext context, AsyncSnapshot<List<Project>> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             BoxDecoration bigImg;
             if (snapshot.data!.isNotEmpty) {
               latestModifiedProject = snapshot.data![0];
-              Uint8List? img =
-                  _getProjectPreview(latestModifiedProject!.imagePreviewPath);
-              if (img != null) {
-                bigImg = BoxDecoration(
-                  color: Colors.white54,
-                  image: DecorationImage(
-                    image: _getProjectPreviewImageProvider(img),
-                  ),
-                );
-              } else {
-                bigImg = const BoxDecoration(color: Colors.white54);
-              }
+              bigImg =
+                  _getPreviewForLatestModifiedProject(latestModifiedProject!);
             } else {
               bigImg = const BoxDecoration(color: Colors.white54);
             }
@@ -130,6 +145,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                       ),
                       Center(
                         child: IconButton(
+                          key: const Key('myEditIcon'),
                           iconSize: 264,
                           onPressed: () async {
                             if (latestModifiedProject != null) {
@@ -146,7 +162,16 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                             width: 264,
                           ),
                         ),
-                      )
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.topEnd,
+                        child: latestModifiedProject == null
+                            ? null
+                            : ProjectOverflowMenu(
+                                key: const Key('ProjectOverflowMenu Key0'),
+                                project: latestModifiedProject!,
+                              ),
+                      ),
                     ],
                   ),
                 ),
@@ -171,8 +196,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                 Flexible(
                   child: ListView.builder(
                     itemBuilder: (context, position) {
-                      Project project = snapshot.data![position];
-                      if (project != latestModifiedProject) {
+                      if (position != 0) {
+                        Project project = snapshot.data![position];
                         BoxDecoration imagePreview;
                         Uint8List? img =
                             _getProjectPreview(project.imagePreviewPath);
@@ -187,9 +212,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           imagePreview =
                               const BoxDecoration(color: Colors.white);
                         }
-                        final DateFormat formatter = DateFormat('dd-MM-yyyy');
-                        final String lastModified =
-                            formatter.format(project.lastModified);
 
                         return Card(
                           // margin: const EdgeInsets.all(5),
@@ -204,10 +226,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                               style: const TextStyle(color: Color(0xFFFFFFFF)),
                             ),
                             subtitle: Text(
-                              'last modified: $lastModified',
+                              'last modified: ${dateFormat.format(project.lastModified)}',
                               style: const TextStyle(color: Color(0xFFFFFFFF)),
                             ),
                             trailing: ProjectOverflowMenu(
+                              key: Key('ProjectOverflowMenu Key$position'),
                               project: project,
                             ),
                             enabled: true,
@@ -218,9 +241,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                             },
                           ),
                         );
-                      } else {
-                        return const Card();
                       }
+                      return const Card();
                     },
                     itemCount: snapshot.data?.length,
                     scrollDirection: Axis.vertical,
@@ -263,12 +285,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             foregroundColor: const Color(0xFFFFFFFF),
             child: const Icon(Icons.add),
             onPressed: () async {
-              ref.read(CanvasState.provider.notifier)
-                ..clearBackgroundImageAndResetDimensions()
-                ..resetCanvasWithNewCommands([]);
-              ref
-                  .read(WorkspaceState.provider.notifier)
-                  .updateLastSavedCommandCount();
+              _clearCanvas();
               _navigateToPocketPaint();
             },
           ),

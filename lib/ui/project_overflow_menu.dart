@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
@@ -67,10 +68,14 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     bool? shouldDelete = await showDeleteDialog(context, widget.project.name);
     if (shouldDelete != null && shouldDelete) {
       try {
-        final file = File(widget.project.path);
-        await file.delete();
+        final projectFile = File(widget.project.path);
+        await projectFile.delete();
+        if (widget.project.imagePreviewPath != null) {
+          final previewFile = File(widget.project.imagePreviewPath!);
+          await previewFile.delete();
+        }
       } catch (err, stacktrace) {
-        print("$err + $stacktrace.toString()");
+        showToast(stacktrace.toString());
       }
       if (widget.project.id != null) {
         await database.projectDAO.deleteProject(widget.project.id!);
@@ -80,6 +85,6 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
   }
 
   void _showProjectDetails() async {
-    bool? showDetails = await showDetailsDialog(context, widget.project);
+    await showDetailsDialog(context, widget.project);
   }
 }

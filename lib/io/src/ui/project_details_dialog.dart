@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
+import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/io/io.dart';
 
 import '../../../data/model/project.dart';
@@ -34,8 +35,6 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
   Widget build(BuildContext context) {
     imageService = ref.watch(IImageService.provider);
     fileService = ref.watch(IFileService.provider);
-
-    _getImageDimensions(widget.project.imagePreviewPath);
 
     final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
@@ -91,16 +90,21 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
   Future<List<int>> _getImageDimensions(String? path) async {
     List<int> dimensions = [];
     return imageService.getProjectPreview(path).when(
-      ok: (img) async {
-        final image = await decodeImageFromList(img);
-        dimensions.add(image.width);
-        dimensions.add(image.height);
-        return dimensions;
-      },
-      err: (failure) {
-        showToast(failure.message);
-        return dimensions;
-      },
-    );
+          ok: (img) => imageService.import(img).when(
+            ok: (image) {
+              dimensions.add(image.width);
+              dimensions.add(image.height);
+              return dimensions;
+            },
+            err: (failure) {
+              showToast(failure.message);
+              return dimensions;
+            },
+          ),
+          err: (failure) {
+            showToast(failure.message);
+            return dimensions;
+          },
+        );
   }
 }
