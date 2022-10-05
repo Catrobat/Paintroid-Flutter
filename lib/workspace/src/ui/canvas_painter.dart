@@ -4,8 +4,8 @@ import 'package:paintroid/command/command.dart';
 
 import '../state/canvas_dirty_state.dart';
 import '../state/canvas_state_notifier.dart';
+import 'checkerboard_pattern.dart';
 import 'command_painter.dart';
-import 'transparency_grid_pattern.dart';
 
 class CanvasPainter extends ConsumerWidget {
   const CanvasPainter({super.key});
@@ -36,8 +36,7 @@ class CanvasPainter extends ConsumerWidget {
           final backgroundImage = ref.watch(
             CanvasState.provider.select((state) => state.backgroundImage),
           );
-          return TransparencyGridPattern(
-            numberOfSquaresAlongWidth: 100,
+          return CheckerboardPattern(
             child: backgroundImage != null
                 ? RawImage(image: backgroundImage)
                 : null,
