@@ -13,8 +13,8 @@ class CheckerboardPattern extends StatelessWidget {
           child: Image.asset(
             'assets/img/checkerboard.png',
             repeat: ImageRepeat.repeat,
-            cacheWidth: 30,
-            cacheHeight: 30,
+            cacheWidth: 80,
+            cacheHeight: 80,
             filterQuality: FilterQuality.none,
           ),
         ),
