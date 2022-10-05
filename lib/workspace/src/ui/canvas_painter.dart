@@ -63,7 +63,12 @@ class CanvasPainter extends ConsumerWidget {
                 child: child,
               );
             },
-            child: cachedImage != null ? RawImage(image: cachedImage) : null,
+            child: cachedImage != null
+                ? RawImage(
+                    image: cachedImage,
+                    filterQuality: FilterQuality.none,
+                  )
+                : null,
           );
         },
       ),

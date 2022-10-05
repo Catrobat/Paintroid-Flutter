@@ -118,7 +118,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
           vertical: panningMargin.height,
         ),
         minScale: 0.2,
-        maxScale: 6.9,
+        maxScale: 100,
         panEnabled: false,
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
