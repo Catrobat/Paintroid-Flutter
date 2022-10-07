@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/tool/tool.dart';
-import 'package:paintroid/ui/brush_tool_options.dart';
+
+import 'brush/brush_tool_options.dart';
 
 class ToolOptions extends ConsumerWidget {
   const ToolOptions({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class ToolOptions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTool = ref.watch(ToolState.provider).currentTool;
+    final currentTool = ref.watch(
+      ToolState.provider.select((state) => state.currentTool),
+    );
     return _optionsFor(currentTool) ?? Container();
   }
 }

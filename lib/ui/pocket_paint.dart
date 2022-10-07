@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/ui/tool_options.dart';
-import 'package:paintroid/ui/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 import 'bottom_control_navigation_bar.dart';
 import 'exit_fullscreen_button.dart';
+import 'tool_options/tool_options.dart';
+import 'top_app_bar.dart';
 
 class PocketPaint extends ConsumerWidget {
   const PocketPaint({Key? key}) : super(key: key);

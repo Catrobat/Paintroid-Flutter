@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
+import 'package:paintroid/ui/tool_options/brush/brush_options_state.dart';
 
 import 'tool.dart';
 
@@ -18,16 +19,23 @@ class BrushTool extends Tool with EquatableMixin {
   });
 
   static final provider = Provider(
-    (ref) => BrushTool(
-      paint: ref.watch(GraphicFactory.provider).createPaint()
+    (ref) {
+      final brushPaint = ref.watch(GraphicFactory.provider).createPaint()
         ..style = PaintingStyle.stroke
-        ..color = const Color(0xFF808080)
-        ..strokeCap = StrokeCap.round
-        ..strokeWidth = 25,
-      commandManager: ref.watch(CommandManager.provider),
-      commandFactory: ref.watch(CommandFactory.provider),
-      graphicFactory: ref.watch(GraphicFactory.provider),
-    ),
+        ..strokeJoin = StrokeJoin.round;
+      ref.listen<BrushOptionsState>(BrushOptionsState.provider, (_, current) {
+        brushPaint
+          ..color = current.color
+          ..strokeCap = current.strokeCap
+          ..strokeWidth = current.strokeWidth;
+      }, fireImmediately: true);
+      return BrushTool(
+        paint: brushPaint,
+        commandManager: ref.watch(CommandManager.provider),
+        commandFactory: ref.watch(CommandFactory.provider),
+        graphicFactory: ref.watch(GraphicFactory.provider),
+      );
+    },
   );
 
   final GraphicFactory graphicFactory;
