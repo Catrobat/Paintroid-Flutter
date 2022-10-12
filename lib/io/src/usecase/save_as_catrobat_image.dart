@@ -31,13 +31,16 @@ class SaveAsCatrobatImage with LoggableMixin {
   });
 
   Future<Result<File, Failure>> call(
-      CatrobatImageMetaData data, CatrobatImage image) async {
+      CatrobatImageMetaData data, CatrobatImage image, bool isAProject) async {
     if (!(await permissionService.requestAccessToSharedFileStorage())) {
       return Result.err(SaveImageFailure.permissionDenied);
     }
     final nameWithExt = "${data.name}.${data.format.extension}";
     try {
       final bytes = await _catrobatImageSerializer.toBytes(image);
+      if (isAProject) {
+        return _fileService.saveToApplicationDirectory(nameWithExt, bytes);
+      }
       return _fileService.save(nameWithExt, bytes);
     } catch (err, stacktrace) {
       logger.severe(

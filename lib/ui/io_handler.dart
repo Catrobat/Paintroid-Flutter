@@ -34,7 +34,7 @@ class IOHandler {
     if (imageMetaData is! CatrobatImageMetaData) return null;
     final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
     final savedFile = await workspaceStateNotifier
-        .performIOTask(() => _saveAsCatrobatImage(imageMetaData));
+        .performIOTask(() => _saveAsCatrobatImage(imageMetaData, true));
     if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
     return savedFile;
   }
@@ -150,7 +150,7 @@ class IOHandler {
     if (imageData is JpgMetaData || imageData is PngMetaData) {
       isImageSaved = await _saveAsRasterImage(imageData);
     } else if (imageData is CatrobatImageMetaData) {
-      final savedFile = await _saveAsCatrobatImage(imageData);
+      final savedFile = await _saveAsCatrobatImage(imageData, false);
       isImageSaved = (savedFile != null);
     }
     return isImageSaved;
@@ -197,7 +197,7 @@ class IOHandler {
     );
   }
 
-  Future<File?> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
+  Future<File?> _saveAsCatrobatImage(CatrobatImageMetaData imageData, bool isAProject) async {
     final commands = ref.read(CommandManager.provider).history;
     final canvasState = ref.read(CanvasState.provider);
     final imgWidth = canvasState.size.width.toInt();
@@ -205,7 +205,7 @@ class IOHandler {
     final catrobatImage = CatrobatImage(
         commands, imgWidth, imgHeight, canvasState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
-    final result = await saveAsCatrobatImage(imageData, catrobatImage);
+    final result = await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
         showToast("Saved successfully");
