@@ -35,8 +35,11 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
   @override
   Widget build(BuildContext context) {
     final db = ref.watch(ProjectDatabase.provider);
-    // db.when(data: (database) {this.database = database;}, error: error, loading: loading)
-    db.whenData((value) => database = value);
+    db.when(
+      data: (value) => database = value,
+      error: (err, stacktrace) => showToast("Error: $err"),
+      loading: () {},
+    );
 
     return PopupMenuButton(
       color: Theme.of(context).colorScheme.background,
@@ -74,8 +77,8 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
           final previewFile = File(widget.project.imagePreviewPath!);
           await previewFile.delete();
         }
-      } catch (err, stacktrace) {
-        showToast(stacktrace.toString());
+      } catch (err) {
+        showToast(err.toString());
       }
       if (widget.project.id != null) {
         await database.projectDAO.deleteProject(widget.project.id!);

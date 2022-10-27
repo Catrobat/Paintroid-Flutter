@@ -63,22 +63,12 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             },
           );
 
-  ImageProvider _getProjectPreviewImageProvider(Uint8List img) => Image.memory(
-        img,
-        fit: BoxFit.cover,
-      ).image;
-
-  BoxDecoration _getPreviewForLatestModifiedProject(Project project) {
-    Uint8List? img = _getProjectPreview(project.imagePreviewPath);
-    if (img != null) {
-      return BoxDecoration(
-        color: Colors.white54,
-        image: DecorationImage(
-          image: _getProjectPreviewImageProvider(img),
-        ),
-      );
+  Widget _getPreviewForLatestModifiedProject(Project? project) {
+    Uint8List? img;
+    if (project != null) {
+      img = _getProjectPreview(project.imagePreviewPath);
     }
-    return const BoxDecoration(color: Colors.white54);
+    return _ImagePreview(img: img, color: Colors.white54);
   }
 
   void _clearCanvas() {
@@ -86,6 +76,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+  }
+
+  void _openProject(Project project, IOHandler ioHandler) async {
+    bool loaded = await _loadProject(ioHandler, project);
+    if (loaded) _navigateToPocketPaint();
   }
 
   @override
@@ -113,13 +108,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         builder: (BuildContext context, AsyncSnapshot<List<Project>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            BoxDecoration bigImg;
             if (snapshot.data!.isNotEmpty) {
               latestModifiedProject = snapshot.data![0];
-              bigImg =
-                  _getPreviewForLatestModifiedProject(latestModifiedProject!);
-            } else {
-              bigImg = const BoxDecoration(color: Colors.white54);
             }
             return Column(
               children: [
@@ -131,15 +121,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                         child: InkWell(
                           onTap: () async {
                             if (latestModifiedProject != null) {
-                              bool loaded = await _loadProject(
-                                ioHandler,
-                                latestModifiedProject!,
-                              );
-                              if (loaded) _navigateToPocketPaint();
+                              _openProject(latestModifiedProject!, ioHandler);
                             }
                           },
-                          child: Container(
-                            decoration: bigImg,
+                          child: _getPreviewForLatestModifiedProject(
+                            latestModifiedProject,
                           ),
                         ),
                       ),
@@ -149,11 +135,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           iconSize: 264,
                           onPressed: () async {
                             if (latestModifiedProject != null) {
-                              bool loaded = await _loadProject(
-                                ioHandler,
-                                latestModifiedProject!,
-                              );
-                              if (loaded) _navigateToPocketPaint();
+                              _openProject(latestModifiedProject!, ioHandler);
                             }
                           },
                           icon: SvgPicture.asset(
@@ -198,27 +180,15 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                     itemBuilder: (context, position) {
                       if (position != 0) {
                         Project project = snapshot.data![position];
-                        BoxDecoration imagePreview;
                         Uint8List? img =
                             _getProjectPreview(project.imagePreviewPath);
-                        if (img != null) {
-                          imagePreview = BoxDecoration(
-                            color: Colors.white,
-                            image: DecorationImage(
-                              image: _getProjectPreviewImageProvider(img),
-                            ),
-                          );
-                        } else {
-                          imagePreview =
-                              const BoxDecoration(color: Colors.white);
-                        }
-
                         return Card(
                           // margin: const EdgeInsets.all(5),
                           child: ListTile(
-                            leading: Container(
+                            leading: _ImagePreview(
+                              img: img,
                               width: 80,
-                              decoration: imagePreview,
+                              color: Colors.white,
                             ),
                             dense: false,
                             title: Text(
@@ -234,11 +204,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                               project: project,
                             ),
                             enabled: true,
-                            onTap: () async {
-                              bool loaded =
-                                  await _loadProject(ioHandler, project);
-                              if (loaded) _navigateToPocketPaint();
-                            },
+                            onTap: () async => _openProject(project, ioHandler),
                           ),
                         );
                       }
@@ -263,11 +229,9 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            heroTag: "btn1",
-            backgroundColor: const Color(0xFFFFAB08),
-            foregroundColor: const Color(0xFFFFFFFF),
-            child: const Icon(Icons.file_download),
+          _LandingPageFAB(
+            heroTag: "import_image",
+            icon: Icons.file_download,
             onPressed: () async {
               final bool imageLoaded =
                   await ioHandler.loadImage(context, this, false);
@@ -279,11 +243,9 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           const SizedBox(
             height: 10,
           ),
-          FloatingActionButton(
-            heroTag: "btn2",
-            backgroundColor: const Color(0xFFFFAB08),
-            foregroundColor: const Color(0xFFFFFFFF),
-            child: const Icon(Icons.add),
+          _LandingPageFAB(
+            heroTag: "new_image",
+            icon: Icons.add,
             onPressed: () async {
               _clearCanvas();
               _navigateToPocketPaint();
@@ -292,5 +254,64 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         ],
       ),
     );
+  }
+}
+
+class _LandingPageFAB extends StatelessWidget {
+  final String heroTag;
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const _LandingPageFAB({
+    Key? key,
+    required this.heroTag,
+    required this.icon,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: heroTag,
+      backgroundColor: const Color(0xFFFFAB08),
+      foregroundColor: const Color(0xFFFFFFFF),
+      child: Icon(icon),
+      onPressed: () async => onPressed(),
+    );
+  }
+}
+
+class _ImagePreview extends StatelessWidget {
+  final Uint8List? img;
+  final double? width;
+  final Color color;
+
+  const _ImagePreview({Key? key, this.img, this.width, required this.color})
+      : super(key: key);
+
+  ImageProvider _getProjectPreviewImageProvider(Uint8List img) =>
+      Image.memory(img, fit: BoxFit.cover).image;
+
+  @override
+  Widget build(BuildContext context) {
+    var imgPreview = BoxDecoration(color: color);
+    if (img != null) {
+      imgPreview = BoxDecoration(
+        color: color,
+        image: DecorationImage(
+          image: _getProjectPreviewImageProvider(img!),
+        ),
+      );
+    }
+    if (width != null) {
+      return Container(
+        width: width!,
+        decoration: imgPreview,
+      );
+    } else {
+      return Container(
+        decoration: imgPreview,
+      );
+    }
   }
 }

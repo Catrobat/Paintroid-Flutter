@@ -29,7 +29,8 @@ class _DiscardChangesDialogState extends State<DiscardChangesDialog> {
 
   TextButton get _discardButton {
     return TextButton(
-      style: TextButton.styleFrom(primary: Colors.red),
+      style:
+          ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.red)),
       onPressed: () => Navigator.of(context).pop(true),
       child: const Text("Discard"),
     );

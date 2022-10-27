@@ -26,14 +26,20 @@ class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
         content: const Text("Do you really want to delete your project?"),
       );
 
-  TextButton get _deleteButton => TextButton(
-        style: TextButton.styleFrom(primary: Colors.red),
-        onPressed: () => Navigator.of(context).pop(true),
-        child: const Text("Delete"),
-      );
+  TextButton get _deleteButton {
+    return TextButton(
+      style:
+          ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.red)),
+      onPressed: () => Navigator.of(context).pop(true),
+      child: const Text("Delete"),
+    );
+  }
 
   ElevatedButton get _discardButton => ElevatedButton(
         onPressed: () => Navigator.of(context).pop(false),
-        child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+        child: const Text(
+          "Cancel",
+          style: TextStyle(color: Colors.white),
+        ),
       );
 }
