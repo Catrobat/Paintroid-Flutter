@@ -54,23 +54,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     );
   }
 
-  Uint8List? _getProjectPreview(String? path) =>
-      imageService.getProjectPreview(path).when(
-            ok: (preview) => preview,
-            err: (failure) {
-              showToast(failure.message);
-              return null;
-            },
-          );
-
-  Widget _getPreviewForLatestModifiedProject(Project? project) {
-    Uint8List? img;
-    if (project != null) {
-      img = _getProjectPreview(project.imagePreviewPath);
-    }
-    return _ImagePreview(img: img, color: Colors.white54);
-  }
-
   void _clearCanvas() {
     ref.read(CanvasState.provider.notifier)
       ..clearBackgroundImageAndResetDimensions()
@@ -124,8 +107,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                               _openProject(latestModifiedProject!, ioHandler);
                             }
                           },
-                          child: _getPreviewForLatestModifiedProject(
-                            latestModifiedProject,
+                          child: _ImagePreview(
+                            project: latestModifiedProject,
+                            imageService: imageService,
+                            color: Colors.white54,
                           ),
                         ),
                       ),
@@ -180,13 +165,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                     itemBuilder: (context, position) {
                       if (position != 0) {
                         Project project = snapshot.data![position];
-                        Uint8List? img =
-                            _getProjectPreview(project.imagePreviewPath);
                         return Card(
-                          // margin: const EdgeInsets.all(5),
                           child: ListTile(
                             leading: _ImagePreview(
-                              img: img,
+                              project: project,
+                              imageService: imageService,
                               width: 80,
                               color: Colors.white,
                             ),
@@ -282,24 +265,43 @@ class _LandingPageFAB extends StatelessWidget {
 }
 
 class _ImagePreview extends StatelessWidget {
-  final Uint8List? img;
+  final Project? project;
   final double? width;
   final Color color;
+  final IImageService imageService;
 
-  const _ImagePreview({Key? key, this.img, this.width, required this.color})
-      : super(key: key);
+  const _ImagePreview({
+    Key? key,
+    this.width,
+    required this.color,
+    this.project,
+    required this.imageService,
+  }) : super(key: key);
 
   ImageProvider _getProjectPreviewImageProvider(Uint8List img) =>
       Image.memory(img, fit: BoxFit.cover).image;
 
+  Uint8List? _getProjectPreview(String? path) =>
+      imageService.getProjectPreview(path).when(
+            ok: (preview) => preview,
+            err: (failure) {
+              showToast(failure.message);
+              return null;
+            },
+          );
+
   @override
   Widget build(BuildContext context) {
+    Uint8List? img;
+    if (project != null) {
+      img = _getProjectPreview(project!.imagePreviewPath);
+    }
     var imgPreview = BoxDecoration(color: color);
     if (img != null) {
       imgPreview = BoxDecoration(
         color: color,
         image: DecorationImage(
-          image: _getProjectPreviewImageProvider(img!),
+          image: _getProjectPreviewImageProvider(img),
         ),
       );
     }

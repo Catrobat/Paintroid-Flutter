@@ -22,24 +22,36 @@ class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
   @override
   Widget build(BuildContext context) => AlertDialog(
         title: Text("Delete ${widget.name}"),
-        actions: [_discardButton, _deleteButton],
+        actions: const [
+          DialogElevatedButton(text: 'Cancel'),
+          DialogTextButton(text: 'Delete'),
+        ],
         content: const Text("Do you really want to delete your project?"),
       );
+}
 
-  TextButton get _deleteButton {
-    return TextButton(
-      style:
-          ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.red)),
-      onPressed: () => Navigator.of(context).pop(true),
-      child: const Text("Delete"),
-    );
-  }
+class DialogTextButton extends StatelessWidget {
+  final String text;
 
-  ElevatedButton get _discardButton => ElevatedButton(
+  const DialogTextButton({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+        style:
+            ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.red)),
+        onPressed: () => Navigator.of(context).pop(true),
+        child: Text(text),
+      );
+}
+
+class DialogElevatedButton extends StatelessWidget {
+  final String text;
+
+  const DialogElevatedButton({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => ElevatedButton(
         onPressed: () => Navigator.of(context).pop(false),
-        child: const Text(
-          "Cancel",
-          style: TextStyle(color: Colors.white),
-        ),
+        child: Text(text, style: const TextStyle(color: Colors.white)),
       );
 }
