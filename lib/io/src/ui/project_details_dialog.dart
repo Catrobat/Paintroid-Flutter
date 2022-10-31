@@ -5,6 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 
 import '../../../data/model/project.dart';
 import '../../../ui/color_schemes.dart';
@@ -40,7 +41,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
 
     return AlertDialog(
       title: Text(widget.project.name),
-      actions: [_okButton],
+      actions: const [DialogElevatedButton(text: 'OK')],
       content: FutureBuilder(
         future: _getImageDimensions(widget.project.imagePreviewPath),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -73,11 +74,6 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
       ),
     );
   }
-
-  ElevatedButton get _okButton => ElevatedButton(
-        onPressed: () => Navigator.of(context).pop(false),
-        child: const Text("OK", style: TextStyle(color: Colors.white)),
-      );
 
   int _getProjectSize() => fileService.getFile(widget.project.path).when(
         ok: (file) => file.lengthSync(),
