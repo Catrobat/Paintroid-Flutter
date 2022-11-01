@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 
 /// Returns [true] if user chose to discard changes or [null] if user
 /// dismissed the dialog by tapping outside
@@ -19,26 +20,13 @@ class DiscardChangesDialog extends StatefulWidget {
 class _DiscardChangesDialogState extends State<DiscardChangesDialog> {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Discard changes"),
-      actions: [_discardButton, _saveButton],
-      content: const Text(
-          "You have not saved your last changes. They will be lost!"),
-    );
-  }
-
-  TextButton get _discardButton {
-    return TextButton(
-      style: TextButton.styleFrom(primary: Colors.red),
-      onPressed: () => Navigator.of(context).pop(true),
-      child: const Text("Discard"),
-    );
-  }
-
-  ElevatedButton get _saveButton {
-    return ElevatedButton(
-      onPressed: () => Navigator.of(context).pop(false),
-      child: const Text("Save", style: TextStyle(color: Colors.white)),
+    return const AlertDialog(
+      title: Text("Discard changes"),
+      actions: [
+        DialogTextButton(text: 'Discard'),
+        DialogElevatedButton(text: 'Save'),
+      ],
+      content: Text("You have not saved your last changes. They will be lost!"),
     );
   }
 }

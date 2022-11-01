@@ -32,6 +32,7 @@ migrate_working_dir/
 coverage
 *.mocks.dart
 *.pb*.dart
+*.g.dart
 
 # Web related
 lib/generated_plugin_registrant.dart

@@ -8,6 +8,8 @@ import 'package:paintroid/command/command.dart' show CommandManager;
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
+import '../core/failure.dart';
+
 class IOHandler {
   final Ref ref;
 
@@ -18,13 +20,23 @@ class IOHandler {
   /// Returns [true] if the image was saved successfully
   Future<bool> saveImage(BuildContext context) async {
     final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
-    final imageData = await showSaveImageDialog(context);
-    if (imageData == null) return false;
-    final didSave = await workspaceStateNotifier
-        .performIOTask(() => _saveImageWith(imageData));
-    if (!didSave) return false;
+    final imageMetaData = await showSaveImageDialog(context, false);
+    if (imageMetaData == null) {
+      return false;
+    }
+    final isFileSaved = await workspaceStateNotifier
+        .performIOTask(() => _saveImageWith(imageMetaData));
     workspaceStateNotifier.updateLastSavedCommandCount();
-    return true;
+    return isFileSaved;
+  }
+
+  Future<File?> saveProject(ImageMetaData imageMetaData) async {
+    if (imageMetaData is! CatrobatImageMetaData) return null;
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final savedFile = await workspaceStateNotifier
+        .performIOTask(() => _saveAsCatrobatImage(imageMetaData, true));
+    if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
+    return savedFile;
   }
 
   /// Returns [true] if -
@@ -44,9 +56,12 @@ class IOHandler {
   }
 
   /// Returns [true] if the image was loaded successfully
-  Future<bool> loadImage(BuildContext context, State state) async {
-    final shouldContinue = await handleUnsavedChanges(context, state);
-    if (!shouldContinue) return false;
+  Future<bool> loadImage(
+      BuildContext context, State state, bool unsavedChanges) async {
+    if (unsavedChanges) {
+      final shouldContinue = await handleUnsavedChanges(context, state);
+      if (!shouldContinue) return false;
+    }
     if (Platform.isIOS) {
       if (!state.mounted) return false;
       final location = await showLoadImageDialog(context);
@@ -77,7 +92,7 @@ class IOHandler {
       case ImageLocation.photos:
         return _loadFromPhotos();
       case ImageLocation.files:
-        return _loadFromFiles();
+        return loadFromFiles(null);
     }
   }
 
@@ -100,22 +115,25 @@ class IOHandler {
     );
   }
 
-  Future<bool> _loadFromFiles() async {
+  Future<bool> loadFromFiles(Result<File, Failure>? file) async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
-    final result = await loadImage();
+    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+
+    final result = await loadImage(file);
     return result.when(
       ok: (imageFromFile) async {
         final canvasStateNotifier = ref.read(CanvasState.provider.notifier);
+        imageFromFile.rasterImage == null
+            ? canvasStateNotifier.clearBackgroundImageAndResetDimensions()
+            : canvasStateNotifier
+                .setBackgroundImage(imageFromFile.rasterImage!);
         if (imageFromFile.catrobatImage != null) {
           final commands = imageFromFile.catrobatImage!.commands;
           canvasStateNotifier.resetCanvasWithNewCommands(commands);
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
         }
-        imageFromFile.rasterImage == null
-            ? canvasStateNotifier.clearBackgroundImageAndResetDimensions()
-            : canvasStateNotifier
-                .setBackgroundImage(imageFromFile.rasterImage!);
+        workspaceStateNotifier.updateLastSavedCommandCount();
         return true;
       },
       err: (failure) {
@@ -128,12 +146,14 @@ class IOHandler {
   }
 
   Future<bool> _saveImageWith(ImageMetaData imageData) async {
+    bool isImageSaved = false;
     if (imageData is JpgMetaData || imageData is PngMetaData) {
-      return _saveAsRasterImage(imageData);
+      isImageSaved = await _saveAsRasterImage(imageData);
     } else if (imageData is CatrobatImageMetaData) {
-      return _saveAsCatrobatImage(imageData);
+      final savedFile = await _saveAsCatrobatImage(imageData, false);
+      isImageSaved = (savedFile != null);
     }
-    return false;
+    return isImageSaved;
   }
 
   Future<bool> _saveAsRasterImage(ImageMetaData imageData) async {
@@ -152,7 +172,32 @@ class IOHandler {
     );
   }
 
-  Future<bool> _saveAsCatrobatImage(CatrobatImageMetaData imageData) async {
+  Future<String?> getPreviewPath(ImageMetaData imageData) async {
+    final image = await ref
+        .read(RenderImageForExport.provider)
+        .call(keepTransparency: imageData.format != ImageFormat.jpg);
+    final fileService = ref.watch(IFileService.provider);
+    final pngImage = await ref.read(IImageService.provider).exportAsPng(image);
+    return pngImage.when(
+      ok: (img) async {
+        final previewFile =
+            await fileService.saveToApplicationDirectory(imageData.name, img);
+        return previewFile.when(
+          ok: (file) => file.path,
+          err: (failure) {
+            showToast(failure.message);
+            return null;
+          },
+        );
+      },
+      err: (failure) {
+        showToast(failure.message);
+        return null;
+      },
+    );
+  }
+
+  Future<File?> _saveAsCatrobatImage(CatrobatImageMetaData imageData, bool isAProject) async {
     final commands = ref.read(CommandManager.provider).history;
     final canvasState = ref.read(CanvasState.provider);
     final imgWidth = canvasState.size.width.toInt();
@@ -160,15 +205,15 @@ class IOHandler {
     final catrobatImage = CatrobatImage(
         commands, imgWidth, imgHeight, canvasState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
-    final result = await saveAsCatrobatImage(imageData, catrobatImage);
+    final result = await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
         showToast("Saved successfully");
-        return true;
+        return file;
       },
       err: (failure) {
         showToast(failure.message);
-        return false;
+        return null;
       },
     );
   }

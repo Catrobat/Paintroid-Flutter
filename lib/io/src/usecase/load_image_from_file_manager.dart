@@ -33,11 +33,16 @@ class LoadImageFromFileManager with LoggableMixin {
         fileService, imageService, permissionService, serializer);
   });
 
-  Future<Result<ImageFromFile, Failure>> call() async {
-    if (!(await permissionService.requestAccessToSharedFileStorage())) {
-      return Result.err(SaveImageFailure.permissionDenied);
+  Future<Result<ImageFromFile, Failure>> call(
+      Result<File, Failure>? file) async {
+    if (file == null) {
+      if (!(await permissionService.requestAccessToSharedFileStorage())) {
+        return Result.err(SaveImageFailure.permissionDenied);
+      }
+      file = await fileService.pick();
     }
-    return await fileService.pick().andThenAsync((file) async {
+
+    return await file.andThenAsync((file) async {
       try {
         switch (file.extension) {
           case "jpg":
