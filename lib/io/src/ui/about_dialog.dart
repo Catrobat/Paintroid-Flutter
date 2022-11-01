@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../ui/color_schemes.dart';
@@ -37,7 +38,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
         'About',
         style: TextStyle(color: lightColorScheme.primary),
       ),
-      actions: [_okButton],
+      actions: const [DialogElevatedButton(text: 'DONE')],
       contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 24),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -92,9 +93,4 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
       ),
     );
   }
-
-  ElevatedButton get _okButton => ElevatedButton(
-        onPressed: () => Navigator.of(context).pop(false),
-        child: const Text("DONE", style: TextStyle(color: Colors.white)),
-      );
 }
