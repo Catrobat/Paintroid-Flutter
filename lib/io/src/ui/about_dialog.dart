@@ -31,9 +31,29 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
   static const urlLicense = 'https://developer.catrobat.org/licenses';
   static const urlCatrobat = 'https://catrobat.org';
 
+  static const urlTextStyle = TextStyle(
+    color: Color(0xFFE68B00),
+    fontSize: 18,
+    decoration: TextDecoration.underline,
+  );
+
+  TextSpan _clickableText(String text, String url, TextStyle? style) =>
+      TextSpan(
+        text: text,
+        style: style,
+        recognizer: TapGestureRecognizer()
+          ..onTap = () async {
+            final uri = Uri.parse(url);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri);
+            }
+          },
+      );
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       title: Text(
         'About',
         style: TextStyle(color: lightColorScheme.primary),
@@ -58,33 +78,15 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
             TextSpan(
               children: [
                 const TextSpan(text: content),
-                TextSpan(
-                  text: urlLicenseDescription,
-                  style: const TextStyle(
-                      color: Color(0xFFE68B00),
-                      fontSize: 18,
-                      decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      final url = Uri.parse(urlLicense);
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      }
-                    },
+                _clickableText(
+                  urlLicenseDescription,
+                  urlLicense,
+                  urlTextStyle,
                 ),
-                TextSpan(
-                  text: urlCatrobatDescription,
-                  style: const TextStyle(
-                      color: Color(0xFFE68B00),
-                      fontSize: 18,
-                      decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      final url = Uri.parse(urlCatrobat);
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      }
-                    },
+                _clickableText(
+                  urlCatrobatDescription,
+                  urlCatrobat,
+                  urlTextStyle,
                 ),
               ],
             ),
