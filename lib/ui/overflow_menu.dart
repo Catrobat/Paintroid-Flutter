@@ -29,7 +29,7 @@ enum OverflowMenuOption {
       case OverflowMenuOption.newImage:
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
-        return "Save Project";
+        return localizations.saveProject;
     }
   }
 }
