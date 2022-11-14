@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:paintroid/ui/util.dart';
 
 enum MainOverflowMenuOption {
   rate("Rate us!"),
@@ -60,10 +60,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
         }
         break;
       case MainOverflowMenuOption.feedback:
-        final url = Uri.parse(feedbackUrl);
-        if (await canLaunchUrl(url)) {
-          await launchUrl(url);
-        }
+        openUrl(feedbackUrl);
         break;
     }
   }

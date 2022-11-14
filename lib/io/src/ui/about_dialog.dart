@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../ui/color_schemes.dart';
+import '../../../ui/util.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
     showGeneralDialog<bool>(
@@ -43,10 +43,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
         style: style,
         recognizer: TapGestureRecognizer()
           ..onTap = () async {
-            final uri = Uri.parse(url);
-            if (await canLaunchUrl(uri)) {
-              await launchUrl(uri);
-            }
+            openUrl(url);
           },
       );
 
