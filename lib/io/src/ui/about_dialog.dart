@@ -2,9 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
-
-import '../../../ui/color_schemes.dart';
-import '../../../ui/util.dart';
+import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/ui/util.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
     showGeneralDialog<bool>(
