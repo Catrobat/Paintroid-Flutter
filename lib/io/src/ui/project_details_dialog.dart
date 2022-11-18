@@ -40,6 +40,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
     final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
     return AlertDialog(
+      backgroundColor: Colors.white,
       title: Text(widget.project.name),
       actions: const [DialogElevatedButton(text: 'OK')],
       content: FutureBuilder(

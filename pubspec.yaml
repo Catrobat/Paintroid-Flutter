@@ -28,6 +28,9 @@ dependencies:
   filesize: ^2.0.1
   sqflite:
   permission_handler: ^10.0.0
+  url_launcher: ^6.1.5
+  package_info_plus: ^1.4.0
+  launch_review: ^3.0.1
 
 dev_dependencies:
   flutter_test:

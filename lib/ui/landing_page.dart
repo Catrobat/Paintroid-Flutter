@@ -9,10 +9,11 @@ import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:intl/intl.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:paintroid/ui/main_overflow_menu.dart';
 import 'package:paintroid/ui/project_overflow_menu.dart';
+import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
+import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
 
-import '../workspace/src/state/canvas_state_notifier.dart';
-import '../workspace/src/state/workspace_state_notifier.dart';
 import 'color_schemes.dart';
 import 'io_handler.dart';
 
@@ -85,6 +86,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       backgroundColor: lightColorScheme.primary,
       appBar: AppBar(
         title: Text(widget.title),
+        actions: const [MainOverflowMenu()],
       ),
       body: FutureBuilder(
         future: _getProjects(),

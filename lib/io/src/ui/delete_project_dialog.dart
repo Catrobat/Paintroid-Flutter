@@ -21,6 +21,7 @@ class DeleteProjectDialog extends StatefulWidget {
 class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
   @override
   Widget build(BuildContext context) => AlertDialog(
+        backgroundColor: Colors.white,
         title: Text("Delete ${widget.name}"),
         actions: const [
           DialogElevatedButton(text: 'Cancel'),
