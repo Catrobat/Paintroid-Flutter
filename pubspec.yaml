@@ -47,6 +47,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - asset/icon/
-    - asset/svg/
+    - assets/icon/
+    - assets/svg/
     - test/fixture/image/

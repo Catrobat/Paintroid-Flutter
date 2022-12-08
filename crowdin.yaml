@@ -7,8 +7,8 @@
 
 files: [
   {
-    "source": "/asset/l10n/en.arb",
-    "translation": "/asset/l10n/%locale%.arb",
+    "source": "/assets/l10n/en.arb",
+    "translation": "/assets/l10n/%locale%.arb",
     "dest": "/paintroid-flutter/en.arb",
     "type": "arb",
     "update_option": "update_as_unapproved",

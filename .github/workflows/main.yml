@@ -10,6 +10,7 @@ jobs:
       - uses: arduino/setup-protoc@v1
       - uses: subosito/flutter-action@v2.5.0
         with:
+          flutter-version: '3.3.9'
           channel: 'stable'
           cache: true
       - name: Setup

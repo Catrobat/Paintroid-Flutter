@@ -1,3 +1,3 @@
-arb-dir: asset/l10n
+arb-dir: assets/l10n
 template-arb-file: en.arb
 output-localization-file: app_localizations.dart

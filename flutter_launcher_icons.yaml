@@ -1,6 +1,6 @@
 flutter_icons:
-  image_path: "asset/icon/app_icon.png"
+  image_path: "assets/icon/app_icon.png"
   android: true
   ios: true
-  adaptive_icon_foreground: "asset/icon/app_icon_foreground.png"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
   adaptive_icon_background: "#bff8fb"

@@ -22,11 +22,11 @@ class BottomControlNavigationBar extends StatelessWidget {
         destinations: [
           NavigationDestination(
             label: localizations.tools,
-            icon: const _BottomBarIcon(asset: 'asset/svg/ic_tools.svg'),
+            icon: const _BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
           NavigationDestination(
             label: localizations.brush,
-            icon: const _BottomBarIcon(asset: 'asset/svg/ic_brush.svg'),
+            icon: const _BottomBarIcon(asset: 'assets/svg/ic_brush.svg'),
           ),
           NavigationDestination(
             label: localizations.color,
@@ -38,7 +38,7 @@ class BottomControlNavigationBar extends StatelessWidget {
           ),
           NavigationDestination(
             label: localizations.layers,
-            icon: const _BottomBarIcon(asset: 'asset/svg/ic_layers.svg'),
+            icon: const _BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
           ),
         ],
       ),
