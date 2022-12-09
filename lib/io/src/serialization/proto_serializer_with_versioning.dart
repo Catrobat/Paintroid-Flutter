@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
+import 'package:paintroid/io/src/serialization/version_serializer.dart';
 import 'package:protobuf/protobuf.dart' show GeneratedMessage;
-
-import 'version_serializer.dart';
 
 abstract class ProtoSerializerWithVersioning<T,
         SERIALIZABLE extends GeneratedMessage>

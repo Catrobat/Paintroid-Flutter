@@ -1,14 +1,11 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/core/loggable_mixin.dart';
-
-import '../failure/load_image_failure.dart';
-import '../failure/save_image_failure.dart';
+import 'package:paintroid/io/src/failure/load_image_failure.dart';
+import 'package:paintroid/io/src/failure/save_image_failure.dart';
 
 abstract class IPhotoLibraryService {
   Future<Result<Unit, Failure>> save(String filename, Uint8List data);

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
@@ -10,15 +11,27 @@ import '../data/project_database.dart';
 import '../io/src/ui/save_image_dialog.dart';
 
 enum OverflowMenuOption {
-  fullscreen("Fullscreen"),
-  saveImage("Save Image"),
-  saveProject("Save Project"),
-  loadImage("Load Image"),
-  newImage("New Image");
+  fullscreen,
+  saveImage,
+  saveProject,
+  loadImage,
+  newImage;
 
-  const OverflowMenuOption(this.label);
-
-  final String label;
+  String localizedLabel(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    switch (this) {
+      case OverflowMenuOption.fullscreen:
+        return localizations.fullscreen;
+      case OverflowMenuOption.saveImage:
+        return localizations.saveImage;
+      case OverflowMenuOption.loadImage:
+        return localizations.loadImage;
+      case OverflowMenuOption.newImage:
+        return localizations.newImage;
+      case OverflowMenuOption.saveProject:
+        return localizations.saveProject;
+    }
+  }
 }
 
 class OverflowMenu extends ConsumerStatefulWidget {
@@ -29,7 +42,7 @@ class OverflowMenu extends ConsumerStatefulWidget {
 }
 
 class _OverflowMenuState extends ConsumerState<OverflowMenu> {
-  late final ioHandler = ref.read(IOHandler.provider);
+  IOHandler get ioHandler => ref.read(IOHandler.provider);
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +56,17 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) {
         return OverflowMenuOption.values.map((option) {
-          return PopupMenuItem(value: option, child: Text(option.label));
+          return PopupMenuItem(
+            value: option,
+            child: Text(option.localizedLabel(context)),
+          );
         }).toList();
       },
     );
   }
 
   void _handleSelectedOption(OverflowMenuOption option) {
+    final ioHandler = ref.watch(IOHandler.provider);
     switch (option) {
       case OverflowMenuOption.fullscreen:
         _enterFullscreen();

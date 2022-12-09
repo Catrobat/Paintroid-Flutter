@@ -1,0 +1,17 @@
+"project_id_env": "CROWDIN_PROJECT_ID"
+"api_token_env": "CROWDIN_PERSONAL_TOKEN"
+"base_path": "."
+"base_url": "https://api.crowdin.com"
+
+"preserve_hierarchy": true
+
+files: [
+  {
+    "source": "/assets/l10n/en.arb",
+    "translation": "/assets/l10n/%locale%.arb",
+    "dest": "/paintroid-flutter/en.arb",
+    "type": "arb",
+    "update_option": "update_as_unapproved",
+    "translate_attributes": 0,
+  }
+]
