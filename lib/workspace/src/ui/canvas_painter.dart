@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
-
-import '../state/canvas_dirty_state.dart';
-import '../state/canvas_state_notifier.dart';
-import 'checkerboard_pattern.dart';
-import 'command_painter.dart';
+import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
+import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
+import 'package:paintroid/workspace/src/ui/checkerboard_pattern.dart';
+import 'package:paintroid/workspace/src/ui/command_painter.dart';
 
 class CanvasPainter extends ConsumerWidget {
   const CanvasPainter({super.key});
@@ -22,14 +21,17 @@ class CanvasPainter extends ConsumerWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          _backgroundLayer,
-          _paintingLayer,
+          _BackgroundLayer(),
+          _PaintingLayer(),
         ],
       ),
     );
   }
+}
 
-  Widget get _backgroundLayer {
+class _BackgroundLayer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Consumer(
         builder: (context, ref, child) {
@@ -45,8 +47,11 @@ class CanvasPainter extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget get _paintingLayer {
+class _PaintingLayer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Consumer(
         builder: (context, ref, child) {

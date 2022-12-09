@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/service/device_service.dart';
 import 'package:paintroid/tool/tool.dart';
-
-import '../state/canvas_dirty_state.dart';
-import '../state/canvas_state_notifier.dart';
-import '../state/workspace_state_notifier.dart';
-import 'canvas_painter.dart';
+import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
+import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
+import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
+import 'package:paintroid/workspace/src/ui/canvas_painter.dart';
 
 class DrawingCanvas extends ConsumerStatefulWidget {
   const DrawingCanvas({Key? key}) : super(key: key);
@@ -125,17 +124,15 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         onInteractionEnd: _onInteractionEnd,
         child: Center(
           child: ref.watch(IDeviceService.sizeProvider).map(
-                data: (_) => _canvasInFittedBox,
-                error: (_) => _canvasInFittedBox,
-                loading: (_) => const SizedBox.shrink(),
+                data: (_) => FittedBox(
+                  fit: BoxFit.contain,
+                  child: CanvasPainter(key: _canvasPainterKey),
+                ),
+                error: (_) => Container(),
+                loading: (_) => Container(),
               ),
         ),
       ),
     );
   }
-
-  Widget get _canvasInFittedBox => FittedBox(
-        fit: BoxFit.contain,
-        child: CanvasPainter(key: _canvasPainterKey),
-      );
 }
