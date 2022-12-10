@@ -56,5 +56,10 @@ class BrushTool extends Tool with EquatableMixin {
   }
 
   @override
+  void onCancel() {
+    commandManager.discardLastCommand();
+  }
+
+  @override
   List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 }

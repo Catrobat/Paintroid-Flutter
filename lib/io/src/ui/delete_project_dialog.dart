@@ -20,15 +20,17 @@ class DeleteProjectDialog extends StatefulWidget {
 
 class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
   @override
-  Widget build(BuildContext context) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text("Delete ${widget.name}"),
-        actions: const [
-          DialogElevatedButton(text: 'Cancel'),
-          DialogTextButton(text: 'Delete'),
-        ],
-        content: const Text("Do you really want to delete your project?"),
-      );
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      title: Text("Delete ${widget.name}"),
+      actions: const [
+        DialogElevatedButton(text: 'Cancel'),
+        DialogTextButton(text: 'Delete'),
+      ],
+      content: const Text("Do you really want to delete your project?"),
+    );
+  }
 }
 
 class DialogTextButton extends StatelessWidget {
@@ -53,6 +55,9 @@ class DialogElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ElevatedButton(
         onPressed: () => Navigator.of(context).pop(false),
-        child: Text(text, style: const TextStyle(color: Colors.white)),
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.white),
+        ),
       );
 }

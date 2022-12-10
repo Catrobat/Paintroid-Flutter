@@ -7,11 +7,11 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
+import androidx.window.layout.WindowMetricsCalculator
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import kotlinx.coroutines.*
 import java.io.IOException
 
 class MainActivity : FlutterActivity() {
@@ -24,6 +24,29 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        setupPhotoLibraryChannel(flutterEngine)
+        setupDeviceChannel(flutterEngine)
+    }
+
+    private fun setupDeviceChannel(flutterEngine: FlutterEngine) {
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/device"
+        ).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "getHeightInPixels" -> {
+                        val windowMetrics = WindowMetricsCalculator.getOrCreate()
+                            .computeMaximumWindowMetrics(activity)
+                        val height = windowMetrics.bounds.height()
+                        result.success(height.toDouble())
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
+    }
+
+    private fun setupPhotoLibraryChannel(flutterEngine: FlutterEngine) {
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/photo_library"
         ).apply {

@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'
-    show StateNotifier, StateNotifierProvider;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/service/device_service.dart';
 
 part 'canvas_state.dart';
 
@@ -57,7 +57,8 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
       _commandManager.executeAllCommands(canvas);
       final picture = recorder.endRecording();
-      final img = await picture.toImage(size.width.toInt(), size.height.toInt());
+      final img =
+          await picture.toImage(size.width.toInt(), size.height.toInt());
       state = state.copyWith(cachedImage: Option.some(img));
     }
   }

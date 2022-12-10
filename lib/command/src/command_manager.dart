@@ -21,5 +21,7 @@ abstract class CommandManager {
 
   void executeAllCommands(Canvas canvas);
 
+  void discardLastCommand();
+
   void clearHistory({Iterable<Command>? newCommands});
 }
