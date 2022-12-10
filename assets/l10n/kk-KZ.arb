@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Толық экран",
+    "saveImage": "Суретті сақтау",
+    "loadImage": "Кескінді жүктеңіз",
+    "newImage": "Жаңа сурет",
+    "saveProject": "Save project",
+    "tools": "Құралдар",
+    "brush": "Щётка",
+    "color": "Түс",
+    "layers": "Қабатттар"
+}

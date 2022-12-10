@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Цео екран",
+    "saveImage": "Сачувај слику",
+    "loadImage": "Учитавање слике",
+    "newImage": "Нова слика",
+    "saveProject": "Save project",
+    "tools": "Алати",
+    "brush": "Четка",
+    "color": "Боја",
+    "layers": "Слојеви"
+}

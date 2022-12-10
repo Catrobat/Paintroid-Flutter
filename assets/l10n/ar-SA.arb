@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "ملء الشاشة",
+    "saveImage": "حفظ الصورة",
+    "loadImage": "استيراد صورة",
+    "newImage": "صورة جديدة",
+    "saveProject": "Save project",
+    "tools": "أدوات",
+    "brush": "فرشاة",
+    "color": "اللون",
+    "layers": "الطبقات"
+}

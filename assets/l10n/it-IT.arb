@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Schermo intero",
+    "saveImage": "Salva immagine",
+    "loadImage": "Carica immagine",
+    "newImage": "Nuova immagine",
+    "saveProject": "Save project",
+    "tools": "Strumenti",
+    "brush": "Pennello",
+    "color": "Colore",
+    "layers": "Livelli"
+}

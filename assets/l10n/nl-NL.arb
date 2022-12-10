@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Volledig Scherm",
+    "saveImage": "Afbeelding opslaan",
+    "loadImage": "Afbeelding laden",
+    "newImage": "Nieuwe afbeelding",
+    "saveProject": "Save project",
+    "tools": "Tools",
+    "brush": "Kwast",
+    "color": "Color",
+    "layers": "Lagen"
+}

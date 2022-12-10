@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Повний екран",
+    "saveImage": "Зберегти зображення",
+    "loadImage": "Завантажити зображення",
+    "newImage": "Нове зображення",
+    "saveProject": "Save project",
+    "tools": "Інструменти",
+    "brush": "Пензель",
+    "color": "Колір",
+    "layers": "Шари"
+}

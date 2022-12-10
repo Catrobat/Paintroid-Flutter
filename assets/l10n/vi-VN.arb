@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Toàn màn hình",
+    "saveImage": "Lưu ảnh",
+    "loadImage": "Tải hình ảnh",
+    "newImage": "Hình ảnh mới",
+    "saveProject": "Save project",
+    "tools": "Công cụ",
+    "brush": "Cọ",
+    "color": "Color",
+    "layers": "Layers"
+}
