@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -18,6 +19,8 @@ abstract class IImageService {
   Future<Result<Uint8List, Failure>> exportAsJpg(ui.Image image, int quality);
 
   Future<Result<Uint8List, Failure>> exportAsPng(ui.Image image);
+
+  Result<Uint8List, Failure> getProjectPreview(String? path);
 
   static final provider = Provider<IImageService>((ref) => ImageService());
 }
@@ -59,6 +62,18 @@ class ImageService with LoggableMixin implements IImageService {
     } catch (err, stacktrace) {
       logger.severe("Could not export to Png", err, stacktrace);
       return Result.err(SaveImageFailure.unidentified);
+    }
+  }
+
+  @override
+  Result<Uint8List, Failure> getProjectPreview(String? path) {
+    try {
+      if (path == null) throw "Unable to get the project preview";
+      final file = File(path);
+      return Result.ok(file.readAsBytesSync());
+    } catch (err, stacktrace) {
+      logger.severe("Could not get the project preview", err, stacktrace);
+      return Result.err(LoadImageFailure.invalidImage);
     }
   }
 }

@@ -15,7 +15,7 @@ jobs:
       - name: Setup
         run: |
           flutter pub get
-          flutter pub run build_runner build
+          flutter pub run build_runner build --delete-conflicting-outputs
           dart pub global activate protoc_plugin
           chmod +x generate_protos.sh
           ./generate_protos.sh
