@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Pantalla Completa",
+    "saveImage": "Guardar imagen",
+    "loadImage": "Cargar Imagen",
+    "newImage": "Nueva imagen",
+    "saveProject": "Save project",
+    "tools": "Herramientas",
+    "brush": "Pincel",
+    "color": "Color",
+    "layers": "Capas"
+}

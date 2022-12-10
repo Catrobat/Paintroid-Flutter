@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "เต็มจอ",
+    "saveImage": "บันทึกรูปภาพ",
+    "loadImage": "โหลด​รูป​ภาพ",
+    "newImage": "รูปใหม่",
+    "saveProject": "Save project",
+    "tools": "เครื่องมือ",
+    "brush": "พู่กัน",
+    "color": "สี",
+    "layers": "เลเยอร์"
+}

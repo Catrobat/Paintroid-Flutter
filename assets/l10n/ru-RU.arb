@@ -1,0 +1,12 @@
+{
+    "@@locale": "en",
+    "fullscreen": "Полноэкранный режим",
+    "saveImage": "Сохранить изображение",
+    "loadImage": "Загрузить изображение",
+    "newImage": "Новое изображение",
+    "saveProject": "Save project",
+    "tools": "Инструменты",
+    "brush": "Кисть",
+    "color": "Цвет",
+    "layers": "Слои"
+}
