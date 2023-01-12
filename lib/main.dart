@@ -27,12 +27,12 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final onBoardingPage = prefs.getBool('onboardingPage') ?? false;
+  final showOnboarding = prefs.getBool('showOnboarding') ?? true;
 
   runApp(
     ProviderScope(
       child: PocketPaintApp(
-        showOnboardingPage: !onBoardingPage,
+        showOnboardingPage: showOnboarding,
       ),
     ),
   );
@@ -82,7 +82,6 @@ class PocketPaintApp extends StatelessWidget {
                           navigateTo: LandingPage(title: 'Pocket Paint'),
                         )
                       : const LandingPage(title: 'Pocket Paint'),
-                  // const LandingPage(title: "Pocket Paint"),
                 );
               case "/PocketPaint":
                 return MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paintroid/core/app_localizations.dart';
+
+import 'bottom_nav_bar_icon.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
   static const height = 64.0;
@@ -42,21 +43,6 @@ class BottomControlNavigationBar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class BottomBarIcon extends StatelessWidget {
-  final String asset;
-
-  const BottomBarIcon({Key? key, required this.asset}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      asset,
-      height: 24,
-      color: Theme.of(context).colorScheme.onSurface,
     );
   }
 }

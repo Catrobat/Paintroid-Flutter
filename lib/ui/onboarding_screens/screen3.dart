@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:paintroid/ui/bottom_nav_bar_container.dart';
 import 'package:paintroid/ui/color_schemes.dart';
-
-import '../bottom_control_navigation_bar.dart';
-import '../onboarding_page_bottom_nav_bar.dart';
+import 'package:paintroid/ui/bottom_nav_bar_icon.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({Key? key}) : super(key: key);
@@ -163,15 +162,15 @@ class _Screen3State extends State<Screen3> {
   void clipArea() => toolPressed(15);
 
   List<BottomNavigationBarItem> _getBottomNavigationBarItems(int l, int r) {
-    List<BottomNavigationBarItem> items = [];
-    for (int i = l; i <= r; i++) {
-      items.add(
-        BottomNavigationBarItem(
-          label: titles[i],
-          icon: BottomBarIcon(asset: icons[i]),
-        ),
-      );
-    }
+    List<BottomNavigationBarItem> items = List.generate(
+      r - l + 1,
+      (i) {
+        return BottomNavigationBarItem(
+          label: titles[l + i],
+          icon: BottomBarIcon(asset: icons[l + i]),
+        );
+      },
+    );
     return items;
   }
 
@@ -214,37 +213,21 @@ class _Screen3State extends State<Screen3> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            color: lightColorScheme.surface,
-            child: OnboardingPageBottomNavigationBar(
-              onPressedFunctions: [brush, hand, eraser, line],
-              barItems: _getBottomNavigationBarItems(0, 3),
-            ),
+          BottomNavigationBarContainer(
+            navBarItems: _getBottomNavigationBarItems(0, 3),
+            onPressedFunctions: [brush, hand, eraser, line],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            color: lightColorScheme.surface,
-            child: OnboardingPageBottomNavigationBar(
-              onPressedFunctions: [shapes, fill, sprayCan, cursor],
-              barItems: _getBottomNavigationBarItems(4, 7),
-            ),
+          BottomNavigationBarContainer(
+            navBarItems: _getBottomNavigationBarItems(4, 7),
+            onPressedFunctions: [shapes, fill, sprayCan, cursor],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            color: lightColorScheme.surface,
-            child: OnboardingPageBottomNavigationBar(
-              onPressedFunctions: [text, stamp, transform, importImage],
-              barItems: _getBottomNavigationBarItems(8, 11),
-            ),
+          BottomNavigationBarContainer(
+            navBarItems: _getBottomNavigationBarItems(8, 11),
+            onPressedFunctions: [text, stamp, transform, importImage],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            color: lightColorScheme.surface,
-            child: OnboardingPageBottomNavigationBar(
-              onPressedFunctions: [pipette, watercolor, smudge, clipArea],
-              barItems: _getBottomNavigationBarItems(12, 15),
-            ),
+          BottomNavigationBarContainer(
+            navBarItems: _getBottomNavigationBarItems(12, 15),
+            onPressedFunctions: [pipette, watercolor, smudge, clipArea],
           ),
         ],
       ),

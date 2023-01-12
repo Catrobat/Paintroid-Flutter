@@ -43,7 +43,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void finish() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('onboardingPage', true);
+    prefs.setBool('showOnboarding', false);
     if (mounted) {
       if (widget.navigateTo == null) {
         Navigator.pop(context);

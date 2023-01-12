@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/ui/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/onboarding_page_app_bar.dart';
 import 'package:paintroid/ui/onboarding_page_bottom_nav_bar.dart';
-
-import '../../workspace/src/ui/drawing_canvas.dart';
-import '../bottom_control_navigation_bar.dart';
+import 'package:paintroid/workspace/src/ui/drawing_canvas.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);
