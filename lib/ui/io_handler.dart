@@ -197,7 +197,8 @@ class IOHandler {
     );
   }
 
-  Future<File?> _saveAsCatrobatImage(CatrobatImageMetaData imageData, bool isAProject) async {
+  Future<File?> _saveAsCatrobatImage(
+      CatrobatImageMetaData imageData, bool isAProject) async {
     final commands = ref.read(CommandManager.provider).history;
     final canvasState = ref.read(CanvasState.provider);
     final imgWidth = canvasState.size.width.toInt();
@@ -205,7 +206,8 @@ class IOHandler {
     final catrobatImage = CatrobatImage(
         commands, imgWidth, imgHeight, canvasState.backgroundImage);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
-    final result = await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
+    final result =
+        await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
         showToast("Saved successfully");

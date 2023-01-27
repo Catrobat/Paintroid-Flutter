@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
-import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/io/src/ui/generic_dialog.dart';
 import 'package:paintroid/ui/util.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
@@ -48,14 +47,12 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(
-        'About',
-        style: TextStyle(color: lightColorScheme.primary),
-      ),
-      actions: const [DialogElevatedButton(text: 'DONE')],
-      contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 24),
+    return GenericDialog(
+      title: 'About',
+      actions: [
+        GenericDialogAction(
+            title: 'DONE', onPressed: () => Navigator.of(context).pop(true)),
+      ],
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,6 +69,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
           SelectableText.rich(
             textAlign: TextAlign.center,
             TextSpan(
+              style: const TextStyle(color: Colors.black),
               children: [
                 const TextSpan(text: content),
                 _clickableText(
