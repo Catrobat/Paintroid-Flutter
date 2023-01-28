@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paintroid/core/app_localizations.dart';
+
+import 'bottom_nav_bar_icon.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
   static const height = 64.0;
@@ -22,11 +23,11 @@ class BottomControlNavigationBar extends StatelessWidget {
         destinations: [
           NavigationDestination(
             label: localizations.tools,
-            icon: const _BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
+            icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
           NavigationDestination(
             label: localizations.brush,
-            icon: const _BottomBarIcon(asset: 'assets/svg/ic_brush.svg'),
+            icon: const BottomBarIcon(asset: 'assets/svg/ic_brush.svg'),
           ),
           NavigationDestination(
             label: localizations.color,
@@ -38,25 +39,10 @@ class BottomControlNavigationBar extends StatelessWidget {
           ),
           NavigationDestination(
             label: localizations.layers,
-            icon: const _BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
+            icon: const BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _BottomBarIcon extends StatelessWidget {
-  final String asset;
-
-  const _BottomBarIcon({required this.asset});
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      asset,
-      height: 24,
-      color: Theme.of(context).colorScheme.onSurface,
     );
   }
 }

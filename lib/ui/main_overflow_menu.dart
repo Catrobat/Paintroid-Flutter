@@ -53,6 +53,9 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
         LaunchReview.launch(androidAppId: androidAppId, iOSAppId: iOSAppId);
         break;
       case MainOverflowMenuOption.help:
+        if (mounted) {
+          await Navigator.pushNamed(context, '/OnboardingPage');
+        }
         break;
       case MainOverflowMenuOption.about:
         if (mounted) {
