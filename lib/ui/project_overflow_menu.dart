@@ -7,7 +7,7 @@ import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
 
-import '../data/model/project.dart';
+import 'package:paintroid/data/model/project.dart';
 
 enum ProjectOverflowMenuOption {
   deleteProject("Delete"),

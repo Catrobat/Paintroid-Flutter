@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'command.dart';
+import 'package:paintroid/command/src/command.dart';
 
 abstract class GraphicCommand extends Command {
   const GraphicCommand(this.paint);

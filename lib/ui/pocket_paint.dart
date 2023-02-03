@@ -5,9 +5,9 @@ import 'package:paintroid/io/io.dart';
 import 'package:paintroid/ui/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
-import 'bottom_control_navigation_bar.dart';
-import 'exit_fullscreen_button.dart';
-import 'io_handler.dart';
+import 'package:paintroid/ui/bottom_control_navigation_bar.dart';
+import 'package:paintroid/ui/exit_fullscreen_button.dart';
+import 'package:paintroid/ui/io_handler.dart';
 
 class PocketPaint extends ConsumerStatefulWidget {
   const PocketPaint({Key? key}) : super(key: key);

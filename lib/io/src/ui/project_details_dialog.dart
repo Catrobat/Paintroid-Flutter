@@ -7,8 +7,8 @@ import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 
-import '../../../data/model/project.dart';
-import '../../../ui/color_schemes.dart';
+import 'package:paintroid/data/model/project.dart';
+import 'package:paintroid/ui/color_schemes.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
     showGeneralDialog<bool>(

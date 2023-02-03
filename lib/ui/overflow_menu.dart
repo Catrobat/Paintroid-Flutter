@@ -6,9 +6,9 @@ import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
-import '../data/model/project.dart';
-import '../data/project_database.dart';
-import '../io/src/ui/save_image_dialog.dart';
+import 'package:paintroid/data/model/project.dart';
+import 'package:paintroid/data/project_database.dart';
+import 'package:paintroid/io/src/ui/save_image_dialog.dart';
 
 enum OverflowMenuOption {
   fullscreen,

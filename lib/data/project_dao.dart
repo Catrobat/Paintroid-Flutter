@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'model/project.dart';
+import 'package:paintroid/data/model/project.dart';
 
 @dao
 abstract class ProjectDAO {

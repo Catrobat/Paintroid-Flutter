@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'tool_state.dart';
+import 'package:paintroid/tool/src/tool_state.dart';
 
 class ToolStateNotifier extends StateNotifier<ToolState> {
   ToolStateNotifier(super.state);

@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 
-import '../failure/load_image_failure.dart';
-import '../service/image_service.dart';
-import '../service/permission_service.dart';
-import '../service/photo_library_service.dart';
+import 'package:paintroid/io/src/failure/load_image_failure.dart';
+import 'package:paintroid/io/src/service/image_service.dart';
+import 'package:paintroid/io/src/service/permission_service.dart';
+import 'package:paintroid/io/src/service/photo_library_service.dart';
 
 class LoadImageFromPhotoLibrary {
   final IImageService imageService;

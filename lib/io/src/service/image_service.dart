@@ -9,8 +9,8 @@ import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/core/loggable_mixin.dart';
 
-import '../failure/load_image_failure.dart';
-import '../failure/save_image_failure.dart';
+import 'package:paintroid/io/src/failure/load_image_failure.dart';
+import 'package:paintroid/io/src/failure/save_image_failure.dart';
 
 abstract class IImageService {
   Future<Result<ui.Image, Failure>> import(Uint8List fileData);

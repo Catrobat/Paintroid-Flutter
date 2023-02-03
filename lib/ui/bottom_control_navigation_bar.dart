@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/app_localizations.dart';
 
-import 'bottom_nav_bar_icon.dart';
+import 'package:paintroid/ui/bottom_nav_bar_icon.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
   static const height = 64.0;

@@ -1,4 +1,7 @@
 include: package:flutter_lints/flutter.yaml
+linter:
+  rules:
+    - always_use_package_imports
 analyzer:
   errors:
     missing_enum_constant_in_switch: error
