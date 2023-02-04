@@ -8,7 +8,7 @@ import 'package:paintroid/ui/onboarding_screens/screen5.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'onboarding_screens/screen2.dart';
+import 'package:paintroid/ui/onboarding_screens/screen2.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;

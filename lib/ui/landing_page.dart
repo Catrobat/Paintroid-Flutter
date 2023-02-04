@@ -14,8 +14,8 @@ import 'package:paintroid/ui/project_overflow_menu.dart';
 import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
 import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
 
-import 'color_schemes.dart';
-import 'io_handler.dart';
+import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/ui/io_handler.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;

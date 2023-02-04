@@ -8,7 +8,7 @@ import 'package:paintroid/command/command.dart' show CommandManager;
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
-import '../core/failure.dart';
+import 'package:paintroid/core/failure.dart';
 
 class IOHandler {
   final Ref ref;

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import '../../command.dart';
-import '../../command_manager.dart';
-import '../../graphic_command.dart';
+import 'package:paintroid/command/src/command.dart';
+import 'package:paintroid/command/src/command_manager.dart';
+import 'package:paintroid/command/src/graphic_command.dart';
 
 class SyncCommandManager implements CommandManager {
   SyncCommandManager({required List<Command> commands}) : _history = commands;

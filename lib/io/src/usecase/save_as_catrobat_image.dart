@@ -12,7 +12,7 @@ import 'package:paintroid/io/io.dart'
         IFileService,
         SaveImageFailure;
 
-import '../service/permission_service.dart';
+import 'package:paintroid/io/src/service/permission_service.dart';
 
 class SaveAsCatrobatImage with LoggableMixin {
   final IFileService _fileService;
