@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paintroid/ui/color_schemes.dart';
-import 'package:paintroid/ui/onboarding_screens/screen1.dart';
-import 'package:paintroid/ui/onboarding_screens/screen3.dart';
-import 'package:paintroid/ui/onboarding_screens/screen4.dart';
-import 'package:paintroid/ui/onboarding_screens/screen5.dart';
+import 'package:paintroid/ui/onboarding/onboarding_screens/screen1.dart';
+import 'package:paintroid/ui/onboarding/onboarding_screens/screen2.dart';
+import 'package:paintroid/ui/onboarding/onboarding_screens/screen3.dart';
+import 'package:paintroid/ui/onboarding/onboarding_screens/screen4.dart';
+import 'package:paintroid/ui/onboarding/onboarding_screens/screen5.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import 'package:paintroid/ui/onboarding_screens/screen2.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
@@ -25,11 +24,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom],
     );
-    super.initState();
   }
 
   @override
@@ -41,7 +40,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  void finish() async {
+  Future<void> finish() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('showOnboarding', false);
     if (mounted) {
@@ -60,12 +59,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Padding(
         padding: const EdgeInsets.only(bottom: 40),
         child: Column(
           children: [
             Expanded(
-              flex: 1,
               child: PageView(
                 controller: _controller,
                 onPageChanged: (index) {
@@ -89,7 +87,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       bottomSheet: Container(
         color: lightColorScheme.surface,
-        alignment: const Alignment(0, 0),
         height: 40,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

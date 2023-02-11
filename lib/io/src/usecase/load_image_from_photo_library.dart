@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/failure.dart';
-
 import 'package:paintroid/io/src/failure/load_image_failure.dart';
 import 'package:paintroid/io/src/service/image_service.dart';
 import 'package:paintroid/io/src/service/permission_service.dart';
@@ -27,7 +26,7 @@ class LoadImageFromPhotoLibrary {
 
   Future<Result<Image, Failure>> call() async {
     if (!(await permissionService.requestAccessToPickPhotos())) {
-      return Result.err(LoadImageFailure.permissionDenied);
+      return const Result.err(LoadImageFailure.permissionDenied);
     }
     return await photoLibraryService
         .pick()

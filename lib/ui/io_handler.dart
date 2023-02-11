@@ -5,10 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/command.dart' show CommandManager;
+import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/workspace.dart';
-
-import 'package:paintroid/core/failure.dart';
 
 class IOHandler {
   final Ref ref;
@@ -162,7 +161,7 @@ class IOHandler {
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
     return ref.read(SaveAsRasterImage.provider).call(imageData, image).when(
       ok: (_) {
-        showToast("Saved to Photos");
+        showToast('Saved to Photos');
         return true;
       },
       err: (failure) {
@@ -210,7 +209,7 @@ class IOHandler {
         await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
-        showToast("Saved successfully");
+        showToast('Saved successfully');
         return file;
       },
       err: (failure) {
