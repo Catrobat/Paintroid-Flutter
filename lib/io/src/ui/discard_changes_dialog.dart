@@ -7,9 +7,9 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) =>
     showGeneralDialog<bool>(
         context: context,
         pageBuilder: (_, __, ___) => GenericDialog(
-                title: "Discard changes",
+                title: 'Discard changes',
                 text:
-                    "You have not saved your last changes. They will be lost!",
+                    'You have not saved your last changes. They will be lost!',
                 actions: [
                   GenericDialogAction(
                       title: 'Discard',
@@ -19,4 +19,4 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) =>
                       onPressed: () => Navigator.of(context).pop(false)),
                 ]),
         barrierDismissible: true,
-        barrierLabel: "Dismiss discard changes dialog box");
+        barrierLabel: 'Dismiss discard changes dialog box');

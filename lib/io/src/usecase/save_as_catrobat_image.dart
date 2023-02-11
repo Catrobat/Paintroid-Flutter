@@ -11,7 +11,6 @@ import 'package:paintroid/io/io.dart'
         CatrobatImageSerializer,
         IFileService,
         SaveImageFailure;
-
 import 'package:paintroid/io/src/service/permission_service.dart';
 
 class SaveAsCatrobatImage with LoggableMixin {
@@ -33,9 +32,9 @@ class SaveAsCatrobatImage with LoggableMixin {
   Future<Result<File, Failure>> call(
       CatrobatImageMetaData data, CatrobatImage image, bool isAProject) async {
     if (!(await permissionService.requestAccessToSharedFileStorage())) {
-      return Result.err(SaveImageFailure.permissionDenied);
+      return const Result.err(SaveImageFailure.permissionDenied);
     }
-    final nameWithExt = "${data.name}.${data.format.extension}";
+    final nameWithExt = '${data.name}.${data.format.extension}';
     try {
       final bytes = await _catrobatImageSerializer.toBytes(image);
       if (isAProject) {
@@ -44,8 +43,8 @@ class SaveAsCatrobatImage with LoggableMixin {
       return _fileService.save(nameWithExt, bytes);
     } catch (err, stacktrace) {
       logger.severe(
-          "Failed to serialize CatrobatImage object", err, stacktrace);
-      return Result.err(SaveImageFailure.unidentified);
+          'Failed to serialize CatrobatImage object', err, stacktrace);
+      return const Result.err(SaveImageFailure.unidentified);
     }
   }
 }

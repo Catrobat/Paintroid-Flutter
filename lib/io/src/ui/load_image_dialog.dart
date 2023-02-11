@@ -7,8 +7,8 @@ Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
     showGeneralDialog<ImageLocation>(
         context: context,
         pageBuilder: (_, __, ___) => GenericDialog(
-              title: "Load image",
-              text: "Where do you want to load the image from?",
+              title: 'Load image',
+              text: 'Where do you want to load the image from?',
               actions: [
                 GenericDialogAction(
                     title: 'Photos',
@@ -21,4 +21,4 @@ Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
               ],
             ),
         barrierDismissible: true,
-        barrierLabel: "Dismiss load image dialog box");
+        barrierLabel: 'Dismiss load image dialog box');

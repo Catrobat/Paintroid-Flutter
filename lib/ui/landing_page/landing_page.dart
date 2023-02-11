@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -7,15 +5,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
-import 'package:intl/intl.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/ui/main_overflow_menu.dart';
-import 'package:paintroid/ui/project_overflow_menu.dart';
-import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
-import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
-
 import 'package:paintroid/ui/color_schemes.dart';
 import 'package:paintroid/ui/io_handler.dart';
+import 'package:paintroid/ui/landing_page/custom_action_button.dart';
+import 'package:paintroid/ui/landing_page/image_preview.dart';
+import 'package:paintroid/ui/landing_page/main_overflow_menu.dart';
+import 'package:paintroid/ui/landing_page/project_list_tile.dart';
+import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
+import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
+import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
@@ -34,7 +33,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   Future<List<Project>> _getProjects() async =>
       database.projectDAO.getProjects();
 
-  void _navigateToPocketPaint() async {
+  Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
     setState(() {});
   }
@@ -62,7 +61,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
   }
 
-  void _openProject(Project project, IOHandler ioHandler) async {
+  Future<void> _openProject(Project project, IOHandler ioHandler) async {
     bool loaded = await _loadProject(ioHandler, project);
     if (loaded) _navigateToPocketPaint();
   }
@@ -72,12 +71,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) => showToast("Error: $err"),
+      error: (err, stacktrace) => showToast('Error: $err'),
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);
     final size = MediaQuery.of(context).size;
-    final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     Project? latestModifiedProject;
     fileService = ref.watch(IFileService.provider);
     imageService = ref.watch(IImageService.provider);
@@ -109,7 +107,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                               _openProject(latestModifiedProject!, ioHandler);
                             }
                           },
-                          child: _ImagePreview(
+                          child: ImagePreview(
                             project: latestModifiedProject,
                             imageService: imageService,
                             color: Colors.white54,
@@ -126,7 +124,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                             }
                           },
                           icon: SvgPicture.asset(
-                            "assets/svg/ic_edit_circle.svg",
+                            'assets/svg/ic_edit_circle.svg',
                             height: 264,
                             width: 264,
                           ),
@@ -144,60 +142,36 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  child: Container(
-                    color: lightColorScheme.primaryContainer,
-                    width: size.width,
-                    padding: const EdgeInsets.all(20),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "My Projects",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Color(0xFFFFFFFF)),
+                Container(
+                  color: lightColorScheme.primaryContainer,
+                  padding: const EdgeInsets.all(20),
+                  child: const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'My Projects',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
                 ),
                 Flexible(
                   child: ListView.builder(
-                    itemBuilder: (context, position) {
-                      if (position != 0) {
-                        Project project = snapshot.data![position];
-                        return Card(
-                          child: ListTile(
-                            leading: _ImagePreview(
-                              project: project,
-                              imageService: imageService,
-                              width: 80,
-                              color: Colors.white,
-                            ),
-                            dense: false,
-                            title: Text(
-                              project.name,
-                              style: const TextStyle(color: Color(0xFFFFFFFF)),
-                            ),
-                            subtitle: Text(
-                              'last modified: ${dateFormat.format(project.lastModified)}',
-                              style: const TextStyle(color: Color(0xFFFFFFFF)),
-                            ),
-                            trailing: ProjectOverflowMenu(
-                              key: Key('ProjectOverflowMenu Key$position'),
-                              project: project,
-                            ),
-                            enabled: true,
-                            onTap: () async => _openProject(project, ioHandler),
-                          ),
+                    itemBuilder: (context, index) {
+                      if (index != 0) {
+                        Project project = snapshot.data![index];
+                        return ProjectListTile(
+                          project: project,
+                          imageService: imageService,
+                          index: index,
+                          onTap: () async => _openProject(project, ioHandler),
                         );
                       }
-                      return const Card();
+                      return Container();
                     },
                     itemCount: snapshot.data?.length,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
                   ),
                 ),
               ],
@@ -214,8 +188,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _LandingPageFAB(
-            heroTag: "import_image",
+          CustomActionButton(
+            heroTag: 'import_image',
             icon: Icons.file_download,
             onPressed: () async {
               final bool imageLoaded =
@@ -228,8 +202,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           const SizedBox(
             height: 10,
           ),
-          _LandingPageFAB(
-            heroTag: "new_image",
+          CustomActionButton(
+            heroTag: 'new_image',
             icon: Icons.add,
             onPressed: () async {
               _clearCanvas();
@@ -239,83 +213,5 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         ],
       ),
     );
-  }
-}
-
-class _LandingPageFAB extends StatelessWidget {
-  final String heroTag;
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  const _LandingPageFAB({
-    Key? key,
-    required this.heroTag,
-    required this.icon,
-    required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: heroTag,
-      backgroundColor: const Color(0xFFFFAB08),
-      foregroundColor: const Color(0xFFFFFFFF),
-      child: Icon(icon),
-      onPressed: () async => onPressed(),
-    );
-  }
-}
-
-class _ImagePreview extends StatelessWidget {
-  final Project? project;
-  final double? width;
-  final Color color;
-  final IImageService imageService;
-
-  const _ImagePreview({
-    Key? key,
-    this.width,
-    required this.color,
-    this.project,
-    required this.imageService,
-  }) : super(key: key);
-
-  ImageProvider _getProjectPreviewImageProvider(Uint8List img) =>
-      Image.memory(img, fit: BoxFit.cover).image;
-
-  Uint8List? _getProjectPreview(String? path) =>
-      imageService.getProjectPreview(path).when(
-            ok: (preview) => preview,
-            err: (failure) {
-              showToast(failure.message);
-              return null;
-            },
-          );
-
-  @override
-  Widget build(BuildContext context) {
-    Uint8List? img;
-    if (project != null) {
-      img = _getProjectPreview(project!.imagePreviewPath);
-    }
-    var imgPreview = BoxDecoration(color: color);
-    if (img != null) {
-      imgPreview = BoxDecoration(
-        color: color,
-        image: DecorationImage(
-          image: _getProjectPreviewImageProvider(img),
-        ),
-      );
-    }
-    if (width != null) {
-      return Container(
-        width: width!,
-        decoration: imgPreview,
-      );
-    } else {
-      return Container(
-        decoration: imgPreview,
-      );
-    }
   }
 }

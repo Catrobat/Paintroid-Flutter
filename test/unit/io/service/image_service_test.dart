@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,8 +5,8 @@ import 'package:paintroid/io/io.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final testPngFile = await rootBundle.load("test/fixture/image/test.png");
-  final testJpgFile = await rootBundle.load("test/fixture/image/test.jpg");
+  final testPngFile = await rootBundle.load('test/fixture/image/test.png');
+  final testJpgFile = await rootBundle.load('test/fixture/image/test.jpg');
   late ImageService sut;
 
   setUp(() async {

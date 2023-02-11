@@ -27,8 +27,8 @@ class ImageWithPixelInfo {
   /// Range: (0,0) → (width-1, height-1)
   Color pixelColorAt(int x, int y) {
     if (x < 0 || x >= _width || y < 0 || y >= _height) {
-      throw "Failed to calculate color due to"
-          "invalid coordinates: ($x, $y) don't fit inside $_width x $_height";
+      throw 'Failed to calculate color due to'
+          'invalid coordinates: ($x, $y) don\'t fit inside $_width x $_height';
     }
     final byteOffset = 4 * (x + (y * _width));
     return Color(_rgbaToArgb(_byteData.getUint32(byteOffset)));

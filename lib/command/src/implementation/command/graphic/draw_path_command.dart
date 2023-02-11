@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:paintroid/core/path_with_action_history.dart';
 import 'package:paintroid/command/src/graphic_command.dart';
+import 'package:paintroid/core/path_with_action_history.dart';
 
 class DrawPathCommand extends GraphicCommand {
   const DrawPathCommand(this.path, super.paint);

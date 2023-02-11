@@ -9,7 +9,7 @@ Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
         context: context,
         pageBuilder: (_, __, ___) => MyAboutDialog(version: version),
         barrierDismissible: true,
-        barrierLabel: "Show project details dialog box");
+        barrierLabel: 'Show project details dialog box');
 
 class MyAboutDialog extends ConsumerStatefulWidget {
   final String version;
@@ -60,7 +60,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
         children: [
           Image.asset('assets/icon/pocketpaint_logo_small.png'),
           Text(
-            "Version ${widget.version}",
+            'Version ${widget.version}',
             style: const TextStyle(fontSize: 9),
           ),
           const SizedBox(

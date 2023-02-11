@@ -11,7 +11,7 @@ Future<ImageMetaData?> showSaveImageDialog(
         pageBuilder: (_, __, ___) =>
             SaveImageDialog(savingProject: savingProject),
         barrierDismissible: true,
-        barrierLabel: "Dismiss save image dialog box");
+        barrierLabel: 'Dismiss save image dialog box');
 
 class SaveImageDialog extends StatefulWidget {
   final bool savingProject;
@@ -25,17 +25,17 @@ class SaveImageDialog extends StatefulWidget {
 
 class _SaveImageDialogState extends State<SaveImageDialog> {
   late final TextEditingController nameFieldController;
-  final formKey = GlobalKey<FormState>(debugLabel: "SaveImageDialog Form");
+  final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
   var selectedFormat = ImageFormat.jpg;
   var imageQualityValue = 100;
 
   @override
   void initState() {
     super.initState();
-    var text = "image";
+    var text = 'image';
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
-      text = "project";
+      text = 'project';
     }
     nameFieldController = TextEditingController(text: text);
   }
@@ -58,11 +58,11 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var dialogTitle = "Save ";
+    var dialogTitle = 'Save ';
     if (widget.savingProject) {
-      dialogTitle += "Project";
+      dialogTitle += 'Project';
     } else {
-      dialogTitle += "Image";
+      dialogTitle += 'Image';
     }
     return AlertDialog(
       title: Text(dialogTitle),
@@ -90,7 +90,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   TextButton get _cancelButton {
     return TextButton(
       onPressed: () => Navigator.of(context).pop(),
-      child: const Text("Cancel"),
+      child: const Text('Cancel'),
     );
   }
 
@@ -102,7 +102,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           _dismissDialogWithData();
         }
       },
-      child: const Text("Save"),
+      child: const Text('Save'),
     );
   }
 
@@ -112,7 +112,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Quality: $imageQualityValue%"),
+            Text('Quality: $imageQualityValue%'),
             Slider(
               max: 100,
               divisions: 100,
@@ -130,7 +130,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   TextFormField get _imageNameTextField {
     return TextFormField(
       controller: nameFieldController,
-      decoration: const InputDecoration(labelText: "Name", filled: true),
+      decoration: const InputDecoration(labelText: 'Name', filled: true),
       validator: (text) {
         if (text == null || text.isEmpty) {
           var errMsg = 'Please specify an image name';
@@ -147,7 +147,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   Row get _imageFormatDropdown {
     return Row(
       children: [
-        const Text("Format:"),
+        const Text('Format:'),
         const VerticalDivider(width: 12),
         DropdownButton<ImageFormat>(
           borderRadius: BorderRadius.circular(12),

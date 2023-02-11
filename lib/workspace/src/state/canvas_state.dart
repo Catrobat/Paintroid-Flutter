@@ -15,7 +15,8 @@ class CanvasState {
     (ref) {
       final canvasSize = ref.watch(IDeviceService.sizeProvider).when(
             data: (size) => size,
-            error: (_, __) => window.physicalSize,
+            error: (_, __) => widgets.WidgetsBinding.instance.platformDispatcher
+                .views.first.physicalSize,
             loading: () => Size.zero,
           );
       _initial = CanvasState(size: canvasSize);

@@ -6,10 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:logging/logging.dart';
 import 'package:paintroid/ui/color_schemes.dart';
-import 'package:paintroid/ui/landing_page.dart';
-import 'package:paintroid/ui/loading_overlay.dart';
-import 'package:paintroid/ui/onboarding_page.dart';
+import 'package:paintroid/ui/landing_page/landing_page.dart';
+import 'package:paintroid/ui/onboarding/onboarding_page.dart';
 import 'package:paintroid/ui/pocket_paint.dart';
+import 'package:paintroid/ui/shared/loading_overlay.dart';
 import 'package:paintroid/workspace/workspace.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,9 +60,11 @@ class PocketPaintApp extends StatelessWidget {
       child: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           return LoadingOverlay(
-            isLoading: ref.watch(WorkspaceState.provider.select(
-              (state) => state.isPerformingIOTask,
-            )),
+            isLoading: ref.watch(
+              WorkspaceState.provider.select(
+                (state) => state.isPerformingIOTask,
+              ),
+            ),
             child: child,
           );
         },
@@ -70,12 +72,14 @@ class PocketPaintApp extends StatelessWidget {
           title: 'Pocket Paint',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme:
-              ThemeData.from(useMaterial3: true, colorScheme: lightColorScheme),
-          initialRoute: "/",
+          theme: ThemeData.from(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+          ),
+          initialRoute: '/',
           onGenerateRoute: (settings) {
             switch (settings.name) {
-              case "/":
+              case '/':
                 return MaterialPageRoute(
                   builder: (context) => showOnboardingPage
                       ? const OnboardingPage(
@@ -83,12 +87,11 @@ class PocketPaintApp extends StatelessWidget {
                         )
                       : const LandingPage(title: 'Pocket Paint'),
                 );
-              case "/PocketPaint":
+              case '/PocketPaint':
                 return MaterialPageRoute(
                   builder: (context) => const PocketPaint(),
                 );
-
-              case "/OnboardingPage":
+              case '/OnboardingPage':
                 return MaterialPageRoute(
                   builder: (context) => const OnboardingPage(),
                 );

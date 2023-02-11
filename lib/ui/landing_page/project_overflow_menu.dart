@@ -3,15 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
 
-import 'package:paintroid/data/model/project.dart';
-
 enum ProjectOverflowMenuOption {
-  deleteProject("Delete"),
-  getDetails("Details");
+  deleteProject('Delete'),
+  getDetails('Details');
 
   const ProjectOverflowMenuOption(this.label);
 
@@ -37,7 +36,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) => showToast("Error: $err"),
+      error: (err, stacktrace) => showToast('Error: $err'),
       loading: () {},
     );
 
@@ -67,7 +66,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     }
   }
 
-  void _deleteProject() async {
+  Future<void> _deleteProject() async {
     bool? shouldDelete = await showDeleteDialog(context, widget.project.name);
     if (shouldDelete != null && shouldDelete) {
       try {
@@ -82,12 +81,12 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       }
       if (widget.project.id != null) {
         await database.projectDAO.deleteProject(widget.project.id!);
-        ref.refresh(ProjectDatabase.provider);
+        ref.invalidate(ProjectDatabase.provider);
       }
     }
   }
 
-  void _showProjectDetails() async {
+  Future<void> _showProjectDetails() async {
     await showDetailsDialog(context, widget.project);
   }
 }

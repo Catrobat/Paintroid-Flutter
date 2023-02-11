@@ -45,7 +45,7 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
             typeUrlPrefix: ProtoSerializerWithVersioning.urlPrefix,
           );
         } else {
-          throw "Invalid command type";
+          throw 'Invalid command type';
         }
       })),
     );
@@ -60,7 +60,7 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
         final unpacked = cmd.unpackInto(SerializableDrawPathCommand());
         commands.add(await _drawPathCommandSerializer.deserialize(unpacked));
       } else {
-        throw "Invalid command type";
+        throw 'Invalid command type';
       }
     }
     Image? image;

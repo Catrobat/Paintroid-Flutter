@@ -37,7 +37,7 @@ class PathSerializer extends ProtoSerializerWithVersioning<
       } else if (action.hasClose()) {
         path.close();
       } else {
-        logger.severe("No Path Action was set at index $i.");
+        logger.severe('No Path Action was set at index $i.');
       }
     }
     return path;
@@ -70,7 +70,7 @@ class PathSerializer extends ProtoSerializerWithVersioning<
         final close = SerializablePath_Action_Close();
         serializableAction = SerializablePath_Action(close: close);
       } else {
-        logger.severe("Path Action serialization was not handled for $action");
+        logger.severe('Path Action serialization was not handled for $action');
       }
       serializablePath.actions.add(serializableAction);
     }

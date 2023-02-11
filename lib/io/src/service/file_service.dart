@@ -29,16 +29,16 @@ class FileService with LoggableMixin implements IFileService {
       final result =
           await FilePicker.platform.pickFiles(allowCompression: false);
       if (result == null) {
-        return Result.err(LoadImageFailure.userCancelled);
+        return const Result.err(LoadImageFailure.userCancelled);
       }
       if (result.files.single.path == null) {
-        throw "file path is null";
+        throw 'file path is null';
       } else {
         return Result.ok(File(result.files.single.path!));
       }
     } catch (err, stacktrace) {
-      logger.severe("Could not load file", err, stacktrace);
-      return Result.err(LoadImageFailure.unidentified);
+      logger.severe('Could not load file', err, stacktrace);
+      return const Result.err(LoadImageFailure.unidentified);
     }
   }
 
@@ -47,14 +47,14 @@ class FileService with LoggableMixin implements IFileService {
     try {
       final saveDirectory = await FilePicker.platform.getDirectoryPath();
       if (saveDirectory == null) {
-        return Result.err(SaveImageFailure.userCancelled);
+        return const Result.err(SaveImageFailure.userCancelled);
       }
       final file =
-          await File("$saveDirectory/$filename").create(recursive: true);
+          await File('$saveDirectory/$filename').create(recursive: true);
       return Result.ok(await file.writeAsBytes(data));
     } catch (err, stacktrace) {
-      logger.severe("Could not save file", err, stacktrace);
-      return Result.err(SaveImageFailure.unidentified);
+      logger.severe('Could not save file', err, stacktrace);
+      return const Result.err(SaveImageFailure.unidentified);
     }
   }
 
@@ -67,12 +67,12 @@ class FileService with LoggableMixin implements IFileService {
   Future<Result<File, Failure>> saveToApplicationDirectory(
       String filename, Uint8List data) async {
     try {
-      String saveDirectory = "${await _localPath}/$filename";
+      String saveDirectory = '${await _localPath}/$filename';
       final file = await File(saveDirectory).create(recursive: true);
       return Result.ok(await file.writeAsBytes(data));
     } catch (err, stacktrace) {
-      logger.severe("Could not save file", err, stacktrace);
-      return Result.err(SaveImageFailure.unidentified);
+      logger.severe('Could not save file', err, stacktrace);
+      return const Result.err(SaveImageFailure.unidentified);
     }
   }
 
@@ -81,8 +81,8 @@ class FileService with LoggableMixin implements IFileService {
     try {
       return Result.ok(File(path));
     } catch (err, stacktrace) {
-      logger.severe("Could not load file", err, stacktrace);
-      return Result.err(LoadImageFailure.unidentified);
+      logger.severe('Could not load file', err, stacktrace);
+      return const Result.err(LoadImageFailure.unidentified);
     }
   }
 }
