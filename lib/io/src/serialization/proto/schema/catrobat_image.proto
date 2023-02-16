@@ -8,5 +8,5 @@ message SerializableCatrobatImage {
   uint32 width = 3;
   uint32 height = 4;
   repeated google.protobuf.Any commands = 5;
-  optional bytes backgroundImage = 6;
+  bytes backgroundImage = 6;
 }

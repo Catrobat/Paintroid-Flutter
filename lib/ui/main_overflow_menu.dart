@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
+import 'package:paintroid/ui/pop_menu_button.dart';
+import 'package:paintroid/ui/styles.dart';
 import 'package:paintroid/ui/util.dart';
 
 enum MainOverflowMenuOption {
@@ -30,17 +32,10 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      color: Theme.of(context).colorScheme.background,
-      icon: const Icon(Icons.more_vert),
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(),
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return StyledPopMenuButton<MainOverflowMenuOption>(
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => MainOverflowMenuOption.values
-          .map((option) =>
-              PopupMenuItem(value: option, child: Text(option.label)))
+          .map((option) => PopupMenuItem(value: option, child: Text(option.label, style: ThemeText.menuItem)))
           .toList(),
     );
   }

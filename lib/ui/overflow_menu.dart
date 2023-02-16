@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/ui/io_handler.dart';
+import 'package:paintroid/ui/pop_menu_button.dart';
+import 'package:paintroid/ui/styles.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 import 'package:paintroid/data/model/project.dart';
@@ -46,22 +48,16 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<OverflowMenuOption>(
-      color: Theme.of(context).colorScheme.background,
-      icon: const Icon(Icons.more_vert),
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(),
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return StyledPopMenuButton<OverflowMenuOption>(
       onSelected: _handleSelectedOption,
-      itemBuilder: (BuildContext context) {
-        return OverflowMenuOption.values.map((option) {
-          return PopupMenuItem(
-            value: option,
-            child: Text(option.localizedLabel(context)),
-          );
-        }).toList();
-      },
+      itemBuilder: (BuildContext context) => OverflowMenuOption.values
+          .map((option) => PopupMenuItem(
+              value: option,
+              child: Text(
+                option.localizedLabel(context),
+                style: ThemeText.menuItem,
+              )))
+          .toList(),
     );
   }
 
