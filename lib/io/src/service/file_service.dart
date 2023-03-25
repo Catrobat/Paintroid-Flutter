@@ -20,6 +20,11 @@ abstract class IFileService {
   Result<File, Failure> getFile(String path);
 
   static final provider = Provider<IFileService>((ref) => FileService());
+
+  Future<bool> checkIfFileExistsInApplicationDirectory(String fileName);
+
+  Future<Result<FileSystemEntity, Failure>> deleteFileInApplicationDirectory(
+      String fileName);
 }
 
 class FileService with LoggableMixin implements IFileService {
@@ -61,6 +66,24 @@ class FileService with LoggableMixin implements IFileService {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
+  }
+
+  @override
+  Future<bool> checkIfFileExistsInApplicationDirectory(String fileName) async {
+    String saveDirectory = '${await _localPath}/$fileName';
+    return File(saveDirectory).exists();
+  }
+
+  @override
+  Future<Result<FileSystemEntity, Failure>> deleteFileInApplicationDirectory(
+      String fileName) async {
+    try {
+      String saveDirectory = '${await _localPath}/$fileName';
+      return Result.ok(await File(saveDirectory).delete());
+    } catch (err, stacktrace) {
+      logger.severe('Could not delete file', err, stacktrace);
+      return const Result.err(SaveImageFailure.deletionFailed);
+    }
   }
 
   @override

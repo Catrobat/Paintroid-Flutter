@@ -17,4 +17,7 @@ abstract class ProjectDAO {
 
   @Query('SELECT * FROM Project order by lastModified desc')
   Future<List<Project>> getProjects();
+
+  @Query('SELECT * FROM Project WHERE name = :name')
+  Future<Project?> getProjectByName(String name);
 }

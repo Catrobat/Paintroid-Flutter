@@ -42,4 +42,40 @@ void main() async {
     final file = result.unwrapOrElse((failure) => fail(failure.message));
     expect(file, isA<File>());
   });
+
+  test('Should save file to Application directory and delete it', () async {
+    final result = await sut.saveToApplicationDirectory(
+      'test1.png',
+      testPngFile.buffer.asUint8List(),
+    );
+    final file = result.unwrapOrElse((failure) => fail(failure.message));
+    expect(file, isA<File>());
+
+    final resultDeleted = await sut.deleteFileInApplicationDirectory(
+      'test1.png'
+    );
+    final deleted = resultDeleted.unwrapOrElse((failure) => fail(failure.message));
+    expect(deleted, isA<FileSystemEntity>());
+  });
+
+  test('Should save file to Application directory and check should return true', () async {
+    final fileDoesNotExist = await sut.checkIfFileExistsInApplicationDirectory(
+        'test1.png'
+    );
+
+    expect(fileDoesNotExist, false);
+
+    final result = await sut.saveToApplicationDirectory(
+      'test1.png',
+      testPngFile.buffer.asUint8List(),
+    );
+    final file = result.unwrapOrElse((failure) => fail(failure.message));
+    expect(file, isA<File>());
+
+    final fileExists = await sut.checkIfFileExistsInApplicationDirectory(
+        'test1.png'
+    );
+
+    expect(fileExists, true);
+  });
 }
