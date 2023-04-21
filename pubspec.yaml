@@ -35,6 +35,7 @@ dependencies:
   launch_review: ^3.0.1
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
+  protoc_plugin: ^20.0.1
 
 dev_dependencies:
   flutter_test:
