@@ -15,6 +15,7 @@ import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
+import 'package:paintroid/io/src/ui/generic_dialog.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
 import 'package:paintroid/main.dart';
 import 'package:paintroid/ui/overflow_menu.dart';
@@ -263,7 +264,7 @@ void main() {
       expect(find.text('Size: ${filesize(testFile.lengthSync())}'),
           findsOneWidget);
 
-      final okButton = find.widgetWithText(ElevatedButton, 'OK');
+      final okButton = find.widgetWithText(TextButton, 'OK');
       expect(okButton, findsOneWidget);
       await tester.tap(okButton);
       await tester.pumpAndSettle();
@@ -299,12 +300,14 @@ void main() {
       await tester.pumpAndSettle();
 
       final deleteProjectDialog =
-          find.widgetWithText(DeleteProjectDialog, 'Delete project$position');
+          find.widgetWithText(GenericDialog, 'Delete project$position');
       expect(deleteProjectDialog, findsOneWidget);
       expect(find.text('Do you really want to delete your project?'),
           findsOneWidget);
-      final cancelButton = find.widgetWithText(ElevatedButton, 'Cancel');
-      final deleteButton = find.widgetWithText(TextButton, 'Delete');
+      final cancelButton =
+          find.widgetWithText(GenericDialogActionButton, 'Cancel');
+      final deleteButton =
+          find.widgetWithText(GenericDialogActionButton, 'Delete');
       expect(cancelButton, findsOneWidget);
       expect(deleteButton, findsOneWidget);
       await tester.tap(cancelButton);
@@ -340,7 +343,7 @@ void main() {
       expect(find.widgetWithText(MyAboutDialog, 'About'), findsOneWidget);
       expect(find.text('Version 1.0.0'), findsOneWidget);
 
-      final doneButton = find.widgetWithText(ElevatedButton, 'DONE');
+      final doneButton = find.widgetWithText(GenericDialogActionButton, 'DONE');
       expect(doneButton, findsOneWidget);
       await tester.tap(doneButton);
       await tester.pumpAndSettle();

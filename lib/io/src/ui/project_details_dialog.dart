@@ -5,7 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
+import 'package:paintroid/io/src/ui/generic_dialog.dart';
 
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/ui/color_schemes.dart';
@@ -39,10 +39,12 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
 
     final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
-    return AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(widget.project.name),
-      actions: const [DialogElevatedButton(text: 'OK')],
+    return GenericDialog(
+      title: widget.project.name,
+      actions: [
+        GenericDialogAction(
+            title: 'OK', onPressed: () => Navigator.of(context).pop(false))
+      ],
       content: FutureBuilder(
         future: _getImageDimensions(widget.project.imagePreviewPath),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
