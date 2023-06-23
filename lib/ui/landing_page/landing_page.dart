@@ -61,9 +61,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
   }
 
-  Future<void> _openProject(Project project, IOHandler ioHandler) async {
-    bool loaded = await _loadProject(ioHandler, project);
-    if (loaded) _navigateToPocketPaint();
+  Future<void> _openProject(Project? project, IOHandler ioHandler) async {
+    if (project != null) {
+      bool loaded = await _loadProject(ioHandler, project);
+      if (loaded) _navigateToPocketPaint();
+    }
   }
 
   @override
@@ -75,7 +77,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);
-    final size = MediaQuery.of(context).size;
     Project? latestModifiedProject;
     fileService = ref.watch(IFileService.provider);
     imageService = ref.watch(IImageService.provider);
@@ -96,50 +97,14 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             }
             return Column(
               children: [
-                SizedBox(
-                  height: size.height / 3,
-                  child: Stack(
-                    children: [
-                      Material(
-                        child: InkWell(
-                          onTap: () async {
-                            if (latestModifiedProject != null) {
-                              _openProject(latestModifiedProject!, ioHandler);
-                            }
-                          },
-                          child: ImagePreview(
-                            project: latestModifiedProject,
-                            imageService: imageService,
-                            color: Colors.white54,
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: IconButton(
-                          key: const Key('myEditIcon'),
-                          iconSize: 264,
-                          onPressed: () async {
-                            if (latestModifiedProject != null) {
-                              _openProject(latestModifiedProject!, ioHandler);
-                            }
-                          },
-                          icon: SvgPicture.asset(
-                            'assets/svg/ic_edit_circle.svg',
-                            height: 264,
-                            width: 264,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional.topEnd,
-                        child: latestModifiedProject == null
-                            ? null
-                            : ProjectOverflowMenu(
-                                key: const Key('ProjectOverflowMenu Key0'),
-                                project: latestModifiedProject!,
-                              ),
-                      ),
-                    ],
+                Flexible(
+                  flex: 2,
+                  child: _ProjectPreview(
+                    ioHandler: ioHandler,
+                    imageService: imageService,
+                    latestModifiedProject: latestModifiedProject,
+                    openProject: () =>
+                        _openProject(latestModifiedProject, ioHandler),
                   ),
                 ),
                 Container(
@@ -158,6 +123,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                   ),
                 ),
                 Flexible(
+                  flex: 3,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       if (index != 0) {
@@ -212,6 +178,63 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ProjectPreview extends StatelessWidget {
+  final Project? latestModifiedProject;
+  final IOHandler ioHandler;
+  final IImageService imageService;
+  final VoidCallback openProject;
+
+  const _ProjectPreview({
+    this.latestModifiedProject,
+    required this.ioHandler,
+    required this.imageService,
+    required this.openProject,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Material(
+          child: InkWell(
+            onTap: openProject,
+            child: ImagePreview(
+              project: latestModifiedProject,
+              imageService: imageService,
+              color: Colors.white54,
+            ),
+          ),
+        ),
+        Center(
+          child: IconButton(
+            key: const Key('myEditIcon'),
+            iconSize: 264,
+            onPressed: () async {
+              if (latestModifiedProject != null) {
+                openProject();
+              }
+            },
+            icon: SvgPicture.asset(
+              'assets/svg/ic_edit_circle.svg',
+              height: 264,
+              width: 264,
+            ),
+          ),
+        ),
+        Align(
+          alignment: AlignmentDirectional.topEnd,
+          child: latestModifiedProject == null
+              ? null
+              : ProjectOverflowMenu(
+                  key: const Key('ProjectOverflowMenu Key0'),
+                  project: latestModifiedProject!,
+                ),
+        ),
+      ],
     );
   }
 }
