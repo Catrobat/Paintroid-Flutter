@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/command.dart' show CommandManager;
 import 'package:paintroid/core/failure.dart';
@@ -107,7 +107,7 @@ class IOHandler {
       },
       err: (failure) async {
         if (failure != LoadImageFailure.userCancelled) {
-          showToast(failure.message);
+          Fluttertoast.showToast(msg: failure.message);
         }
         return false;
       },
@@ -137,7 +137,7 @@ class IOHandler {
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
-          showToast(failure.message);
+          Fluttertoast.showToast(msg: failure.message);
         }
         return false;
       },
@@ -161,11 +161,11 @@ class IOHandler {
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
     return ref.read(SaveAsRasterImage.provider).call(imageData, image).when(
       ok: (_) {
-        showToast('Saved to Photos');
+        Fluttertoast.showToast(msg: 'Saved to Photos');
         return true;
       },
       err: (failure) {
-        showToast(failure.message);
+        Fluttertoast.showToast(msg: failure.message);
         return false;
       },
     );
@@ -184,13 +184,13 @@ class IOHandler {
         return previewFile.when(
           ok: (file) => file.path,
           err: (failure) {
-            showToast(failure.message);
+            Fluttertoast.showToast(msg: failure.message);
             return null;
           },
         );
       },
       err: (failure) {
-        showToast(failure.message);
+        Fluttertoast.showToast(msg: failure.message);
         return null;
       },
     );
@@ -209,11 +209,11 @@ class IOHandler {
         await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
-        showToast('Saved successfully');
+        Fluttertoast.showToast(msg: 'Saved successfully');
         return file;
       },
       err: (failure) {
-        showToast(failure.message);
+        Fluttertoast.showToast(msg: failure.message);
         return null;
       },
     );

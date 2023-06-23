@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/io/src/service/image_service.dart';
 
@@ -25,7 +25,7 @@ class ImagePreview extends StatelessWidget {
       imageService.getProjectPreview(path).when(
             ok: (preview) => preview,
             err: (failure) {
-              showToast(failure.message);
+              Fluttertoast.showToast(msg: failure.message);
               return null;
             },
           );

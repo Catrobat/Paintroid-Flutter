@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
@@ -47,7 +47,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
-          showToast(failure.message);
+          Fluttertoast.showToast(msg: failure.message);
         }
         return false;
       },
@@ -73,7 +73,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) => showToast('Error: $err'),
+      error: (err, stacktrace) => Fluttertoast.showToast(msg: 'Error: $err'),
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);
