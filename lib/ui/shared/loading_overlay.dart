@@ -62,14 +62,12 @@ class _LoadingOverlayState extends State<LoadingOverlay>
   @override
   Widget build(BuildContext context) {
     return Stack(
-      textDirection: TextDirection.ltr,
       children: [
         if (widget.child != null) widget.child!,
         if (_overlayVisible == true)
           FadeTransition(
             opacity: _animation,
             child: const Stack(
-              textDirection: TextDirection.ltr,
               children: [
                 Opacity(
                   opacity: 0.6,

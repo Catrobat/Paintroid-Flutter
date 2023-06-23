@@ -36,7 +36,8 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
       ..version = CatrobatImage.latestVersion
       ..width = object.width
       ..height = object.height
-      ..backgroundImage = backgroundImageData as List<int>
+      ..backgroundImage =
+          (backgroundImageData != null) ? backgroundImageData : Uint8List(0)
       ..commands.addAll(await Future.wait(object.commands.map((command) async {
         if (command is DrawPathCommand) {
           return Any.pack(

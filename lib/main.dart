@@ -45,47 +45,46 @@ class PocketPaintApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        return LoadingOverlay(
-          isLoading: ref.watch(
-            WorkspaceState.provider.select(
-              (state) => state.isPerformingIOTask,
-            ),
-          ),
-          child: child,
-        );
+    return MaterialApp(
+      title: 'Pocket Paint',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      theme: ThemeData.from(
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+      ),
+      initialRoute: '/',
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+              builder: (context) => showOnboardingPage
+                  ? const OnboardingPage(
+                      navigateTo: LandingPage(title: 'Pocket Paint'),
+                    )
+                  : const LandingPage(title: 'Pocket Paint'),
+            );
+          case '/PocketPaint':
+            return MaterialPageRoute(
+              builder: (context) => const PocketPaint(),
+            );
+          case '/OnboardingPage':
+            return MaterialPageRoute(
+              builder: (context) => const OnboardingPage(),
+            );
+        }
+        return null;
       },
-      child: MaterialApp(
-        title: 'Pocket Paint',
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: ThemeData.from(
-          useMaterial3: true,
-          colorScheme: lightColorScheme,
-        ),
-        initialRoute: '/',
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case '/':
-              return MaterialPageRoute(
-                builder: (context) => showOnboardingPage
-                    ? const OnboardingPage(
-                        navigateTo: LandingPage(title: 'Pocket Paint'),
-                      )
-                    : const LandingPage(title: 'Pocket Paint'),
-              );
-            case '/PocketPaint':
-              return MaterialPageRoute(
-                builder: (context) => const PocketPaint(),
-              );
-            case '/OnboardingPage':
-              return MaterialPageRoute(
-                builder: (context) => const OnboardingPage(),
-              );
-          }
-          return null;
+      home: Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          return LoadingOverlay(
+              isLoading: ref.watch(
+                WorkspaceState.provider
+                    .select((state) => state.isPerformingIOTask),
+              ),
+              child: child);
         },
+        child: const LandingPage(title: 'Pocket Paint'),
       ),
     );
   }
