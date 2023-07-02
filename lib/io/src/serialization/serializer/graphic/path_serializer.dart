@@ -37,7 +37,7 @@ class PathSerializer extends ProtoSerializerWithVersioning<
       } else if (action.hasClose()) {
         path.close();
       } else {
-        logger.severe('No Path Action was set at index $i.');
+        logger.severe("No Path Action was set at index $i.");
       }
     }
     return path;
@@ -61,20 +61,16 @@ class PathSerializer extends ProtoSerializerWithVersioning<
     for (final action in object.actions) {
       late final SerializablePath_Action serializableAction;
       if (action is MoveToAction) {
-        final moveTo = SerializablePath_Action_MoveTo()
-          ..x = action.x
-          ..y = action.y;
-        serializableAction = SerializablePath_Action()..moveTo = moveTo;
+        final moveTo = SerializablePath_Action_MoveTo(x: action.x, y: action.y);
+        serializableAction = SerializablePath_Action(moveTo: moveTo);
       } else if (action is LineToAction) {
-        final lineTo = SerializablePath_Action_LineTo()
-          ..x = action.x
-          ..y = action.y;
-        serializableAction = SerializablePath_Action()..lineTo = lineTo;
+        final lineTo = SerializablePath_Action_LineTo(x: action.x, y: action.y);
+        serializableAction = SerializablePath_Action(lineTo: lineTo);
       } else if (action is CloseAction) {
         final close = SerializablePath_Action_Close();
-        serializableAction = SerializablePath_Action()..close = close;
+        serializableAction = SerializablePath_Action(close: close);
       } else {
-        logger.severe('Path Action serialization was not handled for $action');
+        logger.severe("Path Action serialization was not handled for $action");
       }
       serializablePath.actions.add(serializableAction);
     }

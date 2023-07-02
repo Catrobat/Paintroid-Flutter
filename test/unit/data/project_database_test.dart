@@ -13,15 +13,15 @@ void main() async {
 
   setUpAll(() async {
     database =
-        await $FloorProjectDatabase.databaseBuilder('test_database.db').build();
+        await $FloorProjectDatabase.databaseBuilder("test_database.db").build();
     projectList = [];
     date =
         DateTimeConverter().decode(DateTimeConverter().encode(DateTime.now()));
   });
 
-  Project createProject(String name) => Project(
+  Project _createProject(String name) => Project(
         name: name,
-        path: 'testPath',
+        path: "testPath",
         lastModified: date,
         creationDate: date,
       );
@@ -34,7 +34,7 @@ void main() async {
   });
 
   test('Should insert the project to the database', () async {
-    Project project = createProject('testProject');
+    Project project = _createProject("testProject");
     projectList.add(project);
     final result = await database.projectDAO.insertProject(project);
     expect(result, isA<int>());
@@ -43,7 +43,7 @@ void main() async {
   test('Should insert the projects to the database', () async {
     List<Project> projects = [];
     for (int i = 1; i <= 5; i++) {
-      final project = createProject('test$i');
+      final project = _createProject("test$i");
       projects.add(project);
       projectList.add(project);
     }

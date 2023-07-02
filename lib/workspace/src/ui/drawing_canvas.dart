@@ -20,7 +20,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   late final _canvasDirtyNotifier =
       ref.read(CanvasDirtyState.provider.notifier);
 
-  final _canvasPainterKey = GlobalKey(debugLabel: 'CanvasPainter');
+  final _canvasPainterKey = GlobalKey(debugLabel: "CanvasPainter");
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;

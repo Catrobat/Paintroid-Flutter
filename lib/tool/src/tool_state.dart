@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:paintroid/tool/src/brush_tool.dart';
 import 'package:paintroid/tool/src/tool.dart';
 import 'package:paintroid/tool/src/tool_state_notifier.dart';

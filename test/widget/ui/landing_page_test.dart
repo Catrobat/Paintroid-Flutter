@@ -9,21 +9,20 @@ import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_dao.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/io/src/ui/about_dialog.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
 import 'package:paintroid/io/src/ui/project_details_dialog.dart';
 import 'package:paintroid/io/src/ui/generic_dialog.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
 import 'package:paintroid/main.dart';
-import 'package:paintroid/ui/landing_page/main_overflow_menu.dart';
-import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
-import 'package:paintroid/ui/shared/overflow_menu.dart';
-import 'package:paintroid/ui/shared/top_app_bar.dart';
+import 'package:paintroid/ui/overflow_menu.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:paintroid/ui/project_overflow_menu.dart';
+import 'package:paintroid/ui/main_overflow_menu.dart';
+import 'package:paintroid/ui/top_app_bar.dart';
 
 import 'landing_page_test.mocks.dart';
 
@@ -41,7 +40,7 @@ void main() {
   late ui.Image dummyImage;
   final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
-  Project createProject(String name) => Project(
+  Project _createProject(String name) => Project(
         name: name,
         path: filePath,
         imagePreviewPath: filePath,
@@ -56,15 +55,15 @@ void main() {
     fileService = MockIFileService();
     sut = ProviderScope(
       overrides: [
-        ProjectDatabase.provider.overrideWith((ref) => Future.value(database)),
-        IImageService.provider.overrideWith((ref) => imageService),
-        IFileService.provider.overrideWith((ref) => fileService),
+        ProjectDatabase.provider.overrideWithValue(AsyncData(database)),
+        IImageService.provider.overrideWithValue(imageService),
+        IFileService.provider.overrideWithValue(fileService),
       ],
       child: const PocketPaintApp(
         showOnboardingPage: false,
       ),
     );
-    projects = List.generate(5, (index) => createProject('project$index'));
+    projects = List.generate(5, (index) => _createProject('project$index'));
     dummyImage = await createTestImage(width: 1080, height: 1920);
   });
 
@@ -87,7 +86,7 @@ void main() {
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
-      final titleFinder = find.widgetWithText(AppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(AppBar, "Pocket Paint");
       expect(titleFinder, findsOneWidget);
     },
   );
@@ -369,7 +368,7 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(TopAppBar, "Pocket Paint");
       expect(titleFinder, findsOneWidget);
 
       final overflowMenuButtonFinder = find.widgetWithIcon(

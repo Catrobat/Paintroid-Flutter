@@ -15,7 +15,7 @@ abstract class VersionSerializer<FROM, TO> {
       case v1:
         return deserializeV1(data);
       default:
-        throw 'Invalid version';
+        throw "Invalid version";
     }
   }
 

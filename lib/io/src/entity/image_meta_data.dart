@@ -7,7 +7,7 @@ abstract class ImageMetaData {
   const ImageMetaData(this.name, this.format);
 
   @override
-  String toString() => '$name.${format.extension}';
+  String toString() => "$name.${format.extension}";
 }
 
 class JpgMetaData extends ImageMetaData {
@@ -17,7 +17,7 @@ class JpgMetaData extends ImageMetaData {
   const JpgMetaData(String name, this.quality) : super(name, ImageFormat.jpg);
 
   @override
-  String toString() => '$name.${format.extension} - $quality%';
+  String toString() => "$name.${format.extension} - $quality%";
 }
 
 class PngMetaData extends ImageMetaData {

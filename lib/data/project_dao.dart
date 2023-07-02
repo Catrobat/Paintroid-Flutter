@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+
 import 'package:paintroid/data/model/project.dart';
 
 @dao

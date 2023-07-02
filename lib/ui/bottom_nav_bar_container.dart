@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:paintroid/ui/color_schemes.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page_bottom_nav_bar.dart';
+import 'package:paintroid/ui/onboarding_page_bottom_nav_bar.dart';
 
 class BottomNavigationBarContainer extends StatelessWidget {
   final List<BottomNavigationBarItem> navBarItems;

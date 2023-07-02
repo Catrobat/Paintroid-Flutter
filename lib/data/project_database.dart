@@ -15,5 +15,5 @@ abstract class ProjectDatabase extends FloorDatabase {
   ProjectDAO get projectDAO;
 
   static final provider = FutureProvider((ref) =>
-      $FloorProjectDatabase.databaseBuilder('project_database.db').build());
+      $FloorProjectDatabase.databaseBuilder("project_database.db").build());
 }

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:paintroid/command/command.dart' show Command;
 
 class CatrobatImage {
-  static const magicValue = 'CATROBAT';
+  static const magicValue = "CATROBAT";
   static const latestVersion = 1;
 
   final int version;

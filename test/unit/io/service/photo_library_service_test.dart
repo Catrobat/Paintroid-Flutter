@@ -21,10 +21,10 @@ void main() {
   late PhotoLibraryService sut;
 
   setUp(() {
-    testFilename = 'test_name.xyz';
+    testFilename = "test_name.xyz";
     testImageData = Uint8List(12);
-    testException = Exception('random');
-    testPlatformException = PlatformException(code: 'random');
+    testException = Exception("random");
+    testPlatformException = PlatformException(code: "random");
     mockImagePicker = MockImagePicker();
     mockMethodChannel = MockMethodChannel();
     sut = PhotoLibraryService(mockImagePicker, mockMethodChannel);
@@ -36,7 +36,7 @@ void main() {
     expect(photoLibraryService, isA<PhotoLibraryService>());
     expect(
         (photoLibraryService as PhotoLibraryService).photoLibraryChannel.name,
-        'org.catrobat.paintroid/photo_library');
+        "org.catrobat.paintroid/photo_library");
   });
 
   group('Save file to photo library method', () {
@@ -46,12 +46,12 @@ void main() {
         when(mockMethodChannel.invokeMethod(any, any))
             .thenAnswer((_) async => null);
         final expectedArgs = {
-          'fileName': testFilename,
-          'data': testImageData,
+          "fileName": testFilename,
+          "data": testImageData,
         };
         final result = await sut.save(testFilename, testImageData);
         expect(result, Ok<Unit, Failure>(unit));
-        verify(mockMethodChannel.invokeMethod('saveToPhotos', expectedArgs));
+        verify(mockMethodChannel.invokeMethod("saveToPhotos", expectedArgs));
         verifyNoMoreInteractions(mockMethodChannel);
         verifyZeroInteractions(mockImagePicker);
       },
@@ -88,7 +88,7 @@ void main() {
       'Should successfully return image in byte list format when user picks an image',
       () async {
         final mockImageXFile = MockXFile();
-        when(mockImagePicker.pickImage(source: anyNamed('source')))
+        when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenAnswer((_) async => mockImageXFile);
         when(mockImageXFile.readAsBytes())
             .thenAnswer((_) async => testImageData);
@@ -105,11 +105,11 @@ void main() {
     test(
         'Should return userCancelled failure when user dismisses picker without choosing an image',
         () async {
-      when(mockImagePicker.pickImage(source: anyNamed('source')))
+      when(mockImagePicker.pickImage(source: anyNamed("source")))
           .thenAnswer((_) async => null);
       final result = await sut.pick();
       expect(result, Err<Uint8List, Failure>(LoadImageFailure.userCancelled));
-      verify(mockImagePicker.pickImage(source: anyNamed('source')));
+      verify(mockImagePicker.pickImage(source: anyNamed("source")));
       verifyNoMoreInteractions(mockImagePicker);
       verifyZeroInteractions(mockMethodChannel);
     });
@@ -118,23 +118,23 @@ void main() {
         'Should return unidentified failure when any unhandled Exception is thrown',
         () {
       test('From ImagePicker', () async {
-        when(mockImagePicker.pickImage(source: anyNamed('source')))
+        when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenThrow(testException);
         final result = await sut.pick();
         expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
-        verify(mockImagePicker.pickImage(source: anyNamed('source')));
+        verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verifyNoMoreInteractions(mockImagePicker);
         verifyZeroInteractions(mockMethodChannel);
       });
 
       test('From XFile', () async {
         final mockImageXFile = MockXFile();
-        when(mockImagePicker.pickImage(source: anyNamed('source')))
+        when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenAnswer((_) async => mockImageXFile);
         when(mockImageXFile.readAsBytes()).thenThrow(testException);
         final result = await sut.pick();
         expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
-        verify(mockImagePicker.pickImage(source: anyNamed('source')));
+        verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verify(mockImageXFile.readAsBytes());
         verifyNoMoreInteractions(mockImageXFile);
         verifyNoMoreInteractions(mockImagePicker);
@@ -145,11 +145,11 @@ void main() {
     test(
       'Should return unidentified failure when any unhandled PlatformException is thrown from ImagePicker',
       () async {
-        when(mockImagePicker.pickImage(source: anyNamed('source')))
+        when(mockImagePicker.pickImage(source: anyNamed("source")))
             .thenThrow(testPlatformException);
         final result = await sut.pick();
         expect(result, Err<Uint8List, Failure>(LoadImageFailure.unidentified));
-        verify(mockImagePicker.pickImage(source: anyNamed('source')));
+        verify(mockImagePicker.pickImage(source: anyNamed("source")));
         verifyNoMoreInteractions(mockImagePicker);
         verifyZeroInteractions(mockMethodChannel);
       },

@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/app_localizations.dart';
-import 'package:paintroid/data/model/project.dart';
-import 'package:paintroid/data/project_database.dart';
-import 'package:paintroid/io/src/ui/save_image_dialog.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/ui/pop_menu_button.dart';
 import 'package:paintroid/ui/styles.dart';
 import 'package:paintroid/workspace/workspace.dart';
+
+import 'package:paintroid/data/model/project.dart';
+import 'package:paintroid/data/project_database.dart';
+import 'package:paintroid/io/src/ui/save_image_dialog.dart';
 
 enum OverflowMenuOption {
   fullscreen,
@@ -84,7 +85,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   void _enterFullscreen() =>
       ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
 
-  Future<void> _saveProject() async {
+  void _saveProject() async {
     File? savedProject;
     final imageData = await showSaveImageDialog(context, true);
 
@@ -97,7 +98,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
           path: savedProject.path,
           lastModified: DateTime.now(),
           creationDate: DateTime.now(),
-          resolution: '',
+          resolution: "",
           format: imageData.format.name,
           size: await savedProject.length(),
           imagePreviewPath: imagePreview,

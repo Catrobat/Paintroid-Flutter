@@ -1,12 +1,13 @@
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/generic_dialog.dart';
+
+import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/ui/color_schemes.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
@@ -14,7 +15,7 @@ Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
         context: context,
         pageBuilder: (_, __, ___) => ProjectDetailsDialog(project: project),
         barrierDismissible: true,
-        barrierLabel: 'Show project details dialog box');
+        barrierLabel: "Show project details dialog box");
 
 class ProjectDetailsDialog extends ConsumerStatefulWidget {
   final Project project;
@@ -54,12 +55,12 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Resolution: ${dimensions[0]} X ${dimensions[1]}'),
+                Text("Resolution: ${dimensions[0]} X ${dimensions[1]}"),
                 Text(
-                    'Last modified: ${formatter.format(widget.project.lastModified)}'),
+                    "Last modified: ${formatter.format(widget.project.lastModified)}"),
                 Text(
-                    'Creation date: ${formatter.format(widget.project.creationDate)}'),
-                Text('Size: ${filesize(_getProjectSize())}'),
+                    "Creation date: ${formatter.format(widget.project.creationDate)}"),
+                Text("Size: ${filesize(_getProjectSize())}"),
               ],
             );
           } else {
@@ -80,7 +81,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
   int _getProjectSize() => fileService.getFile(widget.project.path).when(
         ok: (file) => file.lengthSync(),
         err: (failure) {
-          Fluttertoast.showToast(msg: failure.message);
+          showToast(failure.message);
           return 0;
         },
       );
@@ -95,12 +96,12 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               return dimensions;
             },
             err: (failure) {
-              Fluttertoast.showToast(msg: failure.message);
+              showToast(failure.message);
               return dimensions;
             },
           ),
           err: (failure) {
-            Fluttertoast.showToast(msg: failure.message);
+            showToast(failure.message);
             return dimensions;
           },
         );

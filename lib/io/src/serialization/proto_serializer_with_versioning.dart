@@ -7,7 +7,7 @@ abstract class ProtoSerializerWithVersioning<T,
     extends VersionSerializer<T, SERIALIZABLE> {
   const ProtoSerializerWithVersioning(super.version);
 
-  static const urlPrefix = 'org.catrobat.paintroid';
+  static const urlPrefix = "org.catrobat.paintroid";
 
   @protected
   SERIALIZABLE Function(Uint8List binary) get fromBytesToSerializable;

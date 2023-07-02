@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page_app_bar.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page_bottom_nav_bar.dart';
-import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
+import 'package:paintroid/ui/bottom_nav_bar_icon.dart';
+import 'package:paintroid/ui/onboarding_page_app_bar.dart';
+import 'package:paintroid/ui/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/workspace/src/ui/drawing_canvas.dart';
 
 class Screen2 extends StatefulWidget {
@@ -81,7 +81,7 @@ class _Screen2State extends State<Screen2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: OnboardingPageAppBar(
-        title: 'Pocket Paint',
+        title: "Pocket Paint",
         onPressed: [undo, redo],
       ),
       backgroundColor: Colors.grey.shade400,

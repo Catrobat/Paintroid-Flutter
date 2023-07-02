@@ -5,7 +5,7 @@ extension on ImageFormat {
     switch (this) {
       case ImageFormat.png:
         return const TextSpan(
-            text: 'Lossless compression. Transparency is preserved');
+            text: "Lossless compression. Transparency is preserved");
       case ImageFormat.jpg:
         return const TextSpan(
           text: 'Takes up ',
@@ -19,8 +19,8 @@ extension on ImageFormat {
         );
       case ImageFormat.catrobatImage:
         return const TextSpan(
-            text: 'Pocket Paint\'s native image format. '
-                'This format remembers commands and layers.');
+            text: "Pocket Paint's native image format. "
+                "This format remembers commands and layers.");
     }
   }
 }

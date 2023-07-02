@@ -13,7 +13,7 @@ void main() async {
   final testPngFile = await rootBundle.load(path);
   const testDirectory = './test/fixture/image';
   const channel = MethodChannel(
-    'plugins.flutter.io/path_provider',
+    'plugins.flutter.io/path_provider_macos',
   );
   channel
       .setMockMethodCallHandler((MethodCall methodCall) async => testDirectory);
@@ -36,7 +36,7 @@ void main() async {
 
   test('Should save file to Application directory', () async {
     final result = await sut.saveToApplicationDirectory(
-      'test1.png',
+      "test1.png",
       testPngFile.buffer.asUint8List(),
     );
     final file = result.unwrapOrElse((failure) => fail(failure.message));

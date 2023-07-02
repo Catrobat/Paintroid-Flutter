@@ -67,8 +67,8 @@ class _LoadingOverlayState extends State<LoadingOverlay>
         if (_overlayVisible == true)
           FadeTransition(
             opacity: _animation,
-            child: const Stack(
-              children: [
+            child: Stack(
+              children: const [
                 Opacity(
                   opacity: 0.6,
                   child: ModalBarrier(

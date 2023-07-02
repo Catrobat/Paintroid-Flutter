@@ -7,8 +7,8 @@ Future<bool?> showDeleteDialog(BuildContext context, String name) =>
     showGeneralDialog<bool>(
         context: context,
         pageBuilder: (_, __, ___) => GenericDialog(
-                title: 'Delete $name',
-                text: 'Do you really want to delete your project?',
+                title: "Delete $name",
+                text: "Do you really want to delete your project?",
                 actions: [
                   GenericDialogAction(
                       title: 'Cancel',
@@ -18,4 +18,4 @@ Future<bool?> showDeleteDialog(BuildContext context, String name) =>
                       onPressed: () => Navigator.of(context).pop(true)),
                 ]),
         barrierDismissible: true,
-        barrierLabel: 'Show delete project dialog box');
+        barrierLabel: "Show delete project dialog box");

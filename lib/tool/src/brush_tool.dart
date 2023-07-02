@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
+
 import 'package:paintroid/tool/src/tool.dart';
 
 class BrushTool extends Tool with EquatableMixin {
