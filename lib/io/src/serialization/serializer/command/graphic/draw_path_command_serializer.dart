@@ -38,8 +38,11 @@ class DrawPathCommandSerializer extends ProtoSerializerWithVersioning<
   @override
   Future<SerializableDrawPathCommand> serializeWithLatestVersion(
       DrawPathCommand object) async {
-    final sPaint = await _paintSerializer.serializeWithLatestVersion(object.paint);
+    final sPaint =
+        await _paintSerializer.serializeWithLatestVersion(object.paint);
     final sPath = await _pathSerializer.serializeWithLatestVersion(object.path);
-    return SerializableDrawPathCommand(paint: sPaint, path: sPath);
+    return SerializableDrawPathCommand()
+      ..paint = sPaint
+      ..path = sPath;
   }
 }

@@ -8,10 +8,10 @@ import 'package:paintroid/ui/styles.dart';
 import 'package:paintroid/ui/util.dart';
 
 enum MainOverflowMenuOption {
-  rate("Rate us!"),
-  help("Help"),
-  about("About"),
-  feedback("Feedback");
+  rate('Rate us!'),
+  help('Help'),
+  about('About'),
+  feedback('Feedback');
 
   const MainOverflowMenuOption(this.label);
 
@@ -40,7 +40,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     );
   }
 
-  void _handleSelectedOption(MainOverflowMenuOption option) async {
+  Future<void> _handleSelectedOption(MainOverflowMenuOption option) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     switch (option) {

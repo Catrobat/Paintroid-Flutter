@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:paintroid/ui/color_schemes.dart';
+import 'package:paintroid/ui/styles.dart';
 
 part 'image_format_info.dart';
 
@@ -11,7 +13,7 @@ Future<ImageMetaData?> showSaveImageDialog(
         pageBuilder: (_, __, ___) =>
             SaveImageDialog(savingProject: savingProject),
         barrierDismissible: true,
-        barrierLabel: "Dismiss save image dialog box");
+        barrierLabel: 'Dismiss save image dialog box');
 
 class SaveImageDialog extends StatefulWidget {
   final bool savingProject;
@@ -24,20 +26,18 @@ class SaveImageDialog extends StatefulWidget {
 }
 
 class _SaveImageDialogState extends State<SaveImageDialog> {
-  late final TextEditingController nameFieldController;
-  final formKey = GlobalKey<FormState>(debugLabel: "SaveImageDialog Form");
+  final TextEditingController nameFieldController = TextEditingController();
+  final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
   var selectedFormat = ImageFormat.jpg;
   var imageQualityValue = 100;
 
   @override
   void initState() {
     super.initState();
-    var text = "image";
+
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
-      text = "project";
     }
-    nameFieldController = TextEditingController(text: text);
   }
 
   void _dismissDialogWithData() {
@@ -58,16 +58,19 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var dialogTitle = "Save ";
+    var dialogTitle = 'Save ';
     if (widget.savingProject) {
-      dialogTitle += "Project";
+      dialogTitle += 'Project';
     } else {
-      dialogTitle += "Image";
+      dialogTitle += 'Image';
     }
     return AlertDialog(
-      title: Text(dialogTitle),
+      title: Text(
+        dialogTitle,
+        style: ThemeText.largeBoldText,
+      ),
       actions: [_cancelButton, _saveButton],
-      contentTextStyle: Theme.of(context).textTheme.bodyLarge,
+      contentTextStyle: ThemeText.menuItem,
       content: Form(
         key: formKey,
         child: Column(
@@ -76,10 +79,20 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           children: [
             _imageNameTextField,
             const Divider(height: 16),
-            if (!widget.savingProject) _imageFormatDropdown,
-            const Divider(height: 8),
-            if (selectedFormat == ImageFormat.jpg) _qualitySlider,
-            const Divider(height: 8),
+            if (!widget.savingProject)
+              Column(
+                children: [
+                  _imageFormatDropdown,
+                  const Divider(height: 8),
+                ],
+              ),
+            if (!widget.savingProject && selectedFormat == ImageFormat.jpg)
+              Column(
+                children: [
+                  _qualitySlider,
+                  const Divider(height: 8),
+                ],
+              ),
             ImageFormatInfo(selectedFormat),
           ],
         ),
@@ -90,7 +103,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   TextButton get _cancelButton {
     return TextButton(
       onPressed: () => Navigator.of(context).pop(),
-      child: const Text("Cancel"),
+      child: const Text('Cancel'),
     );
   }
 
@@ -102,7 +115,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           _dismissDialogWithData();
         }
       },
-      child: const Text("Save"),
+      child: const Text('Save'),
     );
   }
 
@@ -112,7 +125,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Quality: $imageQualityValue%"),
+            Text('Quality: $imageQualityValue%'),
             Slider(
               max: 100,
               divisions: 100,
@@ -130,7 +143,14 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   TextFormField get _imageNameTextField {
     return TextFormField(
       controller: nameFieldController,
-      decoration: const InputDecoration(labelText: "Name", filled: true),
+      decoration: InputDecoration(
+        hintText: widget.savingProject ? 'Project name' : 'Image name',
+        hintStyle: ThemeText.hintTextNormal,
+        filled: true,
+        fillColor: lightColorScheme.secondaryContainer,
+        border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+      ),
       validator: (text) {
         if (text == null || text.isEmpty) {
           var errMsg = 'Please specify an image name';
@@ -147,7 +167,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   Row get _imageFormatDropdown {
     return Row(
       children: [
-        const Text("Format:"),
+        const Text('Format:'),
         const VerticalDivider(width: 12),
         DropdownButton<ImageFormat>(
           borderRadius: BorderRadius.circular(12),
@@ -156,7 +176,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           items: ImageFormat.values.map((fileType) {
             return DropdownMenuItem<ImageFormat>(
               value: fileType,
-              child: Text(fileType.extension),
+              child: Text(fileType.extension, style: ThemeText.menuItem),
             );
           }).toList(),
           onChanged: (selectedFileType) {

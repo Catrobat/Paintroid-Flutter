@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/command/command.dart' show CommandManager;
-import 'package:paintroid/ui/overflow_menu.dart';
 import 'package:paintroid/ui/pocket_paint.dart';
-import 'package:paintroid/ui/top_app_bar.dart';
+import 'package:paintroid/ui/shared/overflow_menu.dart';
+import 'package:paintroid/ui/shared/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class FakeCommandManager extends Fake implements CommandManager {}
@@ -30,7 +30,7 @@ void main() {
     'Should have the title "Pocket Paint" in app bar',
     (tester) async {
       await tester.pumpWidget(sut);
-      final titleFinder = find.widgetWithText(TopAppBar, "Pocket Paint");
+      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
       expect(titleFinder, findsOneWidget);
     },
   );
@@ -53,7 +53,7 @@ void main() {
       fakeCommandManager = FakeCommandManager();
       sut = ProviderScope(
         overrides: [
-          WorkspaceState.provider.overrideWithValue(
+          WorkspaceState.provider.overrideWith((ref) =>
               WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
         ],
         child: const MaterialApp(

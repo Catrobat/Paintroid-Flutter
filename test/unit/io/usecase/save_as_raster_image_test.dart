@@ -32,7 +32,7 @@ void main() {
   late SaveAsRasterImage sut;
 
   setUp(() {
-    testName = "testImageName";
+    testName = 'testImageName';
     testQuality = 83;
     fakeImage = FakeImage();
     fakeBytes = Uint8List(12);
@@ -59,7 +59,7 @@ void main() {
     'Should successfully save image to the photo library with the correct filename',
     () {
       test('When format is png', () async {
-        final expectedFilename = "$testName.png";
+        final expectedFilename = '$testName.png';
         when(mockPermissionService.requestAccessForSavingToPhotos())
             .thenAnswer((_) async => true);
         when(mockImageService.exportAsPng(any))
@@ -78,7 +78,7 @@ void main() {
       });
 
       test('When format is jpg', () async {
-        final expectedFilename = "$testName.jpg";
+        final expectedFilename = '$testName.jpg';
         when(mockPermissionService.requestAccessForSavingToPhotos())
             .thenAnswer((_) async => true);
         when(mockImageService.exportAsJpg(any, any))

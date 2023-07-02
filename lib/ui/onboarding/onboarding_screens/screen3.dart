@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:paintroid/ui/bottom_nav_bar_container.dart';
 import 'package:paintroid/ui/color_schemes.dart';
-import 'package:paintroid/ui/bottom_nav_bar_icon.dart';
+import 'package:paintroid/ui/onboarding/bottom_nav_bar_container.dart';
+import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({Key? key}) : super(key: key);
@@ -69,8 +69,8 @@ class _Screen3State extends State<Screen3> {
     'Mark area which should not be erased.',
   ];
 
-  var title = Row(
-    children: const [
+  var title = const Row(
+    children: [
       Text(
         'Tools',
         style: TextStyle(

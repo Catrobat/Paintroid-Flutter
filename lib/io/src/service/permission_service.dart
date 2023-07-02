@@ -18,7 +18,7 @@ abstract class IPermissionService {
 
 class PermissionService with LoggableMixin implements IPermissionService {
   static const _unhandledPlatformErrorMsg =
-      "Permissions for this platform have not been handled";
+      'Permissions for this platform have not been handled';
 
   @override
   Future<bool> requestAccessToSharedFileStorage() async {
@@ -68,11 +68,11 @@ class PermissionService with LoggableMixin implements IPermissionService {
       case PermissionStatus.granted:
         return true;
       case PermissionStatus.restricted:
-        logger.warning("User has been restricted for $permission");
+        logger.warning('User has been restricted for $permission');
         break;
       case PermissionStatus.permanentlyDenied:
       case PermissionStatus.denied:
-        logger.warning("User explicitly denied $permission");
+        logger.warning('User explicitly denied $permission');
         break;
     }
     return false;

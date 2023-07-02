@@ -31,13 +31,14 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
       backgroundImageData =
           result.unwrapOrElse((failure) => throw failure.message);
     }
-    return SerializableCatrobatImage(
-      magicValue: CatrobatImage.magicValue,
-      version: CatrobatImage.latestVersion,
-      width: object.width,
-      height: object.height,
-      backgroundImage: backgroundImageData,
-      commands: await Future.wait(object.commands.map((command) async {
+    return SerializableCatrobatImage()
+      ..magicValue = CatrobatImage.magicValue
+      ..version = CatrobatImage.latestVersion
+      ..width = object.width
+      ..height = object.height
+      ..backgroundImage =
+          (backgroundImageData != null) ? backgroundImageData : Uint8List(0)
+      ..commands.addAll(await Future.wait(object.commands.map((command) async {
         if (command is DrawPathCommand) {
           return Any.pack(
             await _drawPathCommandSerializer
@@ -45,10 +46,9 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
             typeUrlPrefix: ProtoSerializerWithVersioning.urlPrefix,
           );
         } else {
-          throw "Invalid command type";
+          throw 'Invalid command type';
         }
-      })),
-    );
+      })));
   }
 
   @override
@@ -60,7 +60,7 @@ class CatrobatImageSerializer extends ProtoSerializerWithVersioning<
         final unpacked = cmd.unpackInto(SerializableDrawPathCommand());
         commands.add(await _drawPathCommandSerializer.deserialize(unpacked));
       } else {
-        throw "Invalid command type";
+        throw 'Invalid command type';
       }
     }
     Image? image;

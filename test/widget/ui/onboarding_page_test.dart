@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/ui/onboarding_page.dart';
-import 'package:paintroid/ui/onboarding_page_app_bar.dart';
-import 'package:paintroid/ui/onboarding_page_bottom_nav_bar.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:paintroid/ui/onboarding/onboarding_page.dart';
+import 'package:paintroid/ui/onboarding/onboarding_page_app_bar.dart';
+import 'package:paintroid/ui/onboarding/onboarding_page_bottom_nav_bar.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 void main() {
@@ -76,7 +76,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(sut);
       await tester.pumpAndSettle();
-      final nextButton = find.text("NEXT");
+      final nextButton = find.text('NEXT');
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       expect(find.text('More possibilities'), findsOneWidget);
@@ -89,15 +89,15 @@ void main() {
 
       expect(find.byType(OnboardingPageAppBar), findsOneWidget);
 
-      expect(find.byKey(Key('undoButton')), findsOneWidget);
-      final undoButton = find.byKey(Key('undoButton'));
+      expect(find.byKey(const Key('undoButton')), findsOneWidget);
+      final undoButton = find.byKey(const Key('undoButton'));
       await tester.tap(undoButton);
       await tester.pumpAndSettle();
       expect(find.text('Undo'), findsOneWidget);
       expect(find.text('Tap to undo your previous action.'), findsOneWidget);
 
-      expect(find.byKey(Key('redoButton')), findsOneWidget);
-      final redoButton = find.byKey(Key('redoButton'));
+      expect(find.byKey(const Key('redoButton')), findsOneWidget);
+      final redoButton = find.byKey(const Key('redoButton'));
       await tester.tap(redoButton);
       await tester.pumpAndSettle();
       expect(find.text('Redo'), findsOneWidget);
@@ -149,7 +149,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(sut);
       await tester.pumpAndSettle();
-      final nextButton = find.text("NEXT");
+      final nextButton = find.text('NEXT');
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
@@ -181,7 +181,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(sut);
       await tester.pumpAndSettle();
-      final nextButton = find.text("NEXT");
+      final nextButton = find.text('NEXT');
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
@@ -205,7 +205,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(sut);
       await tester.pumpAndSettle();
-      final nextButton = find.text("NEXT");
+      final nextButton = find.text('NEXT');
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
