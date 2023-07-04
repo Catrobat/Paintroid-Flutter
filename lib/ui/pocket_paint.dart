@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/ui/drawing_space/bottom_control_navigation_bar.dart';
 import 'package:paintroid/ui/drawing_space/exit_fullscreen_button.dart';
+import 'package:paintroid/ui/drawing_space/tool_options.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/ui/shared/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
@@ -61,7 +62,6 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
         backgroundColor: Colors.grey.shade400,
         resizeToAvoidBottomInset: true,
         body: Stack(
-          clipBehavior: Clip.hardEdge,
           children: [
             const DrawingCanvas(),
             if (isFullscreen)
@@ -69,7 +69,9 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
                 top: 2,
                 right: 2,
                 child: SafeArea(child: ExitFullscreenButton()),
-              ),
+              )
+            else
+              const ToolOptions(),
           ],
         ),
         bottomNavigationBar:
