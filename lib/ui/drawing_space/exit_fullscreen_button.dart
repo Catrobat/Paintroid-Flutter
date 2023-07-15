@@ -18,7 +18,10 @@ class ExitFullscreenButton extends ConsumerWidget {
         onPressed: () {
           ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         },
-        icon: const Icon(Icons.fullscreen_exit),
+        icon: const Icon(
+          Icons.fullscreen_exit,
+          color: Colors.black,
+        ),
       ),
     );
   }
