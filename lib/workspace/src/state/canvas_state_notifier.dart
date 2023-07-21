@@ -16,6 +16,10 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
 
   final CommandManager _commandManager;
   final GraphicFactory _graphicFactory;
+  late VoidCallback resetCanvasScaleCallback;
+
+  void setResetCanvasScaleCallback(VoidCallback callback) =>
+      resetCanvasScaleCallback = callback;
 
   void setBackgroundImage(Image image) => state = state.copyWith(
         backgroundImage: Option.some(image),
