@@ -15,10 +15,8 @@ import 'package:paintroid/data/project_dao.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
-import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
-import 'package:paintroid/io/src/ui/project_details_dialog.dart';
 import 'package:paintroid/io/src/ui/generic_dialog.dart';
-import 'package:paintroid/io/src/ui/about_dialog.dart';
+import 'package:paintroid/io/src/ui/project_details_dialog.dart';
 import 'package:paintroid/main.dart';
 import 'package:paintroid/ui/landing_page/main_overflow_menu.dart';
 import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
@@ -41,7 +39,7 @@ void main() {
   late ui.Image dummyImage;
   final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
-  Project createProject(String name) => Project(
+  Project _createProject(String name) => Project(
         name: name,
         path: filePath,
         imagePreviewPath: filePath,
@@ -64,7 +62,7 @@ void main() {
         showOnboardingPage: false,
       ),
     );
-    projects = List.generate(5, (index) => createProject('project$index'));
+    projects = List.generate(5, (index) => _createProject('project$index'));
     dummyImage = await createTestImage(width: 1080, height: 1920);
   });
 
@@ -381,6 +379,62 @@ void main() {
       await tester.pageBack();
       await tester.pumpAndSettle();
       expect(find.text('My Projects'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should show a confirmation dialog when attempting to save a project with a'
+    ' name that already exists in the database',
+    (tester) async {
+      String projectName = 'project.catrobat-image';
+
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects())
+          .thenAnswer((_) => Future.value([_createProject(projectName)]));
+      when(fileService.checkIfFileExistsInApplicationDirectory(projectName))
+          .thenAnswer((_) => Future.value(true));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final addButton = find.widgetWithIcon(FloatingActionButton, Icons.add);
+      await tester.tap(addButton);
+      await tester.pumpAndSettle();
+
+      final overflowMenuButtonFinder = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder, findsOneWidget);
+
+      await tester.tap(overflowMenuButtonFinder);
+      await tester.pumpAndSettle();
+
+      final saveProjectButton = find.text('Save project');
+      expect(saveProjectButton, findsOneWidget);
+
+      await tester.tap(saveProjectButton);
+      await tester.pumpAndSettle();
+
+      final textFormField = find.widgetWithText(TextFormField, 'Project name');
+      expect(textFormField, findsOneWidget);
+
+      await tester.enterText(textFormField, 'project');
+
+      final saveButton = find.widgetWithText(TextButton, 'Save');
+      expect(saveButton, findsOneWidget);
+
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      final confirmationDialogFinder =
+          find.widgetWithText(GenericDialog, 'Overwrite');
+
+      expect(confirmationDialogFinder, findsOneWidget);
     },
   );
 }
