@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:paintroid/command/command.dart' show CommandManager;
+import 'package:paintroid/command/src/command_manager_provider.dart';
 import 'package:paintroid/core/failure.dart';
 import 'package:paintroid/io/io.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class IOHandler {
@@ -79,7 +80,7 @@ class IOHandler {
   Future<bool> newImage(BuildContext context, State state) async {
     final shouldContinue = await handleUnsavedChanges(context, state);
     if (!shouldContinue) return false;
-    ref.read(CanvasState.provider.notifier)
+    ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
@@ -100,7 +101,7 @@ class IOHandler {
     final result = await loadImage();
     return result.when(
       ok: (img) async {
-        ref.read(CanvasState.provider.notifier)
+        ref.read(canvasStateProvider.notifier)
           ..setBackgroundImage(img)
           ..resetCanvasWithNewCommands([]);
         return true;
@@ -121,7 +122,7 @@ class IOHandler {
     final result = await loadImage(file);
     return result.when(
       ok: (imageFromFile) async {
-        final canvasStateNotifier = ref.read(CanvasState.provider.notifier);
+        final canvasStateNotifier = ref.read(canvasStateProvider.notifier);
         imageFromFile.rasterImage == null
             ? canvasStateNotifier.clearBackgroundImageAndResetDimensions()
             : canvasStateNotifier
@@ -198,8 +199,8 @@ class IOHandler {
 
   Future<File?> _saveAsCatrobatImage(
       CatrobatImageMetaData imageData, bool isAProject) async {
-    final commands = ref.read(CommandManager.provider).history;
-    final canvasState = ref.read(CanvasState.provider);
+    final commands = ref.read(commandManagerProvider).history;
+    final canvasState = ref.read(canvasStateProvider);
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();
     final catrobatImage = CatrobatImage(

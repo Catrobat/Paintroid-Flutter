@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_manager_provider.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
-import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
 import 'package:paintroid/workspace/src/ui/checkerboard_pattern.dart';
 import 'package:paintroid/workspace/src/ui/command_painter.dart';
 
@@ -11,7 +11,7 @@ class CanvasPainter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = ref.watch(CanvasState.provider.select((state) => state.size));
+    final size = ref.watch(canvasStateProvider.select((state) => state.size));
     return Container(
       width: size.width,
       height: size.height,
@@ -36,7 +36,7 @@ class _BackgroundLayer extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final backgroundImage = ref.watch(
-            CanvasState.provider.select((state) => state.backgroundImage),
+            canvasStateProvider.select((state) => state.backgroundImage),
           );
           return CheckerboardPattern(
             child: backgroundImage != null
@@ -56,14 +56,14 @@ class _PaintingLayer extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final cachedImage = ref.watch(
-            CanvasState.provider.select((state) => state.cachedImage),
+            canvasStateProvider.select((state) => state.cachedImage),
           );
           return Consumer(
             builder: (context, ref, child) {
               ref.watch(CanvasDirtyState.provider);
               return CustomPaint(
                 foregroundPainter: CommandPainter(
-                  ref.watch(CommandManager.provider),
+                  ref.watch(commandManagerProvider),
                 ),
                 child: child,
               );

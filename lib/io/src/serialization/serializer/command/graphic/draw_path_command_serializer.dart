@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart'
     show CommandFactory, DrawPathCommand;
+import 'package:paintroid/command/src/command_factory_provider.dart';
 import 'package:paintroid/io/serialization.dart';
 
 class DrawPathCommandSerializer extends ProtoSerializerWithVersioning<
@@ -21,7 +22,7 @@ class DrawPathCommandSerializer extends ProtoSerializerWithVersioning<
         ver,
         ref.watch(PathSerializer.provider(ver)),
         ref.watch(PaintSerializer.provider(ver)),
-        ref.watch(CommandFactory.provider)),
+        ref.watch(commandFactoryProvider)),
   );
 
   @override

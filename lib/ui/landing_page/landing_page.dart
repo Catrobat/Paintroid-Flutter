@@ -13,7 +13,7 @@ import 'package:paintroid/ui/landing_page/image_preview.dart';
 import 'package:paintroid/ui/landing_page/main_overflow_menu.dart';
 import 'package:paintroid/ui/landing_page/project_list_tile.dart';
 import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
-import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
@@ -55,7 +55,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   void _clearCanvas() {
-    ref.read(CanvasState.provider.notifier)
+    ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();

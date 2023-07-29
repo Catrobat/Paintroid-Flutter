@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/tool/tool.dart';
+import 'package:paintroid/tool/src/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class ExitFullscreenButton extends ConsumerWidget {
@@ -9,7 +9,7 @@ class ExitFullscreenButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isUserDrawing = ref.watch(
-      ToolState.provider.select((state) => state.isDown),
+      toolBoxStateProvider.select((state) => state.isDown),
     );
     return AnimatedOpacity(
       opacity: isUserDrawing ? 0 : 1,

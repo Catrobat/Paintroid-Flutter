@@ -5,8 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_manager_provider.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/graphic_factory_provider.dart';
 import 'package:paintroid/core/image_with_pixel_info.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_data.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 import 'render_image_for_export_test.mocks.dart';
@@ -20,6 +24,28 @@ class FakePicture extends Fake implements Picture {
 class FakePictureRecorder extends Fake implements PictureRecorder {
   @override
   Picture endRecording() => FakePicture();
+}
+
+class MockCanvasState1 extends CanvasState {
+  @override
+  CanvasStateData build() {
+    return CanvasStateData(
+      size: const Size(108, 192),
+      commandManager: MockCommandManager(),
+      graphicFactory: FakeGraphicFactory(MockCanvas(), Paint()),
+    );
+  }
+}
+
+class MockCanvasState2 extends CanvasState {
+  @override
+  CanvasStateData build() {
+    return CanvasStateData(
+      size: const Size(300, 800),
+      commandManager: MockCommandManager(),
+      graphicFactory: FakeGraphicFactory(MockCanvas(), Paint()),
+    );
+  }
 }
 
 class FakeGraphicFactory extends GraphicFactory {
@@ -40,17 +66,6 @@ class FakeGraphicFactory extends GraphicFactory {
 
 class FakeGraphicCommand extends Fake implements GraphicCommand {}
 
-final _testCanvasStateProvider =
-    StateNotifierProvider.family<CanvasStateNotifier, CanvasState, CanvasState>(
-  (ref, initialState) {
-    return CanvasStateNotifier(
-      initialState,
-      ref.watch(CommandManager.provider),
-      ref.watch(GraphicFactory.provider),
-    );
-  },
-);
-
 @GenerateMocks(
   [],
   customMocks: [
@@ -62,14 +77,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late ProviderContainer container;
-
   setUp(() {
-    const nonZeroSize = Size(1, 1);
-    const testCanvasState = CanvasState(size: nonZeroSize);
     container = ProviderContainer(
       overrides: [
-        CanvasState.provider
-            .overrideWithProvider(_testCanvasStateProvider(testCanvasState)),
+        canvasStateProvider.overrideWith(MockCanvasState1.new),
       ],
     );
   });
@@ -80,13 +91,12 @@ void main() {
     'Should return image with the workspace export dimensions',
     () async {
       const expectedImageSize = Size(108, 192);
-      const testCanvasState = CanvasState(size: expectedImageSize);
       container = ProviderContainer(
         overrides: [
-          CanvasState.provider
-              .overrideWithProvider(_testCanvasStateProvider(testCanvasState)),
+          canvasStateProvider.overrideWith(MockCanvasState1.new),
         ],
       );
+
       final sut = container.read(RenderImageForExport.provider);
       final img = await sut.call();
       expect(img.width, equals(expectedImageSize.width));
@@ -124,11 +134,10 @@ void main() {
       mockCanvas = MockCanvas();
       mockCommandManager = MockCommandManager();
       container = ProviderContainer(overrides: [
-        GraphicFactory.provider
+        graphicFactoryProvider
             .overrideWithValue(FakeGraphicFactory(mockCanvas, testPaint)),
-        CommandManager.provider.overrideWithValue(mockCommandManager),
-        CanvasState.provider.overrideWithProvider(
-            _testCanvasStateProvider(const CanvasState(size: testCanvasSize))),
+        commandManagerProvider.overrideWithValue(mockCommandManager),
+        canvasStateProvider.overrideWith(MockCanvasState2.new),
       ]);
       sut = container.read(RenderImageForExport.provider);
     });
@@ -159,7 +168,7 @@ void main() {
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
       container
-          .read(CanvasState.provider.notifier)
+          .read(canvasStateProvider.notifier)
           .setBackgroundImage(testImage);
       await sut.call();
       verifyInOrder([
@@ -177,7 +186,7 @@ void main() {
           height: testImageSize.height.toInt());
       when(mockCommandManager.count).thenReturn(0);
       container
-          .read(CanvasState.provider.notifier)
+          .read(canvasStateProvider.notifier)
           .setBackgroundImage(testImage);
       await sut.call(keepTransparency: false);
       verifyInOrder([
