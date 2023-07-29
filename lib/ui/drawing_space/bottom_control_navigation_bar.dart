@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/app_localizations.dart';
+import 'package:paintroid/ui/drawing_space/tools_bottom_sheet.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 
 class BottomControlNavigationBar extends StatelessWidget {
   static const height = 64.0;
 
   const BottomControlNavigationBar({Key? key}) : super(key: key);
+
+  void _onNavigationItemSelected(int index, BuildContext context) {
+    if (index == 0) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return const ToolsBottomSheet();
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +31,8 @@ class BottomControlNavigationBar extends StatelessWidget {
       ),
       child: NavigationBar(
         height: height,
+        onDestinationSelected: (index) =>
+            _onNavigationItemSelected(index, context),
         destinations: [
           NavigationDestination(
             label: localizations.tools,
