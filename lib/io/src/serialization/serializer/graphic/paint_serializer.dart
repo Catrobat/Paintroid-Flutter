@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/graphic_factory_provider.dart';
 import 'package:paintroid/io/serialization.dart';
 
 class PaintSerializer
@@ -11,7 +12,7 @@ class PaintSerializer
   const PaintSerializer(super.version, this._graphicFactory);
 
   static final provider = Provider.family(
-    (ref, int ver) => PaintSerializer(ver, ref.watch(GraphicFactory.provider)),
+    (ref, int ver) => PaintSerializer(ver, ref.watch(graphicFactoryProvider)),
   );
 
   @override

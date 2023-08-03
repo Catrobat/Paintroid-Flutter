@@ -12,7 +12,7 @@ class WorkspaceState {
       StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
     (ref) => WorkspaceStateNotifier(
       initial,
-      ref.watch(CommandManager.provider),
+      ref.watch(commandManagerProvider),
     ),
   );
 

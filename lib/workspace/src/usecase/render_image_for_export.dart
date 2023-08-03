@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_manager_provider.dart';
 import 'package:paintroid/core/graphic_factory.dart';
-import 'package:paintroid/workspace/workspace.dart';
+import 'package:paintroid/core/graphic_factory_provider.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 
 class RenderImageForExport {
   final Ref _ref;
@@ -14,8 +16,8 @@ class RenderImageForExport {
   static final provider = Provider(
     (ref) => RenderImageForExport(
       ref,
-      ref.watch(GraphicFactory.provider),
-      ref.watch(CommandManager.provider),
+      ref.watch(graphicFactoryProvider),
+      ref.watch(commandManagerProvider),
     ),
   );
 
@@ -29,7 +31,7 @@ class RenderImageForExport {
       final paint = _graphicFactory.createPaint();
       canvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
     }
-    final canvasState = _ref.read(CanvasState.provider);
+    final canvasState = _ref.read(canvasStateProvider);
     final exportSize = canvasState.size;
     final backgroundImage = canvasState.backgroundImage;
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);

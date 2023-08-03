@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/tool/src/brush_paint.dart';
+import 'package:paintroid/tool/src/brush_tool/brush_tool_state_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 
 class BottomBrushToolOptions extends ConsumerStatefulWidget {
@@ -21,7 +21,7 @@ class _BottomBrushToolOptionsState
         strokeCap == StrokeCap.round ? Colors.blue : Colors.white;
     _squareChipBackgroundColor =
         strokeCap == StrokeCap.square ? Colors.blue : Colors.white;
-    ref.read(BrushPaintState.provider.notifier).updateStrokeCap(strokeCap);
+    ref.read(brushToolStateProvider.notifier).updateStrokeCap(strokeCap);
   }
 
   BorderRadius _getToolPreviewBorderRadius(
@@ -40,7 +40,7 @@ class _BottomBrushToolOptionsState
   void initState() {
     super.initState();
     StrokeCap toolStrokeCapOnInit =
-        ref.read(BrushPaintState.provider).paint.strokeCap;
+        ref.read(brushToolStateProvider).paint.strokeCap;
     _roundChipBackgroundColor =
         toolStrokeCapOnInit == StrokeCap.round ? Colors.blue : Colors.white;
     _squareChipBackgroundColor =
@@ -49,7 +49,7 @@ class _BottomBrushToolOptionsState
 
   @override
   Widget build(BuildContext context) {
-    final currentPaint = ref.watch(BrushPaintState.provider).paint;
+    final currentPaint = ref.watch(brushToolStateProvider).paint;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [

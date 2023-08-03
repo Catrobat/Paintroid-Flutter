@@ -1,11 +1,13 @@
 import 'dart:ui';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/tool/src/tool_state.dart';
+import 'package:paintroid/tool/src/brush_tool/brush_tool_provider.dart';
+import 'package:paintroid/tool/src/toolbox/toolbox_state_data.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class ToolStateNotifier extends StateNotifier<ToolState> {
-  ToolStateNotifier(super.state);
+part 'toolbox_state_provider.g.dart';
 
+@riverpod
+class ToolBoxState extends _$ToolBoxState {
   void didTapDown(Offset position) {
     state.currentTool.onDown(position);
     state = state.copyWith(isDown: true);
@@ -23,5 +25,13 @@ class ToolStateNotifier extends StateNotifier<ToolState> {
   void didSwitchToZooming() {
     state.currentTool.onCancel();
     state = state.copyWith(isDown: false);
+  }
+
+  @override
+  ToolBoxStateData build() {
+    return ToolBoxStateData(
+      currentTool: ref.watch(brushToolProvider),
+      isDown: false,
+    );
   }
 }

@@ -2,11 +2,10 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_factory.dart';
+import 'package:paintroid/command/src/command_manager.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
-import 'package:paintroid/tool/src/brush_paint.dart';
 import 'package:paintroid/tool/src/tool.dart';
 
 class BrushTool extends Tool with EquatableMixin {
@@ -16,15 +15,6 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandManager,
     required this.graphicFactory,
   });
-
-  static final provider = Provider(
-    (ref) => BrushTool(
-      paint: ref.watch(BrushPaintState.provider).paint,
-      commandManager: ref.watch(CommandManager.provider),
-      commandFactory: ref.watch(CommandFactory.provider),
-      graphicFactory: ref.watch(GraphicFactory.provider),
-    ),
-  );
 
   final GraphicFactory graphicFactory;
 
