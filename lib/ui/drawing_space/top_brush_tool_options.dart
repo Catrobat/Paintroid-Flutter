@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/tool/src/brush_paint.dart';
+import 'package:paintroid/tool/src/brush_tool/brush_tool_state_provider.dart';
 import 'package:paintroid/ui/styles.dart';
 
 class TopBrushToolOptions extends ConsumerStatefulWidget {
@@ -17,25 +17,21 @@ class _NumberTextFieldState extends ConsumerState<TopBrushToolOptions> {
   void _onChangedTextField(String value) {
     final newStrokeWidth = int.tryParse(value) ?? 1;
     ref
-        .read(BrushPaintState.provider.notifier)
+        .read(brushToolStateProvider.notifier)
         .updateStrokeWidth(newStrokeWidth.toDouble());
   }
 
   void _onChangedSlider(double newValue) {
     _strokeWidthTextController.text = newValue.toInt().toString();
-    ref.read(BrushPaintState.provider.notifier).updateStrokeWidth(newValue);
+    ref.read(brushToolStateProvider.notifier).updateStrokeWidth(newValue);
   }
 
   @override
   void initState() {
     super.initState();
     _strokeWidthTextController = TextEditingController(
-      text: ref
-          .read(BrushPaintState.provider)
-          .paint
-          .strokeWidth
-          .toInt()
-          .toString(),
+      text:
+          ref.read(brushToolStateProvider).paint.strokeWidth.toInt().toString(),
     );
   }
 
@@ -47,7 +43,7 @@ class _NumberTextFieldState extends ConsumerState<TopBrushToolOptions> {
 
   @override
   Widget build(BuildContext context) {
-    final strokeWidth = ref.watch(BrushPaintState.provider).paint.strokeWidth;
+    final strokeWidth = ref.watch(brushToolStateProvider).paint.strokeWidth;
 
     return SizedBox(
       height: 25,
@@ -57,7 +53,7 @@ class _NumberTextFieldState extends ConsumerState<TopBrushToolOptions> {
             flex: 1,
             child: TextField(
               controller: _strokeWidthTextController,
-              style: ThemeText.menuItem,
+              style: TextThemes.menuItem,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: [

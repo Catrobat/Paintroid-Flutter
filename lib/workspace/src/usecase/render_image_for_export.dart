@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_manager_provider.dart';
 import 'package:paintroid/core/graphic_factory.dart';
-import 'package:paintroid/workspace/workspace.dart';
+import 'package:paintroid/core/graphic_factory_provider.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 
 class RenderImageForExport {
   final Ref _ref;
@@ -14,8 +16,8 @@ class RenderImageForExport {
   static final provider = Provider(
     (ref) => RenderImageForExport(
       ref,
-      ref.watch(GraphicFactory.provider),
-      ref.watch(CommandManager.provider),
+      ref.watch(graphicFactoryProvider),
+      ref.watch(commandManagerProvider),
     ),
   );
 
@@ -23,29 +25,54 @@ class RenderImageForExport {
       this._ref, this._graphicFactory, this._commandManager);
 
   Future<Image> call({bool keepTransparency = true}) async {
-    final recorder = _graphicFactory.createPictureRecorder();
-    final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
+    final backgroundRecorder = _graphicFactory.createPictureRecorder();
+    final backgroundCanvas =
+        _graphicFactory.createCanvasWithRecorder(backgroundRecorder);
+
+    final canvasState = _ref.read(canvasStateProvider);
+    final exportSize = canvasState.size;
+
     if (!keepTransparency) {
       final paint = _graphicFactory.createPaint();
-      canvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
+      backgroundCanvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
     }
-    final canvasState = _ref.read(CanvasState.provider);
-    final exportSize = canvasState.size;
-    final backgroundImage = canvasState.backgroundImage;
+
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);
-    if (backgroundImage != null) {
+    if (canvasState.backgroundImage != null) {
       paintImage(
-        canvas: canvas,
+        canvas: backgroundCanvas,
         rect: scaledRect,
-        image: backgroundImage,
+        image: canvasState.backgroundImage!,
         fit: BoxFit.fill,
         filterQuality: FilterQuality.none,
       );
     }
-    canvas.clipRect(scaledRect, doAntiAlias: false);
-    _commandManager.executeAllCommands(canvas);
-    final picture = recorder.endRecording();
-    return await picture.toImage(
-        exportSize.width.toInt(), exportSize.height.toInt());
+
+    final foregroundRecorder = _graphicFactory.createPictureRecorder();
+    final foregroundCanvas =
+        _graphicFactory.createCanvasWithRecorder(foregroundRecorder);
+
+    foregroundCanvas.clipRect(scaledRect, doAntiAlias: false);
+    _commandManager.executeAllCommands(foregroundCanvas);
+
+    final combinedRecorder = _graphicFactory.createPictureRecorder();
+    final combinedCanvas =
+        _graphicFactory.createCanvasWithRecorder(combinedRecorder);
+
+    final backgroundImage = await backgroundRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
+
+    combinedCanvas.drawImage(backgroundImage, const Offset(0, 0), Paint());
+
+    final foregroundImage = await foregroundRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
+
+    combinedCanvas.drawImage(foregroundImage, const Offset(0, 0), Paint());
+
+    return await combinedRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
   }
 }

@@ -67,10 +67,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     return AlertDialog(
       title: Text(
         dialogTitle,
-        style: ThemeText.largeBoldText,
+        style: TextThemes.largeBoldText,
       ),
       actions: [_cancelButton, _saveButton],
-      contentTextStyle: ThemeText.menuItem,
+      contentTextStyle: TextThemes.menuItem,
       content: Form(
         key: formKey,
         child: Column(
@@ -145,7 +145,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       controller: nameFieldController,
       decoration: InputDecoration(
         hintText: widget.savingProject ? 'Project name' : 'Image name',
-        hintStyle: ThemeText.hintTextNormal,
+        hintStyle: TextThemes.hintTextNormal,
         filled: true,
         fillColor: lightColorScheme.secondaryContainer,
         border: const OutlineInputBorder(
@@ -176,7 +176,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           items: ImageFormat.values.map((fileType) {
             return DropdownMenuItem<ImageFormat>(
               value: fileType,
-              child: Text(fileType.extension, style: ThemeText.menuItem),
+              child: Text(fileType.extension, style: TextThemes.menuItem),
             );
           }).toList(),
           onChanged: (selectedFileType) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/data/model/project.dart';
@@ -13,6 +12,7 @@ import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/ui/pop_menu_button.dart';
 import 'package:paintroid/ui/styles.dart';
 import 'package:paintroid/workspace/workspace.dart';
+import 'package:toast/toast.dart';
 
 enum OverflowMenuOption {
   fullscreen,
@@ -57,7 +57,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
               value: option,
               child: Text(
                 option.localizedLabel(context),
-                style: ThemeText.menuItem,
+                style: TextThemes.menuItem,
               )))
           .toList(),
     );
@@ -97,8 +97,10 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
     final result = await fileService.deleteFileInApplicationDirectory(fileName);
     if (result is Err) {
-      Fluttertoast.showToast(
-        msg: 'Could not delete the file while overwriting!',
+      Toast.show(
+        'Could not delete the file while overwriting!',
+        duration: Toast.lengthShort,
+        gravity: Toast.bottom,
       );
       return false;
     }
@@ -123,7 +125,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     if (fileExists) {
       final overWriteCanceled = await _showOverwriteDialog();
       if (overWriteCanceled) {
-        Fluttertoast.showToast(msg: 'Project not saved!');
+        Toast.show(
+          'Project not saved!',
+          duration: Toast.lengthShort,
+          gravity: Toast.bottom,
+        );
         return false;
       }
       return await _deleteFileAndAssociatedProject(imageData, db, fileService);

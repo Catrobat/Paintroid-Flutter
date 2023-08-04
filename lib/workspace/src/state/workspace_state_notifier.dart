@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/command/command.dart';
+import 'package:paintroid/command/src/command_manager_provider.dart';
 
 part 'workspace_state.dart';
 

@@ -1,9 +1,9 @@
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:oxidized/oxidized.dart';
+import 'package:paintroid/core/toast_utils.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/io/src/ui/generic_dialog.dart';
@@ -80,7 +80,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
   int _getProjectSize() => fileService.getFile(widget.project.path).when(
         ok: (file) => file.lengthSync(),
         err: (failure) {
-          Fluttertoast.showToast(msg: failure.message);
+          ToastUtils.showShortToast(message: failure.message);
           return 0;
         },
       );
@@ -95,12 +95,12 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               return dimensions;
             },
             err: (failure) {
-              Fluttertoast.showToast(msg: failure.message);
+              ToastUtils.showShortToast(message: failure.message);
               return dimensions;
             },
           ),
           err: (failure) {
-            Fluttertoast.showToast(msg: failure.message);
+            ToastUtils.showShortToast(message: failure.message);
             return dimensions;
           },
         );

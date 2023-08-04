@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/service/device_service.dart';
-import 'package:paintroid/tool/tool.dart';
+import 'package:paintroid/tool/src/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
-import 'package:paintroid/workspace/src/state/canvas_state_notifier.dart';
 import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
 import 'package:paintroid/workspace/src/ui/canvas_painter.dart';
 
@@ -15,8 +15,8 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 }
 
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
-  late final _toolStateNotifier = ref.read(ToolState.provider.notifier);
-  late final _canvasStateNotifier = ref.read(CanvasState.provider.notifier);
+  late final _toolBoxStateNotifier = ref.read(toolBoxStateProvider.notifier);
+  late final _canvasStateNotifier = ref.read(canvasStateProvider.notifier);
   late final _canvasDirtyNotifier =
       ref.read(CanvasDirtyState.provider.notifier);
 
@@ -47,7 +47,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     _pointersOnScreen++;
     if (_pointersOnScreen >= 2) {
       _isZooming = true;
-      _toolStateNotifier.didSwitchToZooming();
+      _toolBoxStateNotifier.didSwitchToZooming();
     }
   }
 
@@ -66,7 +66,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     if (!_isZooming) {
       multiScaleInProgress = true;
       if (details.pointerCount == 1) {
-        _toolStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
+        _toolBoxStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
       }
     }
   }
@@ -75,7 +75,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     if (!_isZooming) {
       if (details.pointerCount == 1) {
         multiScaleInProgress = false;
-        _toolStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
+        _toolBoxStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
         _canvasDirtyNotifier.repaint();
       } else {
         multiScaleInProgress = true;
@@ -86,7 +86,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onInteractionEnd(ScaleEndDetails details) {
     if (!_isZooming) {
       if (!multiScaleInProgress) {
-        _toolStateNotifier.didTapUp();
+        _toolBoxStateNotifier.didTapUp();
         _canvasStateNotifier.updateCachedImage();
       }
     }
@@ -115,7 +115,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
       },
     );
     final canvasSize = ref.watch(
-      CanvasState.provider.select((state) => state.size),
+      canvasStateProvider.select((state) => state.size),
     );
     final panningMargin = (canvasSize - const Offset(5, 5)) as Size;
     return Listener(

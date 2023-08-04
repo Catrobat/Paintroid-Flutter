@@ -9,7 +9,7 @@ class ExitFullscreenButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isUserDrawing = ref.watch(
-      ToolState.provider.select((state) => state.isDown),
+      toolBoxStateProvider.select((state) => state.isDown),
     );
     return AnimatedOpacity(
       opacity: isUserDrawing ? 0 : 1,

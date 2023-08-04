@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/graphic_factory.dart';
+import 'package:paintroid/core/graphic_factory_provider.dart';
 import 'package:paintroid/core/loggable_mixin.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
 import 'package:paintroid/io/serialization.dart';
@@ -13,7 +14,7 @@ class PathSerializer extends ProtoSerializerWithVersioning<
   PathSerializer(super.version, this._graphicFactory);
 
   static final provider = Provider.family(
-    (ref, int ver) => PathSerializer(ver, ref.watch(GraphicFactory.provider)),
+    (ref, int ver) => PathSerializer(ver, ref.watch(graphicFactoryProvider)),
   );
 
   @override

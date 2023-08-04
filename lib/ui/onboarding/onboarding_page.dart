@@ -8,6 +8,7 @@ import 'package:paintroid/ui/onboarding/onboarding_screens/screen4.dart';
 import 'package:paintroid/ui/onboarding/onboarding_screens/screen5.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:toast/toast.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
@@ -58,6 +59,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 40),

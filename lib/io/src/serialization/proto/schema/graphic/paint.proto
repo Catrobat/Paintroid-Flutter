@@ -2,16 +2,33 @@ syntax = 'proto3';
 
 message SerializablePaint {
   uint32 color = 1;
+
   float strokeWidth = 2;
+  
   enum StrokeCap {
-    ROUND = 0;
-    BUTT = 1;
-    SQUARE = 2;
+    STROKE_CAP_ROUND = 0;
+    STROKE_CAP_BUTT = 1;
+    STROKE_CAP_SQUARE = 2;
   }
   StrokeCap cap = 3;
+  
   enum PaintingStyle {
-    FILL = 0;
-    STROKE = 1;
+    PAINTING_STYLE_FILL = 0;
+    PAINTING_STYLE_STROKE = 1;
   }
   PaintingStyle style = 4;
+  
+  enum BlendMode {
+    BLEND_MODE_SCR_OVER = 0;
+    BLEND_MODE_CLEAR = 1;
+  }
+  BlendMode blendMode = 5;
+
+  enum StrokeJoin {
+    STROKE_JOIN_MITER = 0;
+    STROKE_JOIN_ROUND = 1;
+    STROKE_JOIN_BEVEL = 2;
+  }
+  StrokeJoin strokeJoin = 6;
+
 }

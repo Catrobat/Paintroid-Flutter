@@ -1,43 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class IconButtonWithLabel extends StatelessWidget {
-  final String svgAssetPath;
+  final Widget icon;
   final String label;
-  final Color? color;
+  final VoidCallback onPressed;
 
   const IconButtonWithLabel({
-    super.key,
-    required this.svgAssetPath,
+    Key? key,
+    required this.icon,
     required this.label,
-    this.color,
-  });
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 85,
-      child: Column(
-        children: [
-          IconButton(
-            icon: SvgPicture.asset(
-              svgAssetPath,
-              height: 24,
-              width: 24,
-              color: color ?? Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              Fluttertoast.showToast(msg: label);
-            },
-          ),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 10),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        IconButton(
+          icon: icon,
+          onPressed: onPressed,
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10),
+        ),
+      ],
     );
   }
 }

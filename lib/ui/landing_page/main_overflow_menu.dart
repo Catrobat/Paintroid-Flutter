@@ -35,7 +35,9 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     return StyledPopMenuButton<MainOverflowMenuOption>(
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => MainOverflowMenuOption.values
-          .map((option) => PopupMenuItem(value: option, child: Text(option.label, style: ThemeText.menuItem)))
+          .map((option) => PopupMenuItem(
+              value: option,
+              child: Text(option.label, style: TextThemes.menuItem)))
           .toList(),
     );
   }
