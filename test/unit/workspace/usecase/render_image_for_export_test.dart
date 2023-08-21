@@ -89,8 +89,8 @@ class FakeGraphicCommand extends Fake implements GraphicCommand {}
 @GenerateMocks(
   [],
   customMocks: [
-    MockSpec<Canvas>(returnNullOnMissingStub: true),
-    MockSpec<CommandManager>(returnNullOnMissingStub: true),
+    MockSpec<Canvas>(),
+    MockSpec<CommandManager>(),
   ],
 )
 void main() {
@@ -145,7 +145,6 @@ void main() {
     final testCanvasRect =
         Rect.fromLTRB(0, 0, testCanvasSize.width, testCanvasSize.height);
     late Paint testPaint;
-    late Offset testOffset;
     late MockCanvas mockBackgroundCanvas;
     late MockCanvas mockCommandsCanvas;
     late MockCanvas mockCombinedCanvas;
@@ -154,7 +153,6 @@ void main() {
 
     setUp(() {
       testPaint = Paint();
-      testOffset = const Offset(0.0, 0.0);
       mockBackgroundCanvas = MockCanvas();
       mockCommandsCanvas = MockCanvas();
       mockCombinedCanvas = MockCanvas();

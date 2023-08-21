@@ -15,8 +15,10 @@ void main() async {
   const channel = MethodChannel(
     'plugins.flutter.io/path_provider',
   );
-  channel
-      .setMockMethodCallHandler((MethodCall methodCall) async => testDirectory);
+  final defaultBinaryMessenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  defaultBinaryMessenger.setMockMethodCallHandler(
+      channel, (MethodCall methodCall) async => testDirectory);
 
   setUp(() async {
     sut = FileService();
@@ -51,17 +53,17 @@ void main() async {
     final file = result.unwrapOrElse((failure) => fail(failure.message));
     expect(file, isA<File>());
 
-    final resultDeleted = await sut.deleteFileInApplicationDirectory(
-      'test1.png'
-    );
-    final deleted = resultDeleted.unwrapOrElse((failure) => fail(failure.message));
+    final resultDeleted =
+        await sut.deleteFileInApplicationDirectory('test1.png');
+    final deleted =
+        resultDeleted.unwrapOrElse((failure) => fail(failure.message));
     expect(deleted, isA<FileSystemEntity>());
   });
 
-  test('Should save file to Application directory and check should return true', () async {
-    final fileDoesNotExist = await sut.checkIfFileExistsInApplicationDirectory(
-        'test1.png'
-    );
+  test('Should save file to Application directory and check should return true',
+      () async {
+    final fileDoesNotExist =
+        await sut.checkIfFileExistsInApplicationDirectory('test1.png');
 
     expect(fileDoesNotExist, false);
 
@@ -72,9 +74,8 @@ void main() async {
     final file = result.unwrapOrElse((failure) => fail(failure.message));
     expect(file, isA<File>());
 
-    final fileExists = await sut.checkIfFileExistsInApplicationDirectory(
-        'test1.png'
-    );
+    final fileExists =
+        await sut.checkIfFileExistsInApplicationDirectory('test1.png');
 
     expect(fileExists, true);
   });

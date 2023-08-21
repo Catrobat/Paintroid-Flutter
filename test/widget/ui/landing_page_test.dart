@@ -39,7 +39,7 @@ void main() {
   late ui.Image dummyImage;
   final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
 
-  Project _createProject(String name) => Project(
+  Project createProject(String name) => Project(
         name: name,
         path: filePath,
         imagePreviewPath: filePath,
@@ -62,7 +62,7 @@ void main() {
         showOnboardingPage: false,
       ),
     );
-    projects = List.generate(5, (index) => _createProject('project$index'));
+    projects = List.generate(5, (index) => createProject('project$index'));
     dummyImage = await createTestImage(width: 1080, height: 1920);
   });
 
@@ -390,7 +390,7 @@ void main() {
 
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects())
-          .thenAnswer((_) => Future.value([_createProject(projectName)]));
+          .thenAnswer((_) => Future.value([createProject(projectName)]));
       when(fileService.checkIfFileExistsInApplicationDirectory(projectName))
           .thenAnswer((_) => Future.value(true));
       when(imageService.getProjectPreview(filePath))
