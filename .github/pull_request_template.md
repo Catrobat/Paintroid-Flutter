@@ -1,6 +1,13 @@
 *Please enter a short description of your pull request and add a reference to the Jira ticket.*
 
-### Your checklist for this pull request
+## New Features and Enhancements
+- New Features and Enhancements
+## Refactorings and Bug Fixes
+- Refactorings and Bug Fixes
+
+## Checklist
+
+#### Your checklist for this pull request
 Please review the [contributing guidelines](https://github.com/Catrobat/Paintroid/blob/develop/README.md) and [wiki pages](https://github.com/Catrobat/Catroid/wiki/) of this repository.
 
 - [ ] Include the name of the Jira ticket in the PR’s title
@@ -17,3 +24,4 @@ Please review the [contributing guidelines](https://github.com/Catrobat/Paintroi
 - [ ] Verify that your changes do not have any conflicts with the base branch
 - [ ] After the PR, verify that all CI checks have passed
 - [ ] Post a message in the *#paintroid* [Slack channel](https://catrobat.slack.com) and ask for a code reviewer
+
