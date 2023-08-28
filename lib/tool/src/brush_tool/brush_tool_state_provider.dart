@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'brush_tool_state_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class BrushToolState extends _$BrushToolState {
   void updateStrokeWidth(double newStrokeWidth) {
     Paint newPaint = state.paint..strokeWidth = newStrokeWidth;
@@ -20,6 +20,11 @@ class BrushToolState extends _$BrushToolState {
 
   void updateColor(Color newColor) {
     Paint newPaint = state.paint..color = newColor;
+    state = state.copyWith(paint: newPaint);
+  }
+
+  void updateBlendMode(BlendMode newMode) {
+    Paint newPaint = state.paint..blendMode = newMode;
     state = state.copyWith(paint: newPaint);
   }
 

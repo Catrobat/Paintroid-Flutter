@@ -26,13 +26,14 @@ dependencies:
   oxidized: ^5.2.0
   logging: ^1.0.2
   file_picker: ^5.3.1
-  fluttertoast: ^8.2.2
   floor: ^1.2.0
   filesize: ^2.0.1
+  toast: ^0.3.0
   sqflite:
   permission_handler: ^10.0.0
   url_launcher: ^6.1.5
   package_info_plus: ^4.0.1
+  device_info_plus: ^9.0.3
   launch_review: ^3.0.1
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15

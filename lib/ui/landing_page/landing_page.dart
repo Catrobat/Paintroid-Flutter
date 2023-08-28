@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
+import 'package:paintroid/core/toast_utils.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/io.dart';
@@ -15,6 +15,7 @@ import 'package:paintroid/ui/landing_page/project_list_tile.dart';
 import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
 import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/src/state/workspace_state_notifier.dart';
+import 'package:toast/toast.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
@@ -47,7 +48,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
-          Fluttertoast.showToast(msg: failure.message);
+          ToastUtils.showShortToast(message: failure.message);
         }
         return false;
       },
@@ -70,10 +71,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) => Fluttertoast.showToast(msg: 'Error: $err'),
+      error: (err, stacktrace) =>
+          ToastUtils.showShortToast(message: 'Error: $err'),
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);

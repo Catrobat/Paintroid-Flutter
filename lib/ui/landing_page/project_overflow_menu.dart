@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:paintroid/core/toast_utils.dart';
 import 'package:paintroid/data/model/project.dart';
 import 'package:paintroid/data/project_database.dart';
 import 'package:paintroid/io/src/ui/delete_project_dialog.dart';
@@ -36,7 +36,8 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) => Fluttertoast.showToast(msg: 'Error: $err'),
+      error: (err, stacktrace) =>
+          ToastUtils.showShortToast(message: 'Error: $err'),
       loading: () {},
     );
 
@@ -77,7 +78,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
           await previewFile.delete();
         }
       } catch (err) {
-        Fluttertoast.showToast(msg: err.toString());
+        ToastUtils.showShortToast(message: err.toString());
       }
       if (widget.project.id != null) {
         await database.projectDAO.deleteProject(widget.project.id!);

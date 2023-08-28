@@ -6,6 +6,7 @@ linter:
     prefer_relative_imports: false
     prefer_single_quotes: true
     avoid_void_async: true
+    constant_identifier_names: false
 
 analyzer:
 

@@ -53,7 +53,7 @@ class _NumberTextFieldState extends ConsumerState<TopBrushToolOptions> {
             flex: 1,
             child: TextField(
               controller: _strokeWidthTextController,
-              style: ThemeText.menuItem,
+              style: TextThemes.menuItem,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: [

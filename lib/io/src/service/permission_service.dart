@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/loggable_mixin.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,16 +21,30 @@ class PermissionService with LoggableMixin implements IPermissionService {
   static const _unhandledPlatformErrorMsg =
       'Permissions for this platform have not been handled';
 
+  Future<bool> _isAndroidVersionGreaterOrEqualTo(int version) async {
+    if (!Platform.isAndroid) return false;
+    final deviceInfo = DeviceInfoPlugin();
+    final androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.version.sdkInt >= version;
+  }
+
   @override
   Future<bool> requestAccessToSharedFileStorage() async {
-    if (Platform.isIOS || Platform.isAndroid) {
-      const permission = Permission.storage;
-      final status = await permission.request();
-      return _didGrant(status, Permission.storage);
+    late final Permission permission;
+    if (Platform.isIOS) {
+      permission = Permission.photos;
+    } else if (Platform.isAndroid) {
+      if (await _isAndroidVersionGreaterOrEqualTo(33)) {
+        permission = Permission.photos;
+      } else {
+        permission = Permission.storage;
+      }
     } else {
       logger.severe(_unhandledPlatformErrorMsg);
       return false;
     }
+    final status = await permission.request();
+    return _didGrant(status, permission);
   }
 
   @override
@@ -38,7 +53,11 @@ class PermissionService with LoggableMixin implements IPermissionService {
     if (Platform.isIOS) {
       permission = Permission.photos;
     } else if (Platform.isAndroid) {
-      permission = Permission.storage;
+      if (await _isAndroidVersionGreaterOrEqualTo(33)) {
+        permission = Permission.photos;
+      } else {
+        permission = Permission.storage;
+      }
     } else {
       logger.severe(_unhandledPlatformErrorMsg);
       return false;
@@ -53,7 +72,11 @@ class PermissionService with LoggableMixin implements IPermissionService {
     if (Platform.isIOS) {
       permission = Permission.photosAddOnly;
     } else if (Platform.isAndroid) {
-      permission = Permission.storage;
+      if (await _isAndroidVersionGreaterOrEqualTo(33)) {
+        permission = Permission.photos;
+      } else {
+        permission = Permission.storage;
+      }
     } else {
       logger.severe(_unhandledPlatformErrorMsg);
       return false;

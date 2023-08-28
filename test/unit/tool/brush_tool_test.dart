@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
+import 'package:paintroid/tool/src/tool_types.dart';
 import 'package:paintroid/tool/tool.dart';
 
 import 'brush_tool_test.mocks.dart';
@@ -29,6 +30,7 @@ void main() {
   late Offset testOffset;
   late PathWithActionHistory testPath;
   late Paint testPaint;
+  late Paint testPaintCopied;
   late DrawPathCommand testDrawPathCommand;
 
   late BrushTool sut;
@@ -44,10 +46,12 @@ void main() {
     testOffset = const Offset(12, 13);
     testPath = PathWithActionHistory();
     testPaint = Paint();
+    testPaintCopied = Paint();
     testDrawPathCommand = DrawPathCommand(testPath, testPaint);
 
     sut = BrushTool(
       paint: testPaint,
+      type: ToolType.BRUSH,
       commandManager: mockCommandManager,
       commandFactory: mockCommandFactory,
       graphicFactory: mockGraphicFactory,
@@ -58,11 +62,15 @@ void main() {
     test('Should create one DrawPathCommand with a new Path', () {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPath);
+      when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
+
       sut.onDown(testOffset);
       verify(mockGraphicFactory.createPathWithActionHistory()).called(1);
-      verify(mockCommandFactory.createDrawPathCommand(testPath, testPaint))
+      verify(mockGraphicFactory.copyPaint(testPaint)).called(1);
+      verify(mockCommandFactory.createDrawPathCommand(
+              testPath, testPaintCopied))
           .called(1);
       verifyNoMoreInteractions(mockCommandFactory);
       verifyNoMoreInteractions(mockGraphicFactory);
@@ -71,6 +79,7 @@ void main() {
     test('Should move Path to point supplied in event', () {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(mockPath);
+      when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockPath.moveTo(testOffset.dx, testOffset.dy)).thenReturn(null);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
@@ -82,6 +91,7 @@ void main() {
     test('Should not interact with DrawPathCommand', () {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPath);
+      when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(mockDrawPathCommand);
       sut.onDown(testOffset);

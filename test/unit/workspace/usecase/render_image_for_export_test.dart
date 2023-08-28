@@ -32,7 +32,8 @@ class MockCanvasState1 extends CanvasState {
     return CanvasStateData(
       size: const Size(108, 192),
       commandManager: MockCommandManager(),
-      graphicFactory: FakeGraphicFactory(MockCanvas(), Paint()),
+      graphicFactory:
+          FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
   }
 }
@@ -43,22 +44,41 @@ class MockCanvasState2 extends CanvasState {
     return CanvasStateData(
       size: const Size(300, 800),
       commandManager: MockCommandManager(),
-      graphicFactory: FakeGraphicFactory(MockCanvas(), Paint()),
+      graphicFactory:
+          FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
   }
 }
 
 class FakeGraphicFactory extends GraphicFactory {
-  FakeGraphicFactory(this.mockCanvas, [this.paint]);
+  FakeGraphicFactory(
+      this.backgroundCanvas, this.commandsCanvas, this.combinedCanvas,
+      [this.paint]);
 
-  final MockCanvas mockCanvas;
+  final MockCanvas backgroundCanvas;
+  final MockCanvas commandsCanvas;
+  final MockCanvas combinedCanvas;
   final Paint? paint;
+
+  int callCount = 0;
 
   @override
   PictureRecorder createPictureRecorder() => FakePictureRecorder();
 
   @override
-  Canvas createCanvasWithRecorder(PictureRecorder recorder) => mockCanvas;
+  Canvas createCanvasWithRecorder(PictureRecorder recorder) {
+    callCount++;
+    switch (callCount) {
+      case 1:
+        return backgroundCanvas;
+      case 2:
+        return commandsCanvas;
+      case 3:
+        return combinedCanvas;
+      default:
+        return MockCanvas();
+    }
+  }
 
   @override
   Paint createPaint() => paint ?? Paint();
@@ -125,17 +145,29 @@ void main() {
     final testCanvasRect =
         Rect.fromLTRB(0, 0, testCanvasSize.width, testCanvasSize.height);
     late Paint testPaint;
-    late MockCanvas mockCanvas;
+    late Offset testOffset;
+    late MockCanvas mockBackgroundCanvas;
+    late MockCanvas mockCommandsCanvas;
+    late MockCanvas mockCombinedCanvas;
     late MockCommandManager mockCommandManager;
     late RenderImageForExport sut;
 
     setUp(() {
       testPaint = Paint();
-      mockCanvas = MockCanvas();
+      testOffset = const Offset(0.0, 0.0);
+      mockBackgroundCanvas = MockCanvas();
+      mockCommandsCanvas = MockCanvas();
+      mockCombinedCanvas = MockCanvas();
       mockCommandManager = MockCommandManager();
       container = ProviderContainer(overrides: [
-        graphicFactoryProvider
-            .overrideWithValue(FakeGraphicFactory(mockCanvas, testPaint)),
+        graphicFactoryProvider.overrideWithValue(
+          FakeGraphicFactory(
+            mockBackgroundCanvas,
+            mockCommandsCanvas,
+            mockCombinedCanvas,
+            testPaint,
+          ),
+        ),
         commandManagerProvider.overrideWithValue(mockCommandManager),
         canvasStateProvider.overrideWith(MockCanvasState2.new),
       ]);
@@ -145,21 +177,30 @@ void main() {
     test('When transparency is enabled and no image is loaded', () async {
       await sut.call();
       verifyInOrder([
-        mockCanvas.clipRect(testCanvasRect, doAntiAlias: false),
-        mockCommandManager.executeAllCommands(mockCanvas),
+        mockCommandsCanvas.clipRect(testCanvasRect, doAntiAlias: false),
+        mockCommandManager.executeAllCommands(mockCommandsCanvas),
+        mockCombinedCanvas.drawImage(any, any, any),
+        mockCombinedCanvas.drawImage(any, any, any),
       ]);
-      verifyNoMoreInteractions(mockCanvas);
+      verifyZeroInteractions(mockBackgroundCanvas);
+      verifyNoMoreInteractions(mockCommandsCanvas);
+      verifyNoMoreInteractions(mockCombinedCanvas);
       verifyNoMoreInteractions(mockCommandManager);
     });
 
     test('When transparency is disabled and no image is loaded', () async {
       await sut.call(keepTransparency: false);
+
       verifyInOrder([
-        mockCanvas.drawPaint(testPaint),
-        mockCanvas.clipRect(testCanvasRect, doAntiAlias: false),
-        mockCommandManager.executeAllCommands(mockCanvas),
+        mockBackgroundCanvas.drawPaint(testPaint),
+        mockCommandsCanvas.clipRect(testCanvasRect, doAntiAlias: false),
+        mockCommandManager.executeAllCommands(mockCommandsCanvas),
+        mockCombinedCanvas.drawImage(any, any, any),
+        mockCombinedCanvas.drawImage(any, any, any),
       ]);
-      verifyNoMoreInteractions(mockCanvas);
+      verifyNoMoreInteractions(mockBackgroundCanvas);
+      verifyNoMoreInteractions(mockCommandsCanvas);
+      verifyNoMoreInteractions(mockCombinedCanvas);
       verifyNoMoreInteractions(mockCommandManager);
     });
 
@@ -172,11 +213,16 @@ void main() {
           .setBackgroundImage(testImage);
       await sut.call();
       verifyInOrder([
-        mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
-        mockCanvas.clipRect(testImageRect, doAntiAlias: false),
-        mockCommandManager.executeAllCommands(mockCanvas),
+        mockBackgroundCanvas.drawImageRect(
+            testImage, testImageRect, testImageRect, any),
+        mockCommandsCanvas.clipRect(testImageRect, doAntiAlias: false),
+        mockCommandManager.executeAllCommands(mockCommandsCanvas),
+        mockCombinedCanvas.drawImage(any, any, any),
+        mockCombinedCanvas.drawImage(any, any, any),
       ]);
-      verifyNoMoreInteractions(mockCanvas);
+      verifyNoMoreInteractions(mockBackgroundCanvas);
+      verifyNoMoreInteractions(mockCommandsCanvas);
+      verifyNoMoreInteractions(mockCombinedCanvas);
       verifyNoMoreInteractions(mockCommandManager);
     });
 
@@ -190,12 +236,17 @@ void main() {
           .setBackgroundImage(testImage);
       await sut.call(keepTransparency: false);
       verifyInOrder([
-        mockCanvas.drawPaint(testPaint),
-        mockCanvas.drawImageRect(testImage, testImageRect, testImageRect, any),
-        mockCanvas.clipRect(testImageRect, doAntiAlias: false),
-        mockCommandManager.executeAllCommands(mockCanvas),
+        mockBackgroundCanvas.drawPaint(testPaint),
+        mockBackgroundCanvas.drawImageRect(
+            testImage, testImageRect, testImageRect, any),
+        mockCommandsCanvas.clipRect(testImageRect, doAntiAlias: false),
+        mockCommandManager.executeAllCommands(mockCommandsCanvas),
+        mockCombinedCanvas.drawImage(any, any, any),
+        mockCombinedCanvas.drawImage(any, any, any),
       ]);
-      verifyNoMoreInteractions(mockCanvas);
+      verifyNoMoreInteractions(mockBackgroundCanvas);
+      verifyNoMoreInteractions(mockCommandsCanvas);
+      verifyNoMoreInteractions(mockCombinedCanvas);
       verifyNoMoreInteractions(mockCommandManager);
     });
   });

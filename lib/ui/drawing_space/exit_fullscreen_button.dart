@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/tool/src/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/tool/tool.dart';
 import 'package:paintroid/workspace/workspace.dart';
 
 class ExitFullscreenButton extends ConsumerWidget {

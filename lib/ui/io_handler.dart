@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/command/src/command_manager_provider.dart';
 import 'package:paintroid/core/failure.dart';
+import 'package:paintroid/core/toast_utils.dart';
 import 'package:paintroid/io/io.dart';
 import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/workspace.dart';
@@ -108,7 +108,7 @@ class IOHandler {
       },
       err: (failure) async {
         if (failure != LoadImageFailure.userCancelled) {
-          Fluttertoast.showToast(msg: failure.message);
+          ToastUtils.showShortToast(message: failure.message);
         }
         return false;
       },
@@ -138,7 +138,7 @@ class IOHandler {
       },
       err: (failure) {
         if (failure != LoadImageFailure.userCancelled) {
-          Fluttertoast.showToast(msg: failure.message);
+          ToastUtils.showShortToast(message: failure.message);
         }
         return false;
       },
@@ -162,11 +162,11 @@ class IOHandler {
         .call(keepTransparency: imageData.format != ImageFormat.jpg);
     return ref.read(SaveAsRasterImage.provider).call(imageData, image).when(
       ok: (_) {
-        Fluttertoast.showToast(msg: 'Saved to Photos');
+        ToastUtils.showShortToast(message: 'Saved to Photos');
         return true;
       },
       err: (failure) {
-        Fluttertoast.showToast(msg: failure.message);
+        ToastUtils.showShortToast(message: failure.message);
         return false;
       },
     );
@@ -185,13 +185,13 @@ class IOHandler {
         return previewFile.when(
           ok: (file) => file.path,
           err: (failure) {
-            Fluttertoast.showToast(msg: failure.message);
+            ToastUtils.showShortToast(message: failure.message);
             return null;
           },
         );
       },
       err: (failure) {
-        Fluttertoast.showToast(msg: failure.message);
+        ToastUtils.showShortToast(message: failure.message);
         return null;
       },
     );
@@ -210,11 +210,11 @@ class IOHandler {
         await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
     return result.when(
       ok: (file) {
-        Fluttertoast.showToast(msg: 'Saved successfully');
+        ToastUtils.showShortToast(message: 'Saved successfully');
         return file;
       },
       err: (failure) {
-        Fluttertoast.showToast(msg: failure.message);
+        ToastUtils.showShortToast(message: failure.message);
         return null;
       },
     );

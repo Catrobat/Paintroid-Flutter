@@ -1,0 +1,18 @@
+enum ToolType {
+  BRUSH,
+  HAND,
+  ERASER,
+  LINE,
+  SHAPES,
+  FILL,
+  SPRAY,
+  CURSOR,
+  TEXT,
+  CLIPBOARD,
+  TRANSFORM,
+  IMPORT,
+  PIPETTE,
+  WATERCOLOR,
+  SMUDGE,
+  CLIPPING
+}

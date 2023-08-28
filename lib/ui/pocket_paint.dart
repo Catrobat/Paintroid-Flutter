@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/io/io.dart';
-import 'package:paintroid/ui/drawing_space/bottom_control_navigation_bar.dart';
+import 'package:paintroid/ui/drawing_space/bottom_nav_bar.dart';
 import 'package:paintroid/ui/drawing_space/exit_fullscreen_button.dart';
 import 'package:paintroid/ui/drawing_space/tool_options.dart';
 import 'package:paintroid/ui/io_handler.dart';
 import 'package:paintroid/ui/shared/top_app_bar.dart';
 import 'package:paintroid/workspace/workspace.dart';
+import 'package:toast/toast.dart';
 
 class PocketPaint extends ConsumerStatefulWidget {
   const PocketPaint({Key? key}) : super(key: key);
@@ -26,6 +27,8 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+
     final isFullscreen = ref.watch(
       WorkspaceState.provider.select((state) => state.isFullscreen),
     );
@@ -74,8 +77,7 @@ class _PocketPaintState extends ConsumerState<PocketPaint> {
               const ToolOptions(),
           ],
         ),
-        bottomNavigationBar:
-            isFullscreen ? null : const BottomControlNavigationBar(),
+        bottomNavigationBar: isFullscreen ? null : const BottomNavBar(),
       ),
     );
   }

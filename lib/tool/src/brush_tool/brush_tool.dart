@@ -7,6 +7,7 @@ import 'package:paintroid/command/src/command_manager.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
 import 'package:paintroid/tool/src/tool.dart';
+import 'package:paintroid/tool/src/tool_types.dart';
 
 class BrushTool extends Tool with EquatableMixin {
   BrushTool({
@@ -14,6 +15,7 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
+    required super.type,
   });
 
   final GraphicFactory graphicFactory;
@@ -25,7 +27,9 @@ class BrushTool extends Tool with EquatableMixin {
   void onDown(Offset point) {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
-    final command = commandFactory.createDrawPathCommand(pathToDraw, paint);
+    Paint savedPaint = graphicFactory.copyPaint(paint);
+    final command =
+        commandFactory.createDrawPathCommand(pathToDraw, savedPaint);
     commandManager.addGraphicCommand(command);
   }
 
@@ -49,16 +53,19 @@ class BrushTool extends Tool with EquatableMixin {
   @override
   List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
-  BrushTool copyWith(
-      {Paint? paint,
-      CommandFactory? commandFactory,
-      CommandManager? commandManager,
-      GraphicFactory? graphicFactory}) {
+  BrushTool copyWith({
+    Paint? paint,
+    CommandFactory? commandFactory,
+    CommandManager? commandManager,
+    GraphicFactory? graphicFactory,
+    ToolType? type,
+  }) {
     return BrushTool(
       paint: paint ?? this.paint,
       commandFactory: commandFactory ?? this.commandFactory,
       commandManager: commandManager ?? this.commandManager,
       graphicFactory: graphicFactory ?? this.graphicFactory,
+      type: type ?? this.type,
     );
   }
 }

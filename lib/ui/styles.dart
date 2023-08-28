@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/ui/color_schemes.dart';
 
-abstract class ThemeText {
+abstract class TextThemes {
   static TextStyle menuItem = TextStyle(
     color: lightColorScheme.onBackground,
     fontWeight: FontWeight.w400,
@@ -18,5 +18,16 @@ abstract class ThemeText {
     color: lightColorScheme.onSurfaceVariant,
     fontWeight: FontWeight.w100,
     fontSize: 14,
+  );
+}
+
+abstract class WidgetThemes {
+  static NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
+    indicatorColor: Colors.transparent,
+    labelTextStyle: MaterialStateProperty.all(
+      TextStyle(
+        color: lightColorScheme.onSurface,
+      ),
+    ),
   );
 }

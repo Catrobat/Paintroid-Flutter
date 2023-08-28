@@ -25,29 +25,54 @@ class RenderImageForExport {
       this._ref, this._graphicFactory, this._commandManager);
 
   Future<Image> call({bool keepTransparency = true}) async {
-    final recorder = _graphicFactory.createPictureRecorder();
-    final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
-    if (!keepTransparency) {
-      final paint = _graphicFactory.createPaint();
-      canvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
-    }
+    final backgroundRecorder = _graphicFactory.createPictureRecorder();
+    final backgroundCanvas =
+        _graphicFactory.createCanvasWithRecorder(backgroundRecorder);
+
     final canvasState = _ref.read(canvasStateProvider);
     final exportSize = canvasState.size;
-    final backgroundImage = canvasState.backgroundImage;
+
+    if (!keepTransparency) {
+      final paint = _graphicFactory.createPaint();
+      backgroundCanvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
+    }
+
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);
-    if (backgroundImage != null) {
+    if (canvasState.backgroundImage != null) {
       paintImage(
-        canvas: canvas,
+        canvas: backgroundCanvas,
         rect: scaledRect,
-        image: backgroundImage,
+        image: canvasState.backgroundImage!,
         fit: BoxFit.fill,
         filterQuality: FilterQuality.none,
       );
     }
-    canvas.clipRect(scaledRect, doAntiAlias: false);
-    _commandManager.executeAllCommands(canvas);
-    final picture = recorder.endRecording();
-    return await picture.toImage(
-        exportSize.width.toInt(), exportSize.height.toInt());
+
+    final foregroundRecorder = _graphicFactory.createPictureRecorder();
+    final foregroundCanvas =
+        _graphicFactory.createCanvasWithRecorder(foregroundRecorder);
+
+    foregroundCanvas.clipRect(scaledRect, doAntiAlias: false);
+    _commandManager.executeAllCommands(foregroundCanvas);
+
+    final combinedRecorder = _graphicFactory.createPictureRecorder();
+    final combinedCanvas =
+        _graphicFactory.createCanvasWithRecorder(combinedRecorder);
+
+    final backgroundImage = await backgroundRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
+
+    combinedCanvas.drawImage(backgroundImage, const Offset(0, 0), Paint());
+
+    final foregroundImage = await foregroundRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
+
+    combinedCanvas.drawImage(foregroundImage, const Offset(0, 0), Paint());
+
+    return await combinedRecorder
+        .endRecording()
+        .toImage(exportSize.width.toInt(), exportSize.height.toInt());
   }
 }
