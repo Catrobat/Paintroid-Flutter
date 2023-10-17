@@ -15,10 +15,11 @@ For more information oriented towards developers please visit our [developers pa
    - alternatively use fvm for managing Flutter versions
 2. Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
    - `protoc` for Dart
-3. Get dependencies - `make get`
-4. Build supporting files - `make build-runner`
-5. Build protobuf files - `./generate_protos.sh`
-6. Run app - `make run`
+3. Change `fvm flutter` to `flutter` in `makefile` and `./generate_protos.sh` if you are not using fvm
+4. Get dependencies - `make get`
+5. Build supporting files - `make build-runner`
+6. Build protobuf files - `./generate_protos.sh`
+7. Run app - `make run`
 
 ## Tests
 
