@@ -49,6 +49,10 @@ void main() {
     sut = const ProviderScope(
       child: MaterialApp(
         home: OnboardingPage(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
       ),
     );
   });

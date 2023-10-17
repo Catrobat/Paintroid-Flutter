@@ -20,6 +20,10 @@ void main() {
       const ProviderScope(
         child: MaterialApp(
           home: PocketPaint(),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
         ),
       ),
     );

@@ -1,0 +1,6 @@
+arb-dir: lib/src/l10n
+template-arb-file: workspace_screen_translations_en.arb
+output-localization-file: workspace_screen_localizations.dart
+output-class: WorkspaceScreenLocalizations
+synthetic-package: false
+nullable-getter: false

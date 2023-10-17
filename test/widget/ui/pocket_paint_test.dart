@@ -16,6 +16,10 @@ void main() {
     sut = const ProviderScope(
       child: MaterialApp(
         home: PocketPaint(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
       ),
     );
   });
@@ -58,6 +62,10 @@ void main() {
         ],
         child: const MaterialApp(
           home: PocketPaint(),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
         ),
       );
     });

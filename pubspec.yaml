@@ -1,7 +1,7 @@
 name: paintroid
 description: The standard image manipulation app for Catroid.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # TODO remove all this:
   flutter_localization: ^0.1.12
   intl: ^0.18.0
   equatable: ^2.0.3
@@ -38,18 +40,29 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
 
+  # Internal packages:
+  component_library:
+    path: ./packages/component_library
+  workspace_screen:
+    path: ./packages/features/workspace_screen
+  landing_page_screen:
+    path: ./packages/features/landing_page_screen
+  onboarding_screen:
+    path: ./packages/features/onboarding_screen
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
+
   mockito: ^5.2.0
-  build_runner: ^2.2.0
   flutter_launcher_icons: ^0.9.3
   flutter_lints: ^2.0.1
   floor_generator: ^1.2.0
   riverpod_generator: ^2.2.3
   riverpod_lint: ^1.3.2
+  build_runner: ^2.2.0
   freezed: ^2.4.1
 
 flutter:
