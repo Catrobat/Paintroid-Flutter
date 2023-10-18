@@ -24,4 +24,4 @@ export 'src/states/workspace_state_notifier.dart';
 
 export 'src/usecase/render_image_for_export.dart';
 
-export 'src/pocket_paint.dart';
+export 'src/workspace_screen.dart';

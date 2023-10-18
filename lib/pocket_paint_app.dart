@@ -43,7 +43,7 @@ class PocketPaintApp extends StatelessWidget {
             );
           case '/PocketPaint':
             return MaterialPageRoute(
-              builder: (context) => const PocketPaint(),
+              builder: (context) => const WorkspaceScreen(),
             );
           case '/OnboardingPage':
             return MaterialPageRoute(

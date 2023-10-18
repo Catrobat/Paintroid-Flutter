@@ -7,14 +7,14 @@ import 'package:io_library/io_library.dart';
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
-class PocketPaint extends ConsumerStatefulWidget {
-  const PocketPaint({Key? key}) : super(key: key);
+class WorkspaceScreen extends ConsumerStatefulWidget {
+  const WorkspaceScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<PocketPaint> createState() => _PocketPaintState();
+  ConsumerState<WorkspaceScreen> createState() => _WorkspaceScreenState();
 }
 
-class _PocketPaintState extends ConsumerState<PocketPaint> {
+class _WorkspaceScreenState extends ConsumerState<WorkspaceScreen> {
   void _toggleStatusBar(bool isFullscreen) {
     SystemChrome.setEnabledSystemUIMode(
       isFullscreen ? SystemUiMode.immersiveSticky : SystemUiMode.manual,
