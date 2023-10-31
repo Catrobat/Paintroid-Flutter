@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:component_library/component_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_library/io_library.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:paintroid/core/failure.dart';
-import 'package:paintroid/io/io.dart';
 
 import 'save_as_raster_image_test.mocks.dart';
 

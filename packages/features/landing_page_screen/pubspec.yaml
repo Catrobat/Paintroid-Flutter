@@ -31,6 +31,8 @@ dependencies:
     path: ../../io_library
   workspace_screen:
     path: ../workspace_screen
+  paintroid:
+    path: ../../../
 
 dev_dependencies:
   flutter_test:

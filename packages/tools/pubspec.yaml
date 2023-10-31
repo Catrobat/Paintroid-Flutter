@@ -25,6 +25,8 @@ dependencies:
     path: ../database
   command:
     path: ../command
+  workspace_screen:
+    path: ../features/workspace_screen
 
 dev_dependencies:
   flutter_test:

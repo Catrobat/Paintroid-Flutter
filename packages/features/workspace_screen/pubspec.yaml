@@ -31,6 +31,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
 
   mockito: ^5.2.0
   flutter_launcher_icons: ^0.9.3
@@ -42,4 +44,3 @@ dev_dependencies:
   freezed: ^2.4.1
 
 flutter:
-  generate: true

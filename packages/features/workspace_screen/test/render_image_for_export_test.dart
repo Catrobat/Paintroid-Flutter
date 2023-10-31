@@ -4,14 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:paintroid/command/command.dart';
-import 'package:paintroid/command/src/command_manager_provider.dart';
-import 'package:paintroid/core/graphic_factory.dart';
-import 'package:paintroid/core/graphic_factory_provider.dart';
-import 'package:paintroid/core/image_with_pixel_info.dart';
-import 'package:paintroid/workspace/src/state/canvas/canvas_state_data.dart';
-import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
-import 'package:paintroid/workspace/workspace.dart';
+import 'package:workspace_screen/workspace_screen.dart';
+import 'package:command/command.dart';
+import 'package:component_library/component_library.dart';
 
 import 'render_image_for_export_test.mocks.dart';
 

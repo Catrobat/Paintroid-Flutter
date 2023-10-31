@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/io/io.dart';
+import 'package:io_library/io_library.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();

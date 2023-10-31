@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:paintroid/tool/tool.dart';
-import 'package:paintroid/ui/pocket_paint.dart';
+import 'package:tools/tools.dart';
+import 'package:workspace_screen/workspace_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../utils/utils.dart';
+import 'bottom_nav_bar_interactions.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,9 +20,9 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
-          home: PocketPaint(),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
+          home: WorkspaceScreen(),
+          localizationsDelegates: [
+            WorkspaceScreenLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
         ),

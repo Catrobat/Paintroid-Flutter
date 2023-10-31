@@ -1,8 +1,7 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/tool/tool.dart';
-import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
-import 'package:paintroid/ui/shared/icon_button_with_label.dart';
+import 'package:tools/tools.dart';
 
 class BottomNavBarInteractions {
   final WidgetTester _tester;

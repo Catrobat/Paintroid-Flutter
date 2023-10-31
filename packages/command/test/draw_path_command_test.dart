@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import 'package:command/command.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:paintroid/command/command.dart';
-import 'package:paintroid/core/path_with_action_history.dart';
 
 import 'draw_path_command_test.mocks.dart';
 

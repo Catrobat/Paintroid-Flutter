@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/io/src/service/file_service.dart';
+import 'package:io_library/io_library.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -51,17 +51,17 @@ void main() async {
     final file = result.unwrapOrElse((failure) => fail(failure.message));
     expect(file, isA<File>());
 
-    final resultDeleted = await sut.deleteFileInApplicationDirectory(
-      'test1.png'
-    );
-    final deleted = resultDeleted.unwrapOrElse((failure) => fail(failure.message));
+    final resultDeleted =
+        await sut.deleteFileInApplicationDirectory('test1.png');
+    final deleted =
+        resultDeleted.unwrapOrElse((failure) => fail(failure.message));
     expect(deleted, isA<FileSystemEntity>());
   });
 
-  test('Should save file to Application directory and check should return true', () async {
-    final fileDoesNotExist = await sut.checkIfFileExistsInApplicationDirectory(
-        'test1.png'
-    );
+  test('Should save file to Application directory and check should return true',
+      () async {
+    final fileDoesNotExist =
+        await sut.checkIfFileExistsInApplicationDirectory('test1.png');
 
     expect(fileDoesNotExist, false);
 
@@ -72,9 +72,8 @@ void main() async {
     final file = result.unwrapOrElse((failure) => fail(failure.message));
     expect(file, isA<File>());
 
-    final fileExists = await sut.checkIfFileExistsInApplicationDirectory(
-        'test1.png'
-    );
+    final fileExists =
+        await sut.checkIfFileExistsInApplicationDirectory('test1.png');
 
     expect(fileExists, true);
   });

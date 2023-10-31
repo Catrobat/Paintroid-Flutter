@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page_app_bar.dart';
-import 'package:paintroid/ui/onboarding/onboarding_page_bottom_nav_bar.dart';
+import 'package:onboarding_screen/onboarding_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   late Widget sut;
@@ -49,8 +48,7 @@ void main() {
     sut = const ProviderScope(
       child: MaterialApp(
         home: OnboardingPage(),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
+        localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
         ],
       ),

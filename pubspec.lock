@@ -186,7 +186,7 @@ packages:
     source: hosted
     version: "1.17.1"
   command:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/command"
       relative: true
@@ -578,7 +578,7 @@ packages:
     source: hosted
     version: "1.0.4"
   io_library:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/io_library"
       relative: true
@@ -1180,7 +1180,7 @@ packages:
     source: hosted
     version: "0.3.0"
   tools:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/tools"
       relative: true

@@ -1,11 +1,10 @@
+import 'package:command/command.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/command/command.dart' show CommandManager;
-import 'package:paintroid/ui/pocket_paint.dart';
-import 'package:paintroid/ui/shared/overflow_menu.dart';
-import 'package:paintroid/ui/shared/top_app_bar.dart';
-import 'package:paintroid/workspace/workspace.dart';
+import 'package:workspace_screen/workspace_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class FakeCommandManager extends Fake implements CommandManager {}
 
@@ -15,9 +14,9 @@ void main() {
   setUp(() {
     sut = const ProviderScope(
       child: MaterialApp(
-        home: PocketPaint(),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
+        home: WorkspaceScreen(),
+        localizationsDelegates: [
+          WorkspaceScreenLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
         ],
       ),
@@ -61,9 +60,9 @@ void main() {
               WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
         ],
         child: const MaterialApp(
-          home: PocketPaint(),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
+          home: WorkspaceScreen(),
+          localizationsDelegates: [
+            WorkspaceScreenLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
         ),

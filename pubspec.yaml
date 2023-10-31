@@ -43,6 +43,12 @@ dependencies:
   # Internal packages:
   component_library:
     path: ./packages/component_library
+  command:
+    path: ./packages/command
+  io_library:
+    path: ./packages/io_library
+  tools:
+    path: ./packages/tools
   workspace_screen:
     path: ./packages/features/workspace_screen
   landing_page_screen:

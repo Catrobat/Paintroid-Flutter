@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-import 'package:paintroid/workspace/workspace.dart';
+import 'package:workspace_screen/workspace_screen.dart';
 
 class CanvasInteractions {
   final WidgetTester _tester;

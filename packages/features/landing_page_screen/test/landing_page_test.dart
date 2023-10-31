@@ -1,27 +1,20 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:component_library/component_library.dart';
+import 'package:database/database.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:io_library/io_library.dart';
+import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:paintroid/data/model/project.dart';
-import 'package:paintroid/data/project_dao.dart';
-import 'package:paintroid/data/project_database.dart';
-import 'package:paintroid/io/io.dart';
-import 'package:paintroid/io/src/ui/about_dialog.dart';
-import 'package:paintroid/io/src/ui/generic_dialog.dart';
-import 'package:paintroid/io/src/ui/project_details_dialog.dart';
-import 'package:paintroid/main.dart';
-import 'package:paintroid/ui/landing_page/main_overflow_menu.dart';
-import 'package:paintroid/ui/landing_page/project_overflow_menu.dart';
-import 'package:paintroid/ui/shared/overflow_menu.dart';
-import 'package:paintroid/ui/shared/top_app_bar.dart';
+import 'package:paintroid/pocket_paint_app.dart';
 
 import 'landing_page_test.mocks.dart';
 

@@ -47,5 +47,3 @@ dev_dependencies:
   freezed: ^2.4.1
 
 flutter:
-  generate: true
-  uses-material-design: true

@@ -1,12 +1,12 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:io_library/io_library.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:paintroid/core/failure.dart';
-import 'package:paintroid/io/io.dart';
 
 import 'photo_library_service_test.mocks.dart';
 

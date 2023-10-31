@@ -1,8 +1,6 @@
+import 'package:database/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/data/model/project.dart';
-import 'package:paintroid/data/project_database.dart';
-import 'package:paintroid/data/typeconverters/date_time_converter.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
