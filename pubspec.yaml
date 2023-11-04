@@ -77,6 +77,3 @@ flutter:
 
   assets:
     - assets/icon/
-    - assets/svg/
-    - assets/img/
-    - test/fixture/image/

@@ -38,3 +38,7 @@ dev_dependencies:
   freezed: ^2.4.1
 
 flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/
+    - assets/svg/
