@@ -21,6 +21,7 @@ dependencies:
   flutter_svg: ^1.1.0
   launch_review: ^3.0.1
   package_info_plus: ^4.0.1
+  filesize: ^2.0.1
 
   # Internal packages
   component_library:
@@ -50,6 +51,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/icon/
-    - assets/svg/
     - test/fixture/image/

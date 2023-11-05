@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class CheckerboardPattern extends StatelessWidget {
@@ -9,14 +10,8 @@ class CheckerboardPattern extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Image.asset(
-            'assets/img/checkerboard.png',
-            repeat: ImageRepeat.repeat,
-            cacheWidth: 50,
-            cacheHeight: 50,
-            filterQuality: FilterQuality.none,
-          ),
+        const Positioned.fill(
+          child: CheckerboardImg(),
         ),
         if (child != null) child!,
       ],

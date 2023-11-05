@@ -1,6 +1,5 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onboarding_screen/onboarding_screen.dart';
 
 class Screen3 extends StatefulWidget {
@@ -106,10 +105,11 @@ class _Screen3State extends State<Screen3> {
               textAlign: TextAlign.start,
             ),
             Container(
-              padding: const EdgeInsets.only(left: 50),
-              child: SvgPicture.asset(
-                icons[i],
-                height: 24,
+              padding: const EdgeInsets.only(left: 50.0),
+              child: IcSvg(
+                path: icons[i],
+                height: 24.0,
+                width: 24.0,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),

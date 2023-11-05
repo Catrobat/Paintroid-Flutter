@@ -58,7 +58,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/icon/pocketpaint_logo_small.png'),
+          const PocketPaintLogoSmall(),
           Text(
             'Version ${widget.version}',
             style: const TextStyle(fontSize: 9),

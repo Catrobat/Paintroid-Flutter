@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:io_library/io_library.dart';
 import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:oxidized/oxidized.dart';
@@ -214,11 +213,10 @@ class _ProjectPreview extends StatelessWidget {
                 openProject();
               }
             },
-            icon: SvgPicture.asset(
-              'assets/svg/ic_edit_circle.svg',
-              height: 264,
-              width: 264,
-            ),
+            icon: const IcSvg(
+                path: 'assets/svg/ic_edit_circle.svg',
+                height: 264.0,
+                width: 264.0),
           ),
         ),
         Align(

@@ -15,6 +15,7 @@ dependencies:
   shared_preferences: ^2.0.15
   toast: ^0.3.0
   flutter_svg: ^1.1.0
+  flutter_localization: ^0.1.12
 
   # Internal packages
   component_library:
@@ -39,6 +40,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/icon/
-    - assets/svg/

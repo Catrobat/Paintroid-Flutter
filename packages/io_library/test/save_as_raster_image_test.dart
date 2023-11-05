@@ -65,10 +65,10 @@ void main() {
         when(mockImageService.exportAsPng(any))
             .thenAnswer((_) async => Ok(fakeBytes));
         when(mockPhotoLibraryService.save(any, any))
-            .thenAnswer((_) async => Ok(unit));
+            .thenAnswer((_) async => const Ok(unit));
         final testMetaData = PngMetaData(testName);
         final result = await sut(testMetaData, fakeImage);
-        expect(result, Ok<Unit, Failure>(unit));
+        expect(result, const Ok<Unit, Failure>(unit));
         verify(mockPermissionService.requestAccessForSavingToPhotos());
         verify(mockImageService.exportAsPng(fakeImage));
         verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
@@ -84,10 +84,10 @@ void main() {
         when(mockImageService.exportAsJpg(any, any))
             .thenAnswer((_) async => Ok(fakeBytes));
         when(mockPhotoLibraryService.save(any, any))
-            .thenAnswer((_) async => Ok(unit));
+            .thenAnswer((_) async => const Ok(unit));
         final testMetaData = JpgMetaData(testName, testQuality);
         final result = await sut(testMetaData, fakeImage);
-        expect(result, Ok<Unit, Failure>(unit));
+        expect(result, const Ok<Unit, Failure>(unit));
         verify(mockPermissionService.requestAccessForSavingToPhotos());
         verify(mockImageService.exportAsJpg(fakeImage, testQuality));
         verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
@@ -183,7 +183,8 @@ void main() {
               .thenAnswer((_) async => false);
           final testMetaData = JpgMetaData(testName, testQuality);
           final result = await sut(testMetaData, fakeImage);
-          expect(result, Err<Unit, Failure>(SaveImageFailure.permissionDenied));
+          expect(result,
+              const Err<Unit, Failure>(SaveImageFailure.permissionDenied));
           verify(mockPermissionService.requestAccessForSavingToPhotos());
           verifyNoMoreInteractions(mockPermissionService);
           verifyZeroInteractions(mockImageService);
@@ -195,7 +196,8 @@ void main() {
               .thenAnswer((_) async => false);
           final testMetaData = PngMetaData(testName);
           final result = await sut(testMetaData, fakeImage);
-          expect(result, Err<Unit, Failure>(SaveImageFailure.permissionDenied));
+          expect(result,
+              const Err<Unit, Failure>(SaveImageFailure.permissionDenied));
           verify(mockPermissionService.requestAccessForSavingToPhotos());
           verifyNoMoreInteractions(mockPermissionService);
           verifyZeroInteractions(mockImageService);

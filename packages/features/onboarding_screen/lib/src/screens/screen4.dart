@@ -39,14 +39,11 @@ class Screen4 extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             flex: 6,
             child: SizedBox(
               width: double.infinity,
-              child: Image.asset(
-                'assets/icon/pocketpaint_intro_landscape.png',
-                fit: BoxFit.contain,
-              ),
+              child: PocketPaintIntroLandscape(),
             ),
           ),
         ],

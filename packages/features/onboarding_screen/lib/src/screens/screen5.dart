@@ -42,13 +42,9 @@ class Screen5 extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Image.asset(
-                'assets/icon/pocketpaint_intro_portrait.png',
-                fit: BoxFit.fitHeight,
-              ),
-            ),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.only(bottom: 10),
+                child: const PocketPaintIntroPortrait()),
           ),
         ],
       ),

@@ -1,5 +1,8 @@
 library component_library;
 
+export "src/assets/imgs.dart";
+export "src/assets/svgs.dart";
+
 export 'src/components/bottom_nav_bar_icon.dart';
 export 'src/components/custom_action_chip.dart';
 export 'src/components/icon_button_with_label.dart';

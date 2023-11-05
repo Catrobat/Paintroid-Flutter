@@ -1,7 +1,7 @@
+import 'package:component_library/src/assets/svgs.dart';
 import 'package:component_library/src/components/icon_button_with_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tools/tools.dart';
 
 class ToolButton extends StatelessWidget {
@@ -17,10 +17,10 @@ class ToolButton extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         return IconButtonWithLabel(
-          icon: SvgPicture.asset(
-            toolData.svgAssetPath,
-            height: 24,
-            width: 24,
+          icon: IcSvg(
+            path: toolData.svgAssetPath,
+            height: 24.0,
+            width: 24.0,
             color: Colors.white,
           ),
           label: toolData.name,

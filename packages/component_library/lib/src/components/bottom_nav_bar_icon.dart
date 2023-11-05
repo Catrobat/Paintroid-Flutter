@@ -1,5 +1,5 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BottomBarIcon extends StatelessWidget {
   final String asset;
@@ -8,9 +8,10 @@ class BottomBarIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      asset,
-      height: 24,
+    return IcSvg(
+      path: asset,
+      height: 24.0,
+      width: 24.0,
       color: Theme.of(context).colorScheme.onSurface,
     );
   }
