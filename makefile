@@ -41,21 +41,6 @@ get:
 		cd ../../ ; \
 	done
 
-freezze:
-	$(FLUTTER) pub run build_runner build --delete-conflicting-outputs
-	@for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Updating dependencies on $${feature}" ; \
-		$(FLUTTER) pub run build_runner build --delete-conflicting-outputs ; \
-		cd ../../../ ; \
-	done
-	@for package in $(PACKAGES); do \
-		cd $${package} ; \
-		echo "Updating dependencies on $${package}" ; \
-		$(FLUTTER) pub run build_runner build --delete-conflicting-outputs ; \
-		cd ../../ ; \
-	done
-
 build-runner:
 	@for feature in $(FEATURES); do \
 		cd $${feature} ; \
