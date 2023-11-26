@@ -76,8 +76,23 @@ lint:
 format:
 	$(FLUTTER) format --set-exit-if-changed .
 
+clean:
+	$(FLUTTER) clean
+	@for feature in $(FEATURES); do \
+		cd $${feature} ; \
+		echo "Running clean on $${feature}" ; \
+		$(FLUTTER) clean ; \
+		cd ../../../ ; \
+	done
+	@for package in $(PACKAGES); do \
+		cd $${package} ; \
+		echo "Running clean on $${package}" ; \
+		$(FLUTTER) clean ; \
+		cd ../../ ; \
+	done
+
 testing:
-	@for feature in packages/features/build packages/features/landing_page_screen packages/features/onboarding_screen packages/features/workspace_screen; do \
+	@for feature in $(FEATURES); do \
 		cd $${feature} ; \
 		echo "Running test on $${feature}" ; \
 		TEST_OUTPUT=$$(fvm flutter test) ; \
@@ -91,7 +106,7 @@ testing:
 		cd ../../../ ; \
 		sleep 1 ; \
 	done
-	@for package in packages/command packages/component_library packages/database packages/features packages/io_library packages/tools; do \
+	@for package in $(PACKAGES); do \
 		cd $${package} ; \
 		echo "Running test on $${package}" ; \
 		TEST_OUTPUT=$$(fvm flutter test) ; \
@@ -105,7 +120,6 @@ testing:
 		cd ../../ ; \
 		sleep 1 ; \
 	done
-
 
 testing-output:
 	# $(FLUTTER) test
@@ -122,32 +136,3 @@ testing-output:
 		cd ../../ ; \
 	done
 
-test-coverage:
-	$(FLUTTER) test --coverage
-	@for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Running test on $${feature}" ; \
-		$(FLUTTER) test --coverage ; \
-		cd ../../../ ; \
-	done
-	@for package in $(PACKAGES); do \
-		cd $${package} ; \
-		echo "Running test on $${package}" ; \
-		$(FLUTTER) test --coverage ; \
-		cd ../../ ; \
-	done
-
-clean:
-	$(FLUTTER) clean
-	@for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Running clean on $${feature}" ; \
-		$(FLUTTER) clean ; \
-		cd ../../../ ; \
-	done
-	@for package in $(PACKAGES); do \
-		cd $${package} ; \
-		echo "Running clean on $${package}" ; \
-		$(FLUTTER) clean ; \
-		cd ../../ ; \
-	done
