@@ -30,10 +30,12 @@ migrate_working_dir/
 .pub/
 /build/
 coverage
-*.mocks.dart
-*.pb*.dart
-*.g.dart
-*.freezed.dart
+
+# Commented out to push generated code:
+# *.mocks.dart
+# *.pb*.dart
+# *.g.dart
+# *.freezed.dart
 
 # Web related
 lib/generated_plugin_registrant.dart
