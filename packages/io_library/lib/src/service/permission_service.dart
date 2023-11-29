@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:component_library/component_library.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:io_library/io_library.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 abstract class IPermissionService {

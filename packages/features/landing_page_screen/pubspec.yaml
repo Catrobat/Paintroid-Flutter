@@ -32,8 +32,6 @@ dependencies:
     path: ../../io_library
   workspace_screen:
     path: ../workspace_screen
-  paintroid:
-    path: ../../../
 
 dev_dependencies:
   flutter_test:
@@ -50,5 +48,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - test/fixture/image/

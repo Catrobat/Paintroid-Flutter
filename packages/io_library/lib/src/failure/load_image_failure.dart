@@ -1,4 +1,4 @@
-import 'package:component_library/component_library.dart';
+import 'package:io_library/io_library.dart';
 
 class LoadImageFailure extends Failure {
   const LoadImageFailure._(super.message);

@@ -1,5 +1,4 @@
-import 'package:component_library/src/assets/svgs.dart';
-import 'package:component_library/src/components/icon_button_with_label.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';

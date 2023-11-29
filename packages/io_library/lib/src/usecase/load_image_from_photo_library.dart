@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:component_library/component_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';

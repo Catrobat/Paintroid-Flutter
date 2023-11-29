@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:component_library/src/models/path_with_action_history.dart';
+import 'package:component_library/component_library.dart';
 
 class GraphicFactory {
   const GraphicFactory();

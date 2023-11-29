@@ -1,4 +1,4 @@
-import 'package:component_library/component_library.dart';
+import 'package:io_library/io_library.dart';
 
 class SaveImageFailure extends Failure {
   const SaveImageFailure._(super.message);

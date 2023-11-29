@@ -92,6 +92,17 @@ clean:
 	done
 
 testing:
+	@echo "Running test on Paintroid"
+	@{ \
+		TEST_OUTPUT=$$(fvm flutter test); \
+		if echo "$$TEST_OUTPUT" | grep -q "All tests passed!"; then \
+			echo "✅ All tests passed in Paintroid"; \
+		elif echo "$$TEST_OUTPUT" | grep -q "failed"; then \
+			echo "❌ Some tests failed in Paintroid"; \
+		else \
+			echo "🫣 No tests for Paintroid"; \
+		fi; \
+	}
 	@for feature in $(FEATURES); do \
 		cd $${feature} ; \
 		echo "Running test on $${feature}" ; \
@@ -122,7 +133,7 @@ testing:
 	done
 
 testing-output:
-	# $(FLUTTER) test
+	$(FLUTTER) test
 	@for feature in $(FEATURES); do \
 		cd $${feature} ; \
 		echo "Running test on $${feature}" ; \

@@ -25,16 +25,6 @@ dependencies:
   flutter_localization: ^0.1.12
   intl: ^0.18.0
 
-  # Internal packages
-  workspace_screen:
-    path: ../features/workspace_screen
-  tools:
-    path: ../tools
-  io_library:
-    path: ../io_library
-  database:
-    path: ../database
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

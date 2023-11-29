@@ -4,10 +4,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
-import 'dart:typed_data' as _i7;
+import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i5;
 
-import 'package:component_library/component_library.dart' as _i6;
 import 'package:io_library/io_library.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:oxidized/oxidized.dart' as _i2;
@@ -43,25 +42,25 @@ class MockIImageService extends _i1.Mock implements _i3.IImageService {
   }
 
   @override
-  _i4.Future<_i2.Result<_i5.Image, _i6.Failure>> import(
-          _i7.Uint8List? fileData) =>
+  _i4.Future<_i2.Result<_i5.Image, _i3.Failure>> import(
+          _i6.Uint8List? fileData) =>
       (super.noSuchMethod(
         Invocation.method(
           #import,
           [fileData],
         ),
-        returnValue: _i4.Future<_i2.Result<_i5.Image, _i6.Failure>>.value(
-            _FakeResult_0<_i5.Image, _i6.Failure>(
+        returnValue: _i4.Future<_i2.Result<_i5.Image, _i3.Failure>>.value(
+            _FakeResult_0<_i5.Image, _i3.Failure>(
           this,
           Invocation.method(
             #import,
             [fileData],
           ),
         )),
-      ) as _i4.Future<_i2.Result<_i5.Image, _i6.Failure>>);
+      ) as _i4.Future<_i2.Result<_i5.Image, _i3.Failure>>);
 
   @override
-  _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>> exportAsJpg(
+  _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>> exportAsJpg(
     _i5.Image? image,
     int? quality,
   ) =>
@@ -73,8 +72,8 @@ class MockIImageService extends _i1.Mock implements _i3.IImageService {
             quality,
           ],
         ),
-        returnValue: _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>.value(
-            _FakeResult_0<_i7.Uint8List, _i6.Failure>(
+        returnValue: _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>.value(
+            _FakeResult_0<_i6.Uint8List, _i3.Failure>(
           this,
           Invocation.method(
             #exportAsJpg,
@@ -84,41 +83,41 @@ class MockIImageService extends _i1.Mock implements _i3.IImageService {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>);
+      ) as _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>);
 
   @override
-  _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>> exportAsPng(
+  _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>> exportAsPng(
           _i5.Image? image) =>
       (super.noSuchMethod(
         Invocation.method(
           #exportAsPng,
           [image],
         ),
-        returnValue: _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>.value(
-            _FakeResult_0<_i7.Uint8List, _i6.Failure>(
+        returnValue: _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>.value(
+            _FakeResult_0<_i6.Uint8List, _i3.Failure>(
           this,
           Invocation.method(
             #exportAsPng,
             [image],
           ),
         )),
-      ) as _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>);
+      ) as _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>);
 
   @override
-  _i2.Result<_i7.Uint8List, _i6.Failure> getProjectPreview(String? path) =>
+  _i2.Result<_i6.Uint8List, _i3.Failure> getProjectPreview(String? path) =>
       (super.noSuchMethod(
         Invocation.method(
           #getProjectPreview,
           [path],
         ),
-        returnValue: _FakeResult_0<_i7.Uint8List, _i6.Failure>(
+        returnValue: _FakeResult_0<_i6.Uint8List, _i3.Failure>(
           this,
           Invocation.method(
             #getProjectPreview,
             [path],
           ),
         ),
-      ) as _i2.Result<_i7.Uint8List, _i6.Failure>);
+      ) as _i2.Result<_i6.Uint8List, _i3.Failure>);
 }
 
 /// A class which mocks [IPermissionService].
@@ -168,9 +167,9 @@ class MockIPhotoLibraryService extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.Result<_i2.Unit, _i6.Failure>> save(
+  _i4.Future<_i2.Result<_i2.Unit, _i3.Failure>> save(
     String? filename,
-    _i7.Uint8List? data,
+    _i6.Uint8List? data,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -180,8 +179,8 @@ class MockIPhotoLibraryService extends _i1.Mock
             data,
           ],
         ),
-        returnValue: _i4.Future<_i2.Result<_i2.Unit, _i6.Failure>>.value(
-            _FakeResult_0<_i2.Unit, _i6.Failure>(
+        returnValue: _i4.Future<_i2.Result<_i2.Unit, _i3.Failure>>.value(
+            _FakeResult_0<_i2.Unit, _i3.Failure>(
           this,
           Invocation.method(
             #save,
@@ -191,22 +190,22 @@ class MockIPhotoLibraryService extends _i1.Mock
             ],
           ),
         )),
-      ) as _i4.Future<_i2.Result<_i2.Unit, _i6.Failure>>);
+      ) as _i4.Future<_i2.Result<_i2.Unit, _i3.Failure>>);
 
   @override
-  _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>> pick() =>
+  _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>> pick() =>
       (super.noSuchMethod(
         Invocation.method(
           #pick,
           [],
         ),
-        returnValue: _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>.value(
-            _FakeResult_0<_i7.Uint8List, _i6.Failure>(
+        returnValue: _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>.value(
+            _FakeResult_0<_i6.Uint8List, _i3.Failure>(
           this,
           Invocation.method(
             #pick,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>);
+      ) as _i4.Future<_i2.Result<_i6.Uint8List, _i3.Failure>>);
 }

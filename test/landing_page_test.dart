@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/pocket_paint_app.dart';
+import 'package:workspace_screen/workspace_screen.dart';
 
 import 'landing_page_test.mocks.dart';
 

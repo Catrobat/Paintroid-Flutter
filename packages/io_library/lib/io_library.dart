@@ -7,8 +7,10 @@ export 'src/failure/load_image_failure.dart';
 export 'src/failure/save_image_failure.dart';
 
 export 'src/models/catrobat_image.dart';
+export 'src/models/failure.dart';
 export 'src/models/image_from_file.dart';
 export 'src/models/image_meta_data.dart';
+export 'src/models/loggable_mixin.dart';
 
 export 'src/serialization/proto/protos.dart';
 export 'src/serialization/serializer/command/graphic/draw_path_command_serializer.dart';

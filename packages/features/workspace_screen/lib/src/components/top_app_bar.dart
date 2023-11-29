@@ -1,5 +1,5 @@
-import 'package:component_library/src/components/overflow_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:workspace_screen/workspace_screen.dart';
 
 class TopAppBar extends AppBar {
   TopAppBar({Key? key, required String title})
