@@ -94,7 +94,7 @@ clean:
 testing:
 	@echo "Running test on Paintroid"
 	@{ \
-		TEST_OUTPUT=$$(fvm flutter test); \
+		TEST_OUTPUT=$$(${FLUTTER} test); \
 		if echo "$$TEST_OUTPUT" | grep -q "All tests passed!"; then \
 			echo "✅ All tests passed in Paintroid"; \
 		elif echo "$$TEST_OUTPUT" | grep -q "failed"; then \
@@ -106,7 +106,7 @@ testing:
 	@for feature in $(FEATURES); do \
 		cd $${feature} ; \
 		echo "Running test on $${feature}" ; \
-		TEST_OUTPUT=$$(fvm flutter test) ; \
+		TEST_OUTPUT=$$(${FLUTTER} test) ; \
 		if echo "$$TEST_OUTPUT" | grep -q "All tests passed!"; then \
 			echo "✅ All tests passed in $${feature}" ; \
 		elif echo "$$TEST_OUTPUT" | grep -q "failed"; then \
@@ -120,7 +120,7 @@ testing:
 	@for package in $(PACKAGES); do \
 		cd $${package} ; \
 		echo "Running test on $${package}" ; \
-		TEST_OUTPUT=$$(fvm flutter test) ; \
+		TEST_OUTPUT=$$(${FLUTTER} test) ; \
 		if echo "$$TEST_OUTPUT" | grep -q "All tests passed!"; then \
 			echo "✅ All tests passed in $${package}" ; \
 		elif echo "$$TEST_OUTPUT" | grep -q "failed"; then \
