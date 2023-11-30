@@ -1,8 +1,8 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart'; // needed for Paint, Color, etc.
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:tools/tools.dart';
 
 class MockGraphicFactory extends Mock implements GraphicFactory {}
