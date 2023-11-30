@@ -56,19 +56,8 @@ build-runner:
 	done
 
 languages:
+	@cd packages/l10n ; \
 	$(FLUTTER) gen-l10n
-	@for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Updating dependencies on $${feature}" ; \
-		$(FLUTTER) gen-l10n ; \
-		cd ../../../ ; \
-	done
-	@for package in $(PACKAGES); do \
-		cd $${package} ; \
-		echo "Updating dependencies on $${package}" ; \
-		$(FLUTTER) gen-l10n ; \
-		cd ../../ ; \
-	done
 
 lint:
 	$(FLUTTER) analyze

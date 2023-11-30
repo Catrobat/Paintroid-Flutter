@@ -45,6 +45,8 @@ dependencies:
   # Internal packages:
   component_library:
     path: ./packages/component_library
+  l10n:
+    path: ./packages/l10n
   command:
     path: ./packages/command
   io_library:

@@ -1,9 +1,9 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:l10n/l10n.dart';
 import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:onboarding_screen/onboarding_screen.dart';
-import 'package:paintroid/l10n/app_localizations.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -19,8 +19,6 @@ class PocketPaintApp extends StatelessWidget {
       title: 'Pocket Paint',
       localizationsDelegates: const [
         AppLocalizations.delegate,
-        ComponentLibraryLocalizations.delegate,
-        WorkspaceScreenLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

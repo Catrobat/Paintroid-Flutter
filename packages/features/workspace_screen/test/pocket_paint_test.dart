@@ -2,6 +2,7 @@ import 'package:command/command.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:l10n/l10n.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -15,7 +16,7 @@ void main() {
       child: MaterialApp(
         home: WorkspaceScreen(),
         localizationsDelegates: [
-          WorkspaceScreenLocalizations.delegate,
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
         ],
       ),
@@ -61,7 +62,7 @@ void main() {
         child: const MaterialApp(
           home: WorkspaceScreen(),
           localizationsDelegates: [
-            WorkspaceScreenLocalizations.delegate,
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
         ),

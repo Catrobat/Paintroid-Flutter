@@ -1,6 +1,7 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:l10n/l10n.dart';
 import 'package:tools/tools.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
@@ -23,7 +24,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = WorkspaceScreenLocalizations.of(context);
+    final localizations = AppLocalizations.of(context);
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
       child: NavigationBar(

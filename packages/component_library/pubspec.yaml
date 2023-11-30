@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
 
   flutter_riverpod: ^2.3.6
   riverpod_annotation: ^2.1.1
@@ -22,8 +20,6 @@ dependencies:
   toast: ^0.3.0
   oxidized: ^5.2.0
   logging: ^1.0.2
-  flutter_localization: ^0.1.12
-  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
+import 'package:l10n/l10n.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
@@ -15,7 +16,7 @@ enum OverflowMenuOption {
   newImage;
 
   String localizedLabel(BuildContext context) {
-    final localizations = ComponentLibraryLocalizations.of(context);
+    final localizations = AppLocalizations.of(context);
     switch (this) {
       case OverflowMenuOption.fullscreen:
         return localizations.fullscreen;

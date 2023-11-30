@@ -14,8 +14,6 @@ export 'src/components/tools_bottom_sheet.dart';
 export 'src/components/top_app_bar.dart';
 export 'src/components/top_brush_tool_options.dart';
 
-export 'src/l10n/workspace_screen_localizations.dart';
-
 export 'src/models/image_with_pixel_info.dart';
 
 export 'src/service/device_service.dart';

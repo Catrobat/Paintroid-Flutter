@@ -9,8 +9,6 @@ export 'src/components/icon_button_with_label.dart';
 export 'src/components/loading_overlay.dart';
 export 'src/components/pop_menu_button.dart';
 
-export 'src/l10n/component_library_localizations.dart';
-
 export 'src/models/graphic_factory.dart';
 export 'src/models/path_with_action_history.dart';
 

@@ -600,6 +600,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  l10n:
+    dependency: "direct main"
+    description:
+      path: "packages/l10n"
+      relative: true
+    source: path
+    version: "0.0.1"
   landing_page_screen:
     dependency: "direct main"
     description:
