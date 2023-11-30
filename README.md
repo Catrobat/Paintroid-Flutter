@@ -11,20 +11,25 @@ For more information oriented towards developers please visit our [developers pa
 ## Getting Started
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install)
-   - check the currently used version in file ".github/workflows/main.yml"
-   - alternatively use fvm for managing Flutter versions
+   - Check the currently used version in file ".github/workflows/main.yml"
+   - Alternatively use [fvm](https://fvm.app/) for managing Flutter versions
 2. Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
    - `protoc` for Dart
-3. Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in `makefile` if you are not using fvm
+3. Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _makefile_ if you are not using fvm
 4. Get dependencies - `make get`
-5. Build supporting files - `make build-runner`
-6. Build protobuf files - `./generate_protos.sh`
-7. Run app - `make run`
+5. Run app - `make run`
+
+## Building generated files
+
+- For **protoc**: run `./generate_protos.sh`
+- For **build-runner**: run `make build-runner`
+- For **localizations**: run `make languages`
 
 ## Tests
 
-1. For unit tests, run `flutter test` at the project root
-2. For integration tests -
+1. For unit tests:
+   - Run `make testing` or `make testing-output` (for more output on each test)
+2. For integration tests:
    - Make sure you have an iOS/Android device online by running `flutter devices`
    - Run `flutter test integration_test -d <DEVICE-ID>`
      > **Note** Replace `<Device-ID>` with the ID of the device from previous command
