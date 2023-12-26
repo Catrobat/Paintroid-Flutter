@@ -12,6 +12,7 @@ pods-clean:
 	rm ios/Podfile.lock ; \
 
 get:
+	$(FLUTTER) pub get
 	melos bootstrap
 
 build-runner:
