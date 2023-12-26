@@ -33,4 +33,5 @@ clean:
 	melos clean
 
 testing:
+	$(FLUTTER) test
 	melos run test:all
