@@ -16,7 +16,7 @@ class ToolButton extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         return IconButtonWithLabel(
-          icon: IcSvg(
+          icon: IconSvg(
             path: toolData.svgAssetPath,
             height: 24.0,
             width: 24.0,

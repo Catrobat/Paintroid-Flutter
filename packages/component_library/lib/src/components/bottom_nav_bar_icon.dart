@@ -8,7 +8,7 @@ class BottomBarIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IcSvg(
+    return IconSvg(
       path: asset,
       height: 24.0,
       width: 24.0,

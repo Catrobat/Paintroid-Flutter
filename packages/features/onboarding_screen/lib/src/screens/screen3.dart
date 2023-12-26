@@ -106,7 +106,7 @@ class _Screen3State extends State<Screen3> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 50.0),
-              child: IcSvg(
+              child: IconSvg(
                 path: icons[i],
                 height: 24.0,
                 width: 24.0,

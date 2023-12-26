@@ -213,7 +213,7 @@ class _ProjectPreview extends StatelessWidget {
                 openProject();
               }
             },
-            icon: const IcSvg(
+            icon: const IconSvg(
                 path: 'assets/svg/ic_edit_circle.svg',
                 height: 264.0,
                 width: 264.0),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class IcSvg extends StatelessWidget {
+class IconSvg extends StatelessWidget {
   final String path;
   final double height;
   final double width;
   final Color? color; // Make the color nullable
 
-  const IcSvg({
+  const IconSvg({
     Key? key,
     required this.path,
     required this.height,
