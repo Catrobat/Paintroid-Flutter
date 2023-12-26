@@ -10,25 +10,27 @@ For more information oriented towards developers please visit our [developers pa
 
 ## Getting Started
 
-1. Install [Flutter](https://docs.flutter.dev/get-started/install)
-   - Check the currently used version in file ".github/workflows/main.yml"
-   - Alternatively use [fvm](https://fvm.app/) for managing Flutter versions
-2. Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
-   - `protoc` for Dart
-3. Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _makefile_ if you are not using fvm
-4. Get dependencies - `make get`
-5. Run app - `make run`
+1. Install [Flutter](https://docs.flutter.dev/get-started/install):
+   - Currently used version specified in _.github/workflows/main.yml_
+   - **Recommended**: Use [fvm](https://fvm.app/) for managing Flutter versions
+2. If you are NOT using [fvm](https://fvm.app/):
+   - Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _makefile_
+3. Install [Melos](https://melos.invertase.dev/~melos-latest/): `dart pub global activate melos`
+4. Get dependencies: `make get`
+5. Run app: `make run`
 
 ## Building generated files
 
-- For **protoc**: run `./generate_protos.sh`
+- For **protoc**:
+  - Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
+  - Run `./generate_protos.sh`
 - For **build-runner**: run `make build-runner`
 - For **localizations**: run `make languages`
 
 ## Tests
 
 1. For unit tests:
-   - Run `make testing` or `make testing-output` (for more output on each test)
+   - Run `make testing`
 2. For integration tests:
    - Make sure you have an iOS/Android device online by running `flutter devices`
    - Run `flutter test integration_test -d <DEVICE-ID>`

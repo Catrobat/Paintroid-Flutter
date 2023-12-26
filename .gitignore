@@ -52,3 +52,6 @@ app.*.map.json
 /android/app/release
 
 .fvm/flutter_sdk
+
+# Melos
+pubspec_overrides.yaml
