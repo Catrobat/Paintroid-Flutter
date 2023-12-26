@@ -19,6 +19,8 @@ For more information oriented towards developers please visit our [developers pa
 4. Get dependencies: `make get`
 5. Run app: `make run`
 
+> In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _makefile_ or in _melos.yaml_.
+
 ## Building generated files
 
 - For **protoc**:
