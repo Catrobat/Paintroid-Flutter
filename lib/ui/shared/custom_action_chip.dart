@@ -7,12 +7,14 @@ class CustomActionChip extends StatelessWidget {
   final Color chipBackgroundColor;
   final EdgeInsetsGeometry? padding;
   final MaterialTapTargetSize? materialTapTargetSize;
+  final String hint;
 
   const CustomActionChip({
     super.key,
     required this.chipIcon,
     required this.onPressed,
     required this.chipBackgroundColor,
+    required this.hint,
     this.shape,
     this.padding,
     this.materialTapTargetSize,
@@ -21,6 +23,7 @@ class CustomActionChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ActionChip(
+      tooltip: hint,
       label: chipIcon,
       onPressed: onPressed,
       shape: shape ??

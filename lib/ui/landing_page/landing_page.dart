@@ -161,6 +161,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           CustomActionButton(
             heroTag: 'import_image',
             icon: Icons.file_download,
+            hint: 'Import Image',
             onPressed: () async {
               final bool imageLoaded =
                   await ioHandler.loadImage(context, this, false);
@@ -175,6 +176,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           CustomActionButton(
             heroTag: 'new_image',
             icon: Icons.add,
+            hint: 'New Image',
             onPressed: () async {
               _clearCanvas();
               _navigateToPocketPaint();

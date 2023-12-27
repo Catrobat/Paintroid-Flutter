@@ -57,12 +57,14 @@ class _BottomBrushToolOptionsState
           spacing: 8,
           children: [
             CustomActionChip(
+              hint: 'Round',
               chipIcon: const Icon(Icons.circle),
               onPressed: () =>
                   _changeActionChipBackgroundColor(StrokeCap.round),
               chipBackgroundColor: _roundChipBackgroundColor,
             ),
             CustomActionChip(
+              hint: 'Square',
               chipIcon: const Icon(Icons.square),
               onPressed: () =>
                   _changeActionChipBackgroundColor(StrokeCap.square),
