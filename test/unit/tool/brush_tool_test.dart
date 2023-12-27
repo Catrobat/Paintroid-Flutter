@@ -6,7 +6,6 @@ import 'package:mockito/mockito.dart';
 import 'package:paintroid/command/command.dart';
 import 'package:paintroid/core/graphic_factory.dart';
 import 'package:paintroid/core/path_with_action_history.dart';
-import 'package:paintroid/tool/src/tool_types.dart';
 import 'package:paintroid/tool/tool.dart';
 
 import 'brush_tool_test.mocks.dart';
