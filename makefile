@@ -1,3 +1,5 @@
+.PHONY: run pods-clean get clean build languages lint format test watch
+
 FLUTTER := fvm flutter
 
 run:
@@ -15,7 +17,10 @@ get:
 	$(FLUTTER) pub get
 	melos bootstrap
 
-build-runner:
+clean:
+	melos clean
+
+build:
 	melos run build:all
 
 languages:
@@ -29,8 +34,8 @@ lint:
 format:
 	dart format --set-exit-if-changed .
 
-clean:
-	melos clean
-
-testing:
+test:
 	melos run test:all
+
+watch:
+	dart run build_runner watch --delete-conflicting-outputs

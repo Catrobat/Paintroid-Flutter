@@ -21,7 +21,14 @@ const SerializableCatrobatImage$json = {
     {'1': 'version', '3': 2, '4': 1, '5': 5, '10': 'version'},
     {'1': 'width', '3': 3, '4': 1, '5': 13, '10': 'width'},
     {'1': 'height', '3': 4, '4': 1, '5': 13, '10': 'height'},
-    {'1': 'commands', '3': 5, '4': 3, '5': 11, '6': '.google.protobuf.Any', '10': 'commands'},
+    {
+      '1': 'commands',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.google.protobuf.Any',
+      '10': 'commands'
+    },
     {'1': 'backgroundImage', '3': 6, '4': 1, '5': 12, '10': 'backgroundImage'},
   ],
 };
@@ -33,4 +40,3 @@ final $typed_data.Uint8List serializableCatrobatImageDescriptor = $convert.base6
     'aGVpZ2h0GAQgASgNUgZoZWlnaHQSMAoIY29tbWFuZHMYBSADKAsyFC5nb29nbGUucHJvdG9idW'
     'YuQW55Ughjb21tYW5kcxIoCg9iYWNrZ3JvdW5kSW1hZ2UYBiABKAxSD2JhY2tncm91bmRJbWFn'
     'ZQ==');
-

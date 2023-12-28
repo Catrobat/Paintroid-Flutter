@@ -22,4 +22,3 @@ analyzer:
   exclude:
     - lib/**.pb*.dart
     - lib/data/*.g.dart
-    - test/**

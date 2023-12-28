@@ -84,8 +84,8 @@ class FakeGraphicCommand extends Fake implements GraphicCommand {}
 @GenerateMocks(
   [],
   customMocks: [
-    MockSpec<Canvas>(returnNullOnMissingStub: true),
-    MockSpec<CommandManager>(returnNullOnMissingStub: true),
+    MockSpec<Canvas>(),
+    MockSpec<CommandManager>(),
   ],
 )
 void main() {

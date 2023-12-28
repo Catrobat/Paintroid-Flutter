@@ -15,8 +15,10 @@ void main() async {
   const channel = MethodChannel(
     'plugins.flutter.io/path_provider',
   );
-  channel
-      .setMockMethodCallHandler((MethodCall methodCall) async => testDirectory);
+  final defaultBinaryMessenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  defaultBinaryMessenger.setMockMethodCallHandler(
+      channel, (MethodCall methodCall) async => testDirectory);
 
   setUp(() async {
     sut = FileService();

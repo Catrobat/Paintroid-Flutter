@@ -46,44 +46,59 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
     return $result;
   }
   SerializableCatrobatImage._() : super();
-  factory SerializableCatrobatImage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SerializableCatrobatImage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SerializableCatrobatImage.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SerializableCatrobatImage.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SerializableCatrobatImage', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SerializableCatrobatImage',
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'magicValue', protoName: 'magicValue')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'width', $pb.PbFieldType.OU3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'height', $pb.PbFieldType.OU3)
-    ..pc<$2.Any>(5, _omitFieldNames ? '' : 'commands', $pb.PbFieldType.PM, subBuilder: $2.Any.create)
-    ..a<$core.List<$core.int>>(6, _omitFieldNames ? '' : 'backgroundImage', $pb.PbFieldType.OY, protoName: 'backgroundImage')
-    ..hasRequiredFields = false
-  ;
+    ..pc<$2.Any>(5, _omitFieldNames ? '' : 'commands', $pb.PbFieldType.PM,
+        subBuilder: $2.Any.create)
+    ..a<$core.List<$core.int>>(
+        6, _omitFieldNames ? '' : 'backgroundImage', $pb.PbFieldType.OY,
+        protoName: 'backgroundImage')
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  SerializableCatrobatImage clone() => SerializableCatrobatImage()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SerializableCatrobatImage copyWith(void Function(SerializableCatrobatImage) updates) => super.copyWith((message) => updates(message as SerializableCatrobatImage)) as SerializableCatrobatImage;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  SerializableCatrobatImage clone() =>
+      SerializableCatrobatImage()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SerializableCatrobatImage copyWith(
+          void Function(SerializableCatrobatImage) updates) =>
+      super.copyWith((message) => updates(message as SerializableCatrobatImage))
+          as SerializableCatrobatImage;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SerializableCatrobatImage create() => SerializableCatrobatImage._();
   SerializableCatrobatImage createEmptyInstance() => create();
-  static $pb.PbList<SerializableCatrobatImage> createRepeated() => $pb.PbList<SerializableCatrobatImage>();
+  static $pb.PbList<SerializableCatrobatImage> createRepeated() =>
+      $pb.PbList<SerializableCatrobatImage>();
   @$core.pragma('dart2js:noInline')
-  static SerializableCatrobatImage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SerializableCatrobatImage>(create);
+  static SerializableCatrobatImage getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SerializableCatrobatImage>(create);
   static SerializableCatrobatImage? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get magicValue => $_getSZ(0);
   @$pb.TagNumber(1)
-  set magicValue($core.String v) { $_setString(0, v); }
+  set magicValue($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasMagicValue() => $_has(0);
   @$pb.TagNumber(1)
@@ -92,7 +107,10 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get version => $_getIZ(1);
   @$pb.TagNumber(2)
-  set version($core.int v) { $_setSignedInt32(1, v); }
+  set version($core.int v) {
+    $_setSignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasVersion() => $_has(1);
   @$pb.TagNumber(2)
@@ -101,7 +119,10 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get width => $_getIZ(2);
   @$pb.TagNumber(3)
-  set width($core.int v) { $_setUnsignedInt32(2, v); }
+  set width($core.int v) {
+    $_setUnsignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasWidth() => $_has(2);
   @$pb.TagNumber(3)
@@ -110,7 +131,10 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get height => $_getIZ(3);
   @$pb.TagNumber(4)
-  set height($core.int v) { $_setUnsignedInt32(3, v); }
+  set height($core.int v) {
+    $_setUnsignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasHeight() => $_has(3);
   @$pb.TagNumber(4)
@@ -122,13 +146,16 @@ class SerializableCatrobatImage extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.List<$core.int> get backgroundImage => $_getN(5);
   @$pb.TagNumber(6)
-  set backgroundImage($core.List<$core.int> v) { $_setBytes(5, v); }
+  set backgroundImage($core.List<$core.int> v) {
+    $_setBytes(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasBackgroundImage() => $_has(5);
   @$pb.TagNumber(6)
   void clearBackgroundImage() => clearField(6);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

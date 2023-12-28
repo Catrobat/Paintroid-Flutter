@@ -17,8 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const SerializablePath$json = {
   '1': 'SerializablePath',
   '2': [
-    {'1': 'actions', '3': 1, '4': 3, '5': 11, '6': '.SerializablePath.Action', '10': 'actions'},
-    {'1': 'fill_type', '3': 2, '4': 1, '5': 14, '6': '.SerializablePath.FillType', '10': 'fillType'},
+    {
+      '1': 'actions',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.SerializablePath.Action',
+      '10': 'actions'
+    },
+    {
+      '1': 'fill_type',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.SerializablePath.FillType',
+      '10': 'fillType'
+    },
   ],
   '3': [SerializablePath_Action$json],
   '4': [SerializablePath_FillType$json],
@@ -28,11 +42,39 @@ const SerializablePath$json = {
 const SerializablePath_Action$json = {
   '1': 'Action',
   '2': [
-    {'1': 'move_to', '3': 1, '4': 1, '5': 11, '6': '.SerializablePath.Action.MoveTo', '9': 0, '10': 'moveTo'},
-    {'1': 'line_to', '3': 2, '4': 1, '5': 11, '6': '.SerializablePath.Action.LineTo', '9': 0, '10': 'lineTo'},
-    {'1': 'close', '3': 3, '4': 1, '5': 11, '6': '.SerializablePath.Action.Close', '9': 0, '10': 'close'},
+    {
+      '1': 'move_to',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.SerializablePath.Action.MoveTo',
+      '9': 0,
+      '10': 'moveTo'
+    },
+    {
+      '1': 'line_to',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.SerializablePath.Action.LineTo',
+      '9': 0,
+      '10': 'lineTo'
+    },
+    {
+      '1': 'close',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.SerializablePath.Action.Close',
+      '9': 0,
+      '10': 'close'
+    },
   ],
-  '3': [SerializablePath_Action_MoveTo$json, SerializablePath_Action_LineTo$json, SerializablePath_Action_Close$json],
+  '3': [
+    SerializablePath_Action_MoveTo$json,
+    SerializablePath_Action_LineTo$json,
+    SerializablePath_Action_Close$json
+  ],
   '8': [
     {'1': 'action'},
   ],
@@ -81,4 +123,3 @@ final $typed_data.Uint8List serializablePathDescriptor = $convert.base64Decode(
     'KAFSAXgSDAoBeRgCIAEoAVIBeRokCgZMaW5lVG8SDAoBeBgBIAEoAVIBeBIMCgF5GAIgASgBUg'
     'F5GgcKBUNsb3NlQggKBmFjdGlvbiImCghGaWxsVHlwZRIMCghOT05fWkVSTxAAEgwKCEVWRU5f'
     'T0REEAE=');
-

@@ -16,7 +16,7 @@ class CanvasInteractions {
 
   List<Offset> lastOffsets = [];
 
-  Future<CanvasInteractions> drawLineFromCenter(Offset offset) async {
+  Future<CanvasInteractions> dragFromCenter(Offset offset) async {
     final drawingCanvasFinder = find.byType(CanvasPainter);
     expect(drawingCanvasFinder, findsOneWidget);
     await _tester.drag(drawingCanvasFinder, offset);

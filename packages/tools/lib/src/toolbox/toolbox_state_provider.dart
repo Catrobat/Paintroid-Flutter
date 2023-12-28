@@ -39,6 +39,12 @@ class ToolBoxState extends _$ToolBoxState {
         );
 
         break;
+      case ToolType.HAND:
+        state = state.copyWith(
+          currentTool: ref.read(handToolProvider),
+          currentToolType: ToolType.HAND,
+        );
+        break;
       case ToolType.ERASER:
         ref
             .read(brushToolStateProvider.notifier)

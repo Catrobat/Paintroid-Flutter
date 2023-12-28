@@ -34,6 +34,10 @@ class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCanvas extends _i1.Mock implements _i2.Canvas {
+  MockCanvas() {
+    _i1.throwOnMissingStub(this);
+  }
+
   @override
   void save() => super.noSuchMethod(
         Invocation.method(
@@ -616,6 +620,10 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
+  MockCommandManager() {
+    _i1.throwOnMissingStub(this);
+  }
+
   @override
   Iterable<_i4.Command> get history => (super.noSuchMethod(
         Invocation.getter(#history),

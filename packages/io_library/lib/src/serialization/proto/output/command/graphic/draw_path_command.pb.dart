@@ -31,40 +31,56 @@ class SerializableDrawPathCommand extends $pb.GeneratedMessage {
     return $result;
   }
   SerializableDrawPathCommand._() : super();
-  factory SerializableDrawPathCommand.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SerializableDrawPathCommand.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SerializableDrawPathCommand.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SerializableDrawPathCommand.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SerializableDrawPathCommand', createEmptyInstance: create)
-    ..aOM<$0.SerializablePaint>(1, _omitFieldNames ? '' : 'paint', subBuilder: $0.SerializablePaint.create)
-    ..aOM<$1.SerializablePath>(2, _omitFieldNames ? '' : 'path', subBuilder: $1.SerializablePath.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SerializableDrawPathCommand',
+      createEmptyInstance: create)
+    ..aOM<$0.SerializablePaint>(1, _omitFieldNames ? '' : 'paint',
+        subBuilder: $0.SerializablePaint.create)
+    ..aOM<$1.SerializablePath>(2, _omitFieldNames ? '' : 'path',
+        subBuilder: $1.SerializablePath.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  SerializableDrawPathCommand clone() => SerializableDrawPathCommand()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SerializableDrawPathCommand copyWith(void Function(SerializableDrawPathCommand) updates) => super.copyWith((message) => updates(message as SerializableDrawPathCommand)) as SerializableDrawPathCommand;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  SerializableDrawPathCommand clone() =>
+      SerializableDrawPathCommand()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SerializableDrawPathCommand copyWith(
+          void Function(SerializableDrawPathCommand) updates) =>
+      super.copyWith(
+              (message) => updates(message as SerializableDrawPathCommand))
+          as SerializableDrawPathCommand;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SerializableDrawPathCommand create() => SerializableDrawPathCommand._();
+  static SerializableDrawPathCommand create() =>
+      SerializableDrawPathCommand._();
   SerializableDrawPathCommand createEmptyInstance() => create();
-  static $pb.PbList<SerializableDrawPathCommand> createRepeated() => $pb.PbList<SerializableDrawPathCommand>();
+  static $pb.PbList<SerializableDrawPathCommand> createRepeated() =>
+      $pb.PbList<SerializableDrawPathCommand>();
   @$core.pragma('dart2js:noInline')
-  static SerializableDrawPathCommand getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SerializableDrawPathCommand>(create);
+  static SerializableDrawPathCommand getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SerializableDrawPathCommand>(create);
   static SerializableDrawPathCommand? _defaultInstance;
 
   @$pb.TagNumber(1)
   $0.SerializablePaint get paint => $_getN(0);
   @$pb.TagNumber(1)
-  set paint($0.SerializablePaint v) { setField(1, v); }
+  set paint($0.SerializablePaint v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasPaint() => $_has(0);
   @$pb.TagNumber(1)
@@ -75,7 +91,10 @@ class SerializableDrawPathCommand extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $1.SerializablePath get path => $_getN(1);
   @$pb.TagNumber(2)
-  set path($1.SerializablePath v) { setField(2, v); }
+  set path($1.SerializablePath v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasPath() => $_has(1);
   @$pb.TagNumber(2)
@@ -84,6 +103,6 @@ class SerializableDrawPathCommand extends $pb.GeneratedMessage {
   $1.SerializablePath ensurePath() => $_ensure(1);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

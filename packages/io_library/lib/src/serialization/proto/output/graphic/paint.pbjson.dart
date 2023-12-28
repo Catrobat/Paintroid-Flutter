@@ -19,12 +19,45 @@ const SerializablePaint$json = {
   '2': [
     {'1': 'color', '3': 1, '4': 1, '5': 13, '10': 'color'},
     {'1': 'strokeWidth', '3': 2, '4': 1, '5': 2, '10': 'strokeWidth'},
-    {'1': 'cap', '3': 3, '4': 1, '5': 14, '6': '.SerializablePaint.StrokeCap', '10': 'cap'},
-    {'1': 'style', '3': 4, '4': 1, '5': 14, '6': '.SerializablePaint.PaintingStyle', '10': 'style'},
-    {'1': 'blendMode', '3': 5, '4': 1, '5': 14, '6': '.SerializablePaint.BlendMode', '10': 'blendMode'},
-    {'1': 'strokeJoin', '3': 6, '4': 1, '5': 14, '6': '.SerializablePaint.StrokeJoin', '10': 'strokeJoin'},
+    {
+      '1': 'cap',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.SerializablePaint.StrokeCap',
+      '10': 'cap'
+    },
+    {
+      '1': 'style',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.SerializablePaint.PaintingStyle',
+      '10': 'style'
+    },
+    {
+      '1': 'blendMode',
+      '3': 5,
+      '4': 1,
+      '5': 14,
+      '6': '.SerializablePaint.BlendMode',
+      '10': 'blendMode'
+    },
+    {
+      '1': 'strokeJoin',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.SerializablePaint.StrokeJoin',
+      '10': 'strokeJoin'
+    },
   ],
-  '4': [SerializablePaint_StrokeCap$json, SerializablePaint_PaintingStyle$json, SerializablePaint_BlendMode$json, SerializablePaint_StrokeJoin$json],
+  '4': [
+    SerializablePaint_StrokeCap$json,
+    SerializablePaint_PaintingStyle$json,
+    SerializablePaint_BlendMode$json,
+    SerializablePaint_StrokeJoin$json
+  ],
 };
 
 @$core.Deprecated('Use serializablePaintDescriptor instead')
@@ -78,4 +111,3 @@ final $typed_data.Uint8List serializablePaintDescriptor = $convert.base64Decode(
     'Uk9LRRABIjoKCUJsZW5kTW9kZRIXChNCTEVORF9NT0RFX1NDUl9PVkVSEAASFAoQQkxFTkRfTU'
     '9ERV9DTEVBUhABIlEKClN0cm9rZUpvaW4SFQoRU1RST0tFX0pPSU5fTUlURVIQABIVChFTVFJP'
     'S0VfSk9JTl9ST1VORBABEhUKEVNUUk9LRV9KT0lOX0JFVkVMEAI=');
-
