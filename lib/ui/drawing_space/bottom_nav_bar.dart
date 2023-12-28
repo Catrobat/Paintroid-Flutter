@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/tool/tool.dart';
+import 'package:paintroid/ui/drawing_space/color_picker_dialog.dart';
 import 'package:paintroid/ui/drawing_space/tools_bottom_sheet.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/styles.dart';
 
-class BottomNavBar extends StatelessWidget {
+Color selectedColor = Colors.black;
+final selectedColorProvider = StateProvider<Color>((ref) => Colors.black);
+
+class BottomNavBar extends StatefulWidget {
   static const height = 64.0;
 
   const BottomNavBar({Key? key}) : super(key: key);
 
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
   void _onNavigationItemSelected(int index, BuildContext context) {
     if (index == 0) {
       showModalBottomSheet(
@@ -21,6 +30,36 @@ class BottomNavBar extends StatelessWidget {
         ),
       );
     }
+    if (index == 2) {
+      _showColorPicker(context);
+    }
+  }
+
+  void _showColorPicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(20),
+          content: ColorPickerDialog(
+            selectedColor: Colors.red, // Set your initial color here
+            onColorChanged: (Color color) {
+              setState(() {
+                selectedColor = color;
+              });
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -29,7 +68,7 @@ class BottomNavBar extends StatelessWidget {
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
       child: NavigationBar(
-        height: height,
+        height: BottomNavBar.height,
         onDestinationSelected: (index) =>
             _onNavigationItemSelected(index, context),
         destinations: [
@@ -57,9 +96,9 @@ class BottomNavBar extends StatelessWidget {
           NavigationDestination(
             label: localizations.color,
             icon: Icon(
-              Icons.check_box_outline_blank,
+              Icons.square,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: selectedColor,
             ),
           ),
           NavigationDestination(
