@@ -14,25 +14,25 @@ For more information oriented towards developers please visit our [developers pa
    - Currently used version specified in _.github/workflows/main.yml_
    - **Recommended**: Use [fvm](https://fvm.app/) for managing Flutter versions
 2. If you are NOT using [fvm](https://fvm.app/):
-   - Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _makefile_
+   - Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
 3. Install [Melos](https://melos.invertase.dev/~melos-latest/): `dart pub global activate melos`
 4. Get dependencies: `make get`
 5. Run app: `make run`
 
-> In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _makefile_ or in _melos.yaml_.
+> In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _Makefile_ or in _melos.yaml_.
 
 ## Building generated files
 
 - For **protoc**:
   - Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
   - Run `./generate_protos.sh`
-- For **build-runner**: run `make build-runner`
+- For **build-runner**: run `make build`
 - For **localizations**: run `make languages`
 
 ## Tests
 
 1. For unit tests:
-   - Run `make testing`
+   - Run `make test`
 2. For integration tests:
    - Make sure you have an iOS/Android device online by running `flutter devices`
    - Run `flutter test integration_test -d <DEVICE-ID>`
