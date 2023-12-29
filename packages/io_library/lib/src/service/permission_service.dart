@@ -97,8 +97,10 @@ class PermissionService with LoggableMixin implements IPermissionService {
       case PermissionStatus.denied:
         logger.warning('User explicitly denied $permission');
         break;
-      // TODO: i added default here -> otherwise error
       default:
+        logger
+            .warning('Undefinied permission status. This should never happen.');
+        break;
     }
     return false;
   }

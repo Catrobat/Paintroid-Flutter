@@ -9,7 +9,6 @@ linter:
     constant_identifier_names: false
 
 analyzer:
-
   errors:
     missing_enum_constant_in_switch: error
     exhaustive_cases: error
@@ -20,5 +19,5 @@ analyzer:
     unused_import: error
 
   exclude:
-    - lib/**.pb*.dart
-    - lib/data/*.g.dart
+    - lib/src/**.pb*.dart
+    - lib/src/data/*.g.dart

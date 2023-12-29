@@ -1,4 +1,4 @@
-import 'package:command/command.dart';
+import 'package:command/command_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workspace_screen/workspace_screen.dart';

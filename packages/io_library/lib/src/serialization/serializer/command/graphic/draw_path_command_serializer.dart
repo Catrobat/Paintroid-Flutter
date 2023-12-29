@@ -1,4 +1,5 @@
 import 'package:command/command.dart';
+import 'package:command/command_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
 

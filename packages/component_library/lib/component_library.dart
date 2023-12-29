@@ -1,7 +1,7 @@
 library component_library;
 
-export "src/components/imgs.dart";
-export "src/components/svgs.dart";
+export 'src/components/imgs.dart';
+export 'src/components/svgs.dart';
 export 'src/components/bottom_nav_bar_icon.dart';
 export 'src/components/custom_action_chip.dart';
 export 'src/components/icon_button_with_label.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:command/command.dart';
+import 'package:command/command_providers.dart';
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

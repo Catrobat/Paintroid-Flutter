@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:command/command.dart';
+import 'package:command/command_providers.dart';
 import 'package:component_library/component_library.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;

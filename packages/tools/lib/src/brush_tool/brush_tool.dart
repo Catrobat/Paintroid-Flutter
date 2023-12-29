@@ -1,11 +1,10 @@
 import 'dart:ui';
 
+import 'package:command/command.dart';
 import 'package:component_library/component_library.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tools/tools.dart';
-import 'package:command/src/command_factory.dart';
-import 'package:command/src/command_manager.dart';
 
 class BrushTool extends Tool with EquatableMixin {
   BrushTool({

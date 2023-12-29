@@ -1,4 +1,4 @@
-import 'package:command/command.dart';
+import 'package:command/command_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tools/tools.dart';
 
