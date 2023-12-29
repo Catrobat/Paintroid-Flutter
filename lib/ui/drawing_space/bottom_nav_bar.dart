@@ -12,12 +12,14 @@ class BottomNavBar extends StatelessWidget {
   const BottomNavBar({Key? key}) : super(key: key);
 
   void _onNavigationItemSelected(int index, BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+
     if (index == 0) {
       showModalBottomSheet(
         context: context,
-        builder: (BuildContext context) => const SizedBox(
-          height: 270,
-          child: ToolsBottomSheet(),
+        builder: (BuildContext context) => SizedBox(
+          height: screenHeight*0.4,
+          child: const ToolsBottomSheet(),
         ),
       );
     }
