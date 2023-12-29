@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/service/device_service.dart';
+import 'package:paintroid/tool/src/tool_types.dart';
 import 'package:paintroid/tool/src/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/workspace/src/state/canvas/canvas_state_provider.dart';
 import 'package:paintroid/workspace/src/state/canvas_dirty_state.dart';
@@ -114,23 +115,18 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
-    final canvasSize = ref.watch(
-      canvasStateProvider.select((state) => state.size),
-    );
-    final panningMargin = (canvasSize - const Offset(5, 5)) as Size;
     return Listener(
       onPointerDown: _onPointerDown,
       onPointerUp: _onPointerUp,
       child: InteractiveViewer(
         clipBehavior: Clip.none,
         transformationController: _transformationController,
-        boundaryMargin: EdgeInsets.symmetric(
-          horizontal: panningMargin.width,
-          vertical: panningMargin.height,
-        ),
         minScale: 0.2,
         maxScale: 100,
-        panEnabled: false,
+        boundaryMargin: const EdgeInsets.all(double.infinity),
+        interactionEndFrictionCoefficient: double.minPositive,
+        panEnabled:
+            ref.watch(toolBoxStateProvider).currentTool.type == ToolType.HAND,
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,
