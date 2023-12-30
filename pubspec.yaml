@@ -31,7 +31,7 @@ dependencies:
   toast: ^0.3.0
   sqflite:
   permission_handler: ^10.0.0
-  url_launcher: ^6.1.5
+  url_launcher: ^6.2.2
   package_info_plus: ^4.0.1
   device_info_plus: ^9.0.3
   smooth_page_indicator: ^1.0.0+2
