@@ -1,7 +1,6 @@
 name: Paintroid-Flutter
 repository: https://github.com/Catrobat/Paintroid-Flutter
 sdkPath: .fvm/flutter_sdk
-runPubGetInParallel: true
 
 packages:
   - packages/*
@@ -9,7 +8,7 @@ packages:
 
 command:
   bootstrap:
-    runPubGetInParallel: false
+    runPubGetInParallel: true
     usePubspecOverrides: true
 
 scripts:
