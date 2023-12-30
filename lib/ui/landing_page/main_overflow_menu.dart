@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/io/src/ui/about_dialog.dart';
 import 'package:paintroid/ui/pop_menu_button.dart';
@@ -47,7 +47,11 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     String version = packageInfo.version;
     switch (option) {
       case MainOverflowMenuOption.rate:
-        LaunchReview.launch(androidAppId: androidAppId, iOSAppId: iOSAppId);
+        const MethodChannel channel = MethodChannel('launch_review');
+        await channel.invokeMethod('launch', {
+          'android_id': androidAppId,
+          'ios_id': iOSAppId,
+        });
         break;
       case MainOverflowMenuOption.help:
         if (mounted) {
