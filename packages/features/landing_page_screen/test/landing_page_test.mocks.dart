@@ -399,8 +399,8 @@ class MockIFileService extends _i1.Mock implements _i8.IFileService {
               #deleteFileInApplicationDirectory,
               [fileName],
             ),
-            returnValue: _i3.Future<
-                    _i5.Result<_i11.FileSystemEntity, _i8.Failure>>.value(
+            returnValue: _i3
+                .Future<_i5.Result<_i11.FileSystemEntity, _i8.Failure>>.value(
                 _FakeResult_3<_i11.FileSystemEntity, _i8.Failure>(
               this,
               Invocation.method(

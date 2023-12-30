@@ -52,7 +52,8 @@ scripts:
       Run all build_runners available.
 
   build:
+    # We are setting the concurrency to 1 because a higher concurrency creates dependencies problems.
     run: |
-      melos exec -c 6 --fail-fast -- \
+      melos exec -c 1 --fail-fast -- \
         "flutter pub run build_runner build --delete-conflicting-outputs"
     description: Run `flutter pub run build_runner build --delete-conflicting-outputs` for a specific package.
