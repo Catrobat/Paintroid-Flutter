@@ -37,5 +37,11 @@ format:
 test:
 	melos run test:all
 
+test-unit:
+	melos run test:unit
+
+test-widget:
+	melos run test:widget
+
 watch:
 	dart run build_runner watch --delete-conflicting-outputs

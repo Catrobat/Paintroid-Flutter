@@ -45,6 +45,44 @@ scripts:
         - "*odm*"
         - "*example*"
 
+  test:unit:
+    run: |
+      melos run test-unit --no-select
+    description: |
+      Run all tests available.
+
+  test-unit:
+    run: |
+      melos exec -c 6 --fail-fast -- \
+        "flutter test test/unit"
+    description: Run `flutter test test/unit` for a specific package.
+    packageFilters:
+      dirExists:
+        - test/unit
+      ignore:
+        - "*web*"
+        - "*odm*"
+        - "*example*"
+
+  test:widget:
+    run: |
+      melos run test-widget --no-select
+    description: |
+      Run all tests available.
+
+  test-widget:
+    run: |
+      melos exec -c 6 --fail-fast -- \
+        "flutter test test/widget"
+    description: Run `flutter test test/widget` for a specific package.
+    packageFilters:
+      dirExists:
+        - test/widget
+      ignore:
+        - "*web*"
+        - "*odm*"
+        - "*example*"
+
   build:all:
     run: |
       melos run build --no-select

@@ -32,12 +32,22 @@ For more information oriented towards developers please visit our [developers pa
 
 ## Tests
 
-1. For unit tests:
-   - Run `make test`
-2. For integration tests:
-   - Make sure you have an iOS/Android device online by running `flutter devices`
-   - Run `flutter test integration_test -d <DEVICE-ID>`
-     > **Note** Replace `<Device-ID>` with the ID of the device from previous command
+- Run tests for **all** packages:
+  - all: `make test`
+  - unit: `make test-unit`
+  - widget: `make test-widget`
+- Run tests for a **specific** package:
+  - all: `melos test`
+  - unit: `melos test-unit`
+  - widget: `melos test-widget`
+
+**For integration tests:**
+
+1. Make sure you have an iOS/Android device online by running `flutter devices`
+2. `cd` into the package where the test is located
+3. Run `flutter test <path-to-integartion-test> -d <DEVICE-ID>`
+   - Replace `<Device-ID>` with the ID of the device from `flutter devices`
+   - Replace `<path-to-integartion-test>` with the actual path to the test (_test/..._)
 
 ## Issues
 
