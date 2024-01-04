@@ -95,13 +95,13 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
 
   Future<void> _renameProject() async {
     String? name = await showRenameDialog(context, widget.project.name);
-    if (name == null) {
-      return;
-    }
+    if (name == null) return;
 
     try {
       Project? project =
           await database.projectDAO.getProjectByName(widget.project.name);
+      if (project?.name == name) return;
+
       project?.name = name;
       await database.projectDAO.deleteProject(project?.id ?? -1);
       await database.projectDAO.insertProject(project!);

@@ -26,8 +26,6 @@ dependencies:
   filesize: ^2.0.1
   oxidized: ^5.2.0
   intl: ^0.18.0
-  hooks_riverpod: ^2.4.9
-  flutter_hooks: ^0.20.4
 
   # Internal packages:
   component_library:
