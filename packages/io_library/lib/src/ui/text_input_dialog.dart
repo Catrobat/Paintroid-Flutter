@@ -2,37 +2,12 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:io_library/io_library.dart';
 
-Future<String?> showRenameDialog(BuildContext context, String name) async {
-  final TextEditingController textFieldController = TextEditingController();
-
-  return showDialog<String>(
-    context: context,
-    builder: (context) {
-      return TextInputDialog(
-        title: 'Rename $name',
-        textFieldController: textFieldController,
-        actions: [
-          GenericDialogActionButton(
-            text: 'Cancel',
-            onPressed: () {},
-          ),
-          GenericDialogActionButton(
-            text: 'Rename',
-            onPressed: () {
-              Navigator.of(context).pop(textFieldController.text);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
 class TextInputDialog extends StatelessWidget {
   final String title;
   final String? text;
   final List<GenericDialogActionButton> actions;
   final TextEditingController textFieldController;
+  final String validatorErrorMsg;
 
   const TextInputDialog({
     Key? key,
@@ -40,11 +15,12 @@ class TextInputDialog extends StatelessWidget {
     this.text,
     required this.actions,
     required this.textFieldController,
+    required this.validatorErrorMsg,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
+    final formKey = GlobalKey<FormState>(debugLabel: 'TextInputDialog Form');
 
     return AlertDialog(
         backgroundColor: Colors.white,
@@ -89,11 +65,12 @@ class TextInputDialog extends StatelessWidget {
                     )
                   : const SizedBox.shrink(),
               TextInputField(
+                key: const Key('textInputField'),
                 controller: textFieldController,
                 hintText: '',
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Please specify a project name';
+                    return validatorErrorMsg;
                   }
                   return null;
                 },
