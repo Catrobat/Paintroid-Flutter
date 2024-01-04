@@ -7,6 +7,7 @@ class TextInputDialog extends StatelessWidget {
   final String? text;
   final List<GenericDialogActionButton> actions;
   final TextEditingController textFieldController;
+  final String? hintText;
   final String validatorErrorMsg;
 
   const TextInputDialog({
@@ -15,6 +16,7 @@ class TextInputDialog extends StatelessWidget {
     this.text,
     required this.actions,
     required this.textFieldController,
+    this.hintText,
     required this.validatorErrorMsg,
   }) : super(key: key);
 
@@ -67,7 +69,6 @@ class TextInputDialog extends StatelessWidget {
               TextInputField(
                 key: const Key('textInputField'),
                 controller: textFieldController,
-                hintText: '',
                 validator: (text) {
                   if (text == null || text.isEmpty) {
                     return validatorErrorMsg;

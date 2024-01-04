@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class TextInputField extends StatelessWidget {
   final TextEditingController controller;
-  final String hintText;
+  final String? hintText;
   final String? Function(String?)? validator;
 
   const TextInputField({
     Key? key,
     required this.controller,
-    required this.hintText,
+    this.hintText,
     required this.validator,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class TextInputField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: hintText ?? '',
         hintStyle: TextThemes.hintTextNormal,
         filled: true,
         fillColor: lightColorScheme.secondaryContainer,

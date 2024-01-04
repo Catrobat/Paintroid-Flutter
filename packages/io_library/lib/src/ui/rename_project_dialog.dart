@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:io_library/io_library.dart';
 
 Future<String?> showRenameDialog(BuildContext context, String name) async {
-  final TextEditingController textFieldController = TextEditingController();
+  final TextEditingController textFieldController = TextEditingController()
+    ..text = name;
 
   return showDialog<String>(
     context: context,
