@@ -20,6 +20,7 @@ jobs:
           architecture: x64 # optional, x64 or arm64
       - name: Setup
         run: |
+          dart pub global activate melos
           flutter pub get
           melos bootstrap
       - name: Static Analysis
