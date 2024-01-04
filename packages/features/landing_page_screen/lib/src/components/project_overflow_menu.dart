@@ -102,7 +102,15 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
           await database.projectDAO.getProjectByName(widget.project.name);
       if (project?.name == name) return;
 
+      // Check if any project in the database already has the new name
+      Project? existingProject =
+          await database.projectDAO.getProjectByName(name);
+      if (existingProject != null) {
+        throw Exception('A project with the name "$name" already exists.');
+      }
+
       project?.name = name;
+
       await database.projectDAO.deleteProject(project?.id ?? -1);
       await database.projectDAO.insertProject(project!);
       ref.invalidate(ProjectDatabase.provider);
