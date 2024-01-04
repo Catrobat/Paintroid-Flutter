@@ -8,7 +8,8 @@ import 'package:io_library/io_library.dart';
 
 enum ProjectOverflowMenuOption {
   deleteProject('Delete'),
-  getDetails('Details');
+  getDetails('Details'),
+  renameProject('Rename');
 
   const ProjectOverflowMenuOption(this.label);
 
@@ -62,6 +63,9 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       case ProjectOverflowMenuOption.getDetails:
         _showProjectDetails();
         break;
+      case ProjectOverflowMenuOption.renameProject:
+        _renameProject(); // Handle the renaming option
+        break;
     }
   }
 
@@ -87,5 +91,23 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
 
   Future<void> _showProjectDetails() async {
     await showDetailsDialog(context, widget.project);
+  }
+
+  Future<void> _renameProject() async {
+    String? name = await showRenameDialog(context, widget.project.name);
+    if (name == null) {
+      return;
+    }
+
+    try {
+      Project? project =
+          await database.projectDAO.getProjectByName(widget.project.name);
+      project?.name = name;
+      await database.projectDAO.deleteProject(project?.id ?? -1);
+      await database.projectDAO.insertProject(project!);
+      ref.invalidate(ProjectDatabase.provider);
+    } catch (err) {
+      ToastUtils.showShortToast(message: err.toString());
+    }
   }
 }

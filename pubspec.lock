@@ -424,6 +424,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_hooks:
+    dependency: transitive
+    description:
+      name: flutter_hooks
+      sha256: "09f64db63fee3b2ab8b9038a1346be7d8986977fae3fec601275bf32455ccfc0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.4"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -532,6 +540,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  hooks_riverpod:
+    dependency: transitive
+    description:
+      name: hooks_riverpod
+      sha256: c12a456e03ef9be65b0be66963596650ad7a3220e96c7e7b0a048562ea32d6ae
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.9"
   hotreloader:
     dependency: transitive
     description:

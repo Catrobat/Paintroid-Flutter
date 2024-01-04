@@ -137,17 +137,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     );
   }
 
-  TextFormField get _imageNameTextField {
-    return TextFormField(
+  TextInputField get _imageNameTextField {
+    return TextInputField(
       controller: nameFieldController,
-      decoration: InputDecoration(
-        hintText: widget.savingProject ? 'Project name' : 'Image name',
-        hintStyle: TextThemes.hintTextNormal,
-        filled: true,
-        fillColor: lightColorScheme.secondaryContainer,
-        border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      hintText: widget.savingProject ? 'Project name' : 'Image name',
       validator: (text) {
         if (text == null || text.isEmpty) {
           var errMsg = 'Please specify an image name';
