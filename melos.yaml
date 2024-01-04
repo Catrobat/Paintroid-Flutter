@@ -1,6 +1,6 @@
 name: Paintroid-Flutter
 repository: https://github.com/Catrobat/Paintroid-Flutter
-sdkPath: .fvm/flutter_sdk
+sdkPath: auto
 
 packages:
   - packages/*
