@@ -13,14 +13,18 @@ For more information oriented towards developers please visit our [developers pa
 1. Install [Flutter](https://docs.flutter.dev/get-started/install):
    - Currently used version specified in _.github/workflows/main.yml_
    - **Recommended**: Use [fvm](https://fvm.app/) for managing Flutter versions
-2. If you are NOT using [fvm](https://fvm.app/):
-   - Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
-3. Install [Melos](https://melos.invertase.dev/~melos-latest/): `dart pub global activate melos`
-4. Get dependencies: `make get`
-   - `./setup-sdk.sh` is ran: changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_ if _fvm_ is not being used
-5. Run app: `make run`
+2. Get dependencies: `make get`
+3. Run app: `make run`
 
 > In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _Makefile_ or in _melos.yaml_.
+
+What `make get` does:
+
+- Runs `./setup-sdk.sh`, if _fvm_ is not installed:
+  - changes "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
+  - changes "DART" (= `fvm dart`) to `dart` in _Makefile_ if _fvm_
+  - changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_
+- Runs `./setup-melos.sh`: activates _melos_ if not activated.
 
 ## Building generated files
 

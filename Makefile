@@ -1,6 +1,7 @@
 .PHONY: run pods-clean get clean build languages lint format test watch
 
 FLUTTER := fvm flutter
+DART := fvm dart
 
 run:
 	$(FLUTTER) run
@@ -14,9 +15,10 @@ pods-clean:
 	rm ios/Podfile.lock ; \
 
 get:
-	$(FLUTTER) pub get
 	chmod +x ./setup_sdk.sh
 	./setup_sdk.sh
+	chmod +x ./setup_melos.sh
+	./setup_melos.sh
 	melos bootstrap
 
 clean:
@@ -31,10 +33,11 @@ languages:
 	@echo "-> Generated l10n"
 
 lint:
+	$(FLUTTER) analyze
 	melos run lint:all
 
 format:
-	dart format --set-exit-if-changed .
+	$(DART) format --set-exit-if-changed .
 
 test:
 	melos run test:all
@@ -46,4 +49,8 @@ test-widget:
 	melos run test:widget
 
 watch:
-	dart run build_runner watch --delete-conflicting-outputs
+	$(DART) run build_runner watch --delete-conflicting-outputs
+
+melos:
+	$(DART) pub global activate melos
+	
