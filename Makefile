@@ -15,6 +15,8 @@ pods-clean:
 
 get:
 	$(FLUTTER) pub get
+	chmod +x ./setup_sdk.sh
+	./setup_sdk.sh
 	melos bootstrap
 
 clean:

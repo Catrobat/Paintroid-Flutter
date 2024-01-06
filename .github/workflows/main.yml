@@ -22,6 +22,8 @@ jobs:
         run: |
           dart pub global activate melos
           flutter pub get
+          chmod +x ./setup_sdk.sh
+          ./setup_sdk.sh
           melos bootstrap
       - name: Static Analysis
         run: flutter analyze
