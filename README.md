@@ -17,7 +17,7 @@ For more information oriented towards developers please visit our [developers pa
    - Change variable "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
 3. Install [Melos](https://melos.invertase.dev/~melos-latest/): `dart pub global activate melos`
 4. Get dependencies: `make get`
-   - `./setup-sdk.sh` is ran: changes _"sdkPath"_ (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_ if _fvm_ is not being used
+   - `./setup-sdk.sh` is ran: changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_ if _fvm_ is not being used
 5. Run app: `make run`
 
 > In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _Makefile_ or in _melos.yaml_.
