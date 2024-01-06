@@ -26,6 +26,15 @@ if fvm flutter pub get; then
         echo " -> Failed to set FLUTTER in Makefile."
         exit 1
     fi
+   
+    sed -i.bak 's|DART := .*|DART := fvm dart|' "$MAKEFILE" && rm "${MAKEFILE}.bak"
+
+    if [ $? -eq 0 ]; then
+        echo " -> Successfully set DART to 'fvm dart' in Makefile."
+    else
+        echo " -> Failed to set DART in Makefile."
+        exit 1
+    fi
 
 else
     echo "FVM Flutter SDK not properly configured."
@@ -47,6 +56,15 @@ else
         echo " -> Successfully updated FLUTTER to 'flutter' in Makefile."
     else
         echo " -> Failed to update FLUTTER in Makefile."
+        exit 1
+    fi
+
+    sed -i.bak 's|DART := .*|DART := dart|' "$MAKEFILE" && rm "${MAKEFILE}.bak"
+
+    if [ $? -eq 0 ]; then
+        echo " -> Successfully updated DART to 'dart' in Makefile."
+    else
+        echo " -> Failed to update DART in Makefile."
         exit 1
     fi
 
