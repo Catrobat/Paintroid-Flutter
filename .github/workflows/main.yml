@@ -21,8 +21,7 @@ jobs:
       - name: Setup
         run: |
           dart pub global activate melos
-          flutter pub get
-          melos bootstrap
+          make get
       - name: Static Analysis
         run: flutter analyze
       - name: Unit Tests
