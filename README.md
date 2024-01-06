@@ -24,7 +24,7 @@ What `make get` does:
   - changes "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
   - changes "DART" (= `fvm dart`) to `dart` in _Makefile_ if _fvm_
   - changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_
-- Runs `./setup-melos.sh` activates _melos_ if not activated.
+- Runs `./setup-melos.sh`: activates _melos_ if not activated.
 
 ## Building generated files
 

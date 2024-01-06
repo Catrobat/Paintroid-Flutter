@@ -22,7 +22,7 @@ jobs:
         run: |
           make get
       - name: Static Analysis
-        run: flutter analyze
+        run: make lint
       - name: Unit Tests
         run: melos run test:unit
       - name: Widget Tests
