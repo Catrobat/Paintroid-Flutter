@@ -14,7 +14,8 @@ pods-clean:
 	rm ios/Podfile.lock ; \
 
 get:
-	$(FLUTTER) pub get
+	chmod +x ./setup_melos.sh
+	./setup_melos.sh
 	chmod +x ./setup_sdk.sh
 	./setup_sdk.sh
 	melos bootstrap

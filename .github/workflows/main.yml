@@ -20,11 +20,7 @@ jobs:
           architecture: x64 # optional, x64 or arm64
       - name: Setup
         run: |
-          dart pub global activate melos
-          flutter pub get
-          chmod +x ./setup_sdk.sh
-          ./setup_sdk.sh
-          melos bootstrap
+          make get
       - name: Static Analysis
         run: flutter analyze
       - name: Unit Tests
