@@ -55,3 +55,10 @@ app.*.map.json
 
 # Melos
 pubspec_overrides.yaml
+
+# Packages
+packages/*/pubspec.lock
+packages/*/build
+
+packages/features/*/pubspec.lock
+packages/features/*/build
