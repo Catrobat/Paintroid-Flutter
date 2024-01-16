@@ -17,7 +17,7 @@ class ColorCompare extends StatefulWidget {
 class _ColorCompareState extends State<ColorCompare> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 130,
       height: 70,
       child: Row(
