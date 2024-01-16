@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:paintroid/tool/src/hand_tool/hand_tool_provider.dart';
 import 'package:paintroid/tool/tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toast/toast.dart';
@@ -38,6 +39,12 @@ class ToolBoxState extends _$ToolBoxState {
           currentToolType: ToolType.BRUSH,
         );
 
+        break;
+      case ToolType.HAND:
+        state = state.copyWith(
+          currentTool: ref.read(handToolProvider),
+          currentToolType: ToolType.HAND,
+        );
         break;
       case ToolType.ERASER:
         ref

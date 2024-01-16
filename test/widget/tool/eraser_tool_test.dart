@@ -33,14 +33,14 @@ void main() {
       const testOffset = Offset(10, 10);
 
       final pixelColorBeforeErase = await canvasInteractions
-          .drawLineFromCenter(testOffset)
+          .dragFromCenter(testOffset)
           .then((_) => canvasInteractions.getPixelColor(300, 300));
       expect(pixelColorBeforeErase, isNot(equals(0)));
 
       await bottomNavBarInteractions.selectTool(ToolData.ERASER);
 
       final pixelColorAfterErase = await canvasInteractions
-          .drawLineFromCenter(testOffset)
+          .dragFromCenter(testOffset)
           .then((_) => canvasInteractions.getPixelColor(300, 300));
       expect(pixelColorAfterErase, equals(0));
     },
