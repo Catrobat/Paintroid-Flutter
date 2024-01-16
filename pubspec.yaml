@@ -37,7 +37,8 @@ dependencies:
   launch_review: ^3.0.1
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
-  flex_color_picker: ^3.3.0
+  colorpicker:
+    path: ./colorpicker
 
 dev_dependencies:
   flutter_test:

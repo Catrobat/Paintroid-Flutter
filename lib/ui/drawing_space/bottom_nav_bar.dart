@@ -1,8 +1,8 @@
+import 'package:colorpicker/colorpicker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/app_localizations.dart';
 import 'package:paintroid/tool/tool.dart';
-import 'package:paintroid/ui/drawing_space/color_picker_dialog.dart';
 import 'package:paintroid/ui/drawing_space/tools_bottom_sheet.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/styles.dart';
@@ -31,36 +31,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
       );
     }
     if (index == 2) {
-      _showColorPicker(context);
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) => Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: ColorPicker(
+            currentColor: Colors.black,
+            onColorChanged: (color) {},
+          ),
+        ),
+      );
     }
   }
 
-  void _showColorPicker(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(20),
-          content: ColorPickerDialog(
-            selectedColor: Colors.red, // Set your initial color here
-            onColorChanged: (Color color) {
-              setState(() {
-                selectedColor = color;
-              });
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Done'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
