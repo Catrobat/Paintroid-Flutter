@@ -1,6 +1,6 @@
 name: Build, Test and Analyze
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   main:
@@ -13,24 +13,20 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: subosito/flutter-action@v2.10.0
         with:
-          flutter-version: '3.10.5'
-          channel: 'stable'
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+          flutter-version: "3.10.5"
+          channel: "stable"
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
           architecture: x64 # optional, x64 or arm64
       - name: Setup
         run: |
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          dart pub global activate protoc_plugin
-          chmod +x generate_protos.sh
-          ./generate_protos.sh
+          make get
       - name: Static Analysis
-        run: flutter analyze
+        run: make lint
       - name: Unit Tests
-        run: flutter test test/unit
+        run: melos run test:unit
       - name: Widget Tests
-        run: flutter test test/widget
+        run: melos run test:widget
       - name: Build release package
         run: flutter build apk --release
       - name: Archive build artifacts
@@ -39,4 +35,3 @@ jobs:
           name: apk
           path: |
             build/app/outputs/flutter-apk/app-release.apk
-            
