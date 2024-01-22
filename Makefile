@@ -1,30 +1,56 @@
-.PHONY: pubget build watch clean test analyze test-unit test-widget test-all all
+.PHONY: run pods-clean get clean build languages lint format test watch
 
-clean:
-	flutter clean
-
-pubget:
-	flutter pub get
-
-build:
-	dart run build_runner build --delete-conflicting-outputs
+FLUTTER := flutter
+DART := dart
 
 run:
-	flutter run
+	$(FLUTTER) run
 
-all: clean pubget build run
+pods-clean:
+	rm -Rf ios/Pods ; \
+	rm -Rf ios/.symlinks ; \
+	rm -Rf ios/Flutter/Flutter.framework ; \
+	rm -Rf ios/Flutter/Flutter.podspec ; \
+	rm ios/Podfile ; \
+	rm ios/Podfile.lock ; \
 
-watch:
-	dart run build_runner watch --delete-conflicting-outputs
+get:
+	chmod +x ./setup_sdk.sh
+	./setup_sdk.sh
+	chmod +x ./setup_melos.sh
+	./setup_melos.sh
+	melos bootstrap
 
-analyze:
-	flutter analyze
+clean:
+	melos clean
+
+build:
+	melos run build:all
+
+languages:
+	@cd packages/l10n ; \
+	$(FLUTTER) gen-l10n
+	@echo "-> Generated l10n"
+
+lint:
+	$(FLUTTER) analyze
+	melos run lint:all
+
+format:
+	$(DART) format --set-exit-if-changed .
+
+test:
+	melos run test:all
 
 test-unit:
-	flutter test test/unit
+	melos run test:unit
 
 test-widget:
-	flutter test test/widget
+	melos run test:widget
 
-test-all:
-	flutter test
+watch:
+	$(DART) run build_runner watch --delete-conflicting-outputs
+
+melos:
+	$(DART) pub global activate melos
+	

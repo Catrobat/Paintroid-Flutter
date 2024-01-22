@@ -30,10 +30,12 @@ migrate_working_dir/
 .pub/
 /build/
 coverage
-*.mocks.dart
-*.pb*.dart
-*.g.dart
-*.freezed.dart
+
+# Commented out to push generated code:
+# *.mocks.dart
+# *.pb*.dart
+# *.g.dart
+# *.freezed.dart
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -48,3 +50,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+.fvm/flutter_sdk
+
+# Melos
+pubspec_overrides.yaml
+
+# Packages
+packages/*/pubspec.lock
+packages/*/build
+
+packages/features/*/pubspec.lock
+packages/features/*/build
