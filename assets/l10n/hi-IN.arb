@@ -1,0 +1,12 @@
+{
+    "@@locale": "hi",
+    "fullscreen": "पूर्ण स्क्रीन",
+    "saveImage": "चित्र सहेजे",
+    "loadImage": "चित्र तैयार करें",
+    "newImage": "नया चित्र",
+    "saveProject": "Save project",
+    "tools": "उपकरण",
+    "brush": "ब्रश",
+    "color": "रंग",
+    "layers": "परतों"
+}

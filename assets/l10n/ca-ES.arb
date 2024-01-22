@@ -1,0 +1,12 @@
+{
+    "@@locale": "ca",
+    "fullscreen": "Fullscreen",
+    "saveImage": "Save image",
+    "loadImage": "Load image",
+    "newImage": "New image",
+    "saveProject": "Save project",
+    "tools": "Tools",
+    "brush": "Pincell",
+    "color": "Color",
+    "layers": "Layers"
+}

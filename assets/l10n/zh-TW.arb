@@ -1,0 +1,12 @@
+{
+    "@@locale": "zh-TW",
+    "fullscreen": "全螢幕顯示",
+    "saveImage": "儲存圖檔",
+    "loadImage": "載入圖檔",
+    "newImage": "新圖檔",
+    "saveProject": "Save project",
+    "tools": "工具",
+    "brush": "筆刷",
+    "color": "顏色",
+    "layers": "層數"
+}
