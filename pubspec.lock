@@ -229,6 +229,28 @@ packages:
       sha256: dec15ad1118f029c618651a4359eb9135d8b88f761aa24e4016d061cd45948f2
       url: "https://pub.dev"
     source: hosted
+    version: "1.17.1"
+  command:
+    dependency: "direct main"
+    description:
+      path: "packages/command"
+      relative: true
+    source: path
+    version: "0.0.1"
+  component_library:
+    dependency: "direct main"
+    description:
+      path: "packages/component_library"
+      relative: true
+    source: path
+    version: "0.0.1"
+  conventional_commit:
+    dependency: transitive
+    description:
+      name: conventional_commit
+      sha256: dec15ad1118f029c618651a4359eb9135d8b88f761aa24e4016d061cd45948f2
+      url: "https://pub.dev"
+    source: hosted
     version: "0.6.0+1"
   convert:
     dependency: transitive
@@ -748,7 +770,7 @@ packages:
       sha256: "9528f2f296073ff54cb9fee677df673ace1218163c3bc7628093e7eed5203d41"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.2.0"
   melos:
     dependency: "direct main"
     description:
@@ -1456,14 +1478,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  web:
-    dependency: transitive
-    description:
-      name: web
-      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
   web_socket_channel:
     dependency: transitive
     description:
@@ -1536,5 +1550,5 @@ packages:
     source: hosted
     version: "2.1.1"
 sdks:
-  dart: ">=3.2.0-194.0.dev <4.0.0"
+  dart: ">=3.0.5 <4.0.0"
   flutter: ">=3.10.0"

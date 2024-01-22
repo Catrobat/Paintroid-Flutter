@@ -21,7 +21,6 @@ class BottomNavBar extends StatelessWidget {
         ),
       );
     }
-
     if (index == 2) {
       showModalBottomSheet(
         context: context,
