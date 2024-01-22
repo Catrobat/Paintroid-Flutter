@@ -5,27 +5,23 @@ class IconSvg extends StatelessWidget {
   final String path;
   final double height;
   final double width;
-  final Color? color; // Make the color nullable
+  final Color? color;
 
   const IconSvg({
     Key? key,
     required this.path,
     required this.height,
     required this.width,
-    this.color, // Remove the required keyword
+    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return SvgPicture.asset(
+      'packages/component_library/$path',
       height: height,
       width: width,
-      child: SvgPicture.asset(
-        'packages/component_library/$path',
-        height: height,
-        width: width,
-        color: color, // Pass the nullable color
-      ),
+      color: color,
     );
   }
 }

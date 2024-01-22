@@ -216,9 +216,10 @@ class _ProjectPreview extends StatelessWidget {
               }
             },
             icon: const IconSvg(
-                path: 'assets/svg/ic_edit_circle.svg',
-                height: 264.0,
-                width: 264.0),
+              path: 'assets/svg/ic_edit_circle.svg',
+              height: 264.0,
+              width: 264.0,
+            ),
           ),
         ),
         Align(
