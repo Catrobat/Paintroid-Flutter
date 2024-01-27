@@ -20,6 +20,14 @@ dependencies:
   toast: ^0.3.0
   logging: ^1.0.2
 
+  collection: ^1.17.1
+
+  # Internal packages:
+  io_library:
+    path: ../io_library
+  command:
+    path: ../command
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

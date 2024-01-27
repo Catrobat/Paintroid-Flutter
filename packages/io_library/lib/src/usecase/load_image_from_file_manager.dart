@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
@@ -16,19 +19,16 @@ class LoadImageFromFileManager with LoggableMixin {
   final IFileService fileService;
   final IImageService imageService;
   final IPermissionService permissionService;
-  final CatrobatImageSerializer catrobatImageSerializer;
 
-  LoadImageFromFileManager(this.fileService, this.imageService,
-      this.permissionService, this.catrobatImageSerializer);
+  LoadImageFromFileManager(
+      this.fileService, this.imageService, this.permissionService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final fileService = ref.watch(IFileService.provider);
     final permissionService = ref.watch(IPermissionService.provider);
-    const ver = CatrobatImage.latestVersion;
-    final serializer = ref.watch(CatrobatImageSerializer.provider(ver));
     return LoadImageFromFileManager(
-        fileService, imageService, permissionService, serializer);
+        fileService, imageService, permissionService);
   });
 
   Future<Result<ImageFromFile, Failure>> call(
@@ -50,11 +50,13 @@ class LoadImageFromFileManager with LoggableMixin {
                 .import(await file.readAsBytes())
                 .map((img) => ImageFromFile.rasterImage(img));
           case 'catrobat-image':
-            final image = await catrobatImageSerializer
-                .fromBytes(await file.readAsBytes());
+            Uint8List bytes = await file.readAsBytes();
+            CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
+            Image? backgroundImage =
+                await rebuildBackgroundImage(catrobatImage);
             return Result.ok(ImageFromFile.catrobatImage(
-              image,
-              backgroundImage: image.backgroundImage,
+              catrobatImage,
+              backgroundImage: backgroundImage,
             ));
           default:
             return const Result.err(LoadImageFailure.invalidImage);
@@ -67,5 +69,17 @@ class LoadImageFromFileManager with LoggableMixin {
         return const Result.err(LoadImageFailure.unidentified);
       }
     });
+  }
+
+  Future<Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {
+    Image? backgroundImage;
+    if (catrobatImage.backgroundImage.isNotEmpty) {
+      Uint8List? backgroundImageData =
+          base64Decode(catrobatImage.backgroundImage);
+      final result =
+          await imageService.import(Uint8List.fromList(backgroundImageData));
+      backgroundImage = result.unwrapOrElse((failure) => throw failure.message);
+    }
+    return backgroundImage;
   }
 }

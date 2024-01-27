@@ -1,8 +1,7 @@
 import 'dart:ui';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:command/command.dart';
-import 'package:component_library/component_library.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   late PathWithActionHistory testPath;

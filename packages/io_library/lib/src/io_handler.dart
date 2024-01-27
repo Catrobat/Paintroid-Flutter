@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:command/command_providers.dart';
 import 'package:component_library/component_library.dart';
@@ -201,8 +203,19 @@ class IOHandler {
     final canvasState = ref.read(canvasStateProvider);
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();
-    final catrobatImage = CatrobatImage(
-        commands, imgWidth, imgHeight, canvasState.backgroundImage);
+    Uint8List? backgroundImageData;
+    if (canvasState.backgroundImage != null) {
+      final result = await ref
+          .read(IImageService.provider)
+          .exportAsPng(canvasState.backgroundImage!);
+      backgroundImageData =
+          result.unwrapOrElse((failure) => throw failure.message);
+    }
+
+    final String backgroundImageAsString =
+        backgroundImageData != null ? base64Encode(backgroundImageData) : '';
+    final catrobatImage =
+        CatrobatImage(commands, imgWidth, imgHeight, backgroundImageAsString);
     final saveAsCatrobatImage = ref.read(SaveAsCatrobatImage.provider);
     final result =
         await saveAsCatrobatImage(imageData, catrobatImage, isAProject);
