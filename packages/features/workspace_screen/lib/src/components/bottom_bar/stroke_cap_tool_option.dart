@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';
 
-class BottomBrushToolOptions extends ConsumerStatefulWidget {
-  const BottomBrushToolOptions({super.key});
+class StrokeCapToolOption extends ConsumerStatefulWidget {
+  const StrokeCapToolOption({super.key});
 
   @override
-  ConsumerState<BottomBrushToolOptions> createState() =>
-      _BottomBrushToolOptionsState();
+  ConsumerState<StrokeCapToolOption> createState() =>
+      _StrokeCapToolOptionState();
 }
 
-class _BottomBrushToolOptionsState
-    extends ConsumerState<BottomBrushToolOptions> {
+class _StrokeCapToolOptionState extends ConsumerState<StrokeCapToolOption> {
   Color _roundChipBackgroundColor = Colors.blue;
   Color _squareChipBackgroundColor = Colors.white;
 

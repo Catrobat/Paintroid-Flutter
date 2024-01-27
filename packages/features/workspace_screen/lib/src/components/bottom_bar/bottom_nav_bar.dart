@@ -5,32 +5,49 @@ import 'package:l10n/l10n.dart';
 import 'package:tools/tools.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
-class BottomNavBar extends StatelessWidget {
+class BottomNavBar extends ConsumerWidget {
   static const height = 64.0;
 
   const BottomNavBar({Key? key}) : super(key: key);
 
-  void _onNavigationItemSelected(int index, BuildContext context) {
-    if (index == 0) {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) => const SizedBox(
-          height: 270,
-          child: ToolsBottomSheet(),
-        ),
-      );
+  void _onNavigationItemSelected(
+      int index, BuildContext context, WidgetRef ref) {
+    BottomNavBarItem item = BottomNavBarItem.values[index];
+    switch (item) {
+      case BottomNavBarItem.TOOLS:
+        showToolBottomSheet(context);
+        break;
+      case BottomNavBarItem.CURRENT_TOOL:
+        handleToolOptionsVisibility(ref);
+        break;
+      default:
+        return;
     }
   }
 
+  void showToolBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const SizedBox(
+        height: 270,
+        child: ToolsBottomSheet(),
+      ),
+    );
+  }
+
+  void handleToolOptionsVisibility(WidgetRef ref) {
+    ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context);
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
       child: NavigationBar(
         height: height,
         onDestinationSelected: (index) =>
-            _onNavigationItemSelected(index, context),
+            _onNavigationItemSelected(index, context, ref),
         destinations: [
           NavigationDestination(
             label: localizations.tools,

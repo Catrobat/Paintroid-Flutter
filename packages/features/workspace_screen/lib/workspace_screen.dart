@@ -1,28 +1,27 @@
 library workspace_screen;
 
-export 'src/components/bottom_brush_tool_options.dart';
-export 'src/components/bottom_nav_bar.dart';
-export 'src/components/canvas_painter.dart';
-export 'src/components/checkerboard_pattern.dart';
-export 'src/components/command_painter.dart';
-export 'src/components/drawing_canvas.dart';
-export 'src/components/exit_fullscreen_button.dart';
-export 'src/components/overflow_menu.dart';
-export 'src/components/tool_button.dart';
-export 'src/components/tool_options.dart';
-export 'src/components/tools_bottom_sheet.dart';
-export 'src/components/top_app_bar.dart';
-export 'src/components/top_brush_tool_options.dart';
-
+export 'src/components/bottom_bar/bottom_nav_bar.dart';
+export 'src/components/bottom_bar/bottom_nav_bar_items.dart';
+export 'src/components/bottom_bar/stroke_cap_tool_option.dart';
+export 'src/components/bottom_bar/stroke_width_tool_option.dart';
+export 'src/components/bottom_bar/tool_button.dart';
+export 'src/components/bottom_bar/tool_option.dart';
+export 'src/components/bottom_bar/tool_options.dart';
+export 'src/components/bottom_bar/tool_options_config.dart';
+export 'src/components/bottom_bar/tools_bottom_sheet.dart';
+export 'src/components/drawing_surface/canvas_painter.dart';
+export 'src/components/drawing_surface/checkerboard_pattern.dart';
+export 'src/components/drawing_surface/command_painter.dart';
+export 'src/components/drawing_surface/drawing_canvas.dart';
+export 'src/components/drawing_surface/exit_fullscreen_button.dart';
+export 'src/components/top_bar/overflow_menu.dart';
+export 'src/components/top_bar/top_app_bar.dart';
 export 'src/models/image_with_pixel_info.dart';
-
 export 'src/service/device_service.dart';
-
 export 'src/states/canvas_dirty_state.dart';
 export 'src/states/canvas_state_data.dart';
 export 'src/states/canvas_state_provider.dart';
+export 'src/states/tool_options_visibility_state_provider.dart';
 export 'src/states/workspace_state_notifier.dart';
-
 export 'src/usecase/render_image_for_export.dart';
-
 export 'src/workspace_screen.dart';
