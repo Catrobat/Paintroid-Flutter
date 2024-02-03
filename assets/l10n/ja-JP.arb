@@ -1,0 +1,12 @@
+{
+    "@@locale": "ja",
+    "fullscreen": "全画面表示",
+    "saveImage": "画像を保存",
+    "loadImage": "画像の取り込み",
+    "newImage": "新しいイメージ",
+    "saveProject": "Save project",
+    "tools": "ツール",
+    "brush": "ブラシ",
+    "color": "色",
+    "layers": "レイヤー"
+}
