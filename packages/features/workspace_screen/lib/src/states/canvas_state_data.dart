@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:command/command.dart';
-import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

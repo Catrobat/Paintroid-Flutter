@@ -7,17 +7,13 @@ import 'package:oxidized/oxidized.dart';
 class SaveAsCatrobatImage with LoggableMixin {
   final IFileService _fileService;
   final IPermissionService permissionService;
-  final CatrobatImageSerializer _catrobatImageSerializer;
 
-  SaveAsCatrobatImage(
-      this._fileService, this.permissionService, this._catrobatImageSerializer);
+  SaveAsCatrobatImage(this._fileService, this.permissionService);
 
   static final provider = Provider((ref) {
     final fileService = ref.watch(IFileService.provider);
     final permissionService = ref.watch(IPermissionService.provider);
-    const ver = CatrobatImage.latestVersion;
-    final serializer = ref.watch(CatrobatImageSerializer.provider(ver));
-    return SaveAsCatrobatImage(fileService, permissionService, serializer);
+    return SaveAsCatrobatImage(fileService, permissionService);
   });
 
   Future<Result<File, Failure>> call(
@@ -27,7 +23,7 @@ class SaveAsCatrobatImage with LoggableMixin {
     }
     final nameWithExt = '${data.name}.${data.format.extension}';
     try {
-      final bytes = await _catrobatImageSerializer.toBytes(image);
+      final bytes = image.toBytes();
       if (isAProject) {
         return _fileService.saveToApplicationDirectory(nameWithExt, bytes);
       }

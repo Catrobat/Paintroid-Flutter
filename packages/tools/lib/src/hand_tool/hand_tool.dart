@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:command/command.dart';
-import 'package:component_library/component_library.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tools/tools.dart';
 
