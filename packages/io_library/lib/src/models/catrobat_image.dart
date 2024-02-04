@@ -16,9 +16,14 @@ class CatrobatImage {
   final Iterable<Command> commands;
   final String backgroundImage;
 
-  CatrobatImage(this.commands, this.width, this.height, this.backgroundImage,
-      {int? version, this.magicValue = 'CATROBAT'})
-      : version = version ??
+  CatrobatImage(
+    this.commands,
+    this.width,
+    this.height,
+    this.backgroundImage, {
+    int? version,
+    this.magicValue = 'CATROBAT',
+  }) : version = version ??
             VersionStrategyManager.strategy.getCatrobatImageVersion();
 
   Uint8List toBytes() {

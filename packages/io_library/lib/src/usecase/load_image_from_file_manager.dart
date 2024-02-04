@@ -72,14 +72,12 @@ class LoadImageFromFileManager with LoggableMixin {
   }
 
   Future<Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {
-    Image? backgroundImage;
     if (catrobatImage.backgroundImage.isNotEmpty) {
-      Uint8List? backgroundImageData =
-          base64Decode(catrobatImage.backgroundImage);
+      final backgroundImageData = base64Decode(catrobatImage.backgroundImage);
       final result =
           await imageService.import(Uint8List.fromList(backgroundImageData));
-      backgroundImage = result.unwrapOrElse((failure) => throw failure.message);
+      return result.unwrapOrElse((failure) => throw failure.message);
     }
-    return backgroundImage;
+    return null;
   }
 }

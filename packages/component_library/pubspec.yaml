@@ -22,12 +22,6 @@ dependencies:
 
   collection: ^1.17.1
 
-  # Internal packages:
-  io_library:
-    path: ../io_library
-  command:
-    path: ../command
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

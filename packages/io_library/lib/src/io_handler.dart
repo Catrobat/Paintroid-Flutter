@@ -204,10 +204,10 @@ class IOHandler {
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();
     Uint8List? backgroundImageData;
-    if (canvasState.backgroundImage != null) {
-      final result = await ref
-          .read(IImageService.provider)
-          .exportAsPng(canvasState.backgroundImage!);
+    final backgroundImage = canvasState.backgroundImage;
+    if (backgroundImage != null) {
+      final result =
+          await ref.read(IImageService.provider).exportAsPng(backgroundImage);
       backgroundImageData =
           result.unwrapOrElse((failure) => throw failure.message);
     }

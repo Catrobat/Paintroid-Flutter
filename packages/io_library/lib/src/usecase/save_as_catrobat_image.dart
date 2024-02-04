@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
@@ -24,7 +23,7 @@ class SaveAsCatrobatImage with LoggableMixin {
     }
     final nameWithExt = '${data.name}.${data.format.extension}';
     try {
-      Uint8List bytes = image.toBytes();
+      final bytes = image.toBytes();
       if (isAProject) {
         return _fileService.saveToApplicationDirectory(nameWithExt, bytes);
       }
