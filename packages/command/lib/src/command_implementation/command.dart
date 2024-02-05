@@ -11,9 +11,9 @@ abstract class Command with EquatableMixin {
     String type = json['type'] as String;
     switch (type) {
       case SerializerType.DRAW_PATH_COMMAND:
-        return DrawPathCommand.fromJson(json);
+        return PathCommand.fromJson(json);
       default:
-        return DrawPathCommand.fromJson(json);
+        return PathCommand.fromJson(json);
     }
   }
 }

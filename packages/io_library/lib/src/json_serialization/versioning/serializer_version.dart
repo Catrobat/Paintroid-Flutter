@@ -1,7 +1,7 @@
 class SerializerVersion {
   static const int PAINT_VERSION = Version.v1;
   static const int CATROBAT_IMAGE_VERSION = Version.v1;
-  static const int DRAW_PATH_COMMAND_VERSION = Version.v1;
+  static const int PATH_COMMAND_VERSION = Version.v1;
 }
 
 class Version {

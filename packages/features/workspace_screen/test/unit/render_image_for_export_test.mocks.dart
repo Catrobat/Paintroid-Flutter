@@ -686,8 +686,8 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
   @override
   void drawLineToolGhostPaths(
     _i2.Canvas? canvas,
-    _i4.LinePathCommand? ingoingGhostPathCommand,
-    _i4.LinePathCommand? outgoingGhostPathCommand,
+    _i4.LineCommand? ingoingGhostPathCommand,
+    _i4.LineCommand? outgoingGhostPathCommand,
   ) =>
       super.noSuchMethod(
         Invocation.method(

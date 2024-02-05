@@ -4,8 +4,13 @@ import 'package:command/command.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tools/tools.dart';
 
-class LinePathCommand extends GraphicCommand {
-  LinePathCommand(this.path, super.paint, this.startPoint, this.endPoint);
+class LineCommand extends GraphicCommand {
+  LineCommand(
+    this.path,
+    super.paint,
+    this.startPoint,
+    this.endPoint,
+  );
 
   PathWithActionHistory path;
   Offset startPoint;

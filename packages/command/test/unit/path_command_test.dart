@@ -5,12 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'draw_path_command_test.mocks.dart';
+import 'path_command_test.mocks.dart';
 
 @GenerateMocks([Canvas])
 void main() {
   late MockCanvas mockCanvas;
-  late DrawPathCommand drawPath;
+  late PathCommand drawPath;
 
   setUp(() {
     mockCanvas = MockCanvas();
@@ -21,7 +21,7 @@ void main() {
     () {
       final testPath = PathWithActionHistory();
       final testPaint = Paint();
-      drawPath = DrawPathCommand(testPath, testPaint);
+      drawPath = PathCommand(testPath, testPaint);
       when(mockCanvas.drawPath(testPath, testPaint)).thenReturn(null);
       drawPath.call(mockCanvas);
       verify(mockCanvas.drawPath(testPath, testPaint));

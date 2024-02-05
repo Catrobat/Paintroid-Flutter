@@ -10,14 +10,14 @@ class Vertex {
       required this.ingoingPathCommand});
 
   Offset vertexCenter;
-  LinePathCommand? ingoingPathCommand;
-  LinePathCommand? outgoingPathCommand;
+  LineCommand? ingoingPathCommand;
+  LineCommand? outgoingPathCommand;
 
   static const int PAINT_ALPHA = 128;
   static const double VERTEX_PAINT_STROKE_WIDTH = 2.0;
   static const double VERTEX_RADIUS = 30.0;
 
-  void setOutgoingPath(LinePathCommand updatedOutgoingPath) {
+  void setOutgoingPath(LineCommand updatedOutgoingPath) {
     outgoingPathCommand = updatedOutgoingPath;
   }
 

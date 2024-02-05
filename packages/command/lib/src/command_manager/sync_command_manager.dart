@@ -53,8 +53,8 @@ class SyncCommandManager implements CommandManager {
   @override
   void drawLineToolGhostPaths(
     Canvas canvas,
-    LinePathCommand? ingoingGhostPathCommand,
-    LinePathCommand? outgoingGhostPathCommand,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
   ) {
     ingoingGhostPathCommand?.call(canvas);
     outgoingGhostPathCommand?.call(canvas);

@@ -20,8 +20,8 @@ abstract class CommandManager {
 
   void drawLineToolGhostPaths(
     Canvas canvas,
-    LinePathCommand? ingoingGhostPathCommand,
-    LinePathCommand? outgoingGhostPathCommand,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
   );
 
   void drawLineToolVertices(Canvas canvas, VertexStack vertexStack);

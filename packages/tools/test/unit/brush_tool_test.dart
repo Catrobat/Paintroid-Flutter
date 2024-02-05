@@ -11,7 +11,7 @@ import 'brush_tool_test.mocks.dart';
 @GenerateMocks([
   PathWithActionHistory,
   Offset,
-  DrawPathCommand,
+  PathCommand,
   CommandManager,
   CommandFactory,
   GraphicFactory,
@@ -19,7 +19,7 @@ import 'brush_tool_test.mocks.dart';
 void main() {
   late MockPathWithActionHistory mockPath;
   late MockOffset mockOffset;
-  late MockDrawPathCommand mockDrawPathCommand;
+  late MockPathCommand mockPathCommand;
   late MockCommandManager mockCommandManager;
   late MockCommandFactory mockCommandFactory;
   late MockGraphicFactory mockGraphicFactory;
@@ -28,14 +28,14 @@ void main() {
   late PathWithActionHistory testPath;
   late Paint testPaint;
   late Paint testPaintCopied;
-  late DrawPathCommand testDrawPathCommand;
+  late PathCommand testDrawPathCommand;
 
   late BrushTool sut;
 
   setUp(() {
     mockPath = MockPathWithActionHistory();
     mockOffset = MockOffset();
-    mockDrawPathCommand = MockDrawPathCommand();
+    mockPathCommand = MockPathCommand();
     mockCommandManager = MockCommandManager();
     mockCommandFactory = MockCommandFactory();
     mockGraphicFactory = MockGraphicFactory();
@@ -44,7 +44,7 @@ void main() {
     testPath = PathWithActionHistory();
     testPaint = Paint();
     testPaintCopied = Paint();
-    testDrawPathCommand = DrawPathCommand(testPath, testPaint);
+    testDrawPathCommand = PathCommand(testPath, testPaint);
 
     sut = BrushTool(
       paint: testPaint,
@@ -60,14 +60,13 @@ void main() {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPath);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
+      when(mockCommandFactory.createPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
 
       sut.onDown(testOffset);
       verify(mockGraphicFactory.createPathWithActionHistory()).called(1);
       verify(mockGraphicFactory.copyPaint(testPaint)).called(1);
-      verify(mockCommandFactory.createDrawPathCommand(
-              testPath, testPaintCopied))
+      verify(mockCommandFactory.createPathCommand(testPath, testPaintCopied))
           .called(1);
       verifyNoMoreInteractions(mockCommandFactory);
       verifyNoMoreInteractions(mockGraphicFactory);
@@ -78,7 +77,7 @@ void main() {
           .thenReturn(mockPath);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockPath.moveTo(testOffset.dx, testOffset.dy)).thenReturn(null);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
+      when(mockCommandFactory.createPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
       sut.onDown(testOffset);
       verify(mockPath.moveTo(testOffset.dx, testOffset.dy)).called(1);
@@ -89,10 +88,10 @@ void main() {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPath);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
-          .thenReturn(mockDrawPathCommand);
+      when(mockCommandFactory.createPathCommand(any, any))
+          .thenReturn(mockPathCommand);
       sut.onDown(testOffset);
-      verifyZeroInteractions(mockDrawPathCommand);
+      verifyZeroInteractions(mockPathCommand);
     });
   });
 

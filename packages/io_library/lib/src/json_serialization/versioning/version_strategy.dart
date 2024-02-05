@@ -2,7 +2,7 @@ import 'package:io_library/io_library.dart';
 
 abstract class IVersionStrategy {
   int getCatrobatImageVersion();
-  int getDrawPathCommandVersion();
+  int getPathCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -10,8 +10,7 @@ class ProductionVersionStrategy implements IVersionStrategy {
   int getCatrobatImageVersion() => SerializerVersion.CATROBAT_IMAGE_VERSION;
 
   @override
-  int getDrawPathCommandVersion() =>
-      SerializerVersion.DRAW_PATH_COMMAND_VERSION;
+  int getPathCommandVersion() => SerializerVersion.PATH_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

@@ -30,9 +30,8 @@ class _FakeColor_0 extends _i1.SmartFake implements _i2.Color {
         );
 }
 
-class _FakeDrawPathCommand_1 extends _i1.SmartFake
-    implements _i3.DrawPathCommand {
-  _FakeDrawPathCommand_1(
+class _FakePathCommand_1 extends _i1.SmartFake implements _i3.PathCommand {
+  _FakePathCommand_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -41,9 +40,8 @@ class _FakeDrawPathCommand_1 extends _i1.SmartFake
         );
 }
 
-class _FakeLinePathCommand_2 extends _i1.SmartFake
-    implements _i3.LinePathCommand {
-  _FakeLinePathCommand_2(
+class _FakeLineCommand_2 extends _i1.SmartFake implements _i3.LineCommand {
+  _FakeLineCommand_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -319,8 +317,8 @@ class MockCommandManager extends _i1.Mock implements _i3.CommandManager {
   @override
   void drawLineToolGhostPaths(
     _i2.Canvas? canvas,
-    _i3.LinePathCommand? ingoingGhostPathCommand,
-    _i3.LinePathCommand? outgoingGhostPathCommand,
+    _i3.LineCommand? ingoingGhostPathCommand,
+    _i3.LineCommand? outgoingGhostPathCommand,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -360,32 +358,32 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
   }
 
   @override
-  _i3.DrawPathCommand createDrawPathCommand(
+  _i3.PathCommand createPathCommand(
     _i3.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createDrawPathCommand,
+          #createPathCommand,
           [
             path,
             paint,
           ],
         ),
-        returnValue: _FakeDrawPathCommand_1(
+        returnValue: _FakePathCommand_1(
           this,
           Invocation.method(
-            #createDrawPathCommand,
+            #createPathCommand,
             [
               path,
               paint,
             ],
           ),
         ),
-      ) as _i3.DrawPathCommand);
+      ) as _i3.PathCommand);
 
   @override
-  _i3.LinePathCommand createLinePathCommand(
+  _i3.LineCommand createLineCommand(
     _i3.PathWithActionHistory? path,
     _i2.Paint? paint,
     _i2.Offset? startPoint,
@@ -393,7 +391,7 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createLinePathCommand,
+          #createLineCommand,
           [
             path,
             paint,
@@ -401,10 +399,10 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
             endPoint,
           ],
         ),
-        returnValue: _FakeLinePathCommand_2(
+        returnValue: _FakeLineCommand_2(
           this,
           Invocation.method(
-            #createLinePathCommand,
+            #createLineCommand,
             [
               path,
               paint,
@@ -413,5 +411,5 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
             ],
           ),
         ),
-      ) as _i3.LinePathCommand);
+      ) as _i3.LineCommand);
 }

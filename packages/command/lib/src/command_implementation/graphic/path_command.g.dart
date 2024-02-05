@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'draw_path_command.dart';
+part of 'path_command.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DrawPathCommand _$DrawPathCommandFromJson(Map<String, dynamic> json) =>
-    DrawPathCommand(
+PathCommand _$PathCommandFromJson(Map<String, dynamic> json) => PathCommand(
       const PathWithActionHistoryConverter()
           .fromJson(json['path'] as Map<String, dynamic>),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
@@ -15,7 +14,7 @@ DrawPathCommand _$DrawPathCommandFromJson(Map<String, dynamic> json) =>
       version: json['version'] as int?,
     );
 
-Map<String, dynamic> _$DrawPathCommandToJson(DrawPathCommand instance) =>
+Map<String, dynamic> _$PathCommandToJson(PathCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
       'type': instance.type,
