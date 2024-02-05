@@ -140,7 +140,7 @@ class LineTool extends Tool with EquatableMixin {
     if (pathCommand == null || newStartPoint == null || newEndPoint == null) {
       return;
     }
-    updateLinePathCommand(pathCommand, newStartPoint, newEndPoint);
+    updateLineCommand(pathCommand, newStartPoint, newEndPoint);
   }
 
   void onPlus() {
@@ -221,9 +221,14 @@ class LineTool extends Tool with EquatableMixin {
     movingVertex = vertexStack.last;
   }
 
-  void updateLinePathCommand(LineCommand? command, newStartPoint, newEndPoint) {
+  void updateLineCommand(LineCommand? command, newStartPoint, newEndPoint) {
     var path = _createPath(newStartPoint, newEndPoint);
     command?.updatePath(path);
+  }
+
+  void updateStrokeWidth(double newValue) {
+    if (vertexStack.isEmpty) return;
+    vertexStack.last.ingoingPathCommand?.paint.strokeWidth = newValue;
   }
 
   bool vertexWasClicked(Offset point) {

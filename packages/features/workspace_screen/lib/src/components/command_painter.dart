@@ -14,6 +14,8 @@ class CommandPainter extends CustomPainter {
     switch (tool.type) {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas);
+        //commandManager.executeLastCommand(canvas);
+        // problematic but need to fix here stroke change
         break;
       default:
         commandManager.executeLastCommand(canvas);

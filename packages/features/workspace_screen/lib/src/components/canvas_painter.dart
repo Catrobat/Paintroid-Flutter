@@ -57,6 +57,7 @@ class PaintingLayer extends ConsumerWidget {
 
     ref.watch(CanvasDirtyState.provider);
     ref.watch(CheckMarkClickedState.provider);
+    // ref.watch(brushToolStateProvider); for stroke change??
 
     final currentTool = ref.read(toolBoxStateProvider).currentTool;
 
