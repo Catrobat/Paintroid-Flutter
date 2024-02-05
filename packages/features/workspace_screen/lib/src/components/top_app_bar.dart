@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';
+import 'package:workspace_screen/src/states/checkmark_clicked_state.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
 class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -8,27 +9,19 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   const TopAppBar({Key? key, required this.title}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final currentTool = ref.watch(toolBoxStateProvider).currentTool;
-
+  List<Widget> getActions(Tool currentTool, WidgetRef ref) {
     List<Widget> actions = [
-      if (currentTool.type == ToolType.LINE) ...[
+      if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
         PlusButton(onPressed: () {
           _onPlusPressed(currentTool);
         }),
         CheckMarkButton(onPressed: () {
-          onCheckmarkPressed(currentTool);
+          onCheckmarkPressed(currentTool, ref);
         }),
       ],
       const OverflowMenu(),
     ];
-
-    return AppBar(
-      title: Text(title),
-      centerTitle: false,
-      actions: actions,
-    );
+    return actions;
   }
 
   @override
@@ -44,7 +37,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     }
   }
 
-  void onCheckmarkPressed(Tool currentTool) {
+  void onCheckmarkPressed(Tool currentTool, WidgetRef ref) {
     switch (currentTool.type) {
       case ToolType.LINE:
         (currentTool as LineTool).onCheckMark();
@@ -52,33 +45,21 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       default:
         break;
     }
+    ref.read(CheckMarkClickedState.provider.notifier).notify();
   }
-}
-
-class PlusButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const PlusButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.add),
-      onPressed: onPressed,
-    );
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTool = ref.watch(toolBoxStateProvider).currentTool;
 
-class CheckMarkButton extends StatelessWidget {
-  final VoidCallback onPressed;
+    ref.watch(CheckMarkClickedState.provider);
 
-  const CheckMarkButton({Key? key, required this.onPressed}) : super(key: key);
+    List<Widget> actions = getActions(currentTool, ref);
 
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.check),
-      onPressed: onPressed,
+    return AppBar(
+      title: Text(title),
+      centerTitle: false,
+      actions: actions,
     );
   }
 }

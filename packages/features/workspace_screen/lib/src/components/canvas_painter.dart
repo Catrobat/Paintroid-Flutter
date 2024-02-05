@@ -2,6 +2,7 @@ import 'package:command/command_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';
+import 'package:workspace_screen/src/states/checkmark_clicked_state.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
 class CanvasPainter extends ConsumerWidget {
@@ -55,6 +56,7 @@ class PaintingLayer extends ConsumerWidget {
     final commandManager = ref.watch(commandManagerProvider);
 
     ref.watch(CanvasDirtyState.provider);
+    ref.watch(CheckMarkClickedState.provider);
 
     final currentTool = ref.read(toolBoxStateProvider).currentTool;
 

@@ -4,7 +4,6 @@ import 'package:command/command.dart';
 import 'package:flutter/widgets.dart';
 import 'package:io_library/io_library.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tools/tools.dart';
 
 part 'line_command.g.dart';
 
@@ -40,13 +39,6 @@ class LineCommand extends GraphicCommand {
 
   @override
   List<Object?> get props => [paint, path];
-
-  void drawVertices(Canvas canvas, VertexStack vertexStack) {
-    for (var vertex in vertexStack) {
-      canvas.drawCircle(
-          vertex.vertexCenter, Vertex.VERTEX_RADIUS, Vertex.getVertexPaint());
-    }
-  }
 
   void setAsSourcePath() {
     isSourcePath = true;
