@@ -7,6 +7,7 @@ import 'dart:ui' as _i2;
 
 import 'package:command/command.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:tools/tools.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,6 +33,17 @@ class _FakeColor_0 extends _i1.SmartFake implements _i2.Color {
 class _FakeDrawPathCommand_1 extends _i1.SmartFake
     implements _i3.DrawPathCommand {
   _FakeDrawPathCommand_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeLinePathCommand_2 extends _i1.SmartFake
+    implements _i3.LinePathCommand {
+  _FakeLinePathCommand_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -303,6 +315,40 @@ class MockCommandManager extends _i1.Mock implements _i3.CommandManager {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i3.LinePathCommand? ingoingGhostPathCommand,
+    _i3.LinePathCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i4.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [CommandFactory].
@@ -337,4 +383,35 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
           ),
         ),
       ) as _i3.DrawPathCommand);
+
+  @override
+  _i3.LinePathCommand createLinePathCommand(
+    _i3.PathWithActionHistory? path,
+    _i2.Paint? paint,
+    _i2.Offset? startPoint,
+    _i2.Offset? endPoint,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createLinePathCommand,
+          [
+            path,
+            paint,
+            startPoint,
+            endPoint,
+          ],
+        ),
+        returnValue: _FakeLinePathCommand_2(
+          this,
+          Invocation.method(
+            #createLinePathCommand,
+            [
+              path,
+              paint,
+              startPoint,
+              endPoint,
+            ],
+          ),
+        ),
+      ) as _i3.LinePathCommand);
 }

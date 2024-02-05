@@ -8,6 +8,7 @@ import 'dart:ui' as _i2;
 
 import 'package:command/command.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:tools/tools.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -678,6 +679,40 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
           #clearHistory,
           [],
           {#newCommands: newCommands},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i4.LinePathCommand? ingoingGhostPathCommand,
+    _i4.LinePathCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i5.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
         ),
         returnValueForMissingStub: null,
       );

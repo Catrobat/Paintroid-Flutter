@@ -8,6 +8,7 @@ import 'dart:ui' as _i2;
 
 import 'package:command/command.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:tools/tools.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -92,9 +93,9 @@ class _FakeDrawPathCommand_6 extends _i1.SmartFake
         );
 }
 
-class _FakePictureRecorder_7 extends _i1.SmartFake
-    implements _i2.PictureRecorder {
-  _FakePictureRecorder_7(
+class _FakeLinePathCommand_7 extends _i1.SmartFake
+    implements _i3.LinePathCommand {
+  _FakeLinePathCommand_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -103,8 +104,19 @@ class _FakePictureRecorder_7 extends _i1.SmartFake
         );
 }
 
-class _FakeCanvas_8 extends _i1.SmartFake implements _i2.Canvas {
-  _FakeCanvas_8(
+class _FakePictureRecorder_8 extends _i1.SmartFake
+    implements _i2.PictureRecorder {
+  _FakePictureRecorder_8(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeCanvas_9 extends _i1.SmartFake implements _i2.Canvas {
+  _FakeCanvas_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -985,6 +997,40 @@ class MockCommandManager extends _i1.Mock implements _i3.CommandManager {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i3.LinePathCommand? ingoingGhostPathCommand,
+    _i3.LinePathCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i5.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [CommandFactory].
@@ -1019,6 +1065,37 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
           ),
         ),
       ) as _i3.DrawPathCommand);
+
+  @override
+  _i3.LinePathCommand createLinePathCommand(
+    _i3.PathWithActionHistory? path,
+    _i2.Paint? paint,
+    _i2.Offset? startPoint,
+    _i2.Offset? endPoint,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createLinePathCommand,
+          [
+            path,
+            paint,
+            startPoint,
+            endPoint,
+          ],
+        ),
+        returnValue: _FakeLinePathCommand_7(
+          this,
+          Invocation.method(
+            #createLinePathCommand,
+            [
+              path,
+              paint,
+              startPoint,
+              endPoint,
+            ],
+          ),
+        ),
+      ) as _i3.LinePathCommand);
 }
 
 /// A class which mocks [GraphicFactory].
@@ -1066,7 +1143,7 @@ class MockGraphicFactory extends _i1.Mock implements _i3.GraphicFactory {
           #createPictureRecorder,
           [],
         ),
-        returnValue: _FakePictureRecorder_7(
+        returnValue: _FakePictureRecorder_8(
           this,
           Invocation.method(
             #createPictureRecorder,
@@ -1082,7 +1159,7 @@ class MockGraphicFactory extends _i1.Mock implements _i3.GraphicFactory {
           #createCanvasWithRecorder,
           [recorder],
         ),
-        returnValue: _FakeCanvas_8(
+        returnValue: _FakeCanvas_9(
           this,
           Invocation.method(
             #createCanvasWithRecorder,

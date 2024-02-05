@@ -87,7 +87,7 @@ class MockImagePicker extends _i1.Mock implements _i5.ImagePicker {
   }
 
   @override
-  _i6.Future<_i2.PickedFile?> getImage({
+  _i6.Future<dynamic> getImage({
     required _i2.ImageSource? source,
     double? maxWidth,
     double? maxHeight,
@@ -106,11 +106,11 @@ class MockImagePicker extends _i1.Mock implements _i5.ImagePicker {
             #preferredCameraDevice: preferredCameraDevice,
           },
         ),
-        returnValue: _i6.Future<_i2.PickedFile?>.value(),
-      ) as _i6.Future<_i2.PickedFile?>);
+        returnValue: _i6.Future<dynamic>.value(),
+      ) as _i6.Future<dynamic>);
 
   @override
-  _i6.Future<List<_i2.PickedFile>?> getMultiImage({
+  _i6.Future<List<dynamic>?> getMultiImage({
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
@@ -125,11 +125,11 @@ class MockImagePicker extends _i1.Mock implements _i5.ImagePicker {
             #imageQuality: imageQuality,
           },
         ),
-        returnValue: _i6.Future<List<_i2.PickedFile>?>.value(),
-      ) as _i6.Future<List<_i2.PickedFile>?>);
+        returnValue: _i6.Future<List<dynamic>?>.value(),
+      ) as _i6.Future<List<dynamic>?>);
 
   @override
-  _i6.Future<_i2.PickedFile?> getVideo({
+  _i6.Future<dynamic> getVideo({
     required _i2.ImageSource? source,
     _i2.CameraDevice? preferredCameraDevice = _i2.CameraDevice.rear,
     Duration? maxDuration,
@@ -144,8 +144,8 @@ class MockImagePicker extends _i1.Mock implements _i5.ImagePicker {
             #maxDuration: maxDuration,
           },
         ),
-        returnValue: _i6.Future<_i2.PickedFile?>.value(),
-      ) as _i6.Future<_i2.PickedFile?>);
+        returnValue: _i6.Future<dynamic>.value(),
+      ) as _i6.Future<dynamic>);
 
   @override
   _i6.Future<_i2.LostData> getLostData() => (super.noSuchMethod(

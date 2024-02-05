@@ -17,7 +17,7 @@ class ToolBoxState extends _$ToolBoxState {
     state.currentTool.onDrag(position);
   }
 
-  void didTapUp({Offset? position}) {
+  void didTapUp(Offset position) {
     state.currentTool.onUp(position);
     state = state.copyWith(isDown: false);
   }
@@ -52,6 +52,15 @@ class ToolBoxState extends _$ToolBoxState {
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
           currentToolType: ToolType.ERASER,
+        );
+        break;
+      case ToolType.LINE:
+        ref
+            .read(brushToolStateProvider.notifier)
+            .updateBlendMode(BlendMode.srcOver);
+        state = state.copyWith(
+          currentTool: ref.read(lineToolProvider),
+          currentToolType: ToolType.LINE,
         );
         break;
       default:
