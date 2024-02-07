@@ -1,6 +1,6 @@
 enum BottomNavBarItem {
   TOOLS,
-  CURRENT_TOOL,
+  TOOL_OPTIONS,
   COLOR,
   LAYERS,
 }

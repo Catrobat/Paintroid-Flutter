@@ -11,29 +11,20 @@ class ToolOptions extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool visible = ref.watch(toolOptionsVisibilityStateProvider);
-
-    var currentToolType = ref.watch(
+    final currentToolType = ref.watch(
       toolBoxStateProvider.select((value) => value.currentToolType),
     );
 
-    List<Widget> toolSpecificOptions =
-        ToolOptionsConfig().getToolSpecificOptions(currentToolType);
-
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          for (Widget option in toolSpecificOptions)
-            if (option is Spacer)
-              const Spacer()
-            else
-              ToolOption(
-                isIgnoring: !visible,
-                opacity: visible ? maxOpacity : minOpacity,
-                child: option,
-              ),
-        ],
-      ),
+      child: ToolOption(
+          isIgnoring: !visible,
+          opacity: visible ? maxOpacity : minOpacity,
+          child: switch (currentToolType) {
+            ToolType.BRUSH => const StrokeToolOptions(),
+            ToolType.ERASER => const StrokeToolOptions(),
+            _ => Container(),
+          }),
     );
   }
 }

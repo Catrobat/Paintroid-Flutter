@@ -10,38 +10,11 @@ class BottomNavBar extends ConsumerWidget {
 
   const BottomNavBar({Key? key}) : super(key: key);
 
-  void _onNavigationItemSelected(
-      int index, BuildContext context, WidgetRef ref) {
-    BottomNavBarItem item = BottomNavBarItem.values[index];
-    switch (item) {
-      case BottomNavBarItem.TOOLS:
-        showToolBottomSheet(context);
-        break;
-      case BottomNavBarItem.CURRENT_TOOL:
-        handleToolOptionsVisibility(ref);
-        break;
-      default:
-        return;
-    }
-  }
-
-  void showToolBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => const SizedBox(
-        height: 270,
-        child: ToolsBottomSheet(),
-      ),
-    );
-  }
-
-  void handleToolOptionsVisibility(WidgetRef ref) {
-    ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context);
+    final currentToolData = getCurrentToolData(ref);
+
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
       child: NavigationBar(
@@ -53,22 +26,9 @@ class BottomNavBar extends ConsumerWidget {
             label: localizations.tools,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
-          Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              final ToolType currentToolType = ref.watch(
-                toolBoxStateProvider.select((value) => value.currentToolType),
-              );
-
-              final currentToolData = ToolData.allToolsData.firstWhere(
-                (toolData) => toolData.type == currentToolType,
-                orElse: () => ToolData.BRUSH,
-              );
-
-              return NavigationDestination(
-                label: currentToolData.name,
-                icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
-              );
-            },
+          NavigationDestination(
+            label: currentToolData.name,
+            icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
           ),
           NavigationDestination(
             label: localizations.color,
@@ -86,4 +46,44 @@ class BottomNavBar extends ConsumerWidget {
       ),
     );
   }
+
+  ToolData getCurrentToolData(WidgetRef ref) {
+    final ToolType currentToolType = ref.watch(
+      toolBoxStateProvider.select((value) => value.currentToolType),
+    );
+
+    final currentToolData = ToolData.allToolsData.firstWhere(
+      (toolData) => toolData.type == currentToolType,
+      orElse: () => ToolData.BRUSH,
+    );
+    return currentToolData;
+  }
+}
+
+void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
+  BottomNavBarItem item = BottomNavBarItem.values[index];
+  switch (item) {
+    case BottomNavBarItem.TOOLS:
+      _showToolBottomSheet(context);
+      break;
+    case BottomNavBarItem.TOOL_OPTIONS:
+      _handleToolOptionsVisibility(ref);
+      break;
+    default:
+      return;
+  }
+}
+
+void _showToolBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) => const SizedBox(
+      height: 270,
+      child: ToolsBottomSheet(),
+    ),
+  );
+}
+
+void _handleToolOptionsVisibility(WidgetRef ref) {
+  ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
 }
