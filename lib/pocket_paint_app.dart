@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:onboarding_screen/onboarding_screen.dart';
-import 'package:search_bar_screen/src/search_screen.dart';
+import 'package:search_bar_screen/search_page_screen.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

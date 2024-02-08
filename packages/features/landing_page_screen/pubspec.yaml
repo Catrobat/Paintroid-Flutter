@@ -34,8 +34,6 @@ dependencies:
     path: ../workspace_screen
   paintroid:
     path: ../../../
-  search_bar_screen:
-    path : ./packages/features/search_bar_screen
 
 dev_dependencies:
   flutter_test:

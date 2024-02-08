@@ -5,7 +5,7 @@ import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:database/database.dart';
 import 'package:toast/toast.dart';
-import 'package:landing_page_screen/src/components/project_list_tile.dart';
+import 'package:search_bar_screen/src/components/project_list_tile.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
