@@ -1,4 +1,4 @@
-name: landing_page_screen
+name: search_bar_screen
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: "none"
@@ -34,8 +34,6 @@ dependencies:
     path: ../workspace_screen
   paintroid:
     path: ../../../
-  search_bar_screen:
-    path : ./packages/features/search_bar_screen
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +50,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - test/fixture/image/
