@@ -17,6 +17,14 @@ class BottomNavBarInteractions {
     return this;
   }
 
+  Future<BottomNavBarInteractions> clickCurrentTool() async {
+    final firstNavDestination = find.byType(NavigationDestination).at(1);
+    expect(firstNavDestination, findsOneWidget);
+    await _tester.tap(firstNavDestination);
+    await _tester.pumpAndSettle();
+    return this;
+  }
+
   Future<BottomNavBarInteractions> selectTool(ToolData toolData) async {
     await openBottomToolSheet();
 
@@ -52,5 +60,15 @@ class BottomNavBarInteractions {
       ),
       matching: find.byType(IconButton),
     );
+  }
+
+  Finder getAnimatedOpacityFinder(Type type) {
+    final child = find.byType(type);
+    final animatedOpacityFinder = find.ancestor(
+      of: child,
+      matching: find.byType(AnimatedOpacity),
+    );
+    expect(animatedOpacityFinder, findsOneWidget);
+    return animatedOpacityFinder;
   }
 }
