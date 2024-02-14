@@ -4,14 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';
 
-class TopBrushToolOptions extends ConsumerStatefulWidget {
-  const TopBrushToolOptions({super.key});
+class StrokeWidthToolOption extends ConsumerStatefulWidget {
+  const StrokeWidthToolOption({super.key});
 
   @override
-  ConsumerState<TopBrushToolOptions> createState() => _NumberTextFieldState();
+  ConsumerState<StrokeWidthToolOption> createState() =>
+      _StrokeWidthToolOptionState();
 }
 
-class _NumberTextFieldState extends ConsumerState<TopBrushToolOptions> {
+class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
   late final TextEditingController _strokeWidthTextController;
 
   void _onChangedTextField(String value) {

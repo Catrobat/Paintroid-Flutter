@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tools/tools.dart';
+import 'package:workspace_screen/src/components/bottom_bar/tools/tool_button.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
 class ToolsBottomSheet extends StatelessWidget {
