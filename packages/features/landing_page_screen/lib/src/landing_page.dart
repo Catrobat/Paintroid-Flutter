@@ -95,12 +95,17 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                 Flexible(
                   flex: 2,
                   child: _ProjectPreview(
-                    ioHandler: ioHandler,
-                    imageService: imageService,
-                    latestModifiedProject: latestModifiedProject,
-                    openProject: () =>
-                        _openProject(latestModifiedProject, ioHandler),
-                  ),
+                      ioHandler: ioHandler,
+                      imageService: imageService,
+                      latestModifiedProject: latestModifiedProject,
+                      onProjectPreviewTap: () {
+                        if (latestModifiedProject != null) {
+                          _openProject(latestModifiedProject, ioHandler);
+                        } else {
+                          _clearCanvas();
+                          _navigateToPocketPaint();
+                        }
+                      }),
                 ),
                 Container(
                   color: lightColorScheme.primaryContainer,
@@ -183,13 +188,13 @@ class _ProjectPreview extends StatelessWidget {
   final Project? latestModifiedProject;
   final IOHandler ioHandler;
   final IImageService imageService;
-  final VoidCallback openProject;
+  final VoidCallback onProjectPreviewTap;
 
   const _ProjectPreview({
     this.latestModifiedProject,
     required this.ioHandler,
     required this.imageService,
-    required this.openProject,
+    required this.onProjectPreviewTap,
   });
 
   @override
@@ -198,7 +203,7 @@ class _ProjectPreview extends StatelessWidget {
       children: [
         Material(
           child: InkWell(
-            onTap: openProject,
+            onTap: onProjectPreviewTap,
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
@@ -211,9 +216,7 @@ class _ProjectPreview extends StatelessWidget {
             key: const Key('myEditIcon'),
             iconSize: 264,
             onPressed: () async {
-              if (latestModifiedProject != null) {
-                openProject();
-              }
+              onProjectPreviewTap.call();
             },
             icon: const IconSvg(
               path: 'assets/svg/ic_edit_circle.svg',
