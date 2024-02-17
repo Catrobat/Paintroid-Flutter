@@ -138,6 +138,38 @@ void main() {
   );
 
   testWidgets(
+    'Should open PocketPaint widget trough edit icon and return back to Landing page',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final editButton = find.byKey(const Key('myEditIcon'));
+      await tester.tap(editButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TopAppBar), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+
+      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      expect(titleFinder, findsOneWidget);
+
+      final overflowMenuButtonFinder = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder, findsOneWidget);
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.text('My Projects'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
     'Should have "My Projects" section',
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
