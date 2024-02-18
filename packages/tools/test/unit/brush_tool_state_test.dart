@@ -1,5 +1,5 @@
-import 'package:component_library/component_library.dart';
-import 'package:flutter/material.dart'; // needed for Paint, Color, etc.
+import 'package:command/graphic_factory/graphic_factory.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

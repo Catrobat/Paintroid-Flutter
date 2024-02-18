@@ -40,8 +40,6 @@ dependencies:
     path: ./packages/features/landing_page_screen
   onboarding_screen:
     path: ./packages/features/onboarding_screen
-  colorpicker:
-    path: ./packages/colorpicker
 
 dev_dependencies:
   flutter_test:

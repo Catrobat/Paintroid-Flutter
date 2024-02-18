@@ -3,11 +3,10 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:typed_data' as _i5;
+import 'dart:typed_data' as _i4;
 import 'dart:ui' as _i2;
 
-import 'package:command/command.dart' as _i4;
-import 'package:component_library/component_library.dart' as _i3;
+import 'package:command/command.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -83,7 +82,7 @@ class _FakePaint_5 extends _i1.SmartFake implements _i2.Paint {
 }
 
 class _FakeDrawPathCommand_6 extends _i1.SmartFake
-    implements _i4.DrawPathCommand {
+    implements _i3.DrawPathCommand {
   _FakeDrawPathCommand_6(
     Object parent,
     Invocation parentInvocation,
@@ -184,6 +183,15 @@ class MockPathWithActionHistory extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(
+          #toJson,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
 
   @override
   void relativeMoveTo(
@@ -478,7 +486,7 @@ class MockPathWithActionHistory extends _i1.Mock
   void addPath(
     _i2.Path? path,
     _i2.Offset? offset, {
-    _i5.Float64List? matrix4,
+    _i4.Float64List? matrix4,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -496,7 +504,7 @@ class MockPathWithActionHistory extends _i1.Mock
   void extendWithPath(
     _i2.Path? path,
     _i2.Offset? offset, {
-    _i5.Float64List? matrix4,
+    _i4.Float64List? matrix4,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -544,7 +552,7 @@ class MockPathWithActionHistory extends _i1.Mock
       ) as _i2.Path);
 
   @override
-  _i2.Path transform(_i5.Float64List? matrix4) => (super.noSuchMethod(
+  _i2.Path transform(_i4.Float64List? matrix4) => (super.noSuchMethod(
         Invocation.method(
           #transform,
           [matrix4],
@@ -852,10 +860,22 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
 /// A class which mocks [DrawPathCommand].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
+class MockDrawPathCommand extends _i1.Mock implements _i3.DrawPathCommand {
   MockDrawPathCommand() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  String get type => (super.noSuchMethod(
+        Invocation.getter(#type),
+        returnValue: '',
+      ) as String);
+
+  @override
+  int get version => (super.noSuchMethod(
+        Invocation.getter(#version),
+        returnValue: 0,
+      ) as int);
 
   @override
   _i3.PathWithActionHistory get path => (super.noSuchMethod(
@@ -889,21 +909,30 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(
+          #toJson,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
 }
 
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i3.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Iterable<_i4.Command> get history => (super.noSuchMethod(
+  Iterable<_i3.Command> get history => (super.noSuchMethod(
         Invocation.getter(#history),
-        returnValue: <_i4.Command>[],
-      ) as Iterable<_i4.Command>);
+        returnValue: <_i3.Command>[],
+      ) as Iterable<_i3.Command>);
 
   @override
   int get count => (super.noSuchMethod(
@@ -912,7 +941,7 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
       ) as int);
 
   @override
-  void addGraphicCommand(_i4.GraphicCommand? command) => super.noSuchMethod(
+  void addGraphicCommand(_i3.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
@@ -948,7 +977,7 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
       );
 
   @override
-  void clearHistory({Iterable<_i4.Command>? newCommands}) => super.noSuchMethod(
+  void clearHistory({Iterable<_i3.Command>? newCommands}) => super.noSuchMethod(
         Invocation.method(
           #clearHistory,
           [],
@@ -961,13 +990,13 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i4.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.DrawPathCommand createDrawPathCommand(
+  _i3.DrawPathCommand createDrawPathCommand(
     _i3.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
@@ -989,7 +1018,7 @@ class MockCommandFactory extends _i1.Mock implements _i4.CommandFactory {
             ],
           ),
         ),
-      ) as _i4.DrawPathCommand);
+      ) as _i3.DrawPathCommand);
 }
 
 /// A class which mocks [GraphicFactory].

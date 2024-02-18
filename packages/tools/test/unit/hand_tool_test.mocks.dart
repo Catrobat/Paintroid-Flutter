@@ -6,7 +6,6 @@
 import 'dart:ui' as _i2;
 
 import 'package:command/command.dart' as _i3;
-import 'package:component_library/component_library.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -316,7 +315,7 @@ class MockCommandFactory extends _i1.Mock implements _i3.CommandFactory {
 
   @override
   _i3.DrawPathCommand createDrawPathCommand(
-    _i4.PathWithActionHistory? path,
+    _i3.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
