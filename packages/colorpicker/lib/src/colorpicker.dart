@@ -1,6 +1,6 @@
 import 'package:colorpicker/src/constants/colors.dart';
-import 'package:colorpicker/src/widgets/color_compare.dart';
-import 'package:colorpicker/src/widgets/slider.dart';
+import 'package:colorpicker/src/components/color_compare.dart';
+import 'package:colorpicker/src/components/slider.dart';
 import 'package:flutter/material.dart';
 
 class ColorPicker extends StatefulWidget {

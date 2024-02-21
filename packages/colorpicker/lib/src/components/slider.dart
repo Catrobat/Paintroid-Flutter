@@ -1,4 +1,4 @@
-import 'package:colorpicker/src/widgets/slider_indicator.dart';
+import 'package:colorpicker/src/components/slider_indicator.dart';
 import 'package:flutter/material.dart';
 
 class OpacitySlider extends StatefulWidget {
@@ -38,7 +38,7 @@ class _OpacitySliderState extends State<OpacitySlider> {
 
   @override
   Widget build(BuildContext context) {
-    double widgetWidth = MediaQuery.of(context).size.width - 52;
+    double widgetWidth = MediaQuery.of(context).size.width - 52.0;
     return Container(
       height: 25.0,
       width: widgetWidth,

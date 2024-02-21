@@ -1,7 +1,7 @@
 .PHONY: run pods-clean get clean build languages lint format test watch
 
-FLUTTER := flutter
-DART := dart
+FLUTTER := fvm flutter
+DART := fvm dart
 
 run:
 	$(FLUTTER) run
