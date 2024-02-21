@@ -1,4 +1,5 @@
 import 'package:colorpicker/src/components/slider_indicator.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class OpacitySlider extends StatefulWidget {
@@ -42,11 +43,9 @@ class _OpacitySliderState extends State<OpacitySlider> {
     return Container(
       height: 25.0,
       width: widgetWidth,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-            'packages/component_library/assets/img/checkerboard.png',
-          ),
+          image: CheckerboardImg.getCheckerboardImgAsset(),
           fit: BoxFit.fitHeight,
           repeat: ImageRepeat.repeat,
         ),
