@@ -1,7 +1,7 @@
 import 'package:colorpicker/src/constants/colors.dart';
 import 'package:colorpicker/src/components/color_compare.dart';
 import 'package:colorpicker/src/components/slider.dart';
-import 'package:component_library/component_library.dart';
+import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class ColorPicker extends StatefulWidget {
@@ -65,7 +65,7 @@ class _ColorPickerState extends State<ColorPicker> {
                   return Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: CheckerboardImg.getCheckerboardImgAsset(),
+                        image: PackageAssets.getCheckerboardImgAsset(),
                         fit: BoxFit.contain,
                         repeat: ImageRepeat.repeat,
                       ),

@@ -32,13 +32,21 @@ class BottomNavBar extends ConsumerWidget {
             icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
           ),
           NavigationDestination(
-            label: localizations.color,
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
+              label: localizations.color,
+              icon: InkWell(
+                child: Container(
+                  height: 24.0,
+                  width: 24.0,
+                  decoration: BoxDecoration(
+                    color: ref.watch(brushToolStateProvider).paint.color,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1.4,
+                    ),
+                    borderRadius: BorderRadius.circular(2.0),
+                  ),
+                ),
+              )),
           NavigationDestination(
             label: localizations.layers,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
@@ -71,7 +79,7 @@ void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
       _handleToolOptionsVisibility(ref);
       break;
     case BottomNavBarItem.COLOR:
-      _showColorPicker(context);
+      _showColorPicker(context, ref);
       break;
     default:
       return;
@@ -92,7 +100,7 @@ void _handleToolOptionsVisibility(WidgetRef ref) {
   ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
 }
 
-void _showColorPicker(BuildContext context) {
+void _showColorPicker(BuildContext context, WidgetRef ref) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -104,8 +112,10 @@ void _showColorPicker(BuildContext context) {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ColorPicker(
-        currentColor: Colors.black,
-        onColorChanged: (color) {},
+        currentColor: ref.watch(brushToolStateProvider).paint.color,
+        onColorChanged: (newColor) {
+          ref.read(brushToolStateProvider.notifier).updateColor(newColor);
+        },
       ),
     ),
   );

@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 class CheckerboardImg extends StatelessWidget {
   const CheckerboardImg({Key? key}) : super(key: key);
 
-  static ImageProvider<Object> getCheckerboardImgAsset() {
-    return const AssetImage(
-      'packages/component_library/assets/img/checkerboard.png',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
