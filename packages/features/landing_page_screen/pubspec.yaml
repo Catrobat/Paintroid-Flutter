@@ -19,7 +19,6 @@ dependencies:
   toast: ^0.3.0
   oxidized: ^5.2.0
   flutter_svg: ^1.1.0
-  launch_review: ^3.0.1
   package_info_plus: ^4.0.1
   filesize: ^2.0.1
   url_launcher: ^6.1.5
