@@ -1,0 +1,26 @@
+name: l10n
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ">=3.0.5 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  flutter_localization: ^0.1.12
+  intl: ^0.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+  build_runner: ^2.2.0
+
+flutter:
