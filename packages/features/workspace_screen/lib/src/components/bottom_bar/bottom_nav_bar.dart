@@ -78,6 +78,7 @@ void _showToolBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) => const SizedBox(
+      width: double.infinity,
       child: ToolsBottomSheet(),
     ),
   );

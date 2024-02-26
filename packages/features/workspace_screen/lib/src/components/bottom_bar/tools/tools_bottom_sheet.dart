@@ -13,6 +13,7 @@ class ToolsBottomSheet extends StatelessWidget {
     const tools = ToolData.allToolsData;
     return SingleChildScrollView(
       child: Wrap(
+        alignment: WrapAlignment.center,
         children: tools.map((toolData) {
           return ToolButton(
             toolData: toolData,
