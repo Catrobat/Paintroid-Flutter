@@ -218,11 +218,27 @@ class _ProjectPreview extends StatelessWidget {
             onPressed: () async {
               onProjectPreviewTap.call();
             },
-            icon: const IconSvg(
-              path: 'assets/svg/ic_edit_circle.svg',
-              height: 264.0,
-              width: 264.0,
-            ),
+            icon: latestModifiedProject == null
+                ? Container(
+                    height: 170.0,
+                    width: 170.0,
+                    decoration: BoxDecoration(
+                        // This makes the container a perfect circle.
+                        shape: BoxShape.circle,
+                        color: lightColorScheme.outline.withAlpha(180)),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        color: lightColorScheme.background,
+                        size: 150.0,
+                      ),
+                    ),
+                  )
+                : const IconSvg(
+                    path: 'assets/svg/ic_edit_circle.svg',
+                    height: 264.0,
+                    width: 264.0,
+                  ),
           ),
         ),
         Align(
