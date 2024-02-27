@@ -15,6 +15,7 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context);
     final currentToolData = getCurrentToolData(ref);
+    final currentPaint = ref.watch(brushToolStateProvider).paint;
 
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
@@ -38,7 +39,7 @@ class BottomNavBar extends ConsumerWidget {
                   height: 24.0,
                   width: 24.0,
                   decoration: BoxDecoration(
-                    color: ref.watch(brushToolStateProvider).paint.color,
+                    color: currentPaint.color,
                     border: Border.all(
                       color: Colors.white,
                       width: 1.4,

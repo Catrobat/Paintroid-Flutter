@@ -1,10 +1,13 @@
 import 'package:colorpicker/src/constants/colors.dart';
 import 'package:colorpicker/src/components/color_compare.dart';
 import 'package:colorpicker/src/components/slider.dart';
+import 'package:colorpicker/src/state/color_state.dart';
+import 'package:colorpicker/src/state/position_fraction_state.dart';
 import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ColorPicker extends StatefulWidget {
+class ColorPicker extends ConsumerStatefulWidget {
   const ColorPicker({
     super.key,
     required this.currentColor,
@@ -15,28 +18,21 @@ class ColorPicker extends StatefulWidget {
   final void Function(Color) onColorChanged;
 
   @override
-  State<ColorPicker> createState() => _ColorPickerState();
+  _ColorPickerState createState() => _ColorPickerState();
 }
 
-class _ColorPickerState extends State<ColorPicker> {
+class _ColorPickerState extends ConsumerState<ColorPicker> {
   final colors = DisplayColors.colors;
-  Color newColor = Colors.black;
-  double opacity = 1.0;
-
-  void callback(Color color, double op) {
-    setState(() {
-      opacity = op;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    newColor = widget.currentColor;
   }
 
   @override
   Widget build(BuildContext context) {
+    final opacity = 1.0 - ref.watch(positionFractionNotifierProvider);
+    final newColor = ref.watch(colorStateNotifierProvider);
     return Container(
       margin: const EdgeInsets.all(26.0),
       alignment: Alignment.center,
@@ -74,9 +70,9 @@ class _ColorPickerState extends State<ColorPicker> {
                 }
                 return GestureDetector(
                   onTap: () {
-                    setState(() {
-                      newColor = colors[index];
-                    });
+                    ref.read(colorStateNotifierProvider.notifier).updateColor(
+                          colors[index].withOpacity(opacity),
+                        );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -92,7 +88,6 @@ class _ColorPickerState extends State<ColorPicker> {
           ),
           OpacitySlider(
             gradientColor: newColor,
-            callback: callback,
           ),
           const Spacer(),
           Row(
@@ -108,11 +103,12 @@ class _ColorPickerState extends State<ColorPicker> {
                 width: 10.0,
               ),
               TextButton(
-                  onPressed: () {
-                    widget.onColorChanged(newColor.withOpacity(opacity));
-                    Navigator.pop(context);
-                  },
-                  child: const Text('APPLY')),
+                onPressed: () {
+                  widget.onColorChanged(newColor.withOpacity(opacity));
+                  Navigator.pop(context);
+                },
+                child: const Text('APPLY'),
+              ),
             ],
           )
         ],

@@ -1,44 +1,25 @@
 import 'package:colorpicker/src/components/slider_indicator.dart';
+import 'package:colorpicker/src/state/slider_state.dart';
 import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OpacitySlider extends StatefulWidget {
+class OpacitySlider extends ConsumerStatefulWidget {
   const OpacitySlider({
     super.key,
     required this.gradientColor,
-    required this.callback,
   });
 
   final Color gradientColor;
-  final Function(Color, double) callback;
 
   @override
-  State<OpacitySlider> createState() => _OpacitySliderState();
+  _OpacitySliderState createState() => _OpacitySliderState();
 }
 
-class _OpacitySliderState extends State<OpacitySlider> {
-  double _sliderPosition = 0.0;
-  double _positionFraction = 0.0;
-
-  void _handleColorChange(double position, double widgetWidth) {
-    if (position < 0.0) {
-      position = 0.0;
-    }
-    if (position > widgetWidth) {
-      position = widgetWidth;
-    }
-    setState(() {
-      _sliderPosition = position;
-      _positionFraction = _sliderPosition / widgetWidth;
-      widget.callback(
-        widget.gradientColor,
-        1 - _positionFraction,
-      );
-    });
-  }
-
+class _OpacitySliderState extends ConsumerState<OpacitySlider> {
   @override
   Widget build(BuildContext context) {
+    final positon = ref.watch(positionNotifierProvider);
     double widgetWidth = MediaQuery.of(context).size.width - 52.0;
     return Container(
       height: 25.0,
@@ -54,12 +35,16 @@ class _OpacitySliderState extends State<OpacitySlider> {
         onHorizontalDragStart: (DragStartDetails details) {},
         onHorizontalDragUpdate: (DragUpdateDetails details) {
           double position = details.localPosition.dx;
-          _handleColorChange(position, widgetWidth);
+          ref
+              .read(positionNotifierProvider.notifier)
+              .updatePosition(position, widgetWidth);
         },
         onHorizontalDragEnd: (DragEndDetails details) {},
         onTapDown: (TapDownDetails details) {
           double position = details.localPosition.dx;
-          _handleColorChange(position, widgetWidth);
+          ref
+              .read(positionNotifierProvider.notifier)
+              .updatePosition(position, widgetWidth);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -73,7 +58,7 @@ class _OpacitySliderState extends State<OpacitySlider> {
             ),
           ),
           child: CustomPaint(
-            painter: SliderIndicatorPainter(_sliderPosition),
+            painter: SliderIndicatorPainter(positon),
           ),
         ),
       ),
