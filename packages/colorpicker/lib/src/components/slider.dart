@@ -13,7 +13,7 @@ class OpacitySlider extends ConsumerStatefulWidget {
   final Color gradientColor;
 
   @override
-  _OpacitySliderState createState() => _OpacitySliderState();
+  ConsumerState<OpacitySlider> createState() => _OpacitySliderState();
 }
 
 class _OpacitySliderState extends ConsumerState<OpacitySlider> {

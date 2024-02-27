@@ -18,7 +18,7 @@ class ColorPicker extends ConsumerStatefulWidget {
   final void Function(Color) onColorChanged;
 
   @override
-  _ColorPickerState createState() => _ColorPickerState();
+  ConsumerState<ColorPicker> createState() => _ColorPickerState();
 }
 
 class _ColorPickerState extends ConsumerState<ColorPicker> {
