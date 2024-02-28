@@ -159,4 +159,18 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
     });
   });
+
+  group('BottomNavBarItem.COLOR', () {
+    testWidgets('test if color changes on selection',
+        (WidgetTester tester) async {
+      const blueColor = Color(0xff0073cc);
+
+      await tester.pumpWidget(sut);
+
+      final bottomNavBarInteractions = BottomNavBarInteractions(tester);
+      await bottomNavBarInteractions
+          .selectColor(blueColor)
+          .then((_) => _.checkActiveColor(blueColor));
+    });
+  });
 }
