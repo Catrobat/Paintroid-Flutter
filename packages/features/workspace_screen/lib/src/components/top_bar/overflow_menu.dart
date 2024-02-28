@@ -7,13 +7,15 @@ import 'package:l10n/l10n.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
+import 'package:share/share.dart';
 
 enum OverflowMenuOption {
   fullscreen,
   saveImage,
   saveProject,
   loadImage,
-  newImage;
+  newImage,
+  share;
 
   String localizedLabel(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -28,6 +30,9 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
+
+      case OverflowMenuOption.share:
+        return localizations.share;
     }
   }
 }
@@ -48,11 +53,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => OverflowMenuOption.values
           .map((option) => PopupMenuItem(
-              value: option,
-              child: Text(
-                option.localizedLabel(context),
-                style: TextThemes.menuItem,
-              )))
+          value: option,
+          child: Text(
+            option.localizedLabel(context),
+            style: TextThemes.menuItem,
+          )))
           .toList(),
     );
   }
@@ -74,6 +79,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+
+    // added case
+      case OverflowMenuOption.share:
+        _shareContent();
         break;
     }
   }
@@ -114,7 +124,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     final fileService = ref.watch(IFileService.provider);
     final fileName = '${imageData.name}.${imageData.format.extension}';
     final fileExists =
-        await fileService.checkIfFileExistsInApplicationDirectory(fileName);
+    await fileService.checkIfFileExistsInApplicationDirectory(fileName);
 
     if (fileExists) {
       final overWriteCanceled = await _showOverwriteDialog();
@@ -131,6 +141,27 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
     return true;
   }
+
+
+
+  void _shareContent() {
+
+    // final String imagePath = ioHandler.getCurrentImagePath();
+    //
+    // if (imagePath.isNotEmpty) {
+    //
+    //   Share.shareFiles([imagePath], text: 'Check out my creation');
+    // } else {
+    //   Toast.show(
+    //     'No image to share',
+    //     duration: Toast.lengthShort,
+    //     gravity: Toast.bottom,
+    //   );
+    // }
+
+    Share.share('Check out this great app!');
+  }
+
 
   Future<void> _saveProject() async {
     final imageData = await showSaveImageDialog(context, true);
@@ -151,7 +182,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       final savedProject = await ioHandler.saveProject(catrobatImageData);
       if (savedProject != null) {
         String? imagePreview =
-            await ioHandler.getPreviewPath(catrobatImageData);
+        await ioHandler.getPreviewPath(catrobatImageData);
         Project projectNew = Project(
           name: catrobatImageData.name,
           path: savedProject.path,
