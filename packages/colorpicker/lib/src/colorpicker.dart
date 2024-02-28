@@ -2,7 +2,7 @@ import 'package:colorpicker/src/constants/colors.dart';
 import 'package:colorpicker/src/components/color_compare.dart';
 import 'package:colorpicker/src/components/slider.dart';
 import 'package:colorpicker/src/state/color_state.dart';
-import 'package:colorpicker/src/state/position_fraction_state.dart';
+import 'package:colorpicker/src/state/slider_position_state.dart';
 import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,8 +31,9 @@ class _ColorPickerState extends ConsumerState<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final opacity = 1.0 - ref.watch(positionFractionNotifierProvider);
-    final newColor = ref.watch(colorStateNotifierProvider);
+    final widgetWidth = MediaQuery.of(context).size.width - 52.0;
+    final opacity = 1.0 - ref.watch(sliderPositionStateProvider) / widgetWidth;
+    final newColor = ref.watch(colorStateProvider);
     return Container(
       margin: const EdgeInsets.all(26.0),
       alignment: Alignment.center,
@@ -71,7 +72,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker> {
                   }
                   return GestureDetector(
                     onTap: () {
-                      ref.read(colorStateNotifierProvider.notifier).updateColor(
+                      ref.read(colorStateProvider.notifier).updateColor(
                             colors[index].withOpacity(opacity),
                           );
                     },

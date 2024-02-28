@@ -16,7 +16,7 @@ void main() {
 
   test('updateColor updates the color correctly', () {
     Color newColor = Colors.blue.shade50;
-    container.read(colorStateNotifierProvider.notifier).updateColor(newColor);
-    expect(container.read(colorStateNotifierProvider), newColor);
+    container.read(colorStateProvider.notifier).updateColor(newColor);
+    expect(container.read(colorStateProvider), newColor);
   });
 }

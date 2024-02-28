@@ -1,4 +1,4 @@
-import 'package:colorpicker/src/state/slider_state.dart';
+import 'package:colorpicker/src/state/slider_position_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,10 +16,10 @@ void main() {
   test('updatePosition updates the position correctly', () {
     double position = 30.0;
     double widgetWidth = 100.0;
-    container.read(positionNotifierProvider.notifier).updatePosition(
+    container.read(sliderPositionStateProvider.notifier).updatePosition(
           position,
           widgetWidth,
         );
-    expect(container.read(positionNotifierProvider), position);
+    expect(container.read(sliderPositionStateProvider), position);
   });
 }

@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'color_state.g.dart';
 
 @riverpod
-class ColorStateNotifier extends _$ColorStateNotifier {
+class ColorState extends _$ColorState {
   @override
   Color build() {
     return Colors.blue;

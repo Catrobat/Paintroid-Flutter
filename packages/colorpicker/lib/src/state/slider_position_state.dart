@@ -1,9 +1,8 @@
-import 'package:colorpicker/src/state/position_fraction_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'slider_state.g.dart';
+part 'slider_position_state.g.dart';
 
 @riverpod
-class PositionNotifier extends _$PositionNotifier {
+class SliderPositionState extends _$SliderPositionState {
   @override
   double build() {
     return 0.0;
@@ -20,8 +19,5 @@ class PositionNotifier extends _$PositionNotifier {
       position = widgetWidth;
     }
     state = position;
-    ref.read(positionFractionNotifierProvider.notifier).updateFraction(
-          position / widgetWidth,
-        );
   }
 }
