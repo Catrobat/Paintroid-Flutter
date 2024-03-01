@@ -8,7 +8,6 @@ part 'hand_tool_provider.g.dart';
 HandTool handTool(HandToolRef ref) {
   return HandTool(
     paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
-    type: ToolType.HAND,
     commandManager: ref.watch(commandManagerProvider),
     commandFactory: ref.watch(commandFactoryProvider),
   );

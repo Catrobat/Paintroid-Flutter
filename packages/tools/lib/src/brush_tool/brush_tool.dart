@@ -11,8 +11,9 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
-    required super.type,
   });
+
+  final ToolType type = ToolType.BRUSH;
 
   final GraphicFactory graphicFactory;
 
@@ -61,7 +62,6 @@ class BrushTool extends Tool with EquatableMixin {
       commandFactory: commandFactory ?? this.commandFactory,
       commandManager: commandManager ?? this.commandManager,
       graphicFactory: graphicFactory ?? this.graphicFactory,
-      type: type ?? this.type,
     );
   }
 }

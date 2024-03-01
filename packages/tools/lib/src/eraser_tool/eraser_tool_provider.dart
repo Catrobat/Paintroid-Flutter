@@ -8,7 +8,6 @@ part 'eraser_tool_provider.g.dart';
 BrushTool eraserTool(EraserToolRef ref) {
   return BrushTool(
     paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
-    type: ToolType.ERASER,
     commandManager: ref.watch(commandManagerProvider),
     commandFactory: ref.watch(commandFactoryProvider),
     graphicFactory: ref.watch(graphicFactoryProvider),
