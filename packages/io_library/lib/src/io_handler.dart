@@ -26,7 +26,19 @@ class IOHandler {
     }
     final isFileSaved = await workspaceStateNotifier
         .performIOTask(() => _saveImageWith(imageMetaData));
-    workspaceStateNotifier.updateLastSavedCommandCount();
+
+    //original line
+    //workspaceStateNotifier.updateLastSavedCommandCount();
+
+    // added part
+    if (!isFileSaved) {
+      workspaceStateNotifier.markUnsavedChanges();
+    } else {
+      workspaceStateNotifier.updateLastSavedCommandCount();
+    }
+    //end
+
+
     return isFileSaved;
   }
 

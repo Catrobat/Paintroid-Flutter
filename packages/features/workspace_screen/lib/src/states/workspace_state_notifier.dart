@@ -6,12 +6,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'workspace_state.dart';
 
 class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
-  WorkspaceStateNotifier(super.state, this._commandManager);
+  WorkspaceStateNotifier(super.state, this._commandManager) {
+    _hasUnsavedChanges = state.commandCountWhenLastSaved != _commandManager.count;
+  }
 
   final CommandManager _commandManager;
+  bool _hasUnsavedChanges = false;
 
-  bool get hasSavedLastWork =>
-      state._commandCountWhenLastSaved == _commandManager.count;
+  bool get hasUnsavedChanges => _hasUnsavedChanges;
+
+  void markUnsavedChanges() {
+    _hasUnsavedChanges = true;
+  }
+
+  void updateLastSavedCommandCount() {
+    _hasUnsavedChanges = false;
+    state = state.copyWith(commandCountWhenLastSaved: _commandManager.count);
+  }
+
+  bool get hasSavedLastWork => state.commandCountWhenLastSaved == _commandManager.count;
 
   Future<T> performIOTask<T>(Future<T> Function() task) async {
     state = state.copyWith(isPerformingIOTask: true);
@@ -20,11 +33,8 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
     return result;
   }
 
-  void updateLastSavedCommandCount() => state = state.copyWith(
-        updatedLastSavedCommandCount: _commandManager.count,
-      );
-
-  void toggleFullscreen(bool isEnabled) => state = state.copyWith(
-        isFullscreen: isEnabled,
-      );
+  // Toggle the fullscreen state
+  void toggleFullscreen(bool isEnabled) {
+    state = state.copyWith(isFullscreen: isEnabled);
+  }
 }

@@ -4,34 +4,33 @@ part of 'workspace_state_notifier.dart';
 class WorkspaceState {
   final bool isFullscreen;
   final bool isPerformingIOTask;
-  final int _commandCountWhenLastSaved;
-
+  final int commandCountWhenLastSaved;
   static const initial = WorkspaceState();
 
   static final provider =
-      StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
-    (ref) => WorkspaceStateNotifier(
+  StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
+        (ref) => WorkspaceStateNotifier(
       initial,
       ref.watch(commandManagerProvider),
     ),
   );
 
+
   const WorkspaceState({
     this.isFullscreen = false,
     this.isPerformingIOTask = false,
-    int commandCountWhenLastSaved = 0,
-  }) : _commandCountWhenLastSaved = commandCountWhenLastSaved;
+    this.commandCountWhenLastSaved = 0,
+  });
 
   WorkspaceState copyWith({
     bool? isFullscreen,
     bool? isPerformingIOTask,
-    int? updatedLastSavedCommandCount,
+    int? commandCountWhenLastSaved,
   }) {
     return WorkspaceState(
       isFullscreen: isFullscreen ?? this.isFullscreen,
       isPerformingIOTask: isPerformingIOTask ?? this.isPerformingIOTask,
-      commandCountWhenLastSaved:
-          updatedLastSavedCommandCount ?? _commandCountWhenLastSaved,
+      commandCountWhenLastSaved: commandCountWhenLastSaved ?? this.commandCountWhenLastSaved,
     );
   }
 }
