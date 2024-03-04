@@ -59,6 +59,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     ToastContext().init(context);
 
     return Scaffold(
+      backgroundColor: lightColorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.only(bottom: 40),
         child: Column(
@@ -88,11 +89,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
       bottomSheet: Container(
         color: lightColorScheme.surface,
         height: 40,
+        width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 30),
               child: TextButton(
                 onPressed: () => finish(),
                 child: Text(
@@ -115,7 +117,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 30),
               child: TextButton(
                 onPressed: () async {
                   if (_isLastPage) {
