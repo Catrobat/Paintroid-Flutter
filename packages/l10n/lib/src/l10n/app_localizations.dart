@@ -145,6 +145,10 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Layers'**
   String get layers;
+
+
+  // Getter for "Advanced Options"
+  String get advancedOptions;
 }
 
 class _AppLocalizationsDelegate
