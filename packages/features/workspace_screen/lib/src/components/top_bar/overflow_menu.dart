@@ -29,7 +29,6 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
-
       case OverflowMenuOption.advancedOptions:
         return localizations.advancedOptions;
     }
@@ -79,7 +78,6 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
         break;
-
       case OverflowMenuOption.advancedOptions:
         _showAdvancedOptionsDialog();
         break;
