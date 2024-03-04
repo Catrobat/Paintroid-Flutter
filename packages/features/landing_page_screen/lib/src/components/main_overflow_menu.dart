@@ -42,23 +42,27 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     );
   }
 
+  void _openStore() {
+    if (Platform.isAndroid || Platform.isIOS) {
+      final appId = Platform.isAndroid ? androidAppId : iOSAppId;
+      final url = Uri.parse(
+        Platform.isAndroid
+            ? 'market://details?id=$appId'
+            : 'https://apps.apple.com/at/app/pocket-code/id1117935892',
+      );
+      launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
+
   Future<void> _handleSelectedOption(MainOverflowMenuOption option) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     switch (option) {
       case MainOverflowMenuOption.rate:
-        if (Platform.isAndroid || Platform.isIOS) {
-          final appId = Platform.isAndroid ? androidAppId : iOSAppId;
-          final url = Uri.parse(
-            Platform.isAndroid
-                ? 'market://details?id=$appId'
-                : 'https://apps.apple.com/app/id$appId',
-          );
-          launchUrl(
-            url,
-            mode: LaunchMode.externalApplication,
-          );
-        }
+        _openStore();
         break;
       case MainOverflowMenuOption.help:
         if (mounted) {
