@@ -31,37 +31,6 @@ class _OpacitySliderState extends ConsumerState<OpacitySlider> {
           repeat: ImageRepeat.repeat,
         ),
       ),
-      // child: GestureDetector(
-      //   onHorizontalDragStart: (DragStartDetails details) {},
-      //   onHorizontalDragUpdate: (DragUpdateDetails details) {
-      //     double position = details.localPosition.dx;
-      //     ref
-      //         .read(sliderPositionStateProvider.notifier)
-      //         .updatePosition(position, widgetWidth);
-      //   },
-      //   onHorizontalDragEnd: (DragEndDetails details) {},
-      //   onTapDown: (TapDownDetails details) {
-      //     double position = details.localPosition.dx;
-      //     ref
-      //         .read(sliderPositionStateProvider.notifier)
-      //         .updatePosition(position, widgetWidth);
-      //   },
-      //   child: Container(
-      //     decoration: BoxDecoration(
-      //       gradient: LinearGradient(
-      //         colors: [
-      //           widget.gradientColor.withOpacity(1.0),
-      //           widget.gradientColor.withOpacity(0.0),
-      //         ],
-      //         begin: Alignment.centerLeft,
-      //         end: Alignment.centerRight,
-      //       ),
-      //     ),
-      //     child: CustomPaint(
-      //       painter: SliderIndicatorPainter(positon),
-      //     ),
-      //   ),
-      // ),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
