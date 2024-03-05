@@ -30,6 +30,6 @@ jobs:
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: apk
+          name: apk-${{ github.event.number }}
           path: |
             build/app/outputs/flutter-apk/app-release-${{ github.event.number }}.apk
