@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:command/command.dart';
 import 'package:command/command_providers.dart';
-import 'package:component_library/component_library.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workspace_screen/workspace_screen.dart';

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:component_library/component_library.dart';
+import 'package:command/graphic_factory/graphic_factory_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tools/tools.dart';
 
