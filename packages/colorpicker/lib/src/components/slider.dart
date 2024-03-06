@@ -4,7 +4,7 @@ import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OpacitySlider extends ConsumerStatefulWidget {
+class OpacitySlider extends ConsumerWidget {
   const OpacitySlider({
     super.key,
     required this.gradientColor,
@@ -13,12 +13,7 @@ class OpacitySlider extends ConsumerStatefulWidget {
   final Color gradientColor;
 
   @override
-  ConsumerState<OpacitySlider> createState() => _OpacitySliderState();
-}
-
-class _OpacitySliderState extends ConsumerState<OpacitySlider> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final positon = ref.watch(sliderPositionStateProvider);
     double widgetWidth = MediaQuery.of(context).size.width - 52.0;
     return Container(
@@ -35,8 +30,8 @@ class _OpacitySliderState extends ConsumerState<OpacitySlider> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              widget.gradientColor.withOpacity(1.0),
-              widget.gradientColor.withOpacity(0.0),
+              gradientColor.withOpacity(1.0),
+              gradientColor.withOpacity(0.0),
             ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,

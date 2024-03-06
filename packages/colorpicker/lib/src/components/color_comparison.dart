@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ColorCompare extends StatefulWidget {
-  const ColorCompare({
+class ColorComparison extends StatelessWidget {
+  const ColorComparison({
     super.key,
     required this.currentColor,
     required this.newColor,
@@ -11,11 +11,6 @@ class ColorCompare extends StatefulWidget {
   final Color newColor;
 
   @override
-  State<ColorCompare> createState() => _ColorCompareState();
-}
-
-class _ColorCompareState extends State<ColorCompare> {
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 130.0,
@@ -23,14 +18,14 @@ class _ColorCompareState extends State<ColorCompare> {
       child: Row(
         children: [
           Expanded(
-            child: ColorDesc(
-              color: widget.currentColor,
+            child: ColorDescription(
+              color: currentColor,
               desc: 'current',
             ),
           ),
           Expanded(
-            child: ColorDesc(
-              color: widget.newColor,
+            child: ColorDescription(
+              color: newColor,
               desc: 'new',
             ),
           ),
@@ -40,8 +35,8 @@ class _ColorCompareState extends State<ColorCompare> {
   }
 }
 
-class ColorDesc extends StatelessWidget {
-  const ColorDesc({
+class ColorDescription extends StatelessWidget {
+  const ColorDescription({
     super.key,
     required this.color,
     required this.desc,

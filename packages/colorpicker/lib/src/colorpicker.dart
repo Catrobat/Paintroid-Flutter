@@ -1,5 +1,5 @@
 import 'package:colorpicker/src/constants/colors.dart';
-import 'package:colorpicker/src/components/color_compare.dart';
+import 'package:colorpicker/src/components/color_comparison.dart';
 import 'package:colorpicker/src/components/slider.dart';
 import 'package:colorpicker/src/state/color_state.dart';
 import 'package:colorpicker/src/state/slider_position_state.dart';
@@ -7,7 +7,7 @@ import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ColorPicker extends ConsumerStatefulWidget {
+class ColorPicker extends ConsumerWidget {
   const ColorPicker({
     super.key,
     required this.currentColor,
@@ -17,20 +17,10 @@ class ColorPicker extends ConsumerStatefulWidget {
   final Color currentColor;
   final void Function(Color) onColorChanged;
 
-  @override
-  ConsumerState<ColorPicker> createState() => _ColorPickerState();
-}
-
-class _ColorPickerState extends ConsumerState<ColorPicker> {
   final colors = DisplayColors.colors;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final widgetWidth = MediaQuery.of(context).size.width - 52.0;
     final opacity = 1.0 - ref.watch(sliderPositionStateProvider) / widgetWidth;
     final newColor = ref.watch(colorStateProvider);
@@ -43,8 +33,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            ColorCompare(
-              currentColor: widget.currentColor,
+            ColorComparison(
+              currentColor: currentColor,
               newColor: newColor.withOpacity(opacity),
             ),
             const SizedBox(
@@ -108,7 +98,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker> {
                 ),
                 TextButton(
                   onPressed: () {
-                    widget.onColorChanged(newColor.withOpacity(opacity));
+                    onColorChanged(newColor.withOpacity(opacity));
                     Navigator.pop(context);
                   },
                   child: const Text('APPLY'),
