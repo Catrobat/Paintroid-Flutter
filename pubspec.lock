@@ -1086,7 +1086,7 @@ packages:
     source: hosted
     version: "0.27.7"
   share:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: share
       sha256: "97e6403f564ed1051a01534c2fc919cb6e40ea55e60a18ec23cee6e0ce19f4be"

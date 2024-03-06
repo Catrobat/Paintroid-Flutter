@@ -30,7 +30,6 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
-
       case OverflowMenuOption.share:
         return localizations.share;
     }
@@ -80,8 +79,6 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
         break;
-
-    // added case
       case OverflowMenuOption.share:
         _shareContent();
         break;
@@ -145,19 +142,6 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
 
   void _shareContent() {
-
-    // final String imagePath = ioHandler.getCurrentImagePath();
-    //
-    // if (imagePath.isNotEmpty) {
-    //
-    //   Share.shareFiles([imagePath], text: 'Check out my creation');
-    // } else {
-    //   Toast.show(
-    //     'No image to share',
-    //     duration: Toast.lengthShort,
-    //     gravity: Toast.bottom,
-    //   );
-    // }
 
     Share.share('Check out this great app!');
   }

@@ -19,7 +19,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get saveProject => 'Save project';
 
-
   @override
   String get share => 'Share';
 

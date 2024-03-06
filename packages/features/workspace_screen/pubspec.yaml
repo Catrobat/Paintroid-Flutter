@@ -21,6 +21,7 @@ dependencies:
   toast: ^0.3.0
   image: ^3.2.0
   oxidized: ^5.2.0
+  share: ^2.0.4
 
   # Internal packages
   component_library:
