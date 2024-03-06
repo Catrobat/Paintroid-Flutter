@@ -8,10 +8,6 @@ export 'src/components/imgs.dart';
 export 'src/components/loading_overlay.dart';
 export 'src/components/pop_menu_button.dart';
 export 'src/components/text_input_field.dart';
-
-export 'src/models/graphic_factory.dart';
-export 'src/models/path_with_action_history.dart';
-
 export 'src/theme/color_schemes.dart';
 export 'src/theme/styles.dart';
 export 'src/utils/open_url.dart';
