@@ -21,10 +21,10 @@ class SaveImageDialog extends ConsumerStatefulWidget {
       : super(key: key);
 
   @override
-  _SaveImageDialogState createState() => _SaveImageDialogState();
+  SaveImageDialogState createState() => SaveImageDialogState();
 }
 
-class _SaveImageDialogState extends ConsumerState<SaveImageDialog> {
+class SaveImageDialogState extends ConsumerState<SaveImageDialog> {
   final TextEditingController nameFieldController = TextEditingController();
   final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
   var selectedFormat = ImageFormat.jpg;
@@ -33,7 +33,6 @@ class _SaveImageDialogState extends ConsumerState<SaveImageDialog> {
   @override
   void initState() {
     super.initState();
-    print('this');
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
     }
@@ -47,13 +46,12 @@ class _SaveImageDialogState extends ConsumerState<SaveImageDialog> {
 
 
 
-  void _setDefaultFileName() async {
+  Future<void> _setDefaultFileName() async {
     final fileService = ref.read(IFileService.provider);
     String defaultName;
     if (widget.savingProject) {
       final nextNumber = await fileService.getNextProjectNumber();
       defaultName = 'project$nextNumber';
-      print(nextNumber);
     }
     else {
 

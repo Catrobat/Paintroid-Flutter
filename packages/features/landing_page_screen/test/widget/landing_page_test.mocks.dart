@@ -299,6 +299,13 @@ class MockIFileService extends _i1.Mock implements _i8.IFileService {
   }
 
   @override
+  Future<int> getNextProjectNumber() => super.noSuchMethod(
+    Invocation.method(#getNextProjectNumber, []),
+    returnValue: Future<int>.value(1),
+    returnValueForMissingStub: Future<int>.value(-1),
+  );
+
+  @override
   _i3.Future<_i5.Result<_i11.File, _i8.Failure>> save(
     String? filename,
     _i10.Uint8List? data,

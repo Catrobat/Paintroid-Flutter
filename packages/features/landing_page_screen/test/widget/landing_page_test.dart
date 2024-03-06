@@ -411,6 +411,7 @@ void main() {
       expect(saveProjectButton, findsOneWidget);
 
       await tester.tap(saveProjectButton);
+      when(fileService.getNextProjectNumber()).thenAnswer((_) async => 1);
       await tester.pumpAndSettle();
 
       final textFormField = find.widgetWithText(TextFormField, 'Project name');
