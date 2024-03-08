@@ -16,10 +16,9 @@ class ToolButton extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         return SizedBox(
-          width: 85.0,
+          width: 50.0,
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             child: IconButtonWithLabel(
               icon: IconSvg(
                 path: toolData.svgAssetPath,

@@ -11,15 +11,17 @@ class ToolsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const tools = ToolData.allToolsData;
-    return SingleChildScrollView(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        children: tools.map((toolData) {
-          return ToolButton(
-            toolData: toolData,
-          );
-        }).toList(),
-      ),
+    Orientation currentOrientation = MediaQuery.of(context).orientation;
+    return GridView.count(
+      crossAxisCount: currentOrientation == Orientation.portrait ? 4 : 8,
+      mainAxisSpacing: 0.0,
+      crossAxisSpacing: 0.0,
+      childAspectRatio: 1.0,
+      children: tools.map((toolData) {
+        return ToolButton(
+          toolData: toolData,
+        );
+      }).toList(),
     );
   }
 }
