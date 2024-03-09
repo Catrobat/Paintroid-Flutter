@@ -78,7 +78,7 @@ class ToolData {
   );
 
   static const IMPORT = ToolData._(
-    'Import image',
+    'Import',
     'assets/svg/ic_import.svg',
     ToolType.IMPORT,
   );
