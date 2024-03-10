@@ -17,8 +17,6 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
     return AlertDialog(
       title: Text(
         'Advanced Options',
-
-        // here is color thing
         style: TextStyle(color: lightColorScheme.tertiary),
       ),
       content: Column(
@@ -30,8 +28,6 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
             children: [
               Text(
                 'Antialiasing',
-
-                // here is color thing
                 style: TextStyle(color: lightColorScheme.onBackground),
               ),
               ToggleButtons(
@@ -41,15 +37,13 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
                     _isAntialiasingSelected = !_isAntialiasingSelected;
                   });
                 },
-
-                // here is color thing
                 color: lightColorScheme.onSurfaceVariant,
                 fillColor: lightColorScheme.onPrimaryContainer,
-                // color end
-
                 children: <Widget>[
                   Icon(
-                    _isAntialiasingSelected ? Icons.toggle_on : Icons.toggle_off,
+                    _isAntialiasingSelected
+                        ? Icons.toggle_on
+                        : Icons.toggle_off,
                     size: 45.0,
                   ),
                 ],
@@ -59,7 +53,7 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
+              Text(
                 'Smoothing',
                 style: TextStyle(color: lightColorScheme.onBackground),
               ),
@@ -70,10 +64,8 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
                     _isSmoothingSelected = !_isSmoothingSelected;
                   });
                 },
-
                 color: lightColorScheme.onSurfaceVariant,
                 fillColor: lightColorScheme.onPrimaryContainer,
-
                 children: <Widget>[
                   Icon(
                     _isSmoothingSelected ? Icons.toggle_on : Icons.toggle_off,
@@ -98,6 +90,5 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
         ),
       ],
     );
-
   }
 }
