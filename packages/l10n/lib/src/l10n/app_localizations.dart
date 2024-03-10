@@ -146,7 +146,6 @@ abstract class AppLocalizations {
   /// **'Layers'**
   String get layers;
 
-  // Getter for "Advanced Options"
   String get advancedOptions;
 }
 

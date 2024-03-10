@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class AdvancedOptionsDialog extends StatefulWidget {
@@ -8,15 +9,17 @@ class AdvancedOptionsDialog extends StatefulWidget {
 }
 
 class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
-  bool _isSelectedOption1 = true;
-  bool _isSelectedOption2 = true;
+  bool _isAntialiasingSelected = true;
+  bool _isSmoothingSelected = true;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
+      title: Text(
         'Advanced Options',
-        style: TextStyle(color: Colors.blue),
+
+        // here is color thing
+        style: TextStyle(color: lightColorScheme.tertiary),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -25,22 +28,28 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Antialiasing',
-                style: TextStyle(color: Colors.black),
+
+                // here is color thing
+                style: TextStyle(color: lightColorScheme.onBackground),
               ),
               ToggleButtons(
-                isSelected: [_isSelectedOption1],
+                isSelected: [_isAntialiasingSelected],
                 onPressed: (int index) {
                   setState(() {
-                    _isSelectedOption1 = !_isSelectedOption1;
+                    _isAntialiasingSelected = !_isAntialiasingSelected;
                   });
                 },
-                color: Colors.grey,
-                fillColor: Colors.blue.shade50,
+
+                // here is color thing
+                color: lightColorScheme.onSurfaceVariant,
+                fillColor: lightColorScheme.onPrimaryContainer,
+                // color end
+
                 children: <Widget>[
                   Icon(
-                    _isSelectedOption1 ? Icons.toggle_on : Icons.toggle_off,
+                    _isAntialiasingSelected ? Icons.toggle_on : Icons.toggle_off,
                     size: 45.0,
                   ),
                 ],
@@ -50,22 +59,24 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+               Text(
                 'Smoothing',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: lightColorScheme.onBackground),
               ),
               ToggleButtons(
-                isSelected: [_isSelectedOption2],
+                isSelected: [_isSmoothingSelected],
                 onPressed: (int index) {
                   setState(() {
-                    _isSelectedOption2 = !_isSelectedOption2;
+                    _isSmoothingSelected = !_isSmoothingSelected;
                   });
                 },
-                color: Colors.grey,
-                fillColor: Colors.blue.shade50,
+
+                color: lightColorScheme.onSurfaceVariant,
+                fillColor: lightColorScheme.onPrimaryContainer,
+
                 children: <Widget>[
                   Icon(
-                    _isSelectedOption2 ? Icons.toggle_on : Icons.toggle_off,
+                    _isSmoothingSelected ? Icons.toggle_on : Icons.toggle_off,
                     size: 45.0,
                   ),
                 ],
