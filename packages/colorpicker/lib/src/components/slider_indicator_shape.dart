@@ -5,7 +5,7 @@ class SliderIndicatorShape extends SliderComponentShape {
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return const Size(5.0, 30.0);
+    return const Size(5.0, 26.0);
   }
 
   @override
@@ -29,7 +29,7 @@ class SliderIndicatorShape extends SliderComponentShape {
       Rect.fromCenter(
         center: center,
         width: 5.0,
-        height: 28.0,
+        height: 26.0,
       ),
       Paint()
         ..color = const Color.fromARGB(255, 62, 62, 62)

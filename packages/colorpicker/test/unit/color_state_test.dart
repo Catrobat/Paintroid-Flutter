@@ -1,4 +1,4 @@
-import 'package:colorpicker/src/state/color_state.dart';
+import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,8 +15,16 @@ void main() {
   });
 
   test('updateColor updates the color correctly', () {
-    Color newColor = Colors.blue.shade50;
-    container.read(colorStateProvider.notifier).updateColor(newColor);
-    expect(container.read(colorStateProvider), newColor);
+    final state = container.read(colorPickerStateProvider.notifier);
+    const newColor = Colors.red;
+    state.updateColor(newColor);
+    expect(container.read(colorPickerStateProvider).currentColor, newColor);
+  });
+
+  test('updateOpacity updates the opacity correctly', () {
+    final state = container.read(colorPickerStateProvider.notifier);
+    const newOpacity = 0.5;
+    state.updateOpacity(newOpacity);
+    expect(container.read(colorPickerStateProvider).currentOpacity, newOpacity);
   });
 }

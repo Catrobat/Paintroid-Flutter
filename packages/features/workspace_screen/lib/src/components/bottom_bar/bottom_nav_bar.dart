@@ -108,10 +108,12 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
     builder: (BuildContext context) => Container(
       height: MediaQuery.of(context).size.height * 0.7,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.0),
+            topRight: Radius.circular(16.0),
+          )),
       child: ColorPicker(
         currentColor: ref.watch(brushToolStateProvider).paint.color,
         onColorChanged: (newColor) {

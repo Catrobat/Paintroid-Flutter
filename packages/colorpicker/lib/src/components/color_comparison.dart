@@ -1,3 +1,4 @@
+import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class ColorComparison extends StatelessWidget {
@@ -20,13 +21,13 @@ class ColorComparison extends StatelessWidget {
           Expanded(
             child: ColorDescription(
               color: currentColor,
-              desc: 'current',
+              description: 'current',
             ),
           ),
           Expanded(
             child: ColorDescription(
               color: newColor,
-              desc: 'new',
+              description: 'new',
             ),
           ),
         ],
@@ -39,11 +40,11 @@ class ColorDescription extends StatelessWidget {
   const ColorDescription({
     super.key,
     required this.color,
-    required this.desc,
+    required this.description,
   });
 
   final Color color;
-  final String desc;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +52,22 @@ class ColorDescription extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            color: color,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: PackageAssets.getCheckerboardImgAsset(),
+                repeat: ImageRepeat.repeat,
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 8.0),
         Text(
-          desc,
+          description,
           style: const TextStyle(color: Color.fromARGB(255, 149, 149, 149)),
         ),
       ],

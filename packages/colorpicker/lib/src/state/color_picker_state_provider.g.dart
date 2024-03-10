@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'slider_position_state.dart';
+part of 'color_picker_state_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sliderPositionStateHash() =>
-    r'bc845178b65cd978c5438bc92706fc9880e5dcf6';
+String _$colorPickerStateHash() => r'383e6e54ba4cd4c039beda38499e4fc4cf8deb74';
 
-/// See also [SliderPositionState].
-@ProviderFor(SliderPositionState)
-final sliderPositionStateProvider =
-    AutoDisposeNotifierProvider<SliderPositionState, double>.internal(
-  SliderPositionState.new,
-  name: r'sliderPositionStateProvider',
+/// See also [ColorPickerState].
+@ProviderFor(ColorPickerState)
+final colorPickerStateProvider = AutoDisposeNotifierProvider<ColorPickerState,
+    ColorPickerStateData>.internal(
+  ColorPickerState.new,
+  name: r'colorPickerStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$sliderPositionStateHash,
+      : _$colorPickerStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SliderPositionState = AutoDisposeNotifier<double>;
+typedef _$ColorPickerState = AutoDisposeNotifier<ColorPickerStateData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

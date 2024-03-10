@@ -1,5 +1,5 @@
-import 'package:colorpicker/src/components/slider_shape.dart';
-import 'package:colorpicker/src/state/slider_position_state.dart';
+import 'package:colorpicker/src/components/slider_indicator_shape.dart';
+import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,11 +14,9 @@ class OpacitySlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final positon = ref.watch(sliderPositionStateProvider);
-    double widgetWidth = MediaQuery.of(context).size.width - 52.0;
+    final colorPickerStateData = ref.watch(colorPickerStateProvider);
     return Container(
       height: 25.0,
-      width: widgetWidth,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: PackageAssets.getCheckerboardImgAsset(),
@@ -49,12 +47,11 @@ class OpacitySlider extends ConsumerWidget {
           child: Slider(
             min: 0.0,
             max: 1.0,
-            value: positon / widgetWidth,
-            onChanged: (value) {
-              ref.read(sliderPositionStateProvider.notifier).updatePosition(
-                    value * widgetWidth,
-                    widgetWidth,
-                  );
+            value: 1.0 - colorPickerStateData.currentOpacity,
+            onChanged: (position) {
+              ref
+                  .read(colorPickerStateProvider.notifier)
+                  .updateOpacity(1.0 - position);
             },
           ),
         ),
