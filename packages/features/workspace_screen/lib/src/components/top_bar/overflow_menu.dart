@@ -45,6 +45,9 @@ class OverflowMenu extends ConsumerStatefulWidget {
 class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   IOHandler get ioHandler => ref.read(IOHandler.provider);
 
+  bool _isAntialiasingSelected = true;
+  bool _isSmoothingSelected = true;
+
   @override
   Widget build(BuildContext context) {
     return StyledPopMenuButton<OverflowMenuOption>(
@@ -142,7 +145,16 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const AdvancedOptionsDialog();
+        return AdvancedOptionsDialog(
+          isAntialiasingSelected: _isAntialiasingSelected,
+          isSmoothingSelected: _isSmoothingSelected,
+          onStateChanged: (bool antialiasing, bool smoothing) {
+            setState(() {
+              _isAntialiasingSelected = antialiasing;
+              _isSmoothingSelected = smoothing;
+            });
+          },
+        );
       },
     );
   }

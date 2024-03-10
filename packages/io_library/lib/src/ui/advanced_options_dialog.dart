@@ -2,15 +2,35 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class AdvancedOptionsDialog extends StatefulWidget {
-  const AdvancedOptionsDialog({Key? key}) : super(key: key);
+  final bool isAntialiasingSelected;
+  final bool isSmoothingSelected;
+  final Function(bool, bool) onStateChanged;
+
+  const AdvancedOptionsDialog({
+    Key? key,
+    required this.isAntialiasingSelected,
+    required this.isSmoothingSelected,
+    required this.onStateChanged,
+  }) : super(key: key);
 
   @override
   AdvancedOptionsDialogState createState() => AdvancedOptionsDialogState();
 }
 
 class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
-  bool _isAntialiasingSelected = true;
-  bool _isSmoothingSelected = true;
+  late bool _isAntialiasingSelected;
+  late bool _isSmoothingSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    _isAntialiasingSelected = widget.isAntialiasingSelected;
+    _isSmoothingSelected = widget.isSmoothingSelected;
+  }
+
+  void _updateState() {
+    widget.onStateChanged(_isAntialiasingSelected, _isSmoothingSelected);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +105,10 @@ class AdvancedOptionsDialogState extends State<AdvancedOptionsDialog> {
           child: const Text('CANCEL'),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            _updateState();
+            Navigator.of(context).pop();
+          },
           child: const Text('OK'),
         ),
       ],
