@@ -26,10 +26,10 @@ jobs:
       - name: Build release package
         run: |
           flutter build apk --release
-          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-${{ github.event.number }}.apk
+          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: apk-${{ github.event.number }}
+          name: flutter-paint-apk-${{ github.event.number }}
           path: |
-            build/app/outputs/flutter-apk/app-release-${{ github.event.number }}.apk
+            build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
