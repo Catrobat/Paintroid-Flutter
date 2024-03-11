@@ -1,6 +1,8 @@
 import 'package:command/command_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tools/tools.dart';
+import 'package:workspace_screen/src/states/checkmark_clicked_state.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
 class CanvasPainter extends ConsumerWidget {
@@ -51,15 +53,19 @@ class PaintingLayer extends ConsumerWidget {
     final cachedImage = ref.watch(
       canvasStateProvider.select((state) => state.cachedImage),
     );
-    final commands = ref.watch(commandManagerProvider);
+    final commandManager = ref.watch(commandManagerProvider);
 
     ref.watch(CanvasDirtyState.provider);
+    ref.watch(CheckMarkClickedState.provider);
+    // ref.watch(brushToolStateProvider); for stroke change??
+
+    final currentTool = ref.read(toolBoxStateProvider).currentTool;
 
     return RepaintBoundary(
       child: Opacity(
         opacity: 0.99,
         child: CustomPaint(
-          foregroundPainter: CommandPainter(commands),
+          foregroundPainter: CommandPainter(commandManager, currentTool),
           child: cachedImage != null
               ? RawImage(
                   image: cachedImage,

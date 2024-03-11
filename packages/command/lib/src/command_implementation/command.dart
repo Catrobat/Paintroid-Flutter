@@ -10,10 +10,12 @@ abstract class Command with EquatableMixin {
   factory Command.fromJson(Map<String, dynamic> json) {
     String type = json['type'] as String;
     switch (type) {
-      case SerializerType.DRAW_PATH_COMMAND:
-        return DrawPathCommand.fromJson(json);
+      case SerializerType.PATH_COMMAND:
+        return PathCommand.fromJson(json);
+      case SerializerType.LINE_COMMAND:
+        return LineCommand.fromJson(json);
       default:
-        return DrawPathCommand.fromJson(json);
+        return PathCommand.fromJson(json);
     }
   }
 }

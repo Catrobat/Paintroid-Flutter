@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:command/command.dart';
+import 'package:tools/tools.dart';
 
 abstract class CommandManager {
   Iterable<Command> get history;
@@ -16,4 +17,12 @@ abstract class CommandManager {
   void discardLastCommand();
 
   void clearHistory({Iterable<Command>? newCommands});
+
+  void drawLineToolGhostPaths(
+    Canvas canvas,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
+  );
+
+  void drawLineToolVertices(Canvas canvas, VertexStack vertexStack);
 }

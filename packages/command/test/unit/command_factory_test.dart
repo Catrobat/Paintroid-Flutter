@@ -15,9 +15,9 @@ void main() {
   });
 
   test('Should return a valid instance of DrawPathCommand', () {
-    final expected = DrawPathCommand(testPath, testPaint);
-    final command = sut.createDrawPathCommand(testPath, testPaint);
-    expect(command, isA<DrawPathCommand>());
+    final expected = PathCommand(testPath, testPaint);
+    final command = sut.createPathCommand(testPath, testPaint);
+    expect(command, isA<PathCommand>());
     expect(command, equals(expected));
   });
 }

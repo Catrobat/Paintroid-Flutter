@@ -5,6 +5,7 @@ export 'src/enums/image_location.dart';
 export 'src/failure/load_image_failure.dart';
 export 'src/failure/save_image_failure.dart';
 export 'src/io_handler.dart';
+export 'src/json_serialization/converter/offset_converter.dart';
 export 'src/json_serialization/converter/paint_converter.dart';
 export 'src/json_serialization/converter/path_action_converter.dart';
 export 'src/json_serialization/converter/path_with_action_history_converter.dart';

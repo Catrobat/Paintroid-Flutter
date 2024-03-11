@@ -25,8 +25,7 @@ class BrushTool extends Tool with EquatableMixin {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
-    final command =
-        commandFactory.createDrawPathCommand(pathToDraw, savedPaint);
+    final command = commandFactory.createPathCommand(pathToDraw, savedPaint);
     commandManager.addGraphicCommand(command);
   }
 

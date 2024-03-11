@@ -23,6 +23,8 @@ dependencies:
     path: ../component_library
   io_library:
     path: ../io_library
+  tools:
+    path: ../tools
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
-
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
@@ -57,7 +56,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspaceScreen> {
         return willPop;
       },
       child: Scaffold(
-        appBar: isFullscreen ? null : TopAppBar(title: 'Pocket Paint'),
+        appBar: isFullscreen ? null : const TopAppBar(title: 'Pocket Paint'),
         backgroundColor: Colors.grey.shade400,
         resizeToAvoidBottomInset: true,
         body: Stack(

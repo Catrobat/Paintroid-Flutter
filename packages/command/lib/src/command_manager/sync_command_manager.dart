@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:command/command.dart';
+import 'package:tools/tools.dart';
 
 class SyncCommandManager implements CommandManager {
   SyncCommandManager({required List<Command> commands}) : _history = commands;
@@ -46,6 +47,27 @@ class SyncCommandManager implements CommandManager {
     _history.clear();
     if (newCommands != null) {
       _history.addAll(newCommands);
+    }
+  }
+
+  @override
+  void drawLineToolGhostPaths(
+    Canvas canvas,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
+  ) {
+    ingoingGhostPathCommand?.call(canvas);
+    outgoingGhostPathCommand?.call(canvas);
+  }
+
+  @override
+  void drawLineToolVertices(Canvas canvas, VertexStack vertexStack) {
+    for (var vertex in vertexStack) {
+      canvas.drawCircle(
+        vertex.vertexCenter,
+        Vertex.VERTEX_RADIUS,
+        Vertex.getVertexPaint(),
+      );
     }
   }
 }

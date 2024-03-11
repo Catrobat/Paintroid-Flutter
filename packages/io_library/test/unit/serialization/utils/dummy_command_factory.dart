@@ -8,30 +8,47 @@ import 'dummy_path_factory.dart';
 import 'dummy_version_strategy.dart';
 
 class DummyCommandFactory {
-  static Iterable<Command> createCommandList(int numberOfCommands,
-      {int version = Version.v1}) {
+  static Iterable<Command> createCommandList(
+    int numberOfCommands, {
+    int version = Version.v1,
+  }) {
     CommandFactory commandFactory = const CommandFactory();
     VersionStrategyManager.setStrategy(
-        DummyVersionStrategy(drawPathCommandVersion: version));
+        DummyVersionStrategy(pathCommandVersion: version));
     List<Command> commands = [];
     for (int i = 0; i < numberOfCommands; i++) {
       PathWithActionHistory originalPath =
           DummyPathFactory.createPathWithActionHistory(i * numberOfCommands);
       Paint originalPaint = DummyPaintFactory.createPaint();
-      DrawPathCommand command =
-          commandFactory.createDrawPathCommand(originalPath, originalPaint);
+      PathCommand command =
+          commandFactory.createPathCommand(originalPath, originalPaint);
       commands.add(command);
     }
     return commands;
   }
 
-  static DrawPathCommand createDrawPathCommand(
-      PathWithActionHistory path, Paint paint,
-      {int version = Version.v1}) {
+  static PathCommand createPathCommand(
+    PathWithActionHistory path,
+    Paint paint, {
+    int version = Version.v1,
+  }) {
     CommandFactory commandFactory = const CommandFactory();
     VersionStrategyManager.setStrategy(
-        DummyVersionStrategy(drawPathCommandVersion: version));
-    return commandFactory.createDrawPathCommand(path, paint);
+        DummyVersionStrategy(pathCommandVersion: version));
+    return commandFactory.createPathCommand(path, paint);
+  }
+
+  static LineCommand createLineCommand(
+      PathWithActionHistory path,
+      Paint paint,
+      Offset startPoint,
+      Offset endPoint,{
+        int version = Version.v1,
+      }) {
+    CommandFactory commandFactory = const CommandFactory();
+    VersionStrategyManager.setStrategy(
+        DummyVersionStrategy(lineCommandVersion: version));
+    return commandFactory.createLineCommand(path, paint, startPoint, endPoint);
   }
 
   static bool compareCommandLists(
@@ -51,7 +68,7 @@ class DummyCommandFactory {
   }
 
   static bool areCommandsEqual(Command command1, Command command2) {
-    if (command1 is DrawPathCommand && command2 is DrawPathCommand) {
+    if (command1 is PathCommand && command2 is PathCommand) {
       return command1.path == command2.path &&
           DummyPaintFactory.comparePaint(
             command1.paint,

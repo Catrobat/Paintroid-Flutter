@@ -6,7 +6,7 @@ part of 'canvas_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$canvasStateHash() => r'90efe9797953e15366a523a27d015f733d8597db';
+String _$canvasStateHash() => r'243c4555cf47c5038d0a9165dd288c37a1e75863';
 
 /// See also [CanvasState].
 @ProviderFor(CanvasState)
