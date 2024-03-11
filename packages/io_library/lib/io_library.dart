@@ -28,6 +28,9 @@ export 'src/ui/load_image_dialog.dart';
 export 'src/ui/overwrite_dialog.dart';
 export 'src/ui/project_details_dialog.dart';
 export 'src/ui/save_image_dialog.dart';
+export 'src/ui/rename_project_dialog.dart';
+export 'src/ui/text_input_dialog.dart';
+
 export 'src/usecase/load_image_from_file_manager.dart';
 export 'src/usecase/load_image_from_photo_library.dart';
 export 'src/usecase/save_as_catrobat_image.dart';

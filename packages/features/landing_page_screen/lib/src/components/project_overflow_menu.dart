@@ -8,7 +8,8 @@ import 'package:io_library/io_library.dart';
 
 enum ProjectOverflowMenuOption {
   deleteProject('Delete'),
-  getDetails('Details');
+  getDetails('Details'),
+  renameProject('Rename');
 
   const ProjectOverflowMenuOption(this.label);
 
@@ -62,6 +63,9 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       case ProjectOverflowMenuOption.getDetails:
         _showProjectDetails();
         break;
+      case ProjectOverflowMenuOption.renameProject:
+        _renameProject(); // Handle the renaming option
+        break;
     }
   }
 
@@ -87,5 +91,31 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
 
   Future<void> _showProjectDetails() async {
     await showDetailsDialog(context, widget.project);
+  }
+
+  Future<void> _renameProject() async {
+    String? name = await showRenameDialog(context, widget.project.name);
+    if (name == null) return;
+
+    try {
+      Project? project =
+          await database.projectDAO.getProjectByName(widget.project.name);
+      if (project?.name == name) return;
+
+      // Check if any project in the database already has the new name
+      Project? existingProject =
+          await database.projectDAO.getProjectByName(name);
+      if (existingProject != null) {
+        throw Exception('A project with the name "$name" already exists.');
+      }
+
+      project?.name = name;
+
+      await database.projectDAO.deleteProject(project?.id ?? -1);
+      await database.projectDAO.insertProject(project!);
+      ref.invalidate(ProjectDatabase.provider);
+    } catch (err) {
+      ToastUtils.showShortToast(message: err.toString());
+    }
   }
 }
