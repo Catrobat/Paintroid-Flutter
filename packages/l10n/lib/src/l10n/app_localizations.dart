@@ -69,7 +69,7 @@ abstract class AppLocalizations {
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +82,7 @@ abstract class AppLocalizations {
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-  <LocalizationsDelegate<dynamic>>[
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -146,7 +146,6 @@ abstract class AppLocalizations {
   /// **'Layers'**
   String get layers;
 
-
   String get share;
 }
 
@@ -176,7 +175,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   throw FlutterError(
       'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-          'an issue with the localizations generation tool. Please file an issue '
-          'on GitHub with a reproducible sample app and the gen-l10n configuration '
-          'that was used.');
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
