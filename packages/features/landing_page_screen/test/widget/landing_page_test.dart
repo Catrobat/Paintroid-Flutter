@@ -18,12 +18,14 @@ import 'package:workspace_screen/workspace_screen.dart';
 
 import 'landing_page_test.mocks.dart';
 
-@GenerateMocks([ProjectDatabase, ProjectDAO, IImageService, IFileService])
+@GenerateMocks(
+    [ProjectDatabase, ProjectDAO, IImageService, IFileService, IDeviceService])
 void main() {
   late Widget sut;
   late ProjectDatabase database;
   late ProjectDAO dao;
   late IImageService imageService;
+  late IDeviceService deviceService;
   late IFileService fileService;
   late List<Project> projects;
   final date = DateTime.now();
@@ -45,11 +47,13 @@ void main() {
     dao = MockProjectDAO();
     imageService = MockIImageService();
     fileService = MockIFileService();
+    deviceService = MockIDeviceService();
     sut = ProviderScope(
       overrides: [
         ProjectDatabase.provider.overrideWith((ref) => Future.value(database)),
         IImageService.provider.overrideWith((ref) => imageService),
         IFileService.provider.overrideWith((ref) => fileService),
+        IDeviceService.provider.overrideWith((ref) => deviceService),
       ],
       child: const PocketPaintApp(
         showOnboardingPage: false,
@@ -138,7 +142,7 @@ void main() {
   );
 
   testWidgets(
-    'Should open PocketPaint widget trough edit icon and return back to Landing page',
+    'Should open PocketPaint widget trough edit (new project) icon and return back to Landing page',
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
@@ -163,11 +167,78 @@ void main() {
       );
       expect(overflowMenuButtonFinder, findsOneWidget);
 
+      // Check the canvas is empty
+      final container = ProviderContainer();
+      final canvasState = container.read(canvasStateProvider);
+      expect(canvasState.backgroundImage, isNull);
+      expect(canvasState.cachedImage, isNull);
+      expect(canvasState.size, equals(Size.zero));
+
       await tester.pageBack();
       await tester.pumpAndSettle();
       expect(find.text('My Projects'), findsOneWidget);
     },
   );
+
+  // testWidgets(
+  //   'Should open PocketPaint widget trough edit (edit existing project) icon and return back to Landing page',
+  //   (tester) async {
+  //     when(database.projectDAO).thenReturn(dao);
+  //     when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+  //     await tester.pumpWidget(sut);
+  //     await tester.pumpAndSettle();
+  //     verify(database.projectDAO);
+  //     verify(dao.getProjects());
+
+  //     final editButton = find.byKey(const Key('myEditIcon'));
+  //     await tester.tap(editButton);
+  //     await tester.pumpAndSettle();
+
+  //     expect(find.byType(TopAppBar), findsOneWidget);
+  //     expect(find.byType(NavigationBar), findsOneWidget);
+
+  //     final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+  //     expect(titleFinder, findsOneWidget);
+
+  //     final overflowMenuButtonFinder = find.widgetWithIcon(
+  //       PopupMenuButton<OverflowMenuOption>,
+  //       Icons.more_vert,
+  //     );
+  //     expect(overflowMenuButtonFinder, findsOneWidget);
+
+  //     // Check the canvas is empty
+  //     final container = ProviderContainer();
+  //     final canvasState = container.read(canvasStateProvider);
+  //     expect(canvasState.backgroundImage, isNull);
+  //     expect(canvasState.cachedImage, isNull);
+  //     expect(canvasState.size, equals(Size.zero));
+
+  //     await tester.tap(overflowMenuButtonFinder);
+  //     await tester.pumpAndSettle();
+
+  //     final saveProjectButton = find.text('Save project');
+  //     expect(saveProjectButton, findsOneWidget);
+
+  //     await tester.tap(saveProjectButton);
+  //     await tester.pumpAndSettle();
+
+  //     final textFormField = find.widgetWithText(TextFormField, 'Project name');
+  //     expect(textFormField, findsOneWidget);
+
+  //     await tester.enterText(textFormField, 'testnew');
+
+  //     final saveButton = find.widgetWithText(TextButton, 'Save');
+  //     expect(saveButton, findsOneWidget);
+
+  //     await tester.tap(saveButton);
+  //     await tester.pumpAndSettle();
+
+  //     // await tester.pumpAndSettle();
+  //     // await tester.pageBack();
+
+  //     // expect(find.text('My Projects'), findsOneWidget);
+  //   },
+  // );
 
   testWidgets(
     'Should have "My Projects" section',
@@ -460,6 +531,86 @@ void main() {
           find.widgetWithText(GenericDialog, 'Overwrite');
 
       expect(confirmationDialogFinder, findsOneWidget);
+    },
+  );
+
+  // testWidgets(
+  //   'Should open PocketPaint widget trough edit (edit existing project) icon and return back to Landing page',
+  //   (tester) async {
+  //     String projectName = 'project123456.catrobat-image';
+
+  //     when(database.projectDAO).thenReturn(dao);
+  //     when(dao.getProjects())
+  //         .thenAnswer((_) => Future.value([createProject(projectName)]));
+  //     when(fileService.checkIfFileExistsInApplicationDirectory(projectName))
+  //         .thenAnswer((_) => Future.value(true));
+  //     when(imageService.getProjectPreview(filePath))
+  //         .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
+  //     await tester.pumpWidget(sut);
+  //     await tester.pumpAndSettle();
+  //     verify(database.projectDAO);
+  //     verify(dao.getProjects());
+
+  //     final editButton = find.byKey(const Key('myEditIcon'));
+
+  //     await tester.tap(editButton);
+  //     await tester.pumpAndSettle();
+
+  //     final overflowMenuButtonFinder = find.widgetWithIcon(
+  //       PopupMenuButton<OverflowMenuOption>,
+  //       Icons.more_vert,
+  //     );
+  //     expect(overflowMenuButtonFinder, findsOneWidget);
+
+  //     expect(find.byType(TopAppBar), findsOneWidget);
+  //     expect(find.byType(NavigationBar), findsOneWidget);
+
+  //     final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+  //     expect(titleFinder, findsOneWidget);
+
+  //     expect(overflowMenuButtonFinder, findsOneWidget);
+
+  //     await tester.pageBack();
+  //     await tester.pumpAndSettle();
+  //     expect(find.text('My Projects'), findsOneWidget);
+  //   },
+  // );
+
+  testWidgets(
+    'Should open PocketPaint widget trough edit (edit existing project) icon and return back to Landing page',
+    (tester) async {
+      String projectName = 'project.catrobat-image';
+      Project project = createProject(projectName);
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([project]));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+      when(deviceService.getSizeInPixels())
+          .thenAnswer((_) => Future.value(const Size(1080, 1920)));
+      when(dao.insertProject(project)).thenAnswer((_) => Future.value(1));
+      when(fileService.getFile(filePath)).thenReturn(Result.ok(testFile));
+
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final editButton = find.byKey(const Key('myEditIcon'));
+      await tester.tap(editButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TopAppBar), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+
+      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      expect(titleFinder, findsOneWidget);
+
+      final overflowMenuButtonFinder = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder, findsOneWidget);
     },
   );
 }
