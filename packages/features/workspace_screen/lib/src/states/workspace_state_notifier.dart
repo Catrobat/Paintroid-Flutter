@@ -7,7 +7,8 @@ part 'workspace_state.dart';
 
 class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   WorkspaceStateNotifier(super.state, this._commandManager) {
-    _hasUnsavedChanges = state.commandCountWhenLastSaved != _commandManager.count;
+    _hasUnsavedChanges =
+        state.commandCountWhenLastSaved != _commandManager.count;
   }
 
   final CommandManager _commandManager;
@@ -24,7 +25,8 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
     state = state.copyWith(commandCountWhenLastSaved: _commandManager.count);
   }
 
-  bool get hasSavedLastWork => state.commandCountWhenLastSaved == _commandManager.count;
+  bool get hasSavedLastWork =>
+      state.commandCountWhenLastSaved == _commandManager.count;
 
   Future<T> performIOTask<T>(Future<T> Function() task) async {
     state = state.copyWith(isPerformingIOTask: true);
@@ -34,7 +36,7 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   }
 
   // Toggle the fullscreen state
-  void toggleFullscreen(bool isEnabled) {
-    state = state.copyWith(isFullscreen: isEnabled);
-  }
+  void toggleFullscreen(bool isEnabled) => state = state.copyWith(
+        isFullscreen: isEnabled,
+      );
 }

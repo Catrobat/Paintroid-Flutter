@@ -8,13 +8,12 @@ class WorkspaceState {
   static const initial = WorkspaceState();
 
   static final provider =
-  StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
-        (ref) => WorkspaceStateNotifier(
+      StateNotifierProvider<WorkspaceStateNotifier, WorkspaceState>(
+    (ref) => WorkspaceStateNotifier(
       initial,
       ref.watch(commandManagerProvider),
     ),
   );
-
 
   const WorkspaceState({
     this.isFullscreen = false,
@@ -30,7 +29,8 @@ class WorkspaceState {
     return WorkspaceState(
       isFullscreen: isFullscreen ?? this.isFullscreen,
       isPerformingIOTask: isPerformingIOTask ?? this.isPerformingIOTask,
-      commandCountWhenLastSaved: commandCountWhenLastSaved ?? this.commandCountWhenLastSaved,
+      commandCountWhenLastSaved:
+          commandCountWhenLastSaved ?? this.commandCountWhenLastSaved,
     );
   }
 }
