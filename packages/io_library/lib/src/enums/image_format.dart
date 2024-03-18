@@ -1,7 +1,8 @@
 enum ImageFormat {
   png('png'),
   jpg('jpg'),
-  catrobatImage('catrobat-image');
+  catrobatImage('catrobat-image'),
+  ora('ora');
 
   const ImageFormat(this.extension);
 
