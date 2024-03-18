@@ -1,4 +1,5 @@
 import 'package:command/command.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,13 +13,20 @@ void main() {
   late Widget sut;
 
   setUp(() {
-    sut = const ProviderScope(
-      child: MaterialApp(
-        home: WorkspaceScreen(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
+    final _lightTheme = LightPaintroidThemeData();
+    final _darkTheme = DarkPaintroidThemeData();
+
+    sut = ProviderScope(
+      child: PaintroidTheme(
+        lightTheme: _lightTheme,
+        darkTheme: _darkTheme,
+        child: const MaterialApp(
+          home: WorkspaceScreen(),
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });
@@ -52,6 +60,9 @@ void main() {
     late FakeCommandManager fakeCommandManager;
 
     setUp(() {
+      final _lightTheme = LightPaintroidThemeData();
+      final _darkTheme = DarkPaintroidThemeData();
+
       testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
       fakeCommandManager = FakeCommandManager();
       sut = ProviderScope(
@@ -59,12 +70,16 @@ void main() {
           WorkspaceState.provider.overrideWith((ref) =>
               WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
         ],
-        child: const MaterialApp(
-          home: WorkspaceScreen(),
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
+        child: PaintroidTheme(
+          lightTheme: _lightTheme,
+          darkTheme: _darkTheme,
+          child: const MaterialApp(
+            home: WorkspaceScreen(),
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+          ),
         ),
       );
     });

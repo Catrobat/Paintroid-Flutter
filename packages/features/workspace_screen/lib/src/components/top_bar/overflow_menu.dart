@@ -51,7 +51,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
               value: option,
               child: Text(
                 option.localizedLabel(context),
-                style: TextThemes.menuItem,
+                style: PaintroidTheme.of(context).textTheme.bodyMedium,
               )))
           .toList(),
     );

@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,12 +46,19 @@ void main() {
   ];
 
   setUp(() {
-    sut = const ProviderScope(
-      child: MaterialApp(
-        home: OnboardingPage(),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-        ],
+    final _lightTheme = LightPaintroidThemeData();
+    final _darkTheme = DarkPaintroidThemeData();
+
+    sut = ProviderScope(
+      child: PaintroidTheme(
+        lightTheme: _lightTheme,
+        darkTheme: _darkTheme,
+        child: const MaterialApp(
+          home: OnboardingPage(),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });

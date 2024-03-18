@@ -7,7 +7,7 @@ class Screen5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: lightColorScheme.surface,
+      color: PaintroidTheme.of(context).surfaceColor,
       padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

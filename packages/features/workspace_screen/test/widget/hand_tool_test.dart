@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,17 +17,24 @@ void main() {
   late Widget sut;
 
   setUp(() {
+    final _lightTheme = LightPaintroidThemeData();
+    final _darkTheme = DarkPaintroidThemeData();
+
     sut = ProviderScope(
       overrides: [
         IDeviceService.sizeProvider
             .overrideWith((ref) => Future.value(const Size(600, 600)))
       ],
-      child: const MaterialApp(
-        home: WorkspaceScreen(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
+      child: PaintroidTheme(
+        lightTheme: _lightTheme,
+        darkTheme: _darkTheme,
+        child: const MaterialApp(
+          home: WorkspaceScreen(),
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });

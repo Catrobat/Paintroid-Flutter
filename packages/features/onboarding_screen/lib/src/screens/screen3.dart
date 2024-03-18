@@ -179,7 +179,7 @@ class _Screen3State extends State<Screen3> {
       resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
-        color: lightColorScheme.surface,
+        color: PaintroidTheme.of(context).surfaceColor,
         padding: const EdgeInsets.only(top: 60, left: 50, right: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

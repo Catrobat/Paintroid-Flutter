@@ -65,7 +65,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
-                  backgroundColor: lightColorScheme.background,
+                  backgroundColor: PaintroidTheme.of(context).backgroundColor,
                 ),
               ],
             );

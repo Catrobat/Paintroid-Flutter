@@ -23,7 +23,7 @@ class _OnboardingPageBottomNavigationBarState
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
-      backgroundColor: lightColorScheme.surface,
+      backgroundColor: PaintroidTheme.of(context).surfaceColor,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
       selectedFontSize: 12,

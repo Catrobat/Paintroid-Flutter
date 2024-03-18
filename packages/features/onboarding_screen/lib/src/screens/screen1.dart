@@ -7,7 +7,7 @@ class Screen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: lightColorScheme.surface,
+      color: PaintroidTheme.of(context).surfaceColor,
       padding: const EdgeInsets.only(top: 100, left: 50, right: 50),
       child: Column(
         children: [

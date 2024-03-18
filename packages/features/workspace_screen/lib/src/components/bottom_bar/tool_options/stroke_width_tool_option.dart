@@ -54,7 +54,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
             flex: 1,
             child: TextField(
               controller: _strokeWidthTextController,
-              style: TextThemes.menuItem,
+              style: PaintroidTheme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: [

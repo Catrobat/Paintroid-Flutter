@@ -16,7 +16,7 @@ class BottomNavBar extends ConsumerWidget {
     final currentToolData = getCurrentToolData(ref);
 
     return NavigationBarTheme(
-      data: WidgetThemes.bottomNavBarThemeData,
+      data: PaintroidTheme.of(context).bottomNavBarThemeData,
       child: NavigationBar(
         height: height,
         onDestinationSelected: (index) =>
