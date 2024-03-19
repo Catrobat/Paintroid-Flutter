@@ -120,9 +120,15 @@ abstract class PaintroidThemeData {
 
   NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
     indicatorColor: Colors.transparent,
+    backgroundColor: CustomColors.primary,
     labelTextStyle: MaterialStateProperty.all(
       const TextStyle(
         color: CustomColors.onSurface,
+      ),
+    ),
+    iconTheme: MaterialStateProperty.all(
+      const IconThemeData(
+        color: Colors.white,
       ),
     ),
   );

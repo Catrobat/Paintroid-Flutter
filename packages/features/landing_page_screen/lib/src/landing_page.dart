@@ -82,8 +82,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: const [MainOverflowMenu()],
-        backgroundColor: PaintroidTheme.of(context).primaryColor,
-        foregroundColor: PaintroidTheme.of(context).onSurfaceColor,
       ),
       body: FutureBuilder(
         future: _getProjects(),

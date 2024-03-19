@@ -59,7 +59,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
     ToastContext().init(context);
 
     return Scaffold(
-      backgroundColor: PaintroidTheme.of(context).surfaceColor,
       body: Padding(
         padding: const EdgeInsets.only(bottom: 40),
         child: Column(

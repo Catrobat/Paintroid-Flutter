@@ -11,6 +11,21 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         floatingActionButtonTheme: fabThemeData,
         elevatedButtonTheme: buttonThemeData,
         inputDecorationTheme: inputDecorationTheme,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: CustomColors.primary,
+          foregroundColor: CustomColors.onSurface,
+        ),
+        sliderTheme: SliderThemeData(
+          overlayColor: CustomColors.primary.withOpacity(.2),
+          activeTrackColor: CustomColors.primary,
+          inactiveTrackColor: CustomColors.onPrimary,
+          thumbColor: CustomColors.primary,
+          showValueIndicator: ShowValueIndicator.never,
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          constraints: BoxConstraints.tightForFinite(),
+          backgroundColor: CustomColors.primary,
+        ),
       );
 
   @override

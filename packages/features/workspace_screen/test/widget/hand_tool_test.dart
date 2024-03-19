@@ -17,8 +17,8 @@ void main() {
   late Widget sut;
 
   setUp(() {
-    final _lightTheme = LightPaintroidThemeData();
-    final _darkTheme = DarkPaintroidThemeData();
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
 
     sut = ProviderScope(
       overrides: [
@@ -26,8 +26,8 @@ void main() {
             .overrideWith((ref) => Future.value(const Size(600, 600)))
       ],
       child: PaintroidTheme(
-        lightTheme: _lightTheme,
-        darkTheme: _darkTheme,
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
         child: const MaterialApp(
           home: WorkspaceScreen(),
           localizationsDelegates: [

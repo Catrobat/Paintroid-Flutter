@@ -46,13 +46,13 @@ void main() {
   ];
 
   setUp(() {
-    final _lightTheme = LightPaintroidThemeData();
-    final _darkTheme = DarkPaintroidThemeData();
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
 
     sut = ProviderScope(
       child: PaintroidTheme(
-        lightTheme: _lightTheme,
-        darkTheme: _darkTheme,
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
         child: const MaterialApp(
           home: OnboardingPage(),
           localizationsDelegates: [
