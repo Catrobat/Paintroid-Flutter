@@ -6,7 +6,10 @@ import 'package:l10n/l10n.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class FakeCommandManager extends Fake implements CommandManager {}
+class FakeCommandManager extends Fake implements CommandManager {
+  @override
+  int get count => 0;
+}
 
 void main() {
   late Widget sut;
