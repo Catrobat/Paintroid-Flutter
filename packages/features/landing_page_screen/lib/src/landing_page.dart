@@ -53,10 +53,14 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
   }
 
-  Future<void> _openProject(Project? project, IOHandler ioHandler) async {
+  Future<void> _openProject(
+      Project? project, IOHandler ioHandler, WidgetRef ref) async {
     if (project != null) {
-      bool loaded = await _loadProject(ioHandler, project);
-      if (loaded) _navigateToPocketPaint();
+      ref.read(WorkspaceState.provider.notifier).performIOTask(() async {
+        await ref.read(IDeviceService.sizeProvider.future);
+        bool loaded = await _loadProject(ioHandler, project);
+        if (loaded) _navigateToPocketPaint();
+      });
     }
   }
 
@@ -99,7 +103,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                     imageService: imageService,
                     latestModifiedProject: latestModifiedProject,
                     openProject: () =>
-                        _openProject(latestModifiedProject, ioHandler),
+                        _openProject(latestModifiedProject, ioHandler, ref),
                   ),
                 ),
                 Container(
@@ -127,7 +131,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           project: project,
                           imageService: imageService,
                           index: index,
-                          onTap: () async => _openProject(project, ioHandler),
+                          onTap: () async =>
+                              _openProject(project, ioHandler, ref),
                         );
                       }
                       return Container();
