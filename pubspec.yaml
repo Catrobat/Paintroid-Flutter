@@ -40,6 +40,8 @@ dependencies:
     path: ./packages/features/landing_page_screen
   onboarding_screen:
     path: ./packages/features/onboarding_screen
+  search_bar_screen:
+    path: ./packages/features/search_bar_screen
 
 dev_dependencies:
   flutter_test:
