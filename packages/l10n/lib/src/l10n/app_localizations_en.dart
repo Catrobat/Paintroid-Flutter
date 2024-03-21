@@ -20,6 +20,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveProject => 'Save project';
 
   @override
+  String get share => 'Share';
+
+  @override
   String get tools => 'Tools';
 
   @override
