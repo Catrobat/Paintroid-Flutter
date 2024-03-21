@@ -1,3 +1,4 @@
+import 'package:colorpicker/colorpicker.dart';
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context);
     final currentToolData = getCurrentToolData(ref);
+    final currentPaint = ref.watch(brushToolStateProvider).paint;
 
     return NavigationBarTheme(
       data: WidgetThemes.bottomNavBarThemeData,
@@ -31,13 +33,21 @@ class BottomNavBar extends ConsumerWidget {
             icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
           ),
           NavigationDestination(
-            label: localizations.color,
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
+              label: localizations.color,
+              icon: InkWell(
+                child: Container(
+                  height: 24.0,
+                  width: 24.0,
+                  decoration: BoxDecoration(
+                    color: currentPaint.color,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1.4,
+                    ),
+                    borderRadius: BorderRadius.circular(2.0),
+                  ),
+                ),
+              )),
           NavigationDestination(
             label: localizations.layers,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
@@ -69,6 +79,9 @@ void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
     case BottomNavBarItem.TOOL_OPTIONS:
       _handleToolOptionsVisibility(ref);
       break;
+    case BottomNavBarItem.COLOR:
+      _showColorPicker(context, ref);
+      break;
     default:
       return;
   }
@@ -86,4 +99,27 @@ void _showToolBottomSheet(BuildContext context) {
 
 void _handleToolOptionsVisibility(WidgetRef ref) {
   ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
+}
+
+void _showColorPicker(BuildContext context, WidgetRef ref) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) => Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.0),
+            topRight: Radius.circular(16.0),
+          )),
+      child: ColorPicker(
+        currentColor: ref.watch(brushToolStateProvider).paint.color,
+        onColorChanged: (newColor) {
+          ref.read(brushToolStateProvider.notifier).updateColor(newColor);
+        },
+      ),
+    ),
+  );
 }

@@ -35,6 +35,8 @@ dependencies:
     path: ../../io_library
   tools:
     path: ../../tools
+  colorpicker:
+    path: ../../colorpicker
 
 dev_dependencies:
   flutter_test:

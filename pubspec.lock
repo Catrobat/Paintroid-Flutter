@@ -201,6 +201,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  colorpicker:
+    dependency: transitive
+    description:
+      path: "packages/colorpicker"
+      relative: true
+    source: path
+    version: "0.0.1"
   command:
     dependency: "direct main"
     description:
