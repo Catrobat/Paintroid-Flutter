@@ -11,11 +11,12 @@ class ToolsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const tools = ToolData.allToolsData;
+    Orientation currentOrientation = MediaQuery.of(context).orientation;
     return GridView.count(
-      crossAxisCount: 4,
+      crossAxisCount: currentOrientation == Orientation.portrait ? 4 : 8,
       mainAxisSpacing: 0.0,
       crossAxisSpacing: 0.0,
-      childAspectRatio: 1.6,
+      childAspectRatio: 1.0,
       children: tools.map((toolData) {
         return ToolButton(
           toolData: toolData,
