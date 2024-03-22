@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
-
+import 'dart:ui' as ui;
+import 'package:archive/archive.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
@@ -52,12 +52,25 @@ class LoadImageFromFileManager with LoggableMixin {
           case 'catrobat-image':
             Uint8List bytes = await file.readAsBytes();
             CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
-            Image? backgroundImage =
+            ui.Image? backgroundImage =
                 await rebuildBackgroundImage(catrobatImage);
             return Result.ok(ImageFromFile.catrobatImage(
               catrobatImage,
               backgroundImage: backgroundImage,
             ));
+
+          case 'ora':
+            Uint8List bytes = await file.readAsBytes();
+            Archive archive = ZipDecoder().decodeBytes(bytes);
+            ProcessOra processOra = ProcessOra();
+            List<ui.Image> layers = await processOra.processOraFile(archive);
+
+            if (layers.isNotEmpty) {
+              return Result.ok(ImageFromFile.rasterImage(layers.first));
+            } else {
+              return const Result.err(LoadImageFailure.invalidImage);
+            }
+
           default:
             return const Result.err(LoadImageFailure.invalidImage);
         }
@@ -71,7 +84,7 @@ class LoadImageFromFileManager with LoggableMixin {
     });
   }
 
-  Future<Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {
+  Future<ui.Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {
     if (catrobatImage.backgroundImage.isNotEmpty) {
       final backgroundImageData = base64Decode(catrobatImage.backgroundImage);
       final result =

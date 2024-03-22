@@ -7,8 +7,12 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
+import 'package:io_library/src/usecase/save_as_ora_image.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:workspace_screen/workspace_screen.dart';
+
+import 'dart:ui' as ui;
+import 'package:image/image.dart' as img;
 
 class IOHandler {
   final Ref ref;
@@ -152,8 +156,65 @@ class IOHandler {
     } else if (imageData is CatrobatImageMetaData) {
       final savedFile = await _saveAsCatrobatImage(imageData, false);
       isImageSaved = (savedFile != null);
+    } else if (imageData is OraMetaData) {
+      isImageSaved = await _saveAsOraImage(imageData);
     }
     return isImageSaved;
+  }
+
+  Future<img.Image> convertUiImageToImgImage(ui.Image uiImage) async {
+    final byteData =
+        await uiImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final buffer = byteData!.buffer.asUint8List();
+
+    return img.Image.fromBytes(
+      uiImage.width,
+      uiImage.height,
+      buffer,
+      format: img.Format.rgba,
+    );
+  }
+
+  String generateXmlMetadataForOra(List<img.Image> layers) {
+    var buffer = StringBuffer();
+    buffer.writeln('<image>');
+
+    for (int i = 0; i < layers.length; i++) {
+      buffer.writeln(
+          '<layer name="Layer $i" src="data/layer_$i.png" x="0" y="0" opacity="1.0"/>');
+    }
+
+    buffer.writeln('</image>');
+    return buffer.toString();
+  }
+
+  Future<bool> _saveAsOraImage(OraMetaData imageData) async {
+    final canvasState = ref.read(canvasStateProvider);
+    final oraImageService = ref.read(SaveAsOraImage.provider);
+
+    if (canvasState.cachedImage == null) {
+      return false;
+    }
+
+    final imgWidth = canvasState.size.width.toInt();
+    final imgHeight = canvasState.size.height.toInt();
+
+    img.Image layer = await convertUiImageToImgImage(canvasState.cachedImage!);
+
+    final oraImage = OraImage(
+      width: imgWidth,
+      height: imgHeight,
+      layers: [layer], // Single layer based on cachedImage
+      xmlMetadata: generateXmlMetadataForOra([layer]),
+    );
+
+    final fileName = '${imageData.name}.ora';
+    final result = await oraImageService.call(oraImage, fileName);
+
+    return result.match(
+      (file) => true,
+      (error) => false,
+    );
   }
 
   Future<bool> _saveAsRasterImage(ImageMetaData imageData) async {
