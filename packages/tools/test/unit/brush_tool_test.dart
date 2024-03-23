@@ -48,7 +48,6 @@ void main() {
 
     sut = BrushTool(
       paint: testPaint,
-      type: ToolType.BRUSH,
       commandManager: mockCommandManager,
       commandFactory: mockCommandFactory,
       graphicFactory: mockGraphicFactory,
@@ -134,5 +133,9 @@ void main() {
       verifyInOrder([mockPath.getBounds(), mockPath.close()]);
       verifyNoMoreInteractions(mockPath);
     });
+  });
+
+  test('Should return Brush as ToolType', () {
+    expect(sut.type, ToolType.BRUSH);
   });
 }

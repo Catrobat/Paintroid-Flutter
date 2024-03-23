@@ -30,7 +30,6 @@ void main() {
       paint: mockPaint,
       commandFactory: mockCommandFactory,
       commandManager: mockCommandManager,
-      type: ToolType.HAND,
     );
   });
 
@@ -66,5 +65,9 @@ void main() {
       verifyNoMoreInteractions(mockCommandFactory);
       verifyNoMoreInteractions(mockCommandManager);
     });
+  });
+
+  test('Should return Hand as ToolType', () {
+    expect(sut.type, ToolType.HAND);
   });
 }
