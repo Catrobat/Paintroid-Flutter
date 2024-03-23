@@ -7,6 +7,7 @@ import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IFileService {
   Future<Result<File, Failure>> save(String filename, Uint8List data);
@@ -17,6 +18,13 @@ abstract class IFileService {
   Future<Result<File, Failure>> pick();
 
   Result<File, Failure> getFile(String path);
+
+
+  // Declare the new methods in the interface
+  Future<int> getNextImageNumber();
+  Future<int> getNextProjectNumber();
+  //end
+
 
   static final provider = Provider<IFileService>((ref) => FileService());
 
@@ -31,7 +39,7 @@ class FileService with LoggableMixin implements IFileService {
   Future<Result<File, Failure>> pick() async {
     try {
       final result =
-          await FilePicker.platform.pickFiles(allowCompression: false);
+      await FilePicker.platform.pickFiles(allowCompression: false);
       if (result == null) {
         return const Result.err(LoadImageFailure.userCancelled);
       }
@@ -54,7 +62,7 @@ class FileService with LoggableMixin implements IFileService {
         return const Result.err(SaveImageFailure.userCancelled);
       }
       final file =
-          await File('$saveDirectory/$filename').create(recursive: true);
+      await File('$saveDirectory/$filename').create(recursive: true);
       return Result.ok(await file.writeAsBytes(data));
     } catch (err, stacktrace) {
       logger.severe('Could not save file', err, stacktrace);
@@ -107,4 +115,46 @@ class FileService with LoggableMixin implements IFileService {
       return const Result.err(LoadImageFailure.unidentified);
     }
   }
+
+
+
+
+  @override
+  Future<int> getNextImageNumber() async {
+    final prefs = await SharedPreferences.getInstance();
+    int lastNumber = prefs.getInt('lastImageNumber') ?? 0;
+    int nextNumber = lastNumber + 1;
+    await prefs.setInt('lastImageNumber', nextNumber);
+    return nextNumber;
+  }
+
+
+
+
+  @override
+  Future<int> getNextProjectNumber() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final files = await directory.list().toList();
+    int maxNum = 0;
+
+    for (var file in files) {
+      if (file is File) {
+        final fileName = file.path.split('/').last;
+
+        if (fileName.startsWith('project')) {
+          final match = RegExp(r'project(\d+)').firstMatch(fileName);
+          if (match != null) {
+            final num = int.tryParse(match.group(1)!) ?? 0;
+
+            if (num > maxNum) maxNum = num;
+          }
+        }
+      }
+    }
+
+    return maxNum + 1;
+  }
+
+
+
 }
