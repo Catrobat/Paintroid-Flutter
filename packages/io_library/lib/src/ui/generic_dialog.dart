@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class GenericDialogActionButton extends StatelessWidget {
@@ -11,7 +12,10 @@ class GenericDialogActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextButton(
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(Colors.blue)),
+          foregroundColor: MaterialStateProperty.all(
+            PaintroidTheme.of(context).primaryColor,
+          ),
+        ),
         onPressed: () => {
           if (onPressed != null) {onPressed!()}
         },

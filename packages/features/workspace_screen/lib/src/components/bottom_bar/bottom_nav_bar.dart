@@ -35,7 +35,7 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
           NavigationDestination(

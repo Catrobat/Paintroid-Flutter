@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class StyledPopMenuButton<T> extends StatelessWidget {
@@ -15,13 +16,13 @@ class StyledPopMenuButton<T> extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(useMaterial3: false),
       child: PopupMenuButton<T>(
-        color: Theme.of(context).colorScheme.background,
+        color: PaintroidTheme.of(context).backgroundColor,
         icon: const Icon(Icons.more_vert, color: Colors.white),
         elevation: 7.0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 0,
-            color: Theme.of(context).colorScheme.background,
+            color: PaintroidTheme.of(context).backgroundColor,
           ),
           borderRadius: BorderRadius.circular(5),
         ),

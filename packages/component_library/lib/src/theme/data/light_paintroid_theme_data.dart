@@ -26,6 +26,13 @@ class LightPaintroidThemeData extends PaintroidThemeData {
           constraints: BoxConstraints.tightForFinite(),
           backgroundColor: CustomColors.primary,
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(
+              CustomColors.primary,
+            ),
+          ),
+        ),
       );
 
   @override

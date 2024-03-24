@@ -12,7 +12,7 @@ class BottomBarIcon extends StatelessWidget {
       path: asset,
       height: 24.0,
       width: 24.0,
-      color: Theme.of(context).colorScheme.onSurface,
+      color: PaintroidTheme.of(context).onSurfaceColor,
     );
   }
 }

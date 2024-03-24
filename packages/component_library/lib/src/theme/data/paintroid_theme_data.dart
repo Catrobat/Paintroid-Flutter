@@ -70,7 +70,7 @@ abstract class PaintroidThemeData {
         titleMedium: TextStyle(
           fontSize: FontSize.large,
           fontFamily: PaintroidThemeData.fontFamily,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           color: CustomColors.primary,
         ),
         titleSmall: TextStyle(

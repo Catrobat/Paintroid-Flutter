@@ -64,7 +64,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     return AlertDialog(
       title: Text(
         dialogTitle,
-        style: PaintroidTheme.of(context).textTheme.titleMedium,
+        style: PaintroidTheme.of(context).titleTheme.titleMedium,
       ),
       actions: [_cancelButton, _saveButton],
       contentTextStyle: PaintroidTheme.of(context).textTheme.bodyMedium,
@@ -142,7 +142,9 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       controller: nameFieldController,
       decoration: InputDecoration(
         hintText: widget.savingProject ? 'Project name' : 'Image name',
-        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall,
+        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
+              color: PaintroidTheme.of(context).onSurfaceColor,
+            ),
         filled: true,
         fillColor: PaintroidTheme.of(context).secondaryContainerColor,
         border: const OutlineInputBorder(

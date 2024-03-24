@@ -134,7 +134,7 @@ class _Screen2State extends State<Screen2> {
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
           const BottomNavigationBarItem(

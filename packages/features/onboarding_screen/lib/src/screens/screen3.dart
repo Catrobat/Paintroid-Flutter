@@ -110,7 +110,7 @@ class _Screen3State extends State<Screen3> {
                 path: icons[i],
                 height: 24.0,
                 width: 24.0,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: PaintroidTheme.of(context).onSurfaceColor,
               ),
             ),
           ],
