@@ -22,46 +22,15 @@ class _Screen2State extends State<Screen2> {
     'Tap to redo an undone action.',
   ];
 
-  var title = const Text(
-    'More possibilities',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 24,
-    ),
-    textAlign: TextAlign.start,
-  );
-
-  var desc = const Text(
-    'Use the top bar to open the overflow menu and to undo or redo changes',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 15,
-    ),
-    textAlign: TextAlign.start,
-  );
+  String titleText = 'More possibilities';
+  String descText =
+      'Use the top bar to open the overflow menu and to undo or redo changes';
 
   void onPressed(int i) {
-    setState(
-      () {
-        title = Text(
-          titles[i],
-          style: TextStyle(
-            color: PaintroidTheme.of(context).onSurfaceColor,
-            fontSize: 24,
-          ),
-          textAlign: TextAlign.start,
-        );
-
-        desc = Text(
-          descriptions[i],
-          style: TextStyle(
-            color: PaintroidTheme.of(context).onSurfaceColor,
-            fontSize: 15,
-          ),
-          textAlign: TextAlign.start,
-        );
-      },
-    );
+    setState(() {
+      titleText = titles[i];
+      descText = descriptions[i];
+    });
   }
 
   void tools() => onPressed(0);
@@ -78,6 +47,24 @@ class _Screen2State extends State<Screen2> {
 
   @override
   Widget build(BuildContext context) {
+    var title = Text(
+      titleText,
+      style: TextStyle(
+        color: PaintroidTheme.of(context).onSurfaceColor,
+        fontSize: 24.0,
+      ),
+      textAlign: TextAlign.start,
+    );
+
+    var desc = Text(
+      descText,
+      style: TextStyle(
+        color: PaintroidTheme.of(context).onSurfaceColor,
+        fontSize: 15.0,
+      ),
+      textAlign: TextAlign.start,
+    );
+
     return Scaffold(
       appBar: OnboardingPageAppBar(
         title: 'Pocket Paint',
