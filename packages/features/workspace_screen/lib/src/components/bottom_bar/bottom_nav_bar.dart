@@ -16,7 +16,7 @@ class BottomNavBar extends ConsumerWidget {
     final currentToolData = getCurrentToolData(ref);
 
     return NavigationBarTheme(
-      data: WidgetThemes.bottomNavBarThemeData,
+      data: PaintroidTheme.of(context).bottomNavBarThemeData,
       child: NavigationBar(
         height: height,
         onDestinationSelected: (index) =>
@@ -35,7 +35,7 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
           NavigationDestination(

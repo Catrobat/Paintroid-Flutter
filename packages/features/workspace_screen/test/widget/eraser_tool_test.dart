@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,18 +17,25 @@ void main() {
   testWidgets(
     'Pixel value changes after drawing and erasing',
     (WidgetTester tester) async {
+      final lightTheme = LightPaintroidThemeData();
+      final darkTheme = DarkPaintroidThemeData();
+
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             IDeviceService.sizeProvider
                 .overrideWith((ref) => Future.value(const Size(600, 600)))
           ],
-          child: const MaterialApp(
-            home: WorkspaceScreen(),
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-            ],
+          child: PaintroidTheme(
+            lightTheme: lightTheme,
+            darkTheme: darkTheme,
+            child: const MaterialApp(
+              home: WorkspaceScreen(),
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+              ],
+            ),
           ),
         ),
       );

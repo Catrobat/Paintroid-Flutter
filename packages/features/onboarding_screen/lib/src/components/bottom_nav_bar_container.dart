@@ -16,7 +16,7 @@ class BottomNavigationBarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      color: lightColorScheme.surface,
+      color: PaintroidTheme.of(context).surfaceColor,
       child: OnboardingPageBottomNavigationBar(
         onPressedFunctions: onPressedFunctions,
         barItems: navBarItems,

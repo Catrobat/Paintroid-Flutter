@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +29,7 @@ class ProjectListTile extends StatelessWidget {
           project: project,
           imageService: imageService,
           width: 80,
-          color: Colors.white,
+          color: PaintroidTheme.of(context).onSurfaceColor,
         ),
         dense: false,
         title: Text(

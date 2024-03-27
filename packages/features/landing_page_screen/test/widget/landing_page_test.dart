@@ -55,7 +55,7 @@ void main() {
         IFileService.provider.overrideWith((ref) => fileService),
         IDeviceService.provider.overrideWith((ref) => deviceService),
       ],
-      child: const PocketPaintApp(
+      child: PocketPaintApp(
         showOnboardingPage: false,
       ),
     );

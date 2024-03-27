@@ -40,7 +40,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     );
 
     return PopupMenuButton(
-      color: Theme.of(context).colorScheme.background,
+      color: PaintroidTheme.of(context).backgroundColor,
       icon: const Icon(Icons.more_vert),
       shape: RoundedRectangleBorder(
         side: const BorderSide(),

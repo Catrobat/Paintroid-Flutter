@@ -22,8 +22,9 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late IFileService fileService;
   late IImageService imageService;
 
-  Future<List<Project>> _getProjects() async =>
-      database.projectDAO.getProjects();
+  Future<List<Project>> _getProjects() async {
+    return database.projectDAO.getProjects();
+  }
 
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
@@ -81,7 +82,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     imageService = ref.watch(IImageService.provider);
 
     return Scaffold(
-      backgroundColor: lightColorScheme.primary,
+      backgroundColor: PaintroidTheme.of(context).primaryColor,
       appBar: AppBar(
         title: Text(widget.title),
         actions: const [MainOverflowMenu()],
@@ -107,7 +108,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                   ),
                 ),
                 Container(
-                  color: lightColorScheme.primaryContainer,
+                  color: PaintroidTheme.of(context).primaryContainerColor,
                   padding: const EdgeInsets.all(20),
                   child: const Align(
                     alignment: Alignment.centerLeft,
@@ -145,7 +146,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           } else {
             return Center(
               child: CircularProgressIndicator(
-                backgroundColor: lightColorScheme.background,
+                backgroundColor: PaintroidTheme.of(context).fabBackgroundColor,
               ),
             );
           }
@@ -207,7 +208,7 @@ class _ProjectPreview extends StatelessWidget {
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
-              color: Colors.white54,
+              color: PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.5),
             ),
           ),
         ),

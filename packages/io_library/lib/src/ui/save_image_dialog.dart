@@ -64,10 +64,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     return AlertDialog(
       title: Text(
         dialogTitle,
-        style: TextThemes.largeBoldText,
+        style: PaintroidTheme.of(context).titleTheme.titleMedium,
       ),
       actions: [_cancelButton, _saveButton],
-      contentTextStyle: TextThemes.menuItem,
+      contentTextStyle: PaintroidTheme.of(context).textTheme.bodyMedium,
       content: Form(
         key: formKey,
         child: Column(
@@ -142,9 +142,11 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       controller: nameFieldController,
       decoration: InputDecoration(
         hintText: widget.savingProject ? 'Project name' : 'Image name',
-        hintStyle: TextThemes.hintTextNormal,
+        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
+              color: PaintroidTheme.of(context).onSurfaceColor,
+            ),
         filled: true,
-        fillColor: lightColorScheme.secondaryContainer,
+        fillColor: PaintroidTheme.of(context).secondaryContainerColor,
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
@@ -169,11 +171,17 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         DropdownButton<ImageFormat>(
           borderRadius: BorderRadius.circular(12),
           value: selectedFormat,
-          underline: const Divider(height: 0, color: Colors.black),
+          underline: Divider(
+            height: 0,
+            color: PaintroidTheme.of(context).shadowColor,
+          ),
           items: ImageFormat.values.map((fileType) {
             return DropdownMenuItem<ImageFormat>(
               value: fileType,
-              child: Text(fileType.extension, style: TextThemes.menuItem),
+              child: Text(
+                fileType.extension,
+                style: PaintroidTheme.of(context).textTheme.bodyMedium,
+              ),
             );
           }).toList(),
           onChanged: (selectedFileType) {

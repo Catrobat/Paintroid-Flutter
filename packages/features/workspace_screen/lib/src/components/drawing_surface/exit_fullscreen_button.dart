@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tools/tools.dart';
@@ -18,9 +19,9 @@ class ExitFullscreenButton extends ConsumerWidget {
         onPressed: () {
           ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.fullscreen_exit,
-          color: Colors.black,
+          color: PaintroidTheme.of(context).shadowColor,
         ),
       ),
     );
