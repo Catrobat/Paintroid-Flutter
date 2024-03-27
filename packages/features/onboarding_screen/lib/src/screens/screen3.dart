@@ -67,65 +67,16 @@ class _Screen3State extends State<Screen3> {
     'Mark area which should not be erased.',
   ];
 
-  var title = const Row(
-    children: [
-      Text(
-        'Tools',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 24,
-        ),
-        textAlign: TextAlign.start,
-      )
-    ],
-  );
-
-  Icon? toolIcon;
-
-  var desc = const Text(
-    'Select the tool you want to use.',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 15,
-    ),
-    textAlign: TextAlign.start,
-  );
+  String titleText = 'Tools';
+  String descText = 'Select the tool you want to use.';
+  String? toolIconSrc;
 
   void toolPressed(int i) {
-    setState(
-      () {
-        title = Row(
-          children: [
-            Text(
-              titles[i],
-              style: TextStyle(
-                color: PaintroidTheme.of(context).onSurfaceColor,
-                fontSize: 24,
-              ),
-              textAlign: TextAlign.start,
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: IconSvg(
-                path: icons[i],
-                height: 24.0,
-                width: 24.0,
-                color: PaintroidTheme.of(context).onSurfaceColor,
-              ),
-            ),
-          ],
-        );
-
-        desc = Text(
-          descriptions[i],
-          style: TextStyle(
-            color: PaintroidTheme.of(context).onSurfaceColor,
-            fontSize: 15,
-          ),
-          textAlign: TextAlign.start,
-        );
-      },
-    );
+    setState(() {
+      titleText = titles[i];
+      descText = descriptions[i];
+      toolIconSrc = icons[i];
+    });
   }
 
   void brush() => toolPressed(0);
@@ -175,6 +126,39 @@ class _Screen3State extends State<Screen3> {
 
   @override
   Widget build(BuildContext context) {
+    var title = Row(
+      children: [
+        Text(
+          titleText,
+          style: TextStyle(
+            color: PaintroidTheme.of(context).onSurfaceColor,
+            fontSize: 24.0,
+          ),
+          textAlign: TextAlign.start,
+        ),
+        toolIconSrc != null
+            ? Container(
+                padding: const EdgeInsets.only(left: 50.0),
+                child: IconSvg(
+                  path: toolIconSrc!,
+                  height: 24.0,
+                  width: 24.0,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
+                ),
+              )
+            : const SizedBox(),
+      ],
+    );
+
+    var desc = Text(
+      descText,
+      style: TextStyle(
+        color: PaintroidTheme.of(context).onSurfaceColor,
+        fontSize: 15,
+      ),
+      textAlign: TextAlign.start,
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
