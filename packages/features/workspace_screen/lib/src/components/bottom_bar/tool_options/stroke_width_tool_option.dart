@@ -66,7 +66,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
               onChanged: _onChangedTextField,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: PaintroidTheme.of(context).onSurfaceColor,
                 contentPadding: EdgeInsets.zero,
                 hintText: '1',
                 border: OutlineInputBorder(

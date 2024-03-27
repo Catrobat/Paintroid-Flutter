@@ -5,7 +5,7 @@ class DarkPaintroidThemeData extends PaintroidThemeData {
   @override
   ThemeData get materialThemeData => ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.white.toMaterialColor(),
+        primarySwatch: CustomColors.onSurface.toMaterialColor(),
         dividerTheme: dividerThemeData,
         floatingActionButtonTheme: fabThemeData,
         elevatedButtonTheme: buttonThemeData,

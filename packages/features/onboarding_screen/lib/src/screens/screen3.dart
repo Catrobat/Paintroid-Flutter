@@ -98,8 +98,8 @@ class _Screen3State extends State<Screen3> {
           children: [
             Text(
               titles[i],
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: PaintroidTheme.of(context).onSurfaceColor,
                 fontSize: 24,
               ),
               textAlign: TextAlign.start,
@@ -118,8 +118,8 @@ class _Screen3State extends State<Screen3> {
 
         desc = Text(
           descriptions[i],
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: PaintroidTheme.of(context).onSurfaceColor,
             fontSize: 15,
           ),
           textAlign: TextAlign.start,
@@ -196,10 +196,10 @@ class _Screen3State extends State<Screen3> {
               child: Container(
                 padding: const EdgeInsets.only(bottom: 10),
                 alignment: Alignment.bottomCenter,
-                child: const Text(
+                child: Text(
                   'Tap on a tool to get more information',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
                   ),
                   textAlign: TextAlign.start,

@@ -203,7 +203,7 @@ class _ProjectPreview extends StatelessWidget {
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
-              color: Colors.white54,
+              color: PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.5),
             ),
           ),
         ),

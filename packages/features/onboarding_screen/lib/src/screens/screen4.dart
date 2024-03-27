@@ -16,10 +16,10 @@ class Screen4 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'Landscape',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
                 ),
                 textAlign: TextAlign.start,
@@ -29,10 +29,10 @@ class Screen4 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'Pocket Paint also supports drawing in landscape mode to give you the best painting experience.',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,
                 ),
                 textAlign: TextAlign.start,

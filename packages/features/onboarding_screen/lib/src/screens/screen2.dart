@@ -45,8 +45,8 @@ class _Screen2State extends State<Screen2> {
       () {
         title = Text(
           titles[i],
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: PaintroidTheme.of(context).onSurfaceColor,
             fontSize: 24,
           ),
           textAlign: TextAlign.start,
@@ -54,8 +54,8 @@ class _Screen2State extends State<Screen2> {
 
         desc = Text(
           descriptions[i],
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: PaintroidTheme.of(context).onSurfaceColor,
             fontSize: 15,
           ),
           textAlign: TextAlign.start,

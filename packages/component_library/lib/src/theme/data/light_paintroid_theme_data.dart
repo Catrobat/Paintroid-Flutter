@@ -6,7 +6,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
   ThemeData get materialThemeData => ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        primarySwatch: Colors.black.toMaterialColor(),
+        primarySwatch: CustomColors.shadow.toMaterialColor(),
         dividerTheme: dividerThemeData,
         floatingActionButtonTheme: fabThemeData,
         elevatedButtonTheme: buttonThemeData,

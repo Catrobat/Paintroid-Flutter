@@ -24,8 +24,8 @@ class _OnboardingPageBottomNavigationBarState
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
       backgroundColor: PaintroidTheme.of(context).surfaceColor,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
+      selectedItemColor: PaintroidTheme.of(context).onSurfaceColor,
+      unselectedItemColor: PaintroidTheme.of(context).onSurfaceColor,
       selectedFontSize: 12,
       unselectedFontSize: 12,
       onTap: (value) {

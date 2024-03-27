@@ -44,24 +44,29 @@ class GenericDialog extends StatelessWidget {
       required this.actions})
       : super(key: key);
 
-  Widget? getContent() {
+  Widget? getContent(BuildContext context) {
     if (content != null) {
       return content;
     }
     if (text != null) {
-      return Text(text!, style: const TextStyle(color: Colors.black));
+      return Text(
+        text!,
+        style: TextStyle(
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
+      );
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2.0))),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
         ),
         actions: actions
             .map((action) => GenericDialogActionButton(
@@ -69,6 +74,6 @@ class GenericDialog extends StatelessWidget {
                   onPressed: action.onPressed,
                 ))
             .toList(),
-        content: getContent(),
+        content: getContent(context),
       );
 }

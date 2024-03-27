@@ -11,19 +11,19 @@ class Screen1 extends StatelessWidget {
       padding: const EdgeInsets.only(top: 100, left: 50, right: 50),
       child: Column(
         children: [
-          const Text(
+          Text(
             'Welcome To Pocket Paint',
             style: TextStyle(
-              color: Colors.white,
+              color: PaintroidTheme.of(context).onSurfaceColor,
               fontSize: 25,
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 50),
-            child: const Text(
+            child: Text(
               'With Pocket Paint there are no limits to your creativity. If you are new, start the intro, or skip it if you are already familiar with Pocket Paint.',
               style: TextStyle(
-                color: Colors.white,
+                color: PaintroidTheme.of(context).onSurfaceColor,
                 fontSize: 15,
               ),
             ),

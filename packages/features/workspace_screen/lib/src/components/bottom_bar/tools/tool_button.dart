@@ -20,7 +20,7 @@ class ToolButton extends StatelessWidget {
             path: toolData.svgAssetPath,
             height: 24.0,
             width: 24.0,
-            color: Colors.white,
+            color: PaintroidTheme.of(context).onSurfaceColor,
           ),
           label: toolData.name,
           onPressed: () {

@@ -17,7 +17,10 @@ class StyledPopMenuButton<T> extends StatelessWidget {
       data: Theme.of(context).copyWith(useMaterial3: false),
       child: PopupMenuButton<T>(
         color: PaintroidTheme.of(context).backgroundColor,
-        icon: const Icon(Icons.more_vert, color: Colors.white),
+        icon: Icon(
+          Icons.more_vert,
+          color: PaintroidTheme.of(context).onSurfaceColor,
+        ),
         elevation: 7.0,
         shape: RoundedRectangleBorder(
           side: BorderSide(

@@ -171,7 +171,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         DropdownButton<ImageFormat>(
           borderRadius: BorderRadius.circular(12),
           value: selectedFormat,
-          underline: const Divider(height: 0, color: Colors.black),
+          underline: Divider(
+            height: 0,
+            color: PaintroidTheme.of(context).shadowColor,
+          ),
           items: ImageFormat.values.map((fileType) {
             return DropdownMenuItem<ImageFormat>(
               value: fileType,

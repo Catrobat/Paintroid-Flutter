@@ -128,7 +128,7 @@ abstract class PaintroidThemeData {
     ),
     iconTheme: MaterialStateProperty.all(
       const IconThemeData(
-        color: Colors.white,
+        color: CustomColors.onSurface,
       ),
     ),
   );

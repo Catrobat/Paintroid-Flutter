@@ -16,10 +16,10 @@ class Screen5 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'You are all set. Enjoy Pocket Paint.',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
                 ),
                 textAlign: TextAlign.start,
@@ -29,10 +29,10 @@ class Screen5 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'Get started and create a new masterpiece.',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,
                 ),
                 textAlign: TextAlign.start,

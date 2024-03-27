@@ -69,7 +69,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
           SelectableText.rich(
             textAlign: TextAlign.center,
             TextSpan(
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
               children: [
                 const TextSpan(text: content),
                 _clickableText(
