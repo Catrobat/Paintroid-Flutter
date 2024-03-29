@@ -5,6 +5,7 @@ PR_NUMBER=$1
 MAIN_MANIFEST="android/app/src/main/AndroidManifest.xml"
 DEBUG_MANIFEST="android/app/src/debug/AndroidManifest.xml"
 PROFILE_MANIFEST="android/app/src/profile/AndroidManifest.xml"
+BUILD_GRADLE="android/app/build.gradle"
 
 if [ -f "$MAIN_MANIFEST" ]; then
   echo "Updating $MAIN_MANIFEST with PR number $PR_NUMBER"
@@ -26,6 +27,22 @@ if [ -f "$PROFILE_MANIFEST" ]; then
   sed -i "s/package=\"org.catrobat.paintroid\"/package=\"org.catrobat.paintroid.pr$PR_NUMBER\"/" $PROFILE_MANIFEST
 else
   echo "$PROFILE_MANIFEST does not exist."
+fi
+
+if [ -f "$BUILD_GRADLE" ]; then
+  echo "Updating applicationId in $BUILD_GRADLE with PR number $PR_NUMBER"
+  sed -i "s/applicationId \"org.catrobat.paintroidflutter\"/applicationId \"org.catrobat.paintroidflutter.pr$PR_NUMBER\"/" $BUILD_GRADLE
+else
+  echo "$BUILD_GRADLE does not exist."
+fi
+
+KOTLIN_MAIN_ACTIVITY="android/app/src/main/kotlin/org/catrobat/paintroid/MainActivity.kt"
+
+if [ -f "$KOTLIN_MAIN_ACTIVITY" ]; then
+  echo "Updating MainActivity package in Kotlin with PR number $PR_NUMBER"
+  sed -i "s/package org.catrobat.paintroid/package org.catrobat.paintroid.pr$PR_NUMBER/" $KOTLIN_MAIN_ACTIVITY
+else
+  echo "MainActivity Kotlin file does not exist."
 fi
 
 INFO_PLIST="ios/Runner/Info.plist"
