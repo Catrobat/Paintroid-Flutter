@@ -232,9 +232,10 @@ class _ProjectPreview extends StatelessWidget {
           child: latestModifiedProject == null
               ? null
               : ProjectOverflowMenu(
-                  key: const Key('ProjectOverflowMenu Key0'),
-                  project: latestModifiedProject!,
-                ),
+            key: const Key('ProjectOverflowMenu Key0'),
+            project: latestModifiedProject!,
+            iconColor: const Color(0xFF191C1D),
+          ),
         ),
       ],
     );
