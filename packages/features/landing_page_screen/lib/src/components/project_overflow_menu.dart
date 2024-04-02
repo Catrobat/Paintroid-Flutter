@@ -48,8 +48,15 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       ),
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => ProjectOverflowMenuOption.values
-          .map((option) =>
-              PopupMenuItem(value: option, child: Text(option.label)))
+          .map((option) => PopupMenuItem(
+                value: option,
+                child: Text(
+                  option.label,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
+              ))
           .toList(),
     );
   }
