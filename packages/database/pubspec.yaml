@@ -17,6 +17,7 @@ dependencies:
 
   floor: ^1.2.0
   sqflite:
+  import_sorter: ^4.6.0
 
 dev_dependencies:
   flutter_test:

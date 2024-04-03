@@ -1,13 +1,16 @@
+// Dart imports:
 import 'dart:typed_data';
 import 'dart:ui';
 
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_library/io_library.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 
+// Project imports:
+import 'package:io_library/io_library.dart';
 import 'save_as_raster_image_test.mocks.dart';
 
 class FakeImage extends Fake implements Image {}

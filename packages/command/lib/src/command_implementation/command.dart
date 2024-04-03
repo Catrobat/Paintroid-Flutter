@@ -1,6 +1,9 @@
-import 'package:command/command.dart';
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:io_library/io_library.dart';
+
+// Project imports:
+import 'package:command/command.dart';
 
 abstract class Command with EquatableMixin {
   const Command();

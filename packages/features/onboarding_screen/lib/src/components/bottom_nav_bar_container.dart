@@ -1,5 +1,10 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:component_library/component_library.dart';
+
+// Project imports:
 import 'package:onboarding_screen/onboarding_screen.dart';
 
 class BottomNavigationBarContainer extends StatelessWidget {

@@ -1,5 +1,7 @@
+// Dart imports:
 import 'dart:ui';
 
+// Project imports:
 import 'package:io_library/io_library.dart';
 
 class ImageFromFile {

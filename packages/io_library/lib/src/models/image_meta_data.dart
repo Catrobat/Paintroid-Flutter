@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:io_library/io_library.dart';
 
 abstract class ImageMetaData {

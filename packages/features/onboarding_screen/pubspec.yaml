@@ -28,6 +28,7 @@ dependencies:
     path: ../../tools
   workspace_screen:
     path: ../workspace_screen
+  import_sorter: ^4.6.0
 
 dev_dependencies:
   flutter_test:

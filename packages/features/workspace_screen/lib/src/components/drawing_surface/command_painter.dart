@@ -1,5 +1,8 @@
-import 'package:command/command.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:command/command.dart';
 
 class CommandPainter extends CustomPainter {
   CommandPainter(this.commandManager);

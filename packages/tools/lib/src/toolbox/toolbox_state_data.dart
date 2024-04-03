@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// Project imports:
 import 'package:tools/tools.dart';
 
 part 'toolbox_state_data.freezed.dart';

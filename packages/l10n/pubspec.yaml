@@ -15,6 +15,7 @@ dependencies:
 
   flutter_localization: ^0.1.12
   intl: ^0.18.0
+  import_sorter: ^4.6.0
 
 dev_dependencies:
   flutter_test:

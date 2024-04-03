@@ -1,3 +1,4 @@
+// Package imports:
 import 'package:floor/floor.dart';
 
 @entity

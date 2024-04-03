@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:ui';
 
-import 'package:command/command.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import 'package:command/command.dart';
 
 void main() {
   late PathWithActionHistory testPath;

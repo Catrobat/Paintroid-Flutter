@@ -3,14 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i4;
 import 'dart:io' as _i7;
 import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i5;
 
-import 'package:io_library/io_library.dart' as _i3;
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:oxidized/oxidized.dart' as _i2;
+
+// Project imports:
+import 'package:io_library/io_library.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

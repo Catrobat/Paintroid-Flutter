@@ -34,6 +34,7 @@ dependencies:
     path: ../workspace_screen
   paintroid:
     path: ../../../
+  import_sorter: ^4.6.0
 
 dev_dependencies:
   flutter_test:

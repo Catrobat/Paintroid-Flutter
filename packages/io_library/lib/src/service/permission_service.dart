@@ -1,9 +1,13 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:io_library/io_library.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 abstract class IPermissionService {
   Future<bool> requestAccessToPickPhotos();

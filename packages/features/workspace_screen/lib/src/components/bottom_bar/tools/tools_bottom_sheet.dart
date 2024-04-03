@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:tools/tools.dart';
+
+// Project imports:
 import 'package:workspace_screen/src/components/bottom_bar/tools/tool_button.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 

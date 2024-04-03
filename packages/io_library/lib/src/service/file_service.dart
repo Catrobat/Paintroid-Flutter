@@ -1,12 +1,15 @@
+// Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
-
 import 'package:path_provider/path_provider.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 abstract class IFileService {
   Future<Result<File, Failure>> save(String filename, Uint8List data);

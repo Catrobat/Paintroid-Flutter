@@ -23,6 +23,7 @@ dependencies:
     path: ../component_library
   io_library:
     path: ../io_library
+  import_sorter: ^4.6.0
 
 dev_dependencies:
   flutter_test:

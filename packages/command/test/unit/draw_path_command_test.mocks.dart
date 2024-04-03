@@ -3,9 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:typed_data' as _i3;
 import 'dart:ui' as _i2;
 
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

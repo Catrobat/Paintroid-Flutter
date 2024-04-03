@@ -1,9 +1,15 @@
+// Dart imports:
 import 'dart:ui';
 
-import 'package:command/command.dart';
+// Flutter imports:
 import 'package:flutter/widgets.dart';
+
+// Package imports:
 import 'package:io_library/io_library.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:command/command.dart';
 
 part 'draw_path_command.g.dart';
 

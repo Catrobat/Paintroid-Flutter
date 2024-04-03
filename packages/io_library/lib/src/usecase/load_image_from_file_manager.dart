@@ -1,11 +1,15 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 extension on File {
   String? get extension {
