@@ -22,8 +22,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late IFileService fileService;
   late IImageService imageService;
 
-  Future<List<Project>> _getProjects() async =>
-      database.projectDAO.getProjects();
+  Future<List<Project>> _getProjects() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return database.projectDAO.getProjects();
+  }
 
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
