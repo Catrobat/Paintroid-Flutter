@@ -336,12 +336,12 @@ void main() {
       await tester.pumpAndSettle();
 
       final renameProjectDialog =
-          find.widgetWithText(TextInputDialog, 'Rename project$position');
+          find.widgetWithText(GenericDialog, 'Rename project$position');
       expect(renameProjectDialog, findsOneWidget);
       final cancelButton =
-          find.widgetWithText(GenericDialogActionButton, 'Cancel');
+          find.widgetWithText(GenericDialogActionButton, 'CANCEL');
       final renameButton =
-          find.widgetWithText(GenericDialogActionButton, 'Rename');
+          find.widgetWithText(GenericDialogActionButton, 'RENAME');
 
       expect(cancelButton, findsOneWidget);
       expect(renameButton, findsOneWidget);

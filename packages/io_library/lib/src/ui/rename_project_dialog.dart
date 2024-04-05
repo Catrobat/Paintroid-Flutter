@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:io_library/io_library.dart';
 
@@ -5,25 +6,46 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
   final TextEditingController textFieldController = TextEditingController()
     ..text = name;
 
+  final formKey = GlobalKey<FormState>(debugLabel: 'TextInputDialog Form');
+
   return showDialog<String>(
     context: context,
     builder: (context) {
-      return TextInputDialog(
+      return GenericDialog(
         title: 'Rename $name',
-        textFieldController: textFieldController,
         actions: [
-          GenericDialogActionButton(
-            text: 'Cancel',
-            onPressed: () {},
+          GenericDialogAction(
+            title: 'CANCEL',
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          GenericDialogActionButton(
-            text: 'Rename',
+          GenericDialogAction(
+            title: 'RENAME',
             onPressed: () {
+              if (!formKey.currentState!.validate()) {
+                return null;
+              }
               Navigator.of(context).pop(textFieldController.text);
             },
           ),
         ],
-        validatorErrorMsg: 'Please specify a project name',
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextInputField(
+                key: const Key('textInputField'),
+                controller: textFieldController,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Please specify a project name';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+        ),
       );
     },
   );
