@@ -32,6 +32,7 @@ export 'src/usecase/load_image_from_file_manager.dart';
 export 'src/usecase/load_image_from_photo_library.dart';
 export 'src/usecase/save_as_catrobat_image.dart';
 export 'src/usecase/save_as_raster_image.dart';
+export 'src/usecase/save_as_ora_image.dart';
 
 export 'src/models/ora_image.dart';
 export 'src/models/process_ora.dart';

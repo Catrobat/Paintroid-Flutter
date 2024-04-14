@@ -7,7 +7,6 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
-import 'package:io_library/src/usecase/save_as_ora_image.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 
@@ -204,7 +203,7 @@ class IOHandler {
     final oraImage = OraImage(
       width: imgWidth,
       height: imgHeight,
-      layers: [layer], // Single layer based on cachedImage
+      layers: [layer],
       xmlMetadata: generateXmlMetadataForOra([layer]),
     );
 

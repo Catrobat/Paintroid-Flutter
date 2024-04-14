@@ -8,7 +8,9 @@ class ProcessOra {
     List<ui.Image> layers = [];
 
     for (var file in archive) {
-      if (file.isFile && (file.name.endsWith('.png') || file.name.endsWith('.jpg')) || file.name.endsWith('.ora')) {
+      if (file.isFile &&
+              (file.name.endsWith('.png') || file.name.endsWith('.jpg')) ||
+          file.name.endsWith('.ora')) {
         img.Image? decodedImage = img.decodeImage(file.content as List<int>);
 
         if (decodedImage != null) {
@@ -23,7 +25,6 @@ class ProcessOra {
 
   Future<ui.Image> convertImgImageToUiImage(img.Image image) async {
     List<int> pngBytes = img.encodePng(image);
-
 
     final codec = await ui.instantiateImageCodec(Uint8List.fromList(pngBytes));
     final frame = await codec.getNextFrame();
