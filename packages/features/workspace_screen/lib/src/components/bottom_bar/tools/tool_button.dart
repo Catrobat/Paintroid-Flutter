@@ -15,18 +15,24 @@ class ToolButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        return IconButtonWithLabel(
-          icon: IconSvg(
-            path: toolData.svgAssetPath,
-            height: 24.0,
-            width: 24.0,
-            color: Colors.white,
+        return SizedBox(
+          width: 50.0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: IconButtonWithLabel(
+              icon: IconSvg(
+                path: toolData.svgAssetPath,
+                height: 30.0,
+                width: 30.0,
+                color: Colors.white,
+              ),
+              label: toolData.name,
+              onPressed: () {
+                Navigator.pop(context);
+                ref.read(toolBoxStateProvider.notifier).switchTool(toolData);
+              },
+            ),
           ),
-          label: toolData.name,
-          onPressed: () {
-            Navigator.pop(context);
-            ref.read(toolBoxStateProvider.notifier).switchTool(toolData);
-          },
         );
       },
     );

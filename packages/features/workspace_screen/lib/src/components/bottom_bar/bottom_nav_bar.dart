@@ -75,11 +75,12 @@ void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
 }
 
 void _showToolBottomSheet(BuildContext context) {
+  double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
-    builder: (BuildContext context) => const SizedBox(
-      height: 270,
-      child: ToolsBottomSheet(),
+    builder: (BuildContext context) => SizedBox(
+      height: screenHeight * 0.5,
+      child: const ToolsBottomSheet(),
     ),
   );
 }
