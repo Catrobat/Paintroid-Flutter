@@ -35,7 +35,6 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
     return result;
   }
 
-  // Toggle the fullscreen state
   void toggleFullscreen(bool isEnabled) => state = state.copyWith(
         isFullscreen: isEnabled,
       );
