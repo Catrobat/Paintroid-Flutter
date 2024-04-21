@@ -19,12 +19,9 @@ abstract class IFileService {
 
   Result<File, Failure> getFile(String path);
 
-
-  // Declare the new methods in the interface
   Future<int> getNextImageNumber();
-  Future<int> getNextProjectNumber();
-  //end
 
+  Future<int> getNextProjectNumber();
 
   static final provider = Provider<IFileService>((ref) => FileService());
 
@@ -39,7 +36,7 @@ class FileService with LoggableMixin implements IFileService {
   Future<Result<File, Failure>> pick() async {
     try {
       final result =
-      await FilePicker.platform.pickFiles(allowCompression: false);
+          await FilePicker.platform.pickFiles(allowCompression: false);
       if (result == null) {
         return const Result.err(LoadImageFailure.userCancelled);
       }
@@ -62,7 +59,7 @@ class FileService with LoggableMixin implements IFileService {
         return const Result.err(SaveImageFailure.userCancelled);
       }
       final file =
-      await File('$saveDirectory/$filename').create(recursive: true);
+          await File('$saveDirectory/$filename').create(recursive: true);
       return Result.ok(await file.writeAsBytes(data));
     } catch (err, stacktrace) {
       logger.severe('Could not save file', err, stacktrace);
@@ -116,9 +113,6 @@ class FileService with LoggableMixin implements IFileService {
     }
   }
 
-
-
-
   @override
   Future<int> getNextImageNumber() async {
     final prefs = await SharedPreferences.getInstance();
@@ -127,9 +121,6 @@ class FileService with LoggableMixin implements IFileService {
     await prefs.setInt('lastImageNumber', nextNumber);
     return nextNumber;
   }
-
-
-
 
   @override
   Future<int> getNextProjectNumber() async {
@@ -154,7 +145,4 @@ class FileService with LoggableMixin implements IFileService {
 
     return maxNum + 1;
   }
-
-
-
 }

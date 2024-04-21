@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:io_library/io_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 /// Returns [null] if user dismissed the dialog by tapping outside
 Future<ImageMetaData?> showSaveImageDialog(
-    BuildContext context, bool savingProject) =>
+        BuildContext context, bool savingProject) =>
     showGeneralDialog<ImageMetaData?>(
         context: context,
         pageBuilder: (_, __, ___) =>
@@ -37,14 +36,10 @@ class SaveImageDialogState extends ConsumerState<SaveImageDialog> {
       selectedFormat = ImageFormat.catrobatImage;
     }
 
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setDefaultFileName();
     });
   }
-
-
-
 
   Future<void> _setDefaultFileName() async {
     final fileService = ref.read(IFileService.provider);
@@ -52,21 +47,15 @@ class SaveImageDialogState extends ConsumerState<SaveImageDialog> {
     if (widget.savingProject) {
       final nextNumber = await fileService.getNextProjectNumber();
       defaultName = 'project$nextNumber';
-    }
-    else {
-
+    } else {
       final nextNumber = await fileService.getNextImageNumber();
       defaultName = 'image$nextNumber';
-
     }
 
     setState(() {
       nameFieldController.text = defaultName;
     });
   }
-
-
-
 
   void _dismissDialogWithData() {
     late ImageMetaData data;
