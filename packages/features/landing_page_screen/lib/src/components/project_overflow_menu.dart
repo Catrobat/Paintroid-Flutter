@@ -52,7 +52,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       icon: icon,
       shape: RoundedRectangleBorder(
         side: const BorderSide(),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => ProjectOverflowMenuOption.values

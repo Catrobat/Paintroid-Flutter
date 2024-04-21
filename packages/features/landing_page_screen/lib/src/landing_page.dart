@@ -234,7 +234,7 @@ class _ProjectPreview extends StatelessWidget {
               : ProjectOverflowMenu(
             key: const Key('ProjectOverflowMenu Key0'),
             project: latestModifiedProject!,
-            iconColor: const Color(0xFF191C1D),
+            iconColor: lightColorScheme.onBackground,
           ),
         ),
       ],
