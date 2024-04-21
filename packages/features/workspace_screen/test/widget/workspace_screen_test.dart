@@ -52,7 +52,7 @@ void main() {
     await tester.pumpWidget(sut);
 
     await tester.tap(find.byIcon(Icons.more_vert));
-    await tester.pumpAndSettle(); // Wait for the menu to open
+    await tester.pumpAndSettle();
 
     final initialWidgetTree = tester.widgetList(find.byType(Widget)).toString();
 
