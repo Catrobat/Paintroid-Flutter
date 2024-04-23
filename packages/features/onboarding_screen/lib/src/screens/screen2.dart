@@ -1,7 +1,12 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:onboarding_screen/onboarding_screen.dart';
+
+// Package imports:
+import 'package:component_library/component_library.dart';
 import 'package:workspace_screen/workspace_screen.dart';
+
+// Project imports:
+import 'package:onboarding_screen/onboarding_screen.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);

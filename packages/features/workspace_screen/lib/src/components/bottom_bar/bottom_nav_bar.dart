@@ -1,8 +1,13 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:component_library/component_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:tools/tools.dart';
+
+// Project imports:
 import 'package:workspace_screen/workspace_screen.dart';
 
 class BottomNavBar extends ConsumerWidget {

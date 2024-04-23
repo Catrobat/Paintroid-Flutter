@@ -1,10 +1,16 @@
+// Dart imports:
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+// Flutter imports:
 import 'package:flutter/rendering.dart';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+
+// Project imports:
 import 'package:workspace_screen/workspace_screen.dart';
 
 class CanvasInteractions {

@@ -1,12 +1,16 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:l10n/l10n.dart';
 import 'package:tools/tools.dart';
-import 'package:workspace_screen/workspace_screen.dart';
 
+// Project imports:
+import 'package:workspace_screen/workspace_screen.dart';
 import 'bottom_nav_bar_interactions.dart';
 import 'interactive_viewer_interactions.dart';
 

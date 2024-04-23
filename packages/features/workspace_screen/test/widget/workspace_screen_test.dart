@@ -1,10 +1,15 @@
-import 'package:command/command.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:command/command.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
+
+// Project imports:
 import 'package:workspace_screen/workspace_screen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class FakeCommandManager extends Fake implements CommandManager {
   @override

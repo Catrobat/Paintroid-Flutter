@@ -1,9 +1,12 @@
+// Dart imports:
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_library/io_library.dart';
 
+// Project imports:
+import 'package:io_library/io_library.dart';
 import '../utils/dummy_command_factory.dart';
 import '../utils/dummy_version_strategy.dart';
 

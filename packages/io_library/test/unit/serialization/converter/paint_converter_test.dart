@@ -1,7 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:io_library/io_library.dart';
 
+// Package imports:
+import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 import '../utils/dummy_paint_factory.dart';
 
 void main() {

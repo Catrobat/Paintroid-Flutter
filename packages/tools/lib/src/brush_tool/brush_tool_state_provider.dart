@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/graphic_factory/graphic_factory_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:tools/tools.dart';
 
 part 'brush_tool_state_provider.g.dart';

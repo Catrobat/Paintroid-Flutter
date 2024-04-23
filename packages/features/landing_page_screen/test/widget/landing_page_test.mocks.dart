@@ -3,11 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i3;
 import 'dart:io' as _i11;
 import 'dart:typed_data' as _i10;
 import 'dart:ui' as _i6;
 
+// Package imports:
 import 'package:database/src/models/project.dart' as _i8;
 import 'package:database/src/project_dao.dart' as _i2;
 import 'package:database/src/project_database.dart' as _i7;

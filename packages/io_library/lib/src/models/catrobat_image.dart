@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// Project imports:
 import 'package:io_library/io_library.dart';
 
 part 'catrobat_image.g.dart';

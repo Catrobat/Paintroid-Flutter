@@ -1,11 +1,14 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+
+// Project imports:
 import 'package:tools/src/eraser_tool/eraser_tool.dart';
 import 'package:tools/tools.dart';
-
 import 'eraser_tool_test.mocks.dart';
 
 @GenerateMocks([

@@ -1,12 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
-import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
+
+// Project imports:
+import 'package:landing_page_screen/landing_page_screen.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;

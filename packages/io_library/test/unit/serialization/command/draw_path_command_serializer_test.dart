@@ -1,8 +1,12 @@
-import 'package:command/command.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:io_library/io_library.dart';
 
+// Package imports:
+import 'package:command/command.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 import '../utils/dummy_command_factory.dart';
 import '../utils/dummy_paint_factory.dart';
 import '../utils/dummy_path_factory.dart';

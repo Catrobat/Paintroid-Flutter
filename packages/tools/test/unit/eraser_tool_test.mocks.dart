@@ -3,8 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:ui' as _i2;
 
+// Package imports:
 import 'package:command/command.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 

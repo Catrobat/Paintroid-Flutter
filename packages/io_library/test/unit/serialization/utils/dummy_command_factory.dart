@@ -1,8 +1,11 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/command.dart';
-import 'package:io_library/io_library.dart';
 
+// Project imports:
+import 'package:io_library/io_library.dart';
 import 'dummy_paint_factory.dart';
 import 'dummy_path_factory.dart';
 import 'dummy_version_strategy.dart';

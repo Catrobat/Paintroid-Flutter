@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:ui' as ui;
 
-import 'package:command/command.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:command/command.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'canvas_state_data.freezed.dart';

@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:tools/tools.dart';
 
 class HandTool extends Tool with EquatableMixin {
