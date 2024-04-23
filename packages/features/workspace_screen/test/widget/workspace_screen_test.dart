@@ -55,6 +55,25 @@ void main() {
     expect(overflowMenuButtonFinder, findsOneWidget);
   });
 
+  testWidgets('Tapping share option maintains UI stability',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(sut);
+
+    await tester.tap(find.byIcon(Icons.more_vert));
+    await tester.pumpAndSettle();
+
+    final initialWidgetTree = tester.widgetList(find.byType(Widget)).toString();
+
+    final shareOptionFinder = find.text('Share');
+    await tester.ensureVisible(shareOptionFinder);
+    await tester.tap(shareOptionFinder);
+    await tester.pumpAndSettle();
+
+    final updatedWidgetTree = tester.widgetList(find.byType(Widget)).toString();
+
+    expect(updatedWidgetTree, initialWidgetTree);
+  });
+
   group('Fullscreen functionality', () {
     late WorkspaceState testWorkspaceState;
     late FakeCommandManager fakeCommandManager;

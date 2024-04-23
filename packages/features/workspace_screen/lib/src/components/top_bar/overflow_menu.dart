@@ -12,13 +12,15 @@ import 'package:toast/toast.dart';
 
 // Project imports:
 import 'package:workspace_screen/workspace_screen.dart';
+import 'package:share_plus/share_plus.dart';
 
 enum OverflowMenuOption {
   fullscreen,
   saveImage,
   saveProject,
   loadImage,
-  newImage;
+  newImage,
+  share;
 
   String localizedLabel(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -33,6 +35,8 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
+      case OverflowMenuOption.share:
+        return localizations.share;
     }
   }
 }
@@ -79,6 +83,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+      case OverflowMenuOption.share:
+        _shareContent();
         break;
     }
   }
@@ -135,6 +142,10 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     }
 
     return true;
+  }
+
+  void _shareContent() {
+    Share.share('Check out this great app!');
   }
 
   Future<void> _saveProject() async {
