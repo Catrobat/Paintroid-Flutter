@@ -21,9 +21,13 @@ enum ProjectOverflowMenuOption {
 
 class ProjectOverflowMenu extends ConsumerStatefulWidget {
   final Project project;
+  final Color? iconColor;
 
-  const ProjectOverflowMenu({Key? key, required this.project})
-      : super(key: key);
+  const ProjectOverflowMenu({
+    Key? key,
+    required this.project,
+    this.iconColor,
+  }) : super(key: key);
 
   @override
   ConsumerState<ProjectOverflowMenu> createState() =>
@@ -43,12 +47,16 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       loading: () {},
     );
 
-    return PopupMenuButton(
+    Widget icon = widget.iconColor != null
+        ? Icon(Icons.more_vert, color: widget.iconColor)
+        : const Icon(Icons.more_vert);
+
+    return PopupMenuButton<ProjectOverflowMenuOption>(
       color: Theme.of(context).colorScheme.background,
-      icon: const Icon(Icons.more_vert),
+      icon: icon,
       shape: RoundedRectangleBorder(
         side: const BorderSide(),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => ProjectOverflowMenuOption.values
