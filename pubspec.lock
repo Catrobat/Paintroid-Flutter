@@ -694,14 +694,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  launch_review:
-    dependency: transitive
-    description:
-      name: launch_review
-      sha256: "04cdaf752033cefd53bc0fa9c22105801ef53791a93d8b6cdd00fcb3c1c1604b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   lints:
     dependency: transitive
     description:

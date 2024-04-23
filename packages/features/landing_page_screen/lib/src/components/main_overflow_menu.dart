@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:io_library/io_library.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum MainOverflowMenuOption {
   rate('Rate us!'),
@@ -40,12 +42,27 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     );
   }
 
+  void _openStore() {
+    if (Platform.isAndroid || Platform.isIOS) {
+      final appId = Platform.isAndroid ? androidAppId : iOSAppId;
+      final url = Uri.parse(
+        Platform.isAndroid
+            ? 'market://details?id=$appId'
+            : 'https://apps.apple.com/at/app/pocket-code/id1117935892',
+      );
+      launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
+
   Future<void> _handleSelectedOption(MainOverflowMenuOption option) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     switch (option) {
       case MainOverflowMenuOption.rate:
-        LaunchReview.launch(androidAppId: androidAppId, iOSAppId: iOSAppId);
+        _openStore();
         break;
       case MainOverflowMenuOption.help:
         if (mounted) {
