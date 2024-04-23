@@ -19,7 +19,7 @@ class CustomActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: heroTag,
-      backgroundColor: PaintroidTheme.of(context).errorColor,
+      backgroundColor: PaintroidTheme.of(context).orangeColor,
       foregroundColor: PaintroidTheme.of(context).onSurfaceColor,
       tooltip: hint,
       child: Icon(icon),
