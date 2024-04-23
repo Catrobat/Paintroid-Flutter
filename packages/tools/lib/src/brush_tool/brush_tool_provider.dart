@@ -8,7 +8,6 @@ part 'brush_tool_provider.g.dart';
 BrushTool brushTool(BrushToolRef ref) {
   return BrushTool(
     paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
-    type: ToolType.BRUSH,
     commandManager: ref.watch(commandManagerProvider),
     commandFactory: ref.watch(commandFactoryProvider),
     graphicFactory: ref.watch(graphicFactoryProvider),

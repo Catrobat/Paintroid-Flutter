@@ -18,13 +18,15 @@ import 'package:workspace_screen/workspace_screen.dart';
 
 import 'landing_page_test.mocks.dart';
 
-@GenerateMocks([ProjectDatabase, ProjectDAO, IImageService, IFileService])
+@GenerateMocks(
+    [ProjectDatabase, ProjectDAO, IImageService, IFileService, IDeviceService])
 void main() {
   late Widget sut;
   late ProjectDatabase database;
   late ProjectDAO dao;
   late IImageService imageService;
   late IFileService fileService;
+  late IDeviceService deviceService;
   late List<Project> projects;
   final date = DateTime.now();
   const filePath = 'test/fixture/image/test.jpg';
@@ -45,11 +47,13 @@ void main() {
     dao = MockProjectDAO();
     imageService = MockIImageService();
     fileService = MockIFileService();
+    deviceService = MockIDeviceService();
     sut = ProviderScope(
       overrides: [
         ProjectDatabase.provider.overrideWith((ref) => Future.value(database)),
         IImageService.provider.overrideWith((ref) => imageService),
         IFileService.provider.overrideWith((ref) => fileService),
+        IDeviceService.provider.overrideWith((ref) => deviceService),
       ],
       child: PocketPaintApp(
         showOnboardingPage: false,
@@ -428,6 +432,62 @@ void main() {
           find.widgetWithText(GenericDialog, 'Overwrite');
 
       expect(confirmationDialogFinder, findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should show a CircularProgressIndicator when loading the project by clicking the edit button',
+    (tester) async {
+      String projectName = 'project.catrobat-image';
+      Project project = createProject(projectName);
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([project]));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+      when(deviceService.getSizeInPixels())
+          .thenAnswer((_) => Future.value(const Size(1080, 1920)));
+      when(dao.insertProject(project)).thenAnswer((_) => Future.value(1));
+      when(fileService.getFile(filePath)).thenReturn(Result.ok(testFile));
+
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final editButton = find.byKey(const Key('myEditIcon'));
+      await tester.tap(editButton);
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should show a CircularProgressIndicator when loading the project by clicking the project tile in list view',
+    (tester) async {
+      String projectName = 'project.catrobat-image';
+      Project project1 = createProject(projectName);
+      Project project2 = createProject(projectName);
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects())
+          .thenAnswer((_) => Future.value([project1, project2]));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+      when(deviceService.getSizeInPixels())
+          .thenAnswer((_) => Future.value(const Size(1080, 1920)));
+      when(dao.insertProject(project2)).thenAnswer((_) => Future.value(1));
+      when(fileService.getFile(filePath)).thenReturn(Result.ok(testFile));
+
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final projectTile = find.byType(ProjectListTile);
+      await tester.tap(projectTile);
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     },
   );
 }

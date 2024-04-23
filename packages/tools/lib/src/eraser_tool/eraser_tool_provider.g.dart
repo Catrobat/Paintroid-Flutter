@@ -6,7 +6,7 @@ part of 'eraser_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$eraserToolHash() => r'a92e9502cc061e5298bc9c8a20fcb30f8759e1e4';
+String _$eraserToolHash() => r'0f4b6c747b0f67d0c93e029997abe8efbda136e2';
 
 /// See also [eraserTool].
 @ProviderFor(eraserTool)

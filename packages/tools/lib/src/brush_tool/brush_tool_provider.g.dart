@@ -6,7 +6,7 @@ part of 'brush_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$brushToolHash() => r'dfa4f2e7a9cb8734828ec99dd983c7904c231e46';
+String _$brushToolHash() => r'304f2061bc0aacc65e1126a253fd78d56e247dd2';
 
 /// See also [brushTool].
 @ProviderFor(brushTool)
