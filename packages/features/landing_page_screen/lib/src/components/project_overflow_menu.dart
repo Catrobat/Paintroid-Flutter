@@ -57,7 +57,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
                 child: Text(
                   option.label,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: PaintroidTheme.of(context).onBackgroundColor,
                   ),
                 ),
               ))
