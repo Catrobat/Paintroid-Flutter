@@ -1,11 +1,14 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tools/tools.dart';
 
+// Project imports:
+import 'package:tools/tools.dart';
 import 'brush_tool_test.mocks.dart';
 
 @GenerateMocks([

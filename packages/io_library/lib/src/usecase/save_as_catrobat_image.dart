@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 class SaveAsCatrobatImage with LoggableMixin {
   final IFileService _fileService;

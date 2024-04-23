@@ -1,6 +1,11 @@
-import 'package:command/command_providers.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:command/command_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:workspace_screen/workspace_screen.dart';
 
 class CanvasPainter extends ConsumerWidget {

@@ -1,11 +1,16 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
 import 'package:filesize/filesize.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
     showGeneralDialog<bool>(

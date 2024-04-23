@@ -1,5 +1,8 @@
-import 'package:database/src/models/project.dart';
+// Package imports:
 import 'package:floor/floor.dart';
+
+// Project imports:
+import 'package:database/src/models/project.dart';
 
 @dao
 abstract class ProjectDAO {

@@ -1,8 +1,13 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:io_library/io_library.dart';
+
+// Project imports:
 import 'package:landing_page_screen/landing_page_screen.dart';
 
 class ProjectListTile extends StatelessWidget {

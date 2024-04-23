@@ -1,13 +1,21 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:command/command.dart';
 import 'package:component_library/component_library.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
-import 'package:workspace_screen/workspace_screen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-class FakeCommandManager extends Fake implements CommandManager {}
+// Project imports:
+import 'package:workspace_screen/workspace_screen.dart';
+
+class FakeCommandManager extends Fake implements CommandManager {
+  @override
+  int get count => 0;
+}
 
 void main() {
   late Widget sut;

@@ -1,11 +1,15 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onboarding_screen/onboarding_screen.dart';
 
+// Package imports:
+import 'package:component_library/component_library.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:toast/toast.dart';
+
+// Project imports:
+import 'package:onboarding_screen/onboarding_screen.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;

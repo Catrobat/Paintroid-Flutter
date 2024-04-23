@@ -1,5 +1,7 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:command/command.dart';
 import 'package:command/command_providers.dart';
 import 'package:component_library/component_library.dart';
@@ -7,8 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:workspace_screen/workspace_screen.dart';
 
+// Project imports:
+import 'package:workspace_screen/workspace_screen.dart';
 import 'render_image_for_export_test.mocks.dart';
 
 class FakePicture extends Fake implements Picture {

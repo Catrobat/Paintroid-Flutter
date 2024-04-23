@@ -1,9 +1,15 @@
+// Dart imports:
 import 'dart:ui';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:command/graphic_factory/graphic_factory_provider.dart';
 import 'package:component_library/component_library.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:tools/tools.dart';
 
 part 'brush_tool_state_provider.g.dart';

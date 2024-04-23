@@ -1,12 +1,18 @@
+// Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+// Flutter imports:
 import 'package:flutter/painting.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
+
+// Project imports:
+import 'package:io_library/io_library.dart';
 
 abstract class IImageService {
   Future<Result<ui.Image, Failure>> import(Uint8List fileData);

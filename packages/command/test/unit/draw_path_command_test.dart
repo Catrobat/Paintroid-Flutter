@@ -1,10 +1,13 @@
+// Dart imports:
 import 'dart:ui';
 
-import 'package:command/command.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+// Project imports:
+import 'package:command/command.dart';
 import 'draw_path_command_test.mocks.dart';
 
 @GenerateMocks([Canvas])

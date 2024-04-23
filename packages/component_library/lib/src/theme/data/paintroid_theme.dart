@@ -1,5 +1,8 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:component_library/component_library.dart';
 
 class PaintroidTheme extends InheritedWidget {
   const PaintroidTheme({

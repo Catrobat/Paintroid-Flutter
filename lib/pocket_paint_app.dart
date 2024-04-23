@@ -1,11 +1,14 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:component_library/component_library.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:landing_page_screen/landing_page_screen.dart';
 import 'package:onboarding_screen/onboarding_screen.dart';
 import 'package:workspace_screen/workspace_screen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class PocketPaintApp extends ConsumerWidget {
   final bool showOnboardingPage;

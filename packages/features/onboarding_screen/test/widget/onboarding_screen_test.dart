@@ -1,10 +1,15 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:component_library/component_library.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onboarding_screen/onboarding_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
+// Project imports:
+import 'package:onboarding_screen/onboarding_screen.dart';
 
 void main() {
   late Widget sut;
