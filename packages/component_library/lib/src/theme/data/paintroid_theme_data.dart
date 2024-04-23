@@ -121,9 +121,9 @@ abstract class PaintroidThemeData {
         ),
       );
 
-  final dividerThemeData = const DividerThemeData(
-    space: 0,
-  );
+  DividerThemeData get dividerThemeData => const DividerThemeData(
+        space: 0,
+      );
 
   NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
     indicatorColor: Colors.transparent,
