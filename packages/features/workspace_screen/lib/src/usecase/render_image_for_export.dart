@@ -2,12 +2,12 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:component_library/component_library.dart';
 import 'package:flutter/painting.dart';
 
 // Package imports:
 import 'package:command/command.dart';
 import 'package:command/command_providers.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
