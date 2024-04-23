@@ -23,7 +23,7 @@ class LandingPage extends ConsumerStatefulWidget {
 }
 
 class _LandingPageState extends ConsumerState<LandingPage> {
-  late ProjectDatabase database;
+  late ProjectDatabase database = database;
   late IFileService fileService;
   late IImageService imageService;
 
@@ -32,6 +32,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
+    setState(() {});
+  }
+
+  Future<void> _navigateToSearchScreen() async {
+    await Navigator.pushNamed(context, '/SearchScreenPage');
     setState(() {});
   }
 
@@ -89,7 +94,15 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       backgroundColor: lightColorScheme.primary,
       appBar: AppBar(
         title: Text(widget.title),
-        actions: const [MainOverflowMenu()],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search_rounded, color: Colors.white), 
+            onPressed: () async {
+              _navigateToSearchScreen();
+            }
+          ), 
+          const MainOverflowMenu()
+        ]
       ),
       body: FutureBuilder(
         future: _getProjects(),
