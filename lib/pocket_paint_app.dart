@@ -21,7 +21,7 @@ class PocketPaintApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeModeState = ref.watch(themeModeNotifierProvider);
+    final themeModeState = ref.watch(themeModeStateProvider);
 
     return PaintroidTheme(
       lightTheme: _lightTheme,
@@ -29,7 +29,7 @@ class PocketPaintApp extends ConsumerWidget {
       child: MaterialApp(
         theme: _lightTheme.materialThemeData,
         darkTheme: _darkTheme.materialThemeData,
-        themeMode: themeModeState.themeMode,
+        themeMode: themeModeState,
         title: 'Pocket Paint',
         localizationsDelegates: const [
           AppLocalizations.delegate,

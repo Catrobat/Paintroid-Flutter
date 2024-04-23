@@ -135,10 +135,7 @@ class _Screen3State extends State<Screen3> {
       children: [
         Text(
           titleText,
-          style: TextStyle(
-            color: PaintroidTheme.of(context).onSurfaceColor,
-            fontSize: 24.0,
-          ),
+          style: PaintroidTheme.of(context).descStyle,
           textAlign: TextAlign.start,
         ),
         toolIconSrc != null
@@ -157,10 +154,7 @@ class _Screen3State extends State<Screen3> {
 
     var desc = Text(
       descText,
-      style: TextStyle(
-        color: PaintroidTheme.of(context).onSurfaceColor,
-        fontSize: 15,
-      ),
+      style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
 

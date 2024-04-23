@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:component_library/component_library.dart';
 import 'package:flutter/painting.dart';
 
 // Package imports:
@@ -38,7 +39,7 @@ class RenderImageForExport {
 
     if (!keepTransparency) {
       final paint = _graphicFactory.createPaint();
-      backgroundCanvas.drawPaint(paint..color = const Color(0xFFFFFFFF));
+      backgroundCanvas.drawPaint(paint..color = CustomColors.onSurface);
     }
 
     final scaledRect = Rect.fromLTWH(0, 0, exportSize.width, exportSize.height);

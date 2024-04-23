@@ -15,10 +15,7 @@ export 'src/theme/data/light_paintroid_theme_data.dart';
 export 'src/theme/data/paintroid_theme.dart';
 export 'src/theme/data/paintroid_theme_data.dart';
 export 'src/theme/data/spacing.dart';
-
-export 'src/theme/state/theme_mode_state.dart';
-export 'src/theme/state/theme_mode_state_notifier.dart';
-export 'src/theme/theme_provider.dart';
+export 'src/theme/state/theme_mode_state_provider.dart';
 
 export 'src/utils/open_url.dart';
 export 'src/utils/toast_utils.dart';

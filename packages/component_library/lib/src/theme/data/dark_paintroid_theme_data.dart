@@ -119,4 +119,16 @@ class DarkPaintroidThemeData extends PaintroidThemeData {
 
   @override
   Color get tertiaryContainerColor => CustomColors.tertiaryContainer;
+
+  @override
+  TextStyle get titleStyle => const TextStyle(
+        color: CustomColors.onSurface,
+        fontSize: 24.0,
+      );
+
+  @override
+  TextStyle get descStyle => const TextStyle(
+        color: CustomColors.onSurface,
+        fontSize: 15.0,
+      );
 }

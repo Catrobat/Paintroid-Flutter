@@ -1,18 +1,16 @@
+// Dart imports:
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Project imports:
-import 'package:component_library/component_library.dart';
+part 'theme_mode_state_provider.g.dart';
 
-class ThemeModeStateNotifier extends StateNotifier<ThemeModeState> {
-  ThemeModeStateNotifier() : super(ThemeModeState.empty()) {
-    getDefaultThemeMode();
-  }
-
+@riverpod
+class ThemeModeState extends _$ThemeModeState {
   Future<void> getDefaultThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     final String? themeMode = prefs.getString('themeMode');
@@ -23,22 +21,22 @@ class ThemeModeStateNotifier extends StateNotifier<ThemeModeState> {
 
     switch (themeMode) {
       case 'light':
-        state = const ThemeModeState(themeMode: ThemeMode.light);
+        state = ThemeMode.light;
         break;
       case 'dark':
-        state = const ThemeModeState(themeMode: ThemeMode.dark);
+        state = ThemeMode.dark;
         break;
       case 'system':
-        state = const ThemeModeState(themeMode: ThemeMode.system);
+        state = ThemeMode.system;
         break;
       default:
-        state = const ThemeModeState(themeMode: ThemeMode.system);
+        state = ThemeMode.system;
     }
   }
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
     final prefs = await SharedPreferences.getInstance();
-    state = ThemeModeState(themeMode: themeMode);
+    state = ThemeMode.system;
     switch (themeMode) {
       case ThemeMode.light:
         await prefs.setString('themeMode', 'light');
@@ -51,5 +49,10 @@ class ThemeModeStateNotifier extends StateNotifier<ThemeModeState> {
         break;
       default:
     }
+  }
+
+  @override
+  ThemeMode build() {
+    return ThemeMode.system;
   }
 }

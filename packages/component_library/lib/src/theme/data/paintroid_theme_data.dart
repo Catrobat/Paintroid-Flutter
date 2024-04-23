@@ -4,16 +4,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:component_library/component_library.dart';
 
-const dividerThemeData = DividerThemeData(
-  space: 0,
-);
-
-ElevatedButtonThemeData get buttonThemeData => ElevatedButtonThemeData(
-      style: ButtonStyle(
-        shape: const StadiumBorder().materialize(),
-      ),
-    );
-
 abstract class PaintroidThemeData {
   ThemeData get materialThemeData;
 
@@ -63,6 +53,9 @@ abstract class PaintroidThemeData {
   Color get textFieldorderColor;
   MaterialColor get fabBackgroundColor;
   MaterialColor get fabForegroundColor;
+
+  TextStyle get titleStyle;
+  TextStyle get descStyle;
 
   TextTheme get titleTheme => TextTheme(
         titleLarge: TextStyle(
@@ -121,6 +114,16 @@ abstract class PaintroidThemeData {
           ),
         ),
       );
+
+  ElevatedButtonThemeData get buttonThemeData => ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: const StadiumBorder().materialize(),
+        ),
+      );
+
+  final dividerThemeData = const DividerThemeData(
+    space: 0,
+  );
 
   NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
     indicatorColor: Colors.transparent,

@@ -54,19 +54,13 @@ class _Screen2State extends State<Screen2> {
   Widget build(BuildContext context) {
     var title = Text(
       titleText,
-      style: TextStyle(
-        color: PaintroidTheme.of(context).onSurfaceColor,
-        fontSize: 24.0,
-      ),
+      style: PaintroidTheme.of(context).titleStyle,
       textAlign: TextAlign.start,
     );
 
     var desc = Text(
       descText,
-      style: TextStyle(
-        color: PaintroidTheme.of(context).onSurfaceColor,
-        fontSize: 15.0,
-      ),
+      style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
 
