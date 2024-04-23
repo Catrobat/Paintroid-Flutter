@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:command/graphic_factory/graphic_factory_provider.dart';
+import 'package:component_library/component_library.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tools/tools.dart';
 
@@ -34,7 +36,7 @@ class BrushToolState extends _$BrushToolState {
       paint: ref.watch(graphicFactoryProvider).createPaint()
         ..style = PaintingStyle.stroke
         ..strokeJoin = StrokeJoin.round
-        ..color = const Color(0xFF830000)
+        ..color = CustomColors.shadow
         ..strokeCap = StrokeCap.round
         ..strokeWidth = 25,
     );

@@ -29,12 +29,6 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
   static const urlLicense = 'https://developer.catrobat.org/licenses';
   static const urlCatrobat = 'https://catrobat.org';
 
-  static const urlTextStyle = TextStyle(
-    color: Color(0xFFE68B00),
-    fontSize: 18,
-    decoration: TextDecoration.underline,
-  );
-
   TextSpan _clickableText(String text, String url, TextStyle? style) =>
       TextSpan(
         text: text,
@@ -47,6 +41,11 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final urlTextStyle = TextStyle(
+      color: PaintroidTheme.of(context).orangeColor,
+      fontSize: 18,
+      decoration: TextDecoration.underline,
+    );
     return GenericDialog(
       title: 'About',
       actions: [

@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class CustomActionButton extends StatelessWidget {
@@ -18,8 +19,8 @@ class CustomActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: heroTag,
-      backgroundColor: const Color(0xFFFFAB08),
-      foregroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: PaintroidTheme.of(context).errorColor,
+      foregroundColor: PaintroidTheme.of(context).onSurfaceColor,
       tooltip: hint,
       child: Icon(icon),
       onPressed: () async => onPressed(),

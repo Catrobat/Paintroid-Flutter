@@ -25,6 +25,7 @@ class ProjectListTile extends StatelessWidget {
 
     return Card(
       child: ListTile(
+        tileColor: PaintroidTheme.of(context).primaryColor,
         leading: ImagePreview(
           project: project,
           imageService: imageService,
@@ -34,11 +35,11 @@ class ProjectListTile extends StatelessWidget {
         dense: false,
         title: Text(
           project.name,
-          style: const TextStyle(color: Color(0xFFFFFFFF)),
+          style: TextStyle(color: PaintroidTheme.of(context).onSurfaceColor),
         ),
         subtitle: Text(
           'last modified: ${dateFormat.format(project.lastModified)}',
-          style: const TextStyle(color: Color(0xFFFFFFFF)),
+          style: TextStyle(color: PaintroidTheme.of(context).onSurfaceColor),
         ),
         trailing: ProjectOverflowMenu(
           key: Key('ProjectOverflowMenu Key$index'),

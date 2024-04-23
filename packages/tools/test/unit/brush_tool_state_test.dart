@@ -1,4 +1,5 @@
 import 'package:command/graphic_factory/graphic_factory.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,7 +54,7 @@ void main() {
 
     expect(paintState.style, PaintingStyle.stroke);
     expect(paintState.strokeJoin, StrokeJoin.round);
-    expect(paintState.color, const Color(0xFF830000));
+    expect(paintState.color, CustomColors.shadow);
     expect(paintState.strokeCap, StrokeCap.round);
     expect(paintState.strokeWidth, 25);
   });

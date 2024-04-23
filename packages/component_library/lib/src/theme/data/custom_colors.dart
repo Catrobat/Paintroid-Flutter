@@ -14,6 +14,7 @@ abstract class CustomColors {
   static const tertiaryContainer = Color(0xFF004F52);
   static const onTertiaryContainer = Color(0xFF6FF6FC);
   static const error = Color(0xFFFF5454);
+  static const orange = Color(0xFFFFAB08);
   static const errorContainer = Color(0xFF93000A);
   static const onError = Color(0xFF690005);
   static const onErrorContainer = Color(0xFFFFDAD6);

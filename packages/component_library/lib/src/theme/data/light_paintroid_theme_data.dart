@@ -60,6 +60,9 @@ class LightPaintroidThemeData extends PaintroidThemeData {
   Color get backgroundColor => CustomColors.background;
 
   @override
+  Color get orangeColor => CustomColors.orange;
+
+  @override
   Color get errorColor => CustomColors.error;
 
   @override

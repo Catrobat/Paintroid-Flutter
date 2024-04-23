@@ -106,14 +106,14 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                 Container(
                   color: PaintroidTheme.of(context).primaryContainerColor,
                   padding: const EdgeInsets.all(20),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'My Projects',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Color(0xFFFFFFFF),
+                        color: PaintroidTheme.of(context).onSurfaceColor,
                       ),
                     ),
                   ),

@@ -39,6 +39,7 @@ abstract class PaintroidThemeData {
   Color get tertiaryContainerColor;
   Color get onTertiaryContainerColor;
   Color get errorColor;
+  Color get orangeColor;
   Color get errorContainerColor;
   Color get onErrorColor;
   Color get onErrorContainerColor;

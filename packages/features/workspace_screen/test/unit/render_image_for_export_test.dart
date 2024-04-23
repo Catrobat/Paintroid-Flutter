@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:command/command.dart';
 import 'package:command/command_providers.dart';
+import 'package:component_library/component_library.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -125,7 +126,7 @@ void main() {
       final sut = container.read(RenderImageForExport.provider);
       final img = await sut.call(keepTransparency: false);
       final image = await ImageWithPixelInfo.initialize(img);
-      const expectedColor = Color(0xFFFFFFFF);
+      const expectedColor = CustomColors.onSurface;
       for (final alignment in AlignmentValues.values) {
         expect(image.pixelColorFor(alignment), equals(expectedColor));
       }
