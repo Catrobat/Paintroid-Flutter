@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
 import 'package:io_library/io_library.dart';
@@ -20,6 +21,10 @@ abstract class IFileService {
   Future<Result<File, Failure>> pick();
 
   Result<File, Failure> getFile(String path);
+
+  Future<int> getNextImageNumber();
+
+  Future<int> getNextProjectNumber();
 
   static final provider = Provider<IFileService>((ref) => FileService());
 
@@ -109,5 +114,43 @@ class FileService with LoggableMixin implements IFileService {
       logger.severe('Could not load file', err, stacktrace);
       return const Result.err(LoadImageFailure.unidentified);
     }
+  }
+
+  @override
+  Future<int> getNextImageNumber() async {
+    final prefs = await SharedPreferences.getInstance();
+    int lastNumber = prefs.getInt('lastImageNumber') ?? 0;
+    int nextNumber = lastNumber + 1;
+    await prefs.setInt('lastImageNumber', nextNumber);
+    return nextNumber;
+  }
+
+  @override
+  Future<int> getNextProjectNumber() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final files = await directory.list().toList();
+    int maxNum = 0;
+
+    for (var file in files) {
+      if (file is File) {
+        final fileName = file.path.split('/').last;
+
+        if (fileName.startsWith('project')) {
+          final match = RegExp(r'project(\d+)').firstMatch(fileName);
+          if (match != null) {
+            final numString = match.group(1);
+            if (numString != null) {
+              final num = int.tryParse(numString) ?? 0;
+
+              if (num > maxNum) {
+                maxNum = num;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return maxNum + 1;
   }
 }

@@ -27,6 +27,7 @@ dependencies:
   oxidized: ^5.2.0
   intl: ^0.18.0
   json_annotation: ^4.8.1
+  shared_preferences: ^2.0.15
 
   # Internal packages:
   component_library:

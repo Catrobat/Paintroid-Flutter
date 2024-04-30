@@ -6,6 +6,7 @@ import 'package:component_library/component_library.dart';
 
 // Project imports:
 import 'package:io_library/io_library.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Returns [null] if user dismissed the dialog by tapping outside
 Future<ImageMetaData?> showSaveImageDialog(
@@ -17,17 +18,17 @@ Future<ImageMetaData?> showSaveImageDialog(
         barrierDismissible: true,
         barrierLabel: 'Dismiss save image dialog box');
 
-class SaveImageDialog extends StatefulWidget {
+class SaveImageDialog extends ConsumerStatefulWidget {
   final bool savingProject;
 
   const SaveImageDialog({Key? key, required this.savingProject})
       : super(key: key);
 
   @override
-  State<SaveImageDialog> createState() => _SaveImageDialogState();
+  SaveImageDialogState createState() => SaveImageDialogState();
 }
 
-class _SaveImageDialogState extends State<SaveImageDialog> {
+class SaveImageDialogState extends ConsumerState<SaveImageDialog> {
   final TextEditingController nameFieldController = TextEditingController();
   final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
   var selectedFormat = ImageFormat.jpg;
@@ -36,10 +37,29 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   @override
   void initState() {
     super.initState();
-
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _setDefaultFileName();
+    });
+  }
+
+  Future<void> _setDefaultFileName() async {
+    final fileService = ref.read(IFileService.provider);
+    String defaultName;
+    if (widget.savingProject) {
+      final nextNumber = await fileService.getNextProjectNumber();
+      defaultName = 'project$nextNumber';
+    } else {
+      final nextNumber = await fileService.getNextImageNumber();
+      defaultName = 'image$nextNumber';
+    }
+
+    setState(() {
+      nameFieldController.text = defaultName;
+    });
   }
 
   void _dismissDialogWithData() {
