@@ -21,13 +21,16 @@ class ToolButton extends StatelessWidget {
         return SizedBox(
           width: 50.0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 8.0,
+            ),
             child: IconButtonWithLabel(
               icon: IconSvg(
                 path: toolData.svgAssetPath,
                 height: 30.0,
                 width: 30.0,
-                color: Colors.white,
+                color: PaintroidTheme.of(context).onSurfaceColor,
               ),
               label: toolData.name,
               onPressed: () {

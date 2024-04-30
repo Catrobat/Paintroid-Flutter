@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
@@ -38,12 +39,18 @@ class ImageFormatInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.info_outline),
-        const VerticalDivider(width: 8),
+        Icon(Icons.info_outline, color: PaintroidTheme.of(context).shadowColor),
+        VerticalDivider(
+          width: 8,
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
         Flexible(
           child: Text.rich(
             format.info,
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              color: PaintroidTheme.of(context).shadowColor,
+            ),
           ),
         )
       ],

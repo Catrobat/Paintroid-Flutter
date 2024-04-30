@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class IconButtonWithLabel extends StatelessWidget {
@@ -23,7 +24,10 @@ class IconButtonWithLabel extends StatelessWidget {
         ),
         Text(
           label,
-          style: const TextStyle(fontSize: 10),
+          style: TextStyle(
+            fontSize: 10,
+            color: PaintroidTheme.of(context).onSurfaceColor,
+          ),
         ),
       ],
     );
