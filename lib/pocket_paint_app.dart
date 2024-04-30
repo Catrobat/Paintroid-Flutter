@@ -2,13 +2,17 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:component_library/component_library.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:l10n/l10n.dart';
-import 'package:landing_page_screen/landing_page_screen.dart';
-import 'package:onboarding_screen/onboarding_screen.dart';
-import 'package:workspace_screen/workspace_screen.dart';
+
+// Project imports:
+import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
+import 'package:paintroid/ui/pages/landing_page/landing_page.dart';
+import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
+import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
+import 'package:paintroid/ui/shared/loading_overlay.dart';
+import 'package:paintroid/ui/themes/theme/color_schemes.dart';
 
 class PocketPaintApp extends StatelessWidget {
   final bool showOnboardingPage;
@@ -44,7 +48,7 @@ class PocketPaintApp extends StatelessWidget {
             );
           case '/PocketPaint':
             return MaterialPageRoute(
-              builder: (context) => const WorkspaceScreen(),
+              builder: (context) => const WorkspacePage(),
             );
           case '/OnboardingPage':
             return MaterialPageRoute(
