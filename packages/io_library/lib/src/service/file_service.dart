@@ -135,9 +135,14 @@ class FileService with LoggableMixin implements IFileService {
         if (fileName.startsWith('project')) {
           final match = RegExp(r'project(\d+)').firstMatch(fileName);
           if (match != null) {
-            final num = int.tryParse(match.group(1)!) ?? 0;
+            final numString = match.group(1);
+            if (numString != null) {
+              final num = int.tryParse(numString) ?? 0;
 
-            if (num > maxNum) maxNum = num;
+              if (num > maxNum) {
+                maxNum = num;
+              }
+            }
           }
         }
       }
