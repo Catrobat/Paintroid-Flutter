@@ -128,7 +128,7 @@ void main() {
     });
 
     test('Should not add DrawPathCommand to CommandManager', () {
-      sut.pathToDraw = testPath;
+      sut.pathToDraw  = testPath;
       sut.onUp(null);
       verifyZeroInteractions(mockCommandManager);
       verifyZeroInteractions(mockCommandFactory);
@@ -136,9 +136,9 @@ void main() {
 
     test('Should close Path if bound size is zero', () {
       sut.pathToDraw = mockPath;
-      when(mockPath.getBounds()).thenReturn(Rect.zero);
+      when(mockPath.path.getBounds()).thenReturn(Rect.zero);
       sut.onUp(null);
-      verifyInOrder([mockPath.getBounds(), mockPath.close()]);
+      verifyInOrder([mockPath.path.(), mockPath.close()]);
       verifyNoMoreInteractions(mockPath);
     });
   });

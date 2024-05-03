@@ -8,28 +8,27 @@ import 'package:collection/collection.dart';
 import 'package:paintroid/core/json_serialization/converter/path_action_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 
-class PathWithActionHistory extends Path {
+class PathWithActionHistory  {
   PathWithActionHistory();
+
+  final path = Path();
 
   @PathActionConverter()
   final actions = <PathAction>[];
 
-  @override
   void moveTo(double x, double y) {
     actions.add(MoveToAction(x, y));
-    super.moveTo(x, y);
+    path.moveTo(x, y);
   }
 
-  @override
   void lineTo(double x, double y) {
     actions.add(LineToAction(x, y));
-    super.lineTo(x, y);
+    path.lineTo(x, y);
   }
 
-  @override
   void close() {
     actions.add(const CloseAction());
-    super.close();
+    path.close();
   }
 
   Map<String, dynamic> toJson() {

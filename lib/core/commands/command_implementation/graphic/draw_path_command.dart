@@ -35,7 +35,7 @@ class DrawPathCommand extends GraphicCommand {
 
   @override
   void call(Canvas canvas) {
-    canvas.drawPath(path, paint);
+    canvas.drawPath(path.path, paint);
   }
 
   @override

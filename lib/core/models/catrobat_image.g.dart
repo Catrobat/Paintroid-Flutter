@@ -10,10 +10,10 @@ CatrobatImage _$CatrobatImageFromJson(Map<String, dynamic> json) =>
     CatrobatImage(
       (json['commands'] as List<dynamic>)
           .map((e) => Command.fromJson(e as Map<String, dynamic>)),
-      json['width'] as int,
-      json['height'] as int,
+      (json['width'] as num).toInt(),
+      (json['height'] as num).toInt(),
       json['backgroundImage'] as String,
-      version: json['version'] as int?,
+      version: (json['version'] as num?)?.toInt(),
       magicValue: json['magicValue'] as String? ?? 'CATROBAT',
     );
 

@@ -12,7 +12,7 @@ part of 'toolbox_state_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ToolBoxStateData {
@@ -69,22 +69,22 @@ class _$ToolBoxStateDataCopyWithImpl<$Res, $Val extends ToolBoxStateData>
 }
 
 /// @nodoc
-abstract class _$$_ToolBoxStateDataCopyWith<$Res>
+abstract class _$$ToolBoxStateDataImplCopyWith<$Res>
     implements $ToolBoxStateDataCopyWith<$Res> {
-  factory _$$_ToolBoxStateDataCopyWith(
-          _$_ToolBoxStateData value, $Res Function(_$_ToolBoxStateData) then) =
-      __$$_ToolBoxStateDataCopyWithImpl<$Res>;
+  factory _$$ToolBoxStateDataImplCopyWith(_$ToolBoxStateDataImpl value,
+          $Res Function(_$ToolBoxStateDataImpl) then) =
+      __$$ToolBoxStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Tool currentTool, ToolType currentToolType, bool isDown});
 }
 
 /// @nodoc
-class __$$_ToolBoxStateDataCopyWithImpl<$Res>
-    extends _$ToolBoxStateDataCopyWithImpl<$Res, _$_ToolBoxStateData>
-    implements _$$_ToolBoxStateDataCopyWith<$Res> {
-  __$$_ToolBoxStateDataCopyWithImpl(
-      _$_ToolBoxStateData _value, $Res Function(_$_ToolBoxStateData) _then)
+class __$$ToolBoxStateDataImplCopyWithImpl<$Res>
+    extends _$ToolBoxStateDataCopyWithImpl<$Res, _$ToolBoxStateDataImpl>
+    implements _$$ToolBoxStateDataImplCopyWith<$Res> {
+  __$$ToolBoxStateDataImplCopyWithImpl(_$ToolBoxStateDataImpl _value,
+      $Res Function(_$ToolBoxStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ToolBoxStateDataCopyWithImpl<$Res>
     Object? currentToolType = null,
     Object? isDown = null,
   }) {
-    return _then(_$_ToolBoxStateData(
+    return _then(_$ToolBoxStateDataImpl(
       currentTool: null == currentTool
           ? _value.currentTool
           : currentTool // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_ToolBoxStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ToolBoxStateData implements _ToolBoxStateData {
-  const _$_ToolBoxStateData(
+class _$ToolBoxStateDataImpl implements _ToolBoxStateData {
+  const _$ToolBoxStateDataImpl(
       {required this.currentTool,
       required this.currentToolType,
       required this.isDown});
@@ -132,10 +132,10 @@ class _$_ToolBoxStateData implements _ToolBoxStateData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ToolBoxStateData &&
+            other is _$ToolBoxStateDataImpl &&
             (identical(other.currentTool, currentTool) ||
                 other.currentTool == currentTool) &&
             (identical(other.currentToolType, currentToolType) ||
@@ -150,15 +150,16 @@ class _$_ToolBoxStateData implements _ToolBoxStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ToolBoxStateDataCopyWith<_$_ToolBoxStateData> get copyWith =>
-      __$$_ToolBoxStateDataCopyWithImpl<_$_ToolBoxStateData>(this, _$identity);
+  _$$ToolBoxStateDataImplCopyWith<_$ToolBoxStateDataImpl> get copyWith =>
+      __$$ToolBoxStateDataImplCopyWithImpl<_$ToolBoxStateDataImpl>(
+          this, _$identity);
 }
 
 abstract class _ToolBoxStateData implements ToolBoxStateData {
   const factory _ToolBoxStateData(
       {required final Tool currentTool,
       required final ToolType currentToolType,
-      required final bool isDown}) = _$_ToolBoxStateData;
+      required final bool isDown}) = _$ToolBoxStateDataImpl;
 
   @override
   Tool get currentTool;
@@ -168,6 +169,6 @@ abstract class _ToolBoxStateData implements ToolBoxStateData {
   bool get isDown;
   @override
   @JsonKey(ignore: true)
-  _$$_ToolBoxStateDataCopyWith<_$_ToolBoxStateData> get copyWith =>
+  _$$ToolBoxStateDataImplCopyWith<_$ToolBoxStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

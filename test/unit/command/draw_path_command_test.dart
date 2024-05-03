@@ -26,9 +26,9 @@ void main() {
       final testPath = PathWithActionHistory();
       final testPaint = Paint();
       drawPath = DrawPathCommand(testPath, testPaint);
-      when(mockCanvas.drawPath(testPath, testPaint)).thenReturn(null);
+      when(mockCanvas.drawPath(testPath.path, testPaint)).thenReturn(null);
       drawPath.call(mockCanvas);
-      verify(mockCanvas.drawPath(testPath, testPaint));
+      verify(mockCanvas.drawPath(testPath.path, testPaint));
       verifyNoMoreInteractions(mockCanvas);
     },
   );

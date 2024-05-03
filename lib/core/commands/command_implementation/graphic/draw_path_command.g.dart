@@ -12,7 +12,7 @@ DrawPathCommand _$DrawPathCommandFromJson(Map<String, dynamic> json) =>
           .fromJson(json['path'] as Map<String, dynamic>),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
       type: json['type'] as String? ?? SerializerType.DRAW_PATH_COMMAND,
-      version: json['version'] as int?,
+      version: (json['version'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DrawPathCommandToJson(DrawPathCommand instance) =>

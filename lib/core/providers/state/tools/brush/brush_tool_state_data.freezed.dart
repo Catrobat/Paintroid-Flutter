@@ -12,7 +12,7 @@ part of 'brush_tool_state_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BrushToolStateData {
@@ -57,22 +57,22 @@ class _$BrushToolStateDataCopyWithImpl<$Res, $Val extends BrushToolStateData>
 }
 
 /// @nodoc
-abstract class _$$_BrushToolStateDataCopyWith<$Res>
+abstract class _$$BrushToolStateDataImplCopyWith<$Res>
     implements $BrushToolStateDataCopyWith<$Res> {
-  factory _$$_BrushToolStateDataCopyWith(_$_BrushToolStateData value,
-          $Res Function(_$_BrushToolStateData) then) =
-      __$$_BrushToolStateDataCopyWithImpl<$Res>;
+  factory _$$BrushToolStateDataImplCopyWith(_$BrushToolStateDataImpl value,
+          $Res Function(_$BrushToolStateDataImpl) then) =
+      __$$BrushToolStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Paint paint});
 }
 
 /// @nodoc
-class __$$_BrushToolStateDataCopyWithImpl<$Res>
-    extends _$BrushToolStateDataCopyWithImpl<$Res, _$_BrushToolStateData>
-    implements _$$_BrushToolStateDataCopyWith<$Res> {
-  __$$_BrushToolStateDataCopyWithImpl(
-      _$_BrushToolStateData _value, $Res Function(_$_BrushToolStateData) _then)
+class __$$BrushToolStateDataImplCopyWithImpl<$Res>
+    extends _$BrushToolStateDataCopyWithImpl<$Res, _$BrushToolStateDataImpl>
+    implements _$$BrushToolStateDataImplCopyWith<$Res> {
+  __$$BrushToolStateDataImplCopyWithImpl(_$BrushToolStateDataImpl _value,
+      $Res Function(_$BrushToolStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_BrushToolStateDataCopyWithImpl<$Res>
   $Res call({
     Object? paint = null,
   }) {
-    return _then(_$_BrushToolStateData(
+    return _then(_$BrushToolStateDataImpl(
       paint: null == paint
           ? _value.paint
           : paint // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_BrushToolStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BrushToolStateData implements _BrushToolStateData {
-  const _$_BrushToolStateData({required this.paint});
+class _$BrushToolStateDataImpl implements _BrushToolStateData {
+  const _$BrushToolStateDataImpl({required this.paint});
 
   @override
   final Paint paint;
@@ -103,10 +103,10 @@ class _$_BrushToolStateData implements _BrushToolStateData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BrushToolStateData &&
+            other is _$BrushToolStateDataImpl &&
             (identical(other.paint, paint) || other.paint == paint));
   }
 
@@ -116,19 +116,19 @@ class _$_BrushToolStateData implements _BrushToolStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BrushToolStateDataCopyWith<_$_BrushToolStateData> get copyWith =>
-      __$$_BrushToolStateDataCopyWithImpl<_$_BrushToolStateData>(
+  _$$BrushToolStateDataImplCopyWith<_$BrushToolStateDataImpl> get copyWith =>
+      __$$BrushToolStateDataImplCopyWithImpl<_$BrushToolStateDataImpl>(
           this, _$identity);
 }
 
 abstract class _BrushToolStateData implements BrushToolStateData {
   const factory _BrushToolStateData({required final Paint paint}) =
-      _$_BrushToolStateData;
+      _$BrushToolStateDataImpl;
 
   @override
   Paint get paint;
   @override
   @JsonKey(ignore: true)
-  _$$_BrushToolStateDataCopyWith<_$_BrushToolStateData> get copyWith =>
+  _$$BrushToolStateDataImplCopyWith<_$BrushToolStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

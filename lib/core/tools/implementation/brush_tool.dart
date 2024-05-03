@@ -47,7 +47,7 @@ class BrushTool extends Tool with EquatableMixin {
 
   @override
   void onUp(Offset? point) {
-    if (pathToDraw.getBounds().size == Size.zero) {
+    if (pathToDraw.path.getBounds().size == Size.zero) {
       pathToDraw.close();
     }
   }
