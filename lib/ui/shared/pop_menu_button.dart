@@ -14,7 +14,7 @@ class StyledPopMenuButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(useMaterial3: false),
+      data: Theme.of(context),
       child: PopupMenuButton<T>(
         color: Theme.of(context).colorScheme.background,
         icon: const Icon(Icons.more_vert, color: Colors.white),

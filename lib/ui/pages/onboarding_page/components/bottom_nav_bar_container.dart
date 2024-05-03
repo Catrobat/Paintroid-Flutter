@@ -10,10 +10,10 @@ class BottomNavigationBarContainer extends StatelessWidget {
   final List<VoidCallback> onPressedFunctions;
 
   const BottomNavigationBarContainer({
-    Key? key,
+    super.key,
     required this.navBarItems,
     required this.onPressedFunctions,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

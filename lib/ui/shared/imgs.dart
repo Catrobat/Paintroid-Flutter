@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class CheckerboardImg extends StatelessWidget {
-  const CheckerboardImg({Key? key}) : super(key: key);
+  const CheckerboardImg({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CheckerboardImg extends StatelessWidget {
 }
 
 class PocketPaintIntroLandscape extends StatelessWidget {
-  const PocketPaintIntroLandscape({Key? key}) : super(key: key);
+  const PocketPaintIntroLandscape({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PocketPaintIntroLandscape extends StatelessWidget {
 }
 
 class PocketPaintIntroPortrait extends StatelessWidget {
-  const PocketPaintIntroPortrait({Key? key}) : super(key: key);
+  const PocketPaintIntroPortrait({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class PocketPaintIntroPortrait extends StatelessWidget {
 }
 
 class PocketPaintLogoSmall extends StatelessWidget {
-  const PocketPaintLogoSmall({Key? key}) : super(key: key);
+  const PocketPaintLogoSmall({super.key});
 
   @override
   Widget build(BuildContext context) {

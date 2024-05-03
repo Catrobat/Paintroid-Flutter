@@ -20,7 +20,7 @@ Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
 class MyAboutDialog extends ConsumerStatefulWidget {
   final String version;
 
-  const MyAboutDialog({Key? key, required this.version}) : super(key: key);
+  const MyAboutDialog({super.key, required this.version});
 
   @override
   ConsumerState<MyAboutDialog> createState() => _MyAboutDialogState();

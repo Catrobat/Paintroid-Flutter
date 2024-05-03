@@ -36,7 +36,7 @@ class CatrobatImage {
   Uint8List toBytes() {
     Map<String, dynamic> jsonMap = toJson();
     String jsonString = json.encode(jsonMap);
-    return utf8.encode(jsonString) as Uint8List;
+    return utf8.encode(jsonString);
   }
 
   static CatrobatImage fromBytes(Uint8List bytes) {

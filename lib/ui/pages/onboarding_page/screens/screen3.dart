@@ -12,7 +12,7 @@ import 'package:paintroid/ui/themes/theme/color_schemes.dart';
 // Project imports:
 
 class Screen3 extends StatefulWidget {
-  const Screen3({Key? key}) : super(key: key);
+  const Screen3({super.key});
 
   @override
   State<Screen3> createState() => _Screen3State();

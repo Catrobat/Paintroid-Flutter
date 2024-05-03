@@ -9,8 +9,7 @@ class OnboardingPageBottomNavigationBar extends StatefulWidget {
   final List<BottomNavigationBarItem> barItems;
 
   const OnboardingPageBottomNavigationBar(
-      {Key? key, required this.onPressedFunctions, required this.barItems})
-      : super(key: key);
+      {super.key, required this.onPressedFunctions, required this.barItems});
 
   @override
   State<OnboardingPageBottomNavigationBar> createState() =>

@@ -25,8 +25,7 @@ Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
 class ProjectDetailsDialog extends ConsumerStatefulWidget {
   final Project project;
 
-  const ProjectDetailsDialog({Key? key, required this.project})
-      : super(key: key);
+  const ProjectDetailsDialog({super.key, required this.project});
 
   @override
   ConsumerState<ProjectDetailsDialog> createState() =>

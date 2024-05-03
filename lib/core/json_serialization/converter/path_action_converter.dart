@@ -26,14 +26,14 @@ class PathActionConverter
   @override
   Map<String, dynamic> toJson(PathAction action) {
     switch (action.runtimeType) {
-      case MoveToAction:
+      case == MoveToAction:
         action as MoveToAction;
         return {
           'type': SerializerType.MOVE_TO_ACTION,
           'x': action.x,
           'y': action.y,
         };
-      case LineToAction:
+      case == LineToAction:
         action as LineToAction;
         return {
           'type': SerializerType.LINE_TO_ACTION,

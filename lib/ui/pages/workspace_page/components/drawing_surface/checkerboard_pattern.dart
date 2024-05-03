@@ -7,7 +7,7 @@ import 'package:paintroid/ui/shared/imgs.dart';
 class CheckerboardPattern extends StatelessWidget {
   final Widget? child;
 
-  const CheckerboardPattern({Key? key, this.child}) : super(key: key);
+  const CheckerboardPattern({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {

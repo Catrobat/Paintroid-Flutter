@@ -24,7 +24,7 @@ enum MainOverflowMenuOption {
 }
 
 class MainOverflowMenu extends ConsumerStatefulWidget {
-  const MainOverflowMenu({Key? key}) : super(key: key);
+  const MainOverflowMenu({super.key});
 
   @override
   ConsumerState<MainOverflowMenu> createState() => _MainOverFlowMenuState();

@@ -26,8 +26,7 @@ enum ProjectOverflowMenuOption {
 class ProjectOverflowMenu extends ConsumerStatefulWidget {
   final Project project;
 
-  const ProjectOverflowMenu({Key? key, required this.project})
-      : super(key: key);
+  const ProjectOverflowMenu({super.key, required this.project});
 
   @override
   ConsumerState<ProjectOverflowMenu> createState() =>

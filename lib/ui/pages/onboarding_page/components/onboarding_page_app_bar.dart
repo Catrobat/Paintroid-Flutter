@@ -5,11 +5,10 @@ class OnboardingPageAppBar extends AppBar {
   final List<VoidCallback> onPressed;
 
   OnboardingPageAppBar({
-    Key? key,
+    super.key,
     required String title,
     required this.onPressed,
   }) : super(
-          key: key,
           title: Text(title),
           centerTitle: false,
           automaticallyImplyLeading: false,

@@ -11,12 +11,12 @@ class IconSvg extends StatelessWidget {
   final Color? color;
 
   const IconSvg({
-    Key? key,
+    super.key,
     required this.path,
     required this.height,
     required this.width,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

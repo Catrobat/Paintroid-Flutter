@@ -7,7 +7,7 @@ import 'package:paintroid/ui/shared/icon_svg.dart';
 class BottomBarIcon extends StatelessWidget {
   final String asset;
 
-  const BottomBarIcon({Key? key, required this.asset}) : super(key: key);
+  const BottomBarIcon({super.key, required this.asset});
 
   @override
   Widget build(BuildContext context) {

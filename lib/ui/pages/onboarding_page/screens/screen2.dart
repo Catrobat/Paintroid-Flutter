@@ -12,7 +12,7 @@ import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 // Project imports:
 
 class Screen2 extends StatefulWidget {
-  const Screen2({Key? key}) : super(key: key);
+  const Screen2({super.key});
 
   @override
   State<Screen2> createState() => _Screen2State();

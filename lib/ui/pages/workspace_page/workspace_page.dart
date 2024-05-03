@@ -19,7 +19,7 @@ import 'package:paintroid/ui/shared/discard_changes_dialog.dart';
 // Project imports:
 
 class WorkspacePage extends ConsumerStatefulWidget {
-  const WorkspacePage({Key? key}) : super(key: key);
+  const WorkspacePage({super.key});
 
   @override
   ConsumerState<WorkspacePage> createState() => _WorkspaceScreenState();
@@ -45,28 +45,27 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
     final ioHandler = ref.watch(IOHandler.provider);
+    final workspaceStateNotifier = ref.watch(WorkspaceState.provider.notifier);
+    return PopScope(
+      canPop: !isFullscreen && workspaceStateNotifier.hasSavedLastWork,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
 
-    return WillPopScope(
-      onWillPop: () async {
-        var willPop = !isFullscreen;
         if (isFullscreen) {
-          ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
-        } else {
-          final workspaceStateNotifier =
-              ref.watch(WorkspaceState.provider.notifier);
-          if (!workspaceStateNotifier.hasSavedLastWork) {
-            final shouldDiscard = await showDiscardChangesDialog(context);
-            if (shouldDiscard != null) {
-              if (!shouldDiscard && mounted) {
-                ioHandler.saveImage(context);
-              }
-              willPop = shouldDiscard;
-            } else {
-              willPop = false;
+          workspaceStateNotifier.toggleFullscreen(false);
+          return;
+        }
+
+        if (!workspaceStateNotifier.hasSavedLastWork) {
+          final shouldDiscard = await showDiscardChangesDialog(context);
+          if (shouldDiscard != null) {
+            if (!shouldDiscard && context.mounted) {
+              ioHandler.saveImage(context);
             }
           }
         }
-        return willPop;
       },
       child: Scaffold(
         appBar: isFullscreen ? null : TopAppBar(title: 'Pocket Paint'),

@@ -28,7 +28,7 @@ import 'package:paintroid/ui/utils/toast_utils.dart';
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
 
-  const LandingPage({Key? key, required this.title}) : super(key: key);
+  const LandingPage({super.key, required this.title});
 
   @override
   ConsumerState<LandingPage> createState() => _LandingPageState();

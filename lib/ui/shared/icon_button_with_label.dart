@@ -7,11 +7,11 @@ class IconButtonWithLabel extends StatelessWidget {
   final VoidCallback onPressed;
 
   const IconButtonWithLabel({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,11 @@ class IconButtonWithLabel extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
         ),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 10),
+        FittedBox(
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 10),
+          ),
         ),
       ],
     );

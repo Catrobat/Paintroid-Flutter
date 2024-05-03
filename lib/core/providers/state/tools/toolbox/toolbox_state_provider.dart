@@ -10,7 +10,7 @@ import 'package:paintroid/core/providers/object/tools/brush/brush_tool_provider.
 import 'package:paintroid/core/providers/object/tools/eraser/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/tool_box/toolbox_state_data.dart';
+import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_data.dart';
 import 'package:paintroid/core/tools/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 

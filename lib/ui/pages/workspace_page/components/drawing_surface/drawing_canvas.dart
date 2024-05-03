@@ -7,14 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
-import 'package:paintroid/core/providers/object/tools/tool_box/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/tools/enums/tool_types.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
 
 class DrawingCanvas extends ConsumerStatefulWidget {
-  const DrawingCanvas({Key? key}) : super(key: key);
+  const DrawingCanvas({super.key});
 
   @override
   ConsumerState<DrawingCanvas> createState() => _DrawingCanvasState();

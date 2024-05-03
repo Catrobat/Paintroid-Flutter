@@ -14,11 +14,10 @@ import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/shared/loading_overlay.dart';
 import 'package:paintroid/ui/themes/theme/color_schemes.dart';
 
-class PocketPaintApp extends StatelessWidget {
+class App extends StatelessWidget {
   final bool showOnboardingPage;
 
-  const PocketPaintApp({Key? key, required this.showOnboardingPage})
-      : super(key: key);
+  const App({super.key, required this.showOnboardingPage});
 
   @override
   Widget build(BuildContext context) {

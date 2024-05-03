@@ -76,6 +76,7 @@ class IOHandler {
       final shouldDiscard = await showDiscardChangesDialog(context);
       if (shouldDiscard == null || !state.mounted) return false;
       if (!shouldDiscard) {
+        if (!context.mounted) return false;
         final didSave = await saveImage(context);
         if (!didSave) return false;
       }
@@ -92,6 +93,7 @@ class IOHandler {
     }
     if (Platform.isIOS) {
       if (!state.mounted) return false;
+      if (!context.mounted) return false;
       final location = await showLoadImageDialog(context);
       if (location == null) return false;
       return ref

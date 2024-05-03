@@ -21,8 +21,7 @@ Future<ImageMetaData?> showSaveImageDialog(
 class SaveImageDialog extends StatefulWidget {
   final bool savingProject;
 
-  const SaveImageDialog({Key? key, required this.savingProject})
-      : super(key: key);
+  const SaveImageDialog({super.key, required this.savingProject});
 
   @override
   State<SaveImageDialog> createState() => _SaveImageDialogState();

@@ -17,6 +17,7 @@ import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 import 'brush_tool_test.mocks.dart';
 
 @GenerateMocks([
+  Path,
   PathWithActionHistory,
   Offset,
   DrawPathCommand,
@@ -25,7 +26,8 @@ import 'brush_tool_test.mocks.dart';
   GraphicFactory,
 ])
 void main() {
-  late MockPathWithActionHistory mockPath;
+  late MockPathWithActionHistory mockPathWithActionHistory;
+  late MockPath mockPath;
   late MockOffset mockOffset;
   late MockDrawPathCommand mockDrawPathCommand;
   late MockCommandManager mockCommandManager;
@@ -33,7 +35,7 @@ void main() {
   late MockGraphicFactory mockGraphicFactory;
 
   late Offset testOffset;
-  late PathWithActionHistory testPath;
+  late PathWithActionHistory testPathWithActionHistory;
   late Paint testPaint;
   late Paint testPaintCopied;
   late DrawPathCommand testDrawPathCommand;
@@ -41,7 +43,8 @@ void main() {
   late BrushTool sut;
 
   setUp(() {
-    mockPath = MockPathWithActionHistory();
+    mockPathWithActionHistory = MockPathWithActionHistory();
+    mockPath = MockPath();
     mockOffset = MockOffset();
     mockDrawPathCommand = MockDrawPathCommand();
     mockCommandManager = MockCommandManager();
@@ -49,10 +52,10 @@ void main() {
     mockGraphicFactory = MockGraphicFactory();
 
     testOffset = const Offset(12, 13);
-    testPath = PathWithActionHistory();
+    testPathWithActionHistory = PathWithActionHistory();
     testPaint = Paint();
     testPaintCopied = Paint();
-    testDrawPathCommand = DrawPathCommand(testPath, testPaint);
+    testDrawPathCommand = DrawPathCommand(testPathWithActionHistory, testPaint);
 
     sut = BrushTool(
       paint: testPaint,
@@ -65,7 +68,7 @@ void main() {
   group('On tap down event', () {
     test('Should create one DrawPathCommand with a new Path', () {
       when(mockGraphicFactory.createPathWithActionHistory())
-          .thenReturn(testPath);
+          .thenReturn(testPathWithActionHistory);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
@@ -74,7 +77,7 @@ void main() {
       verify(mockGraphicFactory.createPathWithActionHistory()).called(1);
       verify(mockGraphicFactory.copyPaint(testPaint)).called(1);
       verify(mockCommandFactory.createDrawPathCommand(
-              testPath, testPaintCopied))
+              testPathWithActionHistory, testPaintCopied))
           .called(1);
       verifyNoMoreInteractions(mockCommandFactory);
       verifyNoMoreInteractions(mockGraphicFactory);
@@ -82,19 +85,21 @@ void main() {
 
     test('Should move Path to point supplied in event', () {
       when(mockGraphicFactory.createPathWithActionHistory())
-          .thenReturn(mockPath);
+          .thenReturn(mockPathWithActionHistory);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
-      when(mockPath.moveTo(testOffset.dx, testOffset.dy)).thenReturn(null);
+      when(mockPathWithActionHistory.moveTo(testOffset.dx, testOffset.dy))
+          .thenReturn(null);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(testDrawPathCommand);
       sut.onDown(testOffset);
-      verify(mockPath.moveTo(testOffset.dx, testOffset.dy)).called(1);
-      verifyNoMoreInteractions(mockPath);
+      verify(mockPathWithActionHistory.moveTo(testOffset.dx, testOffset.dy))
+          .called(1);
+      verifyNoMoreInteractions(mockPathWithActionHistory);
     });
 
     test('Should not interact with DrawPathCommand', () {
       when(mockGraphicFactory.createPathWithActionHistory())
-          .thenReturn(testPath);
+          .thenReturn(testPathWithActionHistory);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockCommandFactory.createDrawPathCommand(any, any))
           .thenReturn(mockDrawPathCommand);
@@ -105,41 +110,48 @@ void main() {
 
   group('On drag event', () {
     test('Should not add DrawPathCommand to CommandManager', () {
-      sut.pathToDraw = testPath;
+      sut.pathToDraw = testPathWithActionHistory;
       sut.onDrag(testOffset);
       verifyZeroInteractions(mockCommandManager);
       verifyZeroInteractions(mockCommandFactory);
     });
 
     test('Should extend Path to coordinate passed in event', () {
-      sut.pathToDraw = mockPath;
-      when(mockPath.lineTo(testOffset.dx, testOffset.dy)).thenReturn(null);
+      sut.pathToDraw = mockPathWithActionHistory;
+      when(mockPathWithActionHistory.lineTo(testOffset.dx, testOffset.dy))
+          .thenReturn(null);
       sut.onDrag(testOffset);
-      verify(mockPath.lineTo(testOffset.dx, testOffset.dy)).called(1);
-      verifyNoMoreInteractions(mockPath);
+      verify(mockPathWithActionHistory.lineTo(testOffset.dx, testOffset.dy))
+          .called(1);
+      verifyNoMoreInteractions(mockPathWithActionHistory);
     });
   });
 
   group('On tap up event', () {
     test('Should not interact with coordinate', () {
-      sut.pathToDraw = testPath;
+      sut.pathToDraw = testPathWithActionHistory;
       sut.onUp(mockOffset);
       verifyZeroInteractions(mockOffset);
     });
 
     test('Should not add DrawPathCommand to CommandManager', () {
-      sut.pathToDraw  = testPath;
+      sut.pathToDraw = testPathWithActionHistory;
       sut.onUp(null);
       verifyZeroInteractions(mockCommandManager);
       verifyZeroInteractions(mockCommandFactory);
     });
 
     test('Should close Path if bound size is zero', () {
-      sut.pathToDraw = mockPath;
-      when(mockPath.path.getBounds()).thenReturn(Rect.zero);
+      sut.pathToDraw = mockPathWithActionHistory;
+      when(mockPathWithActionHistory.path).thenReturn(mockPath);
+      when(mockPath.getBounds()).thenReturn(Rect.zero);
       sut.onUp(null);
-      verifyInOrder([mockPath.path.(), mockPath.close()]);
-      verifyNoMoreInteractions(mockPath);
+      verifyInOrder([
+        mockPathWithActionHistory.path,
+        mockPath.getBounds(),
+        mockPathWithActionHistory.close()
+      ]);
+      verifyNoMoreInteractions(mockPathWithActionHistory);
     });
   });
 

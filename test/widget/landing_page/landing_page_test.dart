@@ -22,7 +22,7 @@ import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
-import 'package:paintroid/pocket_paint_app.dart';
+import 'package:paintroid/app.dart';
 import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_list_tile.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
@@ -70,7 +70,7 @@ void main() {
         IFileService.provider.overrideWith((ref) => fileService),
         IDeviceService.provider.overrideWith((ref) => deviceService),
       ],
-      child: const PocketPaintApp(
+      child: const App(
         showOnboardingPage: false,
       ),
     );

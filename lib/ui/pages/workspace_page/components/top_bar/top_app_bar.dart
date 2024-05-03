@@ -7,9 +7,8 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_me
 // Project imports:
 
 class TopAppBar extends AppBar {
-  TopAppBar({Key? key, required String title})
+  TopAppBar({super.key, required String title})
       : super(
-          key: key,
           title: Text(title),
           centerTitle: false,
           actions: [const OverflowMenu()],

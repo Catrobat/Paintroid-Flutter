@@ -18,7 +18,7 @@ import 'package:paintroid/ui/themes/theme/color_schemes.dart';
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
 
-  const OnboardingPage({Key? key, this.navigateTo}) : super(key: key);
+  const OnboardingPage({super.key, this.navigateTo});
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();

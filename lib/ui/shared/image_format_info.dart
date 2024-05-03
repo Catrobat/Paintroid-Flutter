@@ -32,7 +32,7 @@ extension on ImageFormat {
 class ImageFormatInfo extends StatelessWidget {
   final ImageFormat format;
 
-  const ImageFormatInfo(this.format, {Key? key}) : super(key: key);
+  const ImageFormatInfo(this.format, {super.key});
 
   @override
   Widget build(BuildContext context) {

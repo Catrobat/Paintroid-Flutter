@@ -8,12 +8,12 @@ class CustomActionButton extends StatelessWidget {
   final String hint;
 
   const CustomActionButton({
-    Key? key,
+    super.key,
     required this.heroTag,
     required this.icon,
     required this.onPressed,
     required this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

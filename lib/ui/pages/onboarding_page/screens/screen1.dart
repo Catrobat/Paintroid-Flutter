@@ -7,7 +7,7 @@ import 'package:paintroid/ui/themes/theme/color_schemes.dart';
 // Package imports:
 
 class Screen1 extends StatelessWidget {
-  const Screen1({Key? key}) : super(key: key);
+  const Screen1({super.key});
 
   @override
   Widget build(BuildContext context) {

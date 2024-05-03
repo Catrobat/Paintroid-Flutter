@@ -3,22 +3,23 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:typed_data' as _i5;
 import 'dart:ui' as _i2;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i9;
+    as _i10;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
-    as _i7;
+    as _i8;
 import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart'
     as _i4;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
-    as _i8;
+    as _i9;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
-    as _i6;
+    as _i7;
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
-    as _i10;
+    as _i11;
 import 'package:paintroid/core/commands/utils/path_with_action_history.dart'
     as _i3;
 
@@ -45,8 +46,8 @@ class _FakePath_0 extends _i1.SmartFake implements _i2.Path {
         );
 }
 
-class _FakeOffset_1 extends _i1.SmartFake implements _i2.Offset {
-  _FakeOffset_1(
+class _FakeRect_1 extends _i1.SmartFake implements _i2.Rect {
+  _FakeRect_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -55,8 +56,8 @@ class _FakeOffset_1 extends _i1.SmartFake implements _i2.Offset {
         );
 }
 
-class _FakeRect_2 extends _i1.SmartFake implements _i2.Rect {
-  _FakeRect_2(
+class _FakePathMetrics_2 extends _i1.SmartFake implements _i2.PathMetrics {
+  _FakePathMetrics_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -65,9 +66,19 @@ class _FakeRect_2 extends _i1.SmartFake implements _i2.Rect {
         );
 }
 
-class _FakePathWithActionHistory_3 extends _i1.SmartFake
+class _FakeOffset_3 extends _i1.SmartFake implements _i2.Offset {
+  _FakeOffset_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakePathWithActionHistory_4 extends _i1.SmartFake
     implements _i3.PathWithActionHistory {
-  _FakePathWithActionHistory_3(
+  _FakePathWithActionHistory_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -76,8 +87,8 @@ class _FakePathWithActionHistory_3 extends _i1.SmartFake
         );
 }
 
-class _FakePaint_4 extends _i1.SmartFake implements _i2.Paint {
-  _FakePaint_4(
+class _FakePaint_5 extends _i1.SmartFake implements _i2.Paint {
+  _FakePaint_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -86,9 +97,9 @@ class _FakePaint_4 extends _i1.SmartFake implements _i2.Paint {
         );
 }
 
-class _FakeDrawPathCommand_5 extends _i1.SmartFake
+class _FakeDrawPathCommand_6 extends _i1.SmartFake
     implements _i4.DrawPathCommand {
-  _FakeDrawPathCommand_5(
+  _FakeDrawPathCommand_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -97,9 +108,9 @@ class _FakeDrawPathCommand_5 extends _i1.SmartFake
         );
 }
 
-class _FakePictureRecorder_6 extends _i1.SmartFake
+class _FakePictureRecorder_7 extends _i1.SmartFake
     implements _i2.PictureRecorder {
-  _FakePictureRecorder_6(
+  _FakePictureRecorder_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,14 +119,485 @@ class _FakePictureRecorder_6 extends _i1.SmartFake
         );
 }
 
-class _FakeCanvas_7 extends _i1.SmartFake implements _i2.Canvas {
-  _FakeCanvas_7(
+class _FakeCanvas_8 extends _i1.SmartFake implements _i2.Canvas {
+  _FakeCanvas_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
           parent,
           parentInvocation,
         );
+}
+
+/// A class which mocks [Path].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPath extends _i1.Mock implements _i2.Path {
+  MockPath() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.PathFillType get fillType => (super.noSuchMethod(
+        Invocation.getter(#fillType),
+        returnValue: _i2.PathFillType.nonZero,
+      ) as _i2.PathFillType);
+
+  @override
+  set fillType(_i2.PathFillType? value) => super.noSuchMethod(
+        Invocation.setter(
+          #fillType,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void moveTo(
+    double? x,
+    double? y,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #moveTo,
+          [
+            x,
+            y,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeMoveTo(
+    double? dx,
+    double? dy,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeMoveTo,
+          [
+            dx,
+            dy,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void lineTo(
+    double? x,
+    double? y,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #lineTo,
+          [
+            x,
+            y,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeLineTo(
+    double? dx,
+    double? dy,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeLineTo,
+          [
+            dx,
+            dy,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void quadraticBezierTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #quadraticBezierTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeQuadraticBezierTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeQuadraticBezierTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void cubicTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+    double? x3,
+    double? y3,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #cubicTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+            x3,
+            y3,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeCubicTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+    double? x3,
+    double? y3,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeCubicTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+            x3,
+            y3,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void conicTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+    double? w,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #conicTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+            w,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeConicTo(
+    double? x1,
+    double? y1,
+    double? x2,
+    double? y2,
+    double? w,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeConicTo,
+          [
+            x1,
+            y1,
+            x2,
+            y2,
+            w,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void arcTo(
+    _i2.Rect? rect,
+    double? startAngle,
+    double? sweepAngle,
+    bool? forceMoveTo,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #arcTo,
+          [
+            rect,
+            startAngle,
+            sweepAngle,
+            forceMoveTo,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void arcToPoint(
+    _i2.Offset? arcEnd, {
+    _i2.Radius? radius = _i2.Radius.zero,
+    double? rotation = 0.0,
+    bool? largeArc = false,
+    bool? clockwise = true,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #arcToPoint,
+          [arcEnd],
+          {
+            #radius: radius,
+            #rotation: rotation,
+            #largeArc: largeArc,
+            #clockwise: clockwise,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void relativeArcToPoint(
+    _i2.Offset? arcEndDelta, {
+    _i2.Radius? radius = _i2.Radius.zero,
+    double? rotation = 0.0,
+    bool? largeArc = false,
+    bool? clockwise = true,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #relativeArcToPoint,
+          [arcEndDelta],
+          {
+            #radius: radius,
+            #rotation: rotation,
+            #largeArc: largeArc,
+            #clockwise: clockwise,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addRect(_i2.Rect? rect) => super.noSuchMethod(
+        Invocation.method(
+          #addRect,
+          [rect],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addOval(_i2.Rect? oval) => super.noSuchMethod(
+        Invocation.method(
+          #addOval,
+          [oval],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addArc(
+    _i2.Rect? oval,
+    double? startAngle,
+    double? sweepAngle,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addArc,
+          [
+            oval,
+            startAngle,
+            sweepAngle,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addPolygon(
+    List<_i2.Offset>? points,
+    bool? close,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addPolygon,
+          [
+            points,
+            close,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addRRect(_i2.RRect? rrect) => super.noSuchMethod(
+        Invocation.method(
+          #addRRect,
+          [rrect],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addPath(
+    _i2.Path? path,
+    _i2.Offset? offset, {
+    _i5.Float64List? matrix4,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addPath,
+          [
+            path,
+            offset,
+          ],
+          {#matrix4: matrix4},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void extendWithPath(
+    _i2.Path? path,
+    _i2.Offset? offset, {
+    _i5.Float64List? matrix4,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #extendWithPath,
+          [
+            path,
+            offset,
+          ],
+          {#matrix4: matrix4},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void reset() => super.noSuchMethod(
+        Invocation.method(
+          #reset,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool contains(_i2.Offset? point) => (super.noSuchMethod(
+        Invocation.method(
+          #contains,
+          [point],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i2.Path shift(_i2.Offset? offset) => (super.noSuchMethod(
+        Invocation.method(
+          #shift,
+          [offset],
+        ),
+        returnValue: _FakePath_0(
+          this,
+          Invocation.method(
+            #shift,
+            [offset],
+          ),
+        ),
+      ) as _i2.Path);
+
+  @override
+  _i2.Path transform(_i5.Float64List? matrix4) => (super.noSuchMethod(
+        Invocation.method(
+          #transform,
+          [matrix4],
+        ),
+        returnValue: _FakePath_0(
+          this,
+          Invocation.method(
+            #transform,
+            [matrix4],
+          ),
+        ),
+      ) as _i2.Path);
+
+  @override
+  _i2.Rect getBounds() => (super.noSuchMethod(
+        Invocation.method(
+          #getBounds,
+          [],
+        ),
+        returnValue: _FakeRect_1(
+          this,
+          Invocation.method(
+            #getBounds,
+            [],
+          ),
+        ),
+      ) as _i2.Rect);
+
+  @override
+  _i2.PathMetrics computeMetrics({bool? forceClosed = false}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #computeMetrics,
+          [],
+          {#forceClosed: forceClosed},
+        ),
+        returnValue: _FakePathMetrics_2(
+          this,
+          Invocation.method(
+            #computeMetrics,
+            [],
+            {#forceClosed: forceClosed},
+          ),
+        ),
+      ) as _i2.PathMetrics);
 }
 
 /// A class which mocks [PathWithActionHistory].
@@ -256,7 +738,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
             scaleY,
           ],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #scale,
@@ -281,7 +763,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
             translateY,
           ],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #translate,
@@ -299,7 +781,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #-,
           [],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #-,
@@ -314,7 +796,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #-,
           [other],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #-,
@@ -329,7 +811,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #+,
           [other],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #+,
@@ -344,7 +826,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #*,
           [operand],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #*,
@@ -359,7 +841,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #/,
           [operand],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #/,
@@ -374,7 +856,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #~/,
           [operand],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #~/,
@@ -389,7 +871,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #%,
           [operand],
         ),
-        returnValue: _FakeOffset_1(
+        returnValue: _FakeOffset_3(
           this,
           Invocation.method(
             #%,
@@ -404,7 +886,7 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
           #&,
           [other],
         ),
-        returnValue: _FakeRect_2(
+        returnValue: _FakeRect_1(
           this,
           Invocation.method(
             #&,
@@ -461,7 +943,7 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
   @override
   String get type => (super.noSuchMethod(
         Invocation.getter(#type),
-        returnValue: _i5.dummyValue<String>(
+        returnValue: _i6.dummyValue<String>(
           this,
           Invocation.getter(#type),
         ),
@@ -476,7 +958,7 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
   @override
   _i3.PathWithActionHistory get path => (super.noSuchMethod(
         Invocation.getter(#path),
-        returnValue: _FakePathWithActionHistory_3(
+        returnValue: _FakePathWithActionHistory_4(
           this,
           Invocation.getter(#path),
         ),
@@ -491,7 +973,7 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
   @override
   _i2.Paint get paint => (super.noSuchMethod(
         Invocation.getter(#paint),
-        returnValue: _FakePaint_4(
+        returnValue: _FakePaint_5(
           this,
           Invocation.getter(#paint),
         ),
@@ -519,16 +1001,16 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i7.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Iterable<_i7.Command> get history => (super.noSuchMethod(
+  Iterable<_i8.Command> get history => (super.noSuchMethod(
         Invocation.getter(#history),
-        returnValue: <_i7.Command>[],
-      ) as Iterable<_i7.Command>);
+        returnValue: <_i8.Command>[],
+      ) as Iterable<_i8.Command>);
 
   @override
   int get count => (super.noSuchMethod(
@@ -537,7 +1019,7 @@ class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
       ) as int);
 
   @override
-  void addGraphicCommand(_i8.GraphicCommand? command) => super.noSuchMethod(
+  void addGraphicCommand(_i9.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
@@ -573,7 +1055,7 @@ class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
       );
 
   @override
-  void clearHistory({Iterable<_i7.Command>? newCommands}) => super.noSuchMethod(
+  void clearHistory({Iterable<_i8.Command>? newCommands}) => super.noSuchMethod(
         Invocation.method(
           #clearHistory,
           [],
@@ -586,7 +1068,7 @@ class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i10.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
@@ -604,7 +1086,7 @@ class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
             paint,
           ],
         ),
-        returnValue: _FakeDrawPathCommand_5(
+        returnValue: _FakeDrawPathCommand_6(
           this,
           Invocation.method(
             #createDrawPathCommand,
@@ -620,7 +1102,7 @@ class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
 /// A class which mocks [GraphicFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
+class MockGraphicFactory extends _i1.Mock implements _i11.GraphicFactory {
   MockGraphicFactory() {
     _i1.throwOnMissingStub(this);
   }
@@ -631,7 +1113,7 @@ class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
           #createPaint,
           [],
         ),
-        returnValue: _FakePaint_4(
+        returnValue: _FakePaint_5(
           this,
           Invocation.method(
             #createPaint,
@@ -647,7 +1129,7 @@ class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
           #createPathWithActionHistory,
           [],
         ),
-        returnValue: _FakePathWithActionHistory_3(
+        returnValue: _FakePathWithActionHistory_4(
           this,
           Invocation.method(
             #createPathWithActionHistory,
@@ -662,7 +1144,7 @@ class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
           #createPictureRecorder,
           [],
         ),
-        returnValue: _FakePictureRecorder_6(
+        returnValue: _FakePictureRecorder_7(
           this,
           Invocation.method(
             #createPictureRecorder,
@@ -678,7 +1160,7 @@ class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
           #createCanvasWithRecorder,
           [recorder],
         ),
-        returnValue: _FakeCanvas_7(
+        returnValue: _FakeCanvas_8(
           this,
           Invocation.method(
             #createCanvasWithRecorder,
@@ -693,7 +1175,7 @@ class MockGraphicFactory extends _i1.Mock implements _i10.GraphicFactory {
           #copyPaint,
           [original],
         ),
-        returnValue: _FakePaint_4(
+        returnValue: _FakePaint_5(
           this,
           Invocation.method(
             #copyPaint,

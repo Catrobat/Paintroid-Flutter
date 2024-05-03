@@ -14,12 +14,12 @@ class ImagePreview extends StatelessWidget {
   final IImageService imageService;
 
   const ImagePreview({
-    Key? key,
+    super.key,
     this.width,
     required this.color,
     this.project,
     required this.imageService,
-  }) : super(key: key);
+  });
 
   ImageProvider _getProjectPreviewImageProvider(Uint8List img) =>
       Image.memory(img, fit: BoxFit.cover).image;

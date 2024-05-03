@@ -6,8 +6,7 @@ class GenericDialogActionButton extends StatelessWidget {
   final Function? onPressed;
 
   const GenericDialogActionButton(
-      {Key? key, required this.text, this.onPressed})
-      : super(key: key);
+      {super.key, required this.text, this.onPressed});
 
   @override
   Widget build(BuildContext context) => TextButton(
@@ -34,12 +33,11 @@ class GenericDialog extends StatelessWidget {
   final List<GenericDialogAction> actions;
 
   const GenericDialog(
-      {Key? key,
+      {super.key,
       required this.title,
       this.text,
       this.content,
-      required this.actions})
-      : super(key: key);
+      required this.actions});
 
   Widget? getContent() {
     if (content != null) {

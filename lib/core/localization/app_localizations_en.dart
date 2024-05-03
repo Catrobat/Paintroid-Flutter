@@ -3,7 +3,7 @@ import 'package:paintroid/core/localization/app_localizations.dart';
 
 /// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
-  AppLocalizationsEn([String locale = 'en']) : super(locale);
+  AppLocalizationsEn([super.locale = 'en']);
 
   @override
   String get fullscreen => 'Fullscreen';
