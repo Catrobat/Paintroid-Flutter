@@ -16,8 +16,6 @@ import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exi
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/shared/discard_changes_dialog.dart';
 
-// Project imports:
-
 class WorkspacePage extends ConsumerStatefulWidget {
   const WorkspacePage({super.key});
 
@@ -47,25 +45,26 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     final ioHandler = ref.watch(IOHandler.provider);
     final workspaceStateNotifier = ref.watch(WorkspaceState.provider.notifier);
     return PopScope(
-      canPop: !isFullscreen && workspaceStateNotifier.hasSavedLastWork,
+      canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) {
           return;
         }
-
         if (isFullscreen) {
           workspaceStateNotifier.toggleFullscreen(false);
           return;
         }
-
         if (!workspaceStateNotifier.hasSavedLastWork) {
           final shouldDiscard = await showDiscardChangesDialog(context);
-          if (shouldDiscard != null) {
-            if (!shouldDiscard && context.mounted) {
-              ioHandler.saveImage(context);
+          if (shouldDiscard != null && !shouldDiscard && context.mounted) {
+            bool savedImage = await ioHandler.saveImage(context);
+            if (!savedImage) {
+              return;
             }
           }
         }
+        if (!context.mounted) return;
+        Navigator.pop(context);
       },
       child: Scaffold(
         appBar: isFullscreen ? null : TopAppBar(title: 'Pocket Paint'),
