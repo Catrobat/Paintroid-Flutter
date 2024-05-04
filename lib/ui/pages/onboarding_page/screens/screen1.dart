@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
-
-// Package imports:
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class Screen1 extends StatelessWidget {
   const Screen1({super.key});

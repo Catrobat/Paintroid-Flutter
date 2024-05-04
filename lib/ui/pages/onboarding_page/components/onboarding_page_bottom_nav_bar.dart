@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class OnboardingPageBottomNavigationBar extends StatefulWidget {
   final List<VoidCallback> onPressedFunctions;

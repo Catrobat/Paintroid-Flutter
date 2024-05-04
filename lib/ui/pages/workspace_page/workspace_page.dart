@@ -14,7 +14,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_opt
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exit_fullscreen_button.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
-import 'package:paintroid/ui/shared/discard_changes_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 
 class WorkspacePage extends ConsumerStatefulWidget {
   const WorkspacePage({super.key});

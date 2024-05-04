@@ -9,7 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';

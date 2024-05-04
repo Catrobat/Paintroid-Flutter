@@ -1,7 +1,6 @@
 // Project imports:
 import 'package:paintroid/core/localization/app_localizations.dart';
 
-/// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([super.locale = 'en']);
 

@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import '../utils/dummy_command_factory.dart';
 import '../utils/dummy_paint_factory.dart';

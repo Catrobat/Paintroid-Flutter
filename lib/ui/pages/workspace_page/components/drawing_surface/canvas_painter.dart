@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/commands/utils/command_painter.dart';
+import 'package:paintroid/core/commands/command_painter.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';

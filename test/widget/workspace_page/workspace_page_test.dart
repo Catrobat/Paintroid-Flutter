@@ -14,8 +14,6 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_me
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 
-// Project imports:
-
 class FakeCommandManager extends Fake implements CommandManager {
   @override
   int get count => 0;

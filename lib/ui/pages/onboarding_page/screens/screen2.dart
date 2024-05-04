@@ -7,10 +7,6 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bo
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 
-// Package imports:
-
-// Project imports:
-
 class Screen2 extends StatefulWidget {
   const Screen2({super.key});
 

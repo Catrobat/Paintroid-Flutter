@@ -3,10 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:typed_data' as _i3;
 import 'dart:ui' as _i2;
 
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
+
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i5;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'

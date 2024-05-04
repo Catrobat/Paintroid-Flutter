@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/core/models/enums/image_format.dart';
+import 'package:paintroid/core/enums/image_format.dart';
 
 extension on ImageFormat {
   TextSpan get info {

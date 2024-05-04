@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/utils/open_url.dart';
-import 'package:paintroid/ui/shared/generic_dialog.dart';
-import 'package:paintroid/ui/shared/imgs.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
+import 'package:paintroid/ui/shared/images/pocketpaint_logo_small.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
     showGeneralDialog<bool>(

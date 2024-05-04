@@ -16,21 +16,21 @@ import 'package:oxidized/oxidized.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
+import 'package:paintroid/app.dart';
 import 'package:paintroid/core/database/project_dao.dart';
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
-import 'package:paintroid/app.dart';
 import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_list_tile.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
-import 'package:paintroid/ui/shared/about_dialog.dart';
-import 'package:paintroid/ui/shared/generic_dialog.dart';
-import 'package:paintroid/ui/shared/project_details_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
 import 'landing_page_test.mocks.dart';
 
 @GenerateMocks(

@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 import 'dummy_paint_factory.dart';

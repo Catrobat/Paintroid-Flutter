@@ -8,8 +8,6 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 
-// Project imports:
-
 part 'eraser_tool_provider.g.dart';
 
 @riverpod

@@ -6,15 +6,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toast/toast.dart';
 
 // Project imports:
-import 'package:paintroid/core/providers/object/tools/brush/brush_tool_provider.dart';
-import 'package:paintroid/core/providers/object/tools/eraser/eraser_tool_provider.dart';
-import 'package:paintroid/core/providers/object/tools/hand/hand_tool_provider.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_data.dart';
-import 'package:paintroid/core/tools/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
-
-// Project imports:
 
 part 'toolbox_state_provider.g.dart';
 

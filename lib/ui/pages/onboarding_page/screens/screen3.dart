@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/ui/pages/onboarding_page/components/bottom_nav_bar_container.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
-
-// Package imports:
-
-// Project imports:
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({super.key});

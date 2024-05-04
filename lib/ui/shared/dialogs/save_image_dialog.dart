@@ -2,13 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/core/models/enums/image_format.dart';
+import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
-import 'package:paintroid/ui/themes/theme/styles.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/themes/styles.dart';
 
-/// Returns [null] if user dismissed the dialog by tapping outside
 Future<ImageMetaData?> showSaveImageDialog(
         BuildContext context, bool savingProject) =>
     showGeneralDialog<ImageMetaData?>(

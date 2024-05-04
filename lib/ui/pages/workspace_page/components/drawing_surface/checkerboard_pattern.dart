@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/shared/imgs.dart';
+import 'package:paintroid/ui/shared/images/checkerboard.dart';
 
 class CheckerboardPattern extends StatelessWidget {
   final Widget? child;
@@ -14,7 +14,7 @@ class CheckerboardPattern extends StatelessWidget {
     return Stack(
       children: [
         const Positioned.fill(
-          child: CheckerboardImg(),
+          child: CheckerboardImage(),
         ),
         if (child != null) child!,
       ],

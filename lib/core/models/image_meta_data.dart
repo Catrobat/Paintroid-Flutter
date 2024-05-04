@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:paintroid/core/models/enums/image_format.dart';
+import 'package:paintroid/core/enums/image_format.dart';
 
 abstract class ImageMetaData {
   final String name;

@@ -9,7 +9,7 @@ get:
 run:
 	flutter run
 
-all: clean get build run
+all: clean get build sort run
 
 watch:
 	dart run build_runner watch --delete-conflicting-outputs

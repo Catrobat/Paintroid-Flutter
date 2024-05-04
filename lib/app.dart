@@ -12,7 +12,7 @@ import 'package:paintroid/ui/pages/landing_page/landing_page.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/shared/loading_overlay.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class App extends StatelessWidget {
   final bool showOnboardingPage;

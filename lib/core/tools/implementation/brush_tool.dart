@@ -11,8 +11,8 @@ import 'package:equatable/equatable.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
-import 'package:paintroid/core/tools/enums/tool_types.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class BrushTool extends Tool with EquatableMixin {

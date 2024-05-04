@@ -10,8 +10,6 @@ import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 
-// Project imports:
-
 part 'catrobat_image.g.dart';
 
 @JsonSerializable()

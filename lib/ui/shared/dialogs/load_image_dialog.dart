@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/core/models/enums/image_location.dart';
-import 'package:paintroid/ui/shared/generic_dialog.dart';
+import 'package:paintroid/core/enums/image_location.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
-/// Returns [null] if user dismissed the dialog by tapping outside
 Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
     showGeneralDialog<ImageLocation>(
         context: context,

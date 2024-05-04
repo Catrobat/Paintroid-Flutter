@@ -9,7 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
-import 'package:paintroid/core/tools/enums/tool_types.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/implementation/eraser_tool.dart';
 import 'eraser_tool_test.mocks.dart';
 

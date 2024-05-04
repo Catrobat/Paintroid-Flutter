@@ -12,9 +12,9 @@ import 'package:oxidized/oxidized.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/enums/image_format.dart';
+import 'package:paintroid/core/enums/image_location.dart';
 import 'package:paintroid/core/models/catrobat_image.dart';
-import 'package:paintroid/core/models/enums/image_format.dart';
-import 'package:paintroid/core/models/enums/image_location.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
@@ -27,9 +27,9 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
-import 'package:paintroid/ui/shared/discard_changes_dialog.dart';
-import 'package:paintroid/ui/shared/load_image_dialog.dart';
-import 'package:paintroid/ui/shared/save_image_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/load_image_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 class IOHandler {

@@ -13,7 +13,7 @@ import 'package:paintroid/ui/pages/onboarding_page/screens/screen2.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen3.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen4.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen5.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;

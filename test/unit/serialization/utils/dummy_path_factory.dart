@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class DummyPathFactory {
   static PathWithActionHistory createPathWithActionHistory(

@@ -8,9 +8,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
 import 'package:paintroid/core/utils/open_url.dart';
-import 'package:paintroid/ui/shared/about_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
-import 'package:paintroid/ui/themes/theme/styles.dart';
+import 'package:paintroid/ui/themes/styles.dart';
 
 enum MainOverflowMenuOption {
   rate('Rate us!'),

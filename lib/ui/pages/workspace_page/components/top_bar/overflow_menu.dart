@@ -14,10 +14,10 @@ import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
-import 'package:paintroid/ui/shared/overwrite_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
-import 'package:paintroid/ui/shared/save_image_dialog.dart';
-import 'package:paintroid/ui/themes/theme/styles.dart';
+import 'package:paintroid/ui/themes/styles.dart';
 
 enum OverflowMenuOption {
   fullscreen,

@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/shared/generic_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
-/// Returns [true] if user chose to delete the project or [null] if user
-/// dismiss the dialog by tapping outside
 Future<bool?> showDeleteDialog(BuildContext context, String name) =>
     showGeneralDialog<bool>(
         context: context,

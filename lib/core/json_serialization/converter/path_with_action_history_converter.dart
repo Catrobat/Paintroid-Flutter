@@ -2,7 +2,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/utils/path_with_action_history.dart';
+import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/converter/path_action_converter.dart';
 
 class PathWithActionHistoryConverter

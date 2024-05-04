@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/shared/generic_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
 Future<bool?> showOverwriteDialog(BuildContext context) =>
     showGeneralDialog<bool>(

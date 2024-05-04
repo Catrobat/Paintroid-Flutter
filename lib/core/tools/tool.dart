@@ -5,8 +5,6 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 
-// Package imports:
-
 abstract class Tool {
   const Tool({
     required this.paint,

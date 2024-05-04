@@ -22,7 +22,7 @@ import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.da
 import 'package:paintroid/ui/pages/landing_page/components/project_list_tile.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 class LandingPage extends ConsumerStatefulWidget {

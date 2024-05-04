@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 
 // Project imports:
+import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/shared/icon_button_with_label.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';

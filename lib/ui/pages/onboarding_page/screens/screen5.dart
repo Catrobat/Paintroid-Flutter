@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/shared/imgs.dart';
-import 'package:paintroid/ui/themes/theme/color_schemes.dart';
-
-// Package imports:
+import 'package:paintroid/ui/shared/images/pocketpaint_intro_portrait.dart';
+import 'package:paintroid/ui/themes/color_schemes.dart';
 
 class Screen5 extends StatelessWidget {
   const Screen5({super.key});

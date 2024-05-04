@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-import 'package:paintroid/ui/themes/theme/styles.dart';
+import 'package:paintroid/ui/themes/styles.dart';
 
 class StrokeWidthToolOption extends ConsumerStatefulWidget {
   const StrokeWidthToolOption({super.key});

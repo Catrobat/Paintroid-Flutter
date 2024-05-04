@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/shared/generic_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
-/// Returns [true] if user chose to discard changes or [null] if user
-/// dismissed the dialog by tapping outside
 Future<bool?> showDiscardChangesDialog(BuildContext context) =>
     showGeneralDialog<bool>(
         context: context,

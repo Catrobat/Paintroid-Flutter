@@ -10,8 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
-import 'package:paintroid/ui/shared/delete_project_dialog.dart';
-import 'package:paintroid/ui/shared/project_details_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/delete_project_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 enum ProjectOverflowMenuOption {
