@@ -9,6 +9,7 @@ import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provi
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/shared/icon_button_with_label.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class ToolButton extends StatelessWidget {
   final ToolData toolData;
@@ -25,13 +26,16 @@ class ToolButton extends StatelessWidget {
         return SizedBox(
           width: 50.0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 8.0,
+            ),
             child: IconButtonWithLabel(
               icon: IconSvg(
                 path: toolData.svgAssetPath,
                 height: 30.0,
                 width: 30.0,
-                color: Colors.white,
+                color: PaintroidTheme.of(context).onSurfaceColor,
               ),
               label: toolData.name,
               onPressed: () {

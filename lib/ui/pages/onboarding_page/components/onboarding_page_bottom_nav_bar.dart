@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
+
+// Project imports:
 
 class OnboardingPageBottomNavigationBar extends StatefulWidget {
   final List<VoidCallback> onPressedFunctions;
@@ -25,9 +27,9 @@ class _OnboardingPageBottomNavigationBarState
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
-      backgroundColor: lightColorScheme.surface,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
+      backgroundColor: PaintroidTheme.of(context).surfaceColor,
+      selectedItemColor: PaintroidTheme.of(context).onSurfaceColor,
+      unselectedItemColor: PaintroidTheme.of(context).onSurfaceColor,
       selectedFontSize: 12,
       unselectedFontSize: 12,
       onTap: (value) {

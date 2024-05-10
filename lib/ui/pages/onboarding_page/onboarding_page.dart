@@ -13,7 +13,7 @@ import 'package:paintroid/ui/pages/onboarding_page/screens/screen2.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen3.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen4.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen5.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
@@ -88,25 +88,26 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             Container(
               height: 1,
-              color: Colors.white,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ],
         ),
       ),
       bottomSheet: Container(
-        color: lightColorScheme.surface,
+        color: PaintroidTheme.of(context).surfaceColor,
         height: 40,
+        width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 30),
               child: TextButton(
                 onPressed: () => finish(),
                 child: Text(
                   _isLastPage ? '' : 'SKIP',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
                   ),
                 ),
@@ -116,14 +117,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
               count: 5,
               controller: _controller,
               effect: SlideEffect(
-                dotColor: Colors.white.withOpacity(0.2),
+                dotColor:
+                    PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.2),
                 dotHeight: 8,
                 dotWidth: 8,
-                activeDotColor: Colors.white,
+                activeDotColor: PaintroidTheme.of(context).onSurfaceColor,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 30),
               child: TextButton(
                 onPressed: () async {
                   if (_isLastPage) {
@@ -137,8 +139,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 },
                 child: Text(
                   _isLastPage ? "LET'S GO" : 'NEXT',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
                   ),
                 ),

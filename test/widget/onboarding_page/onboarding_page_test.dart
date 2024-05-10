@@ -11,6 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_app_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 void main() {
   late Widget sut;
@@ -52,12 +53,21 @@ void main() {
   ];
 
   setUp(() {
-    sut = const ProviderScope(
-      child: MaterialApp(
-        home: OnboardingPage(),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-        ],
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
+
+    sut = ProviderScope(
+      child: PaintroidTheme(
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
+        child: MaterialApp(
+          theme: lightTheme.materialThemeData,
+          darkTheme: darkTheme.materialThemeData,
+          home: const OnboardingPage(),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });

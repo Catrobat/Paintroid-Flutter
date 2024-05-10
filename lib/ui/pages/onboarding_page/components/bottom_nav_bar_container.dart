@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class BottomNavigationBarContainer extends StatelessWidget {
   final List<BottomNavigationBarItem> navBarItems;
@@ -19,7 +19,7 @@ class BottomNavigationBarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      color: lightColorScheme.surface,
+      color: PaintroidTheme.of(context).surfaceColor,
       child: OnboardingPageBottomNavigationBar(
         onPressedFunctions: onPressedFunctions,
         barItems: navBarItems,

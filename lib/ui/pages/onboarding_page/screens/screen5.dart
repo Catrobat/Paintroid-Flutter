@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:paintroid/ui/shared/images/pocketpaint_intro_portrait.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class Screen5 extends StatelessWidget {
   const Screen5({super.key});
@@ -11,7 +11,7 @@ class Screen5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: lightColorScheme.surface,
+      color: PaintroidTheme.of(context).surfaceColor,
       padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -20,10 +20,10 @@ class Screen5 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'You are all set. Enjoy Pocket Paint.',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
                 ),
                 textAlign: TextAlign.start,
@@ -33,10 +33,10 @@ class Screen5 extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
+              child: Text(
                 'Get started and create a new masterpiece.',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,
                 ),
                 textAlign: TextAlign.start,

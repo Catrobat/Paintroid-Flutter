@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:paintroid/ui/theme/theme.dart';
+
 class StyledPopMenuButton<T> extends StatelessWidget {
   final void Function(T) onSelected;
   final PopupMenuItemBuilder<T> itemBuilder;
@@ -16,13 +19,16 @@ class StyledPopMenuButton<T> extends StatelessWidget {
     return Theme(
       data: Theme.of(context),
       child: PopupMenuButton<T>(
-        color: Theme.of(context).colorScheme.background,
-        icon: const Icon(Icons.more_vert, color: Colors.white),
+        color: PaintroidTheme.of(context).backgroundColor,
+        icon: Icon(
+          Icons.more_vert,
+          color: PaintroidTheme.of(context).onSurfaceColor,
+        ),
         elevation: 7.0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 0,
-            color: Theme.of(context).colorScheme.background,
+            color: PaintroidTheme.of(context).backgroundColor,
           ),
           borderRadius: BorderRadius.circular(5),
         ),

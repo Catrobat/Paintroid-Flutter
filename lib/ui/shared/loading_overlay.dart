@@ -1,6 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:paintroid/ui/theme/theme.dart';
+
+// Project imports:
+
 class LoadingOverlay extends StatefulWidget {
   final bool isLoading;
   final Widget? child;
@@ -68,16 +73,18 @@ class _LoadingOverlayState extends State<LoadingOverlay>
         if (_overlayVisible == true)
           FadeTransition(
             opacity: _animation,
-            child: const Stack(
+            child: Stack(
               children: [
                 Opacity(
                   opacity: 0.6,
                   child: ModalBarrier(
                     dismissible: false,
-                    color: Colors.black,
+                    color: PaintroidTheme.of(context).shadowColor,
                   ),
                 ),
-                Center(child: CircularProgressIndicator()),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ],
             ),
           ),

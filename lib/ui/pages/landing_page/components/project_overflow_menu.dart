@@ -12,6 +12,7 @@ import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/ui/shared/dialogs/delete_project_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 enum ProjectOverflowMenuOption {
@@ -47,7 +48,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     );
 
     return PopupMenuButton(
-      color: Theme.of(context).colorScheme.background,
+      color: PaintroidTheme.of(context).backgroundColor,
       icon: const Icon(Icons.more_vert),
       shape: RoundedRectangleBorder(
         side: const BorderSide(),
@@ -55,8 +56,15 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       ),
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => ProjectOverflowMenuOption.values
-          .map((option) =>
-              PopupMenuItem(value: option, child: Text(option.label)))
+          .map((option) => PopupMenuItem(
+                value: option,
+                child: Text(
+                  option.label,
+                  style: TextStyle(
+                    color: PaintroidTheme.of(context).onBackgroundColor,
+                  ),
+                ),
+              ))
           .toList(),
     );
   }
