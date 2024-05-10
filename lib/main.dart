@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
-import 'package:paintroid/pocket_paint_app.dart';
+import 'package:paintroid/app.dart';
 
 void main() async {
   Logger.root.onRecord.listen((record) {
@@ -30,7 +30,7 @@ void main() async {
 
   runApp(
     ProviderScope(
-      child: PocketPaintApp(
+      child: App(
         showOnboardingPage: showOnboarding,
       ),
     ),

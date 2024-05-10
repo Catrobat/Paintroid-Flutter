@@ -6,23 +6,22 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.4
       - uses: subosito/flutter-action@v2.10.0
         with:
-          flutter-version: "3.10.5"
+          flutter-version: "3.19.6"
           channel: "stable"
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
-          architecture: x64 # optional, x64 or arm64
+          architecture: x64
       - name: Setup
-        run: |
-          make get
+        run: make get
       - name: Static Analysis
         run: make lint
       - name: Unit Tests
-        run: melos run test:unit
+        run: make test-unit
       - name: Widget Tests
-        run: melos run test:widget
+        run: make test-widget
       - name: Install xmlstarlet
         run: sudo apt-get install -y xmlstarlet
       - name: Prepare App Name and Identifier
@@ -34,7 +33,7 @@ jobs:
           flutter build apk --release
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
       - name: Archive build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: flutter-paint-apk-${{ github.event.number }}
           path: |
