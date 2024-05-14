@@ -1,56 +1,46 @@
-.PHONY: run pods-clean get clean build languages lint format test watch
+.PHONY: get build watch clean test analyze test-unit test-widget test-all all fvm_check
 
-FLUTTER := fvm flutter
-DART := fvm dart
+# Check if FVM is installed
+FVM_PRESENT := $(shell command -v fvm 2> /dev/null)
 
-run:
-	$(FLUTTER) run
-
-pods-clean:
-	rm -Rf ios/Pods ; \
-	rm -Rf ios/.symlinks ; \
-	rm -Rf ios/Flutter/Flutter.framework ; \
-	rm -Rf ios/Flutter/Flutter.podspec ; \
-	rm ios/Podfile ; \
-	rm ios/Podfile.lock ; \
-
-get:
-	chmod +x ./setup_sdk.sh
-	./setup_sdk.sh
-	chmod +x ./setup_melos.sh
-	./setup_melos.sh
-	melos bootstrap
+# Use fvm if installed; otherwise use flutter directly
+FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
+DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
 
 clean:
-	melos clean
+	$(FLUTTER_CMD) clean
+	
+get:
+	$(FLUTTER_CMD) pub get
 
-build:
-	melos run build:all
+run:
+	$(FLUTTER_CMD) run
 
-languages:
-	@cd packages/l10n ; \
-	$(FLUTTER) gen-l10n
-	@echo "-> Generated l10n"
-
-lint:
-	$(FLUTTER) analyze
-	melos run lint:all
-
-format:
-	$(DART) format --set-exit-if-changed .
-
-test:
-	melos run test:all
-
-test-unit:
-	melos run test:unit
-
-test-widget:
-	melos run test:widget
+all: clean get build sort run
 
 watch:
-	$(DART) run build_runner watch --delete-conflicting-outputs
+	$(DART_CMD) run build_runner watch --delete-conflicting-outputs
 
-melos:
-	$(DART) pub global activate melos
-	
+lint:
+	$(FLUTTER_CMD) analyze
+
+build:
+	$(DART_CMD) run build_runner build --delete-conflicting-outputs
+
+analyze:
+	$(FLUTTER_CMD) analyze
+
+test-unit:
+	$(FLUTTER_CMD) test test/unit
+
+test-widget:
+	$(FLUTTER_CMD) test test/widget
+
+test:
+	$(FLUTTER_CMD) test
+
+sort:
+	$(DART_CMD) run import_sorter:main
+
+fvm_check:
+	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM
