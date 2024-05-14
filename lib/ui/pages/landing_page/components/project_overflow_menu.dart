@@ -12,6 +12,7 @@ import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/ui/shared/dialogs/delete_project_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/rename_project_dialog.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 

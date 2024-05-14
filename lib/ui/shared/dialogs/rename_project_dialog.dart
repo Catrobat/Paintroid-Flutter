@@ -1,6 +1,9 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:io_library/io_library.dart';
+
+// Project imports:
+import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
+import 'package:paintroid/ui/shared/text_input_field.dart';
 
 Future<String?> showRenameDialog(BuildContext context, String name) async {
   final TextEditingController textFieldController = TextEditingController()

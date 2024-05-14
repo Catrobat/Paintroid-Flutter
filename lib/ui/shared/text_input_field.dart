@@ -1,5 +1,8 @@
-import 'package:component_library/component_library.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
 class TextInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -7,11 +10,11 @@ class TextInputField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const TextInputField({
-    Key? key,
+    super.key,
     required this.controller,
     this.hintText,
     required this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,11 @@ class TextInputField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText ?? '',
-        hintStyle: TextThemes.hintTextNormal,
+        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
+              color: PaintroidTheme.of(context).onSurfaceColor,
+            ),
         filled: true,
-        fillColor: lightColorScheme.secondaryContainer,
+        fillColor: PaintroidTheme.of(context).secondaryContainerColor,
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
