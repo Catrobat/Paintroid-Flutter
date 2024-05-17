@@ -112,6 +112,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
   Future<void> _renameProject() async {
     try {
       while (true) {
+        if (!mounted) return;
         String? name = await showRenameDialog(context, widget.project.name);
         if (name == null) return;
 

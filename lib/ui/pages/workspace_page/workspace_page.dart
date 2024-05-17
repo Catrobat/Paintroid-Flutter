@@ -63,7 +63,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
             }
           }
         }
-        if (!mounted) return;
+        if (!context.mounted) return;
         Navigator.pop(context);
       },
       child: Scaffold(
