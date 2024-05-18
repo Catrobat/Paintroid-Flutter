@@ -10,6 +10,7 @@ import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_data.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -27,7 +28,7 @@ class ToolBoxState extends _$ToolBoxState {
     state.currentTool.onDrag(position);
   }
 
-  void didTapUp({Offset? position}) {
+  void didTapUp(Offset position) {
     state.currentTool.onUp(position);
     state = state.copyWith(isDown: false);
   }
@@ -62,6 +63,15 @@ class ToolBoxState extends _$ToolBoxState {
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
           currentToolType: ToolType.ERASER,
+        );
+        break;
+      case ToolType.LINE:
+        ref
+            .read(brushToolStateProvider.notifier)
+            .updateBlendMode(BlendMode.srcOver);
+        state = state.copyWith(
+          currentTool: ref.read(lineToolProvider),
+          currentToolType: ToolType.LINE,
         );
         break;
       default:

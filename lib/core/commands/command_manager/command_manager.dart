@@ -4,6 +4,8 @@ import 'dart:ui';
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 abstract class CommandManager {
   Iterable<Command> get history;
@@ -19,4 +21,12 @@ abstract class CommandManager {
   void discardLastCommand();
 
   void clearHistory({Iterable<Command>? newCommands});
+
+  void drawLineToolGhostPaths(
+    Canvas canvas,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
+  );
+
+  void drawLineToolVertices(Canvas canvas, VertexStack vertexStack);
 }

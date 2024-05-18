@@ -6,7 +6,7 @@ part of 'hand_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$handToolHash() => r'0904f19a26fe0a1d18477ef1be781f3a42e82904';
+String _$handToolHash() => r'ef3f24dd9559a7ef08d2f63bdc621645560f2c88';
 
 /// See also [handTool].
 @ProviderFor(handTool)

@@ -29,8 +29,15 @@ test-unit:
 test-widget:
 	flutter test test/widget
 
+test-integration:
+	flutter test test/integration
+
 test:
 	flutter test
 
 sort:
 	dart run import_sorter:main
+
+test-integration-drive:
+	flutter drive --driver=test/integration/driver.dart --target=test/integration/line_tool_test.dart
+

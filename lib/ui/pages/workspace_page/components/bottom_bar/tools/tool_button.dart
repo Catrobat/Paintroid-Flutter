@@ -1,9 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 // Project imports:
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -34,6 +32,7 @@ class ToolButton extends StatelessWidget {
                 color: Colors.white,
               ),
               label: toolData.name,
+              key: ValueKey(toolData.name),
               onPressed: () {
                 Navigator.pop(context);
                 ref.read(toolBoxStateProvider.notifier).switchTool(toolData);

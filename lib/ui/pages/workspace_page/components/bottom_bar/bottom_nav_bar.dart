@@ -1,9 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 // Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
@@ -33,6 +31,7 @@ class BottomNavBar extends ConsumerWidget {
             _onNavigationItemSelected(index, context, ref),
         destinations: [
           NavigationDestination(
+            key: const ValueKey(BottomNavBarItem.TOOLS),
             label: localizations.tools,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),

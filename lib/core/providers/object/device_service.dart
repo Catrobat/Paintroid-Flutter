@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +25,7 @@ class DeviceService implements IDeviceService {
   DeviceService(this._methodChannel);
 
   final MethodChannel _methodChannel;
+  final ui.Size _testSize = const ui.Size(1179, 2556);
 
   @override
   Future<ui.Size> getSizeInPixels() async {
@@ -36,7 +36,7 @@ class DeviceService implements IDeviceService {
     } else if (Platform.isIOS) {
       return firstView.physicalSize;
     } else {
-      throw 'Unsupported platform';
+      return _testSize;
     }
   }
 }

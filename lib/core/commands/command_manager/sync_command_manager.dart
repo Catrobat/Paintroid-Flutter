@@ -4,7 +4,10 @@ import 'dart:ui';
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 class SyncCommandManager implements CommandManager {
   SyncCommandManager({required List<Command> commands}) : _history = commands;
@@ -50,6 +53,27 @@ class SyncCommandManager implements CommandManager {
     _history.clear();
     if (newCommands != null) {
       _history.addAll(newCommands);
+    }
+  }
+
+  @override
+  void drawLineToolGhostPaths(
+    Canvas canvas,
+    LineCommand? ingoingGhostPathCommand,
+    LineCommand? outgoingGhostPathCommand,
+  ) {
+    ingoingGhostPathCommand?.call(canvas);
+    outgoingGhostPathCommand?.call(canvas);
+  }
+
+  @override
+  void drawLineToolVertices(Canvas canvas, VertexStack vertexStack) {
+    for (var vertex in vertexStack) {
+      canvas.drawCircle(
+        vertex.vertexCenter,
+        Vertex.VERTEX_RADIUS,
+        Vertex.getVertexPaint(),
+      );
     }
   }
 }
