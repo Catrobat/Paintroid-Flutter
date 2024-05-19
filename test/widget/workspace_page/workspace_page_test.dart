@@ -13,6 +13,7 @@ import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class FakeCommandManager extends Fake implements CommandManager {
   @override
@@ -23,13 +24,22 @@ void main() {
   late Widget sut;
 
   setUp(() {
-    sut = const ProviderScope(
-      child: MaterialApp(
-        home: WorkspacePage(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
+
+    sut = ProviderScope(
+      child: PaintroidTheme(
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
+        child: MaterialApp(
+          theme: lightTheme.materialThemeData,
+          darkTheme: darkTheme.materialThemeData,
+          home: const WorkspacePage(),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });
@@ -65,17 +75,27 @@ void main() {
     setUp(() {
       testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
       fakeCommandManager = FakeCommandManager();
+
+      final lightTheme = LightPaintroidThemeData();
+      final darkTheme = DarkPaintroidThemeData();
+
       sut = ProviderScope(
         overrides: [
           WorkspaceState.provider.overrideWith((ref) =>
               WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
         ],
-        child: const MaterialApp(
-          home: WorkspacePage(),
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
+        child: PaintroidTheme(
+          lightTheme: lightTheme,
+          darkTheme: darkTheme,
+          child: MaterialApp(
+            theme: lightTheme.materialThemeData,
+            darkTheme: darkTheme.materialThemeData,
+            home: const WorkspacePage(),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+          ),
         ),
       );
     });

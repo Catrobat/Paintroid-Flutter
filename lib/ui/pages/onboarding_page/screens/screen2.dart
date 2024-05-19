@@ -6,6 +6,7 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_ap
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({super.key});
@@ -26,46 +27,15 @@ class _Screen2State extends State<Screen2> {
     'Tap to redo an undone action.',
   ];
 
-  var title = const Text(
-    'More possibilities',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 24,
-    ),
-    textAlign: TextAlign.start,
-  );
-
-  var desc = const Text(
-    'Use the top bar to open the overflow menu and to undo or redo changes',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 15,
-    ),
-    textAlign: TextAlign.start,
-  );
+  String titleText = 'More possibilities';
+  String descText =
+      'Use the top bar to open the overflow menu and to undo or redo changes';
 
   void onPressed(int i) {
-    setState(
-      () {
-        title = Text(
-          titles[i],
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-          ),
-          textAlign: TextAlign.start,
-        );
-
-        desc = Text(
-          descriptions[i],
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-          ),
-          textAlign: TextAlign.start,
-        );
-      },
-    );
+    setState(() {
+      titleText = titles[i];
+      descText = descriptions[i];
+    });
   }
 
   void tools() => onPressed(0);
@@ -82,6 +52,18 @@ class _Screen2State extends State<Screen2> {
 
   @override
   Widget build(BuildContext context) {
+    var title = Text(
+      titleText,
+      style: PaintroidTheme.of(context).titleStyle,
+      textAlign: TextAlign.start,
+    );
+
+    var desc = Text(
+      descText,
+      style: PaintroidTheme.of(context).descStyle,
+      textAlign: TextAlign.start,
+    );
+
     return Scaffold(
       appBar: OnboardingPageAppBar(
         title: 'Pocket Paint',
@@ -138,7 +120,7 @@ class _Screen2State extends State<Screen2> {
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
           const BottomNavigationBarItem(

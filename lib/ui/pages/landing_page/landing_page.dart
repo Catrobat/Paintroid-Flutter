@@ -22,7 +22,7 @@ import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.da
 import 'package:paintroid/ui/pages/landing_page/components/project_list_tile.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
@@ -39,8 +39,9 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late IFileService fileService;
   late IImageService imageService;
 
-  Future<List<Project>> _getProjects() async =>
-      database.projectDAO.getProjects();
+  Future<List<Project>> _getProjects() async {
+    return database.projectDAO.getProjects();
+  }
 
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
@@ -98,7 +99,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     imageService = ref.watch(IImageService.provider);
 
     return Scaffold(
-      backgroundColor: lightColorScheme.primary,
+      backgroundColor: PaintroidTheme.of(context).primaryColor,
       appBar: AppBar(
         title: Text(widget.title),
         actions: const [MainOverflowMenu()],
@@ -124,16 +125,16 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                   ),
                 ),
                 Container(
-                  color: lightColorScheme.primaryContainer,
+                  color: PaintroidTheme.of(context).primaryContainerColor,
                   padding: const EdgeInsets.all(20),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'My Projects',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Color(0xFFFFFFFF),
+                        color: PaintroidTheme.of(context).onSurfaceColor,
                       ),
                     ),
                   ),
@@ -162,7 +163,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           } else {
             return Center(
               child: CircularProgressIndicator(
-                backgroundColor: lightColorScheme.background,
+                backgroundColor: PaintroidTheme.of(context).fabBackgroundColor,
               ),
             );
           }
@@ -224,7 +225,7 @@ class _ProjectPreview extends StatelessWidget {
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
-              color: Colors.white54,
+              color: PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.5),
             ),
           ),
         ),

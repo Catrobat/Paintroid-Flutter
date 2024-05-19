@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class StrokeCapToolOption extends ConsumerStatefulWidget {
   const StrokeCapToolOption({super.key});
@@ -62,14 +63,20 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapToolOption> {
           children: [
             CustomActionChip(
               hint: 'Round stroke',
-              chipIcon: const Icon(Icons.circle),
+              chipIcon: Icon(
+                Icons.circle,
+                color: PaintroidTheme.of(context).shadowColor,
+              ),
               onPressed: () =>
                   _changeActionChipBackgroundColor(StrokeCap.round),
               chipBackgroundColor: _roundChipBackgroundColor,
             ),
             CustomActionChip(
               hint: 'Square stroke',
-              chipIcon: const Icon(Icons.square),
+              chipIcon: Icon(
+                Icons.square,
+                color: PaintroidTheme.of(context).shadowColor,
+              ),
               onPressed: () =>
                   _changeActionChipBackgroundColor(StrokeCap.square),
               chipBackgroundColor: _squareChipBackgroundColor,

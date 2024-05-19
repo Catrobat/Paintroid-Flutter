@@ -10,7 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
-import 'package:paintroid/ui/themes/styles.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 enum MainOverflowMenuOption {
   rate('Rate us!'),
@@ -40,9 +40,15 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     return StyledPopMenuButton<MainOverflowMenuOption>(
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => MainOverflowMenuOption.values
-          .map((option) => PopupMenuItem(
+          .map(
+            (option) => PopupMenuItem(
               value: option,
-              child: Text(option.label, style: TextThemes.menuItem)))
+              child: Text(
+                option.label,
+                style: PaintroidTheme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          )
           .toList(),
     );
   }

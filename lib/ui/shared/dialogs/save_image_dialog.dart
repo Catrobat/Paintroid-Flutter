@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
-import 'package:paintroid/ui/themes/styles.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 Future<ImageMetaData?> showSaveImageDialog(
         BuildContext context, bool savingProject) =>
@@ -66,12 +65,13 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       dialogTitle += 'Image';
     }
     return AlertDialog(
+      backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
       title: Text(
         dialogTitle,
-        style: TextThemes.largeBoldText,
+        style: PaintroidTheme.of(context).titleTheme.titleMedium,
       ),
       actions: [_cancelButton, _saveButton],
-      contentTextStyle: TextThemes.menuItem,
+      contentTextStyle: PaintroidTheme.of(context).textTheme.bodyMedium,
       content: Form(
         key: formKey,
         child: Column(
@@ -79,19 +79,28 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _imageNameTextField,
-            const Divider(height: 16),
+            Divider(
+              height: 16,
+              color: PaintroidTheme.of(context).onSurfaceVariantColor,
+            ),
             if (!widget.savingProject)
               Column(
                 children: [
                   _imageFormatDropdown,
-                  const Divider(height: 8),
+                  Divider(
+                    height: 8,
+                    color: PaintroidTheme.of(context).onSurfaceVariantColor,
+                  ),
                 ],
               ),
             if (!widget.savingProject && selectedFormat == ImageFormat.jpg)
               Column(
                 children: [
                   _qualitySlider,
-                  const Divider(height: 8),
+                  Divider(
+                    height: 8,
+                    color: PaintroidTheme.of(context).onSurfaceVariantColor,
+                  ),
                 ],
               ),
             ImageFormatInfo(selectedFormat),
@@ -104,7 +113,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   TextButton get _cancelButton {
     return TextButton(
       onPressed: () => Navigator.of(context).pop(),
-      child: const Text('Cancel'),
+      child: Text(
+        'Cancel',
+        style: TextStyle(color: PaintroidTheme.of(context).primaryColor),
+      ),
     );
   }
 
@@ -116,7 +128,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           _dismissDialogWithData();
         }
       },
-      child: const Text('Save'),
+      child: Text(
+        'Save',
+        style: TextStyle(color: PaintroidTheme.of(context).primaryColor),
+      ),
     );
   }
 
@@ -128,6 +143,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           children: [
             Text('Quality: $imageQualityValue%'),
             Slider(
+              secondaryActiveColor: PaintroidTheme.of(context).primaryColor,
+              thumbColor: PaintroidTheme.of(context).primaryColor,
+              activeColor: PaintroidTheme.of(context).primaryColor,
+              inactiveColor: PaintroidTheme.of(context).secondaryContainerColor,
               max: 100,
               divisions: 100,
               value: imageQualityValue.toDouble(),
@@ -146,9 +165,11 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       controller: nameFieldController,
       decoration: InputDecoration(
         hintText: widget.savingProject ? 'Project name' : 'Image name',
-        hintStyle: TextThemes.hintTextNormal,
+        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
+              color: PaintroidTheme.of(context).onSurfaceColor,
+            ),
         filled: true,
-        fillColor: lightColorScheme.secondaryContainer,
+        fillColor: PaintroidTheme.of(context).secondaryContainerColor,
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
@@ -171,13 +192,23 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         const Text('Format:'),
         const VerticalDivider(width: 12),
         DropdownButton<ImageFormat>(
+          dropdownColor: PaintroidTheme.of(context).onSurfaceColor,
+          iconEnabledColor: PaintroidTheme.of(context).shadowColor,
           borderRadius: BorderRadius.circular(12),
           value: selectedFormat,
-          underline: const Divider(height: 0, color: Colors.black),
+          underline: Divider(
+            height: 0,
+            color: PaintroidTheme.of(context).shadowColor,
+          ),
           items: ImageFormat.values.map((fileType) {
             return DropdownMenuItem<ImageFormat>(
               value: fileType,
-              child: Text(fileType.extension, style: TextThemes.menuItem),
+              child: Text(
+                fileType.extension,
+                style: PaintroidTheme.of(context).textTheme.bodyMedium!.apply(
+                      color: PaintroidTheme.of(context).shadowColor,
+                    ),
+              ),
             );
           }).toList(),
           onChanged: (selectedFileType) {

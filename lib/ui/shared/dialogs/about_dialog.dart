@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/images/pocketpaint_logo_small.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
     showGeneralDialog<bool>(
@@ -35,12 +36,6 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
   static const urlLicense = 'https://developer.catrobat.org/licenses';
   static const urlCatrobat = 'https://catrobat.org';
 
-  static const urlTextStyle = TextStyle(
-    color: Color(0xFFE68B00),
-    fontSize: 18,
-    decoration: TextDecoration.underline,
-  );
-
   TextSpan _clickableText(String text, String url, TextStyle? style) =>
       TextSpan(
         text: text,
@@ -53,6 +48,11 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final urlTextStyle = TextStyle(
+      color: PaintroidTheme.of(context).orangeColor,
+      fontSize: 18,
+      decoration: TextDecoration.underline,
+    );
     return GenericDialog(
       title: 'About',
       actions: [
@@ -75,7 +75,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
           SelectableText.rich(
             textAlign: TextAlign.center,
             TextSpan(
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
               children: [
                 const TextSpan(text: content),
                 _clickableText(

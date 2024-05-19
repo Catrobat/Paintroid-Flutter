@@ -17,7 +17,7 @@ import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
-import 'package:paintroid/ui/themes/styles.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 enum OverflowMenuOption {
   fullscreen,
@@ -62,7 +62,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
               value: option,
               child: Text(
                 option.localizedLabel(context),
-                style: TextThemes.menuItem,
+                style: PaintroidTheme.of(context).textTheme.bodyMedium,
               )))
           .toList(),
     );

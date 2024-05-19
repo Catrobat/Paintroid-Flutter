@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:paintroid/ui/shared/icon_svg.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class BottomBarIcon extends StatelessWidget {
   final String asset;
@@ -15,7 +16,7 @@ class BottomBarIcon extends StatelessWidget {
       path: asset,
       height: 24.0,
       width: 24.0,
-      color: Theme.of(context).colorScheme.onSurface,
+      color: PaintroidTheme.of(context).onSurfaceColor,
     );
   }
 }

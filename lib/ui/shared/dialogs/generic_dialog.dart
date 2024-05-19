@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:paintroid/ui/theme/theme.dart';
+
 class GenericDialogActionButton extends StatelessWidget {
   final String text;
   final Function? onPressed;
@@ -11,7 +14,10 @@ class GenericDialogActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextButton(
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(Colors.blue)),
+          foregroundColor: MaterialStateProperty.all(
+            PaintroidTheme.of(context).primaryColor,
+          ),
+        ),
         onPressed: () => {
           if (onPressed != null) {onPressed!()}
         },
@@ -39,24 +45,29 @@ class GenericDialog extends StatelessWidget {
       this.content,
       required this.actions});
 
-  Widget? getContent() {
+  Widget? getContent(BuildContext context) {
     if (content != null) {
       return content;
     }
     if (text != null) {
-      return Text(text!, style: const TextStyle(color: Colors.black));
+      return Text(
+        text!,
+        style: TextStyle(
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
+      );
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2.0))),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
         ),
         actions: actions
             .map((action) => GenericDialogActionButton(
@@ -64,6 +75,6 @@ class GenericDialog extends StatelessWidget {
                   onPressed: action.onPressed,
                 ))
             .toList(),
-        content: getContent(),
+        content: getContent(context),
       );
 }

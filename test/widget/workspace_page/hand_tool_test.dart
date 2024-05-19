@@ -12,6 +12,7 @@ import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 import 'bottom_nav_bar_interactions.dart';
 import 'interactive_viewer_interactions.dart';
 
@@ -21,17 +22,26 @@ void main() {
   late Widget sut;
 
   setUp(() {
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
+
     sut = ProviderScope(
       overrides: [
         IDeviceService.sizeProvider
             .overrideWith((ref) => Future.value(const Size(600, 600)))
       ],
-      child: const MaterialApp(
-        home: WorkspacePage(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
+      child: PaintroidTheme(
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
+        child: MaterialApp(
+          theme: lightTheme.materialThemeData,
+          darkTheme: darkTheme.materialThemeData,
+          home: const WorkspacePage(),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });

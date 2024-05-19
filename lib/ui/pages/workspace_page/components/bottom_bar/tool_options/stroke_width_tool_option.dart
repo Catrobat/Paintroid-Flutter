@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-import 'package:paintroid/ui/themes/styles.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class StrokeWidthToolOption extends ConsumerStatefulWidget {
   const StrokeWidthToolOption({super.key});
@@ -59,7 +59,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
             flex: 1,
             child: TextField(
               controller: _strokeWidthTextController,
-              style: TextThemes.menuItem,
+              style: PaintroidTheme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: [
@@ -71,7 +71,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
               onChanged: _onChangedTextField,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: PaintroidTheme.of(context).onSurfaceColor,
                 contentPadding: EdgeInsets.zero,
                 hintText: '1',
                 border: OutlineInputBorder(

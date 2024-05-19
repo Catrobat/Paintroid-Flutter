@@ -1,43 +1,53 @@
-.PHONY: get build watch clean test analyze test-unit test-widget test-all all
+.PHONY: get build watch clean test analyze test-unit test-widget test-all all fvm_check
+
+# Check if FVM is installed
+FVM_PRESENT := $(shell command -v fvm 2> /dev/null)
+
+# Use fvm if installed; otherwise use flutter directly
+FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
+DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
 
 clean:
-	flutter clean
-
+	$(FLUTTER_CMD) clean
+	
 get:
-	flutter pub get
+	$(FLUTTER_CMD) pub get
 
 run:
-	flutter run
+	$(FLUTTER_CMD) run
 
 all: clean get build sort run
 
 watch:
-	dart run build_runner watch --delete-conflicting-outputs
+	$(DART_CMD) run build_runner watch --delete-conflicting-outputs
 
 lint:
-	flutter analyze
+	$(FLUTTER_CMD) analyze
 
 build:
-	dart run build_runner build --delete-conflicting-outputs
+	$(DART_CMD) run build_runner build --delete-conflicting-outputs
 
 analyze:
-	flutter analyze
+	$(FLUTTER_CMD) analyze
 
 test-unit:
-	flutter test test/unit
+	$(FLUTTER_CMD) test test/unit
 
 test-widget:
-	flutter test test/widget
+	$(FLUTTER_CMD) test test/widget
 
 test-integration:
 	flutter test test/integration
 
 test:
-	flutter test
+	$(FLUTTER_CMD) test
 
 sort:
-	dart run import_sorter:main
+	$(DART_CMD) run import_sorter:main
 
 test-integration-drive:
 	flutter drive --driver=test/integration/driver.dart --target=test/integration/line_tool_test.dart
+
+fvm_check:
+	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM
 

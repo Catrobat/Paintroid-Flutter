@@ -11,7 +11,7 @@ import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tools/tools_bottom_sheet.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
-import 'package:paintroid/ui/themes/styles.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class BottomNavBar extends ConsumerWidget {
   static const height = 64.0;
@@ -24,7 +24,7 @@ class BottomNavBar extends ConsumerWidget {
     final currentToolData = getCurrentToolData(ref);
 
     return NavigationBarTheme(
-      data: WidgetThemes.bottomNavBarThemeData,
+      data: PaintroidTheme.of(context).bottomNavBarThemeData,
       child: NavigationBar(
         height: height,
         onDestinationSelected: (index) =>
@@ -44,7 +44,7 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
           NavigationDestination(

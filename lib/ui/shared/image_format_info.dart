@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:paintroid/core/enums/image_format.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 extension on ImageFormat {
   TextSpan get info {
@@ -38,12 +39,18 @@ class ImageFormatInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.info_outline),
-        const VerticalDivider(width: 8),
+        Icon(Icons.info_outline, color: PaintroidTheme.of(context).shadowColor),
+        VerticalDivider(
+          width: 8,
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
         Flexible(
           child: Text.rich(
             format.info,
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              color: PaintroidTheme.of(context).shadowColor,
+            ),
           ),
         )
       ],

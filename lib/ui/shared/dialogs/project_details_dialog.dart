@@ -12,7 +12,7 @@ import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
-import 'package:paintroid/ui/themes/color_schemes.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
@@ -72,7 +72,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
-                  backgroundColor: lightColorScheme.background,
+                  backgroundColor: PaintroidTheme.of(context).backgroundColor,
                 ),
               ],
             );

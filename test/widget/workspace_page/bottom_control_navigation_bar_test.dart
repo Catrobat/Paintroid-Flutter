@@ -13,6 +13,7 @@ import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_cap_tool_option.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_width_tool_option.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 import 'bottom_nav_bar_interactions.dart';
 
 void main() {
@@ -23,13 +24,22 @@ void main() {
   late Widget sut;
 
   setUp(() {
-    sut = const ProviderScope(
-      child: MaterialApp(
-        home: WorkspacePage(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
+    final lightTheme = LightPaintroidThemeData();
+    final darkTheme = DarkPaintroidThemeData();
+
+    sut = ProviderScope(
+      child: PaintroidTheme(
+        lightTheme: lightTheme,
+        darkTheme: darkTheme,
+        child: MaterialApp(
+          theme: lightTheme.materialThemeData,
+          darkTheme: darkTheme.materialThemeData,
+          home: const WorkspacePage(),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+        ),
       ),
     );
   });
