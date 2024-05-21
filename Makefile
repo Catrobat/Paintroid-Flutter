@@ -7,6 +7,9 @@ FVM_PRESENT := $(shell command -v fvm 2> /dev/null)
 FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
 DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
 
+
+TARGET ?= all
+
 clean:
 	$(FLUTTER_CMD) clean
 	
@@ -37,7 +40,17 @@ test-widget:
 	$(FLUTTER_CMD) test test/widget
 
 test-integration:
-	flutter test test/integration
+	@if [ "$(TARGET)" = "all" ]; then \
+		find integration_test -type f -name '*_test.dart' -print0 | xargs -0 -n1 -I {} flutter test {}; \
+	else \
+		FILE_PATH=$$(find integration_test -type f -name "$(TARGET)"); \
+		if [ -z "$$FILE_PATH" ]; then \
+			echo "Test file $(TARGET) not found."; \
+			exit 1; \
+		else \
+			flutter test $$FILE_PATH; \
+		fi \
+	fi
 
 test:
 	$(FLUTTER_CMD) test
@@ -45,9 +58,8 @@ test:
 sort:
 	$(DART_CMD) run import_sorter:main
 
-test-integration-drive:
-	flutter drive --driver=test/integration/tools/driver.dart --target=test/integration/tools/line_tool_test.dart
 
 fvm_check:
 	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM
+
 
