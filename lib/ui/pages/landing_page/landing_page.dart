@@ -1,11 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:toast/toast.dart';
-
 // Project imports:
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
@@ -24,6 +21,7 @@ import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu
 import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:toast/toast.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
@@ -188,6 +186,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             height: 10,
           ),
           CustomActionButton(
+            key: const ValueKey('NewImageActionButton'),
             heroTag: 'new_image',
             icon: Icons.add,
             hint: 'New image',

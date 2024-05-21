@@ -9,6 +9,7 @@ class CheckMarkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      key: const ValueKey('CheckMarkButton'),
       icon: const Icon(Icons.check),
       onPressed: onPressed,
       color: Theme.of(context).colorScheme.background,

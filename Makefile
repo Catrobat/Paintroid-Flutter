@@ -46,7 +46,7 @@ sort:
 	$(DART_CMD) run import_sorter:main
 
 test-integration-drive:
-	flutter drive --driver=test/integration/driver.dart --target=test/integration/line_tool_test.dart
+	flutter drive --driver=test/integration/tools/driver.dart --target=test/integration/tools/line_tool_test.dart
 
 fvm_check:
 	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM

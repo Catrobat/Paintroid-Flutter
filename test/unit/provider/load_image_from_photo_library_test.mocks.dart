@@ -3,23 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Dart imports:
 import 'dart:async' as _i4;
 import 'dart:typed_data' as _i7;
 import 'dart:ui' as _i5;
 
-// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:oxidized/oxidized.dart' as _i2;
-
-// Project imports:
 import 'package:paintroid/core/providers/object/image_service.dart' as _i3;
 import 'package:paintroid/core/providers/object/permission_service.dart' as _i8;
-import 'package:paintroid/core/utils/failure.dart' as _i6;
-
 import 'package:paintroid/core/providers/object/photo_library_service.dart'
     as _i9;
+import 'package:paintroid/core/utils/failure.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

@@ -1,4 +1,8 @@
 // Package imports:
+
+// Package imports:
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
@@ -7,7 +11,6 @@ import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'line_tool_provider.g.dart';
 

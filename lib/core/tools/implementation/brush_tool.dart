@@ -1,10 +1,12 @@
 // Dart imports:
 import 'dart:ui';
 
-// Package imports:
-import 'package:equatable/equatable.dart';
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';

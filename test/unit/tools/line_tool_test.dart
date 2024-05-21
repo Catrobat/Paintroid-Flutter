@@ -3,6 +3,8 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/sync_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
