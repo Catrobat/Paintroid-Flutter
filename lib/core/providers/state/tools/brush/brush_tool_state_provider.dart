@@ -38,7 +38,7 @@ class BrushToolState extends _$BrushToolState {
       paint: ref.watch(graphicFactoryProvider).createPaint()
         ..style = PaintingStyle.stroke
         ..strokeJoin = StrokeJoin.round
-        ..color = const Color(0xFF123456)
+        ..color = const Color(0xFF830000)
         ..strokeCap = StrokeCap.round
         ..strokeWidth = 25,
     );
