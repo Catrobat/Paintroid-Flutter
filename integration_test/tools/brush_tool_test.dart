@@ -41,7 +41,6 @@ void main() {
     await interactionUtil.clickCheckmark();
 
     final pixelColor = await interactionUtil.getPixelColor(50, 30);
-
     expect(pixelColor, interactionUtil.getCurrentColor());
   });
 
