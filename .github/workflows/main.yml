@@ -28,16 +28,16 @@ jobs:
  #       run: make lint
 
   #    - name: Unit Tests
- #       run: make test-unit
+ #       run: make unit
 
     #  - name: Widget Tests
-    #    run: make test-widget
+    #    run: make widget
 
       - name: Integration Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: make test-integration
+          script: make integration
 
       - name: Install xmlstarlet
         run: sudo apt-get install -y xmlstarlet
