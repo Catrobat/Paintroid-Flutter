@@ -14,14 +14,6 @@ jobs:
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
           architecture: x64
-      - name: Setup
-        run: make get
-      - name: Static Analysis
-        run: make lint
-      - name: Unit Tests
-        run: make test-unit
-      - name: Widget Tests
-        run: make test-widget
 
       - name: Enable KVM
         run: |
@@ -29,26 +21,37 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: run tests
+      - name: Setup
+        run: make get
+
+      - name: Static Analysis
+        run: make lint
+
+      - name: Unit Tests
+        run: make test-unit
+
+      - name: Widget Tests
+        run: make test-widget
+
+      - name: Integration Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 31
           script: make test-integration
-
-      # Integration Tests
-      - name: Integration Tests
-        run: make test-integration
 
       - name: Install xmlstarlet
         run: sudo apt-get install -y xmlstarlet
+
       - name: Prepare App Name and Identifier
         run: |
           chmod +x ./.github/workflows/update_app_identifiers.sh
           ./.github/workflows/update_app_identifiers.sh ${{ github.event.number }}
+
       - name: Build release package
         run: |
           flutter build apk --release
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
+
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4.3.3
         with:
