@@ -8,7 +8,6 @@ FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
 DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
 
 
-TARGET ?= all
 
 clean:
 	$(FLUTTER_CMD) clean
@@ -39,6 +38,7 @@ unit:
 widget:
 	$(FLUTTER_CMD) test test/widget
 
+target ?= all
 integration:
 	@if [ "$(target)" = "all" ]; then \
 		find integration_test -type f -name '*_test.dart' -print0 | xargs -0 -n1 -I {} flutter test {}; \
