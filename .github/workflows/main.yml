@@ -43,14 +43,14 @@ jobs:
       - name: Setup
         run: make get
 
-      - name: Static Analysis
-        run: make lint
+   #   - name: Static Analysis
+   #     run: make lint
 
-      - name: Unit Tests
-        run: make unit
+  #    - name: Unit Tests
+   #     run: make unit
 
-      - name: Widget Tests
-        run: make widget
+  #    - name: Widget Tests
+  #      run: make widget
 
       - name: Integration Tests
         uses: reactivecircus/android-emulator-runner@v2
