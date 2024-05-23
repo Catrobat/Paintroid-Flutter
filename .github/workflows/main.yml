@@ -56,7 +56,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          profile: Pixel_XL
+          profile: Nexus 6
           script: make integration
 
       - name: Install xmlstarlet
