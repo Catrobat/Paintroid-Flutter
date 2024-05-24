@@ -28,15 +28,11 @@ void main() {
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
-    final TestGesture gesture =
-        await tester.startGesture(interactionUtil.topLeft);
+    await tester.tapAt(interactionUtil.topLeft);
     await tester.pump();
 
-    await gesture.moveTo(interactionUtil.topRight);
-    await tester.pump();
-
-    await gesture.up();
-    await tester.pump();
+    await tester.tapAt(interactionUtil.topRight);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     await interactionUtil.clickCheckmark();
 
@@ -53,15 +49,11 @@ void main() {
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
-    final TestGesture gesture =
-        await tester.startGesture(interactionUtil.bottomLeft);
+    await tester.tapAt(interactionUtil.bottomLeft);
     await tester.pump();
 
-    await gesture.moveTo(interactionUtil.bottomRight);
-    await tester.pump();
-
-    await gesture.up();
-    await tester.pump();
+    await tester.tapAt(interactionUtil.bottomRight);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     await interactionUtil.clickCheckmark();
 
@@ -84,13 +76,11 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    final TestGesture gesture =
-        await tester.startGesture(interactionUtil.topCenter);
+    await tester.tapAt(interactionUtil.topCenter);
     await tester.pump();
-    await gesture.moveTo(interactionUtil.bottomCenter);
-    await tester.pump();
-    await gesture.up();
-    await tester.pump();
+
+    await tester.tapAt(interactionUtil.bottomCenter);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -112,13 +102,11 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    final TestGesture gesture =
-        await tester.startGesture(interactionUtil.centerLeft);
+    await tester.tapAt(interactionUtil.centerLeft);
     await tester.pump();
-    await gesture.moveTo(interactionUtil.centerRight);
-    await tester.pump();
-    await gesture.up();
-    await tester.pump();
+
+    await tester.tapAt(interactionUtil.centerRight);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -140,13 +128,11 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    final TestGesture gesture =
-        await tester.startGesture(interactionUtil.topLeft);
+    await tester.tapAt(interactionUtil.topLeft);
     await tester.pump();
-    await gesture.moveTo(interactionUtil.bottomRight);
-    await tester.pump();
-    await gesture.up();
-    await tester.pump();
+
+    await tester.tapAt(interactionUtil.bottomRight);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
