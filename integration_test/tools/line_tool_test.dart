@@ -35,10 +35,10 @@ void main() {
     expect(colorTopCenter, Colors.transparent);
 
     await tester.tapAt(interactionUtil.topLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     await tester.tapAt(interactionUtil.topRight);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     await interactionUtil.clickCheckmark();
 
@@ -62,10 +62,10 @@ void main() {
     expect(colorBottomCenter, Colors.transparent);
 
     await tester.tapAt(interactionUtil.bottomLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     await tester.tapAt(interactionUtil.bottomRight);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     await interactionUtil.clickCheckmark();
 
@@ -89,10 +89,10 @@ void main() {
     expect(colorBefore, Colors.transparent);
 
     await tester.tapAt(interactionUtil.topCenter);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     await tester.tapAt(interactionUtil.bottomCenter);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -115,10 +115,10 @@ void main() {
     expect(colorBefore, Colors.transparent);
 
     await tester.tapAt(interactionUtil.centerLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     await tester.tapAt(interactionUtil.centerRight);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -141,10 +141,10 @@ void main() {
     expect(colorBefore, Colors.transparent);
 
     await tester.tapAt(interactionUtil.topLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     await tester.tapAt(interactionUtil.bottomRight);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -167,11 +167,11 @@ void main() {
     expect(colorHalfwayTop, Colors.transparent);
 
     await tester.tapAt(interactionUtil.halfTopLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
     await interactionUtil.clickPlus();
 
     await tester.tapAt(interactionUtil.halfTopRight);
-    await tester.pump();
+    await tester.pumpAndSettle();
     await interactionUtil.clickPlus();
 
     colorHalfwayTop = await interactionUtil.getPixelColor(
@@ -189,7 +189,7 @@ void main() {
     expect(colorHalfwayRight, Colors.transparent);
 
     await tester.tapAt(interactionUtil.halfBottomRight);
-    await tester.pump();
+    await tester.pumpAndSettle();
     await interactionUtil.clickPlus();
 
     colorHalfwayRight = await interactionUtil.getPixelColor(
@@ -207,7 +207,7 @@ void main() {
     expect(colorHalfwayBottom, Colors.transparent);
 
     await tester.tapAt(interactionUtil.halfBottomLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
     await interactionUtil.clickCheckmark();
 
     colorHalfwayBottom = await interactionUtil.getPixelColor(
@@ -216,5 +216,53 @@ void main() {
     );
 
     expect(colorHalfwayBottom, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('tapping away from last tap changes last line',
+      (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+    interactionUtil.setColor(Colors.black);
+
+    var actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.left,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.transparent);
+
+    await tester.tapAt(interactionUtil.topLeft);
+    await tester.pumpAndSettle();
+    await interactionUtil.clickPlus();
+
+    await tester.tapAt(interactionUtil.bottomLeft);
+    await tester.pumpAndSettle();
+
+    actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.left,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.black);
+
+    await tester.tapAt(interactionUtil.topRight);
+    await tester.pumpAndSettle();
+
+    actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.left,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.transparent);
+
+    actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.left,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.transparent);
+
+    actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.top,
+    );
+    expect(actualColor, Colors.black);
   });
 }

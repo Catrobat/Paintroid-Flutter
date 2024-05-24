@@ -146,6 +146,13 @@ class InteractionUtil {
     return toolBoxProvider.currentTool.paint.color;
   }
 
+  void setColor(Color color) {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final toolBoxProvider = container.read(toolBoxStateProvider);
+    toolBoxProvider.currentTool.paint.color = color;
+  }
+
   Future<void> clickCheckmark() async {
     expect(checkMark, findsOneWidget);
     await tester.tap(checkMark);
