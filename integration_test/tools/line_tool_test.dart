@@ -28,9 +28,6 @@ void main() {
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
-    print('interactionUtil.canvasWidth: ${interactionUtil.canvasWidth}');
-    print('interactionUtil.canvasHeight: ${interactionUtil.canvasHeight}');
-
     final TestGesture gesture =
         await tester.startGesture(interactionUtil.topLeft);
     await tester.pump();
@@ -43,21 +40,24 @@ void main() {
 
     await interactionUtil.clickCheckmark();
 
-    final pixelColor = await interactionUtil.getPixelColor(50, 30);
+    final pixelColor = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      0,
+    );
 
     expect(pixelColor, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test line tool on top', (WidgetTester tester) async {
+  testWidgets('test line tool on bottom', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
     final TestGesture gesture =
-        await tester.startGesture(interactionUtil.topLeft);
+        await tester.startGesture(interactionUtil.bottomLeft);
     await tester.pump();
 
-    await gesture.moveTo(interactionUtil.topRight);
+    await gesture.moveTo(interactionUtil.bottomRight);
     await tester.pump();
 
     await gesture.up();
@@ -65,8 +65,158 @@ void main() {
 
     await interactionUtil.clickCheckmark();
 
-    final pixelColor = await interactionUtil.getPixelColor(50, 30);
+    final pixelColor = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight - 1,
+    );
 
     expect(pixelColor, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('test vertical line color', (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+
+    final colorBefore = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+    expect(colorBefore, Colors.transparent);
+
+    final TestGesture gesture =
+        await tester.startGesture(interactionUtil.topCenter);
+    await tester.pump();
+    await gesture.moveTo(interactionUtil.bottomCenter);
+    await tester.pump();
+    await gesture.up();
+    await tester.pump();
+
+    await interactionUtil.clickCheckmark();
+    final colorAfter = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+
+    expect(colorAfter, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('test horizontal line color', (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+
+    final colorBefore = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+    expect(colorBefore, Colors.transparent);
+
+    final TestGesture gesture =
+        await tester.startGesture(interactionUtil.centerLeft);
+    await tester.pump();
+    await gesture.moveTo(interactionUtil.centerRight);
+    await tester.pump();
+    await gesture.up();
+    await tester.pump();
+
+    await interactionUtil.clickCheckmark();
+    final colorAfter = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+
+    expect(colorAfter, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('test diagonal line color', (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+
+    final colorBefore = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+    expect(colorBefore, Colors.transparent);
+
+    final TestGesture gesture =
+        await tester.startGesture(interactionUtil.topLeft);
+    await tester.pump();
+    await gesture.moveTo(interactionUtil.bottomRight);
+    await tester.pump();
+    await gesture.up();
+    await tester.pump();
+
+    await interactionUtil.clickCheckmark();
+    final colorAfter = await interactionUtil.getPixelColor(
+      interactionUtil.canvasWidth ~/ 2,
+      interactionUtil.canvasHeight ~/ 2,
+    );
+
+    expect(colorAfter, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('test multiple lines', (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+
+    var colorHalfwayTop = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.halfwayTop,
+    );
+    expect(colorHalfwayTop, Colors.transparent);
+
+    await tester.tapAt(interactionUtil.halfTopLeft);
+    await tester.pump();
+    await interactionUtil.clickPlus();
+
+    await tester.tapAt(interactionUtil.halfTopRight);
+    await tester.pump();
+    await interactionUtil.clickPlus();
+
+    colorHalfwayTop = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.halfwayTop,
+    );
+
+    expect(colorHalfwayTop, interactionUtil.getCurrentColor());
+
+    var colorHalfwayRight = await interactionUtil.getPixelColor(
+      interactionUtil.halfwayRight,
+      interactionUtil.centerY,
+    );
+
+    expect(colorHalfwayRight, Colors.transparent);
+
+    await tester.tapAt(interactionUtil.halfBottomRight);
+    await tester.pump();
+    await interactionUtil.clickPlus();
+
+    colorHalfwayRight = await interactionUtil.getPixelColor(
+      interactionUtil.halfwayRight,
+      interactionUtil.centerY,
+    );
+
+    expect(colorHalfwayRight, interactionUtil.getCurrentColor());
+
+    var colorHalfwayBottom = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.halfwayBottom,
+    );
+
+    expect(colorHalfwayBottom, Colors.transparent);
+
+    await tester.tapAt(interactionUtil.halfBottomLeft);
+    await tester.pump();
+    await interactionUtil.clickCheckmark();
+
+    colorHalfwayBottom = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.halfwayBottom,
+    );
+
+    expect(colorHalfwayBottom, interactionUtil.getCurrentColor());
   });
 }

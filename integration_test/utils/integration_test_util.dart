@@ -5,7 +5,6 @@ import 'package:image/image.dart' as img;
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 
 class InteractionUtil {
@@ -25,14 +24,28 @@ class InteractionUtil {
   final Finder newImageButton =
       find.byKey(const ValueKey('NewImageActionButton'));
 
-  late double canvasWidth;
-  late double canvasHeight;
+  late int canvasWidth;
+  late int canvasHeight;
+  late int centerX;
+  late int centerY;
+  late int left;
+  late int right;
+  late int top;
+  late int bottom;
+  late int halfwayLeft;
+  late int halfwayRight;
+  late int halfwayTop;
+  late int halfwayBottom;
   late Offset topLeft;
   late Offset topCenter;
   late Offset topRight;
+  late Offset halfTopLeft;
+  late Offset halfTopRight;
   late Offset bottomLeft;
   late Offset bottomCenter;
   late Offset bottomRight;
+  late Offset halfBottomLeft;
+  late Offset halfBottomRight;
   late Offset centerLeft;
   late Offset centerRight;
   late Offset center;
@@ -86,44 +99,43 @@ class InteractionUtil {
   Future<void> _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(canvas);
     await tester.pumpAndSettle();
-    canvasWidth = canvasBox.size.width;
-    canvasHeight = canvasBox.size.height;
-    topLeft = canvasBox.localToGlobal(const Offset(
-      Vertex.VERTEX_RADIUS,
-      Vertex.VERTEX_RADIUS,
-    ));
-    topCenter = canvasBox.localToGlobal(Offset(
-      canvasWidth / 2,
-      Vertex.VERTEX_RADIUS,
-    ));
-    topRight = canvasBox.localToGlobal(Offset(
-      canvasWidth - Vertex.VERTEX_RADIUS,
-      Vertex.VERTEX_RADIUS,
-    ));
-    bottomLeft = canvasBox.localToGlobal(Offset(
-      Vertex.VERTEX_RADIUS,
-      canvasHeight - Vertex.VERTEX_RADIUS,
-    ));
-    centerLeft = canvasBox.localToGlobal(Offset(
-      Vertex.VERTEX_RADIUS,
-      canvasHeight / 2,
-    ));
-    bottomRight = canvasBox.localToGlobal(Offset(
-      canvasWidth - Vertex.VERTEX_RADIUS,
-      canvasHeight - Vertex.VERTEX_RADIUS,
-    ));
-    centerRight = canvasBox.localToGlobal(Offset(
-      canvasWidth - Vertex.VERTEX_RADIUS,
-      canvasHeight / 2,
-    ));
-    bottomCenter = canvasBox.localToGlobal(Offset(
-      canvasWidth / 2,
-      canvasHeight - Vertex.VERTEX_RADIUS,
-    ));
-    center = canvasBox.localToGlobal(Offset(
-      canvasWidth / 2,
-      canvasHeight / 2,
-    ));
+    canvasWidth = canvasBox.size.width.toInt();
+    canvasHeight = canvasBox.size.height.toInt();
+    centerX = canvasWidth ~/ 2;
+    centerY = canvasHeight ~/ 2;
+    left = 0;
+    right = canvasWidth - 1;
+    top = 0;
+    bottom = canvasHeight - 1;
+    halfwayLeft = canvasWidth ~/ 4;
+    halfwayRight = 3 * canvasWidth ~/ 4;
+    halfwayTop = canvasHeight ~/ 4;
+    halfwayBottom = 3 * canvasHeight ~/ 4;
+    topLeft = canvasBox.localToGlobal(Offset(left.toDouble(), top.toDouble()));
+    topCenter =
+        canvasBox.localToGlobal(Offset(centerX.toDouble(), top.toDouble()));
+    topRight =
+        canvasBox.localToGlobal(Offset(right.toDouble(), top.toDouble()));
+    bottomLeft =
+        canvasBox.localToGlobal(Offset(left.toDouble(), bottom.toDouble()));
+    centerLeft =
+        canvasBox.localToGlobal(Offset(left.toDouble(), centerY.toDouble()));
+    bottomRight =
+        canvasBox.localToGlobal(Offset(right.toDouble(), bottom.toDouble()));
+    centerRight =
+        canvasBox.localToGlobal(Offset(right.toDouble(), centerY.toDouble()));
+    bottomCenter =
+        canvasBox.localToGlobal(Offset(centerX.toDouble(), bottom.toDouble()));
+    center =
+        canvasBox.localToGlobal(Offset(centerX.toDouble(), centerY.toDouble()));
+    halfTopLeft = canvasBox
+        .localToGlobal(Offset(halfwayLeft.toDouble(), halfwayTop.toDouble()));
+    halfTopRight = canvasBox
+        .localToGlobal(Offset(halfwayRight.toDouble(), halfwayTop.toDouble()));
+    halfBottomLeft = canvasBox.localToGlobal(
+        Offset(halfwayLeft.toDouble(), halfwayBottom.toDouble()));
+    halfBottomRight = canvasBox.localToGlobal(
+        Offset(halfwayRight.toDouble(), halfwayBottom.toDouble()));
   }
 
   Color getCurrentColor() {
