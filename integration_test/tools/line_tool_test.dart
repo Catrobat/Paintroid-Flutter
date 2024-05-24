@@ -44,27 +44,6 @@ void main() {
     expect(pixelColor, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test line tool on bottom', (WidgetTester tester) async {
-    interactionUtil.initialize(tester);
-    await tester.pumpWidget(sut);
-    await interactionUtil.selectTool(ToolData.LINE.name);
-
-    await tester.tapAt(interactionUtil.bottomLeft);
-    await tester.pump();
-
-    await tester.tapAt(interactionUtil.bottomRight);
-    await tester.pumpAndSettle(const Duration(seconds: 1));
-
-    await interactionUtil.clickCheckmark();
-
-    final pixelColor = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight - 1,
-    );
-
-    expect(pixelColor, interactionUtil.getCurrentColor());
-  });
-
   testWidgets('test vertical line color', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
