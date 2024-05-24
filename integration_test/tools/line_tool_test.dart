@@ -28,6 +28,12 @@ void main() {
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
+    var colorTopCenter = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.top,
+    );
+    expect(colorTopCenter, Colors.transparent);
+
     await tester.tapAt(interactionUtil.topLeft);
     await tester.pump();
 
@@ -36,12 +42,39 @@ void main() {
 
     await interactionUtil.clickCheckmark();
 
-    final pixelColor = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      0,
+    colorTopCenter = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.top,
     );
 
-    expect(pixelColor, interactionUtil.getCurrentColor());
+    expect(colorTopCenter, interactionUtil.getCurrentColor());
+  });
+
+  testWidgets('test line tool on bottom', (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+
+    var colorBottomCenter = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.bottom,
+    );
+    expect(colorBottomCenter, Colors.transparent);
+
+    await tester.tapAt(interactionUtil.bottomLeft);
+    await tester.pump();
+
+    await tester.tapAt(interactionUtil.bottomRight);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    await interactionUtil.clickCheckmark();
+
+    colorBottomCenter = await interactionUtil.getPixelColor(
+      interactionUtil.centerX,
+      interactionUtil.bottom,
+    );
+
+    expect(colorBottomCenter, interactionUtil.getCurrentColor());
   });
 
   testWidgets('test vertical line color', (WidgetTester tester) async {
@@ -50,8 +83,8 @@ void main() {
     await interactionUtil.selectTool(ToolData.LINE.name);
 
     final colorBefore = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
@@ -63,8 +96,8 @@ void main() {
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
 
     expect(colorAfter, interactionUtil.getCurrentColor());
@@ -76,8 +109,8 @@ void main() {
     await interactionUtil.selectTool(ToolData.LINE.name);
 
     final colorBefore = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
@@ -89,8 +122,8 @@ void main() {
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
 
     expect(colorAfter, interactionUtil.getCurrentColor());
@@ -102,8 +135,8 @@ void main() {
     await interactionUtil.selectTool(ToolData.LINE.name);
 
     final colorBefore = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
@@ -115,8 +148,8 @@ void main() {
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
-      interactionUtil.canvasWidth ~/ 2,
-      interactionUtil.canvasHeight ~/ 2,
+      interactionUtil.centerX,
+      interactionUtil.centerY,
     );
 
     expect(colorAfter, interactionUtil.getCurrentColor());

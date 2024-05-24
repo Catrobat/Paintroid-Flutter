@@ -24,6 +24,7 @@ class InteractionUtil {
   final Finder newImageButton =
       find.byKey(const ValueKey('NewImageActionButton'));
 
+  final int buffer = 20;
   late int canvasWidth;
   late int canvasHeight;
   late int centerX;
@@ -103,10 +104,10 @@ class InteractionUtil {
     canvasHeight = canvasBox.size.height.toInt();
     centerX = canvasWidth ~/ 2;
     centerY = canvasHeight ~/ 2;
-    left = 0;
-    right = canvasWidth - 1;
-    top = 0;
-    bottom = canvasHeight - 1;
+    left = buffer;
+    right = canvasWidth - buffer;
+    top = buffer;
+    bottom = canvasHeight - buffer;
     halfwayLeft = canvasWidth ~/ 4;
     halfwayRight = 3 * canvasWidth ~/ 4;
     halfwayTop = canvasHeight ~/ 4;
