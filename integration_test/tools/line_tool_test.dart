@@ -23,7 +23,7 @@ void main() {
     );
   });
 
-  testWidgets('test line tool on top', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test line on top', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -34,11 +34,9 @@ void main() {
     );
     expect(colorTopCenter, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.topLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topLeft);
 
-    await tester.tapAt(interactionUtil.topRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topRight);
 
     await interactionUtil.clickCheckmark();
 
@@ -50,7 +48,7 @@ void main() {
     expect(colorTopCenter, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test line tool on bottom', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test line on bottom', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -61,11 +59,9 @@ void main() {
     );
     expect(colorBottomCenter, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.bottomLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.bottomLeft);
 
-    await tester.tapAt(interactionUtil.bottomRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.bottomRight);
 
     await interactionUtil.clickCheckmark();
 
@@ -77,7 +73,7 @@ void main() {
     expect(colorBottomCenter, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test vertical line color', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test vertical line', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -88,11 +84,9 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.topCenter);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topCenter);
 
-    await tester.tapAt(interactionUtil.bottomCenter);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.bottomCenter);
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -103,7 +97,7 @@ void main() {
     expect(colorAfter, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test horizontal line color', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test horizontal line', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -114,11 +108,9 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.centerLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.centerLeft);
 
-    await tester.tapAt(interactionUtil.centerRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.centerRight);
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -129,7 +121,7 @@ void main() {
     expect(colorAfter, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test diagonal line color', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test diagonal line', (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -140,11 +132,9 @@ void main() {
     );
     expect(colorBefore, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.topLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topLeft);
 
-    await tester.tapAt(interactionUtil.bottomRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.bottomRight);
 
     await interactionUtil.clickCheckmark();
     final colorAfter = await interactionUtil.getPixelColor(
@@ -155,7 +145,8 @@ void main() {
     expect(colorAfter, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('test multiple lines', (WidgetTester tester) async {
+  testWidgets('[LINE_TOOL]: test multiple added lines',
+      (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
@@ -166,12 +157,10 @@ void main() {
     );
     expect(colorHalfwayTop, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.halfTopLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.halfTopLeft);
     await interactionUtil.clickPlus();
 
-    await tester.tapAt(interactionUtil.halfTopRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.halfTopRight);
     await interactionUtil.clickPlus();
 
     colorHalfwayTop = await interactionUtil.getPixelColor(
@@ -188,8 +177,7 @@ void main() {
 
     expect(colorHalfwayRight, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.halfBottomRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.halfBottomRight);
     await interactionUtil.clickPlus();
 
     colorHalfwayRight = await interactionUtil.getPixelColor(
@@ -206,8 +194,7 @@ void main() {
 
     expect(colorHalfwayBottom, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.halfBottomLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.halfBottomLeft);
     await interactionUtil.clickCheckmark();
 
     colorHalfwayBottom = await interactionUtil.getPixelColor(
@@ -218,7 +205,7 @@ void main() {
     expect(colorHalfwayBottom, interactionUtil.getCurrentColor());
   });
 
-  testWidgets('tapping away from last tap changes last line',
+  testWidgets('[LINE_TOOL]: tapping away from last tap changes last line',
       (WidgetTester tester) async {
     interactionUtil.initialize(tester);
     await tester.pumpWidget(sut);
@@ -231,12 +218,10 @@ void main() {
     );
     expect(actualColor, Colors.transparent);
 
-    await tester.tapAt(interactionUtil.topLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topLeft);
     await interactionUtil.clickPlus();
 
-    await tester.tapAt(interactionUtil.bottomLeft);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.bottomLeft);
 
     actualColor = await interactionUtil.getPixelColor(
       interactionUtil.left,
@@ -244,8 +229,7 @@ void main() {
     );
     expect(actualColor, Colors.black);
 
-    await tester.tapAt(interactionUtil.topRight);
-    await tester.pumpAndSettle();
+    await interactionUtil.tapAt(interactionUtil.topRight);
 
     actualColor = await interactionUtil.getPixelColor(
       interactionUtil.left,
@@ -264,5 +248,48 @@ void main() {
       interactionUtil.top,
     );
     expect(actualColor, Colors.black);
+  });
+
+  testWidgets('[LINE_TOOL]: moving vertices changes line position',
+      (WidgetTester tester) async {
+    interactionUtil.initialize(tester);
+    await tester.pumpWidget(sut);
+    await interactionUtil.selectTool(ToolData.LINE.name);
+    interactionUtil.setColor(Colors.black);
+
+    var actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.halfwayLeft,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.transparent);
+
+    await interactionUtil.tapAt(interactionUtil.halfTopLeft);
+    await interactionUtil.clickPlus();
+
+    await interactionUtil.tapAt(interactionUtil.halfCenterLeft);
+    await interactionUtil.clickPlus();
+
+    await interactionUtil.tapAt(interactionUtil.halfBottomLeft);
+
+    actualColor = await interactionUtil.getPixelColor(
+      interactionUtil.halfwayLeft,
+      interactionUtil.centerY,
+    );
+    expect(actualColor, Colors.black);
+
+    await interactionUtil.dragFromTo(
+      interactionUtil.halfCenterLeft,
+      interactionUtil.halfCenterRight,
+    );
+
+    await interactionUtil.dragFromTo(
+      interactionUtil.halfBottomLeft,
+      interactionUtil.halfBottomRight,
+    );
+
+    await interactionUtil.dragFromTo(
+      interactionUtil.halfTopLeft,
+      interactionUtil.halfTopRight,
+    );
   });
 }

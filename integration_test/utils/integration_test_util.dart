@@ -5,6 +5,7 @@ import 'package:image/image.dart' as img;
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 
 class InteractionUtil {
@@ -41,15 +42,19 @@ class InteractionUtil {
   late Offset topCenter;
   late Offset topRight;
   late Offset halfTopLeft;
+  late Offset halfTopCenter;
   late Offset halfTopRight;
   late Offset bottomLeft;
   late Offset bottomCenter;
   late Offset bottomRight;
   late Offset halfBottomLeft;
+  late Offset halfBottomCenter;
   late Offset halfBottomRight;
   late Offset centerLeft;
-  late Offset centerRight;
+  late Offset halfCenterLeft;
   late Offset center;
+  late Offset halfCenterRight;
+  late Offset centerRight;
 
   void initialize(WidgetTester tester) {
     this.tester = tester;
@@ -80,7 +85,7 @@ class InteractionUtil {
     return Color(argbColor);
   }
 
-  Future<void> selectTool(String toolName) async {
+  selectTool(String toolName) async {
     expect(newImageButton, findsOneWidget);
     await tester.tap(newImageButton);
     await tester.pumpAndSettle();
@@ -97,7 +102,7 @@ class InteractionUtil {
     await _initializeCanvasDimensions();
   }
 
-  Future<void> _initializeCanvasDimensions() async {
+  _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(canvas);
     await tester.pumpAndSettle();
     canvasWidth = canvasBox.size.width.toInt();
@@ -131,12 +136,21 @@ class InteractionUtil {
         canvasBox.localToGlobal(Offset(centerX.toDouble(), centerY.toDouble()));
     halfTopLeft = canvasBox
         .localToGlobal(Offset(halfwayLeft.toDouble(), halfwayTop.toDouble()));
+    halfTopCenter = canvasBox
+        .localToGlobal(Offset(centerX.toDouble(), halfwayTop.toDouble()));
     halfTopRight = canvasBox
         .localToGlobal(Offset(halfwayRight.toDouble(), halfwayTop.toDouble()));
+
+    halfCenterLeft = canvasBox
+        .localToGlobal(Offset(halfwayLeft.toDouble(), centerY.toDouble()));
+    halfCenterRight = canvasBox
+        .localToGlobal(Offset(halfwayRight.toDouble(), centerY.toDouble()));
     halfBottomLeft = canvasBox.localToGlobal(
         Offset(halfwayLeft.toDouble(), halfwayBottom.toDouble()));
     halfBottomRight = canvasBox.localToGlobal(
         Offset(halfwayRight.toDouble(), halfwayBottom.toDouble()));
+    halfBottomCenter = canvasBox
+        .localToGlobal(Offset(centerX.toDouble(), halfwayBottom.toDouble()));
   }
 
   Color getCurrentColor() {
@@ -146,22 +160,47 @@ class InteractionUtil {
     return toolBoxProvider.currentTool.paint.color;
   }
 
-  void setColor(Color color) {
+  setColor(Color color) {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final toolBoxProvider = container.read(toolBoxStateProvider);
     toolBoxProvider.currentTool.paint.color = color;
   }
 
-  Future<void> clickCheckmark() async {
+  clickCheckmark() async {
     expect(checkMark, findsOneWidget);
     await tester.tap(checkMark);
     await tester.pumpAndSettle();
   }
 
-  Future<void> clickPlus() async {
+  clickPlus() async {
     expect(plusButton, findsOneWidget);
     await tester.tap(plusButton);
+    await tester.pumpAndSettle();
+  }
+
+  printVertexStack() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final lineTool =
+        container.read(toolBoxStateProvider).currentTool as LineTool;
+
+    print(lineTool.vertexStack);
+  }
+
+  dragFromTo(Offset from, Offset to) async {
+    final TestGesture gesture = await tester.startGesture(from);
+    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+
+    await gesture.moveTo(to, timeStamp: Duration(milliseconds: 10000));
+    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+
+    await gesture.up();
+    await tester.pumpAndSettle();
+  }
+
+  tapAt(Offset position) async {
+    await tester.tapAt(position);
     await tester.pumpAndSettle();
   }
 }
