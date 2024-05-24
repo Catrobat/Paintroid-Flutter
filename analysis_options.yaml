@@ -21,3 +21,4 @@ analyzer:
   exclude:
     - lib/src/**.pb*.dart
     - lib/**.g.dart
+    - integration_test/tools/**.dart

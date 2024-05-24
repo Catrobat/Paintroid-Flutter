@@ -28,6 +28,9 @@ void main() {
     await tester.pumpWidget(sut);
     await interactionUtil.selectTool(ToolData.LINE.name);
 
+    print('interactionUtil.canvasWidth: ${interactionUtil.canvasWidth}');
+    print('interactionUtil.canvasHeight: ${interactionUtil.canvasHeight}');
+
     final TestGesture gesture =
         await tester.startGesture(interactionUtil.topLeft);
     await tester.pump();
