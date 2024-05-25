@@ -1,11 +1,12 @@
 // Dart imports:
 import 'dart:ui';
 
+// Package imports:
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_data.dart';
-// Package imports:
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 part 'brush_tool_state_provider.g.dart';

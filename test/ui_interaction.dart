@@ -1,19 +1,23 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+
+// Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 
-class InteractionUtil {
-  static final InteractionUtil _instance = InteractionUtil._internal();
+class UIInteraction {
+  static final UIInteraction _instance = UIInteraction._internal();
 
-  InteractionUtil._internal();
+  UIInteraction._internal();
 
-  factory InteractionUtil() {
+  factory UIInteraction() {
     return _instance;
   }
 
@@ -25,7 +29,7 @@ class InteractionUtil {
   final Finder newImageButton =
       find.byKey(const ValueKey('NewImageActionButton'));
 
-  final int buffer = 20;
+  final int bufferFromEdge = 20;
   late int canvasWidth;
   late int canvasHeight;
   late int centerX;
@@ -109,10 +113,10 @@ class InteractionUtil {
     canvasHeight = canvasBox.size.height.toInt();
     centerX = canvasWidth ~/ 2;
     centerY = canvasHeight ~/ 2;
-    left = buffer;
-    right = canvasWidth - buffer;
-    top = buffer;
-    bottom = canvasHeight - buffer;
+    left = bufferFromEdge;
+    right = canvasWidth - bufferFromEdge;
+    top = bufferFromEdge;
+    bottom = canvasHeight - bufferFromEdge;
     halfwayLeft = canvasWidth ~/ 4;
     halfwayRight = 3 * canvasWidth ~/ 4;
     halfwayTop = canvasHeight ~/ 4;
@@ -140,7 +144,6 @@ class InteractionUtil {
         .localToGlobal(Offset(centerX.toDouble(), halfwayTop.toDouble()));
     halfTopRight = canvasBox
         .localToGlobal(Offset(halfwayRight.toDouble(), halfwayTop.toDouble()));
-
     halfCenterLeft = canvasBox
         .localToGlobal(Offset(halfwayLeft.toDouble(), centerY.toDouble()));
     halfCenterRight = canvasBox
@@ -179,21 +182,12 @@ class InteractionUtil {
     await tester.pumpAndSettle();
   }
 
-  printVertexStack() {
-    final container =
-        ProviderScope.containerOf(tester.element(find.byType(App)));
-    final lineTool =
-        container.read(toolBoxStateProvider).currentTool as LineTool;
-
-    print(lineTool.vertexStack);
-  }
-
   dragFromTo(Offset from, Offset to) async {
     final TestGesture gesture = await tester.startGesture(from);
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
-    await gesture.moveTo(to, timeStamp: Duration(milliseconds: 10000));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+    await gesture.moveTo(to);
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
     await gesture.up();
     await tester.pumpAndSettle();
