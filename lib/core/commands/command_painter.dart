@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -19,8 +18,6 @@ class CommandPainter extends CustomPainter {
     switch (tool.type) {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas);
-        //commandManager.executeLastCommand(canvas);
-        // problematic but need to fix here stroke change
         break;
       default:
         commandManager.executeLastCommand(canvas);
