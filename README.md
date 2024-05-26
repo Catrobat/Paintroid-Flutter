@@ -16,23 +16,11 @@ For more information oriented towards developers please visit our [developers pa
 2. Get dependencies: `make get`
 3. Run app: `make run`
 
-> In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _Makefile_ or in _melos.yaml_.
-
-What `make get` does:
-
-- Runs `./setup-sdk.sh`, if _fvm_ is not installed:
-  - changes "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
-  - changes "DART" (= `fvm dart`) to `dart` in _Makefile_ if _fvm_
-  - changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_
-- Runs `./setup-melos.sh`: activates _melos_ if not activated.
+Alternatively `make all`can be used to:
+>`flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr; `sort` &rarr; `flutter run`
 
 ## Building generated files
-
-- For **protoc**:
-  - Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
-  - Run `./generate_protos.sh`
-- For **build-runner**: run `make build`
-- For **localizations**: run `make languages`
+- run `make build`
 
 ## Tests
 
@@ -40,10 +28,6 @@ What `make get` does:
   - all: `make test`
   - unit: `make test-unit`
   - widget: `make test-widget`
-- Run tests for a **specific** package:
-  - all: `melos test`
-  - unit: `melos test-unit`
-  - widget: `melos test-widget`
 
 **For integration tests:**
 
