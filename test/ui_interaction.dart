@@ -1,16 +1,15 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-
 // Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
+import 'package:paintroid/ui/utils/top_bar_action_data.dart';
 
 class UIInteraction {
   static final UIInteraction _instance = UIInteraction._internal();
@@ -23,8 +22,9 @@ class UIInteraction {
 
   late WidgetTester tester;
   final Finder canvas = find.byKey(const ValueKey('CanvasPainter'));
-  final Finder checkMark = find.byKey(const ValueKey('CheckMarkButton'));
-  final Finder plusButton = find.byKey(const ValueKey('PlusButton'));
+  final Finder checkMark =
+      find.byKey(ValueKey(TopBarActionData.CHECKMARK.name));
+  final Finder plusButton = find.byKey(ValueKey(TopBarActionData.PLUS.name));
   final Finder toolsTab = find.byKey(const ValueKey(BottomNavBarItem.TOOLS));
   final Finder newImageButton =
       find.byKey(const ValueKey('NewImageActionButton'));
