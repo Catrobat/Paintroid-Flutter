@@ -26,4 +26,12 @@ abstract class Tool {
   void onUp(Offset point);
 
   void onCancel();
+
+  void onCheckmark();
+
+  void onPlus();
+
+  void undo();
+
+  void redo();
 }

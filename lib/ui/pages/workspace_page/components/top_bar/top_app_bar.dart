@@ -19,17 +19,38 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   List<Widget> getActions(Tool currentTool, WidgetRef ref) {
     List<Widget> actions = [
+      ActionButton(
+        onPressed: () async {
+          currentTool.undo();
+          await ref
+              .read(canvasStateProvider.notifier)
+              .resetCanvasWithExistingCommands();
+        },
+        icon: TopBarActionData.UNDO.iconData,
+        valueKey: TopBarActionData.UNDO.name,
+      ),
+      ActionButton(
+        onPressed: () async {
+          currentTool.redo();
+          await ref
+              .read(canvasStateProvider.notifier)
+              .resetCanvasWithExistingCommands();
+        },
+        icon: TopBarActionData.REDO.iconData,
+        valueKey: TopBarActionData.REDO.name,
+      ),
       if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
         ActionButton(
           onPressed: () {
-            _onPlusPressed(currentTool);
+            currentTool.onPlus();
           },
           icon: TopBarActionData.PLUS.iconData,
           valueKey: TopBarActionData.PLUS.name,
         ),
         ActionButton(
           onPressed: () {
-            onCheckmarkPressed(currentTool, ref);
+            currentTool.onCheckmark();
+            ref.read(CheckMarkClickedState.provider.notifier).notify();
           },
           icon: TopBarActionData.CHECKMARK.iconData,
           valueKey: TopBarActionData.CHECKMARK.name,
@@ -42,27 +63,6 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
-  void _onPlusPressed(Tool currentTool) {
-    switch (currentTool.type) {
-      case ToolType.LINE:
-        (currentTool as LineTool).onPlus();
-        break;
-      default:
-        break;
-    }
-  }
-
-  void onCheckmarkPressed(Tool currentTool, WidgetRef ref) {
-    switch (currentTool.type) {
-      case ToolType.LINE:
-        (currentTool as LineTool).onCheckMark();
-        break;
-      default:
-        break;
-    }
-    ref.read(CheckMarkClickedState.provider.notifier).notify();
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

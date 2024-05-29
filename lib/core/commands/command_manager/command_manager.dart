@@ -29,4 +29,8 @@ abstract class CommandManager {
   );
 
   void drawLineToolVertices(Canvas canvas, VertexStack vertexStack);
+
+  void undo();
+
+  void redo();
 }

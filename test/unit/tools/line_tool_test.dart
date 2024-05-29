@@ -3,7 +3,6 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/sync_command_manager.dart';
@@ -65,7 +64,7 @@ void main() {
       sut.onDown(pointA);
       sut.onUp(pointB);
       expect(sut.vertexStack.length, 2);
-      sut.onCheckMark();
+      sut.onCheckmark();
       expect(sut.vertexStack.length, 0);
     });
 

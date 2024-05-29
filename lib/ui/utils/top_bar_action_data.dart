@@ -19,4 +19,14 @@ class TopBarActionData {
     'PlusButton',
     Icons.add,
   );
+
+  static const UNDO = TopBarActionData._(
+    'UndoButton',
+    Icons.undo,
+  );
+
+  static const REDO = TopBarActionData._(
+    'RedoButton',
+    Icons.redo,
+  );
 }

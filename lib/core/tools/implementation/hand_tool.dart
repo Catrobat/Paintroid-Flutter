@@ -3,7 +3,6 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:equatable/equatable.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
@@ -30,6 +29,18 @@ class HandTool extends Tool with EquatableMixin {
 
   @override
   void onCancel() {}
+
+  @override
+  void onCheckmark() {}
+
+  @override
+  void onPlus() {}
+
+  @override
+  void redo() {}
+
+  @override
+  void undo() {}
 
   @override
   List<Object?> get props => [commandManager, commandFactory];

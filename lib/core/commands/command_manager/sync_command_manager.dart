@@ -10,25 +10,26 @@ import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 class SyncCommandManager implements CommandManager {
-  SyncCommandManager({required List<Command> commands}) : _history = commands;
+  SyncCommandManager({required List<Command> commands}) : _undoStack = commands;
 
-  final List<Command> _history;
-
-  @override
-  Iterable<Command> get history => List.unmodifiable(_history);
+  final List<Command> _undoStack;
+  final List<Command> _redoStack = [];
 
   @override
-  int get count => _history.length;
+  Iterable<Command> get history => List.unmodifiable(_undoStack);
+
+  @override
+  int get count => _undoStack.length;
 
   @override
   void addGraphicCommand(GraphicCommand command) {
-    _history.add(command);
+    _undoStack.add(command);
   }
 
   @override
   void executeLastCommand(Canvas canvas) {
-    if (_history.isEmpty) return;
-    final lastCommand = _history.last;
+    if (_undoStack.isEmpty) return;
+    final lastCommand = _undoStack.last;
     if (lastCommand is GraphicCommand) {
       lastCommand.call(canvas);
     }
@@ -36,7 +37,7 @@ class SyncCommandManager implements CommandManager {
 
   @override
   void executeAllCommands(Canvas canvas) {
-    for (final command in _history) {
+    for (final command in _undoStack) {
       if (command is GraphicCommand) {
         command.call(canvas);
       }
@@ -45,14 +46,14 @@ class SyncCommandManager implements CommandManager {
 
   @override
   void discardLastCommand() {
-    if (_history.isNotEmpty) _history.removeLast();
+    if (_undoStack.isNotEmpty) _undoStack.removeLast();
   }
 
   @override
   void clearHistory({Iterable<Command>? newCommands}) {
-    _history.clear();
+    _undoStack.clear();
     if (newCommands != null) {
-      _history.addAll(newCommands);
+      _undoStack.addAll(newCommands);
     }
   }
 
@@ -74,6 +75,22 @@ class SyncCommandManager implements CommandManager {
         Vertex.VERTEX_RADIUS,
         Vertex.getVertexPaint(),
       );
+    }
+  }
+
+  @override
+  void redo() {
+    if (_redoStack.isNotEmpty) {
+      final lastCommand = _redoStack.removeLast();
+      _undoStack.add(lastCommand);
+    }
+  }
+
+  @override
+  void undo() {
+    if (_undoStack.isNotEmpty) {
+      final lastCommand = _undoStack.removeLast();
+      _redoStack.add(lastCommand);
     }
   }
 }
