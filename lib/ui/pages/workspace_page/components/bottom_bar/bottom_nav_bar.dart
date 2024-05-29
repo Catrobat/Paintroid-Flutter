@@ -52,7 +52,7 @@ class BottomNavBar extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: currentPaint.color,
                   border: Border.all(
-                    color: Colors.white,
+                    color: PaintroidTheme.of(context).onSurfaceColor,
                     width: 1.4,
                   ),
                   borderRadius: BorderRadius.circular(2.0),
@@ -121,9 +121,9 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
     builder: (BuildContext context) => Container(
       height: MediaQuery.of(context).size.height * 0.7,
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+          color: PaintroidTheme.of(context).surfaceColor,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16.0),
             topRight: Radius.circular(16.0),
           )),

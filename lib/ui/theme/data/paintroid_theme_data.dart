@@ -50,6 +50,7 @@ abstract class PaintroidThemeData {
   Color get inversePrimaryColor;
   Color get shadowColor;
   Color get surfaceTintColor;
+  Color get transparentColor;
 
   Color get scaffoldBackgroundColor;
   Color get textFieldorderColor;

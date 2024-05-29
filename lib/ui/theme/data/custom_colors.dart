@@ -31,6 +31,7 @@ abstract class CustomColors {
   static const inversePrimary = Color(0xFF006874);
   static const shadow = Color(0xFF000000);
   static const surfaceTint = Color(0xFF4FD8EB);
+  static const transparentColor = Color(0x00000000);
 }
 
 extension ToMaterialColor on Color {
