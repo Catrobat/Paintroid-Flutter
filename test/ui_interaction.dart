@@ -28,6 +28,8 @@ class UIInteraction {
   final Finder toolsTab = find.byKey(const ValueKey(BottomNavBarItem.TOOLS));
   final Finder newImageButton =
       find.byKey(const ValueKey('NewImageActionButton'));
+  final Finder undoButton = find.byKey(ValueKey(TopBarActionData.UNDO.name));
+  final Finder redoButton = find.byKey(ValueKey(TopBarActionData.REDO.name));
 
   final int bufferFromEdge = 20;
   late int canvasWidth;
@@ -182,6 +184,18 @@ class UIInteraction {
   clickPlus() async {
     expect(plusButton, findsOneWidget);
     await tester.tap(plusButton);
+    await tester.pumpAndSettle();
+  }
+
+  clickUndo() async {
+    expect(undoButton, findsOneWidget);
+    await tester.tap(undoButton);
+    await tester.pumpAndSettle();
+  }
+
+  clickRedo() async {
+    expect(redoButton, findsOneWidget);
+    await tester.tap(redoButton);
     await tester.pumpAndSettle();
   }
 
