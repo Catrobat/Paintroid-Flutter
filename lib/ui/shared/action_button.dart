@@ -15,13 +15,16 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      key: ValueKey(valueKey),
-      icon: Icon(icon),
-      onPressed: onPressed,
-      color: Theme.of(context).colorScheme.background,
+    return SizedBox(
+      width: 36,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        key: ValueKey(valueKey),
+        icon: Icon(icon),
+        onPressed: onPressed,
+        color: Theme.of(context).colorScheme.background,
+      ),
     );
   }
 }
