@@ -89,11 +89,14 @@ class UIInteraction {
     return Color(argbColor);
   }
 
-  selectTool(String toolName) async {
+  Future<void> createNewImage() async {
     expect(newImageButton, findsOneWidget);
     await tester.tap(newImageButton);
     await tester.pumpAndSettle();
+    await _initializeCanvasDimensions();
+  }
 
+  selectTool(String toolName) async {
     expect(toolsTab, findsOneWidget);
     await tester.tap(toolsTab);
     await tester.pumpAndSettle();
@@ -103,7 +106,6 @@ class UIInteraction {
     expect(tool, findsOneWidget);
     await tester.tap(tool);
     await tester.pumpAndSettle();
-    await _initializeCanvasDimensions();
   }
 
   _initializeCanvasDimensions() async {

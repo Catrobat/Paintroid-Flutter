@@ -26,6 +26,7 @@ void main() {
   testWidgets('[LINE_TOOL]: test line on top', (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorTopCenter = await uiInteraction.getPixelColor(
@@ -51,6 +52,7 @@ void main() {
   testWidgets('[LINE_TOOL]: test line on bottom', (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorBottomCenter = await uiInteraction.getPixelColor(
@@ -76,6 +78,7 @@ void main() {
   testWidgets('[LINE_TOOL]: test vertical line', (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
@@ -100,6 +103,7 @@ void main() {
   testWidgets('[LINE_TOOL]: test horizontal line', (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
@@ -124,6 +128,7 @@ void main() {
   testWidgets('[LINE_TOOL]: test diagonal line', (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
@@ -149,6 +154,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorHalfwayTop = await uiInteraction.getPixelColor(
@@ -209,6 +215,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
     uiInteraction.setColor(Colors.black);
 
@@ -254,6 +261,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
     uiInteraction.setColor(Colors.black);
 
@@ -318,6 +326,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
     uiInteraction.setColor(Colors.black);
 
@@ -353,6 +362,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     await uiInteraction.tapAt(uiInteraction.halfTopLeft);
