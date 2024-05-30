@@ -48,19 +48,23 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         icon: TopBarActionData.REDO.iconData,
         valueKey: TopBarActionData.REDO.name,
       ),
-      if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
+      if (currentTool is LineTool) ...[
         ActionButton(
-          onPressed: () {
-            currentTool.onPlus();
-          },
+          onPressed: currentTool.vertexStack.isNotEmpty
+              ? () {
+                  currentTool.onPlus();
+                }
+              : null,
           icon: TopBarActionData.PLUS.iconData,
           valueKey: TopBarActionData.PLUS.name,
         ),
         ActionButton(
-          onPressed: () {
-            currentTool.onCheckmark();
-            ref.read(TopBarActionClickedState.provider.notifier).notify();
-          },
+          onPressed: currentTool.vertexStack.isNotEmpty
+              ? () {
+                  currentTool.onCheckmark();
+                  ref.read(TopBarActionClickedState.provider.notifier).notify();
+                }
+              : null,
           icon: TopBarActionData.CHECKMARK.iconData,
           valueKey: TopBarActionData.CHECKMARK.name,
         ),
