@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
@@ -14,11 +15,6 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_me
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
-
-class FakeCommandManager extends Fake implements ICommandManager {
-  @override
-  int get count => 0;
-}
 
 void main() {
   late Widget sut;
@@ -70,11 +66,11 @@ void main() {
 
   group('Fullscreen functionality', () {
     late WorkspaceState testWorkspaceState;
-    late FakeCommandManager fakeCommandManager;
+    late ICommandManager commandManager;
 
     setUp(() {
       testWorkspaceState = WorkspaceState.initial.copyWith(isFullscreen: true);
-      fakeCommandManager = FakeCommandManager();
+      commandManager = CommandManager();
 
       final lightTheme = LightPaintroidThemeData();
       final darkTheme = DarkPaintroidThemeData();
@@ -82,7 +78,7 @@ void main() {
       sut = ProviderScope(
         overrides: [
           WorkspaceState.provider.overrideWith((ref) =>
-              WorkspaceStateNotifier(testWorkspaceState, fakeCommandManager))
+              WorkspaceStateNotifier(testWorkspaceState, commandManager))
         ],
         child: PaintroidTheme(
           lightTheme: lightTheme,

@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CheckMarkClickedState extends ChangeNotifier {
+class TopBarActionClickedState extends ChangeNotifier {
   static final provider = ChangeNotifierProvider(
-    (ref) => CheckMarkClickedState(),
+    (ref) => TopBarActionClickedState(),
   );
 
   void notify() => notifyListeners();

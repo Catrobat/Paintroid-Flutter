@@ -6,17 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/models/image_with_pixel_info.dart';
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+
 import 'render_image_for_export_test.mocks.dart';
 
 class FakePicture extends Fake implements Picture {
@@ -232,7 +232,7 @@ void main() {
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
-      when(mockCommandManager.count).thenReturn(0);
+      when(mockCommandManager.undoStack.length).thenReturn(0);
       container
           .read(canvasStateProvider.notifier)
           .setBackgroundImage(testImage);

@@ -3,9 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:ui' as _i2;
 
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
+
+// Project imports:
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i10;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
+
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
     as _i9;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
@@ -18,8 +26,6 @@ import 'package:paintroid/core/commands/command_implementation/graphic/path_comm
     as _i3;
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
     as _i5;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i10;
-import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -271,16 +277,25 @@ class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
   }
 
   @override
-  Iterable<_i6.Command> get history => (super.noSuchMethod(
-        Invocation.getter(#history),
+  List<_i6.Command> get undoStack => (super.noSuchMethod(
+        Invocation.getter(#undoStack),
         returnValue: <_i6.Command>[],
-      ) as Iterable<_i6.Command>);
+      ) as List<_i6.Command>);
 
   @override
-  int get count => (super.noSuchMethod(
-        Invocation.getter(#count),
-        returnValue: 0,
-      ) as int);
+  List<_i6.Command> get redoStack => (super.noSuchMethod(
+        Invocation.getter(#redoStack),
+        returnValue: <_i6.Command>[],
+      ) as List<_i6.Command>);
+
+  @override
+  void setUndoStack(List<_i6.Command>? commands) => super.noSuchMethod(
+        Invocation.method(
+          #setUndoStack,
+          [commands],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addGraphicCommand(_i7.GraphicCommand? command) => super.noSuchMethod(

@@ -10,20 +10,20 @@ import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 class CommandManager implements ICommandManager {
-  CommandManager({required List<Command> commands}) : _undoStack = commands;
+  CommandManager();
 
-  final List<Command> _undoStack;
+  final List<Command> _undoStack = [];
   final List<Command> _redoStack = [];
-
-  @override
-  Iterable<Command> get history => List.unmodifiable(_undoStack);
-
-  @override
-  int get count => _undoStack.length;
 
   @override
   void addGraphicCommand(GraphicCommand command) {
     _undoStack.add(command);
+  }
+
+  @override
+  void setUndoStack(List<Command> commands) {
+    _undoStack.clear();
+    _undoStack.addAll(commands);
   }
 
   @override
@@ -93,4 +93,10 @@ class CommandManager implements ICommandManager {
       _redoStack.add(lastCommand);
     }
   }
+
+  @override
+  List<Command> get redoStack => _redoStack;
+
+  @override
+  List<Command> get undoStack => _undoStack;
 }

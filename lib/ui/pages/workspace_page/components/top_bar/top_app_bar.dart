@@ -1,11 +1,14 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+
 // Project imports:
-import 'package:paintroid/core/providers/state/checkmark_clicked_state.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -18,6 +21,8 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const TopAppBar({super.key, required this.title});
 
   List<Widget> getActions(Tool currentTool, WidgetRef ref) {
+    final commandManager = ref.read(commandManagerProvider);
+
     List<Widget> actions = [
       ActionButton(
         onPressed: () async {
@@ -25,9 +30,11 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
           await ref
               .read(canvasStateProvider.notifier)
               .resetCanvasWithExistingCommands();
+          ref.read(TopBarActionClickedState.provider.notifier).notify();
         },
         icon: TopBarActionData.UNDO.iconData,
         valueKey: TopBarActionData.UNDO.name,
+        color: commandManager.undoStack.isEmpty ? Colors.grey : null,
       ),
       ActionButton(
         onPressed: () async {
@@ -35,9 +42,11 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
           await ref
               .read(canvasStateProvider.notifier)
               .resetCanvasWithExistingCommands();
+          ref.read(TopBarActionClickedState.provider.notifier).notify();
         },
         icon: TopBarActionData.REDO.iconData,
         valueKey: TopBarActionData.REDO.name,
+        color: commandManager.redoStack.isEmpty ? Colors.grey : null,
       ),
       if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
         ActionButton(
@@ -50,7 +59,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ActionButton(
           onPressed: () {
             currentTool.onCheckmark();
-            ref.read(CheckMarkClickedState.provider.notifier).notify();
+            ref.read(TopBarActionClickedState.provider.notifier).notify();
           },
           icon: TopBarActionData.CHECKMARK.iconData,
           valueKey: TopBarActionData.CHECKMARK.name,
@@ -68,7 +77,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTool = ref.watch(toolBoxStateProvider).currentTool;
 
-    ref.watch(CheckMarkClickedState.provider);
+    ref.watch(TopBarActionClickedState.provider);
 
     List<Widget> actions = getActions(currentTool, ref);
 

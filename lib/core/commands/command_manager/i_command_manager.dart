@@ -8,9 +8,11 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 abstract class ICommandManager {
-  Iterable<Command> get history;
+  List<Command> get undoStack;
 
-  int get count;
+  List<Command> get redoStack;
+
+  void setUndoStack(List<Command> commands);
 
   void addGraphicCommand(GraphicCommand command);
 

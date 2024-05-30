@@ -1,9 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+
 // Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';

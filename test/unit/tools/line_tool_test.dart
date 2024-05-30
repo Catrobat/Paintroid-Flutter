@@ -3,6 +3,7 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
@@ -23,7 +24,7 @@ void main() {
       type: ToolType.LINE,
       paint: Paint(),
       commandFactory: const CommandFactory(),
-      commandManager: CommandManager(commands: []),
+      commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
       drawingSurfaceSize: const Size(1000, 1000),
     );

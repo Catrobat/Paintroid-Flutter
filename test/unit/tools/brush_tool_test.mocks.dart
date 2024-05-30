@@ -3,11 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i2;
 
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
+
+// Project imports:
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i3;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i11;
+
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
     as _i12;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
@@ -22,8 +30,6 @@ import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
     as _i8;
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
     as _i13;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i3;
-import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1018,16 +1024,25 @@ class MockICommandManager extends _i1.Mock implements _i8.ICommandManager {
   }
 
   @override
-  Iterable<_i9.Command> get history => (super.noSuchMethod(
-        Invocation.getter(#history),
+  List<_i9.Command> get undoStack => (super.noSuchMethod(
+        Invocation.getter(#undoStack),
         returnValue: <_i9.Command>[],
-      ) as Iterable<_i9.Command>);
+      ) as List<_i9.Command>);
 
   @override
-  int get count => (super.noSuchMethod(
-        Invocation.getter(#count),
-        returnValue: 0,
-      ) as int);
+  List<_i9.Command> get redoStack => (super.noSuchMethod(
+        Invocation.getter(#redoStack),
+        returnValue: <_i9.Command>[],
+      ) as List<_i9.Command>);
+
+  @override
+  void setUndoStack(List<_i9.Command>? commands) => super.noSuchMethod(
+        Invocation.method(
+          #setUndoStack,
+          [commands],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addGraphicCommand(_i10.GraphicCommand? command) => super.noSuchMethod(

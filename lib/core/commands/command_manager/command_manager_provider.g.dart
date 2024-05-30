@@ -6,7 +6,7 @@ part of 'command_manager_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$commandManagerHash() => r'ceef5233bb9365d7cb93b492393915cc1a643694';
+String _$commandManagerHash() => r'00280441a9e0a79e7698ca62d4485920f8d3759b';
 
 /// See also [commandManager].
 @ProviderFor(commandManager)

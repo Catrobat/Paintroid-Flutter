@@ -7,15 +7,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 
 part 'workspace_state.dart';
 
 class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
   WorkspaceStateNotifier(super.state, this._commandManager) {
     _hasUnsavedChanges =
-        state.commandCountWhenLastSaved != _commandManager.count;
+        state.commandCountWhenLastSaved != _commandManager.undoStack.length;
   }
 
   final ICommandManager _commandManager;
@@ -29,11 +29,12 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
 
   void updateLastSavedCommandCount() {
     _hasUnsavedChanges = false;
-    state = state.copyWith(commandCountWhenLastSaved: _commandManager.count);
+    state = state.copyWith(
+        commandCountWhenLastSaved: _commandManager.undoStack.length);
   }
 
   bool get hasSavedLastWork =>
-      state.commandCountWhenLastSaved == _commandManager.count;
+      state.commandCountWhenLastSaved == _commandManager.undoStack.length;
 
   Future<T> performIOTask<T>(Future<T> Function() task) async {
     state = state.copyWith(isPerformingIOTask: true);
