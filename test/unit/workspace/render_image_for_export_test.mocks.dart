@@ -3,25 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Dart imports:
 import 'dart:typed_data' as _i3;
 import 'dart:ui' as _i2;
 
-// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
-
-// Project imports:
-import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
-
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i5;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
     as _i7;
-import 'package:paintroid/core/commands/command_manager/command_manager.dart'
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
     as _i4;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -632,11 +626,11 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 }
 
-/// A class which mocks [CommandManager].
+/// A class which mocks [ICommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
-  MockCommandManager() {
+class MockICommandManager extends _i1.Mock implements _i4.ICommandManager {
+  MockICommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -728,6 +722,24 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
             canvas,
             vertexStack,
           ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void undo() => super.noSuchMethod(
+        Invocation.method(
+          #undo,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void redo() => super.noSuchMethod(
+        Invocation.method(
+          #redo,
+          [],
         ),
         returnValueForMissingStub: null,
       );

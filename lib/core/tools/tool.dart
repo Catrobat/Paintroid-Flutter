@@ -3,7 +3,7 @@ import 'dart:ui';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 
 abstract class Tool {
@@ -16,7 +16,7 @@ abstract class Tool {
 
   final Paint paint;
   final ToolType type;
-  final CommandManager commandManager;
+  final ICommandManager commandManager;
   final CommandFactory commandFactory;
 
   void onDown(Offset point);

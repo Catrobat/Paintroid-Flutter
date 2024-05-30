@@ -6,11 +6,11 @@ part of 'command_manager_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$commandManagerHash() => r'cd76374b9414ebebac1eead0d28106cb9fcd4eea';
+String _$commandManagerHash() => r'ceef5233bb9365d7cb93b492393915cc1a643694';
 
 /// See also [commandManager].
 @ProviderFor(commandManager)
-final commandManagerProvider = Provider<CommandManager>.internal(
+final commandManagerProvider = Provider<ICommandManager>.internal(
   commandManager,
   name: r'commandManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,6 +20,6 @@ final commandManagerProvider = Provider<CommandManager>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef CommandManagerRef = ProviderRef<CommandManager>;
+typedef CommandManagerRef = ProviderRef<ICommandManager>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -21,7 +21,7 @@ import 'brush_tool_test.mocks.dart';
   PathWithActionHistory,
   Offset,
   PathCommand,
-  CommandManager,
+  ICommandManager,
   CommandFactory,
   GraphicFactory,
 ])
@@ -30,7 +30,7 @@ void main() {
   late MockPath mockPath;
   late MockOffset mockOffset;
   late MockPathCommand mockPathCommand;
-  late MockCommandManager mockCommandManager;
+  late MockICommandManager mockCommandManager;
   late MockCommandFactory mockCommandFactory;
   late MockGraphicFactory mockGraphicFactory;
 
@@ -47,7 +47,7 @@ void main() {
     mockPath = MockPath();
     mockOffset = MockOffset();
     mockPathCommand = MockPathCommand();
-    mockCommandManager = MockCommandManager();
+    mockCommandManager = MockICommandManager();
     mockCommandFactory = MockCommandFactory();
     mockGraphicFactory = MockGraphicFactory();
 

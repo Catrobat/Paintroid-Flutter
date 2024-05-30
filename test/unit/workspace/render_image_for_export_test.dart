@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
@@ -35,7 +35,7 @@ class MockCanvasState1 extends CanvasState {
   CanvasStateData build() {
     return CanvasStateData(
       size: const Size(108, 192),
-      commandManager: MockCommandManager(),
+      commandManager: MockICommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
@@ -47,7 +47,7 @@ class MockCanvasState2 extends CanvasState {
   CanvasStateData build() {
     return CanvasStateData(
       size: const Size(300, 800),
-      commandManager: MockCommandManager(),
+      commandManager: MockICommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
@@ -94,7 +94,7 @@ class FakeGraphicCommand extends Fake implements GraphicCommand {}
   [],
   customMocks: [
     MockSpec<Canvas>(),
-    MockSpec<CommandManager>(),
+    MockSpec<ICommandManager>(),
   ],
 )
 void main() {
@@ -152,7 +152,7 @@ void main() {
     late MockCanvas mockBackgroundCanvas;
     late MockCanvas mockCommandsCanvas;
     late MockCanvas mockCombinedCanvas;
-    late MockCommandManager mockCommandManager;
+    late MockICommandManager mockCommandManager;
     late RenderImageForExport sut;
 
     setUp(() {
@@ -160,7 +160,7 @@ void main() {
       mockBackgroundCanvas = MockCanvas();
       mockCommandsCanvas = MockCanvas();
       mockCombinedCanvas = MockCanvas();
-      mockCommandManager = MockCommandManager();
+      mockCommandManager = MockICommandManager();
       container = ProviderContainer(overrides: [
         graphicFactoryProvider.overrideWithValue(
           FakeGraphicFactory(

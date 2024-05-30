@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -15,7 +15,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
-class FakeCommandManager extends Fake implements CommandManager {
+class FakeCommandManager extends Fake implements ICommandManager {
   @override
   int get count => 0;
 }

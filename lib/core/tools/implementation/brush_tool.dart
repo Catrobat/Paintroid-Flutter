@@ -7,7 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -75,7 +75,7 @@ class BrushTool extends Tool with EquatableMixin {
   BrushTool copyWith({
     Paint? paint,
     CommandFactory? commandFactory,
-    CommandManager? commandManager,
+    ICommandManager? commandManager,
     GraphicFactory? graphicFactory,
     ToolType? type,
   }) {

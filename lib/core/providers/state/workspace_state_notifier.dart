@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 
 part 'workspace_state.dart';
@@ -18,7 +18,7 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
         state.commandCountWhenLastSaved != _commandManager.count;
   }
 
-  final CommandManager _commandManager;
+  final ICommandManager _commandManager;
   bool _hasUnsavedChanges = false;
 
   bool get hasUnsavedChanges => _hasUnsavedChanges;
