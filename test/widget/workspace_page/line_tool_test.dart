@@ -1,14 +1,13 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
 // Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+
 import '../../ui_interaction.dart';
 
 void main() {
@@ -29,6 +28,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsNothing);
@@ -45,6 +45,7 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
+    await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsNothing);
