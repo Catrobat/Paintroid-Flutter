@@ -23,6 +23,8 @@ class ActionButton extends StatelessWidget {
         key: ValueKey(valueKey),
         icon: Icon(icon),
         onPressed: onPressed,
+        disabledColor:
+            Theme.of(context).colorScheme.background.withOpacity(0.4),
         color: Theme.of(context).colorScheme.background,
       ),
     );
