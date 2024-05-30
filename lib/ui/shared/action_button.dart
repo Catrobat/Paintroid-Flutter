@@ -2,17 +2,15 @@
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final IconData icon;
   final String valueKey;
-  final Color? color;
 
   const ActionButton({
     super.key,
     required this.onPressed,
     required this.icon,
     required this.valueKey,
-    this.color,
   });
 
   @override
@@ -23,7 +21,7 @@ class ActionButton extends StatelessWidget {
       key: ValueKey(valueKey),
       icon: Icon(icon),
       onPressed: onPressed,
-      color: color ?? Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.background,
     );
   }
 }

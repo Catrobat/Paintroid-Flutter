@@ -64,6 +64,7 @@ class PaintingLayer extends ConsumerWidget {
     );
     final commandManager = ref.watch(commandManagerProvider);
 
+    print('PaintingLayer');
     ref.watch(CanvasDirtyNotifier.provider);
     ref.watch(TopBarActionClickedState.provider);
     // ref.watch(brushToolStateProvider); for stroke change??

@@ -9,6 +9,7 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
+import 'package:paintroid/core/providers/state/undo_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -25,28 +26,30 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
     List<Widget> actions = [
       ActionButton(
-        onPressed: () async {
-          currentTool.undo();
-          await ref
-              .read(canvasStateProvider.notifier)
-              .resetCanvasWithExistingCommands();
-          ref.read(TopBarActionClickedState.provider.notifier).notify();
-        },
+        onPressed: commandManager.undoStack.isNotEmpty
+            ? () async {
+                currentTool.undo();
+                await ref
+                    .read(canvasStateProvider.notifier)
+                    .resetCanvasWithExistingCommands();
+                ref.read(UndoClickedState.provider.notifier).notify();
+              }
+            : null,
         icon: TopBarActionData.UNDO.iconData,
         valueKey: TopBarActionData.UNDO.name,
-        color: commandManager.undoStack.isEmpty ? Colors.grey : null,
       ),
       ActionButton(
-        onPressed: () async {
-          currentTool.redo();
-          await ref
-              .read(canvasStateProvider.notifier)
-              .resetCanvasWithExistingCommands();
-          ref.read(TopBarActionClickedState.provider.notifier).notify();
-        },
+        onPressed: commandManager.redoStack.isNotEmpty
+            ? () async {
+                currentTool.redo();
+                await ref
+                    .read(canvasStateProvider.notifier)
+                    .resetCanvasWithExistingCommands();
+                ref.read(TopBarActionClickedState.provider.notifier).notify();
+              }
+            : null,
         icon: TopBarActionData.REDO.iconData,
         valueKey: TopBarActionData.REDO.name,
-        color: commandManager.redoStack.isEmpty ? Colors.grey : null,
       ),
       if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
         ActionButton(
@@ -78,6 +81,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final currentTool = ref.watch(toolBoxStateProvider).currentTool;
 
     ref.watch(TopBarActionClickedState.provider);
+    ref.watch(UndoClickedState.provider);
 
     List<Widget> actions = getActions(currentTool, ref);
 

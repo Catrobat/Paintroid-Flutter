@@ -50,11 +50,16 @@ class CommandManager implements ICommandManager {
   }
 
   @override
-  void clearHistory({Iterable<Command>? newCommands}) {
+  void clearUndoStack({Iterable<Command>? newCommands}) {
     _undoStack.clear();
     if (newCommands != null) {
       _undoStack.addAll(newCommands);
     }
+  }
+
+  @override
+  void clearRedoStack() {
+    _redoStack.clear();
   }
 
   @override

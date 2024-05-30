@@ -22,7 +22,9 @@ abstract class ICommandManager {
 
   void discardLastCommand();
 
-  void clearHistory({Iterable<Command>? newCommands});
+  void clearUndoStack({Iterable<Command>? newCommands});
+
+  void clearRedoStack();
 
   void drawLineToolGhostPaths(
     Canvas canvas,
