@@ -24,39 +24,36 @@ void main() {
     );
   });
 
-  testWidgets('[LINE_TOOL]: first tap makes plus and checkmark appear',
+  testWidgets('[LINE_TOOL]: selecting line tool shows plus and checkmark',
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
     await uiInteraction.createNewImage();
-    await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsNothing);
     expect(uiInteraction.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsOneWidget);
     expect(uiInteraction.checkMark, findsOneWidget);
   });
 
-  testWidgets(
-      '[LINE_TOOL]: clicking checkmark makes plus and checkmark disappear',
+  testWidgets('[LINE_TOOL]: selecting other tool hides plus and checkmark',
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
     await uiInteraction.createNewImage();
-    await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsNothing);
     expect(uiInteraction.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.selectTool(ToolData.LINE.name);
 
     expect(uiInteraction.plusButton, findsOneWidget);
     expect(uiInteraction.checkMark, findsOneWidget);
 
-    await uiInteraction.clickCheckmark();
+    await uiInteraction.selectTool(ToolData.BRUSH.name);
 
     expect(uiInteraction.plusButton, findsNothing);
     expect(uiInteraction.checkMark, findsNothing);
