@@ -1,15 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
-import 'package:paintroid/core/providers/state/undo_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -32,7 +29,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 await ref
                     .read(canvasStateProvider.notifier)
                     .resetCanvasWithExistingCommands();
-                ref.read(UndoClickedState.provider.notifier).notify();
+                ref.read(TopBarActionClickedState.provider.notifier).notify();
               }
             : null,
         icon: TopBarActionData.UNDO.iconData,
@@ -81,7 +78,6 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final currentTool = ref.watch(toolBoxStateProvider).currentTool;
 
     ref.watch(TopBarActionClickedState.provider);
-    ref.watch(UndoClickedState.provider);
 
     List<Widget> actions = getActions(currentTool, ref);
 
