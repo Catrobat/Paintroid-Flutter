@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
-import '../../ui_interaction.dart';
+import '../../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -31,13 +31,13 @@ void main() {
     await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.tapAt(CanvasPosition.center);
 
-    expect(uiInteraction.plusButton, findsOneWidget);
-    expect(uiInteraction.checkMark, findsOneWidget);
+    expect(WidgetFinder.plusButton, findsOneWidget);
+    expect(WidgetFinder.checkMark, findsOneWidget);
   });
 
   testWidgets(
@@ -48,17 +48,17 @@ void main() {
     await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.tapAt(CanvasPosition.center);
 
-    expect(uiInteraction.plusButton, findsOneWidget);
-    expect(uiInteraction.checkMark, findsOneWidget);
+    expect(WidgetFinder.plusButton, findsOneWidget);
+    expect(WidgetFinder.checkMark, findsOneWidget);
 
     await uiInteraction.clickCheckmark();
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
   });
 }

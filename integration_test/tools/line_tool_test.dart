@@ -7,7 +7,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
-import '../../test/ui_interaction.dart';
+import '../../test/utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -30,20 +30,20 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorTopCenter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.top,
+      CanvasPosition.centerX,
+      CanvasPosition.top,
     );
     expect(colorTopCenter, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.topLeft);
+    await uiInteraction.tapAt(CanvasPosition.topLeft);
 
-    await uiInteraction.tapAt(uiInteraction.topRight);
+    await uiInteraction.tapAt(CanvasPosition.topRight);
 
     await uiInteraction.clickCheckmark();
 
     colorTopCenter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.top,
+      CanvasPosition.centerX,
+      CanvasPosition.top,
     );
 
     expect(colorTopCenter, uiInteraction.getCurrentColor());
@@ -56,20 +56,20 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorBottomCenter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.bottom,
+      CanvasPosition.centerX,
+      CanvasPosition.bottom,
     );
     expect(colorBottomCenter, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.bottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.bottomLeft);
 
-    await uiInteraction.tapAt(uiInteraction.bottomRight);
+    await uiInteraction.tapAt(CanvasPosition.bottomRight);
 
     await uiInteraction.clickCheckmark();
 
     colorBottomCenter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.bottom,
+      CanvasPosition.centerX,
+      CanvasPosition.bottom,
     );
 
     expect(colorBottomCenter, uiInteraction.getCurrentColor());
@@ -82,19 +82,19 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.topCenter);
+    await uiInteraction.tapAt(CanvasPosition.topCenter);
 
-    await uiInteraction.tapAt(uiInteraction.bottomCenter);
+    await uiInteraction.tapAt(CanvasPosition.bottomCenter);
 
     await uiInteraction.clickCheckmark();
     final colorAfter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
 
     expect(colorAfter, uiInteraction.getCurrentColor());
@@ -107,19 +107,19 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.centerLeft);
+    await uiInteraction.tapAt(CanvasPosition.centerLeft);
 
-    await uiInteraction.tapAt(uiInteraction.centerRight);
+    await uiInteraction.tapAt(CanvasPosition.centerRight);
 
     await uiInteraction.clickCheckmark();
     final colorAfter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
 
     expect(colorAfter, uiInteraction.getCurrentColor());
@@ -132,19 +132,19 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     final colorBefore = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
     expect(colorBefore, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.topLeft);
+    await uiInteraction.tapAt(CanvasPosition.topLeft);
 
-    await uiInteraction.tapAt(uiInteraction.bottomRight);
+    await uiInteraction.tapAt(CanvasPosition.bottomRight);
 
     await uiInteraction.clickCheckmark();
     final colorAfter = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.centerY,
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
     );
 
     expect(colorAfter, uiInteraction.getCurrentColor());
@@ -158,54 +158,54 @@ void main() {
     await uiInteraction.selectTool(ToolData.LINE.name);
 
     var colorHalfwayTop = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.halfwayTop,
+      CanvasPosition.centerX,
+      CanvasPosition.halfwayTop,
     );
     expect(colorHalfwayTop, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.halfTopLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfTopLeft);
     await uiInteraction.clickPlus();
 
-    await uiInteraction.tapAt(uiInteraction.halfTopRight);
+    await uiInteraction.tapAt(CanvasPosition.halfTopRight);
     await uiInteraction.clickPlus();
 
     colorHalfwayTop = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.halfwayTop,
+      CanvasPosition.centerX,
+      CanvasPosition.halfwayTop,
     );
 
     expect(colorHalfwayTop, uiInteraction.getCurrentColor());
 
     var colorHalfwayRight = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayRight,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayRight,
+      CanvasPosition.centerY,
     );
 
     expect(colorHalfwayRight, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomRight);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomRight);
     await uiInteraction.clickPlus();
 
     colorHalfwayRight = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayRight,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayRight,
+      CanvasPosition.centerY,
     );
 
     expect(colorHalfwayRight, uiInteraction.getCurrentColor());
 
     var colorHalfwayBottom = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.halfwayBottom,
+      CanvasPosition.centerX,
+      CanvasPosition.halfwayBottom,
     );
 
     expect(colorHalfwayBottom, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomLeft);
     await uiInteraction.clickCheckmark();
 
     colorHalfwayBottom = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.halfwayBottom,
+      CanvasPosition.centerX,
+      CanvasPosition.halfwayBottom,
     );
 
     expect(colorHalfwayBottom, uiInteraction.getCurrentColor());
@@ -220,39 +220,39 @@ void main() {
     uiInteraction.setColor(Colors.black);
 
     var actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.left,
-      uiInteraction.centerY,
+      CanvasPosition.left,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.topLeft);
+    await uiInteraction.tapAt(CanvasPosition.topLeft);
     await uiInteraction.clickPlus();
 
-    await uiInteraction.tapAt(uiInteraction.bottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.bottomLeft);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.left,
-      uiInteraction.centerY,
+      CanvasPosition.left,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.black);
 
-    await uiInteraction.tapAt(uiInteraction.topRight);
+    await uiInteraction.tapAt(CanvasPosition.topRight);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.left,
-      uiInteraction.centerY,
+      CanvasPosition.left,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.transparent);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.left,
-      uiInteraction.centerY,
+      CanvasPosition.left,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.transparent);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.top,
+      CanvasPosition.centerX,
+      CanvasPosition.top,
     );
     expect(actualColor, Colors.black);
   });
@@ -266,57 +266,57 @@ void main() {
     uiInteraction.setColor(Colors.black);
 
     var actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayLeft,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayLeft,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.halfTopLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfTopLeft);
 
-    await uiInteraction.tapAt(uiInteraction.halfCenterLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfCenterLeft);
     await uiInteraction.clickPlus();
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomLeft);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayLeft,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayLeft,
+      CanvasPosition.centerY,
     );
 
     expect(actualColor, Colors.black);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayRight,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayRight,
+      CanvasPosition.centerY,
     );
 
     expect(actualColor, Colors.transparent);
 
     await uiInteraction.dragFromTo(
-      uiInteraction.halfTopLeft,
-      uiInteraction.halfTopRight,
+      CanvasPosition.halfTopLeft,
+      CanvasPosition.halfTopRight,
     );
 
     await uiInteraction.dragFromTo(
-      uiInteraction.halfCenterLeft,
-      uiInteraction.halfCenterRight,
+      CanvasPosition.halfCenterLeft,
+      CanvasPosition.halfCenterRight,
     );
 
     await uiInteraction.dragFromTo(
-      uiInteraction.halfBottomLeft,
-      uiInteraction.halfBottomRight,
+      CanvasPosition.halfBottomLeft,
+      CanvasPosition.halfBottomRight,
     );
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayLeft,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayLeft,
+      CanvasPosition.centerY,
     );
 
     expect(actualColor, Colors.transparent);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayRight,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayRight,
+      CanvasPosition.centerY,
     );
 
     expect(actualColor, Colors.black);
@@ -331,29 +331,29 @@ void main() {
     uiInteraction.setColor(Colors.black);
 
     var actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayLeft,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayLeft,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.transparent);
 
-    await uiInteraction.tapAt(uiInteraction.halfTopLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfTopLeft);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.tapAt(CanvasPosition.center);
     await uiInteraction.clickPlus();
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomRight);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomRight);
 
-    await uiInteraction.tapAt(uiInteraction.center);
+    await uiInteraction.tapAt(CanvasPosition.center);
 
-    await uiInteraction.tapAt(uiInteraction.halfCenterLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfCenterLeft);
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomRight);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomRight);
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomLeft);
 
     actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.halfwayLeft,
-      uiInteraction.centerY,
+      CanvasPosition.halfwayLeft,
+      CanvasPosition.centerY,
     );
     expect(actualColor, Colors.black);
   });
@@ -365,21 +365,21 @@ void main() {
     await uiInteraction.createNewImage();
     await uiInteraction.selectTool(ToolData.LINE.name);
 
-    await uiInteraction.tapAt(uiInteraction.halfTopLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfTopLeft);
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomLeft);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomLeft);
 
     await uiInteraction.clickCheckmark();
 
-    await uiInteraction.tapAt(uiInteraction.halfBottomRight);
+    await uiInteraction.tapAt(CanvasPosition.halfBottomRight);
 
-    await uiInteraction.tapAt(uiInteraction.halfTopRight);
+    await uiInteraction.tapAt(CanvasPosition.halfTopRight);
 
     await uiInteraction.clickCheckmark();
 
     var actualColor = await uiInteraction.getPixelColor(
-      uiInteraction.centerX,
-      uiInteraction.halfwayBottom,
+      CanvasPosition.centerX,
+      CanvasPosition.halfwayBottom,
     );
     expect(actualColor, Colors.transparent);
   });
