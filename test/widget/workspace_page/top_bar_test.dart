@@ -103,7 +103,7 @@ void main() {
   });
 
   group('[TOP_APP_BAR]: LineTool', () {
-    testWidgets('Show undo / redo and plus / checkmark button in line tool',
+    testWidgets('Show undo / redo and plus / checkmark button',
         (WidgetTester tester) async {
       uiInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -117,8 +117,7 @@ void main() {
       expect(WidgetFinder.redoButton, findsOneWidget);
     });
 
-    testWidgets(
-        'Undo / redo and plus / checkmark are disabled before drawing with line tool',
+    testWidgets('Undo / redo and plus / checkmark are disabled before drawing',
         (WidgetTester tester) async {
       uiInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -137,8 +136,31 @@ void main() {
       expect(checkMark.onPressed, null);
     });
 
-    testWidgets('Undo is enabled after drawing with line tool',
+    testWidgets('Plus / checkmark are disabled after clicking checkmark',
         (WidgetTester tester) async {
+      uiInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await uiInteraction.createNewImage();
+
+      await uiInteraction.selectTool(ToolData.LINE.name);
+
+      await uiInteraction.tapAt(CanvasPosition.center);
+      await uiInteraction.tapAt(CanvasPosition.topCenter);
+
+      var checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
+      var plus = tester.firstWidget<IconButton>(WidgetFinder.plusButton);
+      expect(checkMark.onPressed, isNotNull);
+      expect(plus.onPressed, isNotNull);
+
+      await uiInteraction.clickCheckmark();
+
+      checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
+      plus = tester.firstWidget<IconButton>(WidgetFinder.plusButton);
+      expect(checkMark.onPressed, null);
+      expect(plus.onPressed, null);
+    });
+
+    testWidgets('Undo is enabled after drawing', (WidgetTester tester) async {
       uiInteraction.initialize(tester);
       await tester.pumpWidget(sut);
       await uiInteraction.createNewImage();
@@ -153,7 +175,7 @@ void main() {
       expect(undoButton.onPressed, isNotNull);
     });
 
-    testWidgets('Redo is enabled after drawing with line tool was undone',
+    testWidgets('Redo is enabled after drawing was undone',
         (WidgetTester tester) async {
       uiInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -174,35 +196,35 @@ void main() {
     });
   });
 
-  testWidgets(
-      '[TOP_APP_BAR]: Show undo / redo but no plus / checkmark button in eraser tool',
-      (WidgetTester tester) async {
-    uiInteraction.initialize(tester);
-    await tester.pumpWidget(sut);
-    await uiInteraction.createNewImage();
+  group('[TOP_APP_BAR]: EraserTool', () {
+    testWidgets('Show undo / redo but no plus / checkmark button',
+        (WidgetTester tester) async {
+      uiInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await uiInteraction.createNewImage();
 
-    await uiInteraction.selectTool(ToolData.ERASER.name);
+      await uiInteraction.selectTool(ToolData.ERASER.name);
 
-    expect(WidgetFinder.plusButton, findsNothing);
-    expect(WidgetFinder.checkMark, findsNothing);
-    expect(WidgetFinder.undoButton, findsOneWidget);
-    expect(WidgetFinder.redoButton, findsOneWidget);
+      expect(WidgetFinder.plusButton, findsNothing);
+      expect(WidgetFinder.checkMark, findsNothing);
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      expect(WidgetFinder.redoButton, findsOneWidget);
+    });
   });
 
-  testWidgets(
-      '[TOP_APP_BAR]: Show no undo / redo and no plus / checkmark button in hand tool',
-      (WidgetTester tester) async {
-    uiInteraction.initialize(tester);
-    await tester.pumpWidget(sut);
-    await uiInteraction.createNewImage();
+  group('[TOP_APP_BAR]: HandTool', () {
+    testWidgets('Show no undo / redo and no plus / checkmark button',
+        (WidgetTester tester) async {
+      uiInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await uiInteraction.createNewImage();
 
-    await uiInteraction.selectTool(ToolData.HAND.name);
+      await uiInteraction.selectTool(ToolData.HAND.name);
 
-    expect(WidgetFinder.plusButton, findsNothing);
-    expect(WidgetFinder.checkMark, findsNothing);
-    expect(WidgetFinder.undoButton, findsNothing);
-    expect(WidgetFinder.redoButton, findsNothing);
+      expect(WidgetFinder.plusButton, findsNothing);
+      expect(WidgetFinder.checkMark, findsNothing);
+      expect(WidgetFinder.undoButton, findsNothing);
+      expect(WidgetFinder.redoButton, findsNothing);
+    });
   });
 }
-
-// redo is disabled after click resetted
