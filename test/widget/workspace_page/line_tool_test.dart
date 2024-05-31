@@ -29,7 +29,6 @@ void main() {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
     await uiInteraction.createNewImage();
-    await uiInteraction.createNewImage();
 
     expect(WidgetFinder.plusButton, findsNothing);
     expect(WidgetFinder.checkMark, findsNothing);
@@ -44,7 +43,6 @@ void main() {
       (WidgetTester tester) async {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
-    await uiInteraction.createNewImage();
     await uiInteraction.createNewImage();
 
     expect(WidgetFinder.plusButton, findsNothing);
