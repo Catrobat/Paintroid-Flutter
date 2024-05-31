@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
-import '../../ui_interaction.dart';
+import '../../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -29,14 +29,15 @@ void main() {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
     await uiInteraction.createNewImage();
+    await uiInteraction.createNewImage();
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
 
     await uiInteraction.selectTool(ToolData.LINE.name);
 
-    expect(uiInteraction.plusButton, findsOneWidget);
-    expect(uiInteraction.checkMark, findsOneWidget);
+    expect(WidgetFinder.plusButton, findsOneWidget);
+    expect(WidgetFinder.checkMark, findsOneWidget);
   });
 
   testWidgets('[LINE_TOOL]: selecting other tool hides plus and checkmark',
@@ -44,18 +45,19 @@ void main() {
     uiInteraction.initialize(tester);
     await tester.pumpWidget(sut);
     await uiInteraction.createNewImage();
+    await uiInteraction.createNewImage();
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
 
     await uiInteraction.selectTool(ToolData.LINE.name);
 
-    expect(uiInteraction.plusButton, findsOneWidget);
-    expect(uiInteraction.checkMark, findsOneWidget);
+    expect(WidgetFinder.plusButton, findsOneWidget);
+    expect(WidgetFinder.checkMark, findsOneWidget);
 
     await uiInteraction.selectTool(ToolData.BRUSH.name);
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
   });
 }

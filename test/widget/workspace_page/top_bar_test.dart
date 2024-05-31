@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
-import '../../ui_interaction.dart';
+import '../../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -33,10 +33,10 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.BRUSH.name);
 
-      expect(uiInteraction.plusButton, findsNothing);
-      expect(uiInteraction.checkMark, findsNothing);
-      expect(uiInteraction.undoButton, findsOneWidget);
-      expect(uiInteraction.redoButton, findsOneWidget);
+      expect(WidgetFinder.plusButton, findsNothing);
+      expect(WidgetFinder.checkMark, findsNothing);
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      expect(WidgetFinder.redoButton, findsOneWidget);
     });
 
     testWidgets('Undo / redo are disabled before drawing with brush tool',
@@ -48,9 +48,9 @@ void main() {
       await uiInteraction.selectTool(ToolData.BRUSH.name);
 
       final IconButton undoButton =
-          tester.firstWidget<IconButton>(uiInteraction.undoButton);
+          tester.firstWidget<IconButton>(WidgetFinder.undoButton);
       final IconButton redoButton =
-          tester.firstWidget<IconButton>(uiInteraction.redoButton);
+          tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(undoButton.onPressed, null);
       expect(redoButton.onPressed, null);
     });
@@ -64,15 +64,15 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.BRUSH.name);
 
-      var undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
-      var redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(undoButton.onPressed, null);
       expect(redoButton.onPressed, null);
 
-      await uiInteraction.tapAt(uiInteraction.center);
+      await uiInteraction.tapAt(CanvasPosition.center);
 
-      undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
-      redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(undoButton.onPressed, isNotNull);
       expect(redoButton.onPressed, null);
     });
@@ -86,17 +86,17 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.BRUSH.name);
 
-      var undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
-      var redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(undoButton.onPressed, null);
       expect(redoButton.onPressed, null);
 
-      await uiInteraction.tapAt(uiInteraction.center);
+      await uiInteraction.tapAt(CanvasPosition.center);
 
       await uiInteraction.clickUndo();
 
-      undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
-      redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(undoButton.onPressed, null);
       expect(redoButton.onPressed, isNotNull);
     });
@@ -111,10 +111,10 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.LINE.name);
 
-      expect(uiInteraction.plusButton, findsOneWidget);
-      expect(uiInteraction.checkMark, findsOneWidget);
-      expect(uiInteraction.undoButton, findsOneWidget);
-      expect(uiInteraction.redoButton, findsOneWidget);
+      expect(WidgetFinder.plusButton, findsOneWidget);
+      expect(WidgetFinder.checkMark, findsOneWidget);
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      expect(WidgetFinder.redoButton, findsOneWidget);
     });
 
     testWidgets(
@@ -126,10 +126,10 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.LINE.name);
 
-      var undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
-      var redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
-      var plusButton = tester.firstWidget<IconButton>(uiInteraction.plusButton);
-      var checkMark = tester.firstWidget<IconButton>(uiInteraction.checkMark);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
+      var plusButton = tester.firstWidget<IconButton>(WidgetFinder.plusButton);
+      var checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
 
       expect(undoButton.onPressed, null);
       expect(redoButton.onPressed, null);
@@ -145,11 +145,11 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.LINE.name);
 
-      var undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
       expect(undoButton.onPressed, null);
 
-      await uiInteraction.tapAt(uiInteraction.center);
-      undoButton = tester.firstWidget<IconButton>(uiInteraction.undoButton);
+      await uiInteraction.tapAt(CanvasPosition.center);
+      undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
       expect(undoButton.onPressed, isNotNull);
     });
 
@@ -161,14 +161,14 @@ void main() {
 
       await uiInteraction.selectTool(ToolData.LINE.name);
 
-      await uiInteraction.tapAt(uiInteraction.center);
+      await uiInteraction.tapAt(CanvasPosition.center);
 
-      var redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
       expect(redoButton.onPressed, null);
 
       await uiInteraction.clickUndo();
 
-      redoButton = tester.firstWidget<IconButton>(uiInteraction.redoButton);
+      redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
 
       expect(redoButton.onPressed, isNotNull);
     });
@@ -183,10 +183,10 @@ void main() {
 
     await uiInteraction.selectTool(ToolData.ERASER.name);
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
-    expect(uiInteraction.undoButton, findsOneWidget);
-    expect(uiInteraction.redoButton, findsOneWidget);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
+    expect(WidgetFinder.undoButton, findsOneWidget);
+    expect(WidgetFinder.redoButton, findsOneWidget);
   });
 
   testWidgets(
@@ -198,10 +198,10 @@ void main() {
 
     await uiInteraction.selectTool(ToolData.HAND.name);
 
-    expect(uiInteraction.plusButton, findsNothing);
-    expect(uiInteraction.checkMark, findsNothing);
-    expect(uiInteraction.undoButton, findsNothing);
-    expect(uiInteraction.redoButton, findsNothing);
+    expect(WidgetFinder.plusButton, findsNothing);
+    expect(WidgetFinder.checkMark, findsNothing);
+    expect(WidgetFinder.undoButton, findsNothing);
+    expect(WidgetFinder.redoButton, findsNothing);
   });
 }
 
