@@ -6,7 +6,7 @@ import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
-import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
+import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 
 class SyncCommandManager implements CommandManager {
