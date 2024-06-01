@@ -122,7 +122,7 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
       height: MediaQuery.of(context).size.height * 0.7,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          color: PaintroidTheme.of(context).surfaceColor,
+          color: PaintroidTheme.of(context).onSurfaceColor,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16.0),
             topRight: Radius.circular(16.0),
