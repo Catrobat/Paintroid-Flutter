@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ColorPickerStateData {
-  Color get currentColor => throw _privateConstructorUsedError;
+  Color? get currentColor => throw _privateConstructorUsedError;
   double get currentOpacity => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $ColorPickerStateDataCopyWith<$Res> {
           $Res Function(ColorPickerStateData) then) =
       _$ColorPickerStateDataCopyWithImpl<$Res, ColorPickerStateData>;
   @useResult
-  $Res call({Color currentColor, double currentOpacity});
+  $Res call({Color? currentColor, double currentOpacity});
 }
 
 /// @nodoc
@@ -47,14 +47,14 @@ class _$ColorPickerStateDataCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentColor = null,
+    Object? currentColor = freezed,
     Object? currentOpacity = null,
   }) {
     return _then(_value.copyWith(
-      currentColor: null == currentColor
+      currentColor: freezed == currentColor
           ? _value.currentColor
           : currentColor // ignore: cast_nullable_to_non_nullable
-              as Color,
+              as Color?,
       currentOpacity: null == currentOpacity
           ? _value.currentOpacity
           : currentOpacity // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,7 @@ abstract class _$$_ColorPickerStateDataCopyWith<$Res>
       __$$_ColorPickerStateDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Color currentColor, double currentOpacity});
+  $Res call({Color? currentColor, double currentOpacity});
 }
 
 /// @nodoc
@@ -85,14 +85,14 @@ class __$$_ColorPickerStateDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentColor = null,
+    Object? currentColor = freezed,
     Object? currentOpacity = null,
   }) {
     return _then(_$_ColorPickerStateData(
-      currentColor: null == currentColor
+      currentColor: freezed == currentColor
           ? _value.currentColor
           : currentColor // ignore: cast_nullable_to_non_nullable
-              as Color,
+              as Color?,
       currentOpacity: null == currentOpacity
           ? _value.currentOpacity
           : currentOpacity // ignore: cast_nullable_to_non_nullable
@@ -108,7 +108,7 @@ class _$_ColorPickerStateData implements _ColorPickerStateData {
       {required this.currentColor, required this.currentOpacity});
 
   @override
-  final Color currentColor;
+  final Color? currentColor;
   @override
   final double currentOpacity;
 
@@ -118,7 +118,7 @@ class _$_ColorPickerStateData implements _ColorPickerStateData {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ColorPickerStateData &&
@@ -141,11 +141,11 @@ class _$_ColorPickerStateData implements _ColorPickerStateData {
 
 abstract class _ColorPickerStateData implements ColorPickerStateData {
   const factory _ColorPickerStateData(
-      {required final Color currentColor,
+      {required final Color? currentColor,
       required final double currentOpacity}) = _$_ColorPickerStateData;
 
   @override
-  Color get currentColor;
+  Color? get currentColor;
   @override
   double get currentOpacity;
   @override

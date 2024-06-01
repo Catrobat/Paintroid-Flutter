@@ -21,6 +21,13 @@ class ColorPicker extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Future.delayed(Duration.zero, () {
+      if (ref.read(colorPickerStateProvider).currentColor == null) {
+        final data = ref.read(colorPickerStateProvider.notifier);
+        data.updateColor(currentColor);
+        data.updateOpacity(currentColor.opacity);
+      }
+    });
     final colorPickerStateData = ref.watch(colorPickerStateProvider);
     return Container(
       margin: const EdgeInsets.all(26.0),
@@ -34,8 +41,9 @@ class ColorPicker extends ConsumerWidget {
           children: [
             ColorComparison(
               currentColor: currentColor,
-              newColor: colorPickerStateData.currentColor
-                  .withOpacity(colorPickerStateData.currentOpacity),
+              newColor: colorPickerStateData.currentColor!.withOpacity(
+                colorPickerStateData.currentOpacity,
+              ),
             ),
             const SizedBox(height: 10.0),
             GridView.count(
@@ -60,7 +68,7 @@ class ColorPicker extends ConsumerWidget {
             ),
             const SizedBox(height: 20.0),
             OpacitySlider(
-              gradientColor: colorPickerStateData.currentColor,
+              gradientColor: colorPickerStateData.currentColor!,
             ),
             const SizedBox(height: 20.0),
             Row(
@@ -75,7 +83,7 @@ class ColorPicker extends ConsumerWidget {
                 const SizedBox(width: 10.0),
                 TextButton(
                   onPressed: () {
-                    onColorChanged(colorPickerStateData.currentColor
+                    onColorChanged(colorPickerStateData.currentColor!
                         .withOpacity(colorPickerStateData.currentOpacity));
                     Navigator.pop(context);
                   },

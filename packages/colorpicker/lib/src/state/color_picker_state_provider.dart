@@ -11,8 +11,8 @@ class ColorPickerState extends _$ColorPickerState {
   final colors = DisplayColors.colors;
   @override
   ColorPickerStateData build() {
-    return ColorPickerStateData(
-      currentColor: colors[0],
+    return const ColorPickerStateData(
+      currentColor: null,
       currentOpacity: 1.0,
     );
   }

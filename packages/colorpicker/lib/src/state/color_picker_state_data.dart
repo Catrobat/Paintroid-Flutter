@@ -7,7 +7,7 @@ part 'color_picker_state_data.freezed.dart';
 @freezed
 class ColorPickerStateData with _$ColorPickerStateData {
   const factory ColorPickerStateData({
-    required Color currentColor,
+    required Color? currentColor,
     required double currentOpacity,
   }) = _ColorPickerStateData;
 }
