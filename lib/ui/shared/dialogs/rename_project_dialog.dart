@@ -24,8 +24,9 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
           GenericDialogAction(
             title: 'RENAME',
             onPressed: () {
-              if (!formKey.currentState!.validate()) {
-                return null;
+              final formState = formKey.currentState;
+              if (formState == null || !formState.validate()) {
+                return;
               }
               Navigator.of(context).pop(textFieldController.text);
             },

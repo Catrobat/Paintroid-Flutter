@@ -156,4 +156,14 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         color: CustomColors.onSurface,
         fontSize: 15.0,
       );
+
+  @override
+  TextStyle get hintStyle =>
+      super.textTheme.bodySmall?.apply(color: onSecondaryColor) ??
+      TextStyle(
+        fontSize: FontSize.smallMedium,
+        fontFamily: PaintroidThemeData.fontFamily,
+        fontWeight: FontWeight.w100,
+        color: onSecondaryColor,
+      );
 }

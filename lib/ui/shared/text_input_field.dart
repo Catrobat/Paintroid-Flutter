@@ -22,9 +22,7 @@ class TextInputField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText ?? '',
-        hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
-              color: PaintroidTheme.of(context).onSurfaceColor,
-            ),
+        hintStyle: PaintroidTheme.of(context).hintStyle,
         filled: true,
         fillColor: PaintroidTheme.of(context).secondaryContainerColor,
         border: const OutlineInputBorder(
