@@ -12,7 +12,6 @@ import '../../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  final uiInteraction = UIInteraction();
 
   late Widget sut;
 
@@ -26,15 +25,15 @@ void main() {
 
   testWidgets('[LINE_TOOL]: first tap makes plus and checkmark appear',
       (WidgetTester tester) async {
-    uiInteraction.initialize(tester);
+    UIInteraction.initialize(tester);
     await tester.pumpWidget(sut);
-    await uiInteraction.createNewImage();
-    await uiInteraction.selectTool(ToolData.LINE.name);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
 
     expect(WidgetFinder.plusButton, findsNothing);
     expect(WidgetFinder.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(CanvasPosition.center);
+    await UIInteraction.tapAt(CanvasPosition.center);
 
     expect(WidgetFinder.plusButton, findsOneWidget);
     expect(WidgetFinder.checkMark, findsOneWidget);
@@ -43,20 +42,20 @@ void main() {
   testWidgets(
       '[LINE_TOOL]: clicking checkmark makes plus and checkmark disappear',
       (WidgetTester tester) async {
-    uiInteraction.initialize(tester);
+    UIInteraction.initialize(tester);
     await tester.pumpWidget(sut);
-    await uiInteraction.createNewImage();
-    await uiInteraction.selectTool(ToolData.LINE.name);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
 
     expect(WidgetFinder.plusButton, findsNothing);
     expect(WidgetFinder.checkMark, findsNothing);
 
-    await uiInteraction.tapAt(CanvasPosition.center);
+    await UIInteraction.tapAt(CanvasPosition.center);
 
     expect(WidgetFinder.plusButton, findsOneWidget);
     expect(WidgetFinder.checkMark, findsOneWidget);
 
-    await uiInteraction.clickCheckmark();
+    await UIInteraction.clickCheckmark();
 
     expect(WidgetFinder.plusButton, findsNothing);
     expect(WidgetFinder.checkMark, findsNothing);
