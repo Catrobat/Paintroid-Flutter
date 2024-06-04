@@ -118,11 +118,11 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    builder: (BuildContext context) => Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+    builder: (BuildContext dialogContext) => Container(
+      height: MediaQuery.of(dialogContext).size.height * 0.7,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          color: PaintroidTheme.of(context).onSurfaceColor,
+          color: PaintroidTheme.of(dialogContext).onSurfaceColor,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16.0),
             topRight: Radius.circular(16.0),

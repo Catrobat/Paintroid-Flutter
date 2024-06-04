@@ -6,11 +6,9 @@ class ColorSquare extends ConsumerWidget {
   const ColorSquare({
     super.key,
     required this.color,
-    required this.opacity,
   });
 
   final Color color;
-  final double opacity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
