@@ -149,8 +149,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           project: project,
                           imageService: imageService,
                           index: index,
-                          onTap: () async =>
-                              _openProject(project, ioHandler, ref),
+                          onTap: () async {
+                            _clearCanvas();
+                            _openProject(project, ioHandler, ref);
+                          },
                         );
                       }
                       return Container();
