@@ -35,6 +35,7 @@ void main() {
       paint: mockPaint,
       commandFactory: mockCommandFactory,
       commandManager: mockCommandManager,
+      type: ToolType.HAND,
     );
   });
 
