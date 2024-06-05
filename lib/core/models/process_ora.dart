@@ -1,5 +1,8 @@
+// Dart imports:
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+
+// Package imports:
 import 'package:archive/archive.dart';
 import 'package:image/image.dart' as img;
 

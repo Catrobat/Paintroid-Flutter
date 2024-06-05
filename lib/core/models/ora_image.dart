@@ -1,7 +1,10 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:image/image.dart' as img;
+
+// Package imports:
 import 'package:archive/archive.dart';
+import 'package:image/image.dart' as img;
 
 class OraImage {
   final int width;

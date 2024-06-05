@@ -1,7 +1,16 @@
+// Dart imports:
 import 'dart:io';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:io_library/io_library.dart';
 import 'package:oxidized/oxidized.dart';
+
+// Project imports:
+import 'package:paintroid/core/models/ora_image.dart';
+import 'package:paintroid/core/providers/object/file_service.dart';
+import 'package:paintroid/core/providers/object/permission_service.dart';
+import 'package:paintroid/core/utils/failure.dart';
+import 'package:paintroid/core/utils/save_image_failure.dart';
 
 class SaveAsOraImage {
   final IFileService _fileService;
