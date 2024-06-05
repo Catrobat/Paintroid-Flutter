@@ -20,4 +20,4 @@ analyzer:
 
   exclude:
     - lib/src/**.pb*.dart
-    - lib/src/data/*.g.dart
+    - lib/**.g.dart
