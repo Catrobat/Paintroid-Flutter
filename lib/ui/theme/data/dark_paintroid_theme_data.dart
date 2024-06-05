@@ -8,7 +8,7 @@ class DarkPaintroidThemeData extends PaintroidThemeData {
   @override
   ThemeData get materialThemeData => ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: CustomColors.onSurface.toMaterialColor(),
+        primarySwatch: CustomColors.pureWhite.toMaterialColor(),
         dividerTheme: dividerThemeData,
         floatingActionButtonTheme: fabThemeData,
         elevatedButtonTheme: buttonThemeData,
@@ -16,119 +16,119 @@ class DarkPaintroidThemeData extends PaintroidThemeData {
       );
 
   @override
-  Color get primaryColor => CustomColors.primary;
+  Color get primaryColor => CustomColors.oceanBlue;
 
   @override
-  Color get scaffoldBackgroundColor => CustomColors.surface;
+  Color get scaffoldBackgroundColor => CustomColors.seaBlue;
 
   @override
   MaterialColor get fabBackgroundColor =>
-      CustomColors.background.toMaterialColor();
+      CustomColors.lightBlush.toMaterialColor();
 
   @override
   MaterialColor get fabForegroundColor =>
-      CustomColors.onSurface.toMaterialColor();
+      CustomColors.pureWhite.toMaterialColor();
 
   @override
-  Color get textFieldorderColor => CustomColors.shadow;
+  Color get textFieldorderColor => CustomColors.jetBlack;
 
   @override
   TextTheme get textTheme =>
-      super.textTheme.apply(bodyColor: CustomColors.onBackground);
+      super.textTheme.apply(bodyColor: CustomColors.deepCharcoal);
 
   @override
-  Color get backgroundColor => CustomColors.background;
+  Color get backgroundColor => CustomColors.lightBlush;
 
   @override
-  Color get orangeColor => CustomColors.orange;
+  Color get orangeColor => CustomColors.vibrantOrange;
 
   @override
-  Color get errorColor => CustomColors.error;
+  Color get errorColor => CustomColors.vividRed;
 
   @override
-  Color get errorContainerColor => CustomColors.errorContainer;
+  Color get errorContainerColor => CustomColors.deepMaroon;
 
   @override
-  Color get inversePrimaryColor => CustomColors.inversePrimary;
+  Color get inversePrimaryColor => CustomColors.oceanTeal;
 
   @override
-  Color get inverseSurfaceColor => CustomColors.inverseSurface;
+  Color get inverseSurfaceColor => CustomColors.lightGray;
 
   @override
-  Color get onBackgroundColor => CustomColors.onBackground;
+  Color get onBackgroundColor => CustomColors.deepCharcoal;
 
   @override
-  Color get onErrorColor => CustomColors.onError;
+  Color get onErrorColor => CustomColors.darkRed;
 
   @override
-  Color get onErrorContainerColor => CustomColors.onErrorContainer;
+  Color get onErrorContainerColor => CustomColors.lightCoral;
 
   @override
-  Color get onInverseSurfaceColor => CustomColors.onInverseSurface;
+  Color get onInverseSurfaceColor => CustomColors.darkCharcoal;
 
   @override
-  Color get onPrimaryColor => CustomColors.onPrimary;
+  Color get onPrimaryColor => CustomColors.deepTeal;
 
   @override
-  Color get onPrimaryContainerColor => CustomColors.onPrimaryContainer;
+  Color get onPrimaryContainerColor => CustomColors.darkCyan;
 
   @override
-  Color get onSecondaryColor => CustomColors.onSecondary;
+  Color get onSecondaryColor => CustomColors.darkSlateGray;
 
   @override
-  Color get onSecondaryContainerColor => CustomColors.onSecondaryContainer;
+  Color get onSecondaryContainerColor => CustomColors.lightBlueGray;
 
   @override
-  Color get onSurfaceColor => CustomColors.onSurface;
+  Color get onSurfaceColor => CustomColors.pureWhite;
 
   @override
-  Color get onSurfaceVariantColor => CustomColors.onSurfaceVariant;
+  Color get onSurfaceVariantColor => CustomColors.lightSlateGray;
 
   @override
-  Color get onTertiaryColor => CustomColors.onTertiary;
+  Color get onTertiaryColor => CustomColors.darkSeaGreen;
 
   @override
-  Color get onTertiaryContainerColor => CustomColors.onTertiaryContainer;
+  Color get onTertiaryContainerColor => CustomColors.deepAqua;
 
   @override
-  Color get outlineColor => CustomColors.outline;
+  Color get outlineColor => CustomColors.mediumGray;
 
   @override
-  Color get primaryContainerColor => CustomColors.primaryContainer;
+  Color get primaryContainerColor => CustomColors.darkCyan;
 
   @override
-  Color get secondaryColor => CustomColors.secondary;
+  Color get secondaryColor => CustomColors.softBlueGray;
 
   @override
-  Color get secondaryContainerColor => CustomColors.secondaryContainer;
+  Color get secondaryContainerColor => CustomColors.mutedTeal;
 
   @override
-  Color get shadowColor => CustomColors.shadow;
+  Color get shadowColor => CustomColors.jetBlack;
 
   @override
-  Color get surfaceColor => CustomColors.surface;
+  Color get surfaceColor => CustomColors.seaBlue;
 
   @override
-  Color get surfaceTintColor => CustomColors.surfaceTint;
+  Color get surfaceTintColor => CustomColors.aquaTint;
 
   @override
-  Color get surfaceVariantColor => CustomColors.surfaceVariant;
+  Color get surfaceVariantColor => CustomColors.slateGray;
 
   @override
-  Color get tertiaryColor => CustomColors.tertiary;
+  Color get tertiaryColor => CustomColors.brightTurquoise;
 
   @override
-  Color get tertiaryContainerColor => CustomColors.tertiaryContainer;
+  Color get tertiaryContainerColor => CustomColors.deepAqua;
 
   @override
   TextStyle get titleStyle => const TextStyle(
-        color: CustomColors.onSurface,
+        color: CustomColors.pureWhite,
         fontSize: 24.0,
       );
 
   @override
   TextStyle get descStyle => const TextStyle(
-        color: CustomColors.onSurface,
+        color: CustomColors.pureWhite,
         fontSize: 15.0,
       );
 
