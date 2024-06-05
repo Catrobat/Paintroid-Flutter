@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -20,7 +20,7 @@ import 'brush_tool_test.mocks.dart';
   Path,
   PathWithActionHistory,
   Offset,
-  DrawPathCommand,
+  PathCommand,
   CommandManager,
   CommandFactory,
   GraphicFactory,
@@ -29,7 +29,7 @@ void main() {
   late MockPathWithActionHistory mockPathWithActionHistory;
   late MockPath mockPath;
   late MockOffset mockOffset;
-  late MockDrawPathCommand mockDrawPathCommand;
+  late MockPathCommand mockPathCommand;
   late MockCommandManager mockCommandManager;
   late MockCommandFactory mockCommandFactory;
   late MockGraphicFactory mockGraphicFactory;
@@ -38,7 +38,7 @@ void main() {
   late PathWithActionHistory testPathWithActionHistory;
   late Paint testPaint;
   late Paint testPaintCopied;
-  late DrawPathCommand testDrawPathCommand;
+  late PathCommand testPathCommand;
 
   late BrushTool sut;
 
@@ -46,7 +46,7 @@ void main() {
     mockPathWithActionHistory = MockPathWithActionHistory();
     mockPath = MockPath();
     mockOffset = MockOffset();
-    mockDrawPathCommand = MockDrawPathCommand();
+    mockPathCommand = MockPathCommand();
     mockCommandManager = MockCommandManager();
     mockCommandFactory = MockCommandFactory();
     mockGraphicFactory = MockGraphicFactory();
@@ -55,28 +55,29 @@ void main() {
     testPathWithActionHistory = PathWithActionHistory();
     testPaint = Paint();
     testPaintCopied = Paint();
-    testDrawPathCommand = DrawPathCommand(testPathWithActionHistory, testPaint);
+    testPathCommand = PathCommand(testPathWithActionHistory, testPaint);
 
     sut = BrushTool(
       paint: testPaint,
       commandManager: mockCommandManager,
       commandFactory: mockCommandFactory,
       graphicFactory: mockGraphicFactory,
+      type: ToolType.BRUSH,
     );
   });
 
   group('On tap down event', () {
-    test('Should create one DrawPathCommand with a new Path', () {
+    test('Should create one PathCommand with a new Path', () {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPathWithActionHistory);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
-          .thenReturn(testDrawPathCommand);
+      when(mockCommandFactory.createPathCommand(any, any))
+          .thenReturn(testPathCommand);
 
       sut.onDown(testOffset);
       verify(mockGraphicFactory.createPathWithActionHistory()).called(1);
       verify(mockGraphicFactory.copyPaint(testPaint)).called(1);
-      verify(mockCommandFactory.createDrawPathCommand(
+      verify(mockCommandFactory.createPathCommand(
               testPathWithActionHistory, testPaintCopied))
           .called(1);
       verifyNoMoreInteractions(mockCommandFactory);
@@ -89,27 +90,27 @@ void main() {
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
       when(mockPathWithActionHistory.moveTo(testOffset.dx, testOffset.dy))
           .thenReturn(null);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
-          .thenReturn(testDrawPathCommand);
+      when(mockCommandFactory.createPathCommand(any, any))
+          .thenReturn(testPathCommand);
       sut.onDown(testOffset);
       verify(mockPathWithActionHistory.moveTo(testOffset.dx, testOffset.dy))
           .called(1);
       verifyNoMoreInteractions(mockPathWithActionHistory);
     });
 
-    test('Should not interact with DrawPathCommand', () {
+    test('Should not interact with PathCommand', () {
       when(mockGraphicFactory.createPathWithActionHistory())
           .thenReturn(testPathWithActionHistory);
       when(mockGraphicFactory.copyPaint(testPaint)).thenReturn(testPaintCopied);
-      when(mockCommandFactory.createDrawPathCommand(any, any))
-          .thenReturn(mockDrawPathCommand);
+      when(mockCommandFactory.createPathCommand(any, any))
+          .thenReturn(mockPathCommand);
       sut.onDown(testOffset);
-      verifyZeroInteractions(mockDrawPathCommand);
+      verifyZeroInteractions(mockPathCommand);
     });
   });
 
   group('On drag event', () {
-    test('Should not add DrawPathCommand to CommandManager', () {
+    test('Should not add PathCommand to CommandManager', () {
       sut.pathToDraw = testPathWithActionHistory;
       sut.onDrag(testOffset);
       verifyZeroInteractions(mockCommandManager);
@@ -134,9 +135,9 @@ void main() {
       verifyZeroInteractions(mockOffset);
     });
 
-    test('Should not add DrawPathCommand to CommandManager', () {
+    test('Should not add PathCommand to CommandManager', () {
       sut.pathToDraw = testPathWithActionHistory;
-      sut.onUp(null);
+      sut.onUp(testOffset);
       verifyZeroInteractions(mockCommandManager);
       verifyZeroInteractions(mockCommandFactory);
     });
@@ -145,7 +146,7 @@ void main() {
       sut.pathToDraw = mockPathWithActionHistory;
       when(mockPathWithActionHistory.path).thenReturn(mockPath);
       when(mockPath.getBounds()).thenReturn(Rect.zero);
-      sut.onUp(null);
+      sut.onUp(testOffset);
       verifyInOrder([
         mockPathWithActionHistory.path,
         mockPath.getBounds(),

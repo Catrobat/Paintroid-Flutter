@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 void main() {
@@ -20,10 +20,10 @@ void main() {
     sut = const CommandFactory();
   });
 
-  test('Should return a valid instance of DrawPathCommand', () {
-    final expected = DrawPathCommand(testPath, testPaint);
-    final command = sut.createDrawPathCommand(testPath, testPaint);
-    expect(command, isA<DrawPathCommand>());
+  test('Should return a valid instance of PathCommand', () {
+    final expected = PathCommand(testPath, testPaint);
+    final command = sut.createPathCommand(testPath, testPaint);
+    expect(command, isA<PathCommand>());
     expect(command, equals(expected));
   });
 }

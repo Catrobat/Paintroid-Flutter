@@ -30,6 +30,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
+  Offset _lastPointerUpPosition = Offset.zero;
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -57,8 +58,9 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     }
   }
 
-  void _onPointerUp(PointerUpEvent _) {
+  void _onPointerUp(PointerUpEvent event) {
     _pointersOnScreen--;
+    _lastPointerUpPosition = event.position;
     if (_isZooming && _pointersOnScreen == 0) _isZooming = false;
   }
 
@@ -70,7 +72,6 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
 
   void _onInteractionStart(ScaleStartDetails details) {
     if (!_isZooming) {
-      multiScaleInProgress = true;
       if (details.pointerCount == 1) {
         _toolBoxStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
       }
@@ -80,20 +81,24 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onInteractionUpdate(ScaleUpdateDetails details) {
     if (!_isZooming) {
       if (details.pointerCount == 1) {
-        multiScaleInProgress = false;
         _toolBoxStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
         _canvasDirtyNotifier.repaint();
-      } else {
-        multiScaleInProgress = true;
       }
     }
   }
 
   void _onInteractionEnd(ScaleEndDetails details) {
     if (!_isZooming) {
-      if (!multiScaleInProgress) {
-        _toolBoxStateNotifier.didTapUp();
-        _canvasStateNotifier.updateCachedImage();
+      _toolBoxStateNotifier.didTapUp(_globalToCanvas(_lastPointerUpPosition));
+      _canvasDirtyNotifier.repaint();
+      final currentTool = ref.read(toolBoxStateProvider).currentTool;
+      switch (currentTool.type) {
+        case ToolType.LINE:
+          _canvasStateNotifier.resetCanvasWithExistingCommands();
+          break;
+        default:
+          _canvasStateNotifier.updateCachedImage();
+          break;
       }
     }
   }
@@ -109,8 +114,6 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     super.didUpdateWidget(oldWidget);
     _resetCanvasScale();
   }
-
-  bool multiScaleInProgress = false;
 
   @override
   Widget build(BuildContext context) {

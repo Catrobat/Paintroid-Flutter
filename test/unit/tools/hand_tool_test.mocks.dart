@@ -11,18 +11,21 @@ import 'dart:ui' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // Project imports:
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i8;
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i10;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i7;
+    as _i9;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
-    as _i5;
-import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart'
-    as _i3;
-import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i6;
-import 'package:paintroid/core/commands/command_manager/command_manager.dart'
+import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
+    as _i7;
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
     as _i4;
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart'
+    as _i3;
+import 'package:paintroid/core/commands/command_manager/command_manager.dart'
+    as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -47,9 +50,18 @@ class _FakeColor_0 extends _i1.SmartFake implements _i2.Color {
         );
 }
 
-class _FakeDrawPathCommand_1 extends _i1.SmartFake
-    implements _i3.DrawPathCommand {
-  _FakeDrawPathCommand_1(
+class _FakePathCommand_1 extends _i1.SmartFake implements _i3.PathCommand {
+  _FakePathCommand_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeLineCommand_2 extends _i1.SmartFake implements _i4.LineCommand {
+  _FakeLineCommand_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -259,16 +271,16 @@ class MockPaint extends _i1.Mock implements _i2.Paint {
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Iterable<_i5.Command> get history => (super.noSuchMethod(
+  Iterable<_i6.Command> get history => (super.noSuchMethod(
         Invocation.getter(#history),
-        returnValue: <_i5.Command>[],
-      ) as Iterable<_i5.Command>);
+        returnValue: <_i6.Command>[],
+      ) as Iterable<_i6.Command>);
 
   @override
   int get count => (super.noSuchMethod(
@@ -277,7 +289,7 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
       ) as int);
 
   @override
-  void addGraphicCommand(_i6.GraphicCommand? command) => super.noSuchMethod(
+  void addGraphicCommand(_i7.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
@@ -313,11 +325,45 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
       );
 
   @override
-  void clearHistory({Iterable<_i5.Command>? newCommands}) => super.noSuchMethod(
+  void clearHistory({Iterable<_i6.Command>? newCommands}) => super.noSuchMethod(
         Invocation.method(
           #clearHistory,
           [],
           {#newCommands: newCommands},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i4.LineCommand? ingoingGhostPathCommand,
+    _i4.LineCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i8.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
         ),
         returnValueForMissingStub: null,
       );
@@ -326,33 +372,64 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i7.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.DrawPathCommand createDrawPathCommand(
-    _i8.PathWithActionHistory? path,
+  _i3.PathCommand createPathCommand(
+    _i10.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createDrawPathCommand,
+          #createPathCommand,
           [
             path,
             paint,
           ],
         ),
-        returnValue: _FakeDrawPathCommand_1(
+        returnValue: _FakePathCommand_1(
           this,
           Invocation.method(
-            #createDrawPathCommand,
+            #createPathCommand,
             [
               path,
               paint,
             ],
           ),
         ),
-      ) as _i3.DrawPathCommand);
+      ) as _i3.PathCommand);
+
+  @override
+  _i4.LineCommand createLineCommand(
+    _i10.PathWithActionHistory? path,
+    _i2.Paint? paint,
+    _i2.Offset? startPoint,
+    _i2.Offset? endPoint,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createLineCommand,
+          [
+            path,
+            paint,
+            startPoint,
+            endPoint,
+          ],
+        ),
+        returnValue: _FakeLineCommand_2(
+          this,
+          Invocation.method(
+            #createLineCommand,
+            [
+              path,
+              paint,
+              startPoint,
+              endPoint,
+            ],
+          ),
+        ),
+      ) as _i4.LineCommand);
 }

@@ -65,19 +65,19 @@ abstract class PaintroidThemeData {
           fontSize: FontSize.xLarge,
           fontFamily: PaintroidThemeData.fontFamily,
           fontWeight: FontWeight.w600,
-          color: CustomColors.onSurface,
+          color: CustomColors.pureWhite,
         ),
         titleMedium: TextStyle(
           fontSize: FontSize.large,
           fontFamily: PaintroidThemeData.fontFamily,
           fontWeight: FontWeight.w800,
-          color: CustomColors.primary,
+          color: CustomColors.oceanBlue,
         ),
         titleSmall: TextStyle(
           fontSize: FontSize.smallMedium,
           fontFamily: PaintroidThemeData.fontFamily,
           fontWeight: FontWeight.w500,
-          color: CustomColors.onSurface,
+          color: CustomColors.pureWhite,
         ),
       );
 
@@ -130,15 +130,15 @@ abstract class PaintroidThemeData {
 
   NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
     indicatorColor: Colors.transparent,
-    backgroundColor: CustomColors.primary,
+    backgroundColor: CustomColors.oceanBlue,
     labelTextStyle: MaterialStateProperty.all(
       const TextStyle(
-        color: CustomColors.onSurface,
+        color: CustomColors.pureWhite,
       ),
     ),
     iconTheme: MaterialStateProperty.all(
       const IconThemeData(
-        color: CustomColors.onSurface,
+        color: CustomColors.pureWhite,
       ),
     ),
   );

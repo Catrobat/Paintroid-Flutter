@@ -21,9 +21,8 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
+    required super.type,
   });
-
-  final ToolType type = ToolType.BRUSH;
 
   final GraphicFactory graphicFactory;
 
@@ -35,8 +34,7 @@ class BrushTool extends Tool with EquatableMixin {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
-    final command =
-        commandFactory.createDrawPathCommand(pathToDraw, savedPaint);
+    final command = commandFactory.createPathCommand(pathToDraw, savedPaint);
     commandManager.addGraphicCommand(command);
   }
 
@@ -46,7 +44,7 @@ class BrushTool extends Tool with EquatableMixin {
   }
 
   @override
-  void onUp(Offset? point) {
+  void onUp(Offset point) {
     if (pathToDraw.path.getBounds().size == Size.zero) {
       pathToDraw.close();
     }
@@ -72,6 +70,7 @@ class BrushTool extends Tool with EquatableMixin {
       commandFactory: commandFactory ?? this.commandFactory,
       commandManager: commandManager ?? this.commandManager,
       graphicFactory: graphicFactory ?? this.graphicFactory,
+      type: ToolType.BRUSH,
     );
   }
 }

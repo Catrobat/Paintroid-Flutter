@@ -23,6 +23,7 @@ import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_list_tile.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
@@ -153,6 +154,128 @@ void main() {
         find.widgetWithIcon(FloatingActionButton, Icons.file_download),
         findsOneWidget,
       );
+    },
+  );
+
+  testWidgets(
+    'Should open PocketPaint widget trough edit (new project) icon and return back to Landing page',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final editButton = find.byKey(const Key('myEditIcon'));
+      await tester.tap(editButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TopAppBar), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+
+      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      expect(titleFinder, findsOneWidget);
+
+      final overflowMenuButtonFinder = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder, findsOneWidget);
+
+      // Check the canvas is empty
+      final container = ProviderContainer();
+      final canvasState = container.read(canvasStateProvider);
+      expect(canvasState.backgroundImage, isNull);
+      expect(canvasState.cachedImage, isNull);
+      expect(canvasState.size, equals(Size.zero));
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.text('My Projects'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should open PocketPaint widget trough edit (new project) icon save it and return back to Landing page. Then open the project trough edit icon.',
+    (tester) async {
+      String projectName = 'project.catrobat-image';
+
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+      when(fileService.checkIfFileExistsInApplicationDirectory(projectName))
+          .thenAnswer((_) => Future.value(false));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+
+      final plusButton = find.byKey(const Key('myEditIcon'));
+      expect(plusButton, findsOneWidget);
+      await tester.tap(plusButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TopAppBar), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+
+      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      expect(titleFinder, findsOneWidget);
+
+      final overflowMenuButtonFinder = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder, findsOneWidget);
+
+      // Check the canvas is empty
+      final container = ProviderContainer();
+      final canvasState = container.read(canvasStateProvider);
+      expect(canvasState.backgroundImage, isNull);
+      expect(canvasState.cachedImage, isNull);
+      expect(canvasState.size, equals(Size.zero));
+
+      await tester.tap(overflowMenuButtonFinder);
+      await tester.pumpAndSettle();
+
+      final saveProjectButton = find.text('Save project');
+      expect(saveProjectButton, findsOneWidget);
+
+      await tester.tap(saveProjectButton);
+      await tester.pumpAndSettle();
+
+      final textFormField = find.widgetWithText(TextFormField, 'Project name');
+      expect(textFormField, findsOneWidget);
+
+      await tester.enterText(textFormField, 'project');
+
+      final saveButton = find.widgetWithText(TextButton, 'Save');
+      expect(saveButton, findsOneWidget);
+
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+
+      expect(find.text('My Projects'), findsOneWidget);
+
+      final editButton = find.byKey(const Key('myEditIcon'));
+      await tester.tap(editButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TopAppBar), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+
+      final titleFinder2 = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      expect(titleFinder2, findsOneWidget);
+
+      final overflowMenuButtonFinder2 = find.widgetWithIcon(
+        PopupMenuButton<OverflowMenuOption>,
+        Icons.more_vert,
+      );
+      expect(overflowMenuButtonFinder2, findsOneWidget);
     },
   );
 

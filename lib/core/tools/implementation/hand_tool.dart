@@ -16,9 +16,8 @@ class HandTool extends Tool with EquatableMixin {
     required super.paint,
     required super.commandFactory,
     required super.commandManager,
+    required super.type,
   });
-
-  final ToolType type = ToolType.HAND;
 
   @override
   void onDown(Offset point) {}
@@ -27,7 +26,7 @@ class HandTool extends Tool with EquatableMixin {
   void onDrag(Offset point) {}
 
   @override
-  void onUp(Offset? point) {}
+  void onUp(Offset point) {}
 
   @override
   void onCancel() {}
@@ -46,6 +45,7 @@ class HandTool extends Tool with EquatableMixin {
       paint: paint ?? this.paint,
       commandFactory: commandFactory ?? this.commandFactory,
       commandManager: commandManager ?? this.commandManager,
+      type: ToolType.HAND,
     );
   }
 }

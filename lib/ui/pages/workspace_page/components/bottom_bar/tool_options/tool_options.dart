@@ -31,6 +31,7 @@ class ToolOptions extends ConsumerWidget {
           child: switch (currentToolType) {
             ToolType.BRUSH => const StrokeToolOptions(),
             ToolType.ERASER => const StrokeToolOptions(),
+            ToolType.LINE => const StrokeToolOptions(),
             _ => Container(),
           }),
     );

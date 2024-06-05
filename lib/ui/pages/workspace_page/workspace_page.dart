@@ -67,7 +67,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
         Navigator.pop(context);
       },
       child: Scaffold(
-        appBar: isFullscreen ? null : TopAppBar(title: 'Pocket Paint'),
+        appBar: isFullscreen ? null : const TopAppBar(title: 'Pocket Paint'),
         backgroundColor: Colors.grey.shade400,
         resizeToAvoidBottomInset: true,
         body: Stack(
