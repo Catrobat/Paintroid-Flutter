@@ -58,6 +58,7 @@ abstract class PaintroidThemeData {
 
   TextStyle get titleStyle;
   TextStyle get descStyle;
+  TextStyle get hintStyle;
 
   TextTheme get titleTheme => TextTheme(
         titleLarge: TextStyle(

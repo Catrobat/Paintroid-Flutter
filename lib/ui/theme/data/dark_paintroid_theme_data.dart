@@ -131,4 +131,14 @@ class DarkPaintroidThemeData extends PaintroidThemeData {
         color: CustomColors.onSurface,
         fontSize: 15.0,
       );
+
+  @override
+  TextStyle get hintStyle {
+    return TextStyle(
+      fontSize: FontSize.smallMedium,
+      fontFamily: PaintroidThemeData.fontFamily,
+      fontWeight: FontWeight.w100,
+      color: onSurfaceColor,
+    );
+  }
 }

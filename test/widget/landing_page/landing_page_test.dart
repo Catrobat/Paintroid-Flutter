@@ -205,7 +205,7 @@ void main() {
   );
 
   testWidgets(
-    'Should have "Delete" and "Details" options in ProjectOverflowMenu',
+    'Should have "Delete", "Details" and "Rename" options in ProjectOverflowMenu',
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
@@ -228,6 +228,7 @@ void main() {
 
       expect(find.text('Delete'), findsOneWidget);
       expect(find.text('Details'), findsOneWidget);
+      expect(find.text('Rename'), findsOneWidget);
     },
   );
 
@@ -324,6 +325,51 @@ void main() {
       await tester.tap(cancelButton);
       await tester.pumpAndSettle();
       expect(deleteProjectDialog, findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Should show RenameProjectDialog',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
+      when(imageService.getProjectPreview(filePath))
+          .thenReturn(Result.ok(testFile.readAsBytesSync()));
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+      verify(database.projectDAO);
+      verify(dao.getProjects());
+      verify(imageService.getProjectPreview(filePath)).called(5);
+
+      const position = 1;
+      final overflowMenu =
+          find.byKey(const Key('ProjectOverflowMenu Key$position'));
+      expect(overflowMenu, findsOneWidget);
+      await tester.tap(overflowMenu);
+      await tester.pumpAndSettle();
+
+      final renameOption = find.text('Rename');
+      expect(renameOption, findsOneWidget);
+
+      await tester.tap(renameOption);
+      await tester.pumpAndSettle();
+
+      final renameProjectDialog =
+          find.widgetWithText(GenericDialog, 'Rename project$position');
+      expect(renameProjectDialog, findsOneWidget);
+      final cancelButton =
+          find.widgetWithText(GenericDialogActionButton, 'CANCEL');
+      final renameButton =
+          find.widgetWithText(GenericDialogActionButton, 'RENAME');
+
+      expect(cancelButton, findsOneWidget);
+      expect(renameButton, findsOneWidget);
+
+      expect(find.byKey(const Key('textInputField')), findsOneWidget);
+
+      await tester.tap(cancelButton);
+      await tester.pumpAndSettle();
+      expect(renameProjectDialog, findsNothing);
     },
   );
 

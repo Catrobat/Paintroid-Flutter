@@ -12,12 +12,14 @@ import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/ui/shared/dialogs/delete_project_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/rename_project_dialog.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 enum ProjectOverflowMenuOption {
   deleteProject('Delete'),
-  getDetails('Details');
+  getDetails('Details'),
+  renameProject('Rename');
 
   const ProjectOverflowMenuOption(this.label);
 
@@ -77,6 +79,9 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
       case ProjectOverflowMenuOption.getDetails:
         _showProjectDetails();
         break;
+      case ProjectOverflowMenuOption.renameProject:
+        _renameProject();
+        break;
     }
   }
 
@@ -102,5 +107,35 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
 
   Future<void> _showProjectDetails() async {
     await showDetailsDialog(context, widget.project);
+  }
+
+  Future<void> _renameProject() async {
+    try {
+      while (true) {
+        if (!mounted) return;
+        String? name = await showRenameDialog(context, widget.project.name);
+        if (name == null) return;
+
+        Project? project =
+            await database.projectDAO.getProjectByName(widget.project.name);
+        if (project?.name == name) return;
+
+        Project? existingProject =
+            await database.projectDAO.getProjectByName(name);
+
+        if (existingProject == null) {
+          project?.name = name;
+
+          await database.projectDAO.deleteProject(project?.id ?? -1);
+          await database.projectDAO.insertProject(project!);
+          ref.invalidate(ProjectDatabase.provider);
+          break;
+        }
+        ToastUtils.showShortToast(
+            message: 'A project with the name "$name" already exists.');
+      }
+    } catch (err) {
+      ToastUtils.showShortToast(message: err.toString());
+    }
   }
 }
