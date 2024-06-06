@@ -6,7 +6,7 @@ import 'package:colorpicker/src/constants/colors.dart';
 
 part 'color_picker_state_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ColorPickerState extends _$ColorPickerState {
   final colors = DisplayColors.colors;
   @override

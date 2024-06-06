@@ -8,6 +8,7 @@ import 'package:colorpicker/colorpicker.dart';
 // Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
@@ -132,6 +133,7 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
         onColorChanged: (newColor) {
           ref.read(brushToolStateProvider.notifier).updateColor(newColor);
         },
+        image: ref.read(canvasStateProvider).cachedImage,
       ),
     ),
   );
