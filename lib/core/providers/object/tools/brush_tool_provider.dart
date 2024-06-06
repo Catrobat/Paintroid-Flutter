@@ -14,12 +14,15 @@ import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 part 'brush_tool_provider.g.dart';
 
 @riverpod
-BrushTool brushTool(BrushToolRef ref) {
-  return BrushTool(
+class BrushToolProvider extends _$BrushToolProvider {
+  @override
+  BrushTool build() {
+    return BrushTool(
     paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
     commandManager: ref.watch(commandManagerProvider),
     commandFactory: ref.watch(commandFactoryProvider),
     graphicFactory: ref.watch(graphicFactoryProvider),
     type: ToolType.BRUSH,
   );
+  }
 }

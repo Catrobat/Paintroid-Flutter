@@ -18,7 +18,7 @@ import 'package:paintroid/core/tools/tool_data.dart';
 part 'toolbox_state_provider.g.dart';
 
 @riverpod
-class ToolBoxState extends _$ToolBoxState {
+class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   void didTapDown(Offset position) {
     state.currentTool.onDown(position);
     state = state.copyWith(isDown: true);

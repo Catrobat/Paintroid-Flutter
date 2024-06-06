@@ -13,11 +13,14 @@ import 'package:paintroid/core/tools/implementation/hand_tool.dart';
 part 'hand_tool_provider.g.dart';
 
 @riverpod
-HandTool handTool(HandToolRef ref) {
-  return HandTool(
+class HandToolProvider extends _$HandToolProvider {
+  @override
+  HandTool build() {
+    return HandTool(
     paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
     commandManager: ref.watch(commandManagerProvider),
     commandFactory: ref.watch(commandFactoryProvider),
     type: ToolType.HAND,
   );
+  }
 }

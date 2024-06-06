@@ -30,7 +30,7 @@ class FakePictureRecorder extends Fake implements PictureRecorder {
   Picture endRecording() => FakePicture();
 }
 
-class MockCanvasState1 extends CanvasState {
+class MockCanvasState1 extends CanvasStateProvider {
   @override
   CanvasStateData build() {
     return CanvasStateData(
@@ -42,7 +42,7 @@ class MockCanvasState1 extends CanvasState {
   }
 }
 
-class MockCanvasState2 extends CanvasState {
+class MockCanvasState2 extends CanvasStateProvider {
   @override
   CanvasStateData build() {
     return CanvasStateData(
@@ -52,6 +52,19 @@ class MockCanvasState2 extends CanvasState {
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
   }
+}
+
+class MockGraphicsFactoryState extends GraphicFactoryProvider {
+  @override
+  GraphicFactory build() {
+    return FakeGraphicFactory(
+        MockCanvas(), MockCanvas(), MockCanvas(), Paint());
+  }
+}
+
+class MockCommandManagerState extends CommandManagerProvider {
+  @override
+  CommandManager build() => MockCommandManager();
 }
 
 class FakeGraphicFactory extends GraphicFactory {
@@ -162,15 +175,8 @@ void main() {
       mockCombinedCanvas = MockCanvas();
       mockCommandManager = MockCommandManager();
       container = ProviderContainer(overrides: [
-        graphicFactoryProvider.overrideWithValue(
-          FakeGraphicFactory(
-            mockBackgroundCanvas,
-            mockCommandsCanvas,
-            mockCombinedCanvas,
-            testPaint,
-          ),
-        ),
-        commandManagerProvider.overrideWithValue(mockCommandManager),
+        graphicFactoryProvider.overrideWith(MockGraphicsFactoryState.new),
+        commandManagerProvider.overrideWith(MockCommandManagerState.new),
         canvasStateProvider.overrideWith(MockCanvasState2.new),
       ]);
       sut = container.read(RenderImageForExport.provider);

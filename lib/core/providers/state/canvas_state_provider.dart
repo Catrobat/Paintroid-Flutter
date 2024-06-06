@@ -18,7 +18,7 @@ import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 part 'canvas_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class CanvasState extends _$CanvasState {
+class CanvasStateProvider extends _$CanvasStateProvider {
   Size initialCanvasSize = Size.zero;
 
   @override

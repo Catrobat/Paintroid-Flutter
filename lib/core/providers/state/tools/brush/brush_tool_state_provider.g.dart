@@ -6,21 +6,22 @@ part of 'brush_tool_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$brushToolStateHash() => r'1dbb16d53ddafba863e739874849eb790b4db667';
+String _$brushToolStateProviderHash() =>
+    r'56551338919628624c04c1c7cd7cb2071ff2b369';
 
-/// See also [BrushToolState].
-@ProviderFor(BrushToolState)
-final brushToolStateProvider =
-    AutoDisposeNotifierProvider<BrushToolState, BrushToolStateData>.internal(
-  BrushToolState.new,
+/// See also [BrushToolStateProvider].
+@ProviderFor(BrushToolStateProvider)
+final brushToolStateProvider = AutoDisposeNotifierProvider<
+    BrushToolStateProvider, BrushToolStateData>.internal(
+  BrushToolStateProvider.new,
   name: r'brushToolStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$brushToolStateHash,
+      : _$brushToolStateProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$BrushToolState = AutoDisposeNotifier<BrushToolStateData>;
+typedef _$BrushToolStateProvider = AutoDisposeNotifier<BrushToolStateData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

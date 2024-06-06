@@ -10,6 +10,9 @@ import 'package:paintroid/core/commands/command_manager/sync_command_manager.dar
 part 'command_manager_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-CommandManager commandManager(CommandManagerRef ref) {
-  return SyncCommandManager(commands: []);
+class CommandManagerProvider extends _$CommandManagerProvider {
+  @override
+  CommandManager build() {
+    return SyncCommandManager(commands: []);
+  }
 }
