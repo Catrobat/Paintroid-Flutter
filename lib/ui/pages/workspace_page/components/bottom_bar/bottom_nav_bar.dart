@@ -36,6 +36,7 @@ class BottomNavBar extends ConsumerWidget {
             _onNavigationItemSelected(index, context, ref),
         destinations: [
           NavigationDestination(
+            key: const ValueKey(BottomNavBarItem.TOOLS),
             label: localizations.tools,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),

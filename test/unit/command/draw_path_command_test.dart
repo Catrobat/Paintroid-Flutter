@@ -7,14 +7,14 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'draw_path_command_test.mocks.dart';
 
 @GenerateMocks([Canvas])
 void main() {
   late MockCanvas mockCanvas;
-  late DrawPathCommand drawPath;
+  late PathCommand drawPath;
 
   setUp(() {
     mockCanvas = MockCanvas();
@@ -25,7 +25,7 @@ void main() {
     () {
       final testPath = PathWithActionHistory();
       final testPaint = Paint();
-      drawPath = DrawPathCommand(testPath, testPaint);
+      drawPath = PathCommand(testPath, testPaint);
       when(mockCanvas.drawPath(testPath.path, testPaint)).thenReturn(null);
       drawPath.call(mockCanvas);
       verify(mockCanvas.drawPath(testPath.path, testPaint));

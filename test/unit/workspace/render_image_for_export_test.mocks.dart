@@ -11,10 +11,15 @@ import 'dart:ui' as _i2;
 // Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 
+// Project imports:
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
+
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i5;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i6;
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
+    as _i7;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i4;
 
@@ -689,6 +694,40 @@ class MockCommandManager extends _i1.Mock implements _i4.CommandManager {
           #clearHistory,
           [],
           {#newCommands: newCommands},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i7.LineCommand? ingoingGhostPathCommand,
+    _i7.LineCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i8.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
         ),
         returnValueForMissingStub: null,
       );

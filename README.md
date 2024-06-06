@@ -11,47 +11,31 @@ For more information oriented towards developers please visit our [developers pa
 ## Getting Started
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install):
-   - Currently used version specified in _.github/workflows/main.yml_
-   - **Recommended**: Use [fvm](https://fvm.app/) for managing Flutter versions
+    - Currently used version specified in _.github/workflows/main.yml_
+    - **Recommended**: Use [fvm](https://fvm.app/) for managing Flutter versions
 2. Get dependencies: `make get`
 3. Run app: `make run`
 
-> In case `make` does not work for you, `melos` can be used for most of the commands. Check them out in _Makefile_ or in _melos.yaml_.
-
-What `make get` does:
-
-- Runs `./setup-sdk.sh`, if _fvm_ is not installed:
-  - changes "FLUTTER" (= `fvm flutter`) to `flutter` in _Makefile_
-  - changes "DART" (= `fvm dart`) to `dart` in _Makefile_ if _fvm_
-  - changes "sdkPath" (= `.fvm/flutter_sdk`) to `auto` in _melos.yaml_
-- Runs `./setup-melos.sh`: activates _melos_ if not activated.
+Alternatively `make all`can be used to:
+>`flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr; `sort` &rarr; `flutter run`
 
 ## Building generated files
-
-- For **protoc**:
-  - Set up the [Protocol Buffer](https://grpc.io/docs/languages/dart/quickstart/) compiler
-  - Run `./generate_protos.sh`
-- For **build-runner**: run `make build`
-- For **localizations**: run `make languages`
+- run `make build`
 
 ## Tests
 
 - Run tests for **all** packages:
-  - all: `make test`
-  - unit: `make test-unit`
-  - widget: `make test-widget`
-- Run tests for a **specific** package:
-  - all: `melos test`
-  - unit: `melos test-unit`
-  - widget: `melos test-widget`
+    - all: `make test`
+    - unit: `make unit`
+    - widget: `make widget`
 
 **For integration tests:**
 
 1. Make sure you have an iOS/Android device online by running `flutter devices`
-2. `cd` into the package where the test is located
-3. Run `flutter test <path-to-integartion-test> -d <DEVICE-ID>`
-   - Replace `<Device-ID>` with the ID of the device from `flutter devices`
-   - Replace `<path-to-integartion-test>` with the actual path to the test (_test/..._)
+2. Run `make integration` to run all integration tests
+   Run `make integration target=name_test` to run a specific integration test file
+   (make sure to add the `test` suffix to the file name)
+
 
 ## Issues
 
