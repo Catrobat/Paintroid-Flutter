@@ -26,6 +26,7 @@ class DeviceService implements IDeviceService {
   DeviceService(this._methodChannel);
 
   final MethodChannel _methodChannel;
+  final ui.Size _testSize = const ui.Size(1179, 2556);
 
   @override
   Future<ui.Size> getSizeInPixels() async {
@@ -36,7 +37,7 @@ class DeviceService implements IDeviceService {
     } else if (Platform.isIOS) {
       return firstView.physicalSize;
     } else {
-      throw 'Unsupported platform';
+      return _testSize;
     }
   }
 }

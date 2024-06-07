@@ -38,6 +38,7 @@ class ToolButton extends StatelessWidget {
                 color: PaintroidTheme.of(context).onSurfaceColor,
               ),
               label: toolData.name,
+              key: ValueKey(toolData.name),
               onPressed: () {
                 Navigator.pop(context);
                 ref.read(toolBoxStateProvider.notifier).switchTool(toolData);

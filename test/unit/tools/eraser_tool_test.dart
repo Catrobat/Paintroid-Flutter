@@ -35,6 +35,7 @@ void main() {
       commandFactory: mockCommandFactory,
       commandManager: mockCommandManager,
       graphicFactory: mockGraphicFactory,
+      type: ToolType.ERASER,
     );
   });
 

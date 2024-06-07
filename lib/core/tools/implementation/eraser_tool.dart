@@ -8,7 +8,8 @@ class EraserTool extends BrushTool {
     required super.commandFactory,
     required super.commandManager,
     required super.graphicFactory,
-  }) : super();
+    required super.type,
+  });
 
   @override
   ToolType get type => ToolType.ERASER;

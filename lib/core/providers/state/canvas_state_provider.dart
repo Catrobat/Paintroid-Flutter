@@ -72,15 +72,22 @@ class CanvasState extends _$CanvasState {
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: null);
     } else {
-      final recorder = state.graphicFactory.createPictureRecorder();
-      final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
-      final size = state.size;
-      canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
-      state.commandManager.executeAllCommands(canvas);
-      final picture = recorder.endRecording();
-      final img =
-          await picture.toImage(size.width.toInt(), size.height.toInt());
-      state = state.copyWith(cachedImage: img);
+      await _executeAllCommandsOnCanvas();
     }
+  }
+
+  Future<void> resetCanvasWithExistingCommands() async {
+    await _executeAllCommandsOnCanvas();
+  }
+
+  Future<void> _executeAllCommandsOnCanvas() async {
+    final recorder = state.graphicFactory.createPictureRecorder();
+    final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
+    final size = state.size;
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    state.commandManager.executeAllCommands(canvas);
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(size.width.toInt(), size.height.toInt());
+    state = state.copyWith(cachedImage: img);
   }
 }

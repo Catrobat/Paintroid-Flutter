@@ -5,28 +5,31 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 // Dart imports:
-import 'dart:typed_data' as _i5;
+import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i2;
 
 // Package imports:
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
+import 'package:mockito/src/dummies.dart' as _i7;
 
 // Project imports:
 import 'package:paintroid/core/commands/path_with_action_history.dart' as _i3;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i11;
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i10;
+    as _i12;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
-    as _i8;
-import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart'
-    as _i4;
-import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i9;
+import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
+    as _i10;
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
+    as _i5;
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart'
+    as _i4;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
-    as _i7;
+    as _i8;
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
-    as _i11;
+    as _i13;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -102,9 +105,8 @@ class _FakePaint_5 extends _i1.SmartFake implements _i2.Paint {
         );
 }
 
-class _FakeDrawPathCommand_6 extends _i1.SmartFake
-    implements _i4.DrawPathCommand {
-  _FakeDrawPathCommand_6(
+class _FakePathCommand_6 extends _i1.SmartFake implements _i4.PathCommand {
+  _FakePathCommand_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -113,9 +115,19 @@ class _FakeDrawPathCommand_6 extends _i1.SmartFake
         );
 }
 
-class _FakePictureRecorder_7 extends _i1.SmartFake
+class _FakeLineCommand_7 extends _i1.SmartFake implements _i5.LineCommand {
+  _FakeLineCommand_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakePictureRecorder_8 extends _i1.SmartFake
     implements _i2.PictureRecorder {
-  _FakePictureRecorder_7(
+  _FakePictureRecorder_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -124,8 +136,8 @@ class _FakePictureRecorder_7 extends _i1.SmartFake
         );
 }
 
-class _FakeCanvas_8 extends _i1.SmartFake implements _i2.Canvas {
-  _FakeCanvas_8(
+class _FakeCanvas_9 extends _i1.SmartFake implements _i2.Canvas {
+  _FakeCanvas_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -482,7 +494,7 @@ class MockPath extends _i1.Mock implements _i2.Path {
   void addPath(
     _i2.Path? path,
     _i2.Offset? offset, {
-    _i5.Float64List? matrix4,
+    _i6.Float64List? matrix4,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -500,7 +512,7 @@ class MockPath extends _i1.Mock implements _i2.Path {
   void extendWithPath(
     _i2.Path? path,
     _i2.Offset? offset, {
-    _i5.Float64List? matrix4,
+    _i6.Float64List? matrix4,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -557,7 +569,7 @@ class MockPath extends _i1.Mock implements _i2.Path {
       ) as _i2.Path);
 
   @override
-  _i2.Path transform(_i5.Float64List? matrix4) => (super.noSuchMethod(
+  _i2.Path transform(_i6.Float64List? matrix4) => (super.noSuchMethod(
         Invocation.method(
           #transform,
           [matrix4],
@@ -937,18 +949,18 @@ class MockOffset extends _i1.Mock implements _i2.Offset {
       ) as bool);
 }
 
-/// A class which mocks [DrawPathCommand].
+/// A class which mocks [PathCommand].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
-  MockDrawPathCommand() {
+class MockPathCommand extends _i1.Mock implements _i4.PathCommand {
+  MockPathCommand() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   String get type => (super.noSuchMethod(
         Invocation.getter(#type),
-        returnValue: _i6.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#type),
         ),
@@ -1006,16 +1018,16 @@ class MockDrawPathCommand extends _i1.Mock implements _i4.DrawPathCommand {
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i7.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i8.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Iterable<_i8.Command> get history => (super.noSuchMethod(
+  Iterable<_i9.Command> get history => (super.noSuchMethod(
         Invocation.getter(#history),
-        returnValue: <_i8.Command>[],
-      ) as Iterable<_i8.Command>);
+        returnValue: <_i9.Command>[],
+      ) as Iterable<_i9.Command>);
 
   @override
   int get count => (super.noSuchMethod(
@@ -1024,7 +1036,7 @@ class MockCommandManager extends _i1.Mock implements _i7.CommandManager {
       ) as int);
 
   @override
-  void addGraphicCommand(_i9.GraphicCommand? command) => super.noSuchMethod(
+  void addGraphicCommand(_i10.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
@@ -1060,11 +1072,45 @@ class MockCommandManager extends _i1.Mock implements _i7.CommandManager {
       );
 
   @override
-  void clearHistory({Iterable<_i8.Command>? newCommands}) => super.noSuchMethod(
+  void clearHistory({Iterable<_i9.Command>? newCommands}) => super.noSuchMethod(
         Invocation.method(
           #clearHistory,
           [],
           {#newCommands: newCommands},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolGhostPaths(
+    _i2.Canvas? canvas,
+    _i5.LineCommand? ingoingGhostPathCommand,
+    _i5.LineCommand? outgoingGhostPathCommand,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolGhostPaths,
+          [
+            canvas,
+            ingoingGhostPathCommand,
+            outgoingGhostPathCommand,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawLineToolVertices(
+    _i2.Canvas? canvas,
+    _i11.VertexStack? vertexStack,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineToolVertices,
+          [
+            canvas,
+            vertexStack,
+          ],
         ),
         returnValueForMissingStub: null,
       );
@@ -1073,41 +1119,72 @@ class MockCommandManager extends _i1.Mock implements _i7.CommandManager {
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i10.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i12.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.DrawPathCommand createDrawPathCommand(
+  _i4.PathCommand createPathCommand(
     _i3.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createDrawPathCommand,
+          #createPathCommand,
           [
             path,
             paint,
           ],
         ),
-        returnValue: _FakeDrawPathCommand_6(
+        returnValue: _FakePathCommand_6(
           this,
           Invocation.method(
-            #createDrawPathCommand,
+            #createPathCommand,
             [
               path,
               paint,
             ],
           ),
         ),
-      ) as _i4.DrawPathCommand);
+      ) as _i4.PathCommand);
+
+  @override
+  _i5.LineCommand createLineCommand(
+    _i3.PathWithActionHistory? path,
+    _i2.Paint? paint,
+    _i2.Offset? startPoint,
+    _i2.Offset? endPoint,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createLineCommand,
+          [
+            path,
+            paint,
+            startPoint,
+            endPoint,
+          ],
+        ),
+        returnValue: _FakeLineCommand_7(
+          this,
+          Invocation.method(
+            #createLineCommand,
+            [
+              path,
+              paint,
+              startPoint,
+              endPoint,
+            ],
+          ),
+        ),
+      ) as _i5.LineCommand);
 }
 
 /// A class which mocks [GraphicFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGraphicFactory extends _i1.Mock implements _i11.GraphicFactory {
+class MockGraphicFactory extends _i1.Mock implements _i13.GraphicFactory {
   MockGraphicFactory() {
     _i1.throwOnMissingStub(this);
   }
@@ -1149,7 +1226,7 @@ class MockGraphicFactory extends _i1.Mock implements _i11.GraphicFactory {
           #createPictureRecorder,
           [],
         ),
-        returnValue: _FakePictureRecorder_7(
+        returnValue: _FakePictureRecorder_8(
           this,
           Invocation.method(
             #createPictureRecorder,
@@ -1165,7 +1242,7 @@ class MockGraphicFactory extends _i1.Mock implements _i11.GraphicFactory {
           #createCanvasWithRecorder,
           [recorder],
         ),
-        returnValue: _FakeCanvas_8(
+        returnValue: _FakeCanvas_9(
           this,
           Invocation.method(
             #createCanvasWithRecorder,
