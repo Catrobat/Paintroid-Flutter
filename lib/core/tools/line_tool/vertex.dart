@@ -1,6 +1,8 @@
 // Dart imports:
+
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/utils/distance_calculator.dart';

@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
@@ -33,7 +32,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(
+            foregroundColor: WidgetStateProperty.all(
               CustomColors.oceanBlue,
             ),
           ),

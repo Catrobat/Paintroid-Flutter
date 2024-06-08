@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
@@ -14,7 +13,7 @@ class GenericDialogActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextButton(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(
+          foregroundColor: WidgetStateProperty.all(
             PaintroidTheme.of(context).primaryColor,
           ),
         ),

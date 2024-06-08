@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';

@@ -4,13 +4,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-
-class MockGraphicFactory extends Mock implements GraphicFactory {}
 
 void main() {
   late ProviderContainer container;
