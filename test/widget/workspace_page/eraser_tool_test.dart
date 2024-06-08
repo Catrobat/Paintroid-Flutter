@@ -13,8 +13,7 @@ import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
-import 'bottom_nav_bar_interactions.dart';
-import 'canvas_interactions.dart';
+import '../../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

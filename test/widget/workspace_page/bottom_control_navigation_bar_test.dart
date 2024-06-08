@@ -14,7 +14,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_opt
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_width_tool_option.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
-import 'bottom_nav_bar_interactions.dart';
+import '../../utils/bottom_nav_bar_interactions.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

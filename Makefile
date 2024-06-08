@@ -52,8 +52,7 @@ integration:
 		fi \
 	fi
 
-test:
-	$(FLUTTER_CMD) test
+test: unit widget integration
 
 sort:
 	$(DART_CMD) run import_sorter:main

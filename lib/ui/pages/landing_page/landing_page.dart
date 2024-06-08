@@ -16,6 +16,7 @@ import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/landing_page/components/custom_action_button.dart';
 import 'package:paintroid/ui/pages/landing_page/components/image_preview.dart';
 import 'package:paintroid/ui/pages/landing_page/components/main_overflow_menu.dart';
@@ -117,12 +118,17 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                 Flexible(
                   flex: 2,
                   child: _ProjectPreview(
-                    ioHandler: ioHandler,
-                    imageService: imageService,
-                    latestModifiedProject: latestModifiedProject,
-                    openProject: () =>
-                        _openProject(latestModifiedProject, ioHandler, ref),
-                  ),
+                      ioHandler: ioHandler,
+                      imageService: imageService,
+                      latestModifiedProject: latestModifiedProject,
+                      onProjectPreviewTap: () {
+                        if (latestModifiedProject != null) {
+                          _openProject(latestModifiedProject, ioHandler, ref);
+                        } else {
+                          _clearCanvas();
+                          _navigateToPocketPaint();
+                        }
+                      }),
                 ),
                 Container(
                   color: PaintroidTheme.of(context).primaryContainerColor,
@@ -149,8 +155,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           project: project,
                           imageService: imageService,
                           index: index,
-                          onTap: () async =>
-                              _openProject(project, ioHandler, ref),
+                          onTap: () async {
+                            _clearCanvas();
+                            _openProject(project, ioHandler, ref);
+                          },
                         );
                       }
                       return Container();
@@ -188,7 +196,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             height: 10,
           ),
           CustomActionButton(
-            key: const ValueKey('NewImageActionButton'),
+            key: const ValueKey(WidgetIdentifier.newImageActionButton),
             heroTag: 'new_image',
             icon: Icons.add,
             hint: 'New image',
@@ -207,13 +215,13 @@ class _ProjectPreview extends StatelessWidget {
   final Project? latestModifiedProject;
   final IOHandler ioHandler;
   final IImageService imageService;
-  final VoidCallback openProject;
+  final VoidCallback onProjectPreviewTap;
 
   const _ProjectPreview({
     this.latestModifiedProject,
     required this.ioHandler,
     required this.imageService,
-    required this.openProject,
+    required this.onProjectPreviewTap,
   });
 
   @override
@@ -222,7 +230,7 @@ class _ProjectPreview extends StatelessWidget {
       children: [
         Material(
           child: InkWell(
-            onTap: openProject,
+            onTap: onProjectPreviewTap,
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
@@ -235,15 +243,30 @@ class _ProjectPreview extends StatelessWidget {
             key: const Key('myEditIcon'),
             iconSize: 264,
             onPressed: () async {
-              if (latestModifiedProject != null) {
-                openProject();
-              }
+              onProjectPreviewTap.call();
             },
-            icon: const IconSvg(
-              path: 'assets/svg/ic_edit_circle.svg',
-              height: 264.0,
-              width: 264.0,
-            ),
+            icon: latestModifiedProject == null
+                ? Container(
+                    height: 170.0,
+                    width: 170.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: PaintroidTheme.of(context)
+                            .outlineColor
+                            .withAlpha(180)),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        color: PaintroidTheme.of(context).backgroundColor,
+                        size: 150.0,
+                      ),
+                    ),
+                  )
+                : const IconSvg(
+                    path: 'assets/svg/ic_edit_circle.svg',
+                    height: 264.0,
+                    width: 264.0,
+                  ),
           ),
         ),
         Align(

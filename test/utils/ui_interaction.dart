@@ -1,33 +1,26 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+
 // Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
-
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
 class UIInteraction {
-  static final UIInteraction _instance = UIInteraction._internal();
+  static late WidgetTester tester;
 
-  UIInteraction._internal();
-
-  factory UIInteraction() {
-    return _instance;
+  static void initialize(WidgetTester widgetTester) {
+    tester = widgetTester;
   }
 
-  late WidgetTester tester;
-
-  void initialize(WidgetTester tester) {
-    this.tester = tester;
-  }
-
-  Future<Color> getPixelColor(int x, int y) async {
+  static Future<Color> getPixelColor(int x, int y) async {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final canvasStateNotifier = container.read(canvasStateProvider.notifier);
@@ -52,14 +45,14 @@ class UIInteraction {
     return Color(argbColor);
   }
 
-  Future<void> createNewImage() async {
+  static Future<void> createNewImage() async {
     expect(WidgetFinder.newImageButton, findsOneWidget);
     await tester.tap(WidgetFinder.newImageButton);
     await tester.pumpAndSettle();
     await _initializeCanvasDimensions();
   }
 
-  Future<void> selectTool(String toolName) async {
+  static Future<void> selectTool(String toolName) async {
     expect(WidgetFinder.toolsTab, findsOneWidget);
     await tester.tap(WidgetFinder.toolsTab);
     await tester.pumpAndSettle();
@@ -71,51 +64,51 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
-  Future<void> _initializeCanvasDimensions() async {
+  static Future<void> _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(WidgetFinder.canvas);
     await tester.pumpAndSettle();
     CanvasPosition.initializeCanvasDimensions(canvasBox);
   }
 
-  Color getCurrentColor() {
+  static Color getCurrentColor() {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final toolBoxProvider = container.read(toolBoxStateProvider);
     return toolBoxProvider.currentTool.paint.color;
   }
 
-  void setColor(Color color) {
+  static void setColor(Color color) {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final toolBoxProvider = container.read(toolBoxStateProvider);
     toolBoxProvider.currentTool.paint.color = color;
   }
 
-  Future<void> clickCheckmark() async {
+  static Future<void> clickCheckmark() async {
     expect(WidgetFinder.checkMark, findsOneWidget);
     await tester.tap(WidgetFinder.checkMark);
     await tester.pumpAndSettle();
   }
 
-  Future<void> clickPlus() async {
+  static Future<void> clickPlus() async {
     expect(WidgetFinder.plusButton, findsOneWidget);
     await tester.tap(WidgetFinder.plusButton);
     await tester.pumpAndSettle();
   }
 
-  Future<void> clickUndo() async {
+  static Future<void> clickUndo() async {
     expect(WidgetFinder.undoButton, findsOneWidget);
     await tester.tap(WidgetFinder.undoButton);
     await tester.pumpAndSettle();
   }
 
-  Future<void> clickRedo() async {
+  static Future<void> clickRedo() async {
     expect(WidgetFinder.redoButton, findsOneWidget);
     await tester.tap(WidgetFinder.redoButton);
     await tester.pumpAndSettle();
   }
 
-  Future<void> dragFromTo(Offset from, Offset to) async {
+  static Future<void> dragFromTo(Offset from, Offset to) async {
     final TestGesture gesture = await tester.startGesture(from);
     await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
@@ -126,7 +119,7 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
-  Future<void> tapAt(Offset position) async {
+  static Future<void> tapAt(Offset position) async {
     await tester.tapAt(position);
     await tester.pumpAndSettle();
   }
