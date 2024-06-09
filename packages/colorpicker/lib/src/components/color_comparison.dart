@@ -13,7 +13,7 @@ class ColorComparison extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 130.0,
+      width: 120.0,
       height: 70.0,
       child: Row(
         children: [

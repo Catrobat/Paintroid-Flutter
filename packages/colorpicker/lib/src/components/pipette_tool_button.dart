@@ -7,7 +7,7 @@ class PipetteToolButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50.0,
-      width: 130.0,
+      width: 148.0,
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 204, 204, 204),
@@ -21,19 +21,20 @@ class PipetteToolButton extends StatelessWidget {
         ],
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Spacer(),
           Icon(
             Icons.auto_fix_normal,
             color: Colors.black,
+            size: 20,
           ),
           Spacer(),
           Text(
             'PIPETTE',
             style: TextStyle(
               color: Colors.black,
-              letterSpacing: 1.0,
               fontWeight: FontWeight.w500,
-              fontSize: 15.0,
             ),
           ),
           Spacer(),

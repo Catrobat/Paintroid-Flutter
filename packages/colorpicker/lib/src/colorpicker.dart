@@ -75,7 +75,7 @@ class ColorPicker extends ConsumerWidget {
                 colors.length + 1,
                 (index) {
                   if (index == colors.length) {
-                    return const CheckerboardSquare();
+                    return const Stack(children: [CheckerboardSquare()]);
                   } else {
                     return ColorSquare(color: colors[index]);
                   }
