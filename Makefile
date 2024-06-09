@@ -6,6 +6,7 @@ FVM_PRESENT := $(shell command -v fvm 2> /dev/null)
 # Use fvm if installed; otherwise use flutter directly
 FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
 DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
+PACKAGES_DIR := packages
 
 
 
@@ -14,6 +15,12 @@ clean:
 	
 get:
 	$(FLUTTER_CMD) pub get
+	@for dir in $(shell find $(PACKAGES_DIR) -maxdepth 1 -type d); do \
+        if [ "$$dir" != "$(PACKAGES_DIR)" ]; then \
+            echo "Running $(FLUTTER_CMD) pub get in $$dir"; \
+            (cd $$dir && $(FLUTTER_CMD) pub get); \
+        fi \
+    done
 
 run:
 	$(FLUTTER_CMD) run
