@@ -23,6 +23,9 @@ class LineTool extends Tool with EquatableMixin {
     required this.graphicFactory,
     required this.drawingSurfaceSize,
     required super.type,
+    super.hasUndoRedoFunctionality = true,
+    super.hasAddFunctionality = true,
+    super.hasFinalizeFunctionality = true,
   });
 
   final GraphicFactory graphicFactory;

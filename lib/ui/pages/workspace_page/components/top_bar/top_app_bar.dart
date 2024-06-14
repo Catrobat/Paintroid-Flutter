@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
@@ -40,12 +39,23 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     ref.read(TopBarActionClickedState.provider.notifier).notify();
   }
 
-  void _onCheckmark(LineTool currentTool, WidgetRef ref) {
-    currentTool.onCheckmark();
-    ref.read(TopBarActionClickedState.provider.notifier).notify();
+  void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
+    if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
+      return () {
+        currentTool.onCheckmark();
+      };
+    }
+    return null;
   }
 
-  void _onPlus(LineTool currentTool) => currentTool.onPlus();
+  void Function()? _onPlus(Tool currentTool) {
+    if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
+      return () {
+        currentTool.onPlus();
+      };
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,7 +67,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       title: Text(title),
       centerTitle: false,
       actions: [
-        if (currentTool.type != ToolType.HAND) ...[
+        if (currentTool.hasUndoRedoFunctionality) ...[
           ActionButton(
             onPressed: commandManager.undoStack.isNotEmpty
                 ? () async => await _onUndo(currentTool, ref)
@@ -72,23 +82,19 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
             icon: TopBarActionData.REDO.iconData,
             valueKey: TopBarActionData.REDO.name,
           ),
-          if (currentTool is LineTool) ...[
-            ActionButton(
-              onPressed: currentTool.vertexStack.isNotEmpty
-                  ? () => _onPlus(currentTool)
-                  : null,
-              icon: TopBarActionData.PLUS.iconData,
-              valueKey: TopBarActionData.PLUS.name,
-            ),
-            ActionButton(
-              onPressed: currentTool.vertexStack.isNotEmpty
-                  ? () => _onCheckmark(currentTool, ref)
-                  : null,
-              icon: TopBarActionData.CHECKMARK.iconData,
-              valueKey: TopBarActionData.CHECKMARK.name,
-            ),
-          ],
         ],
+        if (currentTool.hasAddFunctionality)
+          ActionButton(
+            onPressed: _onPlus(currentTool),
+            icon: TopBarActionData.PLUS.iconData,
+            valueKey: TopBarActionData.PLUS.name,
+          ),
+        if (currentTool.hasFinalizeFunctionality)
+          ActionButton(
+            onPressed: _onCheckmark(currentTool, ref),
+            icon: TopBarActionData.CHECKMARK.iconData,
+            valueKey: TopBarActionData.CHECKMARK.name,
+          ),
         const OverflowMenu(),
       ],
     );

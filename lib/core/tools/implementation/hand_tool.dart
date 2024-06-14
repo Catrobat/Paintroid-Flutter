@@ -17,6 +17,9 @@ class HandTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required super.type,
+    super.hasUndoRedoFunctionality = false,
+    super.hasAddFunctionality = false,
+    super.hasFinalizeFunctionality = false,
   });
 
   @override
