@@ -13,6 +13,7 @@ import 'package:mockito/mockito.dart' as _i1;
 
 // Project imports:
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
+import 'package:paintroid/core/tools/tool.dart' as _i9;
 
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i5;
@@ -752,19 +753,19 @@ class MockICommandManager extends _i1.Mock implements _i4.ICommandManager {
       );
 
   @override
-  void undo() => super.noSuchMethod(
+  void undo(_i9.Tool? currentTool) => super.noSuchMethod(
         Invocation.method(
           #undo,
-          [],
+          [currentTool],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void redo() => super.noSuchMethod(
+  void redo(_i9.Tool? currentTool) => super.noSuchMethod(
         Invocation.method(
           #redo,
-          [],
+          [currentTool],
         ),
         returnValueForMissingStub: null,
       );

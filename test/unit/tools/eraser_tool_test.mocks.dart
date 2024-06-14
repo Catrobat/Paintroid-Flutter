@@ -13,9 +13,10 @@ import 'package:mockito/mockito.dart' as _i1;
 // Project imports:
 import 'package:paintroid/core/commands/path_with_action_history.dart' as _i5;
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
+import 'package:paintroid/core/tools/tool.dart' as _i10;
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i10;
+    as _i11;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i7;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
@@ -27,7 +28,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/path_comm
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
     as _i6;
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
-    as _i11;
+    as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -432,19 +433,19 @@ class MockICommandManager extends _i1.Mock implements _i6.ICommandManager {
       );
 
   @override
-  void undo() => super.noSuchMethod(
+  void undo(_i10.Tool? currentTool) => super.noSuchMethod(
         Invocation.method(
           #undo,
-          [],
+          [currentTool],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void redo() => super.noSuchMethod(
+  void redo(_i10.Tool? currentTool) => super.noSuchMethod(
         Invocation.method(
           #redo,
-          [],
+          [currentTool],
         ),
         returnValueForMissingStub: null,
       );
@@ -453,7 +454,7 @@ class MockICommandManager extends _i1.Mock implements _i6.ICommandManager {
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i10.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i11.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
@@ -518,7 +519,7 @@ class MockCommandFactory extends _i1.Mock implements _i10.CommandFactory {
 /// A class which mocks [GraphicFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGraphicFactory extends _i1.Mock implements _i11.GraphicFactory {
+class MockGraphicFactory extends _i1.Mock implements _i12.GraphicFactory {
   MockGraphicFactory() {
     _i1.throwOnMissingStub(this);
   }

@@ -41,12 +41,6 @@ class HandTool extends Tool with EquatableMixin {
   void onPlus() {}
 
   @override
-  void redo() {}
-
-  @override
-  void undo() {}
-
-  @override
   List<Object?> get props => [commandManager, commandFactory];
 
   HandTool copyWith({

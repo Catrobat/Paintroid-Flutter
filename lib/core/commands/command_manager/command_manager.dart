@@ -8,6 +8,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
+import 'package:paintroid/core/tools/tool.dart';
 
 class CommandManager implements ICommandManager {
   CommandManager();
@@ -84,7 +85,7 @@ class CommandManager implements ICommandManager {
   }
 
   @override
-  void redo() {
+  void redo(Tool currentTool) {
     if (_redoStack.isNotEmpty) {
       final lastCommand = _redoStack.removeLast();
       _undoStack.add(lastCommand);
@@ -92,7 +93,7 @@ class CommandManager implements ICommandManager {
   }
 
   @override
-  void undo() {
+  void undo(Tool currentTool) {
     if (_undoStack.isNotEmpty) {
       final lastCommand = _undoStack.removeLast();
       _redoStack.add(lastCommand);

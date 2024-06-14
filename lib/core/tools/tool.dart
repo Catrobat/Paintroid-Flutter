@@ -36,8 +36,4 @@ abstract class Tool {
   void onCheckmark();
 
   void onPlus();
-
-  void undo();
-
-  void redo();
 }

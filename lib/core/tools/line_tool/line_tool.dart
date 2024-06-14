@@ -88,16 +88,6 @@ class LineTool extends Tool with EquatableMixin {
     reset();
   }
 
-  @override
-  void redo() {
-    commandManager.redo();
-  }
-
-  @override
-  void undo() {
-    commandManager.undo();
-  }
-
   void _setGhostPaths(Offset point) {
     if (movingVertex == null) return;
 

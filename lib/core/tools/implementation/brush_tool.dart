@@ -65,16 +65,6 @@ class BrushTool extends Tool with EquatableMixin {
   void onPlus() {}
 
   @override
-  void redo() {
-    commandManager.redo();
-  }
-
-  @override
-  void undo() {
-    commandManager.undo();
-  }
-
-  @override
   List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
   BrushTool copyWith({

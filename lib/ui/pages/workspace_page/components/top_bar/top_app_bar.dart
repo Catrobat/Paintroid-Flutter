@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
@@ -23,26 +24,45 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  Future<void> _onUndo(Tool currentTool, WidgetRef ref) async {
-    currentTool.undo();
-    await ref
-        .read(canvasStateProvider.notifier)
-        .resetCanvasWithExistingCommands();
-    ref.read(TopBarActionClickedState.provider.notifier).notify();
+  void Function()? _onUndo(
+    Tool currentTool,
+    ICommandManager commandManager,
+    WidgetRef ref,
+  ) {
+    if (commandManager.undoStack.isNotEmpty) {
+      return () async {
+        commandManager.undo(currentTool);
+        await ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
+    }
+    return null;
   }
 
-  Future<void> _onRedo(Tool currentTool, WidgetRef ref) async {
-    currentTool.redo();
-    await ref
-        .read(canvasStateProvider.notifier)
-        .resetCanvasWithExistingCommands();
-    ref.read(TopBarActionClickedState.provider.notifier).notify();
+  void Function()? _onRedo(
+    Tool currentTool,
+    ICommandManager commandManager,
+    WidgetRef ref,
+  ) {
+    if (commandManager.redoStack.isNotEmpty) {
+      return () async {
+        commandManager.redo(currentTool);
+        await ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
+    }
+    return null;
   }
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
     if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
       return () {
         currentTool.onCheckmark();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
       };
     }
     return null;
@@ -69,16 +89,12 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
         if (currentTool.hasUndoRedoFunctionality) ...[
           ActionButton(
-            onPressed: commandManager.undoStack.isNotEmpty
-                ? () async => await _onUndo(currentTool, ref)
-                : null,
+            onPressed: _onUndo(currentTool, commandManager, ref),
             icon: TopBarActionData.UNDO.iconData,
             valueKey: TopBarActionData.UNDO.name,
           ),
           ActionButton(
-            onPressed: commandManager.redoStack.isNotEmpty
-                ? () async => await _onRedo(currentTool, ref)
-                : null,
+            onPressed: _onRedo(currentTool, commandManager, ref),
             icon: TopBarActionData.REDO.iconData,
             valueKey: TopBarActionData.REDO.name,
           ),
