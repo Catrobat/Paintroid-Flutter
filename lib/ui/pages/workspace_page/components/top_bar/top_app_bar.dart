@@ -31,6 +31,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   ) {
     if (commandManager.undoStack.isNotEmpty) {
       return () async {
+        _switchTool(commandManager, currentTool, ActionType.UNDO, ref);
         commandManager.undo(currentTool);
         await ref
             .read(canvasStateProvider.notifier)
@@ -48,6 +49,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   ) {
     if (commandManager.redoStack.isNotEmpty) {
       return () async {
+        _switchTool(commandManager, currentTool, ActionType.REDO, ref);
         commandManager.redo(currentTool);
         await ref
             .read(canvasStateProvider.notifier)
@@ -56,6 +58,18 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       };
     }
     return null;
+  }
+
+  void _switchTool(
+    ICommandManager commandManager,
+    Tool currentTool,
+    ActionType actionType,
+    WidgetRef ref,
+  ) {
+    var nextTool = commandManager.getNextTool(actionType);
+    if (currentTool.type != nextTool.type) {
+      ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
+    }
   }
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
@@ -87,18 +101,6 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       title: Text(title),
       centerTitle: false,
       actions: [
-        if (currentTool.hasUndoRedoFunctionality) ...[
-          ActionButton(
-            onPressed: _onUndo(currentTool, commandManager, ref),
-            icon: TopBarActionData.UNDO.iconData,
-            valueKey: TopBarActionData.UNDO.name,
-          ),
-          ActionButton(
-            onPressed: _onRedo(currentTool, commandManager, ref),
-            icon: TopBarActionData.REDO.iconData,
-            valueKey: TopBarActionData.REDO.name,
-          ),
-        ],
         if (currentTool.hasAddFunctionality)
           ActionButton(
             onPressed: _onPlus(currentTool),
@@ -111,6 +113,18 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
             icon: TopBarActionData.CHECKMARK.iconData,
             valueKey: TopBarActionData.CHECKMARK.name,
           ),
+        if (currentTool.hasUndoRedoFunctionality) ...[
+          ActionButton(
+            onPressed: _onUndo(currentTool, commandManager, ref),
+            icon: TopBarActionData.UNDO.iconData,
+            valueKey: TopBarActionData.UNDO.name,
+          ),
+          ActionButton(
+            onPressed: _onRedo(currentTool, commandManager, ref),
+            icon: TopBarActionData.REDO.iconData,
+            valueKey: TopBarActionData.REDO.name,
+          ),
+        ],
         const OverflowMenu(),
       ],
     );

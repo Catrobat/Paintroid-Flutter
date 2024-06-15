@@ -7,6 +7,9 @@ import 'package:paintroid/core/commands/command_implementation/graphic/graphic_c
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
+
+enum ActionType { UNDO, REDO }
 
 abstract class ICommandManager {
   List<Command> get undoStack;
@@ -34,6 +37,8 @@ abstract class ICommandManager {
   );
 
   void drawLineToolVertices(Canvas canvas, VertexStack vertexStack);
+
+  ToolData getNextTool(ActionType actionType);
 
   void undo(Tool currentTool);
 

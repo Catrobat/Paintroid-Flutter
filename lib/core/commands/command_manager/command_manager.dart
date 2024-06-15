@@ -9,6 +9,7 @@ import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool_vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
 
 class CommandManager implements ICommandManager {
   CommandManager();
@@ -105,4 +106,23 @@ class CommandManager implements ICommandManager {
 
   @override
   List<Command> get undoStack => _undoStack;
+
+  @override
+  ToolData getNextTool(ActionType actionType) {
+    Command? command;
+    switch (actionType) {
+      case ActionType.UNDO:
+        command = _undoStack.last;
+        break;
+      case ActionType.REDO:
+        command = _redoStack.last;
+        break;
+    }
+
+    if (command.runtimeType == LineCommand) {
+      return ToolData.LINE;
+    } else {
+      return ToolData.BRUSH;
+    }
+  }
 }
