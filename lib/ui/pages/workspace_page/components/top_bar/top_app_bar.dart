@@ -1,9 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
@@ -113,18 +111,16 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
             icon: TopBarActionData.CHECKMARK.iconData,
             valueKey: TopBarActionData.CHECKMARK.name,
           ),
-        if (currentTool.hasUndoRedoFunctionality) ...[
-          ActionButton(
-            onPressed: _onUndo(currentTool, commandManager, ref),
-            icon: TopBarActionData.UNDO.iconData,
-            valueKey: TopBarActionData.UNDO.name,
-          ),
-          ActionButton(
-            onPressed: _onRedo(currentTool, commandManager, ref),
-            icon: TopBarActionData.REDO.iconData,
-            valueKey: TopBarActionData.REDO.name,
-          ),
-        ],
+        ActionButton(
+          onPressed: _onUndo(currentTool, commandManager, ref),
+          icon: TopBarActionData.UNDO.iconData,
+          valueKey: TopBarActionData.UNDO.name,
+        ),
+        ActionButton(
+          onPressed: _onRedo(currentTool, commandManager, ref),
+          icon: TopBarActionData.REDO.iconData,
+          valueKey: TopBarActionData.REDO.name,
+        ),
         const OverflowMenu(),
       ],
     );

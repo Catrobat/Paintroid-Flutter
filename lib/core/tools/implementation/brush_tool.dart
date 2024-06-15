@@ -1,12 +1,10 @@
 // Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
-
+// Flutter imports:
+import 'package:flutter/foundation.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
@@ -22,7 +20,6 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
-    super.hasUndoRedoFunctionality = true,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });

@@ -3,7 +3,6 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:equatable/equatable.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
@@ -17,7 +16,6 @@ class HandTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required super.type,
-    super.hasUndoRedoFunctionality = false,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });

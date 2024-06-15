@@ -1,12 +1,10 @@
 // Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
-
+// Flutter imports:
+import 'package:flutter/material.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -23,7 +21,6 @@ class LineTool extends Tool with EquatableMixin {
     required this.graphicFactory,
     required this.drawingSurfaceSize,
     required super.type,
-    super.hasUndoRedoFunctionality = true,
     super.hasAddFunctionality = true,
     super.hasFinalizeFunctionality = true,
   });

@@ -12,7 +12,6 @@ abstract class Tool {
     required this.commandManager,
     required this.commandFactory,
     required this.type,
-    required this.hasUndoRedoFunctionality,
     required this.hasAddFunctionality,
     required this.hasFinalizeFunctionality,
   });
@@ -21,7 +20,6 @@ abstract class Tool {
   final ToolType type;
   final ICommandManager commandManager;
   final CommandFactory commandFactory;
-  final bool hasUndoRedoFunctionality;
   final bool hasAddFunctionality;
   final bool hasFinalizeFunctionality;
 
