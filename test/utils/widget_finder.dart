@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
