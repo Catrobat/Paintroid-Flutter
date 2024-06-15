@@ -119,6 +119,7 @@ class CommandManager implements ICommandManager {
         break;
     }
 
+    ///TODO implement for all tools after implementing unique commands
     if (command.runtimeType == LineCommand) {
       return ToolData.LINE;
     } else {
