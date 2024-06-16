@@ -67,7 +67,6 @@ class PaintingLayer extends ConsumerWidget {
 
     ref.watch(CanvasDirtyNotifier.provider);
     ref.watch(TopBarActionClickedState.provider);
-    // ref.watch(brushToolStateProvider); for stroke change??
 
     final currentTool = ref.read(toolBoxStateProvider).currentTool;
     return RepaintBoundary(
