@@ -8,8 +8,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
@@ -17,7 +17,7 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 class RenderImageForExport {
   final Ref _ref;
   final GraphicFactory _graphicFactory;
-  final CommandManager _commandManager;
+  final ICommandManager _commandManager;
 
   static final provider = Provider(
     (ref) => RenderImageForExport(

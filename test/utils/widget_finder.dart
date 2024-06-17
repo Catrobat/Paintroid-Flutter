@@ -19,5 +19,9 @@ class WidgetFinder {
   static final Finder toolsTab =
       find.byKey(const ValueKey(BottomNavBarItem.TOOLS));
   static final Finder newImageButton =
-      find.byKey(const ValueKey(WidgetIdentifier.newImageActionButton));
+  find.byKey(const ValueKey(WidgetIdentifier.newImageActionButton));
+  static final Finder undoButton =
+      find.byKey(ValueKey(TopBarActionData.UNDO.name));
+  static final Finder redoButton =
+      find.byKey(ValueKey(TopBarActionData.REDO.name));
 }

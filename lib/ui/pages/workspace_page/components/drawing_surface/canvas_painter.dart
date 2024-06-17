@@ -9,8 +9,8 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/commands/command_painter.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/checkmark_clicked_state.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';
 
@@ -66,8 +66,7 @@ class PaintingLayer extends ConsumerWidget {
     final commandManager = ref.watch(commandManagerProvider);
 
     ref.watch(CanvasDirtyNotifier.provider);
-    ref.watch(CheckMarkClickedState.provider);
-    // ref.watch(brushToolStateProvider); for stroke change??
+    ref.watch(TopBarActionClickedState.provider);
 
     final currentTool = ref.read(toolBoxStateProvider).currentTool;
     return RepaintBoundary(

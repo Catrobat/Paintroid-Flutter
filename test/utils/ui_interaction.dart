@@ -8,6 +8,7 @@ import 'package:image/image.dart' as img;
 
 // Project imports:
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'canvas_positions.dart';
@@ -64,6 +65,13 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
+  static ToolType getCurrentTool() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final toolBoxProvider = container.read(toolBoxStateProvider);
+    return toolBoxProvider.currentTool.type;
+  }
+
   static Future<void> _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(WidgetFinder.canvas);
     await tester.pumpAndSettle();
@@ -94,6 +102,22 @@ class UIInteraction {
     expect(WidgetFinder.plusButton, findsOneWidget);
     await tester.tap(WidgetFinder.plusButton);
     await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickUndo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.undoButton);
+      await tester.pumpAndSettle();
+    }
+  }
+
+  static Future<void> clickRedo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.redoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.redoButton);
+      await tester.pumpAndSettle();
+    }
   }
 
   static Future<void> dragFromTo(Offset from, Offset to) async {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final IconData icon;
   final String valueKey;
 
@@ -15,13 +15,18 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      key: ValueKey(valueKey),
-      icon: Icon(icon),
-      onPressed: onPressed,
-      color: Theme.of(context).colorScheme.surface,
+    return SizedBox(
+      width: 36,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        key: ValueKey(valueKey),
+        icon: Icon(icon),
+        onPressed: onPressed,
+        disabledColor:
+            Theme.of(context).colorScheme.background.withOpacity(0.4),
+        color: Theme.of(context).colorScheme.background,
+      ),
     );
   }
 }
