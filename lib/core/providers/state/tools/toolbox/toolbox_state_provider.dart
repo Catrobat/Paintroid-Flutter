@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toast/toast.dart';
 
 // Project imports:
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
@@ -20,6 +21,7 @@ part 'toolbox_state_provider.g.dart';
 @riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   void didTapDown(Offset position) {
+    ref.read(commandManagerProvider).clearRedoStack();
     state.currentTool.onDown(position);
     state = state.copyWith(isDown: true);
   }

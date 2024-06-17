@@ -68,7 +68,7 @@ class CanvasStateProvider extends _$CanvasStateProvider {
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
-    state.commandManager.clearHistory(newCommands: commands);
+    state.commandManager.clearUndoStack(newCommands: commands);
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: null);
     } else {

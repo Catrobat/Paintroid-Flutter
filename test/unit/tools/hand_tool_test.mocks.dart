@@ -11,11 +11,12 @@ import 'dart:ui' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // Project imports:
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i10;
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i11;
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i8;
+import 'package:paintroid/core/tools/tool.dart' as _i9;
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i9;
+    as _i10;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
@@ -24,7 +25,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
     as _i4;
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart'
     as _i3;
-import 'package:paintroid/core/commands/command_manager/command_manager.dart'
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
     as _i5;
 
 // ignore_for_file: type=lint
@@ -268,25 +269,34 @@ class MockPaint extends _i1.Mock implements _i2.Paint {
       );
 }
 
-/// A class which mocks [CommandManager].
+/// A class which mocks [ICommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
-  MockCommandManager() {
+class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
+  MockICommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Iterable<_i6.Command> get history => (super.noSuchMethod(
-        Invocation.getter(#history),
+  List<_i6.Command> get undoStack => (super.noSuchMethod(
+        Invocation.getter(#undoStack),
         returnValue: <_i6.Command>[],
-      ) as Iterable<_i6.Command>);
+      ) as List<_i6.Command>);
 
   @override
-  int get count => (super.noSuchMethod(
-        Invocation.getter(#count),
-        returnValue: 0,
-      ) as int);
+  List<_i6.Command> get redoStack => (super.noSuchMethod(
+        Invocation.getter(#redoStack),
+        returnValue: <_i6.Command>[],
+      ) as List<_i6.Command>);
+
+  @override
+  void setUndoStack(List<_i6.Command>? commands) => super.noSuchMethod(
+        Invocation.method(
+          #setUndoStack,
+          [commands],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addGraphicCommand(_i7.GraphicCommand? command) => super.noSuchMethod(
@@ -325,11 +335,21 @@ class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
       );
 
   @override
-  void clearHistory({Iterable<_i6.Command>? newCommands}) => super.noSuchMethod(
+  void clearUndoStack({Iterable<_i6.Command>? newCommands}) =>
+      super.noSuchMethod(
         Invocation.method(
-          #clearHistory,
+          #clearUndoStack,
           [],
           {#newCommands: newCommands},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearRedoStack() => super.noSuchMethod(
+        Invocation.method(
+          #clearRedoStack,
+          [],
         ),
         returnValueForMissingStub: null,
       );
@@ -367,19 +387,37 @@ class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void undo(_i9.Tool? currentTool) => super.noSuchMethod(
+        Invocation.method(
+          #undo,
+          [currentTool],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void redo(_i9.Tool? currentTool) => super.noSuchMethod(
+        Invocation.method(
+          #redo,
+          [currentTool],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i10.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   _i3.PathCommand createPathCommand(
-    _i10.PathWithActionHistory? path,
+    _i11.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
@@ -404,7 +442,7 @@ class MockCommandFactory extends _i1.Mock implements _i9.CommandFactory {
 
   @override
   _i4.LineCommand createLineCommand(
-    _i10.PathWithActionHistory? path,
+    _i11.PathWithActionHistory? path,
     _i2.Paint? paint,
     _i2.Offset? startPoint,
     _i2.Offset? endPoint,

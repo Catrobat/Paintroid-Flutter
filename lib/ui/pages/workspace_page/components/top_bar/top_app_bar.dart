@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:paintroid/core/enums/tool_types.dart';
-import 'package:paintroid/core/providers/state/checkmark_clicked_state.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -19,65 +21,110 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   const TopAppBar({super.key, required this.title});
 
-  List<Widget> getActions(Tool currentTool, WidgetRef ref) {
-    List<Widget> actions = [
-      if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) ...[
-        ActionButton(
-          onPressed: () {
-            _onPlusPressed(currentTool);
-          },
-          icon: TopBarActionData.PLUS.iconData,
-          valueKey: TopBarActionData.PLUS.name,
-        ),
-        ActionButton(
-          onPressed: () {
-            onCheckmarkPressed(currentTool, ref);
-          },
-          icon: TopBarActionData.CHECKMARK.iconData,
-          valueKey: TopBarActionData.CHECKMARK.name,
-        ),
-      ],
-      const OverflowMenu(),
-    ];
-    return actions;
-  }
-
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  void _onPlusPressed(Tool currentTool) {
-    switch (currentTool.type) {
-      case ToolType.LINE:
-        (currentTool as LineTool).onPlus();
-        break;
-      default:
-        break;
+  void Function()? _onUndo(
+    Tool currentTool,
+    ICommandManager commandManager,
+    WidgetRef ref,
+  ) {
+    if (commandManager.undoStack.isNotEmpty) {
+      return () async {
+        _switchTool(commandManager, currentTool, ActionType.UNDO, ref);
+        commandManager.undo(currentTool);
+        await ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
+    }
+    return null;
+  }
+
+  void Function()? _onRedo(
+    Tool currentTool,
+    ICommandManager commandManager,
+    WidgetRef ref,
+  ) {
+    if (commandManager.redoStack.isNotEmpty) {
+      return () async {
+        _switchTool(commandManager, currentTool, ActionType.REDO, ref);
+        commandManager.redo(currentTool);
+        await ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
+    }
+    return null;
+  }
+
+  void _switchTool(
+    ICommandManager commandManager,
+    Tool currentTool,
+    ActionType actionType,
+    WidgetRef ref,
+  ) {
+    var nextTool = commandManager.getNextTool(actionType);
+    if (currentTool.type != nextTool.type) {
+      ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
     }
   }
 
-  void onCheckmarkPressed(Tool currentTool, WidgetRef ref) {
-    switch (currentTool.type) {
-      case ToolType.LINE:
-        (currentTool as LineTool).onCheckMark();
-        break;
-      default:
-        break;
+  void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
+    if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
+      return () {
+        currentTool.onCheckmark();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
     }
-    ref.read(CheckMarkClickedState.provider.notifier).notify();
+    return null;
+  }
+
+  void Function()? _onPlus(Tool currentTool) {
+    if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
+      return () {
+        currentTool.onPlus();
+      };
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTool = ref.watch(toolBoxStateProvider).currentTool;
-
-    ref.watch(CheckMarkClickedState.provider);
-
-    List<Widget> actions = getActions(currentTool, ref);
+    final commandManager = ref.read(commandManagerProvider);
+    ref.watch(TopBarActionClickedState.provider);
 
     return AppBar(
       title: Text(title),
       centerTitle: false,
-      actions: actions,
+      actions: [
+        if (currentTool.hasAddFunctionality)
+          ActionButton(
+            onPressed: _onPlus(currentTool),
+            icon: TopBarActionData.PLUS.iconData,
+            valueKey: TopBarActionData.PLUS.name,
+          ),
+        if (currentTool.hasFinalizeFunctionality)
+          ActionButton(
+            onPressed: _onCheckmark(currentTool, ref),
+            icon: TopBarActionData.CHECKMARK.iconData,
+            valueKey: TopBarActionData.CHECKMARK.name,
+          ),
+        ActionButton(
+          onPressed: _onUndo(currentTool, commandManager, ref),
+          icon: TopBarActionData.UNDO.iconData,
+          valueKey: TopBarActionData.UNDO.name,
+        ),
+        ActionButton(
+          onPressed: _onRedo(currentTool, commandManager, ref),
+          icon: TopBarActionData.REDO.iconData,
+          valueKey: TopBarActionData.REDO.name,
+        ),
+        const OverflowMenu(),
+      ],
     );
   }
 }
