@@ -3,27 +3,23 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Dart imports:
 import 'dart:typed_data' as _i4;
 import 'dart:ui' as _i2;
 
-// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
-
-// Project imports:
-import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
-import 'package:paintroid/core/tools/tool.dart' as _i10;
-import 'package:paintroid/core/tools/tool_data.dart' as _i3;
-
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i7;
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
     as _i8;
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
+import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i5;
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
+    as _i11;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
+import 'package:paintroid/core/tools/tool.dart' as _i10;
+import 'package:paintroid/core/tools/tool_data.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -644,19 +640,13 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 }
 
-/// A class which mocks [ICommandManager].
+/// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
-  MockICommandManager() {
+class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
+  MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
-
-  @override
-  List<_i6.Command> get undoStack => (super.noSuchMethod(
-        Invocation.getter(#undoStack),
-        returnValue: <_i6.Command>[],
-      ) as List<_i6.Command>);
 
   @override
   List<_i6.Command> get redoStack => (super.noSuchMethod(
@@ -665,19 +655,25 @@ class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
       ) as List<_i6.Command>);
 
   @override
-  void setUndoStack(List<_i6.Command>? commands) => super.noSuchMethod(
-        Invocation.method(
-          #setUndoStack,
-          [commands],
-        ),
-        returnValueForMissingStub: null,
-      );
+  List<_i6.Command> get undoStack => (super.noSuchMethod(
+        Invocation.getter(#undoStack),
+        returnValue: <_i6.Command>[],
+      ) as List<_i6.Command>);
 
   @override
   void addGraphicCommand(_i7.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setUndoStack(List<_i6.Command>? commands) => super.noSuchMethod(
+        Invocation.method(
+          #setUndoStack,
+          [commands],
         ),
         returnValueForMissingStub: null,
       );
@@ -764,7 +760,25 @@ class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
       );
 
   @override
-  _i3.ToolData getNextTool(_i5.ActionType? actionType) => (super.noSuchMethod(
+  void redo(_i10.Tool? currentTool) => super.noSuchMethod(
+        Invocation.method(
+          #redo,
+          [currentTool],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void undo(_i10.Tool? currentTool) => super.noSuchMethod(
+        Invocation.method(
+          #undo,
+          [currentTool],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i3.ToolData getNextTool(_i11.ActionType? actionType) => (super.noSuchMethod(
         Invocation.method(
           #getNextTool,
           [actionType],
@@ -777,22 +791,4 @@ class MockICommandManager extends _i1.Mock implements _i5.ICommandManager {
           ),
         ),
       ) as _i3.ToolData);
-
-  @override
-  void undo(_i10.Tool? currentTool) => super.noSuchMethod(
-        Invocation.method(
-          #undo,
-          [currentTool],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void redo(_i10.Tool? currentTool) => super.noSuchMethod(
-        Invocation.method(
-          #redo,
-          [currentTool],
-        ),
-        returnValueForMissingStub: null,
-      );
 }

@@ -7,7 +7,7 @@ part of 'command_manager_provider.dart';
 // **************************************************************************
 
 String _$commandManagerProviderHash() =>
-    r'c23fc68fcb5f37f97a1fa551e0e0b7dc0e9fa6cd';
+    r'f40d2cb8d7d2c4c3804c6abab3f7f80b92937117';
 
 /// See also [CommandManagerProvider].
 @ProviderFor(CommandManagerProvider)
