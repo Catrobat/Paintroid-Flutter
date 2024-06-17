@@ -6,7 +6,7 @@ part of 'toolbox_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolBoxStateHash() => r'59bdba00154f5c3cdeeb7a6e25ebffb20c7c0dc3';
+String _$toolBoxStateHash() => r'1b40b8b17471d948846e041233dcaa2ce6c97b20';
 
 /// See also [ToolBoxState].
 @ProviderFor(ToolBoxState)

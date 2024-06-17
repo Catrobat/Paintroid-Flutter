@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -17,6 +17,8 @@ class HandTool extends Tool with EquatableMixin {
     required super.commandFactory,
     required super.commandManager,
     required super.type,
+    super.hasAddFunctionality = false,
+    super.hasFinalizeFunctionality = false,
   });
 
   @override
@@ -32,12 +34,18 @@ class HandTool extends Tool with EquatableMixin {
   void onCancel() {}
 
   @override
+  void onCheckmark() {}
+
+  @override
+  void onPlus() {}
+
+  @override
   List<Object?> get props => [commandManager, commandFactory];
 
   HandTool copyWith({
     Paint? paint,
     CommandFactory? commandFactory,
-    CommandManager? commandManager,
+    ICommandManager? commandManager,
     GraphicFactory? graphicFactory,
     ToolType? type,
   }) {

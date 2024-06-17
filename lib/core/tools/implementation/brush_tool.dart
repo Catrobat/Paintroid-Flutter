@@ -9,7 +9,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -22,6 +22,8 @@ class BrushTool extends Tool with EquatableMixin {
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
+    super.hasAddFunctionality = false,
+    super.hasFinalizeFunctionality = false,
   });
 
   final GraphicFactory graphicFactory;
@@ -56,12 +58,18 @@ class BrushTool extends Tool with EquatableMixin {
   }
 
   @override
+  void onCheckmark() {}
+
+  @override
+  void onPlus() {}
+
+  @override
   List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
   BrushTool copyWith({
     Paint? paint,
     CommandFactory? commandFactory,
-    CommandManager? commandManager,
+    ICommandManager? commandManager,
     GraphicFactory? graphicFactory,
     ToolType? type,
   }) {

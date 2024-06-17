@@ -1,10 +1,12 @@
 // Dart imports:
 import 'dart:ui';
 
-// Package imports:
-import 'package:equatable/equatable.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -21,6 +23,8 @@ class LineTool extends Tool with EquatableMixin {
     required this.graphicFactory,
     required this.drawingSurfaceSize,
     required super.type,
+    super.hasAddFunctionality = true,
+    super.hasFinalizeFunctionality = true,
   });
 
   final GraphicFactory graphicFactory;
@@ -70,6 +74,16 @@ class LineTool extends Tool with EquatableMixin {
 
   @override
   void onCancel() {
+    reset();
+  }
+
+  @override
+  void onPlus() {
+    addNewPath = true;
+  }
+
+  @override
+  void onCheckmark() {
     reset();
   }
 
@@ -149,14 +163,6 @@ class LineTool extends Tool with EquatableMixin {
       return;
     }
     updateLineCommand(pathCommand, newStartPoint, newEndPoint);
-  }
-
-  void onPlus() {
-    addNewPath = true;
-  }
-
-  void onCheckMark() {
-    reset();
   }
 
   void reset() {
