@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
-// Project imports:
-
 class LightPaintroidThemeData extends PaintroidThemeData {
   @override
   ThemeData get materialThemeData => ThemeData(
