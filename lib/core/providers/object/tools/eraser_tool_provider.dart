@@ -14,12 +14,15 @@ import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 part 'eraser_tool_provider.g.dart';
 
 @riverpod
-BrushTool eraserTool(EraserToolRef ref) {
-  return BrushTool(
-    paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
-    commandManager: ref.watch(commandManagerProvider),
-    commandFactory: ref.watch(commandFactoryProvider),
-    graphicFactory: ref.watch(graphicFactoryProvider),
-    type: ToolType.ERASER,
-  );
+class EraserToolProvider extends _$EraserToolProvider {
+  @override
+  BrushTool build() {
+    return BrushTool(
+      paint: ref.watch(brushToolStateProvider.select((state) => state.paint)),
+      commandManager: ref.watch(commandManagerProvider),
+      commandFactory: ref.watch(commandFactoryProvider),
+      graphicFactory: ref.watch(graphicFactoryProvider),
+      type: ToolType.ERASER,
+    );
+  }
 }

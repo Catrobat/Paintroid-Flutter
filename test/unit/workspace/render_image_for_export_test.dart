@@ -9,8 +9,8 @@ import 'package:mockito/mockito.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/models/image_with_pixel_info.dart';
@@ -30,28 +30,42 @@ class FakePictureRecorder extends Fake implements PictureRecorder {
   Picture endRecording() => FakePicture();
 }
 
-class MockCanvasState1 extends CanvasState {
+class FakeGraphicCommand extends Fake implements GraphicCommand {}
+
+class MockCanvasState1 extends CanvasStateProvider {
   @override
   CanvasStateData build() {
     return CanvasStateData(
       size: const Size(108, 192),
-      commandManager: MockICommandManager(),
+      commandManager: MockCommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
   }
 }
 
-class MockCanvasState2 extends CanvasState {
+class MockCanvasState2 extends CanvasStateProvider {
   @override
   CanvasStateData build() {
     return CanvasStateData(
       size: const Size(300, 800),
-      commandManager: MockICommandManager(),
+      commandManager: MockCommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
     );
   }
+}
+
+class MockGraphicsFactoryState extends GraphicFactoryProvider {
+  @override
+  GraphicFactory build() {
+    return fakeGraphicFactory;
+  }
+}
+
+class MockCommandManagerState extends CommandManagerProvider {
+  @override
+  CommandManager build() => mockCommandManager;
 }
 
 class FakeGraphicFactory extends GraphicFactory {
@@ -64,15 +78,13 @@ class FakeGraphicFactory extends GraphicFactory {
   final MockCanvas combinedCanvas;
   final Paint? paint;
 
-  int callCount = 0;
-
   @override
   PictureRecorder createPictureRecorder() => FakePictureRecorder();
 
   @override
   Canvas createCanvasWithRecorder(PictureRecorder recorder) {
-    callCount++;
-    switch (callCount) {
+    fakeGraphicFactoryCallCount++;
+    switch (fakeGraphicFactoryCallCount) {
       case 1:
         return backgroundCanvas;
       case 2:
@@ -88,13 +100,26 @@ class FakeGraphicFactory extends GraphicFactory {
   Paint createPaint() => paint ?? Paint();
 }
 
-class FakeGraphicCommand extends Fake implements GraphicCommand {}
+final mockBackgroundCanvas = MockCanvas();
+final mockCommandsCanvas = MockCanvas();
+final mockCombinedCanvas = MockCanvas();
+final mockCommandManager = MockCommandManager();
+final testPaint = Paint();
+
+int fakeGraphicFactoryCallCount = 0;
+
+final fakeGraphicFactory = FakeGraphicFactory(
+  mockBackgroundCanvas,
+  mockCommandsCanvas,
+  mockCombinedCanvas,
+  testPaint,
+);
 
 @GenerateMocks(
   [],
   customMocks: [
     MockSpec<Canvas>(),
-    MockSpec<ICommandManager>(),
+    MockSpec<CommandManager>(),
   ],
 )
 void main() {
@@ -148,35 +173,20 @@ void main() {
         Rect.fromLTWH(0, 0, testImageSize.width, testImageSize.height);
     final testCanvasRect =
         Rect.fromLTRB(0, 0, testCanvasSize.width, testCanvasSize.height);
-    late Paint testPaint;
-    late MockCanvas mockBackgroundCanvas;
-    late MockCanvas mockCommandsCanvas;
-    late MockCanvas mockCombinedCanvas;
-    late MockICommandManager mockCommandManager;
+
     late RenderImageForExport sut;
 
     setUp(() {
-      testPaint = Paint();
-      mockBackgroundCanvas = MockCanvas();
-      mockCommandsCanvas = MockCanvas();
-      mockCombinedCanvas = MockCanvas();
-      mockCommandManager = MockICommandManager();
       container = ProviderContainer(overrides: [
-        graphicFactoryProvider.overrideWithValue(
-          FakeGraphicFactory(
-            mockBackgroundCanvas,
-            mockCommandsCanvas,
-            mockCombinedCanvas,
-            testPaint,
-          ),
-        ),
-        commandManagerProvider.overrideWithValue(mockCommandManager),
+        graphicFactoryProvider.overrideWith(MockGraphicsFactoryState.new),
+        commandManagerProvider.overrideWith(MockCommandManagerState.new),
         canvasStateProvider.overrideWith(MockCanvasState2.new),
       ]);
       sut = container.read(RenderImageForExport.provider);
     });
 
     test('When transparency is enabled and no image is loaded', () async {
+      fakeGraphicFactoryCallCount = 0;
       await sut.call();
       verifyInOrder([
         mockCommandsCanvas.clipRect(testCanvasRect, doAntiAlias: false),
@@ -191,6 +201,7 @@ void main() {
     });
 
     test('When transparency is disabled and no image is loaded', () async {
+      fakeGraphicFactoryCallCount = 0;
       await sut.call(keepTransparency: false);
 
       verifyInOrder([
@@ -207,6 +218,7 @@ void main() {
     });
 
     test('When transparency is enabled and image is loaded', () async {
+      fakeGraphicFactoryCallCount = 0;
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());
@@ -229,6 +241,7 @@ void main() {
     });
 
     test('When transparency is disabled and image is loaded', () async {
+      fakeGraphicFactoryCallCount = 0;
       final testImage = await createTestImage(
           width: testImageSize.width.toInt(),
           height: testImageSize.height.toInt());

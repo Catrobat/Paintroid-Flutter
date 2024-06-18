@@ -12,7 +12,7 @@ import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_data
 part 'brush_tool_state_provider.g.dart';
 
 @riverpod
-class BrushToolState extends _$BrushToolState {
+class BrushToolStateProvider extends _$BrushToolStateProvider {
   void updateStrokeWidth(double newStrokeWidth) {
     Paint newPaint = state.paint..strokeWidth = newStrokeWidth;
     state = state.copyWith(paint: newPaint);

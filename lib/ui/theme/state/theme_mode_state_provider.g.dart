@@ -10,10 +10,10 @@ String _$themeModeStateHash() => r'5ff8b7fd70f6a4645f05204cfd76920d12cd88c7';
 
 /// See also [ThemeModeState].
 @ProviderFor(ThemeModeState)
-final themeModeStateProvider =
+final themeModeState =
     AutoDisposeNotifierProvider<ThemeModeState, ThemeMode>.internal(
   ThemeModeState.new,
-  name: r'themeModeStateProvider',
+  name: r'themeModeState',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$themeModeStateHash,
