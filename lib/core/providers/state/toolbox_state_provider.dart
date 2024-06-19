@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Package imports:
-import 'package:paintroid/ui/utils/toast_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -15,6 +14,7 @@ import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/ui/utils/toast_utils.dart';
 
 part 'toolbox_state_provider.g.dart';
 
