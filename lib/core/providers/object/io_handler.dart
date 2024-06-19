@@ -2,12 +2,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image/image.dart' as img;
 import 'package:oxidized/oxidized.dart';
 
 // Project imports:
@@ -16,12 +18,14 @@ import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/enums/image_location.dart';
 import 'package:paintroid/core/models/catrobat_image.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
+import 'package:paintroid/core/models/ora_image.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/core/providers/object/load_image_from_file_manager.dart';
 import 'package:paintroid/core/providers/object/load_image_from_photo_library.dart';
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/object/save_as_catrobat_image.dart';
+import 'package:paintroid/core/providers/object/save_as_ora_image.dart';
 import 'package:paintroid/core/providers/object/save_as_raster_image.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
@@ -182,8 +186,65 @@ class IOHandler {
     } else if (imageData is CatrobatImageMetaData) {
       final savedFile = await _saveAsCatrobatImage(imageData, false);
       isImageSaved = (savedFile != null);
+    } else if (imageData is OraMetaData) {
+      isImageSaved = await _saveAsOraImage(imageData);
     }
     return isImageSaved;
+  }
+
+  Future<img.Image> convertUiImageToImgImage(ui.Image uiImage) async {
+    final byteData =
+        await uiImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final buffer = byteData!.buffer.asUint8List();
+
+    return img.Image.fromBytes(
+      uiImage.width,
+      uiImage.height,
+      buffer,
+      format: img.Format.rgba,
+    );
+  }
+
+  String generateXmlMetadataForOra(List<img.Image> layers) {
+    var buffer = StringBuffer();
+    buffer.writeln('<image>');
+
+    for (int i = 0; i < layers.length; i++) {
+      buffer.writeln(
+          '<layer name="Layer $i" src="data/layer_$i.png" x="0" y="0" opacity="1.0"/>');
+    }
+
+    buffer.writeln('</image>');
+    return buffer.toString();
+  }
+
+  Future<bool> _saveAsOraImage(OraMetaData imageData) async {
+    final canvasState = ref.read(canvasStateProvider);
+    final oraImageService = ref.read(SaveAsOraImage.provider);
+
+    if (canvasState.cachedImage == null) {
+      return false;
+    }
+
+    final imgWidth = canvasState.size.width.toInt();
+    final imgHeight = canvasState.size.height.toInt();
+
+    img.Image layer = await convertUiImageToImgImage(canvasState.cachedImage!);
+
+    final oraImage = OraImage(
+      width: imgWidth,
+      height: imgHeight,
+      layers: [layer],
+      xmlMetadata: generateXmlMetadataForOra([layer]),
+    );
+
+    final fileName = '${imageData.name}.ora';
+    final result = await oraImageService.call(oraImage, fileName);
+
+    return result.match(
+      (file) => true,
+      (error) => false,
+    );
   }
 
   Future<bool> _saveAsRasterImage(ImageMetaData imageData) async {

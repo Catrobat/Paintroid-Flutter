@@ -104,6 +104,32 @@ void main() {
         verifyNoMoreInteractions(mockImageService);
         verifyNoMoreInteractions(mockPhotoLibraryService);
       });
+
+      // test('When format is ora', () async {
+      //   final expectedFilename = '$testName.ora';
+      //   when(mockImageService.exportAsPng(any))
+      //       .thenAnswer((_) async => Ok(fakeBytes));
+      //   when(mockImageService.exportAsJpg(any, any))
+      //       .thenAnswer((_) async => Ok(fakeBytes));
+      //   when(mockImageService.exportAsOra(any))
+      //       .thenAnswer((_) async => Ok(fakeBytes));
+      //   when(mockPermissionService.requestAccessForSavingToPhotos())
+      //       .thenAnswer((_) async => true);
+      //   when(mockPhotoLibraryService.save(any, any))
+      //       .thenAnswer((_) async => const Ok(unit));
+      //   final testMetaData = OraMetaData(testName);
+      //   final result = await sut(testMetaData, fakeImage);
+
+      //   expect(result, const Ok<Unit, Failure>(unit));
+
+      //   verify(mockPermissionService.requestAccessForSavingToPhotos());
+      //   verify(mockImageService.exportAsOra(fakeImage));
+      //   verify(mockPhotoLibraryService.save(expectedFilename, fakeBytes));
+
+      //   verifyNoMoreInteractions(mockPermissionService);
+      //   verifyNoMoreInteractions(mockImageService);
+      //   verifyNoMoreInteractions(mockPhotoLibraryService);
+      // });
     },
   );
 

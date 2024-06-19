@@ -116,6 +116,24 @@ class MockIImageService extends _i1.Mock implements _i3.IImageService {
       ) as _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>);
 
   @override
+  _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>> exportAsOra(
+          _i5.Image? image) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #exportAsOra,
+          [image],
+        ),
+        returnValue: _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>.value(
+            _FakeResult_0<_i7.Uint8List, _i6.Failure>(
+          this,
+          Invocation.method(
+            #exportAsOra,
+            [image],
+          ),
+        )),
+      ) as _i4.Future<_i2.Result<_i7.Uint8List, _i6.Failure>>);
+
+  @override
   _i2.Result<_i7.Uint8List, _i6.Failure> getProjectPreview(String? path) =>
       (super.noSuchMethod(
         Invocation.method(

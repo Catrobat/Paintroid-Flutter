@@ -26,6 +26,11 @@ extension on ImageFormat {
         return const TextSpan(
             text: 'Pocket Paint\'s native image format. '
                 'This format remembers commands and layers.');
+
+      case ImageFormat.ora:
+        return const TextSpan(
+            text:
+                'OpenRaster format. Supports layers and various attributes like opacity and visibility for each layer.');
     }
   }
 }

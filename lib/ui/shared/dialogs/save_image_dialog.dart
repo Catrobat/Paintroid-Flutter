@@ -52,6 +52,9 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       case ImageFormat.catrobatImage:
         data = CatrobatImageMetaData(nameFieldController.text);
         break;
+      case ImageFormat.ora:
+        data = OraMetaData(nameFieldController.text);
+        break;
     }
     Navigator.of(context).pop(data);
   }

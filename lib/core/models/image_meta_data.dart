@@ -29,3 +29,8 @@ class CatrobatImageMetaData extends ImageMetaData {
   const CatrobatImageMetaData(String name)
       : super(name, ImageFormat.catrobatImage);
 }
+
+
+class OraMetaData extends ImageMetaData {
+  const OraMetaData(String name) : super(name, ImageFormat.ora);
+}

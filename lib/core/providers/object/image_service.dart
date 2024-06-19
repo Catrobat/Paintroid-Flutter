@@ -8,11 +8,13 @@ import 'package:flutter/painting.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image/image.dart' as img;
 import 'package:image/image.dart';
 import 'package:oxidized/oxidized.dart';
 
 // Project imports:
 import 'package:paintroid/core/models/loggable_mixin.dart';
+import 'package:paintroid/core/models/ora_image.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 import 'package:paintroid/core/utils/save_image_failure.dart';
@@ -24,6 +26,8 @@ abstract class IImageService {
   Future<Result<Uint8List, Failure>> exportAsJpg(ui.Image image, int quality);
 
   Future<Result<Uint8List, Failure>> exportAsPng(ui.Image image);
+
+  Future<Result<Uint8List, Failure>> exportAsOra(ui.Image image);
 
   Result<Uint8List, Failure> getProjectPreview(String? path);
 
@@ -68,6 +72,50 @@ class ImageService with LoggableMixin implements IImageService {
       logger.severe('Could not export to Png', err, stacktrace);
       return const Result.err(SaveImageFailure.unidentified);
     }
+  }
+
+  @override
+  Future<Result<Uint8List, Failure>> exportAsOra(ui.Image image) async {
+    try {
+      final img.Image layer = await convertUiImageToImgImage(image);
+      final oraImage = OraImage(
+        width: image.width,
+        height: image.height,
+        layers: [layer],
+        xmlMetadata: generateXmlMetadataForOra([layer]),
+      );
+      final bytes = oraImage.toBytes();
+      return Result.ok(bytes);
+    } catch (err, stacktrace) {
+      logger.severe('Could not export to Ora', err, stacktrace);
+      return const Result.err(SaveImageFailure.unidentified);
+    }
+  }
+
+  Future<img.Image> convertUiImageToImgImage(ui.Image uiImage) async {
+    final byteData =
+        await uiImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final buffer = byteData!.buffer.asUint8List();
+
+    return img.Image.fromBytes(
+      uiImage.width,
+      uiImage.height,
+      buffer,
+      format: img.Format.rgba,
+    );
+  }
+
+  String generateXmlMetadataForOra(List<img.Image> layers) {
+    var buffer = StringBuffer();
+    buffer.writeln('<image>');
+
+    for (int i = 0; i < layers.length; i++) {
+      buffer.writeln(
+          '<layer name="Layer $i" src="data/layer_$i.png" x="0" y="0" opacity="1.0"/>');
+    }
+
+    buffer.writeln('</image>');
+    return buffer.toString();
   }
 
   @override
