@@ -2,6 +2,8 @@
 import 'dart:ui';
 
 // Package imports:
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,41 +11,8 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider
 
 part 'paint_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class PaintProvider extends _$PaintProvider {
-  Paint _copyWith({
-    PaintingStyle? style,
-    StrokeJoin? strokeJoin,
-    Color? color,
-    StrokeCap? strokeCap,
-    double? strokeWidth,
-    BlendMode? blendMode,
-  }) {
-    return Paint()
-      ..style = style ?? state.style
-      ..strokeJoin = strokeJoin ?? state.strokeJoin
-      ..color = color ?? state.color
-      ..strokeCap = strokeCap ?? state.strokeCap
-      ..strokeWidth = strokeWidth ?? state.strokeWidth
-      ..blendMode = blendMode ?? state.blendMode;
-  }
-
-  void updateStrokeWidth(double newStrokeWidth) {
-    state = _copyWith(strokeWidth: newStrokeWidth);
-  }
-
-  void updateStrokeCap(StrokeCap newStrokeCap) {
-    state = _copyWith(strokeCap: newStrokeCap);
-  }
-
-  void updateColor(Color newColor) {
-    state = _copyWith(color: newColor);
-  }
-
-  void updateBlendMode(BlendMode newMode) {
-    state = _copyWith(blendMode: newMode);
-  }
-
   @override
   Paint build() {
     return ref.watch(graphicFactoryProvider).createPaint()
@@ -52,5 +21,38 @@ class PaintProvider extends _$PaintProvider {
       ..color = const Color(0xff00abbb)
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 25;
+  }
+
+  void updateStrokeWidth(double newStrokeWidth) {
+    state = GraphicFactory.copyPaintWith(
+      original: state,
+      strokeWidth: newStrokeWidth,
+    );
+  }
+
+  void updateStrokeCap(StrokeCap newStrokeCap) {
+    state = GraphicFactory.copyPaintWith(
+      original: state,
+      strokeCap: newStrokeCap,
+    );
+  }
+
+  void updateColor(Color newColor) {
+    state = GraphicFactory.copyPaintWith(original: state, color: newColor);
+  }
+
+  void updateBlendMode(BlendMode newMode) {
+    state = GraphicFactory.copyPaintWith(original: state, blendMode: newMode);
+  }
+
+  void updateBlendModeByToolType(ToolType toolType) {
+    switch (toolType) {
+      case ToolType.ERASER:
+        updateBlendMode(BlendMode.clear);
+        break;
+      default:
+        updateBlendMode(BlendMode.srcOver);
+        break;
+    }
   }
 }

@@ -2,8 +2,8 @@
 import 'dart:ui';
 
 // Package imports:
+import 'package:paintroid/ui/utils/toast_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:toast/toast.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
@@ -20,18 +20,27 @@ part 'toolbox_state_provider.g.dart';
 
 @riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
+  @override
+  ToolBoxStateData build() {
+    return ToolBoxStateData(
+      currentTool: ref.watch(brushToolProvider),
+      currentToolType: ToolType.BRUSH,
+      isDown: false,
+    );
+  }
+
   void didTapDown(Offset position) {
     ref.read(commandManagerProvider).clearRedoStack();
-    state.currentTool.onDown(position);
+    state.currentTool.onDown(position, ref.read(paintProvider));
     state = state.copyWith(isDown: true);
   }
 
   void didDrag(Offset position) {
-    state.currentTool.onDrag(position);
+    state.currentTool.onDrag(position, ref.read(paintProvider));
   }
 
   void didTapUp(Offset position) {
-    state.currentTool.onUp(position);
+    state.currentTool.onUp(position, ref.read(paintProvider));
     state = state.copyWith(isDown: false);
   }
 
@@ -43,14 +52,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   void switchTool(ToolData data) {
     switch (data.type) {
       case ToolType.BRUSH:
-        ref
-            .read(paintProvider.notifier)
-            .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),
           currentToolType: ToolType.BRUSH,
         );
-
         break;
       case ToolType.HAND:
         state = state.copyWith(
@@ -59,46 +64,27 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         );
         break;
       case ToolType.ERASER:
-        ref
-            .read(paintProvider.notifier)
-            .updateBlendMode(BlendMode.clear);
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
           currentToolType: ToolType.ERASER,
         );
         break;
       case ToolType.LINE:
-        ref
-            .read(paintProvider.notifier)
-            .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(lineToolProvider),
           currentToolType: ToolType.LINE,
         );
         break;
       default:
-        ref
-            .read(paintProvider.notifier)
-            .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),
           currentToolType: ToolType.BRUSH,
         );
+        break;
     }
 
-    Toast.show(
-      data.name,
-      duration: Toast.lengthShort,
-      gravity: Toast.bottom,
-    );
-  }
+    ref.read(paintProvider.notifier).updateBlendModeByToolType(data.type);
 
-  @override
-  ToolBoxStateData build() {
-    return ToolBoxStateData(
-      currentTool: ref.watch(brushToolProvider),
-      currentToolType: ToolType.BRUSH,
-      isDown: false,
-    );
+    ToastUtils.showShortToast(message: data.name);
   }
 }

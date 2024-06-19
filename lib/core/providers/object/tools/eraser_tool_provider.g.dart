@@ -7,12 +7,12 @@ part of 'eraser_tool_provider.dart';
 // **************************************************************************
 
 String _$eraserToolProviderHash() =>
-    r'8f1684c906ebe4f65615b88705b2556442d09214';
+    r'b66c9a0d7cc9a79cd50bcc4e320a47383d12e851';
 
 /// See also [EraserToolProvider].
 @ProviderFor(EraserToolProvider)
 final eraserToolProvider =
-    AutoDisposeNotifierProvider<EraserToolProvider, BrushTool>.internal(
+    AutoDisposeNotifierProvider<EraserToolProvider, EraserTool>.internal(
   EraserToolProvider.new,
   name: r'eraserToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final eraserToolProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$EraserToolProvider = AutoDisposeNotifier<BrushTool>;
+typedef _$EraserToolProvider = AutoDisposeNotifier<EraserTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

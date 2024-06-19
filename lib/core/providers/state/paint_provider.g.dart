@@ -6,12 +6,11 @@ part of 'paint_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$paintProviderHash() => r'16ff11e26b9343b10137f480125da1c43998e2d0';
+String _$paintProviderHash() => r'cdcdb845f24c29a6168d48244ec2dbf26fa72163';
 
 /// See also [PaintProvider].
 @ProviderFor(PaintProvider)
-final paintProvider =
-    AutoDisposeNotifierProvider<PaintProvider, Paint>.internal(
+final paintProvider = NotifierProvider<PaintProvider, Paint>.internal(
   PaintProvider.new,
   name: r'paintProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +20,6 @@ final paintProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$PaintProvider = AutoDisposeNotifier<Paint>;
+typedef _$PaintProvider = Notifier<Paint>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
