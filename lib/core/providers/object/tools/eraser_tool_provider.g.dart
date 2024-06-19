@@ -7,7 +7,7 @@ part of 'eraser_tool_provider.dart';
 // **************************************************************************
 
 String _$eraserToolProviderHash() =>
-    r'd58baea4f6747cbcad935a9f57438abef72aeb5b';
+    r'8f1684c906ebe4f65615b88705b2556442d09214';
 
 /// See also [EraserToolProvider].
 @ProviderFor(EraserToolProvider)

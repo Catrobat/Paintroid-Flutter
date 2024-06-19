@@ -12,8 +12,8 @@ import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
-import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_data.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
 part 'toolbox_state_provider.g.dart';
@@ -44,7 +44,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     switch (data.type) {
       case ToolType.BRUSH:
         ref
-            .read(brushToolStateProvider.notifier)
+            .read(paintProvider.notifier)
             .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),
@@ -60,7 +60,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.ERASER:
         ref
-            .read(brushToolStateProvider.notifier)
+            .read(paintProvider.notifier)
             .updateBlendMode(BlendMode.clear);
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
@@ -69,7 +69,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.LINE:
         ref
-            .read(brushToolStateProvider.notifier)
+            .read(paintProvider.notifier)
             .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(lineToolProvider),
@@ -78,7 +78,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       default:
         ref
-            .read(brushToolStateProvider.notifier)
+            .read(paintProvider.notifier)
             .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),

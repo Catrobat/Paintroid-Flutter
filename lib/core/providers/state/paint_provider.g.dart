@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'brush_tool_state_provider.dart';
+part of 'paint_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$brushToolStateProviderHash() =>
-    r'56551338919628624c04c1c7cd7cb2071ff2b369';
+String _$paintProviderHash() => r'16ff11e26b9343b10137f480125da1c43998e2d0';
 
-/// See also [BrushToolStateProvider].
-@ProviderFor(BrushToolStateProvider)
-final brushToolStateProvider = AutoDisposeNotifierProvider<
-    BrushToolStateProvider, BrushToolStateData>.internal(
-  BrushToolStateProvider.new,
-  name: r'brushToolStateProvider',
+/// See also [PaintProvider].
+@ProviderFor(PaintProvider)
+final paintProvider =
+    AutoDisposeNotifierProvider<PaintProvider, Paint>.internal(
+  PaintProvider.new,
+  name: r'paintProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$brushToolStateProviderHash,
+      : _$paintProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$BrushToolStateProvider = AutoDisposeNotifier<BrushToolStateData>;
+typedef _$PaintProvider = AutoDisposeNotifier<Paint>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
