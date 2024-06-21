@@ -1,9 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
@@ -12,6 +10,7 @@ import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provi
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
@@ -31,8 +30,9 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   ) {
     if (commandManager.undoStack.isNotEmpty) {
       return () async {
-        _switchTool(commandManager, currentTool, ActionType.UNDO, ref);
-        commandManager.undo(currentTool);
+        final needUndo =
+            _switchTool(commandManager, currentTool, ActionType.UNDO, ref);
+        if (needUndo) commandManager.undo(currentTool);
         await ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
@@ -60,16 +60,45 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return null;
   }
 
-  void _switchTool(
+  bool _switchTool(
     ICommandManager commandManager,
     Tool currentTool,
     ActionType actionType,
     WidgetRef ref,
   ) {
     var nextTool = commandManager.getNextTool(actionType);
-    if (currentTool.type != nextTool.type) {
-      ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
+    if (currentTool.type == nextTool.type) return true;
+
+    ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
+
+    switch (nextTool) {
+      case ToolData.LINE:
+        _handleLineToolUndo(commandManager, ref);
+        return false;
+      case ToolData.BRUSH:
+      case ToolData.CLIPBOARD:
+      case ToolData.CLIPPING:
+      case ToolData.CURSOR:
+      case ToolData.ERASER:
+      case ToolData.FILL:
+      case ToolData.HAND:
+      case ToolData.IMPORT:
+      case ToolData.PIPETTE:
+      case ToolData.SHAPES:
+      case ToolData.SMUDGE:
+      case ToolData.SPRAY:
+      case ToolData.TEXT:
+      case ToolData.TRANSFORM:
+      case ToolData.WATERCOLOR:
+        break;
     }
+    return true;
+  }
+
+  void _handleLineToolUndo(ICommandManager commandManager, WidgetRef ref) {
+    final lineCommandSequence = commandManager.getTopLineCommandSequence();
+    final lineTool = ref.read(toolBoxStateProvider).currentTool as LineTool;
+    lineTool.rebuildVertexStack(lineCommandSequence);
   }
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {

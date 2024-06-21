@@ -1,12 +1,10 @@
 // Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
-
+// Flutter imports:
+import 'package:flutter/material.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -189,7 +187,10 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   void _createSourceAndDestinationVertices(
-      Offset startPoint, Offset endPoint, LineCommand command) {
+    Offset startPoint,
+    Offset endPoint,
+    LineCommand command,
+  ) {
     predecessorVertex = _createAndAddVertex(startPoint, command, null);
     movingVertex = _createAndAddVertex(endPoint, null, command);
   }
@@ -212,15 +213,21 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   LineCommand _createLineCommand(
-      Paint paint, Offset startPoint, Offset endPoint) {
+    Paint paint,
+    Offset startPoint,
+    Offset endPoint,
+  ) {
     final path = _createPath(startPoint, endPoint);
     final command =
         commandFactory.createLineCommand(path, paint, startPoint, endPoint);
     return command;
   }
 
-  Vertex _createAndAddVertex(Offset vertexCenter,
-      LineCommand? outgoingPathCommand, LineCommand? ingoingPathCommand) {
+  Vertex _createAndAddVertex(
+    Offset vertexCenter,
+    LineCommand? outgoingPathCommand,
+    LineCommand? ingoingPathCommand,
+  ) {
     Vertex vertex = Vertex(
         vertexCenter: vertexCenter,
         outgoingPathCommand: outgoingPathCommand,
@@ -302,5 +309,20 @@ class LineTool extends Tool with EquatableMixin {
     }
 
     return outsidePoint;
+  }
+
+  void rebuildVertexStack(List<LineCommand> lineCommandSequence) {
+    reset();
+    for (var lineCommand in lineCommandSequence) {
+      if (lineCommand.isSourcePath) {
+        _createSourceAndDestinationVertices(
+          lineCommand.startPoint,
+          lineCommand.endPoint,
+          lineCommand,
+        );
+      } else {
+        _createDestinationVertex(lineCommand.endPoint, lineCommand);
+      }
+    }
   }
 }

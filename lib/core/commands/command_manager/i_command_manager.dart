@@ -43,4 +43,6 @@ abstract class ICommandManager {
   void undo(Tool currentTool);
 
   void redo(Tool currentTool);
+
+  List<LineCommand> getTopLineCommandSequence();
 }

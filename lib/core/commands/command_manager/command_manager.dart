@@ -126,4 +126,17 @@ class CommandManager implements ICommandManager {
       return ToolData.BRUSH;
     }
   }
+
+  @override
+  List<LineCommand> getTopLineCommandSequence() {
+    final List<LineCommand> lineCommands = [];
+
+    for (final command in _undoStack.reversed) {
+      if (command is! LineCommand) break;
+      lineCommands.add(command);
+      if (command.isSourcePath) break;
+    }
+
+    return lineCommands.reversed.toList();
+  }
 }

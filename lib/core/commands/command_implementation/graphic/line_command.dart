@@ -3,7 +3,6 @@ import 'dart:ui';
 
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -54,6 +53,10 @@ class LineCommand extends GraphicCommand {
 
   void updatePath(PathWithActionHistory newPath) {
     path = newPath;
+    final moveAction = path.actions.first as MoveToAction;
+    final lineAction = path.actions.last as LineToAction;
+    startPoint = Offset(moveAction.x, moveAction.y);
+    endPoint = Offset(lineAction.x, lineAction.y);
   }
 
   @override
