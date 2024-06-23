@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:ui';
-
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,7 +14,6 @@ void main() {
   setUp(() {
     sut = EraserTool(
       type: ToolType.ERASER,
-      paint: Paint(),
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),

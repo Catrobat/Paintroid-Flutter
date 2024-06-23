@@ -10,7 +10,8 @@ import 'package:image/image.dart' as img;
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
@@ -81,15 +82,13 @@ class UIInteraction {
   static Color getCurrentColor() {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    return toolBoxProvider.currentTool.paint.color;
+    return container.read(paintProvider).color;
   }
 
   static void setColor(Color color) {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    toolBoxProvider.currentTool.paint.color = color;
+    container.read(paintProvider.notifier).updateColor(color);
   }
 
   static Future<void> clickCheckmark() async {
