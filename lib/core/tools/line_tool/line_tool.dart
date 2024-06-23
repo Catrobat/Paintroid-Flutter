@@ -180,7 +180,6 @@ class LineTool extends Tool with EquatableMixin {
     return pathToDraw;
   }
 
-
   void _createSourceAndDestinationCommandAndVertices(
       Offset point, Paint paint) {
     final command = _createLineCommand(
