@@ -49,6 +49,7 @@ class OpacitySlider extends ConsumerWidget {
                 overlayColor: Colors.transparent,
               ),
               child: Slider(
+                key: const Key('opacity_slider'),
                 min: 0.0,
                 max: 1.0,
                 value: 1.0 - colorPickerStateData.currentOpacity,
