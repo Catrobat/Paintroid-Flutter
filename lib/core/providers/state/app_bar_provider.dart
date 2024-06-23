@@ -6,7 +6,7 @@ part 'app_bar_provider.g.dart';
 @riverpod
 class AppBarProvider extends _$AppBarProvider {
   @override
-  void build() {}
+  AppBarProvider build() => this;
 
   void update() => ref.notifyListeners();
 }

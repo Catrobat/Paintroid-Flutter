@@ -6,7 +6,7 @@ part 'canvas_painter_provider.g.dart';
 @riverpod
 class CanvasPainterProvider extends _$CanvasPainterProvider {
   @override
-  void build() {}
+  CanvasPainterProvider build() => this;
 
   void repaint() => ref.notifyListeners();
 }
