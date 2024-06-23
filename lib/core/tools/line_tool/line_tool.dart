@@ -123,7 +123,7 @@ class LineTool extends Tool with EquatableMixin {
       return;
     }
 
-    Paint paint = _copy(pathCommand.paint);
+    Paint paint = graphicFactory.copyPaint(pathCommand.paint);
     paint.color = paint.color.withAlpha(Vertex.PAINT_ALPHA);
     setGhostPath(_createLineCommand(paint, ghostStartPoint, ghostEndPoint));
   }
@@ -180,8 +180,13 @@ class LineTool extends Tool with EquatableMixin {
     return pathToDraw;
   }
 
-  void _createSourceAndDestinationCommandAndVertices(Offset point, Paint paint) {
-    final command = _createLineCommand(_copy(paint), point, point);
+  void _createSourceAndDestinationCommandAndVertices(
+      Offset point, Paint paint) {
+    final command = _createLineCommand(
+      graphicFactory.copyPaint(paint),
+      point,
+      point,
+    );
     commandManager.addGraphicCommand(command);
     command.setAsSourcePath();
     _createSourceAndDestinationVertices(point, point, command);
@@ -195,7 +200,11 @@ class LineTool extends Tool with EquatableMixin {
 
   void _createDestinationCommandAndVertex(Offset point, Paint paint) {
     final startPoint = vertexStack.last.vertexCenter;
-    final command = _createLineCommand(_copy(paint), startPoint, startPoint);
+    final command = _createLineCommand(
+      graphicFactory.copyPaint(paint),
+      startPoint,
+      startPoint,
+    );
     commandManager.addGraphicCommand(command);
     _createDestinationVertex(startPoint, command);
   }
@@ -206,24 +215,25 @@ class LineTool extends Tool with EquatableMixin {
     _setLastMovingAndPredecessorVertex();
   }
 
-  _copy(Paint paint) {
-    return graphicFactory.copyPaint(paint);
-  }
-
   LineCommand _createLineCommand(
       Paint paint, Offset startPoint, Offset endPoint) {
     final path = _createPath(startPoint, endPoint);
-    final command =
-        commandFactory.createLineCommand(path, paint, startPoint, endPoint);
+    final command = commandFactory.createLineCommand(
+      path,
+      paint,
+      startPoint,
+      endPoint,
+    );
     return command;
   }
 
   Vertex _createAndAddVertex(Offset vertexCenter,
       LineCommand? outgoingPathCommand, LineCommand? ingoingPathCommand) {
     Vertex vertex = Vertex(
-        vertexCenter: vertexCenter,
-        outgoingPathCommand: outgoingPathCommand,
-        ingoingPathCommand: ingoingPathCommand);
+      vertexCenter: vertexCenter,
+      outgoingPathCommand: outgoingPathCommand,
+      ingoingPathCommand: ingoingPathCommand,
+    );
     vertexStack.add(vertex);
     return vertex;
   }
