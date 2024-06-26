@@ -14,7 +14,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   late final _toolBoxStateNotifier = ref.read(toolBoxStateProvider.notifier);
   late final _canvasStateNotifier = ref.read(canvasStateProvider.notifier);
   late final _canvasDirtyNotifier =
-      ref.read(CanvasDirtyState.provider.notifier);
+  ref.read(CanvasDirtyState.provider.notifier);
 
   final _canvasPainterKey = GlobalKey(debugLabel: 'CanvasPainter');
   final _transformationController = TransformationController();
@@ -54,7 +54,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
 
   Offset _globalToCanvas(Offset global) {
     final canvasBox =
-        _canvasPainterKey.currentContext!.findRenderObject() as RenderBox;
+    _canvasPainterKey.currentContext!.findRenderObject() as RenderBox;
     return canvasBox.globalToLocal(global);
   }
 
@@ -106,7 +106,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   Widget build(BuildContext context) {
     ref.listen<bool>(
       WorkspaceState.provider.select((state) => state.isFullscreen),
-      (wasFullscreen, isFullscreen) {
+          (wasFullscreen, isFullscreen) {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
@@ -121,19 +121,19 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         boundaryMargin: const EdgeInsets.all(double.infinity),
         interactionEndFrictionCoefficient: double.minPositive,
         panEnabled:
-            ref.watch(toolBoxStateProvider).currentTool.type == ToolType.HAND,
+        ref.watch(toolBoxStateProvider).currentTool.type == ToolType.HAND,
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,
         child: Center(
           child: ref.watch(IDeviceService.sizeProvider).map(
-                data: (_) => FittedBox(
-                  fit: BoxFit.contain,
-                  child: CanvasPainter(key: _canvasPainterKey),
-                ),
-                error: (_) => Container(),
-                loading: (_) => Container(),
-              ),
+            data: (_) => FittedBox(
+              fit: BoxFit.contain,
+              child: CanvasPainter(key: _canvasPainterKey),
+            ),
+            error: (_) => Container(),
+            loading: (_) => Container(),
+          ),
         ),
       ),
     );

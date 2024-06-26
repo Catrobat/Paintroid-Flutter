@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+import 'package:command/command_providers.dart';
 import 'package:component_library/component_library.dart';
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,9 @@ import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 import 'package:workspace_screen/workspace_screen.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
 
 enum OverflowMenuOption {
   fullscreen,
@@ -52,11 +57,11 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => OverflowMenuOption.values
           .map((option) => PopupMenuItem(
-              value: option,
-              child: Text(
-                option.localizedLabel(context),
-                style: TextThemes.menuItem,
-              )))
+          value: option,
+          child: Text(
+            option.localizedLabel(context),
+            style: TextThemes.menuItem,
+          )))
           .toList(),
     );
   }
@@ -80,7 +85,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         ioHandler.newImage(context, this);
         break;
       case OverflowMenuOption.share:
-        _shareContent();
+        _shareContent(context); // Pass context to share content
         break;
     }
   }
@@ -121,7 +126,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     final fileService = ref.watch(IFileService.provider);
     final fileName = '${imageData.name}.${imageData.format.extension}';
     final fileExists =
-        await fileService.checkIfFileExistsInApplicationDirectory(fileName);
+    await fileService.checkIfFileExistsInApplicationDirectory(fileName);
 
     if (fileExists) {
       final overWriteCanceled = await _showOverwriteDialog();
@@ -139,8 +144,64 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
     return true;
   }
 
-  void _shareContent() {
-    Share.share('Check out this great app!');
+  Future<void> _shareContent(BuildContext context) async { // Added method
+    try {
+      final img = await _captureCanvasImage(context); // Use _captureCanvasImage
+      final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+      final pngBytes = byteData?.buffer.asUint8List();
+
+      if (pngBytes != null) {
+        final tempDir = await getTemporaryDirectory();
+        final file = await File('${tempDir.path}/shared_image.png').create();
+        await file.writeAsBytes(pngBytes);
+
+        Share.shareXFiles([XFile(file.path)]); // Updated method
+      } else {
+        Toast.show(
+          'Failed to capture image from canvas.',
+          duration: Toast.lengthShort,
+          gravity: Toast.bottom,
+        );
+      }
+    } catch (e) {
+      Toast.show(
+        'Error sharing content: $e',
+        duration: Toast.lengthShort,
+        gravity: Toast.bottom,
+      );
+    }
+  }
+
+  Future<ui.Image> _captureCanvasImage(BuildContext context) async { // Added method to capture canvas image
+    final canvasState = ref.read(canvasStateProvider);
+    final commands = ref.read(commandManagerProvider);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+
+    final size = canvasState.size;
+    if (canvasState.backgroundImage != null) {
+      paintImage(
+        canvas: canvas,
+        rect: Offset.zero & size,
+        image: canvasState.backgroundImage!,
+        fit: BoxFit.cover,
+      );
+    }
+
+    if (canvasState.cachedImage != null) {
+      paintImage(
+        canvas: canvas,
+        rect: Offset.zero & size,
+        image: canvasState.cachedImage!,
+        fit: BoxFit.cover,
+      );
+    }
+
+    commands.executeAllCommands(canvas);
+
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(size.width.toInt(), size.height.toInt());
+    return img;
   }
 
   Future<void> _saveProject() async {
@@ -162,7 +223,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       final savedProject = await ioHandler.saveProject(catrobatImageData);
       if (savedProject != null) {
         String? imagePreview =
-            await ioHandler.getPreviewPath(catrobatImageData);
+        await ioHandler.getPreviewPath(catrobatImageData);
         Project projectNew = Project(
           name: catrobatImageData.name,
           path: savedProject.path,
