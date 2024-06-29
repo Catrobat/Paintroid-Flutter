@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
-import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -36,7 +36,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         await ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
-        ref.read(TopBarActionClickedState.provider.notifier).notify();
+        ref.read(appBarProvider.notifier).update();
       };
     }
     return null;
@@ -54,7 +54,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         await ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
-        ref.read(TopBarActionClickedState.provider.notifier).notify();
+        ref.read(appBarProvider.notifier).update();
       };
     }
     return null;
@@ -105,7 +105,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
       return () {
         currentTool.onCheckmark();
-        ref.read(TopBarActionClickedState.provider.notifier).notify();
+        ref.read(appBarProvider.notifier).update();
       };
     }
     return null;
@@ -124,7 +124,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTool = ref.watch(toolBoxStateProvider).currentTool;
     final commandManager = ref.read(commandManagerProvider);
-    ref.watch(TopBarActionClickedState.provider);
+    ref.watch(appBarProvider);
 
     return AppBar(
       title: Text(title),
