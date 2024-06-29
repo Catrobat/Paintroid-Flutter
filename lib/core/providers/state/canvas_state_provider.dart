@@ -18,7 +18,7 @@ import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 part 'canvas_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class CanvasState extends _$CanvasState {
+class CanvasStateProvider extends _$CanvasStateProvider {
   Size initialCanvasSize = Size.zero;
 
   @override
@@ -68,7 +68,7 @@ class CanvasState extends _$CanvasState {
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
-    state.commandManager.clearHistory(newCommands: commands);
+    state.commandManager.clearUndoStack(newCommands: commands);
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: null);
     } else {

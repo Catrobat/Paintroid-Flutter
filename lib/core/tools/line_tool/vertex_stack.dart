@@ -24,6 +24,10 @@ class VertexStack extends Iterable<Vertex> {
     _stack.clear();
   }
 
+  void removeLast() {
+    _stack.removeLast();
+  }
+
   Vertex? getPredecessor(Vertex vertex) {
     if (_stack.isEmpty) return null;
     if (_stack.length == 1) return null;

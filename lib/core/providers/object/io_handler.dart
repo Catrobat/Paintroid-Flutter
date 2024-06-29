@@ -229,7 +229,7 @@ class IOHandler {
 
   Future<File?> _saveAsCatrobatImage(
       CatrobatImageMetaData imageData, bool isAProject) async {
-    final commands = ref.read(commandManagerProvider).history;
+    final commands = ref.read(commandManagerProvider).undoStack;
     final canvasState = ref.read(canvasStateProvider);
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();

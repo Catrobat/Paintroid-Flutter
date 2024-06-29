@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Project imports:
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
@@ -27,7 +26,7 @@ class IconButtonWithLabel extends StatelessWidget {
         FittedBox(
           child: Text(
             label,
-            style: PaintroidTheme.of(context).descStyle,
+            style: PaintroidTheme.of(context).descStyle.copyWith(fontSize: 14),
           ),
         ),
       ],

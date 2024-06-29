@@ -9,6 +9,9 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 part 'graphic_factory_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-GraphicFactory graphicFactory(GraphicFactoryRef ref) {
-  return const GraphicFactory();
+class GraphicFactoryProvider extends _$GraphicFactoryProvider {
+  @override
+  GraphicFactory build() {
+    return const GraphicFactory();
+  }
 }

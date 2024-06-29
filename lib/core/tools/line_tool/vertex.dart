@@ -8,10 +8,11 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/utils/distance_calculator.dart';
 
 class Vertex {
-  Vertex(
-      {required this.vertexCenter,
-      required this.outgoingPathCommand,
-      required this.ingoingPathCommand});
+  Vertex({
+    required this.vertexCenter,
+    required this.outgoingPathCommand,
+    required this.ingoingPathCommand,
+  });
 
   Offset vertexCenter;
   LineCommand? ingoingPathCommand;

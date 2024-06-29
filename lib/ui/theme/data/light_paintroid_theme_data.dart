@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
-// Project imports:
-
 class LightPaintroidThemeData extends PaintroidThemeData {
   @override
   ThemeData get materialThemeData => ThemeData(
@@ -33,7 +31,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(
+            foregroundColor: WidgetStateProperty.all(
               CustomColors.oceanBlue,
             ),
           ),

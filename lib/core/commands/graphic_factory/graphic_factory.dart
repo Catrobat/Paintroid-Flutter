@@ -33,4 +33,38 @@ class GraphicFactory {
       ..strokeWidth = original.strokeWidth
       ..style = original.style;
   }
+
+  static Paint copyPaintWith({
+    required Paint original,
+    BlendMode? blendMode,
+    Color? color,
+    ColorFilter? colorFilter,
+    FilterQuality? filterQuality,
+    ImageFilter? imageFilter,
+    bool? invertColors,
+    bool? isAntiAlias,
+    MaskFilter? maskFilter,
+    Shader? shader,
+    StrokeCap? strokeCap,
+    StrokeJoin? strokeJoin,
+    double? strokeMiterLimit,
+    double? strokeWidth,
+    PaintingStyle? style,
+  }) {
+    return Paint()
+      ..blendMode = blendMode ?? original.blendMode
+      ..color = color ?? original.color
+      ..colorFilter = colorFilter ?? original.colorFilter
+      ..filterQuality = filterQuality ?? original.filterQuality
+      ..imageFilter = imageFilter ?? original.imageFilter
+      ..invertColors = invertColors ?? original.invertColors
+      ..isAntiAlias = isAntiAlias ?? original.isAntiAlias
+      ..maskFilter = maskFilter ?? original.maskFilter
+      ..shader = shader ?? original.shader
+      ..strokeCap = strokeCap ?? original.strokeCap
+      ..strokeJoin = strokeJoin ?? original.strokeJoin
+      ..strokeMiterLimit = strokeMiterLimit ?? original.strokeMiterLimit
+      ..strokeWidth = strokeWidth ?? original.strokeWidth
+      ..style = style ?? original.style;
+  }
 }

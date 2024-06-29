@@ -4,33 +4,28 @@ import 'dart:ui';
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 
-// Package imports:
-import 'package:equatable/equatable.dart';
-
 // Project imports:
-import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
-import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
-class BrushTool extends Tool with EquatableMixin {
-  BrushTool({
-    required super.paint,
-    required super.commandFactory,
-    required super.commandManager,
-    required this.graphicFactory,
-    required super.type,
-  });
-
+class BrushTool extends Tool {
   final GraphicFactory graphicFactory;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
 
+  BrushTool({
+    required super.commandFactory,
+    required super.commandManager,
+    required this.graphicFactory,
+    required super.type,
+    super.hasAddFunctionality = false,
+    super.hasFinalizeFunctionality = false,
+  });
+
   @override
-  void onDown(Offset point) {
+  void onDown(Offset point, Paint paint) {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
@@ -39,12 +34,12 @@ class BrushTool extends Tool with EquatableMixin {
   }
 
   @override
-  void onDrag(Offset point) {
+  void onDrag(Offset point, Paint paint) {
     pathToDraw.lineTo(point.dx, point.dy);
   }
 
   @override
-  void onUp(Offset point) {
+  void onUp(Offset point, Paint paint) {
     if (pathToDraw.path.getBounds().size == Size.zero) {
       pathToDraw.close();
     }
@@ -56,21 +51,8 @@ class BrushTool extends Tool with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [commandManager, commandFactory, graphicFactory];
+  void onCheckmark() {}
 
-  BrushTool copyWith({
-    Paint? paint,
-    CommandFactory? commandFactory,
-    CommandManager? commandManager,
-    GraphicFactory? graphicFactory,
-    ToolType? type,
-  }) {
-    return BrushTool(
-      paint: paint ?? this.paint,
-      commandFactory: commandFactory ?? this.commandFactory,
-      commandManager: commandManager ?? this.commandManager,
-      graphicFactory: graphicFactory ?? this.graphicFactory,
-      type: ToolType.BRUSH,
-    );
-  }
+  @override
+  void onPlus() {}
 }

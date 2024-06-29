@@ -8,8 +8,10 @@ import 'package:image/image.dart' as img;
 
 // Project imports:
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
@@ -64,6 +66,13 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
+  static ToolType getCurrentTool() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final toolBoxProvider = container.read(toolBoxStateProvider);
+    return toolBoxProvider.currentTool.type;
+  }
+
   static Future<void> _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(WidgetFinder.canvas);
     await tester.pumpAndSettle();
@@ -73,15 +82,13 @@ class UIInteraction {
   static Color getCurrentColor() {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    return toolBoxProvider.currentTool.paint.color;
+    return container.read(paintProvider).color;
   }
 
   static void setColor(Color color) {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    toolBoxProvider.currentTool.paint.color = color;
+    container.read(paintProvider.notifier).updateColor(color);
   }
 
   static Future<void> clickCheckmark() async {
@@ -94,6 +101,22 @@ class UIInteraction {
     expect(WidgetFinder.plusButton, findsOneWidget);
     await tester.tap(WidgetFinder.plusButton);
     await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickUndo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.undoButton);
+      await tester.pumpAndSettle();
+    }
+  }
+
+  static Future<void> clickRedo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.redoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.redoButton);
+      await tester.pumpAndSettle();
+    }
   }
 
   static Future<void> dragFromTo(Offset from, Offset to) async {

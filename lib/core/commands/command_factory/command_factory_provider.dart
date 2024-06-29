@@ -9,6 +9,9 @@ import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 part 'command_factory_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-CommandFactory commandFactory(CommandFactoryRef ref) {
-  return const CommandFactory();
+class CommandFactoryProvider extends _$CommandFactoryProvider {
+  @override
+  CommandFactory build() {
+    return const CommandFactory();
+  }
 }

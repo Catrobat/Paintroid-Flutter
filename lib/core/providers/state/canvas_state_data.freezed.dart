@@ -19,7 +19,7 @@ mixin _$CanvasStateData {
   ui.Image? get backgroundImage => throw _privateConstructorUsedError;
   ui.Image? get cachedImage => throw _privateConstructorUsedError;
   ui.Size get size => throw _privateConstructorUsedError;
-  CommandManager get commandManager => throw _privateConstructorUsedError;
+  ICommandManager get commandManager => throw _privateConstructorUsedError;
   GraphicFactory get graphicFactory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $CanvasStateDataCopyWith<$Res> {
       {ui.Image? backgroundImage,
       ui.Image? cachedImage,
       ui.Size size,
-      CommandManager commandManager,
+      ICommandManager commandManager,
       GraphicFactory graphicFactory});
 }
 
@@ -76,7 +76,7 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
       commandManager: null == commandManager
           ? _value.commandManager
           : commandManager // ignore: cast_nullable_to_non_nullable
-              as CommandManager,
+              as ICommandManager,
       graphicFactory: null == graphicFactory
           ? _value.graphicFactory
           : graphicFactory // ignore: cast_nullable_to_non_nullable
@@ -97,7 +97,7 @@ abstract class _$$CanvasStateDataImplCopyWith<$Res>
       {ui.Image? backgroundImage,
       ui.Image? cachedImage,
       ui.Size size,
-      CommandManager commandManager,
+      ICommandManager commandManager,
       GraphicFactory graphicFactory});
 }
 
@@ -134,7 +134,7 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
       commandManager: null == commandManager
           ? _value.commandManager
           : commandManager // ignore: cast_nullable_to_non_nullable
-              as CommandManager,
+              as ICommandManager,
       graphicFactory: null == graphicFactory
           ? _value.graphicFactory
           : graphicFactory // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
   @override
   final ui.Size size;
   @override
-  final CommandManager commandManager;
+  final ICommandManager commandManager;
   @override
   final GraphicFactory graphicFactory;
 
@@ -202,7 +202,7 @@ abstract class _CanvasStateData implements CanvasStateData {
       {final ui.Image? backgroundImage,
       final ui.Image? cachedImage,
       required final ui.Size size,
-      required final CommandManager commandManager,
+      required final ICommandManager commandManager,
       required final GraphicFactory graphicFactory}) = _$CanvasStateDataImpl;
 
   @override
@@ -212,7 +212,7 @@ abstract class _CanvasStateData implements CanvasStateData {
   @override
   ui.Size get size;
   @override
-  CommandManager get commandManager;
+  ICommandManager get commandManager;
   @override
   GraphicFactory get graphicFactory;
   @override
