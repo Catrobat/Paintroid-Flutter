@@ -32,4 +32,8 @@ abstract class Tool {
   void onCheckmark();
 
   void onPlus();
+
+  void onUndo();
+
+  void onRedo();
 }

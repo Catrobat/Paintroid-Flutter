@@ -1,10 +1,12 @@
 // Dart imports:
 import 'dart:ui';
 
-// Package imports:
-import 'package:equatable/equatable.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -82,6 +84,39 @@ class LineTool extends Tool with EquatableMixin {
   @override
   void onCheckmark() {
     reset();
+  }
+
+  @override
+  void onRedo() {
+    final redoneCommand = commandManager.redo() as LineCommand;
+    if (redoneCommand.isSourcePath && vertexStack.isNotEmpty) {
+      reset();
+    }
+    if (redoneCommand.isSourcePath) {
+      _createSourceAndDestinationVertices(
+        redoneCommand.startPoint,
+        redoneCommand.endPoint,
+        redoneCommand,
+      );
+    } else {
+      _createDestinationVertex(redoneCommand.endPoint, redoneCommand);
+    }
+  }
+
+  @override
+  void onUndo() {
+    if (vertexStack.isEmpty) {
+      _rebuildVertexStack();
+      return;
+    }
+    if (vertexStack.length == 2) {
+      commandManager.undo();
+      reset();
+      return;
+    }
+    vertexStack.removeLast();
+    _setLastMovingAndPredecessorVertex();
+    commandManager.undo();
   }
 
   void _setGhostPaths(Offset point) {
@@ -320,8 +355,9 @@ class LineTool extends Tool with EquatableMixin {
     return outsidePoint;
   }
 
-  void rebuildVertexStack(List<LineCommand> lineCommandSequence) {
+  void _rebuildVertexStack() {
     reset();
+    final lineCommandSequence = commandManager.getTopLineCommandSequence();
     for (var lineCommand in lineCommandSequence) {
       if (lineCommand.isSourcePath) {
         _createSourceAndDestinationVertices(

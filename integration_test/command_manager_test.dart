@@ -41,19 +41,20 @@ void main() {
       await UIInteraction.selectTool(ToolData.LINE.name);
 
       var currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.LINE.type);
+      expect(currentTool.type, ToolData.LINE.type);
 
       await UIInteraction.clickUndo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.BRUSH.type);
+      expect(currentTool.type, ToolData.BRUSH.type);
 
       await UIInteraction.clickUndo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.LINE.type);
+      expect(currentTool.type, ToolData.LINE.type);
 
       await UIInteraction.clickUndo();
+      await UIInteraction.clickUndo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.BRUSH.type);
+      expect(currentTool.type, ToolData.BRUSH.type);
     });
 
     testWidgets('Test if tool changes during redo',
@@ -74,19 +75,19 @@ void main() {
       await UIInteraction.clickUndo(times: 3);
 
       var currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.BRUSH.type);
+      expect(currentTool.type, ToolData.BRUSH.type);
 
       await UIInteraction.clickRedo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.BRUSH.type);
+      expect(currentTool.type, ToolData.BRUSH.type);
 
       await UIInteraction.clickRedo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.LINE.type);
+      expect(currentTool.type, ToolData.LINE.type);
 
       await UIInteraction.clickRedo();
       currentTool = UIInteraction.getCurrentTool();
-      expect(currentTool, ToolData.BRUSH.type);
+      expect(currentTool.type, ToolData.BRUSH.type);
     });
   });
 }

@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 // Dart imports:
-import 'dart:typed_data' as _i4;
+import 'dart:typed_data' as _i5;
 import 'dart:ui' as _i2;
 
 // Package imports:
@@ -13,19 +13,18 @@ import 'package:mockito/mockito.dart' as _i1;
 
 // Project imports:
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
-import 'package:paintroid/core/tools/tool.dart' as _i10;
-import 'package:paintroid/core/tools/tool_data.dart' as _i3;
+import 'package:paintroid/core/tools/tool_data.dart' as _i4;
 
 import 'package:paintroid/core/commands/command_implementation/command.dart'
-    as _i6;
+    as _i3;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
     as _i7;
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
     as _i8;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
-    as _i5;
+    as _i6;
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
-    as _i11;
+    as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -50,8 +49,18 @@ class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
         );
 }
 
-class _FakeToolData_1 extends _i1.SmartFake implements _i3.ToolData {
-  _FakeToolData_1(
+class _FakeCommand_1 extends _i1.SmartFake implements _i3.Command {
+  _FakeCommand_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeToolData_2 extends _i1.SmartFake implements _i4.ToolData {
+  _FakeToolData_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -178,7 +187,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
-  void transform(_i4.Float64List? matrix4) => super.noSuchMethod(
+  void transform(_i5.Float64List? matrix4) => super.noSuchMethod(
         Invocation.method(
           #transform,
           [matrix4],
@@ -187,13 +196,13 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
-  _i4.Float64List getTransform() => (super.noSuchMethod(
+  _i5.Float64List getTransform() => (super.noSuchMethod(
         Invocation.method(
           #getTransform,
           [],
         ),
-        returnValue: _i4.Float64List(0),
-      ) as _i4.Float64List);
+        returnValue: _i5.Float64List(0),
+      ) as _i5.Float64List);
 
   @override
   void clipRect(
@@ -540,7 +549,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
   @override
   void drawRawPoints(
     _i2.PointMode? pointMode,
-    _i4.Float32List? points,
+    _i5.Float32List? points,
     _i2.Paint? paint,
   ) =>
       super.noSuchMethod(
@@ -602,9 +611,9 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
   @override
   void drawRawAtlas(
     _i2.Image? atlas,
-    _i4.Float32List? rstTransforms,
-    _i4.Float32List? rects,
-    _i4.Int32List? colors,
+    _i5.Float32List? rstTransforms,
+    _i5.Float32List? rects,
+    _i5.Int32List? colors,
     _i2.BlendMode? blendMode,
     _i2.Rect? cullRect,
     _i2.Paint? paint,
@@ -649,22 +658,22 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i6.Command> get redoStack => (super.noSuchMethod(
+  List<_i3.Command> get redoStack => (super.noSuchMethod(
         Invocation.getter(#redoStack),
-        returnValue: <_i6.Command>[],
-      ) as List<_i6.Command>);
+        returnValue: <_i3.Command>[],
+      ) as List<_i3.Command>);
 
   @override
-  List<_i6.Command> get undoStack => (super.noSuchMethod(
+  List<_i3.Command> get undoStack => (super.noSuchMethod(
         Invocation.getter(#undoStack),
-        returnValue: <_i6.Command>[],
-      ) as List<_i6.Command>);
+        returnValue: <_i3.Command>[],
+      ) as List<_i3.Command>);
 
   @override
   void addGraphicCommand(_i7.GraphicCommand? command) => super.noSuchMethod(
@@ -676,7 +685,7 @@ class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
       );
 
   @override
-  void setUndoStack(List<_i6.Command>? commands) => super.noSuchMethod(
+  void setUndoStack(List<_i3.Command>? commands) => super.noSuchMethod(
         Invocation.method(
           #setUndoStack,
           [commands],
@@ -712,7 +721,7 @@ class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
       );
 
   @override
-  void clearUndoStack({Iterable<_i6.Command>? newCommands}) =>
+  void clearUndoStack({Iterable<_i3.Command>? newCommands}) =>
       super.noSuchMethod(
         Invocation.method(
           #clearUndoStack,
@@ -766,35 +775,50 @@ class MockCommandManager extends _i1.Mock implements _i5.CommandManager {
       );
 
   @override
-  void redo(_i10.Tool? currentTool) => super.noSuchMethod(
+  _i3.Command redo() => (super.noSuchMethod(
         Invocation.method(
           #redo,
-          [currentTool],
+          [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _FakeCommand_1(
+          this,
+          Invocation.method(
+            #redo,
+            [],
+          ),
+        ),
+      ) as _i3.Command);
 
   @override
-  void undo(_i10.Tool? currentTool) => super.noSuchMethod(
+  void undo() => super.noSuchMethod(
         Invocation.method(
           #undo,
-          [currentTool],
+          [],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  _i3.ToolData getNextTool(_i11.ActionType? actionType) => (super.noSuchMethod(
+  _i4.ToolData getNextTool(_i10.ActionType? actionType) => (super.noSuchMethod(
         Invocation.method(
           #getNextTool,
           [actionType],
         ),
-        returnValue: _FakeToolData_1(
+        returnValue: _FakeToolData_2(
           this,
           Invocation.method(
             #getNextTool,
             [actionType],
           ),
         ),
-      ) as _i3.ToolData);
+      ) as _i4.ToolData);
+
+  @override
+  List<_i8.LineCommand> getTopLineCommandSequence() => (super.noSuchMethod(
+        Invocation.method(
+          #getTopLineCommandSequence,
+          [],
+        ),
+        returnValue: <_i8.LineCommand>[],
+      ) as List<_i8.LineCommand>);
 }
