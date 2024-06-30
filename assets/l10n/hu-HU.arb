@@ -1,0 +1,12 @@
+{
+    "@@locale": "hu",
+    "fullscreen": "Teljes képernyő",
+    "saveImage": "Kép mentése",
+    "loadImage": "Kép betöltése",
+    "newImage": "Új kép",
+    "saveProject": "Save project",
+    "tools": "Eszközők",
+    "brush": "Ecset",
+    "color": "Color",
+    "layers": "Layers"
+}
