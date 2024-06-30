@@ -134,22 +134,18 @@ class __$$WorkspaceStateImplCopyWithImpl<$Res>
 
 class _$WorkspaceStateImpl implements _WorkspaceState {
   const _$WorkspaceStateImpl(
-      {this.isFullscreen = false,
-      this.isPerformingIOTask = false,
-      this.hasUnsavedChanges = false,
-      this.commandCountWhenLastSaved = 0});
+      {required this.isFullscreen,
+      required this.isPerformingIOTask,
+      required this.hasUnsavedChanges,
+      required this.commandCountWhenLastSaved});
 
   @override
-  @JsonKey()
   final bool isFullscreen;
   @override
-  @JsonKey()
   final bool isPerformingIOTask;
   @override
-  @JsonKey()
   final bool hasUnsavedChanges;
   @override
-  @JsonKey()
   final int commandCountWhenLastSaved;
 
   @override
@@ -187,10 +183,10 @@ class _$WorkspaceStateImpl implements _WorkspaceState {
 
 abstract class _WorkspaceState implements WorkspaceState {
   const factory _WorkspaceState(
-      {final bool isFullscreen,
-      final bool isPerformingIOTask,
-      final bool hasUnsavedChanges,
-      final int commandCountWhenLastSaved}) = _$WorkspaceStateImpl;
+      {required final bool isFullscreen,
+      required final bool isPerformingIOTask,
+      required final bool hasUnsavedChanges,
+      required final int commandCountWhenLastSaved}) = _$WorkspaceStateImpl;
 
   @override
   bool get isFullscreen;

@@ -4,13 +4,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'workspace_state_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class WorkspaceStateProvider extends _$WorkspaceStateProvider {
   @override
   WorkspaceState build() {
     return WorkspaceState(
-      hasUnsavedChanges: state.commandCountWhenLastSaved !=
-          ref.read(commandManagerProvider).undoStack.length,
+      isFullscreen: false,
+      isPerformingIOTask: false,
+      hasUnsavedChanges: ref.watch(commandManagerProvider).undoStack.isNotEmpty,
+      commandCountWhenLastSaved: 0,
     );
   }
 
@@ -27,8 +29,9 @@ class WorkspaceStateProvider extends _$WorkspaceStateProvider {
   void updateLastSavedCommandCount() {
     state = state.copyWith(hasUnsavedChanges: false);
     state = state.copyWith(
-        commandCountWhenLastSaved:
-            ref.read(commandManagerProvider).undoStack.length);
+      commandCountWhenLastSaved:
+          ref.read(commandManagerProvider).undoStack.length,
+    );
   }
 
   Future<T> performIOTask<T>(Future<T> Function() task) async {
