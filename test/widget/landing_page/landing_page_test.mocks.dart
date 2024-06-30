@@ -3,7 +3,6 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
 import 'dart:async' as _i3;
 import 'dart:io' as _i13;
 import 'dart:typed_data' as _i11;
@@ -11,8 +10,6 @@ import 'dart:ui' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:oxidized/oxidized.dart' as _i5;
-import 'package:sqflite/sqflite.dart' as _i4;
-
 import 'package:paintroid/core/database/project_dao.dart' as _i2;
 import 'package:paintroid/core/database/project_database.dart' as _i7;
 import 'package:paintroid/core/models/database/project.dart' as _i8;
@@ -20,6 +17,7 @@ import 'package:paintroid/core/providers/object/device_service.dart' as _i14;
 import 'package:paintroid/core/providers/object/file_service.dart' as _i12;
 import 'package:paintroid/core/providers/object/image_service.dart' as _i9;
 import 'package:paintroid/core/utils/failure.dart' as _i10;
+import 'package:sqflite/sqflite.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

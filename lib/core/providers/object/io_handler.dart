@@ -37,7 +37,7 @@ class IOHandler {
 
   /// Returns [true] if the image was saved successfully
   Future<bool> saveImage(BuildContext context) async {
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     final imageMetaData = await showSaveImageDialog(context, false);
     if (imageMetaData == null) {
       return false;
@@ -56,7 +56,7 @@ class IOHandler {
 
   Future<File?> saveProject(ImageMetaData imageMetaData) async {
     if (imageMetaData is! CatrobatImageMetaData) return null;
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     final savedFile = await workspaceStateNotifier
         .performIOTask(() => _saveAsCatrobatImage(imageMetaData, true));
     if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
@@ -67,7 +67,7 @@ class IOHandler {
   /// - There was no unsaved work, or
   /// - The unsaved work was saved successfully
   Future<bool> handleUnsavedChanges(BuildContext context, State state) async {
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     if (!workspaceStateNotifier.hasSavedLastWork) {
       final shouldDiscard = await showDiscardChangesDialog(context);
       if (shouldDiscard == null || !state.mounted) return false;
@@ -93,11 +93,11 @@ class IOHandler {
       final location = await showLoadImageDialog(context);
       if (location == null) return false;
       return ref
-          .read(WorkspaceState.provider.notifier)
+          .read(workspaceStateProvider.notifier)
           .performIOTask(() => _loadImageFrom(location));
     } else {
       return ref
-          .read(WorkspaceState.provider.notifier)
+          .read(workspaceStateProvider.notifier)
           .performIOTask(() => _loadImageFrom(ImageLocation.files));
     }
   }
@@ -109,7 +109,7 @@ class IOHandler {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
     return true;
   }
 
@@ -143,7 +143,7 @@ class IOHandler {
 
   Future<bool> loadFromFiles(Result<File, Failure>? file) async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
 
     final result = await loadImage(file);
     return result.when(

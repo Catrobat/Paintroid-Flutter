@@ -87,7 +87,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   }
 
   void _enterFullscreen() =>
-      ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
+      ref.read(workspaceStateProvider.notifier).toggleFullscreen(true);
 
   Future<bool> _showOverwriteDialog() async {
     return await showOverwriteDialog(context) ?? false;

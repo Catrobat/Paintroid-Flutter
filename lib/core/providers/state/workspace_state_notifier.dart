@@ -1,36 +1,35 @@
-
-import 'package:flutter/foundation.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/providers/state/workspace_state.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'workspace_state.dart';
+part 'workspace_state_notifier.g.dart';
 
-class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
-  WorkspaceStateNotifier(super.state, this._commandManager) {
-    _hasUnsavedChanges =
-        state.commandCountWhenLastSaved != _commandManager.undoStack.length;
+@riverpod
+class WorkspaceStateProvider extends _$WorkspaceStateProvider {
+  @override
+  WorkspaceState build() {
+    return WorkspaceState(
+      hasUnsavedChanges: state.commandCountWhenLastSaved !=
+          ref.read(commandManagerProvider).undoStack.length,
+    );
   }
 
-  final ICommandManager _commandManager;
-  bool _hasUnsavedChanges = false;
+  bool get hasUnsavedChanges => state.hasUnsavedChanges;
 
-  bool get hasUnsavedChanges => _hasUnsavedChanges;
+  bool get hasSavedLastWork =>
+      state.commandCountWhenLastSaved ==
+      ref.read(commandManagerProvider).undoStack.length;
 
   void markUnsavedChanges() {
-    _hasUnsavedChanges = true;
+    state = state.copyWith(hasUnsavedChanges: true);
   }
 
   void updateLastSavedCommandCount() {
-    _hasUnsavedChanges = false;
+    state = state.copyWith(hasUnsavedChanges: false);
     state = state.copyWith(
-        commandCountWhenLastSaved: _commandManager.undoStack.length);
+        commandCountWhenLastSaved:
+            ref.read(commandManagerProvider).undoStack.length);
   }
-
-  bool get hasSavedLastWork =>
-      state.commandCountWhenLastSaved == _commandManager.undoStack.length;
 
   Future<T> performIOTask<T>(Future<T> Function() task) async {
     state = state.copyWith(isPerformingIOTask: true);
@@ -39,7 +38,7 @@ class WorkspaceStateNotifier extends StateNotifier<WorkspaceState> {
     return result;
   }
 
-  void toggleFullscreen(bool isEnabled) => state = state.copyWith(
-        isFullscreen: isEnabled,
-      );
+  void toggleFullscreen(bool isEnabled) {
+    state = state.copyWith(isFullscreen: isEnabled);
+  }
 }
