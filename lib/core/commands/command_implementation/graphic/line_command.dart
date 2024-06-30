@@ -51,6 +51,10 @@ class LineCommand extends GraphicCommand {
 
   void updatePath(PathWithActionHistory newPath) {
     path = newPath;
+    final moveAction = path.actions.first as MoveToAction;
+    final lineAction = path.actions.last as LineToAction;
+    startPoint = Offset(moveAction.x, moveAction.y);
+    endPoint = Offset(lineAction.x, lineAction.y);
   }
 
   @override

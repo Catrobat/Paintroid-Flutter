@@ -28,4 +28,10 @@ class HandTool extends Tool {
 
   @override
   void onPlus() {}
+
+  @override
+  void onRedo() {}
+
+  @override
+  void onUndo() {}
 }

@@ -380,4 +380,194 @@ void main() {
     );
     expect(actualColor, Colors.transparent);
   });
+
+  testWidgets(
+      '[LINE_TOOL]: undoing while not in active line sequence rebuilds '
+      'the old line sequence', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.centerLeft);
+    await UIInteraction.tapAt(CanvasPosition.center);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.centerRight);
+
+    UIInteraction.expectVertexStackLength(3);
+
+    await UIInteraction.clickCheckmark();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(3);
+  });
+
+  testWidgets(
+      '[LINE_TOOL]: undoing when only two vertices resets the'
+      'current vertexStack', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.centerLeft);
+    await UIInteraction.tapAt(CanvasPosition.center);
+
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(0);
+  });
+
+  testWidgets(
+      '[LINE_TOOL]: undoing after completing two line sequences'
+      'rebuilds each line sequence separately', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.topLeft);
+    await UIInteraction.tapAt(CanvasPosition.topCenter);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.topRight);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.halfTopRight);
+
+    UIInteraction.expectVertexStackLength(4);
+
+    await UIInteraction.clickCheckmark();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.tapAt(CanvasPosition.bottomLeft);
+    await UIInteraction.tapAt(CanvasPosition.bottomCenter);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.bottomRight);
+
+    UIInteraction.expectVertexStackLength(3);
+
+    await UIInteraction.clickCheckmark();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(3);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(4);
+  });
+
+  testWidgets(
+      '[LINE_TOOL]: redoing when only two vertices restores the '
+      'current vertexStack', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.centerLeft);
+    await UIInteraction.tapAt(CanvasPosition.center);
+
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(2);
+  });
+
+  testWidgets('[LINE_TOOL]: redoing after undo restores the last undone action',
+      (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.centerLeft);
+    await UIInteraction.tapAt(CanvasPosition.center);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.centerRight);
+
+    UIInteraction.expectVertexStackLength(3);
+
+    await UIInteraction.clickUndo();
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(3);
+  });
+
+  testWidgets(
+      '[LINE_TOOL]: redoing after completing a line sequences '
+      'restores line sequence', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.centerLeft);
+    await UIInteraction.tapAt(CanvasPosition.center);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.centerRight);
+
+    await UIInteraction.clickCheckmark();
+
+    await UIInteraction.clickUndo(times: 3);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(3);
+  });
+
+  testWidgets(
+      '[LINE_TOOL]: redoing after completing two line sequences '
+      'restores each line sequence separately', (WidgetTester tester) async {
+    UIInteraction.initialize(tester);
+    await tester.pumpWidget(sut);
+    await UIInteraction.createNewImage();
+    await UIInteraction.selectTool(ToolData.LINE.name);
+
+    await UIInteraction.tapAt(CanvasPosition.topLeft);
+    await UIInteraction.tapAt(CanvasPosition.topCenter);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.topRight);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.halfTopRight);
+
+    await UIInteraction.clickCheckmark();
+
+    await UIInteraction.tapAt(CanvasPosition.bottomLeft);
+    await UIInteraction.tapAt(CanvasPosition.bottomCenter);
+    await UIInteraction.clickPlus();
+    await UIInteraction.tapAt(CanvasPosition.bottomRight);
+
+    await UIInteraction.clickCheckmark();
+    UIInteraction.expectVertexStackLength(0);
+
+    await UIInteraction.clickUndo(times: 6);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(3);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(4);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(2);
+
+    await UIInteraction.clickRedo();
+    UIInteraction.expectVertexStackLength(3);
+  });
 }

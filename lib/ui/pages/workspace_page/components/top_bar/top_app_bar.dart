@@ -29,7 +29,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     if (commandManager.undoStack.isNotEmpty) {
       return () async {
         _switchTool(commandManager, currentTool, ActionType.UNDO, ref);
-        commandManager.undo(currentTool);
+        ref.read(toolBoxStateProvider).currentTool.onUndo();
         await ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
@@ -47,7 +47,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     if (commandManager.redoStack.isNotEmpty) {
       return () async {
         _switchTool(commandManager, currentTool, ActionType.REDO, ref);
-        commandManager.redo(currentTool);
+        ref.read(toolBoxStateProvider).currentTool.onRedo();
         await ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
@@ -64,9 +64,8 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     WidgetRef ref,
   ) {
     var nextTool = commandManager.getNextTool(actionType);
-    if (currentTool.type != nextTool.type) {
-      ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
-    }
+    if (currentTool.type == nextTool.type) return;
+    ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
   }
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
@@ -74,6 +73,9 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       return () {
         currentTool.onCheckmark();
         ref.read(appBarProvider.notifier).update();
+        ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
       };
     }
     return null;
