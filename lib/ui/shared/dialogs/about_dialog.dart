@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Project imports:
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/images/pocketpaint_logo_small.dart';

@@ -1,10 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/tools/tool.dart';

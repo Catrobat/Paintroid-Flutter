@@ -1,14 +1,11 @@
-// Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
 
-// Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:path_provider/path_provider.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';

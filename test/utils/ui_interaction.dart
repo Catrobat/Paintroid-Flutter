@@ -1,18 +1,14 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-
-// Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
@@ -137,9 +133,7 @@ class UIInteraction {
   }
 
   static void expectVertexStackLength(int length) {
-    final container =
-        ProviderScope.containerOf(tester.element(find.byType(App)));
-    final tool = container.read(toolBoxStateProvider).currentTool;
+    final tool = getCurrentTool();
     expect((tool as LineTool).vertexStack.length, length);
   }
 }

@@ -1,10 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
-// Project imports:
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {

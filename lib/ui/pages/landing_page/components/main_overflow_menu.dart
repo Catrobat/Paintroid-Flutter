@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-// Project imports:
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';

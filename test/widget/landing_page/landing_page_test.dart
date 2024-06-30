@@ -1,11 +1,8 @@
-// Dart imports:
 import 'dart:io';
 import 'dart:ui' as ui;
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:filesize/filesize.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +12,6 @@ import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-// Project imports:
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/database/project_dao.dart';
 import 'package:paintroid/core/database/project_database.dart';

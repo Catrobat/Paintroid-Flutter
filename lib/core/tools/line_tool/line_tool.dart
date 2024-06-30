@@ -1,13 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:equatable/equatable.dart';
-
-// Project imports:
+import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -73,7 +67,7 @@ class LineTool extends Tool with EquatableMixin {
 
   @override
   void onCancel() {
-    reset();
+    resetLineToolData();
   }
 
   @override
@@ -83,14 +77,14 @@ class LineTool extends Tool with EquatableMixin {
 
   @override
   void onCheckmark() {
-    reset();
+    resetLineToolData();
   }
 
   @override
   void onRedo() {
     final redoneCommand = commandManager.redo() as LineCommand;
     if (redoneCommand.isSourcePath && vertexStack.isNotEmpty) {
-      reset();
+      resetLineToolData();
     }
     if (redoneCommand.isSourcePath) {
       _createSourceAndDestinationVertices(
@@ -111,7 +105,7 @@ class LineTool extends Tool with EquatableMixin {
     }
     if (vertexStack.length == 2) {
       commandManager.undo();
-      reset();
+      resetLineToolData();
       return;
     }
     vertexStack.removeLast();
@@ -197,7 +191,7 @@ class LineTool extends Tool with EquatableMixin {
     updateLineCommand(pathCommand, newStartPoint, newEndPoint);
   }
 
-  void reset() {
+  void resetLineToolData() {
     vertexStack.clear();
     predecessorVertex = null;
     movingVertex = null;
@@ -356,7 +350,7 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   void _rebuildVertexStack() {
-    reset();
+    resetLineToolData();
     final lineCommandSequence = commandManager.getTopLineCommandSequence();
     for (var lineCommand in lineCommandSequence) {
       if (lineCommand.isSourcePath) {

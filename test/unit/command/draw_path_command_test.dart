@@ -1,12 +1,9 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'draw_path_command_test.mocks.dart';

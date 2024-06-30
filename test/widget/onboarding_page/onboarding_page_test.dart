@@ -1,13 +1,10 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-// Project imports:
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_app_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';

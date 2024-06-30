@@ -18,7 +18,7 @@ get:
 run:
 	$(FLUTTER_CMD) run
 
-all: clean get build sort run
+all: clean get build run
 
 watch:
 	$(DART_CMD) run build_runner watch --delete-conflicting-outputs
@@ -53,9 +53,6 @@ integration:
 	fi
 
 test: unit widget integration
-
-sort:
-	$(DART_CMD) run import_sorter:main
 
 fvm_check:
 	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM

@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 import '../utils/dummy_path_factory.dart';

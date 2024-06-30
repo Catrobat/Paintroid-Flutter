@@ -1,16 +1,10 @@
-// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
-
-// Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/enums/image_location.dart';
@@ -23,6 +17,7 @@ import 'package:paintroid/core/providers/object/load_image_from_photo_library.da
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/object/save_as_catrobat_image.dart';
 import 'package:paintroid/core/providers/object/save_as_raster_image.dart';
+import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/failure.dart';
@@ -114,6 +109,7 @@ class IOHandler {
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    ref.read(appBarProvider).update();
     return true;
   }
 

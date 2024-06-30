@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +7,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/providers/object/photo_library_service.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';

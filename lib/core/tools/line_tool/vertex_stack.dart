@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:collection';
 
-// Project imports:
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 
 class VertexStack extends Iterable<Vertex> {
