@@ -15,6 +15,9 @@ class MockWorkspaceStateProvider extends WorkspaceStateProvider {
   WorkspaceState build() {
     return const WorkspaceState(
       isFullscreen: true,
+      isPerformingIOTask: false,
+      hasUnsavedChanges: false,
+      commandCountWhenLastSaved: 0,
     );
   }
 }
