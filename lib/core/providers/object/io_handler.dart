@@ -1,16 +1,12 @@
-// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/enums/image_location.dart';

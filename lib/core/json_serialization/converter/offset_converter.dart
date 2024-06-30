@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 class OffsetConverter implements JsonConverter<Offset, Map<String, dynamic>> {

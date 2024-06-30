@@ -1,8 +1,6 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';

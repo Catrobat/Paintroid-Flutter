@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';

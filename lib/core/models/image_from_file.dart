@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:ui';
 
-// Project imports:
 import 'package:paintroid/core/models/catrobat_image.dart';
 
 class ImageFromFile {

@@ -1,9 +1,6 @@
-// Package imports:
 
-// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';

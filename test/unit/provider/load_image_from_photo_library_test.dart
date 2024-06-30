@@ -1,15 +1,12 @@
-// Dart imports:
 import 'dart:typed_data';
 import 'dart:ui';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/core/providers/object/load_image_from_photo_library.dart';
 import 'package:paintroid/core/providers/object/permission_service.dart';

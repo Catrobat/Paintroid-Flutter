@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/tool.dart';
 

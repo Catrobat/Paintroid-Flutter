@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
 class TextInputField extends StatelessWidget {

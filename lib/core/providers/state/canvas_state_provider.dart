@@ -1,14 +1,10 @@
-// Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
 
-// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';

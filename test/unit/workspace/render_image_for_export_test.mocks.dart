@@ -4,14 +4,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-// Dart imports:
 import 'dart:typed_data' as _i4;
 import 'dart:ui' as _i2;
 
-// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
 
-// Project imports:
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
 import 'package:paintroid/core/tools/tool.dart' as _i10;
 import 'package:paintroid/core/tools/tool_data.dart' as _i3;

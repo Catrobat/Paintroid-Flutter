@@ -1,4 +1,3 @@
-// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canvas_painter_provider.g.dart';

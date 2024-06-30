@@ -1,17 +1,13 @@
-// Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-// Flutter imports:
 import 'package:flutter/painting.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';

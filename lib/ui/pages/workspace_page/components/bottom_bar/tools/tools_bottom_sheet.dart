@@ -1,13 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tools/tool_button.dart';
 
-// Package imports:
 
-// Project imports:
 
 class ToolsBottomSheet extends StatelessWidget {
   const ToolsBottomSheet({
