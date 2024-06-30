@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:ui';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';

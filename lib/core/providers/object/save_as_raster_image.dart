@@ -1,11 +1,8 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/core/providers/object/permission_service.dart';

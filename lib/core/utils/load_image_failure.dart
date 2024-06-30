@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:paintroid/core/utils/failure.dart';
 
 class LoadImageFailure extends Failure {

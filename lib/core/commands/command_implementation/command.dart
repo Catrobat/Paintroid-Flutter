@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:equatable/equatable.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';

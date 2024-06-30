@@ -1,12 +1,9 @@
-// Dart imports:
 import 'dart:io';
 
-// Package imports:
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/loggable_mixin.dart';
 
 abstract class IPermissionService {

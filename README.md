@@ -24,7 +24,7 @@ our [developers page](http://developer.catrobat.org/).
 3. Run app: `make run`
 
 Alternatively `make all` can be used to:
-> `flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr; `sort`
+> `flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr;
 > &rarr; `flutter run`
 
 ## Building generated files

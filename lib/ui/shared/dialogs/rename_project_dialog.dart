@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/text_input_field.dart';
 

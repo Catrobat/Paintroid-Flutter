@@ -1,15 +1,11 @@
-// Dart imports:
 import 'dart:async';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-// Project imports:
 import 'package:paintroid/core/localization/app_localizations_en.dart';
 
 /// Callers can lookup localized strings with an instance of AppLocalizations

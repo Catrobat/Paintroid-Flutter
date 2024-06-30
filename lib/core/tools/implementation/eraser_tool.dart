@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 

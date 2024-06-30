@@ -4,17 +4,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-// Dart imports:
 import 'dart:async' as _i6;
 import 'dart:convert' as _i9;
 import 'dart:typed_data' as _i10;
 
-// Flutter imports:
 import 'package:flutter/src/services/binary_messenger.dart' as _i4;
 import 'package:flutter/src/services/message_codec.dart' as _i3;
 import 'package:flutter/src/services/platform_channel.dart' as _i7;
 
-// Package imports:
 import 'package:image_picker/image_picker.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;

@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:floor/floor.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/database/project.dart';
 
 @dao
