@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-
 import 'package:paintroid/app.dart';
-import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/tool.dart';
+
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
@@ -63,11 +63,11 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
-  static ToolType getCurrentTool() {
+  static Tool getCurrentTool() {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final toolBoxProvider = container.read(toolBoxStateProvider);
-    return toolBoxProvider.currentTool.type;
+    return toolBoxProvider.currentTool;
   }
 
   static Future<void> _initializeCanvasDimensions() async {
@@ -130,5 +130,10 @@ class UIInteraction {
   static Future<void> tapAt(Offset position) async {
     await tester.tapAt(position);
     await tester.pumpAndSettle();
+  }
+
+  static void expectVertexStackLength(int length) {
+    final tool = getCurrentTool();
+    expect((tool as LineTool).vertexStack.length, length);
   }
 }

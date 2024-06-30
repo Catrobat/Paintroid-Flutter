@@ -52,4 +52,14 @@ class BrushTool extends Tool {
 
   @override
   void onPlus() {}
+
+  @override
+  void onRedo() {
+    commandManager.redo();
+  }
+
+  @override
+  void onUndo() {
+    commandManager.undo();
+  }
 }
