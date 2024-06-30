@@ -6,6 +6,9 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
+import 'package:paintroid/core/commands/command_implementation/add_text_command.dart';
+import 'package:paintroid/core/commands/command_implementation/finalize_text_command.dart';
+
 class CommandFactory {
   const CommandFactory();
 
@@ -22,4 +25,19 @@ class CommandFactory {
     Offset endPoint,
   ) =>
       LineCommand(path, paint, startPoint, endPoint);
+
+  AddTextCommand createAddTextCommand(
+    Offset point,
+    String text,
+    Paint paint,
+  ) =>
+      AddTextCommand(point, text, paint);
+
+
+  FinalizeTextCommand createFinalizeTextCommand(
+    Offset point,
+    String text,
+    Paint paint,
+  ) =>
+      FinalizeTextCommand(point, text, paint);
 }

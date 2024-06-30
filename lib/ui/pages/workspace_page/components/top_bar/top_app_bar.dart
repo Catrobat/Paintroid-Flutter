@@ -11,6 +11,7 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
@@ -74,6 +75,12 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
     if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
+      return () {
+        currentTool.onCheckmark();
+        ref.read(TopBarActionClickedState.provider.notifier).notify();
+      };
+    }
+    if (currentTool is TextTool) {
       return () {
         currentTool.onCheckmark();
         ref.read(TopBarActionClickedState.provider.notifier).notify();

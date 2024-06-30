@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'toolbox_state_provider.dart';
+part of 'text_tool_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolBoxStateProviderHash() =>
-    r'71e5a9430e6566dbaa397b9c632b993bb5a1552d';
+String _$textToolProviderHash() => r'ce4c0a04a21f32f5e17d1bb92ab21c37bd51f39d';
 
-/// See also [ToolBoxStateProvider].
-@ProviderFor(ToolBoxStateProvider)
-final toolBoxStateProvider = AutoDisposeNotifierProvider<ToolBoxStateProvider,
-    ToolBoxStateData>.internal(
-  ToolBoxStateProvider.new,
-  name: r'toolBoxStateProvider',
+/// See also [TextToolProvider].
+@ProviderFor(TextToolProvider)
+final textToolProvider =
+    AutoDisposeNotifierProvider<TextToolProvider, TextTool>.internal(
+  TextToolProvider.new,
+  name: r'textToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$toolBoxStateProviderHash,
+      : _$textToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ToolBoxStateProvider = AutoDisposeNotifier<ToolBoxStateData>;
+typedef _$TextToolProvider = AutoDisposeNotifier<TextTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

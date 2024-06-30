@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Package imports:
+import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toast/toast.dart';
 
@@ -74,6 +75,15 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         state = state.copyWith(
           currentTool: ref.read(lineToolProvider),
           currentToolType: ToolType.LINE,
+        );
+        break;
+      case ToolType.TEXT:
+        ref
+            .read(brushToolStateProvider.notifier)
+            .updateBlendMode(BlendMode.srcOver);
+        state = state.copyWith(
+          currentTool: ref.read(textToolProvider),
+          currentToolType: ToolType.TEXT,
         );
         break;
       default:
