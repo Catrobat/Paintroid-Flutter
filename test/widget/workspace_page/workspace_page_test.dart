@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/state/workspace_state.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
@@ -72,13 +68,7 @@ void main() {
   });
 
   group('Fullscreen functionality', () {
-    late WorkspaceState testWorkspaceState;
-    late ICommandManager commandManager;
-
     setUp(() {
-      testWorkspaceState = testWorkspaceState.copyWith(isFullscreen: true);
-      commandManager = CommandManager();
-
       final lightTheme = LightPaintroidThemeData();
       final darkTheme = DarkPaintroidThemeData();
 
