@@ -33,14 +33,14 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     ToastContext().init(context);
 
     final isFullscreen = ref.watch(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
     );
     ref.listen<bool>(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
     final ioHandler = ref.watch(IOHandler.provider);
-    final workspaceStateNotifier = ref.watch(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.watch(workspaceStateProvider.notifier);
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {

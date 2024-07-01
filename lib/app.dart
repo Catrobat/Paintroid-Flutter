@@ -60,11 +60,13 @@ class App extends StatelessWidget {
         home: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
             return LoadingOverlay(
-                isLoading: ref.watch(
-                  WorkspaceState.provider
-                      .select((state) => state.isPerformingIOTask),
+              isLoading: ref.watch(
+                workspaceStateProvider.select(
+                  (state) => state.isPerformingIOTask,
                 ),
-                child: child);
+              ),
+              child: child,
+            );
           },
           child: const LandingPage(title: 'Pocket Paint'),
         ),

@@ -19,7 +19,7 @@ class ExitFullscreenButton extends ConsumerWidget {
       duration: const Duration(milliseconds: 200),
       child: IconButton(
         onPressed: () {
-          ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
+          ref.read(workspaceStateProvider.notifier).toggleFullscreen(false);
         },
         icon: Icon(
           Icons.fullscreen_exit,

@@ -113,7 +113,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   @override
   Widget build(BuildContext context) {
     ref.listen<bool>(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
       (wasFullscreen, isFullscreen) {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
