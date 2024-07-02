@@ -37,12 +37,21 @@ Alternatively `make all` can be used to:
     - all: `make test`
     - unit: `make unit`
     - widget: `make widget`
+    - integration: `make integration`
 
 **For integration tests:**
 
+Run the integration tests without device:
+
+1. Run `make integration` to run all integration tests without device
+
+Run the integration tests on a device:
+
 1. Make sure you have an iOS/Android device online by running `flutter devices`
-2. Run `make integration` to run all integration tests
-   Run `make integration target=name_test` to run a specific integration test file
+2. Run `make integration-drive target=name_test` to run a specific integration test file on a device
+   example: `make integration-drive target=line_tool`
+3. Run `make integration-drive target=name_test id=x` to run a specific test in a file
+   example: `make integration-drive target=line_tool id=1`
    (make sure to add the `test` suffix to the file name)
 
 ## Issues

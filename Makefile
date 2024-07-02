@@ -7,7 +7,13 @@ FVM_PRESENT := $(shell command -v fvm 2> /dev/null)
 FLUTTER_CMD := $(if $(FVM_PRESENT),fvm flutter,flutter)
 DART_CMD := $(if $(FVM_PRESENT),fvm dart,dart)
 
+INTEGRATION_TEST_DIR=test/integration
+DRIVER_FILE=$(INTEGRATION_TEST_DIR)/driver/driver.dart
+DART_DEFINE_ARGS=
 
+ifdef id
+DART_DEFINE_ARGS += --dart-define=id=$(id)
+endif
 
 clean:
 	$(FLUTTER_CMD) clean
@@ -38,21 +44,19 @@ unit:
 widget:
 	$(FLUTTER_CMD) test test/widget
 
-target ?= all
 integration:
-	@if [ "$(target)" = "all" ]; then \
-		find integration_test -type f -name '*_test.dart' -print0 | xargs -0 -n1 -I {} flutter test {}; \
-	else \
-		FILE_PATH=$$(find integration_test -type f -name "$(target).dart"); \
-		if [ -z "$$FILE_PATH" ]; then \
-			echo "Test file $(target) not found."; \
-			exit 1; \
-		else \
-			flutter test $$FILE_PATH; \
-		fi \
-	fi
+	$(FLUTTER_CMD) test test/integration
 
-test: unit widget integration
+integration-drive:
+ifeq ($(strip $(target)),)
+	find $(INTEGRATION_TEST_DIR) -name '*_test.dart' | while read test_file; do \
+		flutter drive --driver=$(DRIVER_FILE) --target=$$test_file $(DART_DEFINE_ARGS); \
+	done
+else
+	flutter drive --driver=$(DRIVER_FILE) --target=$(INTEGRATION_TEST_DIR)/$(target)_test.dart $(DART_DEFINE_ARGS)
+endif
+
+test: $(FLUTTER_CMD) test
 
 fvm_check:
 	@echo Using $(FLUTTER_CMD) and $(DART_CMD) based on availability of FVM
