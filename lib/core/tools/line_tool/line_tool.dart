@@ -66,9 +66,7 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   @override
-  void onCancel() {
-    resetLineToolData();
-  }
+  void onCancel() {}
 
   @override
   void onPlus() {
