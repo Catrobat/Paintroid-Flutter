@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
 import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -23,7 +21,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   void Function()? _onUndo(
     Tool currentTool,
-    ICommandManager commandManager,
+    CommandManager commandManager,
     WidgetRef ref,
   ) {
     if (commandManager.undoStack.isNotEmpty) {
@@ -41,7 +39,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   void Function()? _onRedo(
     Tool currentTool,
-    ICommandManager commandManager,
+    CommandManager commandManager,
     WidgetRef ref,
   ) {
     if (commandManager.redoStack.isNotEmpty) {
@@ -58,7 +56,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 
   void _switchTool(
-    ICommandManager commandManager,
+    CommandManager commandManager,
     Tool currentTool,
     ActionType actionType,
     WidgetRef ref,

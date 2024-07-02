@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -8,7 +7,7 @@ import 'package:paintroid/core/tools/tool.dart';
 class CommandPainter extends CustomPainter {
   CommandPainter(this.commandManager, this.tool);
 
-  final ICommandManager commandManager;
+  final CommandManager commandManager;
   final Tool tool;
 
   @override
