@@ -15,8 +15,6 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
     as _i8;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i6;
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart'
-    as _i10;
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i9;
 import 'package:paintroid/core/tools/tool_data.dart' as _i4;
 
@@ -793,7 +791,7 @@ class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
       );
 
   @override
-  _i4.ToolData getNextTool(_i10.ActionType? actionType) => (super.noSuchMethod(
+  _i4.ToolData getNextTool(_i6.ActionType? actionType) => (super.noSuchMethod(
         Invocation.method(
           #getNextTool,
           [actionType],
