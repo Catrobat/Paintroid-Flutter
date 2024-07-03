@@ -1,10 +1,8 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 
 part 'canvas_state_data.freezed.dart';
@@ -16,7 +14,7 @@ class CanvasStateData with _$CanvasStateData {
     ui.Image? backgroundImage,
     ui.Image? cachedImage,
     required Size size,
-    required ICommandManager commandManager,
+    required CommandManager commandManager,
     required GraphicFactory graphicFactory,
   }) = _CanvasStateData;
 }

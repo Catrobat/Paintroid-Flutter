@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/i_command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 
 abstract class Tool {
   final ToolType type;
-  final ICommandManager commandManager;
+  final CommandManager commandManager;
   final CommandFactory commandFactory;
   final bool hasAddFunctionality;
   final bool hasFinalizeFunctionality;
