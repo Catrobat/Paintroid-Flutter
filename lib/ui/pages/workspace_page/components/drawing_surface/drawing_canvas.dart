@@ -8,9 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
+import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
 
 class DrawingCanvas extends ConsumerStatefulWidget {
@@ -31,6 +33,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   var _pointersOnScreen = 0;
   var _isZooming = false;
   Offset _lastPointerUpPosition = Offset.zero;
+  final textController = TextEditingController();
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -123,6 +126,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
+    final selectedTool = ref.watch(toolBoxStateProvider).currentTool;
     return Listener(
       onPointerDown: _onPointerDown,
       onPointerUp: _onPointerUp,
@@ -138,15 +142,61 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,
-        child: Center(
-          child: ref.watch(IDeviceService.sizeProvider).map(
-                data: (_) => FittedBox(
-                  fit: BoxFit.contain,
-                  child: CanvasPainter(key: _canvasPainterKey),
+        child: Stack(
+          children: [
+            Center(
+              child: ref.watch(IDeviceService.sizeProvider).map(
+                    data: (_) => FittedBox(
+                      fit: BoxFit.contain,
+                      child: CanvasPainter(key: _canvasPainterKey),
+                    ),
+                    error: (_) => Container(),
+                    loading: (_) => Container(),
+                  ),
+            ),
+            if (selectedTool is TextTool && selectedTool.isEditing)
+              Positioned(
+                left: selectedTool.currentPosition?.dx ?? 0,
+                top: selectedTool.currentPosition?.dy ?? 0,
+                child: Draggable(
+                  feedback: Material(
+                    color: Colors.transparent,
+                    child: buildTextInput(),
+                  ),
+                  childWhenDragging: Container(),
+                  onDraggableCanceled: (_, offset) {
+                    selectedTool.onDrag(offset);
+                    setState(() {});
+                  },
+                  child: buildTextInput(),
                 ),
-                error: (_) => Container(),
-                loading: (_) => Container(),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextInput() {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      width: 100,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+        ),
+      ),
+      // color: Colors.white,
+      child: TextField(
+        controller: textController,
+        autofocus: true,
+        decoration: const InputDecoration(hintText: 'Enter text'),
+        onChanged: (value) {
+          ref.read(textToolProvider.notifier).updateText(value);
+          setState(() {});
+        },
+        style: TextStyle(
+          color: Colors.black,
         ),
       ),
     );

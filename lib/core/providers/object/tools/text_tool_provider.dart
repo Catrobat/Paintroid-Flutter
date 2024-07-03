@@ -18,4 +18,8 @@ class TextToolProvider extends _$TextToolProvider {
       commandFactory: ref.watch(commandFactoryProvider),
     );
   }
+
+  void updateText(String text) {
+    state.currentText = text;
+  }
 }

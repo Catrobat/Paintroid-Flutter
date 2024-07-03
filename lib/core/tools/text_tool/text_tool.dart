@@ -18,14 +18,27 @@ class TextTool extends Tool {
 
   String? currentText;
   Offset? currentPosition;
+  bool isEditing = false;
 
   @override
   void onDown(Offset point) {
-    currentPosition = point;
+    if (isEditing) {
+      // If the user clicks outside the text input, finalize the text
+      if (currentPosition != null && (point - currentPosition!).distance > 50) {
+        onCheckmark();
+      }
+    } else {
+      currentPosition = point;
+      isEditing = true;
+    }
   }
 
   @override
-  void onDrag(Offset point) {}
+  void onDrag(Offset point) {
+    if (isEditing) {
+      currentPosition = point;
+    }
+  }
 
   @override
   void onUp(Offset point) {}
@@ -34,10 +47,12 @@ class TextTool extends Tool {
   void onCancel() {
     currentPosition = null;
     currentText = null;
+    isEditing = false;
   }
 
   @override
   void onCheckmark() {
+    print('onCheckmark $currentText $currentPosition');
     final state = stateData;
     if (currentText != null && currentPosition != null) {
       final command = commandFactory.createAddTextCommand(
@@ -48,6 +63,7 @@ class TextTool extends Tool {
               state.graphicFactory.createPictureRecorder()));
       currentText = null;
       currentPosition = null;
+      isEditing = false;
     }
   }
 
@@ -63,6 +79,7 @@ class TextTool extends Tool {
               state.graphicFactory.createPictureRecorder()));
       currentText = null;
       currentPosition = null;
+      isEditing = false;
     }
   }
 }
