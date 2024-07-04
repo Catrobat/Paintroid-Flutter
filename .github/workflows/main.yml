@@ -15,12 +15,6 @@ jobs:
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
           architecture: x64
 
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
       - name: Setup
         run: make get
 
@@ -34,11 +28,7 @@ jobs:
         run: make widget
 
       - name: Integration Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          profile: Nexus 6
-          script: make integration
+        run: make integration
 
       - name: Install xmlstarlet
         run: sudo apt-get install -y xmlstarlet
