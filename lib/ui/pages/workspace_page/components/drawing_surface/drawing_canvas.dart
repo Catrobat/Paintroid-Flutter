@@ -1,14 +1,8 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
-import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
@@ -165,7 +159,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
                   ),
                   childWhenDragging: Container(),
                   onDraggableCanceled: (_, offset) {
-                    selectedTool.onDrag(offset);
+                    final canvasOffset = _globalToCanvas(offset);
+                    selectedTool.onDrag(canvasOffset);
                     setState(() {});
                   },
                   child: buildTextInput(),
@@ -179,23 +174,31 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
 
   Widget buildTextInput() {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(2),
       width: 100,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black,
-        ),
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(5),
+        // color: Colors.white,
       ),
-      // color: Colors.white,
       child: TextField(
         controller: textController,
         autofocus: true,
-        decoration: const InputDecoration(hintText: 'Enter text'),
+        decoration: const InputDecoration(
+          hintText: 'Enter text',
+          border: InputBorder.none,
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         onChanged: (value) {
-          ref.read(textToolProvider.notifier).updateText(value);
-          setState(() {});
+          ref.read(toolBoxStateProvider).currentTool is TextTool
+              ? (ref.read(toolBoxStateProvider).currentTool as TextTool)
+                  .currentText = value
+              : null;
         },
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),

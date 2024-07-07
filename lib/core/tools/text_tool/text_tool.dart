@@ -23,10 +23,7 @@ class TextTool extends Tool {
   @override
   void onDown(Offset point) {
     if (isEditing) {
-      // If the user clicks outside the text input, finalize the text
-      if (currentPosition != null && (point - currentPosition!).distance > 50) {
-        onCheckmark();
-      }
+      //
     } else {
       currentPosition = point;
       isEditing = true;
@@ -52,7 +49,6 @@ class TextTool extends Tool {
 
   @override
   void onCheckmark() {
-    print('onCheckmark $currentText $currentPosition');
     final state = stateData;
     if (currentText != null && currentPosition != null) {
       final command = commandFactory.createAddTextCommand(

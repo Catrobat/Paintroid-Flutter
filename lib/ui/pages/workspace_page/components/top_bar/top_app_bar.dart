@@ -13,6 +13,7 @@ import 'package:paintroid/core/providers/state/topbar_action_clicked_state.dart'
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
@@ -84,6 +85,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
       return () {
         currentTool.onCheckmark();
         ref.read(TopBarActionClickedState.provider.notifier).notify();
+        ref.read(toolBoxStateProvider.notifier).switchTool(ToolData.BRUSH);
       };
     }
     return null;
