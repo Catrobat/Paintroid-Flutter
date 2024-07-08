@@ -3,6 +3,8 @@ class SerializerVersion {
   static const int CATROBAT_IMAGE_VERSION = Version.v1;
   static const int PATH_COMMAND_VERSION = Version.v1;
   static const int LINE_COMMAND_VERSION = Version.v1;
+  static const int SHAPES_COMMAND_VERSION = Version.v1;
+  static const int RECT_VERSION = Version.v1;
 }
 
 class Version {
@@ -18,4 +20,5 @@ class SerializerType {
   static const String MOVE_TO_ACTION = 'MoveToAction';
   static const String LINE_TO_ACTION = 'LineToAction';
   static const String CLOSE_ACTION = 'CloseAction';
+  static const String SHAPES_COMMAND = 'ShapesCommand';
 }
