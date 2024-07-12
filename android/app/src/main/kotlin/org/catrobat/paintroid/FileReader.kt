@@ -16,13 +16,25 @@ import org.catrobat.paintroid.command.serialization.DataStructuresSerializer
 import org.catrobat.paintroid.model.CommandManagerModel
 import org.catrobat.paintroid.command.serialization.CommandManagerModelSerializer
 import org.catrobat.paintroid.command.implementation.SetDimensionCommand
+import org.catrobat.paintroid.command.implementation.SprayCommand
 import org.catrobat.paintroid.command.serialization.SetDimensionCommandSerializer
+import org.catrobat.paintroid.command.serialization.SprayCommandSerializer
+import org.catrobat.paintroid.command.serialization.PaintSerializer
 
 
+import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
+import android.graphics.RectF
+import android.graphics.Bitmap
+
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+
 class FileReader(private val context : Context)
 {
+    private lateinit var activityContext: Context // MAYBE CAUSE A CRASH
     private val kryo = Kryo()
     private val registerMap = LinkedHashMap<Class<*>, VersionSerializer<*>?>()
     companion object {
@@ -48,9 +60,9 @@ class FileReader(private val context : Context)
           put(Point::class.java, DataStructuresSerializer.PointSerializer(version))
           put(CommandManagerModel::class.java, CommandManagerModelSerializer(version))
           put(SetDimensionCommand::class.java, SetDimensionCommandSerializer(version))
-         /* put(SprayCommand::class.java, SprayCommandSerializer(version))
-          put(Paint::class.java, PaintSerializer(version, activityContext))
-          put(AddEmptyLayerCommand::class.java, AddLayerCommandSerializer(version))
+          put(SprayCommand::class.java, SprayCommandSerializer(version))
+          put(Paint::class.java, PaintSerializer(version, activityContext)) // maybe will cause a crash ?  activityContext is lateinnit
+        /*  put(AddEmptyLayerCommand::class.java, AddLayerCommandSerializer(version))
           put(SelectLayerCommand::class.java, SelectLayerCommandSerializer(version))
           put(LoadCommand::class.java, LoadCommandSerializer(version))
           put(TextToolCommand::class.java, TextToolCommandSerializer(version, activityContext))
