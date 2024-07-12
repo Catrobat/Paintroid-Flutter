@@ -15,7 +15,8 @@ import org.catrobat.paintroid.command.serialization.CompositeCommandSerializer
 import org.catrobat.paintroid.command.serialization.DataStructuresSerializer
 import org.catrobat.paintroid.model.CommandManagerModel
 import org.catrobat.paintroid.command.serialization.CommandManagerModelSerializer
-
+import org.catrobat.paintroid.command.implementation.SetDimensionCommand
+import org.catrobat.paintroid.command.serialization.SetDimensionCommandSerializer
 
 
 import android.graphics.Point
@@ -46,8 +47,8 @@ class FileReader(private val context : Context)
           put(PointF::class.java, DataStructuresSerializer.PointFSerializer(version))
           put(Point::class.java, DataStructuresSerializer.PointSerializer(version))
           put(CommandManagerModel::class.java, CommandManagerModelSerializer(version))
-         /* put(SetDimensionCommand::class.java, SetDimensionCommandSerializer(version))
-          put(SprayCommand::class.java, SprayCommandSerializer(version))
+          put(SetDimensionCommand::class.java, SetDimensionCommandSerializer(version))
+         /* put(SprayCommand::class.java, SprayCommandSerializer(version))
           put(Paint::class.java, PaintSerializer(version, activityContext))
           put(AddEmptyLayerCommand::class.java, AddLayerCommandSerializer(version))
           put(SelectLayerCommand::class.java, SelectLayerCommandSerializer(version))
