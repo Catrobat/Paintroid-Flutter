@@ -13,6 +13,10 @@ import org.catrobat.paintroid.command.Command
 import org.catrobat.paintroid.command.implementation.CompositeCommand
 import org.catrobat.paintroid.command.serialization.CompositeCommandSerializer
 import org.catrobat.paintroid.command.serialization.DataStructuresSerializer
+
+
+import android.graphics.Point
+import android.graphics.PointF
 class FileReader(private val context : Context)
 {
     private val kryo = Kryo()
@@ -36,9 +40,9 @@ class FileReader(private val context : Context)
           put(Command::class.java, null)
           put(CompositeCommand::class.java, CompositeCommandSerializer(version))
           put(FloatArray::class.java, DataStructuresSerializer.FloatArraySerializer(version))
-         /* put(PointF::class.java, DataStructuresSerializer.PointFSerializer(version))
+          put(PointF::class.java, DataStructuresSerializer.PointFSerializer(version))
           put(Point::class.java, DataStructuresSerializer.PointSerializer(version))
-          put(CommandManagerModel::class.java, CommandManagerModelSerializer(version))
+         /* put(CommandManagerModel::class.java, CommandManagerModelSerializer(version))
           put(SetDimensionCommand::class.java, SetDimensionCommandSerializer(version))
           put(SprayCommand::class.java, SprayCommandSerializer(version))
           put(Paint::class.java, PaintSerializer(version, activityContext))
