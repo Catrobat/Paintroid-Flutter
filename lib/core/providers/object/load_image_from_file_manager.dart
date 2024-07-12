@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
@@ -60,6 +61,16 @@ class LoadImageFromFileManager with LoggableMixin {
                 .map((img) => ImageFromFile.rasterImage(img));
           case 'catrobat-image':
             Uint8List bytes = await file.readAsBytes();
+            // check for json
+            // if json
+            // file.path
+            var fileValidity =  checkJson(bytes);
+            if(!fileValidity)
+            {
+             // call kyrostatic
+              const methodChannel = MethodChannel('org.catrobat.paintroid/native');
+              final ByteData result = await methodChannel.invokeMethod('getNativeClassData', {'path': file.uri});
+            }
             CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
             Image? backgroundImage =
                 await rebuildBackgroundImage(catrobatImage);
@@ -78,6 +89,16 @@ class LoadImageFromFileManager with LoggableMixin {
         return const Result.err(LoadImageFailure.unidentified);
       }
     });
+  }
+  bool checkJson(Uint8List bytes)
+  {
+    try {
+      String jsonString = utf8.decode(bytes);
+      Map<String, dynamic> jsonMap = json.decode(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {

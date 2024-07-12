@@ -14,7 +14,14 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.io.IOException
 
+
+
+import com.esotericsoftware.kryo.Kryo
+import com.esotericsoftware.kryo.io.Input
+import com.esotericsoftware.kryo.io.Output
+
 class MainActivity : FlutterActivity() {
+    private val kryo = Kryo()
     private val hasWritePermission: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
                 ContextCompat.checkSelfPermission(
@@ -65,6 +72,42 @@ class MainActivity : FlutterActivity() {
                             ?: return@setMethodCallHandler
                         saveImageToPictures(filename, imageData)
                         result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
+    }
+
+    // TODO getHeightInPixels
+    private fun openOldProject(flutterEngine: FlutterEngine) {
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/native"
+        ).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "getNativeClassData" -> {
+                        val parameter = call.argument<String>("path") ?: ""
+                        if (parameter == "")
+                        {
+                          /*  result.error(
+                                "PERMISSION_DENIED",
+                                "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
+                                null
+                            )
+                            return@setMethodCallHandler
+                            */
+                        }
+                        else
+                        {
+                            val t = "error";
+                        }
+                        result.success(null);
+
+                    //        return result.error("NO PARAM");
+                        //val stream = FileInputStream(temporaryFilePath)
+                        //this.kryo.get
+                      //  result.success("should work");
                     }
                     else -> result.notImplemented()
                 }

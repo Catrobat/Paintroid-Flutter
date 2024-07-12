@@ -41,7 +41,7 @@ class PathCommand extends GraphicCommand {
   Map<String, dynamic> toJson() => _$PathCommandToJson(this);
 
   factory PathCommand.fromJson(Map<String, dynamic> json) {
-    int version = json['version'] as int;
+    int version = json['version'] as int; // TODO
 
     switch (version) {
       case Version.v1:
