@@ -10,6 +10,8 @@ import org.catrobat.paintroid.model.Layer
 
 import org.catrobat.paintroid.command.serialization.VersionSerializer
 import org.catrobat.paintroid.command.Command
+import org.catrobat.paintroid.command.implementation.CompositeCommand
+import org.catrobat.paintroid.command.serialization.CompositeCommandSerializer
 class FileReader(private val context : Context)
 {
     private val kryo = Kryo()
@@ -31,8 +33,8 @@ class FileReader(private val context : Context)
       // because Kryo assigns an ID to each class
       with(registerMap) {
           put(Command::class.java, null)
-          /*put(CompositeCommand::class.java, CompositeCommandSerializer(version))
-          put(FloatArray::class.java, DataStructuresSerializer.FloatArraySerializer(version))
+          put(CompositeCommand::class.java, CompositeCommandSerializer(version))
+         /* put(FloatArray::class.java, DataStructuresSerializer.FloatArraySerializer(version))
           put(PointF::class.java, DataStructuresSerializer.PointFSerializer(version))
           put(Point::class.java, DataStructuresSerializer.PointSerializer(version))
           put(CommandManagerModel::class.java, CommandManagerModelSerializer(version))
