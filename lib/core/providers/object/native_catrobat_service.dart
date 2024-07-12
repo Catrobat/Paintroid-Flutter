@@ -26,7 +26,8 @@ class NativeCatrobatService implements INativeCatrobatService {
   Future<ByteData> getNativeClassData(String parameter) async  {
     if(Platform.isAndroid) {
         try {
-          final ByteData data = await _methodChannel.invokeMethod('getNativeClassData', {'path': parameter});
+          final Uint8List bytes = await _methodChannel.invokeMethod('getNativeClassData', {'path': parameter});
+          final ByteData data = ByteData.view(bytes.buffer);
           return data;
         } catch (e) {
           print('Failed to get native class data: $e');

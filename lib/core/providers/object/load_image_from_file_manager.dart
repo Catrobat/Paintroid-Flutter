@@ -17,6 +17,8 @@ import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 import 'package:paintroid/core/utils/save_image_failure.dart';
 
+import 'native_catrobat_service.dart';
+
 extension on File {
   String? get extension {
     final list = path.split('.');
@@ -29,16 +31,18 @@ class LoadImageFromFileManager with LoggableMixin {
   final IFileService fileService;
   final IImageService imageService;
   final IPermissionService permissionService;
+  final INativeCatrobatService nativeCatrobatService;
 
   LoadImageFromFileManager(
-      this.fileService, this.imageService, this.permissionService);
+      this.fileService, this.imageService, this.permissionService, this.nativeCatrobatService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final fileService = ref.watch(IFileService.provider);
     final permissionService = ref.watch(IPermissionService.provider);
+    final nativeService = ref.watch(INativeCatrobatService.provider);
     return LoadImageFromFileManager(
-        fileService, imageService, permissionService);
+        fileService, imageService, permissionService,nativeService);
   });
 
   Future<Result<ImageFromFile, Failure>> call(
@@ -67,9 +71,9 @@ class LoadImageFromFileManager with LoggableMixin {
             var fileValidity =  checkJson(bytes);
             if(!fileValidity)
             {
-             // call kyrostatic
-              const methodChannel = MethodChannel('org.catrobat.paintroid/native');
-              final ByteData result = await methodChannel.invokeMethod('getNativeClassData', {'path': file.uri});
+              final ByteData result = await nativeCatrobatService.getNativeClassData(file.uri.path);
+              var t = 10;
+              return const Result.err(LoadImageFailure.invalidImage);
             }
             CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
             Image? backgroundImage =

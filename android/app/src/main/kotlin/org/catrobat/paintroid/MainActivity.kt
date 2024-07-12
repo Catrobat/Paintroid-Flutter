@@ -13,13 +13,12 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.io.IOException
-
-
+import android.util.Log
 
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-
+import java.nio.ByteBuffer
 class MainActivity : FlutterActivity() {
     private val kryo = Kryo()
     private val hasWritePermission: Boolean
@@ -33,6 +32,7 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         setupPhotoLibraryChannel(flutterEngine)
         setupDeviceChannel(flutterEngine)
+        setupNativeCatrobat(flutterEngine)
     }
 
     private fun setupDeviceChannel(flutterEngine: FlutterEngine) {
@@ -80,36 +80,37 @@ class MainActivity : FlutterActivity() {
     }
 
     // TODO getHeightInPixels
-    private fun openOldProject(flutterEngine: FlutterEngine) {
-        MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/native"
-        ).apply {
+    private fun setupNativeCatrobat(flutterEngine: FlutterEngine) {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/native").apply {
             setMethodCallHandler { call, result ->
                 when (call.method) {
                     "getNativeClassData" -> {
-                        val parameter = call.argument<String>("path") ?: ""
-                        if (parameter == "")
-                        {
-                          /*  result.error(
-                                "PERMISSION_DENIED",
-                                "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
-                                null
-                            )
-                            return@setMethodCallHandler
-                            */
+                        val parameter = call.argument<String>("path")
+                        if (parameter == null) {
+                            Log.d("MethodChannel", "No path received")
+                            result.error("NO_PARAM", "No path provided", null)
+                        } else {
+                            try {
+                                //Log.d("MethodChannel", "Received path: $parameter")
+                                //val data = getNativeClassData(parameter)
+                                val byteBuffer = ByteBuffer.allocate(4)  // Allocate a ByteBuffer with space for 4 bytes
+                                byteBuffer.put(0x01)  // Example byte
+                                byteBuffer.put(0x02)  // Example byte
+                                byteBuffer.put(0x03)  // Example byte
+                                byteBuffer.put(0x04)  // Example byte
+                                val byteArray = ByteArray(byteBuffer.remaining())
+                                byteBuffer.get(byteArray)
+                                result.success(byteArray)
+                            } catch (e: Exception) {
+                                Log.e("MethodChannel", "Error processing data", e)
+                                result.error("ERROR_PROCESSING", "Failed to process data", e.localizedMessage)
+                            }
                         }
-                        else
-                        {
-                            val t = "error";
-                        }
-                        result.success(null);
-
-                    //        return result.error("NO PARAM");
-                        //val stream = FileInputStream(temporaryFilePath)
-                        //this.kryo.get
-                      //  result.success("should work");
                     }
-                    else -> result.notImplemented()
+                    else -> {
+                        Log.d("MethodChannel", "Method not implemented")
+                        result.notImplemented()
+                    }
                 }
             }
         }
@@ -151,4 +152,12 @@ class MainActivity : FlutterActivity() {
         }
         return Pair(filename, imageData)
     }
+}
+
+
+
+private fun getNativeClassData(path: String): ByteArray {
+    // Assuming you have a method to process the data, e.g., using Kryo for serialization
+    // Replace with actual data processing logic
+    return byteArrayOf() // Placeholder for actual data processing
 }
