@@ -6,7 +6,7 @@ import 'package:paintroid/core/enums/tool_types.dart';
 
 part 'shapes_tool_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ShapesToolProvider extends _$ShapesToolProvider {
   @override
   ShapesTool build() {
