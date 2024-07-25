@@ -7,7 +7,7 @@ part of 'toolbox_state_provider.dart';
 // **************************************************************************
 
 String _$toolBoxStateProviderHash() =>
-    r'daf4aed7f912a45232b01c6461d6ac8cbd9d69e3';
+    r'b5d19c272b3f8e5f142e5ff767709a1bf88a69c8';
 
 /// See also [ToolBoxStateProvider].
 @ProviderFor(ToolBoxStateProvider)

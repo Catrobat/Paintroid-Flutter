@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
@@ -76,6 +77,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
           currentTool: ref.read(shapesToolProvider),
           currentToolType: ToolType.SHAPES,
         );
+        ref.read(canvasPainterProvider.notifier).repaint();
         break;
       default:
         state = state.copyWith(
