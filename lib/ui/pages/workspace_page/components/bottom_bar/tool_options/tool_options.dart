@@ -17,7 +17,7 @@ class ToolOptions extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     bool visible = ref.watch(toolOptionsVisibilityStateProvider);
     final currentToolType = ref.watch(
-      toolBoxStateProvider.select((value) => value.currentToolType),
+      toolBoxStateProvider.select((value) => value.currentTool.type),
     );
 
     return Padding(

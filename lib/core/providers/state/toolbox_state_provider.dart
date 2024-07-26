@@ -21,7 +21,6 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   ToolBoxStateData build() {
     return ToolBoxStateData(
       currentTool: ref.watch(brushToolProvider),
-      currentToolType: ToolType.BRUSH,
       isDown: false,
     );
   }
@@ -49,41 +48,23 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   void switchTool(ToolData data) {
     switch (data.type) {
       case ToolType.BRUSH:
-        state = state.copyWith(
-          currentTool: ref.read(brushToolProvider),
-          currentToolType: ToolType.BRUSH,
-        );
+        state = state.copyWith(currentTool: ref.read(brushToolProvider));
         break;
       case ToolType.HAND:
-        state = state.copyWith(
-          currentTool: ref.read(handToolProvider),
-          currentToolType: ToolType.HAND,
-        );
+        state = state.copyWith(currentTool: ref.read(handToolProvider));
         break;
       case ToolType.ERASER:
-        state = state.copyWith(
-          currentTool: ref.read(eraserToolProvider),
-          currentToolType: ToolType.ERASER,
-        );
+        state = state.copyWith(currentTool: ref.read(eraserToolProvider));
         break;
       case ToolType.LINE:
-        state = state.copyWith(
-          currentTool: ref.read(lineToolProvider),
-          currentToolType: ToolType.LINE,
-        );
+        state = state.copyWith(currentTool: ref.read(lineToolProvider));
         break;
       case ToolType.SHAPES:
-        state = state.copyWith(
-          currentTool: ref.read(shapesToolProvider),
-          currentToolType: ToolType.SHAPES,
-        );
+        state = state.copyWith(currentTool: ref.read(shapesToolProvider));
         ref.read(canvasPainterProvider.notifier).repaint();
         break;
       default:
-        state = state.copyWith(
-          currentTool: ref.read(brushToolProvider),
-          currentToolType: ToolType.BRUSH,
-        );
+        state = state.copyWith(currentTool: ref.read(brushToolProvider));
         break;
     }
 
