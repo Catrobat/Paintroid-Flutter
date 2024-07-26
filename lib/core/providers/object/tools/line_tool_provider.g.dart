@@ -6,12 +6,11 @@ part of 'line_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lineToolProviderHash() => r'ddd41ee46e06c9c30f63aa9b00d3ddecfa18f9ea';
+String _$lineToolProviderHash() => r'9e569edfa6c56aebbb25dcb6c038195321c91d00';
 
 /// See also [LineToolProvider].
 @ProviderFor(LineToolProvider)
-final lineToolProvider =
-    AutoDisposeNotifierProvider<LineToolProvider, LineTool>.internal(
+final lineToolProvider = NotifierProvider<LineToolProvider, LineTool>.internal(
   LineToolProvider.new,
   name: r'lineToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +20,6 @@ final lineToolProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LineToolProvider = AutoDisposeNotifier<LineTool>;
+typedef _$LineToolProvider = Notifier<LineTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

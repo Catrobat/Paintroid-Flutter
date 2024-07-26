@@ -9,7 +9,7 @@ import 'package:paintroid/core/tools/implementation/eraser_tool.dart';
 
 part 'eraser_tool_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class EraserToolProvider extends _$EraserToolProvider {
   @override
   EraserTool build() {

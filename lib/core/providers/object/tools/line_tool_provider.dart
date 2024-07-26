@@ -10,7 +10,7 @@ import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 
 part 'line_tool_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LineToolProvider extends _$LineToolProvider {
   @override
   LineTool build() {

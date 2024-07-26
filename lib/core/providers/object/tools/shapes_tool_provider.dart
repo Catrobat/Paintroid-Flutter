@@ -23,4 +23,11 @@ class ShapesToolProvider extends _$ShapesToolProvider {
       ),
     );
   }
+
+  void switchBoundingBoxTransformationMode() {
+    state = state.copyWith(
+      isRotating: !state.isRotating,
+      isTranslatingAndScaling: state.isTranslatingAndScaling,
+    );
+  }
 }
