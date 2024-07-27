@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
@@ -76,7 +77,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
       };
-    } else if (currentTool.hasFinalizeFunctionality) {
+    } else if (currentTool.type == ToolType.SHAPES) {
       return () {
         currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();
