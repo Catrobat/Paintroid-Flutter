@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -32,16 +33,30 @@ class ShapesTool extends Tool {
   void onCancel() => boundingBox.resetActiveCorner();
 
   @override
-  void onCheckmark() => ();
+  void onCheckmark(Paint paint) {
+    commandManager.addGraphicCommand(
+      RectangleShapeCommand(
+        GraphicFactory.copyPaintWith(
+          original: paint,
+          strokeJoin: StrokeJoin.miter,
+        ),
+        boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
+        boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
+        boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
+        boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
+      ),
+    );
+    commandManager.clearRedoStack();
+  }
 
   @override
-  void onPlus() => ();
+  void onPlus() => {};
 
   @override
-  void onRedo() => ();
+  void onRedo() => commandManager.redo();
 
   @override
-  void onUndo() => ();
+  void onUndo() => commandManager.undo();
 
   void drawGuides(Canvas canvas) {
     drawRectangle(canvas, GraphicFactory.boundingBoxPaint, isBoundingBox: true);

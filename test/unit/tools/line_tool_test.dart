@@ -60,7 +60,7 @@ void main() {
     sut.onDown(pointA, paint);
     sut.onUp(pointB, paint);
     expect(sut.vertexStack.length, 2);
-    sut.onCheckmark();
+    sut.onCheckmark(paint);
     expect(sut.vertexStack.length, 0);
   });
 

@@ -5,11 +5,13 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int pathCommandVersion;
   final int lineCommandVersion;
   final int catrobatImageVersion;
+  final int rectangleShapeCommandVersion;
 
   DummyVersionStrategy({
     this.pathCommandVersion = SerializerVersion.PATH_COMMAND_VERSION,
     this.catrobatImageVersion = SerializerVersion.CATROBAT_IMAGE_VERSION,
     this.lineCommandVersion = SerializerVersion.LINE_COMMAND_VERSION,
+    this.rectangleShapeCommandVersion = SerializerVersion.RECTANGLE_SHAPE_COMMAND_VERSION,
   });
 
   @override
@@ -20,4 +22,7 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getLineCommandVersion() => lineCommandVersion;
+  
+  @override
+  int getRectangleShapeCommandVersion() => rectangleShapeCommandVersion;
 }

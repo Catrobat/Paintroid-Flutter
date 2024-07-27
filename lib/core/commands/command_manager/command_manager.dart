@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -103,6 +104,8 @@ class CommandManager {
     ///TODO implement for all tools after implementing unique commands
     if (command.runtimeType == LineCommand) {
       return ToolData.LINE;
+    } else if (command.runtimeType == RectangleShapeCommand) {
+      return ToolData.SHAPES;
     } else {
       return ToolData.BRUSH;
     }

@@ -56,27 +56,19 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   @override
-  void onDrag(Offset point, Paint paint) {
-    _setGhostPaths(point);
-  }
+  void onDrag(Offset point, Paint paint) => _setGhostPaths(point);
 
   @override
-  void onUp(Offset point, Paint paint) {
-    _updateMovingVertices(point);
-  }
+  void onUp(Offset point, Paint paint) => _updateMovingVertices(point);
 
   @override
   void onCancel() {}
 
   @override
-  void onPlus() {
-    addNewPath = true;
-  }
+  void onPlus() => addNewPath = true;
 
   @override
-  void onCheckmark() {
-    resetLineToolData();
-  }
+  void onCheckmark(Paint paint) => resetLineToolData();
 
   @override
   void onRedo() {

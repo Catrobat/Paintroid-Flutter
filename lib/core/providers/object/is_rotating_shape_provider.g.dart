@@ -7,7 +7,7 @@ part of 'is_rotating_shape_provider.dart';
 // **************************************************************************
 
 String _$isRotatingShapeProviderHash() =>
-    r'bfc7b496b54a115e20e2ccdd5079f22d533465f1';
+    r'2467dcb5d705b27ff241c8f2a3569457a248836b';
 
 /// See also [IsRotatingShapeProvider].
 @ProviderFor(IsRotatingShapeProvider)

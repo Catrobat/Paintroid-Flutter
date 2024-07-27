@@ -1,21 +1,14 @@
 import 'dart:ui';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/bounding_box_corners.dart';
 import 'package:paintroid/core/extensions/offset_extension.dart';
-import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/utils/constants.dart';
 
-@JsonSerializable()
 class BoundingBox {
-  @OffsetConverter()
   Offset topLeft;
-  @OffsetConverter()
   Offset topRight;
-  @OffsetConverter()
   Offset bottomLeft;
-  @OffsetConverter()
   Offset bottomRight;
 
   double boundingBoxCornerRadius = 30;
@@ -194,16 +187,28 @@ class BoundingBox {
     updateCorners(topLeft, topRight, bottomLeft, bottomRight, offset: offset);
   }
 
-  Path getPath({double padding = 0}) {
+  Offset getPaddedOffset(Offset point, {double padding = 0}) {
     padding += padding > 0 ? GraphicFactory.boundingBoxPaint.strokeWidth : 0;
-    final topLeft =
-        this.topLeft.moveTowards(towards: center, distance: -padding);
-    final topRight =
-        this.topRight.moveTowards(towards: center, distance: -padding);
-    final bottomLeft =
-        this.bottomLeft.moveTowards(towards: center, distance: -padding);
-    final bottomRight =
-        this.bottomRight.moveTowards(towards: center, distance: -padding);
+    return point.moveTowards(towards: center, distance: -padding);
+  }
+
+  Offset getPaddedTopLeft({double padding = 0}) =>
+      getPaddedOffset(topLeft, padding: padding);
+
+  Offset getPaddedTopRight({double padding = 0}) =>
+      getPaddedOffset(topRight, padding: padding);
+
+  Offset getPaddedBottomLeft({double padding = 0}) =>
+      getPaddedOffset(bottomLeft, padding: padding);
+
+  Offset getPaddedBottomRight({double padding = 0}) =>
+      getPaddedOffset(bottomRight, padding: padding);
+
+  Path getPath({double padding = 0}) {
+    final topLeft = getPaddedTopLeft(padding: padding);
+    final topRight = getPaddedTopRight(padding: padding);
+    final bottomLeft = getPaddedBottomLeft(padding: padding);
+    final bottomRight = getPaddedBottomRight(padding: padding);
     return Path()
       ..moveTo(topLeft.dx, topLeft.dy)
       ..lineTo(topRight.dx, topRight.dy)

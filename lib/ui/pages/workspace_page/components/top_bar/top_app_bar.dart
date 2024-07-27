@@ -4,6 +4,7 @@ import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -69,7 +70,15 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
     if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
       return () {
-        currentTool.onCheckmark();
+        currentTool.onCheckmark(ref.read(paintProvider));
+        ref.read(appBarProvider.notifier).update();
+        ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+      };
+    } else if (currentTool.hasFinalizeFunctionality) {
+      return () {
+        currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();
         ref
             .read(canvasStateProvider.notifier)

@@ -25,12 +25,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     );
   }
 
-  void beforeDidTapDown() {
-    ref.read(commandManagerProvider).clearRedoStack();
-  }
-
   void didTapDown(Offset position) {
-    beforeDidTapDown();
+    if (state.currentTool.type != ToolType.SHAPES) {
+      ref.read(commandManagerProvider).clearRedoStack();
+    }
     state.currentTool.onDown(position, ref.read(paintProvider));
     state = state.copyWith(isDown: true);
   }

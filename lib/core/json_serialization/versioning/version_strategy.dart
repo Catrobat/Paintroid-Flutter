@@ -5,6 +5,7 @@ abstract class IVersionStrategy {
   int getCatrobatImageVersion();
   int getPathCommandVersion();
   int getLineCommandVersion();
+  int getRectangleShapeCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -16,6 +17,10 @@ class ProductionVersionStrategy implements IVersionStrategy {
 
   @override
   int getLineCommandVersion() => SerializerVersion.LINE_COMMAND_VERSION;
+
+  @override
+  int getRectangleShapeCommandVersion() =>
+      SerializerVersion.RECTANGLE_SHAPE_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

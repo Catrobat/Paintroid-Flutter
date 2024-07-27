@@ -8,14 +8,14 @@ class GraphicFactory {
   Paint createPaint() => Paint();
 
   static Paint boundingBoxPaint = Paint()
-    ..color = const Color.fromARGB(121, 117, 117, 117)
+    ..color = const Color.fromARGB(121, 55, 55, 55)
     ..style = PaintingStyle.stroke
     ..strokeWidth = 10;
 
   static Paint circumferencePaint = Paint()
-    ..color = const Color.fromARGB(121, 117, 117, 117)
+    ..color = const Color.fromARGB(121, 55, 55, 55)
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 6;
+    ..strokeWidth = 10;
 
   static Paint anchorPointPaint = Paint()
     ..color = const Color.fromARGB(121, 117, 117, 117)
