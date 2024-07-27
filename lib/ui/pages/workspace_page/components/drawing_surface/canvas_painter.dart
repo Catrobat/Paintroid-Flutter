@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/command_painter.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
-import 'package:paintroid/core/providers/object/is_rotating_shape_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';
 
@@ -57,24 +54,17 @@ class PaintingLayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(commandManagerProvider);
+    ref.watch(canvasPainterProvider);
+    ref.watch(paintProvider);
     final cachedImage = ref.watch(
       canvasStateProvider.select((state) => state.cachedImage),
     );
-    final commandManager = ref.watch(commandManagerProvider);
-
-    ref.watch(canvasPainterProvider);
-
-    final currentTool = ref.read(toolBoxStateProvider).currentTool;
-    final isRotating = ref.watch(isRotatingShapeProvider);
     return RepaintBoundary(
       child: Opacity(
         opacity: 0.99,
         child: CustomPaint(
-          foregroundPainter: CommandPainter(
-            commandManager,
-            currentTool,
-            isRotating,
-          ),
+          foregroundPainter: CommandPainter(ref),
           child: cachedImage != null
               ? RawImage(
                   image: cachedImage,

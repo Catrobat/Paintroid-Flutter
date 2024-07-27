@@ -1,8 +1,6 @@
 import 'dart:ui';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
-import 'package:paintroid/core/providers/object/is_rotating_shape_provider.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -22,20 +20,13 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   @override
   ToolBoxStateData build() {
     return ToolBoxStateData(
-      currentTool: ref.watch(shapesToolProvider),
+      currentTool: ref.watch(brushToolProvider),
       isDown: false,
     );
   }
 
   void beforeDidTapDown() {
     ref.read(commandManagerProvider).clearRedoStack();
-    switch (state.currentTool.type) {
-      case ToolType.SHAPES:
-        (state.currentTool as ShapesTool).isRotating =
-            ref.read(isRotatingShapeProvider);
-        break;
-      default:
-    }
   }
 
   void didTapDown(Offset position) {

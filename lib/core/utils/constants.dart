@@ -1,0 +1,1 @@
+const double HALF_PI = 1.5707963267948966;
