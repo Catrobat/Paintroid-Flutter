@@ -4,13 +4,13 @@ class SerializerVersion {
   static const int PATH_COMMAND_VERSION = Version.v1;
   static const int LINE_COMMAND_VERSION = Version.v1;
   static const int RECTANGLE_SHAPE_COMMAND_VERSION = Version.v1;
+  static const int CIRCLE_SHAPE_COMMAND_VERSION = Version.v1;
 }
 
 class Version {
   static const int v1 = 1;
   static const int v2 = 2;
   static const int v3 = 3;
-// ...
 }
 
 class SerializerType {
@@ -20,4 +20,5 @@ class SerializerType {
   static const String LINE_TO_ACTION = 'LineToAction';
   static const String CLOSE_ACTION = 'CloseAction';
   static const String RECTANGLE_SHAPE_COMMAND = 'RectangleShapeCommand';
+  static const String CIRCLE_SHAPE_COMMAND = 'CircleShapeCommand';
 }

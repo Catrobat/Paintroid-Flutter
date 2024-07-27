@@ -33,9 +33,8 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     state = state.copyWith(isDown: true);
   }
 
-  void didDrag(Offset position) {
-    state.currentTool.onDrag(position, ref.read(paintProvider));
-  }
+  void didDrag(Offset position) =>
+      state.currentTool.onDrag(position, ref.read(paintProvider));
 
   void didTapUp(Offset position) {
     state.currentTool.onUp(position, ref.read(paintProvider));
@@ -69,9 +68,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
         break;
     }
-
     ref.read(paintProvider.notifier).updateBlendModeByToolType(data.type);
-
     ToastUtils.showShortToast(message: data.name);
   }
 }

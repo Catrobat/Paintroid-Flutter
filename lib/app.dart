@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/landing_page/landing_page.dart';

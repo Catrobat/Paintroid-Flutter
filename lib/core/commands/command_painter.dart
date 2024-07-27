@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
+import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -53,7 +54,14 @@ class CommandPainter extends CustomPainter {
   }
 
   void _drawShapeAndGuides(Canvas canvas, ShapesTool shapesTool) {
-    shapesTool.drawRectangle(canvas, ref.read(paintProvider));
+    switch (shapesTool.shapeType) {
+      case ShapeType.rectangle:
+        shapesTool.drawRectangle(canvas, ref.read(paintProvider));
+        break;
+      case ShapeType.circle:
+        shapesTool.drawCircle(canvas, ref.read(paintProvider));
+        break;
+    }
     shapesTool.drawGuides(canvas);
   }
 }

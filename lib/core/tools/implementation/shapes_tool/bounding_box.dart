@@ -12,11 +12,16 @@ class BoundingBox {
   Offset bottomRight;
 
   double boundingBoxCornerRadius = 30;
+  double padding = GraphicFactory.boundingBoxPaint.strokeWidth;
   BoundingBoxCorner activeCorner = BoundingBoxCorner.none;
 
   BoundingBox(this.topLeft, this.topRight, this.bottomLeft, this.bottomRight);
 
   Offset get center => Offset(averageX, averageY);
+
+  double get distanceToEdgeFromCenter => center.distanceTo(topEdgeCenter);
+
+  Offset get topEdgeCenter => (topLeft + topRight) / 2;
 
   double get averageX =>
       (topLeft.dx + topRight.dx + bottomLeft.dx + bottomRight.dx) / 4;
@@ -187,8 +192,11 @@ class BoundingBox {
     updateCorners(topLeft, topRight, bottomLeft, bottomRight, offset: offset);
   }
 
+  double getPaddedRadius({double padding = 0}) =>
+      distanceToEdgeFromCenter - padding - this.padding;
+
   Offset getPaddedOffset(Offset point, {double padding = 0}) {
-    padding += padding > 0 ? GraphicFactory.boundingBoxPaint.strokeWidth : 0;
+    padding += padding > 0 ? this.padding : 0;
     return point.moveTowards(towards: center, distance: -padding);
   }
 

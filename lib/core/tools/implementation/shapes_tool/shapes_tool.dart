@@ -1,12 +1,15 @@
 import 'dart:ui';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class ShapesTool extends Tool {
   bool isRotating;
   BoundingBox boundingBox;
+  ShapeType shapeType;
 
   ShapesTool({
     required super.commandFactory,
@@ -14,6 +17,7 @@ class ShapesTool extends Tool {
     required super.type,
     required this.boundingBox,
     this.isRotating = false,
+    this.shapeType = ShapeType.rectangle,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
   });
@@ -34,18 +38,34 @@ class ShapesTool extends Tool {
 
   @override
   void onCheckmark(Paint paint) {
-    commandManager.addGraphicCommand(
-      RectangleShapeCommand(
-        GraphicFactory.copyPaintWith(
-          original: paint,
-          strokeJoin: StrokeJoin.miter,
-        ),
-        boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
-        boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
-        boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
-        boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
-      ),
-    );
+    switch (shapeType) {
+      case ShapeType.rectangle:
+        commandManager.addGraphicCommand(
+          RectangleShapeCommand(
+            GraphicFactory.copyPaintWith(
+              original: paint,
+              strokeJoin: StrokeJoin.miter,
+            ),
+            boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
+            boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
+            boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
+            boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
+          ),
+        );
+        break;
+      case ShapeType.circle:
+        commandManager.addGraphicCommand(
+          CircleShapeCommand(
+            GraphicFactory.copyPaintWith(
+              original: paint,
+              strokeJoin: StrokeJoin.miter,
+            ),
+            boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+            boundingBox.center,
+          ),
+        );
+        break;
+    }
     commandManager.clearRedoStack();
   }
 
@@ -91,4 +111,10 @@ class ShapesTool extends Tool {
       GraphicFactory.circumferencePaint,
     );
   }
+
+  void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
+        boundingBox.center,
+        boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+        paint,
+      );
 }
