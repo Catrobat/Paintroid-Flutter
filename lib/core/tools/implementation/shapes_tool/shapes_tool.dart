@@ -1,65 +1,62 @@
 import 'dart:ui';
-
 import 'package:paintroid/core/tools/tool.dart';
 
+enum Corner {
+  none,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+}
+
 class ShapesTool extends Tool {
-  Rect boundingBox;
+  Offset topLeft;
+  Offset topRight;
+  Offset bottomLeft;
+  Offset bottomRight;
   bool isRotating;
-  bool isTranslatingAndScaling;
   bool movingBoundingBox = false;
-  bool movingTopLeftCorner = false;
-  bool movingTopRightCorner = false;
-  bool movingBottomLeftCorner = false;
-  bool movingBottomRightCorner = false;
+  Corner currentMovingCorner = Corner.none;
 
   ShapesTool({
     required super.commandFactory,
     required super.commandManager,
     required super.type,
     super.hasAddFunctionality = false,
-    super.hasFinalizeFunctionality = false,
-    this.boundingBox = Rect.zero,
+    super.hasFinalizeFunctionality = true,
+    this.topLeft = Offset.zero,
+    this.topRight = Offset.zero,
+    this.bottomLeft = Offset.zero,
+    this.bottomRight = Offset.zero,
     this.isRotating = false,
-    this.isTranslatingAndScaling = true,
   });
-
-  ShapesTool copyWith({
-    Rect? boundingBox,
-    bool? isRotating,
-    bool? isTranslatingAndScaling,
-  }) {
-    return ShapesTool(
-      commandFactory: commandFactory,
-      commandManager: commandManager,
-      type: type,
-      hasAddFunctionality: hasAddFunctionality,
-      hasFinalizeFunctionality: hasFinalizeFunctionality,
-      boundingBox: boundingBox ?? this.boundingBox,
-      isRotating: isRotating ?? this.isRotating,
-      isTranslatingAndScaling:
-          isTranslatingAndScaling ?? this.isTranslatingAndScaling,
-    );
-  }
 
   @override
   void onDown(Offset point, Paint paint) {
-    if (isTranslatingAndScaling) _setTranslationAndScalingFlags(point);
+    if (isRotating) {
+      _setRotationFlags(point);
+    } else {
+      _setTranslationAndScalingFlags(point);
+    }
   }
 
   @override
   void onDrag(Offset point, Paint paint) {
-    _updateBoundingBox(point);
+    if (isRotating) {
+      _rotateBoundingBox(point);
+    } else {
+      _updateBoundingBox(point);
+    }
   }
 
   @override
   void onUp(Offset point, Paint paint) {
-    _updateBoundingBox(point);
-    _resetTranslationAndScalingFlags();
+    _resetFlags();
   }
 
   @override
   void onCancel() {
-    _resetTranslationAndScalingFlags();
+    _resetFlags();
   }
 
   @override
@@ -77,43 +74,192 @@ class ShapesTool extends Tool {
   void _setTranslationAndScalingFlags(Offset point) {
     const circleRadius = 30.0;
 
-    if ((point - boundingBox.topLeft).distance < circleRadius) {
-      movingTopLeftCorner = true;
-    } else if ((point - boundingBox.topRight).distance < circleRadius) {
-      movingTopRightCorner = true;
-    } else if ((point - boundingBox.bottomLeft).distance < circleRadius) {
-      movingBottomLeftCorner = true;
-    } else if ((point - boundingBox.bottomRight).distance < circleRadius) {
-      movingBottomRightCorner = true;
+    if ((point - topLeft).distance < circleRadius) {
+      currentMovingCorner = Corner.topLeft;
+    } else if ((point - topRight).distance < circleRadius) {
+      currentMovingCorner = Corner.topRight;
+    } else if ((point - bottomLeft).distance < circleRadius) {
+      currentMovingCorner = Corner.bottomLeft;
+    } else if ((point - bottomRight).distance < circleRadius) {
+      currentMovingCorner = Corner.bottomRight;
     } else {
       movingBoundingBox = true;
     }
     _updateBoundingBox(point);
   }
 
+  void _setRotationFlags(Offset point) {
+    const circleRadius = 30.0;
+
+    if ((point - topLeft).distance < circleRadius) {
+      currentMovingCorner = Corner.topLeft;
+    } else if ((point - topRight).distance < circleRadius) {
+      currentMovingCorner = Corner.topRight;
+    } else if ((point - bottomLeft).distance < circleRadius) {
+      currentMovingCorner = Corner.bottomLeft;
+    } else if ((point - bottomRight).distance < circleRadius) {
+      currentMovingCorner = Corner.bottomRight;
+    }
+  }
+
   void _updateBoundingBox(Offset point) {
-    if (isTranslatingAndScaling) {
-      if (movingTopLeftCorner) {
-        boundingBox = Rect.fromPoints(point, boundingBox.bottomRight);
-      } else if (movingTopRightCorner) {
-        boundingBox = Rect.fromPoints(boundingBox.bottomLeft, point);
-      } else if (movingBottomLeftCorner) {
-        boundingBox = Rect.fromPoints(point, boundingBox.topRight);
-      } else if (movingBottomRightCorner) {
-        boundingBox = Rect.fromPoints(boundingBox.topLeft, point);
-      } else if (movingBoundingBox) {
-        final dx = point.dx - boundingBox.center.dx;
-        final dy = point.dy - boundingBox.center.dy;
-        boundingBox = boundingBox.translate(dx, dy);
+    if (!isRotating) {
+      switch (currentMovingCorner) {
+        case Corner.topLeft:
+          topLeft = point;
+          _updateOtherCornersFromCorner(Corner.topLeft);
+          break;
+        case Corner.topRight:
+          topRight = point;
+          _updateOtherCornersFromCorner(Corner.topRight);
+          break;
+        case Corner.bottomLeft:
+          bottomLeft = point;
+          _updateOtherCornersFromCorner(Corner.bottomLeft);
+          break;
+        case Corner.bottomRight:
+          bottomRight = point;
+          _updateOtherCornersFromCorner(Corner.bottomRight);
+          break;
+        case Corner.none:
+          if (movingBoundingBox) {
+            final center = _calculateCenter();
+            final dx = point.dx - center.dx;
+            final dy = point.dy - center.dy;
+            _translateBoundingBox(dx, dy);
+          }
+          break;
       }
     }
   }
 
-  void _resetTranslationAndScalingFlags() {
-    movingTopLeftCorner = false;
-    movingTopRightCorner = false;
-    movingBottomLeftCorner = false;
-    movingBottomRightCorner = false;
+  void _updateOtherCornersFromCorner(Corner corner) {
+    final center = _calculateCenter();
+    final diagonal = _getDiagonal(corner);
+    final angle = _getAngle(corner);
+
+    switch (corner) {
+      case Corner.topLeft:
+        topRight = center + Offset.fromDirection(angle - 1.5708, diagonal / 2);
+        bottomLeft =
+            center + Offset.fromDirection(angle + 1.5708, diagonal / 2);
+        break;
+      case Corner.topRight:
+        topLeft = center + Offset.fromDirection(angle + 1.5708, diagonal / 2);
+        bottomRight =
+            center + Offset.fromDirection(angle - 1.5708, diagonal / 2);
+        break;
+      case Corner.bottomLeft:
+        topLeft = center + Offset.fromDirection(angle - 1.5708, diagonal / 2);
+        bottomRight =
+            center + Offset.fromDirection(angle + 1.5708, diagonal / 2);
+        break;
+      case Corner.bottomRight:
+        topRight = center + Offset.fromDirection(angle + 1.5708, diagonal / 2);
+        bottomLeft =
+            center + Offset.fromDirection(angle - 1.5708, diagonal / 2);
+        break;
+      case Corner.none:
+        break;
+    }
+  }
+
+  void _rotateBoundingBox(Offset point) {
+    final center = _calculateCenter();
+    final initialAngles = _getInitialAngles(center);
+    final currentAngle = (point - center).direction;
+    final initialAngle = _getInitialAngle();
+
+    if (initialAngle == 0) return;
+
+    final rotationAngle = currentAngle - initialAngle;
+
+    topLeft = _rotatePoint(
+        topLeft, initialAngles[Corner.topLeft]!, rotationAngle, center);
+    topRight = _rotatePoint(
+        topRight, initialAngles[Corner.topRight]!, rotationAngle, center);
+    bottomLeft = _rotatePoint(
+        bottomLeft, initialAngles[Corner.bottomLeft]!, rotationAngle, center);
+    bottomRight = _rotatePoint(
+        bottomRight, initialAngles[Corner.bottomRight]!, rotationAngle, center);
+  }
+
+  double _getInitialAngle() {
+    if (currentMovingCorner != Corner.none) {
+      return _getInitialAngles(_calculateCenter())[currentMovingCorner]!;
+    }
+    return 0;
+  }
+
+  void _resetFlags() {
     movingBoundingBox = false;
+    currentMovingCorner = Corner.none;
+  }
+
+  Offset _calculateCenter() {
+    return Offset(
+      (topLeft.dx + topRight.dx + bottomLeft.dx + bottomRight.dx) / 4,
+      (topLeft.dy + topRight.dy + bottomLeft.dy + bottomRight.dy) / 4,
+    );
+  }
+
+  void _translateBoundingBox(double dx, double dy) {
+    topLeft = Offset(topLeft.dx + dx, topLeft.dy + dy);
+    topRight = Offset(topRight.dx + dx, topRight.dy + dy);
+    bottomLeft = Offset(bottomLeft.dx + dx, bottomLeft.dy + dy);
+    bottomRight = Offset(bottomRight.dx + dx, bottomRight.dy + dy);
+  }
+
+  double _getDiagonal(Corner corner) {
+    switch (corner) {
+      case Corner.topLeft:
+        return (bottomRight - topLeft).distance;
+      case Corner.topRight:
+        return (bottomLeft - topRight).distance;
+      case Corner.bottomLeft:
+        return (topRight - bottomLeft).distance;
+      case Corner.bottomRight:
+        return (topLeft - bottomRight).distance;
+      case Corner.none:
+        return 0;
+    }
+  }
+
+  double _getAngle(Corner corner) {
+    switch (corner) {
+      case Corner.topLeft:
+        return (bottomRight - topLeft).direction;
+      case Corner.topRight:
+        return (bottomLeft - topRight).direction;
+      case Corner.bottomLeft:
+        return (topRight - bottomLeft).direction;
+      case Corner.bottomRight:
+        return (topLeft - bottomRight).direction;
+      case Corner.none:
+        return 0;
+    }
+  }
+
+  Map<Corner, double> _getInitialAngles(Offset center) {
+    return {
+      Corner.topLeft: (topLeft - center).direction,
+      Corner.topRight: (topRight - center).direction,
+      Corner.bottomLeft: (bottomLeft - center).direction,
+      Corner.bottomRight: (bottomRight - center).direction,
+      Corner.none: 0,
+    };
+  }
+
+  Offset _rotatePoint(
+    Offset point,
+    double initialAngle,
+    double rotationAngle,
+    Offset center,
+  ) {
+    return center +
+        Offset.fromDirection(
+          initialAngle + rotationAngle,
+          (point - center).distance,
+        );
   }
 }

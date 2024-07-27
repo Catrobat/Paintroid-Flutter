@@ -12,22 +12,19 @@ part 'shapes_tool_provider.g.dart';
 class ShapesToolProvider extends _$ShapesToolProvider {
   @override
   ShapesTool build() {
+    Rect boundingBox = Rect.fromCenter(
+      center: ref.read(canvasStateProvider).size.center(Offset.zero),
+      width: 300,
+      height: 300,
+    );
     return ShapesTool(
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       type: ToolType.SHAPES,
-      boundingBox: Rect.fromCenter(
-        center: ref.read(canvasStateProvider).size.center(Offset.zero),
-        width: 150,
-        height: 150,
-      ),
-    );
-  }
-
-  void switchBoundingBoxTransformationMode() {
-    state = state.copyWith(
-      isRotating: !state.isRotating,
-      isTranslatingAndScaling: state.isTranslatingAndScaling,
+      topLeft: boundingBox.topLeft,
+      topRight: boundingBox.topRight,
+      bottomLeft: boundingBox.bottomLeft,
+      bottomRight: boundingBox.bottomRight,
     );
   }
 }

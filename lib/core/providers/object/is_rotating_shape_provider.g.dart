@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'toolbox_state_provider.dart';
+part of 'is_rotating_shape_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolBoxStateProviderHash() =>
-    r'e1b952a03b9297f5e0ad6a9c8bac2da879178de5';
+String _$isRotatingShapeProviderHash() =>
+    r'bfc7b496b54a115e20e2ccdd5079f22d533465f1';
 
-/// See also [ToolBoxStateProvider].
-@ProviderFor(ToolBoxStateProvider)
-final toolBoxStateProvider =
-    NotifierProvider<ToolBoxStateProvider, ToolBoxStateData>.internal(
-  ToolBoxStateProvider.new,
-  name: r'toolBoxStateProvider',
+/// See also [IsRotatingShapeProvider].
+@ProviderFor(IsRotatingShapeProvider)
+final isRotatingShapeProvider =
+    AutoDisposeNotifierProvider<IsRotatingShapeProvider, bool>.internal(
+  IsRotatingShapeProvider.new,
+  name: r'isRotatingShapeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$toolBoxStateProviderHash,
+      : _$isRotatingShapeProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ToolBoxStateProvider = Notifier<ToolBoxStateData>;
+typedef _$IsRotatingShapeProvider = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

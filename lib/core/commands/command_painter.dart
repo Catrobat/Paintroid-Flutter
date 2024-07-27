@@ -6,10 +6,15 @@ import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class CommandPainter extends CustomPainter {
-  CommandPainter(this.commandManager, this.tool);
+  CommandPainter(
+    this.commandManager,
+    this.tool,
+    this.isRotating,
+  );
 
   final CommandManager commandManager;
   final Tool tool;
+  final bool isRotating;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -21,9 +26,8 @@ class CommandPainter extends CustomPainter {
         _drawGhostPathsAndVertices(canvas);
         break;
       case ToolType.SHAPES:
-        if ((tool as ShapesTool).isTranslatingAndScaling) {
-          _drawShapesToolBoundingBox(canvas);
-        }
+        _drawShapesToolBoundingBox(canvas);
+
         break;
       default:
         commandManager.executeLastCommand(canvas);
@@ -47,29 +51,89 @@ class CommandPainter extends CustomPainter {
   }
 
   void _drawShapesToolBoundingBox(Canvas canvas) {
-    final boundingBox = (tool as ShapesTool).boundingBox;
-    canvas.drawRect(
-      boundingBox,
-      Paint()
-        ..color = const Color.fromARGB(255, 5, 128, 137)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2,
+    final topLeft = (tool as ShapesTool).topLeft;
+    final topRight = (tool as ShapesTool).topRight;
+    final bottomLeft = (tool as ShapesTool).bottomLeft;
+    final bottomRight = (tool as ShapesTool).bottomRight;
+
+    final boundingBoxPaint = Paint()
+      ..color = const Color.fromARGB(255, 5, 128, 137)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    final Path path = Path()
+      ..moveTo(topLeft.dx, topLeft.dy)
+      ..lineTo(topRight.dx, topRight.dy)
+      ..lineTo(bottomRight.dx, bottomRight.dy)
+      ..lineTo(bottomLeft.dx, bottomLeft.dy)
+      ..close();
+
+    canvas.drawPath(path, boundingBoxPaint);
+
+    // Draw a rectangle inside the path that considers rotation
+    final innerRectPaint = Paint()
+      ..color = Colors.green
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+
+    final innerPath = Path()
+      ..moveTo(topLeft.dx, topLeft.dy)
+      ..lineTo(topRight.dx, topRight.dy)
+      ..lineTo(bottomRight.dx, bottomRight.dy)
+      ..lineTo(bottomLeft.dx, bottomLeft.dy)
+      ..close();
+
+    canvas.drawPath(innerPath, innerRectPaint);
+    
+    final center = Offset(
+      (topLeft.dx + bottomRight.dx) / 2,
+      (topLeft.dy + bottomRight.dy) / 2,
     );
 
-    const double circleRadius = 30.0;
+    // Draw a circle inside the bounding box
+    final innerCirclePaint = Paint()
+      ..color = Colors.orange
+      ..style = PaintingStyle.fill;
 
-    final Offset topLeft = boundingBox.topLeft;
-    final Offset topRight = boundingBox.topRight;
-    final Offset bottomLeft = boundingBox.bottomLeft;
-    final Offset bottomRight = boundingBox.bottomRight;
+    canvas.drawCircle(
+        center, (topLeft - bottomLeft).distance / 2, innerCirclePaint);
+
+    const double circleRadius = 30.0;
 
     final Paint circlePaint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(topLeft, circleRadius, circlePaint);
+    canvas.drawCircle(
+      topLeft,
+      circleRadius,
+      Paint()
+        ..color = Colors.purple
+        ..style = PaintingStyle.fill,
+    );
     canvas.drawCircle(topRight, circleRadius, circlePaint);
     canvas.drawCircle(bottomLeft, circleRadius, circlePaint);
     canvas.drawCircle(bottomRight, circleRadius, circlePaint);
+
+    // // Calculate the center and radius of the circumscribing circle
+    // final center = Offset(
+    //   (topLeft.dx + bottomRight.dx) / 2,
+    //   (topLeft.dy + bottomRight.dy) / 2,
+    // );
+
+    final diagonalLength = (topLeft - bottomRight).distance;
+    final circumscribingCircleRadius = diagonalLength / 2;
+
+    // Draw the circumscribing circle
+    final circumscribingCirclePaint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    canvas.drawCircle(
+      center,
+      circumscribingCircleRadius,
+      circumscribingCirclePaint,
+    );
   }
 }
