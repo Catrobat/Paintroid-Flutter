@@ -104,13 +104,11 @@ class ShapesTool extends Tool {
     canvas.drawCircle(boundingBox.bottomRight, radius, paint);
   }
 
-  void _drawCircumscribingCircle(Canvas canvas) {
-    canvas.drawCircle(
-      boundingBox.center,
-      boundingBox.topLeftBottomRightDiagonal / 2,
-      GraphicFactory.circumferencePaint,
-    );
-  }
+  void _drawCircumscribingCircle(Canvas canvas) => canvas.drawCircle(
+        boundingBox.center,
+        boundingBox.topLeftBottomRightDiagonal / 2,
+        GraphicFactory.circumferencePaint,
+      );
 
   void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
         boundingBox.center,
