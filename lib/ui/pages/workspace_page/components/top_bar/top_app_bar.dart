@@ -69,15 +69,10 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 
   void Function()? _onCheckmark(Tool currentTool, WidgetRef ref) {
-    if (currentTool is LineTool && currentTool.vertexStack.isNotEmpty) {
-      return () {
-        currentTool.onCheckmark(ref.read(paintProvider));
-        ref.read(appBarProvider.notifier).update();
-        ref
-            .read(canvasStateProvider.notifier)
-            .resetCanvasWithExistingCommands();
-      };
-    } else if (currentTool.type == ToolType.SHAPES) {
+    final isLineTool =
+        currentTool is LineTool && currentTool.vertexStack.isNotEmpty;
+    final isShapeTool = currentTool.type == ToolType.SHAPES;
+    if (isLineTool || isShapeTool) {
       return () {
         currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();
