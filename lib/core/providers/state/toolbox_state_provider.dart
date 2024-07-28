@@ -15,7 +15,7 @@ import 'package:paintroid/ui/utils/toast_utils.dart';
 
 part 'toolbox_state_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   @override
   ToolBoxStateData build() {
