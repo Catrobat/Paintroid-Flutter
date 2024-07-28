@@ -21,4 +21,7 @@ class WidgetFinder {
       find.byKey(ValueKey(TopBarActionData.UNDO.name));
   static final Finder redoButton =
       find.byKey(ValueKey(TopBarActionData.REDO.name));
+
+  static final Finder circleShapeTypeChip =
+      find.byKey(const ValueKey('circle_shape_type_chip'));
 }

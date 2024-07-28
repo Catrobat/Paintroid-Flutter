@@ -50,6 +50,7 @@ class _ShapesToolShapeTypeOptionsState
                         },
                       ),
                       CustomActionChip(
+                        key: const ValueKey('circle_shape_type_chip'),
                         hint: 'Circle',
                         chipBackgroundColor:
                             shapesTool.shapeType == ShapeType.circle
