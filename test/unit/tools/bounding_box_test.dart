@@ -6,12 +6,13 @@ void main() {
   double epsilon = 0.000000001;
   late BoundingBox boundingBox;
 
-  const Offset pointA = Offset(0, 0);
-  const Offset pointB = Offset(200, 0);
-  const Offset pointC = Offset(0, 200);
-  const Offset pointD = Offset(200, 200);
+  const Offset topLeft = Offset(0, 0);
+  const Offset topRight = Offset(200, 0);
+  const Offset bottomLeft = Offset(0, 200);
+  const Offset bottomRight = Offset(200, 200);
 
-  setUp(() => boundingBox = BoundingBox(pointA, pointB, pointC, pointD));
+  setUp(() =>
+      boundingBox = BoundingBox(topLeft, topRight, bottomLeft, bottomRight));
 
   group('transform', () {
     test('should update topLeft, topRight and bottomLeft corners only', () {
@@ -21,10 +22,10 @@ void main() {
       boundingBox.transform(newPoint);
       expect(boundingBox.topLeft, newPoint);
       expect(boundingBox.bottomLeft.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.bottomLeft.dy, closeTo(pointC.dy, epsilon));
-      expect(boundingBox.topRight.dx, closeTo(pointB.dx, epsilon));
+      expect(boundingBox.bottomLeft.dy, closeTo(bottomLeft.dy, epsilon));
+      expect(boundingBox.topRight.dx, closeTo(topRight.dx, epsilon));
       expect(boundingBox.topRight.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.bottomRight, pointD);
+      expect(boundingBox.bottomRight, bottomRight);
       expect(boundingBox.center, isNot(centerBefore));
     });
 
@@ -35,10 +36,10 @@ void main() {
       boundingBox.transform(newPoint);
       expect(boundingBox.topRight, newPoint);
       expect(boundingBox.bottomRight.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.bottomRight.dy, closeTo(pointD.dy, epsilon));
-      expect(boundingBox.topLeft.dx, closeTo(pointA.dx, epsilon));
+      expect(boundingBox.bottomRight.dy, closeTo(bottomRight.dy, epsilon));
+      expect(boundingBox.topLeft.dx, closeTo(topLeft.dx, epsilon));
       expect(boundingBox.topLeft.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.bottomLeft, pointC);
+      expect(boundingBox.bottomLeft, bottomLeft);
       expect(boundingBox.center, isNot(centerBefore));
     });
 
@@ -49,10 +50,10 @@ void main() {
       boundingBox.transform(newPoint);
       expect(boundingBox.bottomLeft, newPoint);
       expect(boundingBox.topLeft.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.topLeft.dy, closeTo(pointA.dy, epsilon));
-      expect(boundingBox.bottomRight.dx, closeTo(pointD.dx, epsilon));
+      expect(boundingBox.topLeft.dy, closeTo(topLeft.dy, epsilon));
+      expect(boundingBox.bottomRight.dx, closeTo(bottomRight.dx, epsilon));
       expect(boundingBox.bottomRight.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.topRight, pointB);
+      expect(boundingBox.topRight, topRight);
       expect(boundingBox.center, isNot(centerBefore));
     });
 
@@ -63,10 +64,10 @@ void main() {
       boundingBox.transform(newPoint);
       expect(boundingBox.bottomRight, newPoint);
       expect(boundingBox.topRight.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.topRight.dy, closeTo(pointB.dy, epsilon));
-      expect(boundingBox.bottomLeft.dx, closeTo(pointC.dx, epsilon));
+      expect(boundingBox.topRight.dy, closeTo(topRight.dy, epsilon));
+      expect(boundingBox.bottomLeft.dx, closeTo(bottomLeft.dx, epsilon));
       expect(boundingBox.bottomLeft.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.topLeft, pointA);
+      expect(boundingBox.topLeft, topLeft);
       expect(boundingBox.center, isNot(centerBefore));
     });
 
@@ -74,10 +75,10 @@ void main() {
       boundingBox.activeCorner = BoundingBoxCorner.none;
       const Offset newPoint = Offset(300, 300);
       boundingBox.transform(newPoint);
-      expect(boundingBox.topLeft, pointA);
-      expect(boundingBox.topRight, pointB);
-      expect(boundingBox.bottomLeft, pointC);
-      expect(boundingBox.bottomRight, pointD);
+      expect(boundingBox.topLeft, topLeft);
+      expect(boundingBox.topRight, topRight);
+      expect(boundingBox.bottomLeft, bottomLeft);
+      expect(boundingBox.bottomRight, bottomRight);
     });
   });
 
@@ -95,30 +96,30 @@ void main() {
       final centerBefore = boundingBox.center;
       const Offset rotatePoint = Offset(100, 100);
       boundingBox.rotate(rotatePoint);
-      expect(boundingBox.topLeft.dx, isNot(pointA.dx));
-      expect(boundingBox.topLeft.dy, isNot(pointA.dy));
+      expect(boundingBox.topLeft.dx, isNot(topLeft.dx));
+      expect(boundingBox.topLeft.dy, isNot(topLeft.dy));
       expect(boundingBox.center, centerBefore);
     });
   });
 
   group('setActiveCorner', () {
     test('should set active corner to topLeft', () {
-      boundingBox.setActiveCorner(pointA);
+      boundingBox.setActiveCorner(topLeft);
       expect(boundingBox.activeCorner, BoundingBoxCorner.topLeft);
     });
 
     test('should set active corner to topRight', () {
-      boundingBox.setActiveCorner(pointB);
+      boundingBox.setActiveCorner(topRight);
       expect(boundingBox.activeCorner, BoundingBoxCorner.topRight);
     });
 
     test('should set active corner to bottomLeft', () {
-      boundingBox.setActiveCorner(pointC);
+      boundingBox.setActiveCorner(bottomLeft);
       expect(boundingBox.activeCorner, BoundingBoxCorner.bottomLeft);
     });
 
     test('should set active corner to bottomRight', () {
-      boundingBox.setActiveCorner(pointD);
+      boundingBox.setActiveCorner(bottomRight);
       expect(boundingBox.activeCorner, BoundingBoxCorner.bottomRight);
     });
 
