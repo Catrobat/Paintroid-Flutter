@@ -106,13 +106,13 @@ class BoundingBox {
         topRight = bottomRight.moveTowards(
           towards: topLeft,
           distance: topLeftBottomRightDiagonal / 2,
-          from: center,
+          from: (topLeft + bottomRight) / 2.0,
           rotation: -HALF_PI,
         );
         bottomLeft = bottomRight.moveTowards(
           towards: topLeft,
           distance: topLeftBottomRightDiagonal / 2,
-          from: center,
+          from: (topLeft + bottomRight) / 2,
           rotation: HALF_PI,
         );
         break;
@@ -121,13 +121,13 @@ class BoundingBox {
         topLeft = bottomLeft.moveTowards(
           towards: topRight,
           distance: topRightBottomLeftDiagonal / 2,
-          from: center,
+          from: (topRight + bottomLeft) / 2,
           rotation: HALF_PI,
         );
         bottomRight = bottomLeft.moveTowards(
           towards: topRight,
           distance: topRightBottomLeftDiagonal / 2,
-          from: center,
+          from: (topRight + bottomLeft) / 2,
           rotation: -HALF_PI,
         );
         break;
@@ -136,13 +136,13 @@ class BoundingBox {
         topLeft = topRight.moveTowards(
           towards: bottomLeft,
           distance: topRightBottomLeftDiagonal / 2,
-          from: center,
+          from: (topRight + bottomLeft) / 2,
           rotation: -HALF_PI,
         );
         bottomRight = topRight.moveTowards(
           towards: bottomLeft,
           distance: topRightBottomLeftDiagonal / 2,
-          from: center,
+          from: (topRight + bottomLeft) / 2,
           rotation: HALF_PI,
         );
         break;
@@ -151,13 +151,13 @@ class BoundingBox {
         topRight = topLeft.moveTowards(
           towards: bottomRight,
           distance: topLeftBottomRightDiagonal / 2,
-          from: center,
+          from: (topLeft + bottomRight) / 2,
           rotation: HALF_PI,
         );
         bottomLeft = topLeft.moveTowards(
           towards: bottomRight,
           distance: topLeftBottomRightDiagonal / 2,
-          from: center,
+          from: (topLeft + bottomRight) / 2,
           rotation: -HALF_PI,
         );
         break;
