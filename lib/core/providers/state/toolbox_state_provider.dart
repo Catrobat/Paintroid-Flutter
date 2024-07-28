@@ -20,7 +20,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   @override
   ToolBoxStateData build() {
     return ToolBoxStateData(
-      currentTool: ref.watch(brushToolProvider),
+      currentTool: ref.read(brushToolProvider),
       isDown: false,
     );
   }

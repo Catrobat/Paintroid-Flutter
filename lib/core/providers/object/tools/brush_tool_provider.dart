@@ -8,7 +8,7 @@ import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 
 part 'brush_tool_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class BrushToolProvider extends _$BrushToolProvider {
   @override
   BrushTool build() {

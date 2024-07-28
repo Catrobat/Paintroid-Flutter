@@ -8,7 +8,7 @@ import 'package:paintroid/core/tools/implementation/hand_tool.dart';
 
 part 'hand_tool_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class HandToolProvider extends _$HandToolProvider {
   @override
   HandTool build() {
