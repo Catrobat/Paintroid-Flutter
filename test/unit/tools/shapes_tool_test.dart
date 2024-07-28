@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -27,7 +27,7 @@ void main() {
       commandManager: CommandManager(),
       boundingBox: boundingBox,
       isRotating: false,
-      shapeType: ShapeType.rectangle,
+      shapeType: ShapeType.square,
     );
   });
 
@@ -38,11 +38,11 @@ void main() {
     expect(command.runtimeType, CircleShapeCommand);
   });
 
-  test('onCheckmark: should generate RectangleShapeCommand', () {
-    sut.shapeType = ShapeType.rectangle;
+  test('onCheckmark: should generate SquareShapeCommand', () {
+    sut.shapeType = ShapeType.square;
     sut.onCheckmark(paint);
     final command = sut.commandManager.undoStack.last;
-    expect(command.runtimeType, RectangleShapeCommand);
+    expect(command.runtimeType, SquareShapeCommand);
   });
 
   test('onCheckmark: should add command to command manager', () {

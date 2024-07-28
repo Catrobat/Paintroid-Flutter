@@ -55,8 +55,8 @@ class CommandPainter extends CustomPainter {
 
   void _drawShapeAndGuides(Canvas canvas, ShapesTool shapesTool) {
     switch (shapesTool.shapeType) {
-      case ShapeType.rectangle:
-        shapesTool.drawRectangle(canvas, ref.read(paintProvider));
+      case ShapeType.square:
+        shapesTool.drawSquare(canvas, ref.read(paintProvider));
         break;
       case ShapeType.circle:
         shapesTool.drawCircle(canvas, ref.read(paintProvider));

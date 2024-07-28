@@ -36,7 +36,7 @@ class _ShapesToolShapeTypeOptionsState
                       CustomActionChip(
                         hint: 'Square',
                         chipBackgroundColor:
-                            shapesTool.shapeType == ShapeType.rectangle
+                            shapesTool.shapeType == ShapeType.square
                                 ? PaintroidTheme.of(context).primaryColor
                                 : Colors.white,
                         chipIcon: Icon(
@@ -44,7 +44,7 @@ class _ShapesToolShapeTypeOptionsState
                           color: PaintroidTheme.of(context).shadowColor,
                         ),
                         onPressed: () {
-                          shapesTool.shapeType = ShapeType.rectangle;
+                          shapesTool.shapeType = ShapeType.square;
                           ref.read(canvasPainterProvider.notifier).repaint();
                           setState(() {});
                         },

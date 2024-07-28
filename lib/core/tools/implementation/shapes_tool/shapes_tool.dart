@@ -16,7 +16,7 @@ class ShapesTool extends Tool {
     required super.type,
     required this.boundingBox,
     this.isRotating = false,
-    this.shapeType = ShapeType.rectangle,
+    this.shapeType = ShapeType.square,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
   });
@@ -43,8 +43,8 @@ class ShapesTool extends Tool {
       strokeJoin: StrokeJoin.miter,
     );
     switch (shapeType) {
-      case ShapeType.rectangle:
-        command = commandFactory.createRectangleShapeCommand(
+      case ShapeType.square:
+        command = commandFactory.createSquareShapeCommand(
           paintWithStrokeJoinMiter,
           boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
           boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
@@ -74,14 +74,14 @@ class ShapesTool extends Tool {
   void onUndo() => commandManager.undo();
 
   void drawGuides(Canvas canvas) {
-    drawRectangle(canvas, GraphicFactory.boundingBoxPaint, isBoundingBox: true);
+    drawSquare(canvas, GraphicFactory.boundingBoxPaint, isBoundingBox: true);
     if (isRotating) {
       _drawCircumscribingCircle(canvas);
     }
     _drawCornerCircles(canvas, GraphicFactory.anchorPointPaint);
   }
 
-  void drawRectangle(Canvas canvas, Paint paint, {bool isBoundingBox = false}) {
+  void drawSquare(Canvas canvas, Paint paint, {bool isBoundingBox = false}) {
     canvas.drawPath(
       boundingBox.getPath(padding: isBoundingBox ? 0 : paint.strokeWidth),
       GraphicFactory.copyPaintWith(
@@ -90,6 +90,12 @@ class ShapesTool extends Tool {
       ),
     );
   }
+
+  void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
+        boundingBox.center,
+        boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+        paint,
+      );
 
   void _drawCornerCircles(Canvas canvas, Paint paint) {
     final radius = boundingBox.boundingBoxCornerRadius;
@@ -103,11 +109,5 @@ class ShapesTool extends Tool {
         boundingBox.center,
         boundingBox.topLeftBottomRightDiagonal / 2,
         GraphicFactory.circumferencePaint,
-      );
-
-  void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
-        boundingBox.center,
-        boundingBox.getPaddedRadius(padding: paint.strokeWidth),
-        paint,
       );
 }

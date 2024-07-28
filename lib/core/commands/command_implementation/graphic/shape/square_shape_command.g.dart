@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rectangle_shape_command.dart';
+part of 'square_shape_command.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RectangleShapeCommand _$RectangleShapeCommandFromJson(
-        Map<String, dynamic> json) =>
-    RectangleShapeCommand(
+SquareShapeCommand _$SquareShapeCommandFromJson(Map<String, dynamic> json) =>
+    SquareShapeCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
       const OffsetConverter().fromJson(json['topLeft'] as Map<String, dynamic>),
       const OffsetConverter()
@@ -18,11 +17,10 @@ RectangleShapeCommand _$RectangleShapeCommandFromJson(
       const OffsetConverter()
           .fromJson(json['bottomRight'] as Map<String, dynamic>),
       version: (json['version'] as num?)?.toInt(),
-      type: json['type'] as String? ?? SerializerType.RECTANGLE_SHAPE_COMMAND,
+      type: json['type'] as String? ?? SerializerType.SQUARE_SHAPE_COMMAND,
     );
 
-Map<String, dynamic> _$RectangleShapeCommandToJson(
-        RectangleShapeCommand instance) =>
+Map<String, dynamic> _$SquareShapeCommandToJson(SquareShapeCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
       'topLeft': const OffsetConverter().toJson(instance.topLeft),

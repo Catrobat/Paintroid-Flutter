@@ -5,7 +5,7 @@ import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
@@ -55,7 +55,7 @@ class DummyCommandFactory {
     return commandFactory.createLineCommand(path, paint, startPoint, endPoint);
   }
 
-  static RectangleShapeCommand createRectangleShapeCommand(
+  static SquareShapeCommand createSquareShapeCommand(
     Paint paint,
     Offset topLeft,
     Offset topRight,
@@ -64,9 +64,9 @@ class DummyCommandFactory {
     int version = Version.v1,
   }) {
     VersionStrategyManager.setStrategy(
-      DummyVersionStrategy(rectangleShapeCommandVersion: version),
+      DummyVersionStrategy(squareShapeCommandVersion: version),
     );
-    return commandFactory.createRectangleShapeCommand(
+    return commandFactory.createSquareShapeCommand(
       paint,
       topLeft,
       topRight,

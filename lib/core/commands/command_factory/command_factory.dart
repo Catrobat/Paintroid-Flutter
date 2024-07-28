@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class CommandFactory {
@@ -23,14 +23,14 @@ class CommandFactory {
   ) =>
       LineCommand(path, paint, startPoint, endPoint);
 
-  RectangleShapeCommand createRectangleShapeCommand(
+  SquareShapeCommand createSquareShapeCommand(
     Paint paint,
     Offset topLeft,
     Offset topRight,
     Offset bottomLeft,
     Offset bottomRight,
   ) =>
-      RectangleShapeCommand(paint, topLeft, topRight, bottomLeft, bottomRight);
+      SquareShapeCommand(paint, topLeft, topRight, bottomLeft, bottomRight);
 
   CircleShapeCommand createCircleShapeCommand(
     Paint paint,
