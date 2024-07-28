@@ -1,6 +1,5 @@
 import 'dart:ui';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/rectangle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
@@ -38,34 +37,30 @@ class ShapesTool extends Tool {
 
   @override
   void onCheckmark(Paint paint) {
+    ShapeCommand command;
+    final paintWithStrokeJoinMiter = GraphicFactory.copyPaintWith(
+      original: paint,
+      strokeJoin: StrokeJoin.miter,
+    );
     switch (shapeType) {
       case ShapeType.rectangle:
-        commandManager.addGraphicCommand(
-          RectangleShapeCommand(
-            GraphicFactory.copyPaintWith(
-              original: paint,
-              strokeJoin: StrokeJoin.miter,
-            ),
-            boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
-            boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
-            boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
-            boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
-          ),
+        command = commandFactory.createRectangleShapeCommand(
+          paintWithStrokeJoinMiter,
+          boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
+          boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
+          boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
+          boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
         );
         break;
       case ShapeType.circle:
-        commandManager.addGraphicCommand(
-          CircleShapeCommand(
-            GraphicFactory.copyPaintWith(
-              original: paint,
-              strokeJoin: StrokeJoin.miter,
-            ),
-            boundingBox.getPaddedRadius(padding: paint.strokeWidth),
-            boundingBox.center,
-          ),
+        command = commandFactory.createCircleShapeCommand(
+          paintWithStrokeJoinMiter,
+          boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+          boundingBox.center,
         );
         break;
     }
+    commandManager.addGraphicCommand(command);
     commandManager.clearRedoStack();
   }
 
