@@ -10,7 +10,7 @@ import 'shape_command_test.mocks.dart';
 void main() {
   Paint testPaint = Paint();
   late MockCanvas mockCanvas;
-  
+
   final rectangleShapeCommand = RectangleShapeCommand(
     testPaint,
     const Offset(0, 0),
@@ -25,14 +25,14 @@ void main() {
 
   setUp(() => mockCanvas = MockCanvas());
 
-  test('RectangleShapeCommand: Should call drawPath path and paint', () {
+  test('RectangleShapeCommand: should call drawPath path', () {
     when(mockCanvas.drawPath(any, testPaint)).thenReturn(null);
     rectangleShapeCommand.call(mockCanvas);
     verify(mockCanvas.drawPath(any, testPaint));
     verifyNoMoreInteractions(mockCanvas);
   });
 
-  test('CircleShapeCommand: Should call drawOval with rect and paint', () {
+  test('CircleShapeCommand: should call drawCircle with radius, center', () {
     when(mockCanvas.drawCircle(any, any, testPaint)).thenReturn(null);
     circleShapeCommand.call(mockCanvas);
     verify(mockCanvas.drawCircle(any, any, testPaint));
