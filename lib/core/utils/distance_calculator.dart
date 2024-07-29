@@ -1,4 +1,3 @@
-// Dart imports:
 import 'dart:math';
 
 class DistanceCalculator {

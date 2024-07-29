@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import '../utils/dummy_paint_factory.dart';

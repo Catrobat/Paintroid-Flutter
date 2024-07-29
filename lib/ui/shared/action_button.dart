@@ -1,5 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
 class ActionButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -23,8 +23,9 @@ class ActionButton extends StatelessWidget {
         key: ValueKey(valueKey),
         icon: Icon(icon),
         onPressed: onPressed,
-        disabledColor: Theme.of(context).colorScheme.surface.withOpacity(0.4),
-        color: Theme.of(context).colorScheme.surface,
+        disabledColor:
+            PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.4),
+        color: PaintroidTheme.of(context).onSurfaceColor,
       ),
     );
   }

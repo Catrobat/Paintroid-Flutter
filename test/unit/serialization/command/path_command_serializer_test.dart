@@ -1,12 +1,8 @@
-// Flutter imports:
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';

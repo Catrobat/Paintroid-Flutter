@@ -1,4 +1,3 @@
-// Package imports:
 import 'package:logging/logging.dart';
 
 mixin LoggableMixin {

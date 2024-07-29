@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 
-// Project imports:
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/models/database/project.dart';
@@ -90,7 +87,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   }
 
   void _enterFullscreen() =>
-      ref.read(WorkspaceState.provider.notifier).toggleFullscreen(true);
+      ref.read(workspaceStateProvider.notifier).toggleFullscreen(true);
 
   Future<bool> _showOverwriteDialog() async {
     return await showOverwriteDialog(context) ?? false;

@@ -1,13 +1,10 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/tool_option.dart';
 

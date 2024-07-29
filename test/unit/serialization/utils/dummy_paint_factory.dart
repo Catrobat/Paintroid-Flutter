@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 class DummyPaintFactory {

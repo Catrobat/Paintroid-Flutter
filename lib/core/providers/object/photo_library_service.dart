@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';

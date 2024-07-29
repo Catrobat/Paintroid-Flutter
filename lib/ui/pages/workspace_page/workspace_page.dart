@@ -1,15 +1,12 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:toast/toast.dart';
 
-// Project imports:
 import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar.dart';
@@ -41,10 +38,10 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     ToastContext().init(context);
 
     final isFullscreen = ref.watch(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
     );
     ref.listen<bool>(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
       (_, isFullscreen) => _toggleStatusBar(isFullscreen),
     );
     final ioHandler = ref.watch(IOHandler.provider);

@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
 class DarkPaintroidThemeData extends PaintroidThemeData {

@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'toolbox_state_provider.dart';
+part of 'canvas_painter_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolBoxStateProviderHash() =>
-    r'71e5a9430e6566dbaa397b9c632b993bb5a1552d';
+String _$canvasPainterProviderHash() =>
+    r'dee0580b6e68f1babfa1853fff0ef6a2764aff8f';
 
-/// See also [ToolBoxStateProvider].
-@ProviderFor(ToolBoxStateProvider)
-final toolBoxStateProvider = AutoDisposeNotifierProvider<ToolBoxStateProvider,
-    ToolBoxStateData>.internal(
-  ToolBoxStateProvider.new,
-  name: r'toolBoxStateProvider',
+/// See also [CanvasPainterProvider].
+@ProviderFor(CanvasPainterProvider)
+final canvasPainterProvider = AutoDisposeNotifierProvider<CanvasPainterProvider,
+    CanvasPainterProvider>.internal(
+  CanvasPainterProvider.new,
+  name: r'canvasPainterProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$toolBoxStateProviderHash,
+      : _$canvasPainterProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ToolBoxStateProvider = AutoDisposeNotifier<ToolBoxStateData>;
+typedef _$CanvasPainterProvider = AutoDisposeNotifier<CanvasPainterProvider>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

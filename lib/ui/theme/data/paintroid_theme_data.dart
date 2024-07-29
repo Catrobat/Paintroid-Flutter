@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
-// Project imports:
 
 abstract class PaintroidThemeData {
   ThemeData get materialThemeData;

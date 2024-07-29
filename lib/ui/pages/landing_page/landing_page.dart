@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:toast/toast.dart';
 
-// Project imports:
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
@@ -69,13 +66,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
   }
 
   Future<void> _openProject(
       Project? project, IOHandler ioHandler, WidgetRef ref) async {
     if (project != null) {
-      ref.read(WorkspaceState.provider.notifier).performIOTask(() async {
+      ref.read(workspaceStateProvider.notifier).performIOTask(() async {
         await ref.read(IDeviceService.sizeProvider.future);
         bool loaded = await _loadProject(ioHandler, project);
         if (loaded) _navigateToPocketPaint();

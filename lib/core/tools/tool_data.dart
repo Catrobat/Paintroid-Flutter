@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 
 class ToolData {

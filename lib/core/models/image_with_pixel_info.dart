@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';

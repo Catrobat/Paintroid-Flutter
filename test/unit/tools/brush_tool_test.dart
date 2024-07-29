@@ -1,10 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
@@ -19,9 +16,10 @@ void main() {
   const Offset pointA = Offset(0, 0);
   const Offset pointB = Offset(200, 200);
 
+  Paint paint = Paint();
+
   setUp(() {
     sut = BrushTool(
-      paint: Paint(),
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
@@ -32,23 +30,23 @@ void main() {
   group('On tap down event', () {
     test('Should create one PathCommand with a new Path', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
-      sut.onDown(pointA);
+      sut.onDown(pointA, paint);
       expect(sut.commandManager.undoStack.first is PathCommand, true);
     });
 
     test('After tap up a new PathCommand is created', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
-      sut.onDown(pointA);
-      sut.onUp(pointA);
+      sut.onDown(pointA, paint);
+      sut.onUp(pointA, paint);
       expect(sut.commandManager.undoStack.length, 1);
-      sut.onDown(pointB);
-      sut.onUp(pointB);
+      sut.onDown(pointB, paint);
+      sut.onUp(pointB, paint);
       expect(sut.commandManager.undoStack.length, 2);
     });
 
     test('On tap down adds MoveToAction', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
-      sut.onDown(pointA);
+      sut.onDown(pointA, paint);
       final firstAction = (sut.commandManager.undoStack.first as PathCommand)
           .path
           .actions
@@ -58,8 +56,8 @@ void main() {
 
     test('On drag adds LineToAction', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
-      sut.onDown(pointA);
-      sut.onDrag(pointB);
+      sut.onDown(pointA, paint);
+      sut.onDrag(pointB, paint);
       final lastAction =
           (sut.commandManager.undoStack.first as PathCommand).path.actions.last;
       expect(lastAction is LineToAction, true);
@@ -67,8 +65,8 @@ void main() {
 
     test('On tap up closes the path', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
-      sut.onDown(pointA);
-      sut.onUp(pointA);
+      sut.onDown(pointA, paint);
+      sut.onUp(pointA, paint);
       final lastAction =
           (sut.commandManager.undoStack.first as PathCommand).path.actions.last;
       expect(lastAction is CloseAction, true);

@@ -24,7 +24,7 @@ our [developers page](http://developer.catrobat.org/).
 3. Run app: `make run`
 
 Alternatively `make all` can be used to:
-> `flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr; `sort`
+> `flutter clean` &rarr; `flutter pub get` &rarr; `build_runner build` &rarr;
 > &rarr; `flutter run`
 
 ## Building generated files
@@ -37,12 +37,27 @@ Alternatively `make all` can be used to:
     - all: `make test`
     - unit: `make unit`
     - widget: `make widget`
+    - integration: `make integration`
 
 **For integration tests:**
 
+Run the integration tests **without device**:
+
+1. Run `make integration` to run all integration tests
+2. Run `make integration target=name_test` to run a specific integration test file
+   example: `make integration target=line_tool`
+3. Run `make integration target=name_test id=n` to run a specific test in a file
+   example: `make integration target=line_tool id=1`
+   (make sure to add the `test` suffix to the test file name)
+
+Run the integration tests **with device**:
+
 1. Make sure you have an iOS/Android device online by running `flutter devices`
-2. Run `make integration` to run all integration tests
-   Run `make integration target=name_test` to run a specific integration test file
+2. Run `make integration-drive` to run all integration tests
+3. Run `make integration-drive target=name_test` to run a specific integration test file
+   example: `make integration-drive target=line_tool`
+4. Run `make integration-drive target=name_test id=x` to run a specific test in a file
+   example: `make integration-drive target=line_tool id=1`
    (make sure to add the `test` suffix to the file name)
 
 ## Issues
