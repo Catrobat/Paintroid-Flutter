@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Project imports:
+import 'package:paintroid/core/commands/command_implementation/add_text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -122,6 +123,8 @@ class CommandManager implements ICommandManager {
     ///TODO implement for all tools after implementing unique commands
     if (command.runtimeType == LineCommand) {
       return ToolData.LINE;
+    } else if (command.runtimeType == AddTextCommand) {
+      return ToolData.TEXT;
     } else {
       return ToolData.BRUSH;
     }

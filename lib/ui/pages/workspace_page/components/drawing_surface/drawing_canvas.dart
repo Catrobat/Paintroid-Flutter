@@ -148,24 +148,6 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
                     loading: (_) => Container(),
                   ),
             ),
-            if (selectedTool is TextTool && selectedTool.isEditing)
-              Positioned(
-                left: selectedTool.currentPosition?.dx ?? 0,
-                top: selectedTool.currentPosition?.dy ?? 0,
-                child: Draggable(
-                  feedback: Material(
-                    color: Colors.transparent,
-                    child: buildTextInput(),
-                  ),
-                  childWhenDragging: Container(),
-                  onDraggableCanceled: (_, offset) {
-                    final canvasOffset = _globalToCanvas(offset);
-                    selectedTool.onDrag(canvasOffset);
-                    setState(() {});
-                  },
-                  child: buildTextInput(),
-                ),
-              ),
           ],
         ),
       ),

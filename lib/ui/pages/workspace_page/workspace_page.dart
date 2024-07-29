@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
+import 'package:paintroid/core/tools/tool.dart';
 import 'package:toast/toast.dart';
 
 // Project imports:
@@ -31,6 +34,8 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     );
   }
 
+  final textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
@@ -44,6 +49,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     );
     final ioHandler = ref.watch(IOHandler.provider);
     final workspaceStateNotifier = ref.watch(WorkspaceState.provider.notifier);
+    final selectedTool = ref.watch(toolBoxStateProvider).currentTool;
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
@@ -81,9 +87,57 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
               )
             else
               const ToolOptions(),
+            if (selectedTool is TextTool && selectedTool.isEditing)
+              Positioned(
+                left: selectedTool.currentPosition?.dx ?? 0,
+                top: selectedTool.currentPosition?.dy ?? 0,
+                child: Draggable(
+                  feedback: Material(
+                    color: Colors.transparent,
+                    child: buildTextInput(),
+                  ),
+                  childWhenDragging: Container(),
+                  onDraggableCanceled: (_, offset) {
+                    selectedTool.onDrag(offset);
+                    setState(() {});
+                  },
+                  child: buildTextInput(),
+                ),
+              ),
           ],
         ),
         bottomNavigationBar: isFullscreen ? null : const BottomNavBar(),
+      ),
+    );
+  }
+
+  Widget buildTextInput() {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      width: 100,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(5),
+        // color: Colors.white,
+      ),
+      child: TextField(
+        controller: textController,
+        autofocus: true,
+        decoration: const InputDecoration(
+          hintText: 'Enter text',
+          border: InputBorder.none,
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        onChanged: (value) {
+          Tool currentTool = ref.read(toolBoxStateProvider).currentTool;
+          currentTool is TextTool ? currentTool.currentText = value : null;
+        },
+        style: const TextStyle(
+          color: Colors.black,
+        ),
       ),
     );
   }

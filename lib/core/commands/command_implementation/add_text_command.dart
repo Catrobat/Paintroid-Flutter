@@ -16,7 +16,7 @@ class AddTextCommand extends GraphicCommand with EquatableMixin {
         text: text,
         style: TextStyle(
           color: paint.color,
-          fontSize: paint.strokeWidth,
+          fontSize: 72,
         ),
       ),
       textDirection: TextDirection.ltr,

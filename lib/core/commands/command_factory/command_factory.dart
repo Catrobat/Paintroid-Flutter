@@ -32,12 +32,4 @@ class CommandFactory {
     Paint paint,
   ) =>
       AddTextCommand(point, text, paint);
-
-
-  FinalizeTextCommand createFinalizeTextCommand(
-    Offset point,
-    String text,
-    Paint paint,
-  ) =>
-      FinalizeTextCommand(point, text, paint);
 }

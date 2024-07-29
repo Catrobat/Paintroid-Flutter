@@ -31,7 +31,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all(
+            foregroundColor: MaterialStateProperty.all(
               CustomColors.oceanBlue,
             ),
           ),

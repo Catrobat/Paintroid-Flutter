@@ -1,15 +1,16 @@
-import 'package:paintroid/core/providers/state/canvas_state_data.dart';
+import 'package:paintroid/core/commands/command_factory/command_factory.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'dart:ui';
 
 class TextTool extends Tool {
-  final CanvasStateData stateData;
   TextTool({
     required super.paint,
     required super.commandManager,
     required super.commandFactory,
-    required this.stateData,
+    required this.graphicFactory,
   }) : super(
           type: ToolType.TEXT,
           hasAddFunctionality: true,
@@ -19,6 +20,7 @@ class TextTool extends Tool {
   String? currentText;
   Offset? currentPosition;
   bool isEditing = false;
+  final GraphicFactory graphicFactory;
 
   @override
   void onDown(Offset point) {
@@ -34,6 +36,7 @@ class TextTool extends Tool {
   void onDrag(Offset point) {
     if (isEditing) {
       currentPosition = point;
+      print('currentPosition: $currentPosition');
     }
   }
 
@@ -49,14 +52,13 @@ class TextTool extends Tool {
 
   @override
   void onCheckmark() {
-    final state = stateData;
     if (currentText != null && currentPosition != null) {
+      print('currentText: $currentText' + 'currentPosition: $currentPosition');
       final command = commandFactory.createAddTextCommand(
           currentPosition!, currentText!, paint);
       commandManager.addGraphicCommand(command);
-      commandManager.executeLastCommand(state.graphicFactory
-          .createCanvasWithRecorder(
-              state.graphicFactory.createPictureRecorder()));
+      commandManager.executeLastCommand(graphicFactory
+          .createCanvasWithRecorder(graphicFactory.createPictureRecorder()));
       currentText = null;
       currentPosition = null;
       isEditing = false;
@@ -65,17 +67,35 @@ class TextTool extends Tool {
 
   @override
   void onPlus() {
-    final state = stateData;
     if (currentText != null && currentPosition != null) {
       final command = commandFactory.createFinalizeTextCommand(
           currentPosition!, currentText!, paint);
       commandManager.addGraphicCommand(command);
-      commandManager.executeLastCommand(state.graphicFactory
-          .createCanvasWithRecorder(
-              state.graphicFactory.createPictureRecorder()));
+      commandManager.executeLastCommand(graphicFactory
+          .createCanvasWithRecorder(graphicFactory.createPictureRecorder()));
       currentText = null;
       currentPosition = null;
       isEditing = false;
     }
+  }
+
+  TextTool copyWith({
+    Paint? paint,
+    CommandManager? commandManager,
+    CommandFactory? commandFactory,
+    GraphicFactory? graphicFactory,
+    String? currentText,
+    Offset? currentPosition,
+    bool? isEditing,
+  }) {
+    return TextTool(
+      paint: paint ?? this.paint,
+      commandManager: commandManager ?? this.commandManager,
+      commandFactory: commandFactory ?? this.commandFactory,
+      graphicFactory: graphicFactory ?? this.graphicFactory,
+    )
+      ..currentText = currentText ?? this.currentText
+      ..currentPosition = currentPosition ?? this.currentPosition
+      ..isEditing = isEditing ?? this.isEditing;
   }
 }
