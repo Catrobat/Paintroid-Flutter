@@ -51,7 +51,9 @@ class _ShapesToolShapeTypeOptionsState
                         },
                       ),
                       CustomActionChip(
-                        key: WidgetIdentifier.circleShapeTypeChip,
+                        key: const ValueKey(
+                          WidgetIdentifier.circleShapeTypeChip,
+                        ),
                         hint: 'Circle',
                         chipBackgroundColor:
                             shapesTool.shapeType == ShapeType.circle
