@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/widgets.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
@@ -38,24 +40,22 @@ class ShapesTool extends Tool {
   @override
   void onCheckmark(Paint paint) {
     ShapeCommand command;
-    final paintWithStrokeJoinMiter = GraphicFactory.copyPaintWith(
-      original: paint,
-      strokeJoin: StrokeJoin.miter,
-    );
+    final padding = _calculatePaddingAdjustedForStrokeWidth(paint.strokeWidth);
     switch (shapeType) {
       case ShapeType.square:
         command = commandFactory.createSquareShapeCommand(
-          paintWithStrokeJoinMiter,
-          boundingBox.getPaddedTopLeft(padding: paint.strokeWidth),
-          boundingBox.getPaddedTopRight(padding: paint.strokeWidth),
-          boundingBox.getPaddedBottomLeft(padding: paint.strokeWidth),
-          boundingBox.getPaddedBottomRight(padding: paint.strokeWidth),
+          paint,
+          boundingBox.getPaddedTopLeft(padding: padding),
+          boundingBox.getPaddedTopRight(padding: padding),
+          boundingBox.getPaddedBottomLeft(padding: padding),
+          boundingBox.getPaddedBottomRight(padding: padding),
         );
         break;
       case ShapeType.circle:
+        final radius = boundingBox.innerRadius - padding;
         command = commandFactory.createCircleShapeCommand(
-          paintWithStrokeJoinMiter,
-          boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+          paint,
+          radius,
           boundingBox.center,
         );
         break;
@@ -73,41 +73,49 @@ class ShapesTool extends Tool {
   @override
   void onUndo() => commandManager.undo();
 
-  void drawGuides(Canvas canvas) {
-    drawSquare(canvas, GraphicFactory.boundingBoxPaint, isBoundingBox: true);
-    if (isRotating) {
-      _drawCircumscribingCircle(canvas);
+  void drawShape(Canvas canvas, Paint paint) {
+    final padding = _calculatePaddingAdjustedForStrokeWidth(paint.strokeWidth);
+    switch (shapeType) {
+      case ShapeType.square:
+        canvas.drawPath(boundingBox.getPath(padding: padding), paint);
+        break;
+      case ShapeType.circle:
+        final radius = boundingBox.innerRadius - padding;
+        canvas.drawCircle(boundingBox.center, radius, paint);
+        break;
     }
-    _drawCornerCircles(canvas, GraphicFactory.anchorPointPaint);
   }
 
-  void drawSquare(Canvas canvas, Paint paint, {bool isBoundingBox = false}) {
-    canvas.drawPath(
-      boundingBox.getPath(padding: isBoundingBox ? 0 : paint.strokeWidth),
-      GraphicFactory.copyPaintWith(
-        original: paint,
-        strokeJoin: StrokeJoin.miter,
-      ),
-    );
-  }
+  void drawGuides(Canvas canvas) => this
+    .._drawGuideBox(canvas)
+    .._drawGuideCircle(canvas)
+    .._drawAnchorCircles(canvas);
 
-  void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
+  void _drawGuideBox(Canvas canvas) =>
+      canvas.drawPath(boundingBox.getPath(), GraphicFactory.guidePaint);
+
+  void _drawGuideCircle(Canvas canvas) {
+    if (isRotating) {
+      canvas.drawCircle(
         boundingBox.center,
-        boundingBox.getPaddedRadius(padding: paint.strokeWidth),
-        paint,
+        boundingBox.outerRadius,
+        GraphicFactory.guidePaint,
       );
+    }
+  }
 
-  void _drawCornerCircles(Canvas canvas, Paint paint) {
-    final radius = boundingBox.boundingBoxCornerRadius;
+  void _drawAnchorCircles(Canvas canvas) {
+    final radius = boundingBox.anchorRadius;
+    final paint = GraphicFactory.anchorPaint;
     canvas.drawCircle(boundingBox.topLeft, radius, paint);
     canvas.drawCircle(boundingBox.topRight, radius, paint);
     canvas.drawCircle(boundingBox.bottomLeft, radius, paint);
     canvas.drawCircle(boundingBox.bottomRight, radius, paint);
   }
 
-  void _drawCircumscribingCircle(Canvas canvas) => canvas.drawCircle(
-        boundingBox.center,
-        boundingBox.topLeftBottomRightDiagonal / 2,
-        GraphicFactory.circumferencePaint,
-      );
+  double _calculatePaddingAdjustedForStrokeWidth(double strokeWidth) =>
+      switch (shapeType) {
+        ShapeType.square => strokeWidth * sqrt2 / 2,
+        ShapeType.circle => strokeWidth / 2
+      };
 }

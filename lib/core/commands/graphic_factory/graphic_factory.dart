@@ -7,18 +7,13 @@ class GraphicFactory {
 
   Paint createPaint() => Paint();
 
-  static Paint boundingBoxPaint = Paint()
+  static Paint guidePaint = Paint()
     ..color = const Color.fromARGB(121, 55, 55, 55)
     ..style = PaintingStyle.stroke
     ..strokeWidth = 10;
 
-  static Paint circumferencePaint = Paint()
-    ..color = const Color.fromARGB(121, 55, 55, 55)
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 10;
-
-  static Paint anchorPointPaint = Paint()
-    ..color = const Color.fromARGB(121, 117, 117, 117)
+  static Paint anchorPaint = Paint()
+    ..color = const Color.fromARGB(220, 117, 117, 117)
     ..style = PaintingStyle.fill;
 
   PathWithActionHistory createPathWithActionHistory() =>

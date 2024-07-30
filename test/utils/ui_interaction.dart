@@ -58,8 +58,7 @@ class UIInteraction {
         Color bottom,
       )> getCircleShapeColors() async {
     final padding = getCurrentPaint().strokeWidth;
-    final radius =
-        getShapesTool().boundingBox.getPaddedRadius(padding: padding);
+    final radius = getShapesTool().boundingBox.innerRadius - padding;
     final center = getShapesTool().boundingBox.center;
 
     final left = center.translate(-radius, 0);
@@ -140,8 +139,7 @@ class UIInteraction {
   }
 
   static double get boundingBoxPadding =>
-      getCurrentPaint().strokeWidth +
-      GraphicFactory.boundingBoxPaint.strokeWidth;
+      getCurrentPaint().strokeWidth + GraphicFactory.guidePaint.strokeWidth;
 
   static Color getCurrentColor() => getCurrentPaint().color;
 

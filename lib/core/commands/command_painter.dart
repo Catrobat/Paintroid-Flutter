@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
-import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -29,8 +28,9 @@ class CommandPainter extends CustomPainter {
         _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
         break;
       case ToolType.SHAPES:
-        _drawShapeAndGuides(canvas, currentTool as ShapesTool);
-
+        (currentTool as ShapesTool)
+          ..drawShape(canvas, ref.read(paintProvider))
+          ..drawGuides(canvas);
         break;
       default:
         commandManager.executeLastCommand(canvas);
@@ -47,21 +47,6 @@ class CommandPainter extends CustomPainter {
       lineTool.ingoingGhostPathCommand,
       lineTool.outgoingGhostPathCommand,
     );
-    commandManager.drawLineToolVertices(
-      canvas,
-      lineTool.vertexStack,
-    );
-  }
-
-  void _drawShapeAndGuides(Canvas canvas, ShapesTool shapesTool) {
-    switch (shapesTool.shapeType) {
-      case ShapeType.square:
-        shapesTool.drawSquare(canvas, ref.read(paintProvider));
-        break;
-      case ShapeType.circle:
-        shapesTool.drawCircle(canvas, ref.read(paintProvider));
-        break;
-    }
-    shapesTool.drawGuides(canvas);
+    commandManager.drawLineToolVertices(canvas, lineTool.vertexStack);
   }
 }

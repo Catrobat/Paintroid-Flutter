@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/bounding_box_corners.dart';
 import 'package:paintroid/core/extensions/offset_extension.dart';
+import 'package:paintroid/core/extensions/path_extension.dart';
 import 'package:paintroid/core/utils/constants.dart';
 
 class BoundingBox {
@@ -10,9 +11,10 @@ class BoundingBox {
   Offset topRight;
   Offset bottomLeft;
   Offset bottomRight;
+  Offset lastPoint = Offset.zero;
 
-  double boundingBoxCornerRadius = 30;
-  double padding = GraphicFactory.boundingBoxPaint.strokeWidth;
+  final anchorRadius = 30.0;
+  final padding = GraphicFactory.guidePaint.strokeWidth * 2;
   BoundingBoxCorner activeCorner = BoundingBoxCorner.none;
 
   BoundingBox(this.topLeft, this.topRight, this.bottomLeft, this.bottomRight);
@@ -41,6 +43,10 @@ class BoundingBox {
 
   double get bottomRightDirection => (bottomRight - center).direction;
 
+  double get outerRadius => (topLeftBottomRightDiagonal / 2);
+
+  double get innerRadius => distanceToEdgeFromCenter - padding;
+
   double get activeCornerDirection {
     switch (activeCorner) {
       case BoundingBoxCorner.topLeft:
@@ -57,33 +63,31 @@ class BoundingBox {
   }
 
   void setActiveCorner(Offset point, {bool isRotating = false}) {
-    if (point.isWithinRadius(topLeft, boundingBoxCornerRadius)) {
+    if (point.isWithinRadius(topLeft, anchorRadius)) {
       activeCorner = BoundingBoxCorner.topLeft;
-    } else if (point.isWithinRadius(topRight, boundingBoxCornerRadius)) {
+    } else if (point.isWithinRadius(topRight, anchorRadius)) {
       activeCorner = BoundingBoxCorner.topRight;
-    } else if (point.isWithinRadius(bottomLeft, boundingBoxCornerRadius)) {
+    } else if (point.isWithinRadius(bottomLeft, anchorRadius)) {
       activeCorner = BoundingBoxCorner.bottomLeft;
-    } else if (point.isWithinRadius(bottomRight, boundingBoxCornerRadius)) {
+    } else if (point.isWithinRadius(bottomRight, anchorRadius)) {
       activeCorner = BoundingBoxCorner.bottomRight;
     } else {
-      if (isRotating) {
-        moveCenter(point);
-      } else {
-        update(point);
-      }
+      activeCorner = BoundingBoxCorner.none;
     }
+    lastPoint = point;
   }
 
   void resetActiveCorner() => activeCorner = BoundingBoxCorner.none;
 
   void update(Offset point, {bool isRotating = false}) {
     if (activeCorner == BoundingBoxCorner.none) {
-      moveCenter(point);
+      moveCenter(center + point - lastPoint);
     } else if (isRotating) {
       rotate(point);
     } else {
       transform(point);
     }
+    lastPoint = point;
   }
 
   void updateCorners(
@@ -192,9 +196,6 @@ class BoundingBox {
     updateCorners(topLeft, topRight, bottomLeft, bottomRight, offset: offset);
   }
 
-  double getPaddedRadius({double padding = 0}) =>
-      distanceToEdgeFromCenter - padding - this.padding;
-
   Offset getPaddedOffset(Offset point, {double padding = 0}) {
     padding += padding > 0 ? this.padding : 0;
     return point.moveTowards(towards: center, distance: -padding);
@@ -212,16 +213,10 @@ class BoundingBox {
   Offset getPaddedBottomRight({double padding = 0}) =>
       getPaddedOffset(bottomRight, padding: padding);
 
-  Path getPath({double padding = 0}) {
-    final topLeft = getPaddedTopLeft(padding: padding);
-    final topRight = getPaddedTopRight(padding: padding);
-    final bottomLeft = getPaddedBottomLeft(padding: padding);
-    final bottomRight = getPaddedBottomRight(padding: padding);
-    return Path()
-      ..moveTo(topLeft.dx, topLeft.dy)
-      ..lineTo(topRight.dx, topRight.dy)
-      ..lineTo(bottomRight.dx, bottomRight.dy)
-      ..lineTo(bottomLeft.dx, bottomLeft.dy)
-      ..close();
-  }
+  Path getPath({double padding = 0}) => Path()
+    ..moveToOffset(getPaddedTopLeft(padding: padding))
+    ..lineToOffset(getPaddedTopRight(padding: padding))
+    ..lineToOffset(getPaddedBottomRight(padding: padding))
+    ..lineToOffset(getPaddedBottomLeft(padding: padding))
+    ..close();
 }
