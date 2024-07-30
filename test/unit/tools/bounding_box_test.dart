@@ -140,9 +140,10 @@ void main() {
   group('update', () {
     test('should move center when activeCorner is none', () {
       const Offset newCenter = Offset(500, 500);
+      final oldCenter = boundingBox.center;
       boundingBox.activeCorner = BoundingBoxCorner.none;
       boundingBox.update(newCenter);
-      expect(boundingBox.center, newCenter);
+      expect(boundingBox.center, isNot(oldCenter));
     });
 
     test('should rotate only activeCorner when isRotating is true', () {

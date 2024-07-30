@@ -5,6 +5,7 @@ import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
@@ -50,7 +51,7 @@ class _ShapesToolShapeTypeOptionsState
                         },
                       ),
                       CustomActionChip(
-                        key: const ValueKey('circle_shape_type_chip'),
+                        key: WidgetIdentifier.circleShapeTypeChip,
                         hint: 'Circle',
                         chipBackgroundColor:
                             shapesTool.shapeType == ShapeType.circle
