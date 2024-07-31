@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
@@ -70,6 +71,12 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         state = state.copyWith(
           currentTool: ref.read(lineToolProvider),
           currentToolType: ToolType.LINE,
+        );
+        break;
+      case ToolType.TEXT:
+        state = state.copyWith(
+          currentTool: ref.read(textToolProvider),
+          currentToolType: ToolType.TEXT,
         );
         break;
       default:

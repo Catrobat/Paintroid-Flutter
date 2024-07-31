@@ -1,47 +1,47 @@
-import 'package:paintroid/core/commands/command_factory/command_factory.dart';
-import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/tools/text_tool/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
-import 'package:paintroid/core/enums/tool_types.dart';
-import 'dart:ui';
 
 class TextTool extends Tool {
+  bool isRotating;
+  BoundingBox boundingBox;
+
   TextTool({
-    required super.paint,
     required super.commandManager,
     required super.commandFactory,
     required this.graphicFactory,
-  }) : super(
-          type: ToolType.TEXT,
-          hasAddFunctionality: true,
-          hasFinalizeFunctionality: true,
-        );
+    required super.type,
+    required this.boundingBox,
+    super.hasAddFunctionality = false,
+    super.hasFinalizeFunctionality = true,
+    this.isRotating = false,
+  });
 
   String? currentText;
   Offset? currentPosition;
   bool isEditing = false;
   final GraphicFactory graphicFactory;
+  Paint paint = Paint();
 
   @override
-  void onDown(Offset point) {
+  void onDown(Offset point, Paint paint) {
+    paint = paint;
+    boundingBox.setActiveCorner(point, isRotating: isRotating);
+    isEditing = true;
+  }
+
+  @override
+  void onDrag(Offset point, Paint paint) {
     if (isEditing) {
-      //
-    } else {
-      currentPosition = point;
-      isEditing = true;
+      boundingBox.update(point, isRotating: isRotating);
     }
   }
 
   @override
-  void onDrag(Offset point) {
-    if (isEditing) {
-      currentPosition = point;
-      print('currentPosition: $currentPosition');
-    }
+  void onUp(Offset point, Paint paint) {
+    boundingBox.resetActiveCorner();
   }
-
-  @override
-  void onUp(Offset point) {}
 
   @override
   void onCancel() {
@@ -51,14 +51,26 @@ class TextTool extends Tool {
   }
 
   @override
-  void onCheckmark() {
-    if (currentText != null && currentPosition != null) {
-      print('currentText: $currentText' + 'currentPosition: $currentPosition');
+  void onCheckmark(Paint paint) {
+    if (currentText != null) {
+      final textOffset = boundingBox.center;
+
+      final rectangleHeight =
+          (boundingBox.bottomLeft.dy - boundingBox.topLeft.dy).abs();
+
+      final textStyle = TextStyle(
+        color: paint.color,
+        fontSize: rectangleHeight / 2,
+      );
+
       final command = commandFactory.createAddTextCommand(
-          currentPosition!, currentText!, paint);
+        textOffset,
+        currentText!,
+        textStyle,
+        paint,
+      );
       commandManager.addGraphicCommand(command);
-      commandManager.executeLastCommand(graphicFactory
-          .createCanvasWithRecorder(graphicFactory.createPictureRecorder()));
+      commandManager.clearRedoStack();
       currentText = null;
       currentPosition = null;
       isEditing = false;
@@ -66,33 +78,79 @@ class TextTool extends Tool {
   }
 
   @override
-  void onPlus() {
-    if (currentText != null && currentPosition != null) {
-      final command = commandFactory.createFinalizeTextCommand(
-          currentPosition!, currentText!, paint);
-      commandManager.addGraphicCommand(command);
-      commandManager.executeLastCommand(graphicFactory
-          .createCanvasWithRecorder(graphicFactory.createPictureRecorder()));
-      currentText = null;
-      currentPosition = null;
-      isEditing = false;
-    }
+  void onPlus() {}
+
+  @override
+  void onRedo() {}
+
+  @override
+  void onUndo() {}
+
+  void drawGuides(Canvas canvas) {
+    drawRectangle(canvas, GraphicFactory.boundingBoxPaint, isBoundingBox: true);
+    _drawCornerCircles(canvas, GraphicFactory.anchorPointPaint);
+
+    final rectangleHeight =
+        (boundingBox.bottomLeft.dy - boundingBox.topLeft.dy).abs();
+
+    final textStyle = TextStyle(
+      color: paint.color,
+      fontSize: rectangleHeight / 2,
+    );
+
+    final textPainter = TextPainter(
+      text: TextSpan(text: currentText, style: textStyle),
+      textDirection: TextDirection.ltr,
+    );
+
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: boundingBox.topRight.dx - boundingBox.topLeft.dx,
+    );
+
+    final textOffset = boundingBox.center -
+        Offset(textPainter.width / 2, textPainter.height / 2);
+    textPainter.paint(canvas, textOffset);
+  }
+
+  void drawRectangle(Canvas canvas, Paint paint, {bool isBoundingBox = false}) {
+    canvas.drawPath(
+      boundingBox.getPath(padding: isBoundingBox ? 0 : paint.strokeWidth),
+      GraphicFactory.copyPaintWith(
+        original: paint,
+        strokeJoin: StrokeJoin.miter,
+      ),
+    );
+  }
+
+  void drawCircle(Canvas canvas, Paint paint) => canvas.drawCircle(
+        boundingBox.center,
+        boundingBox.getPaddedRadius(padding: paint.strokeWidth),
+        paint,
+      );
+
+  void _drawCornerCircles(Canvas canvas, Paint paint) {
+    final radius = boundingBox.boundingBoxCornerRadius;
+    canvas.drawCircle(boundingBox.topLeft, radius, paint);
+    canvas.drawCircle(boundingBox.topRight, radius, paint);
+    canvas.drawCircle(boundingBox.bottomLeft, radius, paint);
+    canvas.drawCircle(boundingBox.bottomRight, radius, paint);
   }
 
   TextTool copyWith({
-    Paint? paint,
-    CommandManager? commandManager,
-    CommandFactory? commandFactory,
-    GraphicFactory? graphicFactory,
     String? currentText,
     Offset? currentPosition,
     bool? isEditing,
   }) {
     return TextTool(
-      paint: paint ?? this.paint,
-      commandManager: commandManager ?? this.commandManager,
-      commandFactory: commandFactory ?? this.commandFactory,
-      graphicFactory: graphicFactory ?? this.graphicFactory,
+      commandManager: commandManager,
+      commandFactory: commandFactory,
+      graphicFactory: graphicFactory,
+      type: type,
+      boundingBox: boundingBox,
+      isRotating: isRotating,
+      hasAddFunctionality: hasAddFunctionality,
+      hasFinalizeFunctionality: hasFinalizeFunctionality,
     )
       ..currentText = currentText ?? this.currentText
       ..currentPosition = currentPosition ?? this.currentPosition

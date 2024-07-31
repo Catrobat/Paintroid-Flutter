@@ -6,7 +6,6 @@ import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
-import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
 
 class DrawingCanvas extends ConsumerStatefulWidget {
@@ -118,7 +117,6 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
-    final selectedTool = ref.watch(toolBoxStateProvider).currentTool;
     return Listener(
       onPointerDown: _onPointerDown,
       onPointerUp: _onPointerUp,
@@ -147,39 +145,6 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
                   ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTextInput() {
-    return Container(
-      padding: const EdgeInsets.all(2),
-      width: 100,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-        borderRadius: BorderRadius.circular(5),
-        // color: Colors.white,
-      ),
-      child: TextField(
-        controller: textController,
-        autofocus: true,
-        decoration: const InputDecoration(
-          hintText: 'Enter text',
-          border: InputBorder.none,
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        onChanged: (value) {
-          ref.read(toolBoxStateProvider).currentTool is TextTool
-              ? (ref.read(toolBoxStateProvider).currentTool as TextTool)
-                  .currentText = value
-              : null;
-        },
-        style: const TextStyle(
-          color: Colors.black,
         ),
       ),
     );

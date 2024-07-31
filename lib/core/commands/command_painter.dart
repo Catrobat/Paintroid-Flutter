@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class CommandPainter extends CustomPainter {
-  CommandPainter(this.commandManager, this.tool);
+  Tool currentTool;
+  CommandManager commandManager;
+  CommandPainter(this.ref)
+      : currentTool = ref.read(toolBoxStateProvider).currentTool,
+        commandManager = ref.read(commandManagerProvider);
 
-  final CommandManager commandManager;
-  final Tool tool;
+  final WidgetRef ref;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    switch (tool.type) {
+    if (currentTool.type != ToolType.SHAPES) {
+      canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    }
+    switch (currentTool.type) {
       case ToolType.LINE:
-        _drawGhostPathsAndVertices(canvas);
+        _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
         break;
+      case ToolType.TEXT:
+        (currentTool as TextTool).drawGuides(canvas);
       default:
         commandManager.executeLastCommand(canvas);
         break;
     }
   }
 
-  void _drawGhostPathsAndVertices(Canvas canvas) {
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+
+  void _drawGhostPathsAndVertices(Canvas canvas, LineTool lineTool) {
     commandManager.drawLineToolGhostPaths(
       canvas,
-      (tool as LineTool).ingoingGhostPathCommand,
-      (tool as LineTool).outgoingGhostPathCommand,
+      lineTool.ingoingGhostPathCommand,
+      lineTool.outgoingGhostPathCommand,
     );
     commandManager.drawLineToolVertices(
       canvas,
-      (tool as LineTool).vertexStack,
+      lineTool.vertexStack,
     );
   }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

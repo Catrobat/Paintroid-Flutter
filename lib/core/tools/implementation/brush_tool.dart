@@ -48,7 +48,7 @@ class BrushTool extends Tool {
   }
 
   @override
-  void onCheckmark() {}
+  void onCheckmark(Paint paint) {}
 
   @override
   void onPlus() {}

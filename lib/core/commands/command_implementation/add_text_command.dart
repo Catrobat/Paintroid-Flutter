@@ -6,23 +6,26 @@ import 'package:equatable/equatable.dart';
 class AddTextCommand extends GraphicCommand with EquatableMixin {
   final Offset point;
   final String text;
+  final TextStyle style;
 
-  AddTextCommand(this.point, this.text, Paint paint) : super(paint);
+  AddTextCommand(
+    this.point,
+    this.text,
+    this.style,
+    Paint paint,
+  ) : super(paint);
 
   @override
   void call(Canvas canvas) {
-    TextPainter textPainter = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: TextStyle(
-          color: paint.color,
-          fontSize: 72,
-        ),
-      ),
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
     );
-    textPainter.layout();
-    textPainter.paint(canvas, point);
+
+    textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+    final textOffset =
+        point - Offset(textPainter.width / 2, textPainter.height / 2);
+    textPainter.paint(canvas, textOffset);
   }
 
   void undo(Canvas canvas) {

@@ -74,7 +74,7 @@ class LineTool extends Tool with EquatableMixin {
   }
 
   @override
-  void onCheckmark() {
+  void onCheckmark(Paint paint) {
     resetLineToolData();
   }
 

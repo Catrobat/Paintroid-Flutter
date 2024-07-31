@@ -27,7 +27,7 @@ abstract class Tool {
 
   void onCancel();
 
-  void onCheckmark();
+  void onCheckmark(Paint paint);
 
   void onPlus();
 
