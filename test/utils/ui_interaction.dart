@@ -57,7 +57,7 @@ class UIInteraction {
         Color top,
         Color bottom,
       )> getCircleShapeColors() async {
-    final padding = getCurrentPaint().strokeWidth;
+    final padding = getCurrentPaint().strokeWidth / 2;
     final radius = getShapesTool().boundingBox.innerRadius - padding;
     final center = getShapesTool().boundingBox.center;
 
