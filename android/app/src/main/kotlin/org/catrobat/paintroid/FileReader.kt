@@ -84,6 +84,13 @@ import org.catrobat.paintroid.command.serialization.GeometricFillCommandSerializ
 import org.catrobat.paintroid.command.implementation.ClipboardCommand
 import org.catrobat.paintroid.command.serialization.ClipboardCommandSerializer
 
+
+import org.catrobat.paintroid.command.serialization.SerializableTypeface
+
+
+import org.catrobat.paintroid.command.implementation.PointCommand
+import org.catrobat.paintroid.command.serialization.PointCommandSerializer
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -162,9 +169,9 @@ class FileReader(private val context : Context)
           put(ShapeDrawable::class.java, null)
           put(RectF::class.java, DataStructuresSerializer.RectFSerializer(version))
           put(ClipboardCommand::class.java, ClipboardCommandSerializer(version))
-         /* put(SerializableTypeface::class.java, SerializableTypeface.TypefaceSerializer(version))
+          put(SerializableTypeface::class.java, SerializableTypeface.TypefaceSerializer(version))
           put(PointCommand::class.java, PointCommandSerializer(version))
-          put(SerializablePath.Cube::class.java, SerializablePath.PathActionCubeSerializer(version))
+          /*put(SerializablePath.Cube::class.java, SerializablePath.PathActionCubeSerializer(version))
           put(Bitmap::class.java, BitmapSerializer(version))
           put(SmudgePathCommand::class.java, SmudgePathCommandSerializer(version))
           put(ColorHistory::class.java, ColorHistorySerializer(version))
