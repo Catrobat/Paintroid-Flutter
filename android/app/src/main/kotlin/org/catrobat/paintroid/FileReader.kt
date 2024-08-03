@@ -27,6 +27,9 @@ import org.catrobat.paintroid.command.serialization.AddLayerCommandSerializer
 import org.catrobat.paintroid.command.implementation.SelectLayerCommand
 import org.catrobat.paintroid.command.serialization.SelectLayerCommandSerializer
 
+import org.catrobat.paintroid.command.implementation.LoadCommand
+import org.catrobat.paintroid.command.serialization.LoadCommandSerializer
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -69,8 +72,8 @@ class FileReader(private val context : Context)
           put(Paint::class.java, PaintSerializer(version, activityContext)) // maybe will cause a crash ?  activityContext is lateinnit
           put(AddEmptyLayerCommand::class.java, AddLayerCommandSerializer(version))
           put(SelectLayerCommand::class.java, SelectLayerCommandSerializer(version))
-         /* put(LoadCommand::class.java, LoadCommandSerializer(version))
-          put(TextToolCommand::class.java, TextToolCommandSerializer(version, activityContext))
+          put(LoadCommand::class.java, LoadCommandSerializer(version))
+         /* put(TextToolCommand::class.java, TextToolCommandSerializer(version, activityContext))
           put(Array<String>::class.java, DataStructuresSerializer.StringArraySerializer(version))
           put(FillCommand::class.java, FillCommandSerializer(version))
           put(FlipCommand::class.java, FlipCommandSerializer(version))
