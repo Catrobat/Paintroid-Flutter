@@ -42,6 +42,25 @@ import org.catrobat.paintroid.command.serialization.FlipCommandSerializer
 import org.catrobat.paintroid.command.implementation.CropCommand
 import org.catrobat.paintroid.command.serialization.CropCommandSerializer
 
+import org.catrobat.paintroid.command.implementation.CutCommand
+import org.catrobat.paintroid.command.serialization.CutCommandSerializer
+
+
+
+import org.catrobat.paintroid.command.implementation.ResizeCommand
+import org.catrobat.paintroid.command.serialization.ResizeCommandSerializer
+
+import org.catrobat.paintroid.command.implementation.RotateCommand
+import org.catrobat.paintroid.command.serialization.RotateCommandSerializer
+import org.catrobat.paintroid.command.implementation.ResetCommand
+import org.catrobat.paintroid.command.serialization.ResetCommandSerializer
+
+
+import org.catrobat.paintroid.command.implementation.ReorderLayersCommand
+import org.catrobat.paintroid.command.serialization.ReorderLayersCommandSerializer
+
+
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -90,12 +109,12 @@ class FileReader(private val context : Context)
           put(FillCommand::class.java, FillCommandSerializer(version))
           put(FlipCommand::class.java, FlipCommandSerializer(version))
           put(CropCommand::class.java, CropCommandSerializer(version))
-      /*    put(CutCommand::class.java, CutCommandSerializer(version))
+          put(CutCommand::class.java, CutCommandSerializer(version))
           put(ResizeCommand::class.java, ResizeCommandSerializer(version))
           put(RotateCommand::class.java, RotateCommandSerializer(version))
           put(ResetCommand::class.java, ResetCommandSerializer(version))
           put(ReorderLayersCommand::class.java, ReorderLayersCommandSerializer(version))
-          put(RemoveLayerCommand::class.java, RemoveLayerCommandSerializer(version))
+         /* put(RemoveLayerCommand::class.java, RemoveLayerCommandSerializer(version))
           put(MergeLayersCommand::class.java, MergeLayersCommandSerializer(version))
           put(PathCommand::class.java, PathCommandSerializer(version))
           put(SerializablePath::class.java, SerializablePath.PathSerializer(version))
