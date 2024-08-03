@@ -33,6 +33,9 @@ import org.catrobat.paintroid.command.serialization.LoadCommandSerializer
 import org.catrobat.paintroid.command.implementation.TextToolCommand
 import org.catrobat.paintroid.command.serialization.TextToolCommandSerializer
 
+import org.catrobat.paintroid.command.implementation.FillCommand
+import org.catrobat.paintroid.command.serialization.FillCommandSerializer
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -77,10 +80,10 @@ class FileReader(private val context : Context)
           put(SelectLayerCommand::class.java, SelectLayerCommandSerializer(version))
           put(LoadCommand::class.java, LoadCommandSerializer(version))
           put(TextToolCommand::class.java, TextToolCommandSerializer(version, activityContext))
-         /* put(Array<String>::class.java, DataStructuresSerializer.StringArraySerializer(version))
+          put(Array<String>::class.java, DataStructuresSerializer.StringArraySerializer(version))
           put(FillCommand::class.java, FillCommandSerializer(version))
-          put(FlipCommand::class.java, FlipCommandSerializer(version))
-          put(CropCommand::class.java, CropCommandSerializer(version))
+        //  put(FlipCommand::class.java, FlipCommandSerializer(version))
+      /*    put(CropCommand::class.java, CropCommandSerializer(version))
           put(CutCommand::class.java, CutCommandSerializer(version))
           put(ResizeCommand::class.java, ResizeCommandSerializer(version))
           put(RotateCommand::class.java, RotateCommandSerializer(version))
