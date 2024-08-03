@@ -98,6 +98,20 @@ import org.catrobat.paintroid.command.serialization.BitmapSerializer
 import org.catrobat.paintroid.command.implementation.SmudgePathCommand
 import org.catrobat.paintroid.command.serialization.SmudgePathCommandSerializer
 
+
+//import org.catrobat.paintroid.command.implementation.SmudgePathCommand
+import org.catrobat.paintroid.colorpicker.ColorHistory
+import org.catrobat.paintroid.command.serialization.ColorHistorySerializer
+
+
+
+import org.catrobat.paintroid.command.implementation.ClippingCommand
+import org.catrobat.paintroid.command.serialization.ClippingCommandSerializer
+
+
+import org.catrobat.paintroid.command.implementation.LayerOpacityCommand
+import org.catrobat.paintroid.command.serialization.LayerOpacityCommandSerializer
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -182,9 +196,9 @@ class FileReader(private val context : Context)
           put(Bitmap::class.java, BitmapSerializer(version))
           put(SmudgePathCommand::class.java, SmudgePathCommandSerializer(version))
           put(ColorHistory::class.java, ColorHistorySerializer(version))
-       /*   put(ClippingCommand::class.java, ClippingCommandSerializer(version))
+          put(ClippingCommand::class.java, ClippingCommandSerializer(version))
           put(LayerOpacityCommand::class.java, LayerOpacityCommandSerializer(version))
-      */}
+      }
   }
 
 
