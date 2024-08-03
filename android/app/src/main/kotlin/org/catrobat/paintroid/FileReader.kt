@@ -62,6 +62,14 @@ import org.catrobat.paintroid.command.serialization.ReorderLayersCommandSerializ
 import org.catrobat.paintroid.command.implementation.RemoveLayerCommand
 import org.catrobat.paintroid.command.serialization.RemoveLayerCommandSerializer
 
+
+
+import org.catrobat.paintroid.command.implementation.MergeLayersCommand
+import org.catrobat.paintroid.command.serialization.MergeLayersCommandSerializer
+
+import org.catrobat.paintroid.command.implementation.PathCommand
+import org.catrobat.paintroid.command.serialization.PathCommandSerializer
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -116,9 +124,9 @@ class FileReader(private val context : Context)
           put(ResetCommand::class.java, ResetCommandSerializer(version))
           put(ReorderLayersCommand::class.java, ReorderLayersCommandSerializer(version))
           put(RemoveLayerCommand::class.java, RemoveLayerCommandSerializer(version))
-          /*put(MergeLayersCommand::class.java, MergeLayersCommandSerializer(version))
+          put(MergeLayersCommand::class.java, MergeLayersCommandSerializer(version))
           put(PathCommand::class.java, PathCommandSerializer(version))
-          put(SerializablePath::class.java, SerializablePath.PathSerializer(version))
+          /*put(SerializablePath::class.java, SerializablePath.PathSerializer(version))
           put(SerializablePath.Move::class.java, SerializablePath.PathActionMoveSerializer(version))
           put(SerializablePath.Line::class.java, SerializablePath.PathActionLineSerializer(version))
           put(SerializablePath.Quad::class.java, SerializablePath.PathActionQuadSerializer(version))
