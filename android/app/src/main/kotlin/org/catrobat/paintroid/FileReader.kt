@@ -141,7 +141,7 @@ class FileReader(private val context : Context)
     }
     init {
         setRegisterMapVersion(CURRENT_IMAGE_VERSION)
-      //  registerClasses()
+        registerClasses()
     }
   /*  fun readFromFile(uri: String): CatrobatFileContent{
         var commandModel: CommandManagerModel
@@ -200,7 +200,14 @@ class FileReader(private val context : Context)
           put(LayerOpacityCommand::class.java, LayerOpacityCommandSerializer(version))
       }
   }
-
+    private fun registerClasses() {
+        registerMap.forEach { (classRegister, serializer) ->
+            val registration = kryo.register(classRegister)
+            serializer?.let {
+                registration.serializer = serializer
+            }
+        }
+    }
 
 
 }
