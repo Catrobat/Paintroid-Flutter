@@ -70,6 +70,17 @@ import org.catrobat.paintroid.command.serialization.MergeLayersCommandSerializer
 import org.catrobat.paintroid.command.implementation.PathCommand
 import org.catrobat.paintroid.command.serialization.PathCommandSerializer
 
+
+import org.catrobat.paintroid.command.serialization.SerializablePath
+
+import org.catrobat.paintroid.command.implementation.LoadLayerListCommand
+import org.catrobat.paintroid.command.serialization.LoadLayerListCommandSerializer
+
+
+import org.catrobat.paintroid.command.implementation.GeometricFillCommand
+import org.catrobat.paintroid.command.serialization.GeometricFillCommandSerializer
+
+
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.PointF
@@ -79,6 +90,14 @@ import android.graphics.Bitmap
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+
+
+import org.catrobat.paintroid.tools.drawable.HeartDrawable
+import org.catrobat.paintroid.tools.drawable.OvalDrawable
+import org.catrobat.paintroid.tools.drawable.RectangleDrawable
+import org.catrobat.paintroid.tools.drawable.ShapeDrawable
+import org.catrobat.paintroid.tools.drawable.StarDrawable
+
 
 class FileReader(private val context : Context)
 {
@@ -126,7 +145,7 @@ class FileReader(private val context : Context)
           put(RemoveLayerCommand::class.java, RemoveLayerCommandSerializer(version))
           put(MergeLayersCommand::class.java, MergeLayersCommandSerializer(version))
           put(PathCommand::class.java, PathCommandSerializer(version))
-          /*put(SerializablePath::class.java, SerializablePath.PathSerializer(version))
+          put(SerializablePath::class.java, SerializablePath.PathSerializer(version))
           put(SerializablePath.Move::class.java, SerializablePath.PathActionMoveSerializer(version))
           put(SerializablePath.Line::class.java, SerializablePath.PathActionLineSerializer(version))
           put(SerializablePath.Quad::class.java, SerializablePath.PathActionQuadSerializer(version))
@@ -138,7 +157,7 @@ class FileReader(private val context : Context)
           put(RectangleDrawable::class.java, GeometricFillCommandSerializer.RectangleDrawableSerializer(version))
           put(StarDrawable::class.java, GeometricFillCommandSerializer.StarDrawableSerializer(version))
           put(ShapeDrawable::class.java, null)
-          put(RectF::class.java, DataStructuresSerializer.RectFSerializer(version))
+         /* put(RectF::class.java, DataStructuresSerializer.RectFSerializer(version))
           put(ClipboardCommand::class.java, ClipboardCommandSerializer(version))
           put(SerializableTypeface::class.java, SerializableTypeface.TypefaceSerializer(version))
           put(PointCommand::class.java, PointCommandSerializer(version))
