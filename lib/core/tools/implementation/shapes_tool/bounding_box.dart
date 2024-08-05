@@ -13,8 +13,8 @@ class BoundingBox {
   Offset bottomRight;
   Offset lastPoint = Offset.zero;
 
-  final anchorRadius = 30.0;
-  final padding = GraphicFactory.guidePaint.strokeWidth * 2;
+  final anchorRadius = 40.0;
+  final padding = GraphicFactory.guidePaint.strokeWidth * 4;
   BoundingBoxCorner activeCorner = BoundingBoxCorner.none;
 
   BoundingBox(this.topLeft, this.topRight, this.bottomLeft, this.bottomRight);
