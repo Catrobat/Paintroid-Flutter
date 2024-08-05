@@ -1,1 +1,3 @@
-const double HALF_PI = 1.5707963267948966;
+import 'dart:math';
+
+const double HALF_PI = pi / 2;
