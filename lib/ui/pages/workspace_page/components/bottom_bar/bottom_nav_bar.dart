@@ -57,7 +57,7 @@ class BottomNavBar extends ConsumerWidget {
 
   ToolData getCurrentToolData(WidgetRef ref) {
     final ToolType currentToolType = ref.watch(
-      toolBoxStateProvider.select((value) => value.currentToolType),
+      toolBoxStateProvider.select((value) => value.currentTool.type),
     );
 
     final currentToolData = ToolData.allToolsData.firstWhere(

@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ToolBoxStateData {
   Tool get currentTool => throw _privateConstructorUsedError;
-  ToolType get currentToolType => throw _privateConstructorUsedError;
   bool get isDown => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +30,7 @@ abstract class $ToolBoxStateDataCopyWith<$Res> {
           ToolBoxStateData value, $Res Function(ToolBoxStateData) then) =
       _$ToolBoxStateDataCopyWithImpl<$Res, ToolBoxStateData>;
   @useResult
-  $Res call({Tool currentTool, ToolType currentToolType, bool isDown});
+  $Res call({Tool currentTool, bool isDown});
 }
 
 /// @nodoc
@@ -48,7 +47,6 @@ class _$ToolBoxStateDataCopyWithImpl<$Res, $Val extends ToolBoxStateData>
   @override
   $Res call({
     Object? currentTool = null,
-    Object? currentToolType = null,
     Object? isDown = null,
   }) {
     return _then(_value.copyWith(
@@ -56,10 +54,6 @@ class _$ToolBoxStateDataCopyWithImpl<$Res, $Val extends ToolBoxStateData>
           ? _value.currentTool
           : currentTool // ignore: cast_nullable_to_non_nullable
               as Tool,
-      currentToolType: null == currentToolType
-          ? _value.currentToolType
-          : currentToolType // ignore: cast_nullable_to_non_nullable
-              as ToolType,
       isDown: null == isDown
           ? _value.isDown
           : isDown // ignore: cast_nullable_to_non_nullable
@@ -76,7 +70,7 @@ abstract class _$$ToolBoxStateDataImplCopyWith<$Res>
       __$$ToolBoxStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Tool currentTool, ToolType currentToolType, bool isDown});
+  $Res call({Tool currentTool, bool isDown});
 }
 
 /// @nodoc
@@ -91,7 +85,6 @@ class __$$ToolBoxStateDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentTool = null,
-    Object? currentToolType = null,
     Object? isDown = null,
   }) {
     return _then(_$ToolBoxStateDataImpl(
@@ -99,10 +92,6 @@ class __$$ToolBoxStateDataImplCopyWithImpl<$Res>
           ? _value.currentTool
           : currentTool // ignore: cast_nullable_to_non_nullable
               as Tool,
-      currentToolType: null == currentToolType
-          ? _value.currentToolType
-          : currentToolType // ignore: cast_nullable_to_non_nullable
-              as ToolType,
       isDown: null == isDown
           ? _value.isDown
           : isDown // ignore: cast_nullable_to_non_nullable
@@ -115,20 +104,16 @@ class __$$ToolBoxStateDataImplCopyWithImpl<$Res>
 
 class _$ToolBoxStateDataImpl implements _ToolBoxStateData {
   const _$ToolBoxStateDataImpl(
-      {required this.currentTool,
-      required this.currentToolType,
-      required this.isDown});
+      {required this.currentTool, required this.isDown});
 
   @override
   final Tool currentTool;
-  @override
-  final ToolType currentToolType;
   @override
   final bool isDown;
 
   @override
   String toString() {
-    return 'ToolBoxStateData(currentTool: $currentTool, currentToolType: $currentToolType, isDown: $isDown)';
+    return 'ToolBoxStateData(currentTool: $currentTool, isDown: $isDown)';
   }
 
   @override
@@ -138,14 +123,11 @@ class _$ToolBoxStateDataImpl implements _ToolBoxStateData {
             other is _$ToolBoxStateDataImpl &&
             (identical(other.currentTool, currentTool) ||
                 other.currentTool == currentTool) &&
-            (identical(other.currentToolType, currentToolType) ||
-                other.currentToolType == currentToolType) &&
             (identical(other.isDown, isDown) || other.isDown == isDown));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, currentTool, currentToolType, isDown);
+  int get hashCode => Object.hash(runtimeType, currentTool, isDown);
 
   @JsonKey(ignore: true)
   @override
@@ -158,13 +140,10 @@ class _$ToolBoxStateDataImpl implements _ToolBoxStateData {
 abstract class _ToolBoxStateData implements ToolBoxStateData {
   const factory _ToolBoxStateData(
       {required final Tool currentTool,
-      required final ToolType currentToolType,
       required final bool isDown}) = _$ToolBoxStateDataImpl;
 
   @override
   Tool get currentTool;
-  @override
-  ToolType get currentToolType;
   @override
   bool get isDown;
   @override

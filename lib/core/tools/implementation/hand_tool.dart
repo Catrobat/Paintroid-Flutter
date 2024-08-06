@@ -24,7 +24,7 @@ class HandTool extends Tool {
   void onCancel() {}
 
   @override
-  void onCheckmark() {}
+  void onCheckmark(Paint paint) {}
 
   @override
   void onPlus() {}
