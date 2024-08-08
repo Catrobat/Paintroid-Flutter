@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:paintroid/core/utils/failure.dart';
 
 class SaveImageFailure extends Failure {

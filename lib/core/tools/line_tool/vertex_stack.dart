@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:collection';
 
-// Project imports:
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 
 class VertexStack extends Iterable<Vertex> {
@@ -22,6 +20,10 @@ class VertexStack extends Iterable<Vertex> {
 
   void clear() {
     _stack.clear();
+  }
+
+  void removeLast() {
+    _stack.removeLast();
   }
 
   Vertex? getPredecessor(Vertex vertex) {

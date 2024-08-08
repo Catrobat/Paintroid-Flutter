@@ -1,12 +1,11 @@
-// Project imports:
-
-// Project imports:
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 abstract class IVersionStrategy {
   int getCatrobatImageVersion();
   int getPathCommandVersion();
   int getLineCommandVersion();
+  int getSquareShapeCommandVersion();
+  int getCircleShapeCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -18,6 +17,14 @@ class ProductionVersionStrategy implements IVersionStrategy {
 
   @override
   int getLineCommandVersion() => SerializerVersion.LINE_COMMAND_VERSION;
+
+  @override
+  int getSquareShapeCommandVersion() =>
+      SerializerVersion.SQUARE_SHAPE_COMMAND_VERSION;
+
+  @override
+  int getCircleShapeCommandVersion() =>
+      SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

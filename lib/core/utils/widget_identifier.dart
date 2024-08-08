@@ -1,4 +1,5 @@
 class WidgetIdentifier {
-  static const String canvasPainter = 'CanvasPainter';
-  static const String newImageActionButton = 'NewImageActionButton';
+  static const canvasPainter = 'CanvasPainter';
+  static const newImageActionButton = 'NewImageActionButton';
+  static const circleShapeTypeChip = 'CircleShapeTypeChip';
 }

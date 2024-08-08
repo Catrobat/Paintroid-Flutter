@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorpicker/colorpicker.dart';
 
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
@@ -72,7 +69,7 @@ class BottomNavBar extends ConsumerWidget {
 
   ToolData getCurrentToolData(WidgetRef ref) {
     final ToolType currentToolType = ref.watch(
-      toolBoxStateProvider.select((value) => value.currentToolType),
+      toolBoxStateProvider.select((value) => value.currentTool.type),
     );
 
     final currentToolData = ToolData.allToolsData.firstWhere(

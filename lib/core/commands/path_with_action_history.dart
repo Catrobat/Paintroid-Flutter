@@ -1,10 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:collection/collection.dart';
 
-// Project imports:
 import 'package:paintroid/core/json_serialization/converter/path_action_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 

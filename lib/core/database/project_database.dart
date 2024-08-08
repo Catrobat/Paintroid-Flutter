@@ -1,12 +1,9 @@
-// Dart imports:
 import 'dart:async';
 
-// Package imports:
 import 'package:floor/floor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-// Project imports:
 import 'package:paintroid/core/database/project_dao.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/utils/date_time_converter.dart';

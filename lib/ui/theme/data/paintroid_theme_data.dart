@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/theme/theme.dart';
 
-// Project imports:
 
 abstract class PaintroidThemeData {
   ThemeData get materialThemeData;
@@ -22,43 +19,76 @@ abstract class PaintroidThemeData {
   double inputDecorationBorderRadius = Spacing.medium;
 
   Color get primaryColor;
+
   Color get onPrimaryColor;
+
   Color get primaryContainerColor;
+
   Color get onPrimaryContainerColor;
+
   Color get secondaryColor;
+
   Color get onSecondaryColor;
+
   Color get secondaryContainerColor;
+
   Color get onSecondaryContainerColor;
+
   Color get tertiaryColor;
+
   Color get onTertiaryColor;
+
   Color get tertiaryContainerColor;
+
   Color get onTertiaryContainerColor;
+
   Color get errorColor;
+
   Color get orangeColor;
+
   Color get errorContainerColor;
+
   Color get onErrorColor;
+
   Color get onErrorContainerColor;
+
   Color get backgroundColor;
+
   Color get onBackgroundColor;
+
   Color get surfaceColor;
+
   Color get onSurfaceColor;
+
   Color get surfaceVariantColor;
+
   Color get onSurfaceVariantColor;
+
   Color get outlineColor;
+
   Color get onInverseSurfaceColor;
+
   Color get inverseSurfaceColor;
+
   Color get inversePrimaryColor;
+
   Color get shadowColor;
+
   Color get surfaceTintColor;
   Color get transparentColor;
 
   Color get scaffoldBackgroundColor;
+
   Color get textFieldorderColor;
+
   MaterialColor get fabBackgroundColor;
+
   MaterialColor get fabForegroundColor;
 
   TextStyle get titleStyle;
+
   TextStyle get descStyle;
+
   TextStyle get hintStyle;
 
   TextTheme get titleTheme => TextTheme(
@@ -132,12 +162,12 @@ abstract class PaintroidThemeData {
   NavigationBarThemeData bottomNavBarThemeData = NavigationBarThemeData(
     indicatorColor: Colors.transparent,
     backgroundColor: CustomColors.oceanBlue,
-    labelTextStyle: MaterialStateProperty.all(
+    labelTextStyle: WidgetStateProperty.all(
       const TextStyle(
         color: CustomColors.pureWhite,
       ),
     ),
-    iconTheme: MaterialStateProperty.all(
+    iconTheme: WidgetStateProperty.all(
       const IconThemeData(
         color: CustomColors.pureWhite,
       ),
@@ -146,7 +176,7 @@ abstract class PaintroidThemeData {
 }
 
 extension OutlinedBorderExtensions on OutlinedBorder {
-  MaterialStateProperty<OutlinedBorder> materialize() {
-    return MaterialStateProperty.all<OutlinedBorder>(this);
+  WidgetStateProperty<OutlinedBorder> materialize() {
+    return WidgetStateProperty.all<OutlinedBorder>(this);
   }
 }

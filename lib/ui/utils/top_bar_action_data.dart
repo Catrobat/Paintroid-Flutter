@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:flutter/material.dart';
 
 class TopBarActionData {
@@ -18,5 +17,15 @@ class TopBarActionData {
   static const PLUS = TopBarActionData._(
     'PlusButton',
     Icons.add,
+  );
+
+  static const UNDO = TopBarActionData._(
+    'UndoButton',
+    Icons.undo,
+  );
+
+  static const REDO = TopBarActionData._(
+    'RedoButton',
+    Icons.redo,
   );
 }

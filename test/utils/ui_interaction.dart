@@ -1,13 +1,16 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-// Project imports:
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/tool.dart';
 
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
@@ -17,6 +20,59 @@ class UIInteraction {
 
   static void initialize(WidgetTester widgetTester) {
     tester = widgetTester;
+  }
+
+  static Future<
+      (
+        Color topLeft,
+        Color topRight,
+        Color bottomLeft,
+        Color bottomRight,
+      )> getSquareShapeColors() async {
+    final padding = getCurrentPaint().strokeWidth;
+    final bounds =
+        getShapesTool().boundingBox.getPath(padding: padding).getBounds();
+
+    final topLeft = bounds.topLeft;
+    final topRight = bounds.topRight;
+    final bottomLeft = bounds.bottomLeft;
+    final bottomRight = bounds.bottomRight;
+
+    final topLeftPixel =
+        await getPixelColor(topLeft.dx.toInt(), topLeft.dy.toInt());
+    final topRightPixel =
+        await getPixelColor(topRight.dx.toInt(), topRight.dy.toInt());
+    final bottomLeftPixel =
+        await getPixelColor(bottomLeft.dx.toInt(), bottomLeft.dy.toInt());
+    final bottomRightPixel =
+        await getPixelColor(bottomRight.dx.toInt(), bottomRight.dy.toInt());
+
+    return (topLeftPixel, topRightPixel, bottomLeftPixel, bottomRightPixel);
+  }
+
+  static Future<
+      (
+        Color left,
+        Color right,
+        Color top,
+        Color bottom,
+      )> getCircleShapeColors() async {
+    final padding = getCurrentPaint().strokeWidth / 2;
+    final radius = getShapesTool().boundingBox.innerRadius - padding;
+    final center = getShapesTool().boundingBox.center;
+
+    final left = center.translate(-radius, 0);
+    final right = center.translate(radius, 0);
+    final top = center.translate(0, -radius);
+    final bottom = center.translate(0, radius);
+
+    final leftPixel = await getPixelColor(left.dx.toInt(), left.dy.toInt());
+    final rightPixel = await getPixelColor(right.dx.toInt(), right.dy.toInt());
+    final topPixel = await getPixelColor(top.dx.toInt(), top.dy.toInt());
+    final bottomPixel =
+        await getPixelColor(bottom.dx.toInt(), bottom.dy.toInt());
+
+    return (leftPixel, rightPixel, topPixel, bottomPixel);
   }
 
   static Future<Color> getPixelColor(int x, int y) async {
@@ -63,24 +119,40 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
+  static Tool getCurrentTool() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final toolBoxProvider = container.read(toolBoxStateProvider);
+    return toolBoxProvider.currentTool;
+  }
+
+  static ShapesTool getShapesTool() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    return container.read(shapesToolProvider);
+  }
+
   static Future<void> _initializeCanvasDimensions() async {
     final RenderBox canvasBox = tester.renderObject(WidgetFinder.canvas);
     await tester.pumpAndSettle();
     CanvasPosition.initializeCanvasDimensions(canvasBox);
   }
 
-  static Color getCurrentColor() {
+  static double get boundingBoxPadding =>
+      getCurrentPaint().strokeWidth + GraphicFactory.guidePaint.strokeWidth;
+
+  static Color getCurrentColor() => getCurrentPaint().color;
+
+  static Paint getCurrentPaint() {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    return toolBoxProvider.currentTool.paint.color;
+    return container.read(paintProvider);
   }
 
   static void setColor(Color color) {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
-    final toolBoxProvider = container.read(toolBoxStateProvider);
-    toolBoxProvider.currentTool.paint.color = color;
+    container.read(paintProvider.notifier).updateColor(color);
   }
 
   static Future<void> clickCheckmark() async {
@@ -93,6 +165,28 @@ class UIInteraction {
     expect(WidgetFinder.plusButton, findsOneWidget);
     await tester.tap(WidgetFinder.plusButton);
     await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickUndo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.undoButton);
+      await tester.pumpAndSettle();
+    }
+  }
+
+  static Future<void> selectCircleShapeTypeChip() async {
+    expect(WidgetFinder.circleShapeTypeChip, findsOneWidget);
+    await tester.tap(WidgetFinder.circleShapeTypeChip);
+    await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickRedo({int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      expect(WidgetFinder.redoButton, findsOneWidget);
+      await tester.tap(WidgetFinder.redoButton);
+      await tester.pumpAndSettle();
+    }
   }
 
   static Future<void> dragFromTo(Offset from, Offset to) async {
@@ -109,5 +203,10 @@ class UIInteraction {
   static Future<void> tapAt(Offset position) async {
     await tester.tapAt(position);
     await tester.pumpAndSettle();
+  }
+
+  static void expectVertexStackLength(int length) {
+    final tool = getCurrentTool();
+    expect((tool as LineTool).vertexStack.length, length);
   }
 }

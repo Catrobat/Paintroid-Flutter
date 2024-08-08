@@ -1,11 +1,8 @@
-// Dart imports:
 import 'dart:io';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
-// Project imports:
 import 'package:paintroid/core/models/catrobat_image.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/models/loggable_mixin.dart';

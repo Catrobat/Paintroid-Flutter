@@ -1,4 +1,3 @@
-// Project imports:
 import 'package:paintroid/core/localization/app_localizations.dart';
 
 class AppLocalizationsEn extends AppLocalizations {
