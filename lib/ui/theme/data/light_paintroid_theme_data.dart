@@ -141,6 +141,9 @@ class LightPaintroidThemeData extends PaintroidThemeData {
   Color get tertiaryContainerColor => CustomColors.deepAqua;
 
   @override
+  Color get transparentColor => CustomColors.transparentColor;
+
+  @override
   TextStyle get titleStyle => const TextStyle(
         color: CustomColors.pureWhite,
         fontSize: 24.0,

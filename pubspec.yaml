@@ -40,6 +40,8 @@ dependencies:
   file_picker: ^5.3.1
   floor: ^1.2.0
   sqflite: ^2.3.0
+  colorpicker:
+    path: packages/colorpicker
 
 dev_dependencies:
   flutter_test:

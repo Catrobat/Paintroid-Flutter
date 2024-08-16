@@ -62,7 +62,7 @@ void main() {
   });
 
   group('BottomNavBarItem.CURRENT_TOOL', () {
-    testWidgets('test if width tool-option is visible when starting app',
+    testWidgets('Test if width tool-option is visible when starting app',
         (WidgetTester tester) async {
       await tester.pumpWidget(sut);
 
@@ -76,7 +76,7 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
     });
 
-    testWidgets('test if width tool-option is invisible after clicking once',
+    testWidgets('Test if width tool-option is invisible after clicking once',
         (WidgetTester tester) async {
       await tester.pumpWidget(sut);
 
@@ -95,7 +95,7 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(INVISIBLE));
     });
 
-    testWidgets('test if width tool-option is visible after clicking twice',
+    testWidgets('Test if width tool-option is visible after clicking twice',
         (WidgetTester tester) async {
       await tester.pumpWidget(sut);
 
@@ -118,7 +118,7 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
     });
 
-    testWidgets('test if cap tool-option is visible when starting app',
+    testWidgets('Test if cap tool-option is visible when starting app',
         (WidgetTester tester) async {
       await tester.pumpWidget(sut);
 
@@ -131,25 +131,7 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
     });
 
-    testWidgets('test if cap tool-option is invisible after clicking once',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(sut);
-
-      final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeCapToolOption);
-
-      var animatedOpacityWidget =
-          tester.widget<AnimatedOpacity>(animatedOpacity);
-      expect(animatedOpacityWidget.opacity, equals(VISIBLE));
-
-      await bottomNavBarInteractions.clickCurrentTool();
-
-      animatedOpacityWidget = tester.widget<AnimatedOpacity>(animatedOpacity);
-      expect(animatedOpacityWidget.opacity, equals(INVISIBLE));
-    });
-
-    testWidgets('test if cap tool-option is visible after clicking twice',
+    testWidgets('Test if cap tool-option is invisible after clicking once',
         (WidgetTester tester) async {
       await tester.pumpWidget(sut);
 
@@ -165,11 +147,43 @@ void main() {
 
       animatedOpacityWidget = tester.widget<AnimatedOpacity>(animatedOpacity);
       expect(animatedOpacityWidget.opacity, equals(INVISIBLE));
+    });
+
+    testWidgets('Test if cap tool-option is visible after clicking twice',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(sut);
+
+      final bottomNavBarInteractions = BottomNavBarInteractions(tester);
+      final animatedOpacity = bottomNavBarInteractions
+          .getAnimatedOpacityFinder(StrokeCapToolOption);
+
+      var animatedOpacityWidget =
+          tester.widget<AnimatedOpacity>(animatedOpacity);
+      expect(animatedOpacityWidget.opacity, equals(VISIBLE));
+
+      await bottomNavBarInteractions.clickCurrentTool();
+
+      animatedOpacityWidget = tester.widget<AnimatedOpacity>(animatedOpacity);
+      expect(animatedOpacityWidget.opacity, equals(INVISIBLE));
 
       await bottomNavBarInteractions.clickCurrentTool();
 
       animatedOpacityWidget = tester.widget<AnimatedOpacity>(animatedOpacity);
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
+    });
+  });
+
+  group('BottomNavBarItem.COLOR', () {
+    testWidgets('Test if color changes on selection',
+        (WidgetTester tester) async {
+      const blueColor = Color(0xff0073cc);
+
+      await tester.pumpWidget(sut);
+
+      final bottomNavBarInteractions = BottomNavBarInteractions(tester);
+      await bottomNavBarInteractions
+          .selectColor(blueColor)
+          .then((_) => _.checkActiveColor(blueColor));
     });
   });
 }

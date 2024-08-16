@@ -6,6 +6,7 @@ import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/ui/pages/landing_page/components/image_preview.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
+import 'package:paintroid/ui/theme/theme.dart';
 
 class ProjectListTile extends StatelessWidget {
   final Project project;
@@ -31,7 +32,7 @@ class ProjectListTile extends StatelessWidget {
           project: project,
           imageService: imageService,
           width: 80,
-          color: Colors.white,
+          color: PaintroidTheme.of(context).onSurfaceColor,
         ),
         dense: false,
         title: Text(
