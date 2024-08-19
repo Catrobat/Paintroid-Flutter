@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/src/painting/text_style.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
