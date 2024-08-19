@@ -1,11 +1,7 @@
-// Dart imports:
 import 'dart:ui';
 
-// Package imports:
 import 'package:equatable/equatable.dart';
-// Flutter imports:
 import 'package:flutter/material.dart';
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -15,12 +11,13 @@ import 'package:paintroid/core/tools/tool.dart';
 
 class LineTool extends Tool with EquatableMixin {
   LineTool({
-    required super.paint,
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
     required this.drawingSurfaceSize,
     required super.type,
+    super.hasAddFunctionality = true,
+    super.hasFinalizeFunctionality = true,
   });
 
   final GraphicFactory graphicFactory;
@@ -41,36 +38,69 @@ class LineTool extends Tool with EquatableMixin {
   List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
   @override
-  void onDown(Offset point) {
+  void onDown(Offset point, Paint paint) {
     if (vertexWasClicked(point)) {
       return;
     }
 
     if (vertexStack.isEmpty) {
-      _createSourceAndDestinationCommandAndVertices(point);
+      _createSourceAndDestinationCommandAndVertices(point, paint);
       return;
     }
 
     if (addNewPath) {
-      _createDestinationCommandAndVertex(point);
+      _createDestinationCommandAndVertex(point, paint);
       addNewPath = false;
       return;
     }
   }
 
   @override
-  void onDrag(Offset point) {
-    _setGhostPaths(point);
+  void onDrag(Offset point, Paint paint) => _setGhostPaths(point);
+
+  @override
+  void onUp(Offset point, Paint paint) => _updateMovingVertices(point);
+
+  @override
+  void onCancel() {}
+
+  @override
+  void onPlus() => addNewPath = true;
+
+  @override
+  void onCheckmark(Paint paint) => resetLineToolData();
+
+  @override
+  void onRedo() {
+    final redoneCommand = commandManager.redo() as LineCommand;
+    if (redoneCommand.isSourcePath && vertexStack.isNotEmpty) {
+      resetLineToolData();
+    }
+    if (redoneCommand.isSourcePath) {
+      _createSourceAndDestinationVertices(
+        redoneCommand.startPoint,
+        redoneCommand.endPoint,
+        redoneCommand,
+      );
+    } else {
+      _createDestinationVertex(redoneCommand.endPoint, redoneCommand);
+    }
   }
 
   @override
-  void onUp(Offset point) {
-    _updateMovingVertices(point);
-  }
-
-  @override
-  void onCancel() {
-    reset();
+  void onUndo() {
+    if (vertexStack.isEmpty) {
+      _rebuildVertexStack();
+      return;
+    }
+    if (vertexStack.length == 2) {
+      commandManager.undo();
+      resetLineToolData();
+      return;
+    }
+    vertexStack.removeLast();
+    _setLastMovingAndPredecessorVertex();
+    commandManager.undo();
   }
 
   void _setGhostPaths(Offset point) {
@@ -110,7 +140,7 @@ class LineTool extends Tool with EquatableMixin {
       return;
     }
 
-    Paint paint = _copy(pathCommand.paint);
+    Paint paint = graphicFactory.copyPaint(pathCommand.paint);
     paint.color = paint.color.withAlpha(Vertex.PAINT_ALPHA);
     setGhostPath(_createLineCommand(paint, ghostStartPoint, ghostEndPoint));
   }
@@ -151,15 +181,7 @@ class LineTool extends Tool with EquatableMixin {
     updateLineCommand(pathCommand, newStartPoint, newEndPoint);
   }
 
-  void onPlus() {
-    addNewPath = true;
-  }
-
-  void onCheckMark() {
-    reset();
-  }
-
-  void reset() {
+  void resetLineToolData() {
     vertexStack.clear();
     predecessorVertex = null;
     movingVertex = null;
@@ -175,22 +197,34 @@ class LineTool extends Tool with EquatableMixin {
     return pathToDraw;
   }
 
-  void _createSourceAndDestinationCommandAndVertices(Offset point) {
-    final command = _createLineCommand(_copy(paint), point, point);
+  void _createSourceAndDestinationCommandAndVertices(
+      Offset point, Paint paint) {
+    final command = _createLineCommand(
+      graphicFactory.copyPaint(paint),
+      point,
+      point,
+    );
     commandManager.addGraphicCommand(command);
     command.setAsSourcePath();
     _createSourceAndDestinationVertices(point, point, command);
   }
 
   void _createSourceAndDestinationVertices(
-      Offset startPoint, Offset endPoint, LineCommand command) {
+    Offset startPoint,
+    Offset endPoint,
+    LineCommand command,
+  ) {
     predecessorVertex = _createAndAddVertex(startPoint, command, null);
     movingVertex = _createAndAddVertex(endPoint, null, command);
   }
 
-  void _createDestinationCommandAndVertex(Offset point) {
+  void _createDestinationCommandAndVertex(Offset point, Paint paint) {
     final startPoint = vertexStack.last.vertexCenter;
-    final command = _createLineCommand(_copy(paint), startPoint, startPoint);
+    final command = _createLineCommand(
+      graphicFactory.copyPaint(paint),
+      startPoint,
+      startPoint,
+    );
     commandManager.addGraphicCommand(command);
     _createDestinationVertex(startPoint, command);
   }
@@ -201,24 +235,31 @@ class LineTool extends Tool with EquatableMixin {
     _setLastMovingAndPredecessorVertex();
   }
 
-  _copy(Paint paint) {
-    return graphicFactory.copyPaint(paint);
-  }
-
   LineCommand _createLineCommand(
-      Paint paint, Offset startPoint, Offset endPoint) {
+    Paint paint,
+    Offset startPoint,
+    Offset endPoint,
+  ) {
     final path = _createPath(startPoint, endPoint);
-    final command =
-        commandFactory.createLineCommand(path, paint, startPoint, endPoint);
+    final command = commandFactory.createLineCommand(
+      path,
+      paint,
+      startPoint,
+      endPoint,
+    );
     return command;
   }
 
-  Vertex _createAndAddVertex(Offset vertexCenter,
-      LineCommand? outgoingPathCommand, LineCommand? ingoingPathCommand) {
+  Vertex _createAndAddVertex(
+    Offset vertexCenter,
+    LineCommand? outgoingPathCommand,
+    LineCommand? ingoingPathCommand,
+  ) {
     Vertex vertex = Vertex(
-        vertexCenter: vertexCenter,
-        outgoingPathCommand: outgoingPathCommand,
-        ingoingPathCommand: ingoingPathCommand);
+      vertexCenter: vertexCenter,
+      outgoingPathCommand: outgoingPathCommand,
+      ingoingPathCommand: ingoingPathCommand,
+    );
     vertexStack.add(vertex);
     return vertex;
   }
@@ -296,5 +337,21 @@ class LineTool extends Tool with EquatableMixin {
     }
 
     return outsidePoint;
+  }
+
+  void _rebuildVertexStack() {
+    resetLineToolData();
+    final lineCommandSequence = commandManager.getTopLineCommandSequence();
+    for (var lineCommand in lineCommandSequence) {
+      if (lineCommand.isSourcePath) {
+        _createSourceAndDestinationVertices(
+          lineCommand.startPoint,
+          lineCommand.endPoint,
+          lineCommand,
+        );
+      } else {
+        _createDestinationVertex(lineCommand.endPoint, lineCommand);
+      }
+    }
   }
 }

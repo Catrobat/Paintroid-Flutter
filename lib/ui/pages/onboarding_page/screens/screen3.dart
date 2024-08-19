@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
 import 'package:paintroid/ui/pages/onboarding_page/components/bottom_nav_bar_container.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';

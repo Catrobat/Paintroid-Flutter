@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Project imports:
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
@@ -22,7 +19,7 @@ class ExitFullscreenButton extends ConsumerWidget {
       duration: const Duration(milliseconds: 200),
       child: IconButton(
         onPressed: () {
-          ref.read(WorkspaceState.provider.notifier).toggleFullscreen(false);
+          ref.read(workspaceStateProvider.notifier).toggleFullscreen(false);
         },
         icon: Icon(
           Icons.fullscreen_exit,

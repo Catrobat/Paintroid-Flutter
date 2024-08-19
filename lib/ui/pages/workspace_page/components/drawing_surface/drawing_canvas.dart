@@ -1,15 +1,12 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
-import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
+import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
 
@@ -23,8 +20,6 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   late final _toolBoxStateNotifier = ref.read(toolBoxStateProvider.notifier);
   late final _canvasStateNotifier = ref.read(canvasStateProvider.notifier);
-  late final _canvasDirtyNotifier =
-      ref.read(CanvasDirtyNotifier.provider.notifier);
 
   final _canvasPainterKey = GlobalKey(debugLabel: 'CanvasPainter');
   final _transformationController = TransformationController();
@@ -82,7 +77,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     if (!_isZooming) {
       if (details.pointerCount == 1) {
         _toolBoxStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
-        _canvasDirtyNotifier.repaint();
+        ref.read(canvasPainterProvider.notifier).repaint();
       }
     }
   }
@@ -90,7 +85,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onInteractionEnd(ScaleEndDetails details) {
     if (!_isZooming) {
       _toolBoxStateNotifier.didTapUp(_globalToCanvas(_lastPointerUpPosition));
-      _canvasDirtyNotifier.repaint();
+      ref.read(canvasPainterProvider.notifier).repaint();
       final currentTool = ref.read(toolBoxStateProvider).currentTool;
       switch (currentTool.type) {
         case ToolType.LINE:
@@ -118,7 +113,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   @override
   Widget build(BuildContext context) {
     ref.listen<bool>(
-      WorkspaceState.provider.select((state) => state.isFullscreen),
+      workspaceStateProvider.select((state) => state.isFullscreen),
       (wasFullscreen, isFullscreen) {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
@@ -134,7 +129,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         boundaryMargin: const EdgeInsets.all(double.infinity),
         interactionEndFrictionCoefficient: double.minPositive,
         panEnabled:
-            ref.watch(toolBoxStateProvider).currentToolType == ToolType.HAND,
+            ref.watch(toolBoxStateProvider).currentTool.type == ToolType.HAND,
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,

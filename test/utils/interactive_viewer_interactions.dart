@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/widgets.dart';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
 class InterActiveViewerInteractions {

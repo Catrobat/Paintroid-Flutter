@@ -1,3 +1,4 @@
+import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class ColorComparison extends StatelessWidget {
@@ -13,7 +14,7 @@ class ColorComparison extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120.0,
+      width: 130.0,
       height: 70.0,
       child: Row(
         children: [
@@ -50,21 +51,18 @@ class ColorDescription extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                  'packages/colorpicker/assets/img/checkerboard.png',
-                  repeat: ImageRepeat.repeat,
-                  cacheHeight: 16,
-                  cacheWidth: 16,
-                  filterQuality: FilterQuality.none,
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: PackageAssets.getCheckerboardImgAsset(),
+                repeat: ImageRepeat.repeat,
               ),
-              Positioned.fill(
-                child: Container(color: color),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
               ),
-            ],
+            ),
           ),
         ),
         const SizedBox(width: 8.0),

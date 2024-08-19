@@ -6,12 +6,12 @@ part of 'color_picker_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$colorPickerStateHash() => r'c98665b37a54dc06c6687b8ebd57bb72800f7571';
+String _$colorPickerStateHash() => r'd9193012d8a7cbf6b50a034ba7f1b9483095df9f';
 
 /// See also [ColorPickerState].
 @ProviderFor(ColorPickerState)
-final colorPickerStateProvider =
-    NotifierProvider<ColorPickerState, ColorPickerStateData>.internal(
+final colorPickerStateProvider = AutoDisposeNotifierProvider<ColorPickerState,
+    ColorPickerStateData>.internal(
   ColorPickerState.new,
   name: r'colorPickerStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final colorPickerStateProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ColorPickerState = Notifier<ColorPickerStateData>;
+typedef _$ColorPickerState = AutoDisposeNotifier<ColorPickerStateData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

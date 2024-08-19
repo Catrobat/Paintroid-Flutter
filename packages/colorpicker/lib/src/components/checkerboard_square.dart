@@ -1,3 +1,4 @@
+import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class CheckerboardSquare extends StatelessWidget {
@@ -5,13 +6,13 @@ class CheckerboardSquare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Image.asset(
-        'packages/colorpicker/assets/img/checkerboard.png',
-        repeat: ImageRepeat.repeat,
-        cacheHeight: 16,
-        cacheWidth: 16,
-        filterQuality: FilterQuality.none,
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: PackageAssets.getCheckerboardImgAsset(),
+          fit: BoxFit.contain,
+          repeat: ImageRepeat.repeat,
+        ),
       ),
     );
   }

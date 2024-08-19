@@ -1,16 +1,10 @@
-// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
-
-// Project imports:
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/enums/image_location.dart';
@@ -23,6 +17,7 @@ import 'package:paintroid/core/providers/object/load_image_from_photo_library.da
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/object/save_as_catrobat_image.dart';
 import 'package:paintroid/core/providers/object/save_as_raster_image.dart';
+import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/failure.dart';
@@ -41,7 +36,7 @@ class IOHandler {
 
   /// Returns [true] if the image was saved successfully
   Future<bool> saveImage(BuildContext context) async {
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     final imageMetaData = await showSaveImageDialog(context, false);
     if (imageMetaData == null) {
       return false;
@@ -60,7 +55,7 @@ class IOHandler {
 
   Future<File?> saveProject(ImageMetaData imageMetaData) async {
     if (imageMetaData is! CatrobatImageMetaData) return null;
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     final savedFile = await workspaceStateNotifier
         .performIOTask(() => _saveAsCatrobatImage(imageMetaData, true));
     if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
@@ -71,7 +66,7 @@ class IOHandler {
   /// - There was no unsaved work, or
   /// - The unsaved work was saved successfully
   Future<bool> handleUnsavedChanges(BuildContext context, State state) async {
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     if (!workspaceStateNotifier.hasSavedLastWork) {
       final shouldDiscard = await showDiscardChangesDialog(context);
       if (shouldDiscard == null || !state.mounted) return false;
@@ -97,11 +92,11 @@ class IOHandler {
       final location = await showLoadImageDialog(context);
       if (location == null) return false;
       return ref
-          .read(WorkspaceState.provider.notifier)
+          .read(workspaceStateProvider.notifier)
           .performIOTask(() => _loadImageFrom(location));
     } else {
       return ref
-          .read(WorkspaceState.provider.notifier)
+          .read(workspaceStateProvider.notifier)
           .performIOTask(() => _loadImageFrom(ImageLocation.files));
     }
   }
@@ -113,7 +108,8 @@ class IOHandler {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
+    ref.read(appBarProvider).update();
     return true;
   }
 
@@ -147,7 +143,7 @@ class IOHandler {
 
   Future<bool> loadFromFiles(Result<File, Failure>? file) async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
-    final workspaceStateNotifier = ref.read(WorkspaceState.provider.notifier);
+    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
 
     final result = await loadImage(file);
     return result.when(
@@ -229,7 +225,7 @@ class IOHandler {
 
   Future<File?> _saveAsCatrobatImage(
       CatrobatImageMetaData imageData, bool isAProject) async {
-    final commands = ref.read(commandManagerProvider).history;
+    final commands = ref.read(commandManagerProvider).undoStack;
     final canvasState = ref.read(canvasStateProvider);
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();

@@ -1,10 +1,7 @@
-// Dart imports:
 import 'dart:typed_data';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';

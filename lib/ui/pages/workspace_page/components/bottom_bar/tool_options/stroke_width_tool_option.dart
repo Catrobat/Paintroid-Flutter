@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Project imports:
-import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
 class StrokeWidthToolOption extends ConsumerStatefulWidget {
@@ -23,13 +20,13 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
   void _onChangedTextField(String value) {
     final newStrokeWidth = int.tryParse(value) ?? 1;
     ref
-        .read(brushToolStateProvider.notifier)
+        .read(paintProvider.notifier)
         .updateStrokeWidth(newStrokeWidth.toDouble());
   }
 
   void _onChangedSlider(double newValue) {
     _strokeWidthTextController.text = newValue.toInt().toString();
-    ref.read(brushToolStateProvider.notifier).updateStrokeWidth(newValue);
+    ref.read(paintProvider.notifier).updateStrokeWidth(newValue);
   }
 
   @override
@@ -37,7 +34,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
     super.initState();
     _strokeWidthTextController = TextEditingController(
       text:
-          ref.read(brushToolStateProvider).paint.strokeWidth.toInt().toString(),
+          ref.read(paintProvider).strokeWidth.toInt().toString(),
     );
   }
 
@@ -49,7 +46,7 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
 
   @override
   Widget build(BuildContext context) {
-    final strokeWidth = ref.watch(brushToolStateProvider).paint.strokeWidth;
+    final strokeWidth = ref.watch(paintProvider).strokeWidth;
 
     return SizedBox(
       height: 25,

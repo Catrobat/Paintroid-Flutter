@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 
 void main() {

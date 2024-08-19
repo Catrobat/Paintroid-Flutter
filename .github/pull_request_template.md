@@ -14,7 +14,6 @@ Please review the [contributing guidelines](https://github.com/Catrobat/Paintroi
 - [ ] Add the link to the ticket in Jira in the description of the PR
 - [ ] Include a summary of the changes plus the relevant context
 - [ ] Choose the proper base branch (*develop*)
-- [ ] Make sure to organize imports with 'make sort' before committing
 - [ ] Confirm that the changes follow the project’s coding guidelines (Wiki)
 - [ ] Verify that the changes generate no compiler or linter warnings
 - [ ] Perform a self-review of the changes

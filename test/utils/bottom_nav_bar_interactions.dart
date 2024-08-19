@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_button_with_label.dart';
@@ -59,36 +56,6 @@ class BottomNavBarInteractions {
 
     await _tester.tap(colorButton);
     await _tester.pumpAndSettle();
-    final applyButton = find.descendant(
-      of: find.byWidgetPredicate((Widget widget) => widget is Row),
-      matching: find.text('APPLY'),
-    );
-    expect(applyButton, findsWidgets);
-    await _tester.dragUntilVisible(
-        applyButton, find.byType(SingleChildScrollView), const Offset(0, 50));
-    await _tester.pumpAndSettle();
-    await _tester.tap(applyButton);
-    await _tester.pumpAndSettle();
-    return this;
-  }
-
-  Future<BottomNavBarInteractions> selectColorWithOpacity(Color color) async {
-    await openColorPicker();
-
-    final colorButton = _findButtonWithColor(color);
-    expect(colorButton, findsOneWidget);
-    await _tester.tap(colorButton);
-    await _tester.pumpAndSettle();
-
-    final opacitySliderWidget = find.descendant(
-        of: find.byType(SliderTheme),
-        matching: find.byKey(const Key('opacity_slider')),
-    );
-    expect(opacitySliderWidget, findsOneWidget);
-    final sliderCenter = _tester.getCenter(opacitySliderWidget);
-    await _tester.tapAt(sliderCenter);
-    await _tester.pumpAndSettle();
-
     final applyButton = find.descendant(
       of: find.byWidgetPredicate((Widget widget) => widget is Row),
       matching: find.text('APPLY'),

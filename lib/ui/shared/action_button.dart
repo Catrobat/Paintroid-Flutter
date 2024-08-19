@@ -1,8 +1,8 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
 class ActionButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final IconData icon;
   final String valueKey;
 
@@ -15,13 +15,18 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      key: ValueKey(valueKey),
-      icon: Icon(icon),
-      onPressed: onPressed,
-      color: Theme.of(context).colorScheme.background,
+    return SizedBox(
+      width: 36,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        key: ValueKey(valueKey),
+        icon: Icon(icon),
+        onPressed: onPressed,
+        disabledColor:
+            PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.4),
+        color: PaintroidTheme.of(context).onSurfaceColor,
+      ),
     );
   }
 }

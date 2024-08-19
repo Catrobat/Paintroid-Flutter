@@ -1,17 +1,13 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorpicker/colorpicker.dart';
 
-// Project imports:
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
-import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tools/tools_bottom_sheet.dart';
@@ -27,7 +23,7 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context);
     final currentToolData = getCurrentToolData(ref);
-    final currentPaint = ref.watch(brushToolStateProvider).paint;
+    final currentPaint = ref.watch(paintProvider);
 
     return NavigationBarTheme(
       data: PaintroidTheme.of(context).bottomNavBarThemeData,
@@ -73,7 +69,7 @@ class BottomNavBar extends ConsumerWidget {
 
   ToolData getCurrentToolData(WidgetRef ref) {
     final ToolType currentToolType = ref.watch(
-      toolBoxStateProvider.select((value) => value.currentToolType),
+      toolBoxStateProvider.select((value) => value.currentTool.type),
     );
 
     final currentToolData = ToolData.allToolsData.firstWhere(
@@ -130,11 +126,10 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
             topRight: Radius.circular(16.0),
           )),
       child: ColorPicker(
-        currentColor: ref.watch(brushToolStateProvider).paint.color,
+        currentColor: ref.watch(paintProvider).color,
         onColorChanged: (newColor) {
-          ref.read(brushToolStateProvider.notifier).updateColor(newColor);
+          ref.watch(paintProvider.notifier).updateColor(newColor);
         },
-        image: ref.read(canvasStateProvider).cachedImage,
       ),
     ),
   );

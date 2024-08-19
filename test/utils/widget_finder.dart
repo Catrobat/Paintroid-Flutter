@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar_items.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
@@ -15,4 +17,11 @@ class WidgetFinder {
       find.byKey(const ValueKey(BottomNavBarItem.TOOLS));
   static final Finder newImageButton =
       find.byKey(const ValueKey(WidgetIdentifier.newImageActionButton));
+  static final Finder undoButton =
+      find.byKey(ValueKey(TopBarActionData.UNDO.name));
+  static final Finder redoButton =
+      find.byKey(ValueKey(TopBarActionData.REDO.name));
+
+  static final Finder circleShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.circleShapeTypeChip));
 }
