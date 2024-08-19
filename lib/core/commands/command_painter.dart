@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -26,6 +28,11 @@ class CommandPainter extends CustomPainter {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
         break;
+      case ToolType.SHAPES:
+        (currentTool as ShapesTool)
+          ..drawShape(canvas, ref.read(paintProvider))
+          ..drawGuides(canvas);
+        break;
       case ToolType.TEXT:
         (currentTool as TextTool).drawGuides(canvas);
       default:
@@ -43,9 +50,6 @@ class CommandPainter extends CustomPainter {
       lineTool.ingoingGhostPathCommand,
       lineTool.outgoingGhostPathCommand,
     );
-    commandManager.drawLineToolVertices(
-      canvas,
-      lineTool.vertexStack,
-    );
+    commandManager.drawLineToolVertices(canvas, lineTool.vertexStack);
   }
 }

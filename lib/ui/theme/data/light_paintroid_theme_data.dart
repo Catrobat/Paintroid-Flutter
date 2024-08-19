@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:paintroid/ui/theme/theme.dart';
 
 class LightPaintroidThemeData extends PaintroidThemeData {
@@ -19,7 +18,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
         sliderTheme: SliderThemeData(
           overlayColor: CustomColors.oceanBlue.withOpacity(.2),
           activeTrackColor: CustomColors.oceanBlue,
-          inactiveTrackColor: CustomColors.oceanBlue,
+          inactiveTrackColor: Colors.grey,
           thumbColor: CustomColors.oceanBlue,
           showValueIndicator: ShowValueIndicator.never,
         ),
@@ -140,6 +139,9 @@ class LightPaintroidThemeData extends PaintroidThemeData {
 
   @override
   Color get tertiaryContainerColor => CustomColors.deepAqua;
+
+  @override
+  Color get transparentColor => CustomColors.transparentColor;
 
   @override
   TextStyle get titleStyle => const TextStyle(

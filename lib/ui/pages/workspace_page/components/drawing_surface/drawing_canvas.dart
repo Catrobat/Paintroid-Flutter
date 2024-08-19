@@ -128,7 +128,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         boundaryMargin: const EdgeInsets.all(double.infinity),
         interactionEndFrictionCoefficient: double.minPositive,
         panEnabled:
-            ref.watch(toolBoxStateProvider).currentToolType == ToolType.HAND,
+            ref.watch(toolBoxStateProvider).currentTool.type == ToolType.HAND,
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,

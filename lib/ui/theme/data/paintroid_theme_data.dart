@@ -75,6 +75,7 @@ abstract class PaintroidThemeData {
   Color get shadowColor;
 
   Color get surfaceTintColor;
+  Color get transparentColor;
 
   Color get scaffoldBackgroundColor;
 

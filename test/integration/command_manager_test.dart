@@ -37,6 +37,9 @@ void main() {
         await UIInteraction.tapAt(CanvasPosition.bottomLeft);
         await UIInteraction.tapAt(CanvasPosition.bottomRight);
 
+        await UIInteraction.selectTool(ToolData.SHAPES.name);
+        await UIInteraction.clickCheckmark();
+
         await UIInteraction.selectTool(ToolData.BRUSH.name);
         await UIInteraction.tapAt(CanvasPosition.topRight);
 
@@ -48,6 +51,10 @@ void main() {
         await UIInteraction.clickUndo();
         currentTool = UIInteraction.getCurrentTool();
         expect(currentTool.type, ToolData.BRUSH.type);
+
+        await UIInteraction.clickUndo();
+        currentTool = UIInteraction.getCurrentTool();
+        expect(currentTool.type, ToolData.SHAPES.type);
 
         await UIInteraction.clickUndo();
         currentTool = UIInteraction.getCurrentTool();
@@ -73,10 +80,13 @@ void main() {
         await UIInteraction.tapAt(CanvasPosition.bottomLeft);
         await UIInteraction.tapAt(CanvasPosition.bottomRight);
 
+        await UIInteraction.selectTool(ToolData.SHAPES.name);
+        await UIInteraction.clickCheckmark();
+
         await UIInteraction.selectTool(ToolData.BRUSH.name);
         await UIInteraction.tapAt(CanvasPosition.topRight);
 
-        await UIInteraction.clickUndo(times: 3);
+        await UIInteraction.clickUndo(times: 4);
 
         var currentTool = UIInteraction.getCurrentTool();
         expect(currentTool.type, ToolData.BRUSH.type);
@@ -88,6 +98,10 @@ void main() {
         await UIInteraction.clickRedo();
         currentTool = UIInteraction.getCurrentTool();
         expect(currentTool.type, ToolData.LINE.type);
+
+        await UIInteraction.clickRedo();
+        currentTool = UIInteraction.getCurrentTool();
+        expect(currentTool.type, ToolData.SHAPES.type);
 
         await UIInteraction.clickRedo();
         currentTool = UIInteraction.getCurrentTool();

@@ -224,4 +224,70 @@ void main() {
       expect(WidgetFinder.redoButton, findsOneWidget);
     });
   });
+
+  group('[TOP_APP_BAR]: ShapesTool', () {
+    testWidgets('Show undo / redo and checkmark but no plus button',
+        (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      expect(WidgetFinder.plusButton, findsNothing);
+      expect(WidgetFinder.checkMark, findsOneWidget);
+      expect(WidgetFinder.undoButton, findsOneWidget);
+      expect(WidgetFinder.redoButton, findsOneWidget);
+    });
+
+    testWidgets('Undo / redo disabled and checkmark enabled before drawing',
+        (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
+      var checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
+      expect(undoButton.onPressed, null);
+      expect(redoButton.onPressed, null);
+      expect(checkMark.onPressed, isNotNull);
+    });
+
+    testWidgets('checkmark still enabled after clicking',
+        (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      await UIInteraction.tapAt(CanvasPosition.center);
+      var checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
+      expect(checkMark.onPressed, isNotNull);
+      await UIInteraction.clickCheckmark();
+      checkMark = tester.firstWidget<IconButton>(WidgetFinder.checkMark);
+      expect(checkMark.onPressed, isNotNull);
+    });
+
+    testWidgets('Undo is enabled after checkmark', (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      var undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      expect(undoButton.onPressed, null);
+      await UIInteraction.clickCheckmark();
+      undoButton = tester.firstWidget<IconButton>(WidgetFinder.undoButton);
+      expect(undoButton.onPressed, isNotNull);
+    });
+
+    testWidgets('Redo is enabled after drawing was undone',
+        (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      await UIInteraction.clickCheckmark();
+      await UIInteraction.clickUndo();
+      var redoButton = tester.firstWidget<IconButton>(WidgetFinder.redoButton);
+      expect(redoButton.onPressed, isNotNull);
+    });
+  });
 }

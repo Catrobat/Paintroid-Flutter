@@ -38,6 +38,8 @@ abstract class CustomColors {
   static const darkCharcoal = Color(0xFF191C1D);
   static const deepCharcoal = Color(0xFF191C1D);
   static const jetBlack = Color(0xFF000000);
+
+  static const transparentColor = Color(0x00000000);
 }
 
 extension ToMaterialColor on Color {
