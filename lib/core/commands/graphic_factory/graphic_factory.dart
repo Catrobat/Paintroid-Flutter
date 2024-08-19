@@ -16,6 +16,20 @@ class GraphicFactory {
     ..color = const Color.fromARGB(220, 117, 117, 117)
     ..style = PaintingStyle.fill;
 
+  static Paint boundingBoxPaint = Paint()
+    ..color = const Color.fromARGB(121, 55, 55, 55)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 10;
+
+  static Paint circumferencePaint = Paint()
+    ..color = const Color.fromARGB(121, 55, 55, 55)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 10;
+
+  static Paint anchorPointPaint = Paint()
+    ..color = const Color.fromARGB(121, 117, 117, 117)
+    ..style = PaintingStyle.fill;
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 

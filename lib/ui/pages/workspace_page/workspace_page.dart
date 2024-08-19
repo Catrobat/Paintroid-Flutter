@@ -28,6 +28,8 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     );
   }
 
+  final textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
@@ -66,7 +68,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
       child: Scaffold(
         appBar: isFullscreen ? null : const TopAppBar(title: 'Pocket Paint'),
         backgroundColor: Colors.grey.shade400,
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const DrawingCanvas(),

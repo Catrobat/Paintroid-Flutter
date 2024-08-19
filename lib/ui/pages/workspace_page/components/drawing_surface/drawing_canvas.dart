@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
@@ -26,6 +24,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   var _pointersOnScreen = 0;
   var _isZooming = false;
   Offset _lastPointerUpPosition = Offset.zero;
+  final textController = TextEditingController();
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -133,15 +132,19 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         onInteractionStart: _onInteractionStart,
         onInteractionUpdate: _onInteractionUpdate,
         onInteractionEnd: _onInteractionEnd,
-        child: Center(
-          child: ref.watch(IDeviceService.sizeProvider).map(
-                data: (_) => FittedBox(
-                  fit: BoxFit.contain,
-                  child: CanvasPainter(key: _canvasPainterKey),
-                ),
-                error: (_) => Container(),
-                loading: (_) => Container(),
-              ),
+        child: Stack(
+          children: [
+            Center(
+              child: ref.watch(IDeviceService.sizeProvider).map(
+                    data: (_) => FittedBox(
+                      fit: BoxFit.contain,
+                      child: CanvasPainter(key: _canvasPainterKey),
+                    ),
+                    error: (_) => Container(),
+                    loading: (_) => Container(),
+                  ),
+            ),
+          ],
         ),
       ),
     );

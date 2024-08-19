@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class CommandPainter extends CustomPainter {
@@ -32,6 +33,8 @@ class CommandPainter extends CustomPainter {
           ..drawShape(canvas, ref.read(paintProvider))
           ..drawGuides(canvas);
         break;
+      case ToolType.TEXT:
+        (currentTool as TextTool).drawGuides(canvas);
       default:
         commandManager.executeLastCommand(canvas);
         break;

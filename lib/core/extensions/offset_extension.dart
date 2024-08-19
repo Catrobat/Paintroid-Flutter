@@ -8,7 +8,7 @@ extension OffsetExtensions on Offset {
 
   Offset moveTowards({
     required Offset towards,
-    required double distance, 
+    required double distance,
     Offset? from,
     double rotation = 0,
   }) =>

@@ -1,10 +1,12 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
+
+import 'package:paintroid/core/commands/command_implementation/add_text_command.dart';
 
 class CommandFactory {
   const CommandFactory();
@@ -38,4 +40,12 @@ class CommandFactory {
     Offset center,
   ) =>
       CircleShapeCommand(paint, radius, center);
+
+  AddTextCommand createAddTextCommand(
+    Offset point,
+    String text,
+    TextStyle style,
+    Paint paint,
+  ) =>
+      AddTextCommand(point, text, style, paint);
 }

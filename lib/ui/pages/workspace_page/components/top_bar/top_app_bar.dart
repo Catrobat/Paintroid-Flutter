@@ -8,7 +8,9 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/text_tool/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
@@ -79,6 +81,16 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ref
             .read(canvasStateProvider.notifier)
             .resetCanvasWithExistingCommands();
+      };
+    }
+    if (currentTool is TextTool) {
+      return () {
+        currentTool.onCheckmark(ref.read(paintProvider));
+        ref.read(appBarProvider.notifier).update();
+        ref
+            .read(canvasStateProvider.notifier)
+            .resetCanvasWithExistingCommands();
+        ref.read(toolBoxStateProvider.notifier).switchTool(ToolData.BRUSH);
       };
     }
     return null;
