@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/dot_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
@@ -109,6 +110,8 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == CircleShapeCommand) {
       return ToolData.SHAPES;
+    } else if (command.runtimeType == DotCommand) {
+      return ToolData.SPRAY;
     } else {
       return ToolData.BRUSH;
     }
