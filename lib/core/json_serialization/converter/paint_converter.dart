@@ -21,8 +21,12 @@ class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {
       paint.strokeJoin = StrokeJoin.values[json['strokeJoin']];
       paint.blendMode = BlendMode.values[json['blendMode']];
     }
-    if (version >= Version.v2) {
+    if (version == Version.v2) {
       // paint.newAttribute = json['newAttribute'];
+    }
+    if ( version  == Version.v3)
+    {
+
     }
     return paint;
   }

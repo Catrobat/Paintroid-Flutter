@@ -50,4 +50,5 @@ flutter {
 
 dependencies {
     implementation "androidx.window:window:1.0.0"
+    implementation 'com.esotericsoftware:kryo:5.5.0'
 }

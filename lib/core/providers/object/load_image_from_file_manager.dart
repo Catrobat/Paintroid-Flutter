@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
@@ -16,6 +17,8 @@ import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 import 'package:paintroid/core/utils/save_image_failure.dart';
 
+import 'native_catrobat_service.dart';
+
 extension on File {
   String? get extension {
     final list = path.split('.');
@@ -28,16 +31,18 @@ class LoadImageFromFileManager with LoggableMixin {
   final IFileService fileService;
   final IImageService imageService;
   final IPermissionService permissionService;
+  final INativeCatrobatService nativeCatrobatService;
 
   LoadImageFromFileManager(
-      this.fileService, this.imageService, this.permissionService);
+      this.fileService, this.imageService, this.permissionService, this.nativeCatrobatService);
 
   static final provider = Provider((ref) {
     final imageService = ref.watch(IImageService.provider);
     final fileService = ref.watch(IFileService.provider);
     final permissionService = ref.watch(IPermissionService.provider);
+    final nativeService = ref.watch(INativeCatrobatService.provider);
     return LoadImageFromFileManager(
-        fileService, imageService, permissionService);
+        fileService, imageService, permissionService,nativeService);
   });
 
   Future<Result<ImageFromFile, Failure>> call(
@@ -60,6 +65,16 @@ class LoadImageFromFileManager with LoggableMixin {
                 .map((img) => ImageFromFile.rasterImage(img));
           case 'catrobat-image':
             Uint8List bytes = await file.readAsBytes();
+            // check for json
+            // if json
+            // file.path
+            var fileValidity =  checkJson(bytes);
+            if(!fileValidity)
+            {
+              final ByteData result = await nativeCatrobatService.getNativeClassData(file.uri.path);
+              var t = 10;
+              return const Result.err(LoadImageFailure.invalidImage);
+            }
             CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
             Image? backgroundImage =
                 await rebuildBackgroundImage(catrobatImage);
@@ -78,6 +93,16 @@ class LoadImageFromFileManager with LoggableMixin {
         return const Result.err(LoadImageFailure.unidentified);
       }
     });
+  }
+  bool checkJson(Uint8List bytes)
+  {
+    try {
+      String jsonString = utf8.decode(bytes);
+      Map<String, dynamic> jsonMap = json.decode(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<Image?> rebuildBackgroundImage(CatrobatImage catrobatImage) async {

@@ -25,7 +25,7 @@ class CatrobatImage {
     this.backgroundImage, {
     int? version,
     this.magicValue = 'CATROBAT',
-  }) : version = version ??
+  }) : version = version ?? // here should be 3
             VersionStrategyManager.strategy.getCatrobatImageVersion();
 
   Uint8List toBytes() {
