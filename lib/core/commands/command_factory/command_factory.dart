@@ -4,6 +4,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class CommandFactory {
@@ -38,4 +39,19 @@ class CommandFactory {
     Offset center,
   ) =>
       CircleShapeCommand(paint, radius, center);
+
+  StarShapeCommand createStarShapeCommand(
+    Paint paint,
+    int numPoints,
+    double radius,
+    double angle,
+    Offset center,
+  ) =>
+      StarShapeCommand(
+        paint,
+        numPoints,
+        radius,
+        angle,
+        center,
+      );
 }

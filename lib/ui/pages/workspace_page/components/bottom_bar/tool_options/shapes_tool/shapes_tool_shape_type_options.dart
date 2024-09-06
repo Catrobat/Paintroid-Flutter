@@ -54,6 +54,23 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
                     onPressed: () => ref
                         .read(shapesToolOptionsStateProvider.notifier)
                         .setShapeType(shapeType: ShapeType.circle),
+                  ),
+                  CustomActionChip(
+                    key: const ValueKey(
+                      WidgetIdentifier.starShapeTypeChip,
+                    ),
+                    hint: 'Star',
+                    chipBackgroundColor:
+                        shapesToolOptionsState.shapeType == ShapeType.star
+                            ? PaintroidTheme.of(context).primaryColor
+                            : Colors.white,
+                    chipIcon: Icon(
+                      Icons.star_outline,
+                      color: PaintroidTheme.of(context).shadowColor,
+                    ),
+                    onPressed: () => ref
+                        .read(shapesToolOptionsStateProvider.notifier)
+                        .setShapeType(shapeType: ShapeType.star),
                   )
                 ],
               )

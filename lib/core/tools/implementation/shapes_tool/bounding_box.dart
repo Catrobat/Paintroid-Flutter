@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -46,6 +47,8 @@ class BoundingBox {
   double get outerRadius => (topLeftBottomRightDiagonal / 2);
 
   double get innerRadius => distanceToEdgeFromCenter - padding;
+
+  double get angle => (topLeft - center).direction;
 
   double get activeCornerDirection {
     switch (activeCorner) {
@@ -219,4 +222,21 @@ class BoundingBox {
     ..lineToOffset(getPaddedBottomRight(padding: padding))
     ..lineToOffset(getPaddedBottomLeft(padding: padding))
     ..close();
+
+  Path getStarPath(int numberOfPoints, double radius) {
+    final path = Path();
+    final innerRadius = radius / 2;
+    final angleStep = pi / numberOfPoints;
+    for (int i = 0; i < numberOfPoints * 2; i++) {
+      final currentRadius = (i % 2 == 0) ? radius : innerRadius;
+      final currentAngle = i * angleStep + angle;
+      final point = Offset(
+        center.dx + currentRadius * cos(currentAngle),
+        center.dy + currentRadius * sin(currentAngle),
+      );
+      i == 0 ? path.moveToOffset(point) : path.lineToOffset(point);
+    }
+    path.close();
+    return path;
+  }
 }
