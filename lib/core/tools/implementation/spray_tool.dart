@@ -1,62 +1,61 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
-class SprayTool extends Tool with EquatableMixin {
+class SprayTool extends Tool {
+  final GraphicFactory graphicFactory;
+  final Size drawingSurfaceSize;
+
+  @visibleForTesting
+  late SprayCommand sprayCommand;
+  late Paint paint;
+
   SprayTool({
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
+    required this.drawingSurfaceSize,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });
 
-  final GraphicFactory graphicFactory;
-
-  List<Offset> points = [];
-  late Paint paint;
-
   final int particlesPerMove = 20;
-  final double sprayRadius = 20.0;
+  final double sprayRadius = 30.0;
   final Random random = Random();
-
-  @override
-  List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
   @override
   void onDown(Offset point, Paint paint) {
     this.paint = graphicFactory.copyPaint(paint);
-    _addSprayPoints(point);
+    final initialPoints = _generateSprayPoints(point);
+    sprayCommand = commandFactory.createSprayCommand(initialPoints, this.paint);
+    commandManager.addGraphicCommand(sprayCommand);
   }
 
   @override
   void onDrag(Offset point, Paint paint) {
-    _addSprayPoints(point);
+    final newPoints = _generateSprayPoints(point);
+    sprayCommand.points.addAll(newPoints);
   }
 
   @override
   void onUp(Offset point, Paint paint) {
-    _addSprayPoints(point);
-    _commitSprayCommand();
   }
 
   @override
   void onCancel() {
-    points.clear();
+    commandManager.discardLastCommand();
   }
+
+  @override
+  void onCheckmark(Paint paint) {}
 
   @override
   void onPlus() {}
-
-  @override
-  void onCheckmark(Paint paint) {
-    _commitSprayCommand();
-  }
 
   @override
   void onRedo() {
@@ -68,21 +67,16 @@ class SprayTool extends Tool with EquatableMixin {
     commandManager.undo();
   }
 
-  void _addSprayPoints(Offset center) {
+  List<Offset> _generateSprayPoints(Offset center) {
+    List<Offset> points = [];
     for (int i = 0; i < particlesPerMove; i++) {
       final angle = random.nextDouble() * 2 * pi;
       final radius = random.nextDouble() * sprayRadius;
       final dx = center.dx + radius * cos(angle);
       final dy = center.dy + radius * sin(angle);
-      points.add(Offset(dx, dy));
-    }
-  }
 
-  void _commitSprayCommand() {
-    if (points.isNotEmpty) {
-      final command = commandFactory.createSprayCommand(points, paint);
-      commandManager.addGraphicCommand(command);
-      points = [];
-    }
+        points.add(Offset(dx, dy));
+      }
+    return points;
   }
 }

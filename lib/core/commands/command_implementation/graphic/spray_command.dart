@@ -7,6 +7,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/graphic_c
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
 
 part 'spray_command.g.dart';
 
@@ -28,9 +29,7 @@ class SprayCommand extends GraphicCommand {
 
   @override
   void call(Canvas canvas) {
-    for (final point in points) {
-      canvas.drawCircle(point, paint.strokeWidth / 2, paint);
-    }
+      canvas.drawPoints( PointMode.points,points, paint);
   }
 
   @override

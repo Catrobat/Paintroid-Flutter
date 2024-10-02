@@ -4,6 +4,7 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/implementation/spray_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 
 part 'spray_tool_provider.g.dart';
 
@@ -15,7 +16,8 @@ class SprayToolProvider extends _$SprayToolProvider {
       type: ToolType.SPRAY,
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
-      graphicFactory: ref.watch(graphicFactoryProvider),
+      graphicFactory: ref.watch(graphicFactoryProvider),  drawingSurfaceSize: ref.watch(
+    canvasStateProvider.select((state) => state.size),),
     );
   }
 }
