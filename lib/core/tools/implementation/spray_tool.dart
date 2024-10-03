@@ -24,7 +24,7 @@ class SprayTool extends Tool {
     super.hasFinalizeFunctionality = false,
   });
 
-  double sprayRadius = 20.0;
+  double sprayRadius = 20;
   final Random random = Random();
 
   @override
