@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
-import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_cap_tool_option.dart';
-import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_width_tool_option.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_cap_chips.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_width_slider.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+
 import '../../utils/bottom_nav_bar_interactions.dart';
 
 void main() {
@@ -68,8 +67,8 @@ void main() {
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
 
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeWidthToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeWidthSlider);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);
@@ -82,8 +81,8 @@ void main() {
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
 
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeWidthToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeWidthSlider);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);
@@ -100,8 +99,8 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeWidthToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeWidthSlider);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);
@@ -123,8 +122,8 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeCapToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeCapChips);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);
@@ -136,8 +135,8 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeCapToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeCapChips);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);
@@ -154,8 +153,8 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      final animatedOpacity = bottomNavBarInteractions
-          .getAnimatedOpacityFinder(StrokeCapToolOption);
+      final animatedOpacity =
+          bottomNavBarInteractions.getAnimatedOpacityFinder(StrokeCapChips);
 
       var animatedOpacityWidget =
           tester.widget<AnimatedOpacity>(animatedOpacity);

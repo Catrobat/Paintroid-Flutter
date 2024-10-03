@@ -68,6 +68,7 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.SPRAY:
         state = state.copyWith(currentTool: ref.read(sprayToolProvider));
+        ref.read(paintProvider.notifier).updateStrokeWidth(10);
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));

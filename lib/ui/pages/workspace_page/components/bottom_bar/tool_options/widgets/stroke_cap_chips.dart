@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
-class StrokeCapToolOption extends ConsumerStatefulWidget {
-  const StrokeCapToolOption({super.key});
+class StrokeCapChips extends ConsumerStatefulWidget {
+  const StrokeCapChips({super.key});
 
   @override
-  ConsumerState<StrokeCapToolOption> createState() =>
-      _StrokeCapToolOptionState();
+  ConsumerState<StrokeCapChips> createState() => _StrokeCapToolOptionState();
 }
 
-class _StrokeCapToolOptionState extends ConsumerState<StrokeCapToolOption> {
+class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
   Color _roundChipBackgroundColor = Colors.blue;
   Color _squareChipBackgroundColor = Colors.white;
 
@@ -41,8 +38,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapToolOption> {
   @override
   void initState() {
     super.initState();
-    StrokeCap toolStrokeCapOnInit =
-        ref.read(paintProvider).strokeCap;
+    StrokeCap toolStrokeCapOnInit = ref.read(paintProvider).strokeCap;
     _roundChipBackgroundColor =
         toolStrokeCapOnInit == StrokeCap.round ? Colors.blue : Colors.white;
     _squareChipBackgroundColor =

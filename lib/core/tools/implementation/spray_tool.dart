@@ -24,8 +24,7 @@ class SprayTool extends Tool {
     super.hasFinalizeFunctionality = false,
   });
 
-  final int particlesPerMove = 20;
-  final double sprayRadius = 30.0;
+  double sprayRadius = 20.0;
   final Random random = Random();
 
   @override
@@ -43,8 +42,7 @@ class SprayTool extends Tool {
   }
 
   @override
-  void onUp(Offset point, Paint paint) {
-  }
+  void onUp(Offset point, Paint paint) {}
 
   @override
   void onCancel() {
@@ -67,16 +65,20 @@ class SprayTool extends Tool {
     commandManager.undo();
   }
 
+  void updateSprayRadius(double newRadius) {
+    sprayRadius = newRadius;
+  }
+
   List<Offset> _generateSprayPoints(Offset center) {
     List<Offset> points = [];
-    for (int i = 0; i < particlesPerMove; i++) {
+    final density = sprayRadius / 3;
+    for (int i = 0; i < density; i++) {
       final angle = random.nextDouble() * 2 * pi;
-      final radius = random.nextDouble() * sprayRadius;
+      final radius = random.nextDouble() * sprayRadius * 2;
       final dx = center.dx + radius * cos(angle);
       final dy = center.dy + radius * sin(angle);
-
-        points.add(Offset(dx, dy));
-      }
+      points.add(Offset(dx, dy));
+    }
     return points;
   }
 }
