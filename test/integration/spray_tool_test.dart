@@ -39,7 +39,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -48,7 +48,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -70,7 +70,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.top,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -79,7 +79,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.top,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -101,7 +101,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.bottom,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -110,7 +110,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.bottom,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -132,7 +132,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -145,7 +145,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -169,7 +169,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, isNot(Colors.transparent));
 
@@ -178,7 +178,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -187,7 +187,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt() * 2,
+        radius: radius.toInt(),
       );
       expect(color, isNot(Colors.transparent));
     });
