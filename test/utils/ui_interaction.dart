@@ -155,6 +155,12 @@ class UIInteraction {
     container.read(paintProvider.notifier).updateColor(color);
   }
 
+  static Future<void> clickBackButton() async {
+    expect(WidgetFinder.backButton, findsOneWidget);
+    await tester.tap(WidgetFinder.backButton);
+    await tester.pumpAndSettle();
+  }
+
   static Future<void> clickCheckmark() async {
     expect(WidgetFinder.checkMark, findsOneWidget);
     await tester.tap(WidgetFinder.checkMark);
