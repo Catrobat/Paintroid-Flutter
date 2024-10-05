@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:paintroid/ui/theme/theme.dart';
 
 class GenericDialogActionButton extends StatelessWidget {
@@ -26,8 +25,13 @@ class GenericDialogActionButton extends StatelessWidget {
 class GenericDialogAction {
   final Function? onPressed;
   final String title;
+  final ValueKey key;
 
-  const GenericDialogAction({Key? key, this.onPressed, required this.title});
+  const GenericDialogAction({
+    this.onPressed,
+    required this.title,
+    required this.key,
+  });
 }
 
 class GenericDialog extends StatelessWidget {
