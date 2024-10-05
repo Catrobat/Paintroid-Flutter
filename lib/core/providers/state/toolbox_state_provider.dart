@@ -11,11 +11,14 @@ import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart'
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/spray_tool_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
+import 'package:paintroid/core/tools/implementation/spray_tool.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'toolbox_state_provider.g.dart';
+
+const SPRAY_TOOL_RADIUS = 10.0;
 
 @riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
@@ -49,6 +52,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   }
 
   void switchTool(ToolData data) {
+    if (state.currentTool is SprayTool) {
+      final currentRadius = (state.currentTool as SprayTool).sprayRadius;
+      ref.read(paintProvider.notifier).updateStrokeWidth(currentRadius);
+    }
     switch (data.type) {
       case ToolType.BRUSH:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
@@ -68,7 +75,9 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.SPRAY:
         state = state.copyWith(currentTool: ref.read(sprayToolProvider));
-        ref.read(paintProvider.notifier).updateStrokeWidth(10);
+        final currentStrokeWidth = ref.read(paintProvider).strokeWidth;
+        (state.currentTool as SprayTool).updateSprayRadius(currentStrokeWidth);
+        ref.read(paintProvider.notifier).updateStrokeWidth(SPRAY_TOOL_RADIUS);
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));

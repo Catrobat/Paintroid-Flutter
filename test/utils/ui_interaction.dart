@@ -96,7 +96,7 @@ class UIInteraction {
           if (i < 0 || i >= image.width || j < 0 || j >= image.height) {
             continue;
           }
-          final argbColor = getColorAtPixel(image, x, y);
+          final argbColor = getColorAtPixel(image, i, j);
           if (argbColor != 0) {
             return Color(argbColor);
           }

@@ -43,7 +43,7 @@ void main() {
       );
       expect(color, Colors.transparent);
 
-      await UIInteraction.tapAt(CanvasPosition.center, times: 10);
+      await UIInteraction.tapAt(CanvasPosition.center);
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
@@ -74,7 +74,7 @@ void main() {
       );
       expect(color, Colors.transparent);
 
-      await UIInteraction.tapAt(CanvasPosition.topLeft, times: 10);
+      await UIInteraction.tapAt(CanvasPosition.topLeft);
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
@@ -105,7 +105,7 @@ void main() {
       );
       expect(color, Colors.transparent);
 
-      await UIInteraction.tapAt(CanvasPosition.bottomRight, times: 10);
+      await UIInteraction.tapAt(CanvasPosition.bottomRight);
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
