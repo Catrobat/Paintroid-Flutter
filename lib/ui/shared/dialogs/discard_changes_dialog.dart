@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
 Future<bool?> showDiscardChangesDialog(BuildContext context) =>
@@ -11,11 +11,15 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) =>
                     'You have not saved your last changes. They will be lost!',
                 actions: [
                   GenericDialogAction(
-                      title: 'Discard',
-                      onPressed: () => Navigator.of(context).pop(true)),
+                    title: 'Discard',
+                    onPressed: () => Navigator.of(context).pop(true),
+                    identifier: WidgetIdentifier.genericDialogActionDiscard,
+                  ),
                   GenericDialogAction(
-                      title: 'Save',
-                      onPressed: () => Navigator.of(context).pop(false)),
+                    title: 'Save',
+                    onPressed: () => Navigator.of(context).pop(false),
+                    identifier: WidgetIdentifier.genericDialogActionSave,
+                  ),
                 ]),
         barrierDismissible: true,
         barrierLabel: 'Dismiss discard changes dialog box');

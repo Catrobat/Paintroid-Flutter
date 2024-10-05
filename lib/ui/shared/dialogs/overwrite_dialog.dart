@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
 Future<bool?> showOverwriteDialog(BuildContext context) =>
@@ -13,10 +13,12 @@ Future<bool?> showOverwriteDialog(BuildContext context) =>
           GenericDialogAction(
             title: 'Cancel',
             onPressed: () => Navigator.of(context).pop(true),
+            identifier: WidgetIdentifier.genericDialogActionCancel,
           ),
           GenericDialogAction(
             title: 'Yes',
             onPressed: () => Navigator.of(context).pop(false),
+            identifier: WidgetIdentifier.genericDialogActionYes,
           ),
         ],
       ),

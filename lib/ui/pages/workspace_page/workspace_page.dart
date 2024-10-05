@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toast/toast.dart';
-
 import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_nav_bar.dart';
@@ -12,6 +9,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/dra
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exit_fullscreen_button.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
+import 'package:toast/toast.dart';
 
 class WorkspacePage extends ConsumerStatefulWidget {
   const WorkspacePage({super.key});

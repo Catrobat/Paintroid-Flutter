@@ -2,14 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canvas_state_provider.g.dart';
 
@@ -64,6 +62,7 @@ class CanvasStateProvider extends _$CanvasStateProvider {
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
+    state.commandManager.clearRedoStack();
     state.commandManager.clearUndoStack(newCommands: commands);
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: null);

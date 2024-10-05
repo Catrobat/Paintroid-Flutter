@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
@@ -155,6 +156,17 @@ class UIInteraction {
     container.read(paintProvider.notifier).updateColor(color);
   }
 
+  static Future<void> clickBackButton() async {
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickDiscard() async {
+    expect(WidgetFinder.genericDialogActionDiscard, findsOneWidget);
+    await tester.tap(WidgetFinder.genericDialogActionDiscard);
+    await tester.pumpAndSettle();
+  }
+
   static Future<void> clickCheckmark() async {
     expect(WidgetFinder.checkMark, findsOneWidget);
     await tester.tap(WidgetFinder.checkMark);
@@ -208,5 +220,19 @@ class UIInteraction {
   static void expectVertexStackLength(int length) {
     final tool = getCurrentTool();
     expect((tool as LineTool).vertexStack.length, length);
+  }
+
+  static int getUndoStackLength() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final commandManager = container.read(commandManagerProvider);
+    return commandManager.undoStack.length;
+  }
+
+  static int getRedoStackLength() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final commandManager = container.read(commandManagerProvider);
+    return commandManager.redoStack.length;
   }
 }

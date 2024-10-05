@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/utils/open_url.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/images/pocketpaint_logo_small.dart';
 import 'package:paintroid/ui/theme/theme.dart';
@@ -54,7 +53,10 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
       title: 'About',
       actions: [
         GenericDialogAction(
-            title: 'DONE', onPressed: () => Navigator.of(context).pop(true)),
+          title: 'DONE',
+          onPressed: () => Navigator.of(context).pop(true),
+          identifier: WidgetIdentifier.genericDialogActionDone,
+        ),
       ],
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,

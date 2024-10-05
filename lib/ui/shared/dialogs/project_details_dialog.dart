@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
-
 import 'package:filesize/filesize.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:oxidized/oxidized.dart';
-
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
@@ -44,7 +43,10 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
       title: widget.project.name,
       actions: [
         GenericDialogAction(
-            title: 'OK', onPressed: () => Navigator.of(context).pop(false))
+          title: 'OK',
+          onPressed: () => Navigator.of(context).pop(false),
+          identifier: WidgetIdentifier.genericDialogActionOk,
+        ),
       ],
       content: FutureBuilder(
         future: _getImageDimensions(widget.project.imagePreviewPath),
