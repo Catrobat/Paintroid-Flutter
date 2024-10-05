@@ -74,7 +74,7 @@ class SprayTool extends Tool {
     final density = sprayRadius / 3;
     for (int i = 0; i < density; i++) {
       final angle = random.nextDouble() * 2 * pi;
-      final radius = random.nextDouble() * sprayRadius * 2;
+      final radius = sqrt(random.nextDouble()) * sprayRadius * 2;
       final dx = center.dx + radius * cos(angle);
       final dy = center.dy + radius * sin(angle);
       points.add(Offset(dx, dy));
