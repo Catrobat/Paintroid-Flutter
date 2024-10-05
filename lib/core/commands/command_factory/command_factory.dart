@@ -4,6 +4,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class CommandFactory {
@@ -38,4 +39,8 @@ class CommandFactory {
     Offset center,
   ) =>
       CircleShapeCommand(paint, radius, center);
+
+  SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
+    return SprayCommand(points, paint);
+  }
 }

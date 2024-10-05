@@ -1,19 +1,24 @@
 import 'dart:ui';
-import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
-import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/spray_tool_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
+import 'package:paintroid/core/tools/implementation/spray_tool.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'toolbox_state_provider.g.dart';
+
+const SPRAY_TOOL_RADIUS = 10.0;
 
 @riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
@@ -47,6 +52,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   }
 
   void switchTool(ToolData data) {
+    if (state.currentTool is SprayTool) {
+      final currentRadius = (state.currentTool as SprayTool).sprayRadius;
+      ref.read(paintProvider.notifier).updateStrokeWidth(currentRadius);
+    }
     switch (data.type) {
       case ToolType.BRUSH:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
@@ -63,6 +72,12 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
       case ToolType.SHAPES:
         state = state.copyWith(currentTool: ref.read(shapesToolProvider));
         ref.read(canvasPainterProvider.notifier).repaint();
+        break;
+      case ToolType.SPRAY:
+        state = state.copyWith(currentTool: ref.read(sprayToolProvider));
+        final currentStrokeWidth = ref.read(paintProvider).strokeWidth;
+        (state.currentTool as SprayTool).updateSprayRadius(currentStrokeWidth);
+        ref.read(paintProvider.notifier).updateStrokeWidth(SPRAY_TOOL_RADIUS);
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));

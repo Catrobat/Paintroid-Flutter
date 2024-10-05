@@ -75,7 +75,7 @@ class UIInteraction {
     return (leftPixel, rightPixel, topPixel, bottomPixel);
   }
 
-  static Future<Color> getPixelColor(int x, int y) async {
+  static Future<Color> getPixelColor(int x, int y, {int radius = 0}) async {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final canvasStateNotifier = container.read(canvasStateProvider.notifier);
@@ -89,15 +89,35 @@ class UIInteraction {
     final rawBytes = byteData.buffer.asUint8List();
     final image =
         img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
-    var pixel = image.getPixel(x, y);
 
+    if (radius != 0) {
+      for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
+          if (i < 0 || i >= image.width || j < 0 || j >= image.height) {
+            continue;
+          }
+          final argbColor = getColorAtPixel(image, i, j);
+          if (argbColor != 0) {
+            return Color(argbColor);
+          }
+        }
+      }
+      return Colors.transparent;
+    }
+
+    final argbColor = getColorAtPixel(image, x, y);
+    return Color(argbColor);
+  }
+
+  static int getColorAtPixel(img.Image image, int x, int y) {
+    var pixel = image.getPixel(x, y);
     final a = img.getAlpha(pixel);
     final r = img.getRed(pixel);
     final g = img.getGreen(pixel);
     final b = img.getBlue(pixel);
 
     final argbColor = (a << 24) | (r << 16) | (g << 8) | b;
-    return Color(argbColor);
+    return argbColor;
   }
 
   static Future<void> createNewImage() async {
@@ -189,19 +209,30 @@ class UIInteraction {
     }
   }
 
-  static Future<void> dragFromTo(Offset from, Offset to) async {
+  static Future<void> dragFromTo(
+    Offset from,
+    Offset to, {
+    int steps = 1,
+  }) async {
     final TestGesture gesture = await tester.startGesture(from);
     await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
-    await gesture.moveTo(to);
-    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    final dx = (to.dx - from.dx) / steps;
+    final dy = (to.dy - from.dy) / steps;
 
+    for (int i = 1; i <= steps; i++) {
+      final Offset nextPoint = Offset(from.dx + dx * i, from.dy + dy * i);
+      await gesture.moveTo(nextPoint);
+      await tester.pumpAndSettle(const Duration(milliseconds: 16));
+    }
     await gesture.up();
     await tester.pumpAndSettle();
   }
 
-  static Future<void> tapAt(Offset position) async {
-    await tester.tapAt(position);
+  static Future<void> tapAt(Offset position, {int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      await tester.tapAt(position);
+    }
     await tester.pumpAndSettle();
   }
 

@@ -1,53 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/spray_tool.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
-class StrokeWidthToolOption extends ConsumerStatefulWidget {
-  const StrokeWidthToolOption({super.key});
+class RadiusSlider extends ConsumerStatefulWidget {
+  const RadiusSlider({super.key});
 
   @override
-  ConsumerState<StrokeWidthToolOption> createState() =>
-      _StrokeWidthToolOptionState();
+  ConsumerState<RadiusSlider> createState() => _RadiusSliderState();
 }
 
-class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
-  late final TextEditingController _strokeWidthTextController;
+class _RadiusSliderState extends ConsumerState<RadiusSlider> {
+  late final TextEditingController _radiusTextController;
+  double _radius = 20;
 
   void _onChangedTextField(String value) {
-    final newStrokeWidth = int.tryParse(value) ?? 1;
-    ref
-        .read(paintProvider.notifier)
-        .updateStrokeWidth(newStrokeWidth.toDouble());
+    final newRadius = int.tryParse(value) ?? 1;
+    setState(() {
+      _radius = newRadius.toDouble();
+      _radiusTextController.text = newRadius.toString();
+    });
+    final currentTool = ref.read(toolBoxStateProvider).currentTool;
+    if (currentTool is SprayTool) {
+      currentTool.updateSprayRadius(_radius);
+    }
   }
 
   void _onChangedSlider(double newValue) {
-    _strokeWidthTextController.text = newValue.toInt().toString();
-    ref.read(paintProvider.notifier).updateStrokeWidth(newValue);
+    setState(() {
+      _radius = newValue;
+      _radiusTextController.text = newValue.toInt().toString();
+    });
+    final currentTool = ref.read(toolBoxStateProvider).currentTool;
+    if (currentTool is SprayTool) {
+      currentTool.updateSprayRadius(_radius);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _strokeWidthTextController = TextEditingController(
-      text:
-          ref.read(paintProvider).strokeWidth.toInt().toString(),
+    final currentTool = ref.read(toolBoxStateProvider).currentTool;
+    if (currentTool is SprayTool) {
+      _radius = currentTool.sprayRadius;
+    }
+    _radiusTextController = TextEditingController(
+      text: _radius.toInt().toString(),
     );
   }
 
   @override
   void dispose() {
+    _radiusTextController.dispose();
     super.dispose();
-    _strokeWidthTextController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final strokeWidth = ref.watch(paintProvider).strokeWidth;
-
     return SizedBox(
       height: 25,
       child: Row(
@@ -55,14 +66,14 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
           Expanded(
             flex: 1,
             child: TextField(
-              controller: _strokeWidthTextController,
+              controller: _radiusTextController,
               style: PaintroidTheme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(
                   RegExp(r'^(100|[1-9][0-9]?)$'),
-                  replacementString: strokeWidth.toInt().toString(),
+                  replacementString: _radius.toInt().toString(),
                 ),
               ],
               onChanged: _onChangedTextField,
@@ -85,11 +96,11 @@ class _StrokeWidthToolOptionState extends ConsumerState<StrokeWidthToolOption> {
                 showValueIndicator: ShowValueIndicator.never,
               ),
               child: Slider(
-                value: strokeWidth,
+                value: _radius,
                 min: 1,
                 max: 100,
-                divisions: 100,
-                label: strokeWidth.toInt().toString(),
+                divisions: 99,
+                label: _radius.toInt().toString(),
                 onChanged: _onChangedSlider,
               ),
             ),
