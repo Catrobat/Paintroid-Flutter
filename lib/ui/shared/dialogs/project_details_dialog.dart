@@ -45,7 +45,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
         GenericDialogAction(
           title: 'OK',
           onPressed: () => Navigator.of(context).pop(false),
-          key: const ValueKey(WidgetIdentifier.genericDialogActionOk),
+          identifier: WidgetIdentifier.genericDialogActionOk,
         ),
       ],
       content: FutureBuilder(

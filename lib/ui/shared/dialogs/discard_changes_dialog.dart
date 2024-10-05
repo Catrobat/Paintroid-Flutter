@@ -13,16 +13,12 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) =>
                   GenericDialogAction(
                     title: 'Discard',
                     onPressed: () => Navigator.of(context).pop(true),
-                    key: const ValueKey(
-                      WidgetIdentifier.genericDialogActionDiscard,
-                    ),
+                    identifier: WidgetIdentifier.genericDialogActionDiscard,
                   ),
                   GenericDialogAction(
                     title: 'Save',
                     onPressed: () => Navigator.of(context).pop(false),
-                    key: const ValueKey(
-                      WidgetIdentifier.genericDialogActionSave,
-                    ),
+                    identifier: WidgetIdentifier.genericDialogActionSave,
                   ),
                 ]),
         barrierDismissible: true,

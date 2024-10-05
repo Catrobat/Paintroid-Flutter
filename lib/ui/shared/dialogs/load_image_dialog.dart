@@ -14,17 +14,13 @@ Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
                   title: 'Photos',
                   onPressed: () =>
                       Navigator.of(context).pop(ImageLocation.photos),
-                  key: const ValueKey(
-                    WidgetIdentifier.genericDialogActionPhotos,
-                  ),
+                  identifier: WidgetIdentifier.genericDialogActionPhotos,
                 ),
                 GenericDialogAction(
                   title: 'Files',
                   onPressed: () =>
                       Navigator.of(context).pop(ImageLocation.files),
-                  key: const ValueKey(
-                    WidgetIdentifier.genericDialogActionFiles,
-                  ),
+                  identifier: WidgetIdentifier.genericDialogActionFiles,
                 ),
               ],
             ),

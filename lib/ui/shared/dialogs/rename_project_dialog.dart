@@ -18,7 +18,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
           GenericDialogAction(
               title: 'CANCEL',
               onPressed: () => Navigator.of(context).pop(),
-              key: const ValueKey(WidgetIdentifier.genericDialogActionCancel)),
+              identifier: WidgetIdentifier.genericDialogActionCancel),
           GenericDialogAction(
             title: 'RENAME',
             onPressed: () {
@@ -28,7 +28,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
               }
               Navigator.of(context).pop(textFieldController.text);
             },
-            key: const ValueKey(WidgetIdentifier.genericDialogActionRename),
+            identifier: WidgetIdentifier.genericDialogActionRename,
           ),
         ],
         content: Form(

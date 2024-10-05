@@ -156,8 +156,13 @@ class UIInteraction {
   }
 
   static Future<void> clickBackButton() async {
-    expect(WidgetFinder.backButton, findsOneWidget);
-    await tester.tap(WidgetFinder.backButton);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickDiscard() async {
+    expect(WidgetFinder.genericDialogActionDiscard, findsOneWidget);
+    await tester.tap(WidgetFinder.genericDialogActionDiscard);
     await tester.pumpAndSettle();
   }
 

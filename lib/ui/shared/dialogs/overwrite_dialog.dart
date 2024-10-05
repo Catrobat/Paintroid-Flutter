@@ -13,12 +13,12 @@ Future<bool?> showOverwriteDialog(BuildContext context) =>
           GenericDialogAction(
             title: 'Cancel',
             onPressed: () => Navigator.of(context).pop(true),
-            key: const ValueKey(WidgetIdentifier.genericDialogActionCancel),
+            identifier: WidgetIdentifier.genericDialogActionCancel,
           ),
           GenericDialogAction(
             title: 'Yes',
             onPressed: () => Navigator.of(context).pop(false),
-            key: const ValueKey(WidgetIdentifier.genericDialogActionYes),
+            identifier: WidgetIdentifier.genericDialogActionYes,
           ),
         ],
       ),

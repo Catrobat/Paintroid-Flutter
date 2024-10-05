@@ -55,7 +55,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
         GenericDialogAction(
           title: 'DONE',
           onPressed: () => Navigator.of(context).pop(true),
-          key: const ValueKey(WidgetIdentifier.genericDialogActionDone),
+          identifier: WidgetIdentifier.genericDialogActionDone,
         ),
       ],
       content: Column(

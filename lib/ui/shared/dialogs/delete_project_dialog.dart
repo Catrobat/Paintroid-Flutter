@@ -12,16 +12,12 @@ Future<bool?> showDeleteDialog(BuildContext context, String name) =>
                   GenericDialogAction(
                     title: 'Cancel',
                     onPressed: () => Navigator.of(context).pop(false),
-                    key: const ValueKey(
-                      WidgetIdentifier.genericDialogActionCancel,
-                    ),
+                    identifier: WidgetIdentifier.genericDialogActionCancel,
                   ),
                   GenericDialogAction(
                     title: 'Delete',
                     onPressed: () => Navigator.of(context).pop(true),
-                    key: const ValueKey(
-                      WidgetIdentifier.genericDialogActionDelete,
-                    ),
+                    identifier: WidgetIdentifier.genericDialogActionDelete,
                   ),
                 ]),
         barrierDismissible: true,

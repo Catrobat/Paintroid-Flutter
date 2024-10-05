@@ -23,4 +23,25 @@ class WidgetFinder {
       find.byKey(const ValueKey(WidgetIdentifier.circleShapeTypeChip));
   static final Finder backButton =
       find.byKey(const ValueKey(WidgetIdentifier.backButton));
+
+  static final Finder genericDialogActionDone =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionDone));
+  static final Finder genericDialogActionDiscard =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionDiscard));
+  static final Finder genericDialogActionSave =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionSave));
+  static final Finder genericDialogActionPhotos =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionPhotos));
+  static final Finder genericDialogActionFiles =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionFiles));
+  static final Finder genericDialogActionCancel =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionCancel));
+  static final Finder genericDialogActionDelete =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionDelete));
+  static final Finder genericDialogActionOk =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionOk));
+  static final Finder genericDialogActionRename =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionRename));
+  static final Finder genericDialogActionYes =
+      find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionYes));
 }
