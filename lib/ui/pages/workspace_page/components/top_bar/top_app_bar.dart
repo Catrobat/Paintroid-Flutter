@@ -3,18 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
-import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
-import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
-import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 import 'package:paintroid/ui/utils/top_bar_action_data.dart';
 
 class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -24,31 +20,6 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
-  Future<void Function()?> _onBack(BuildContext context, WidgetRef ref) async {
-    final isFullscreen = ref.watch(
-      workspaceStateProvider.select((state) => state.isFullscreen),
-    );
-    final ioHandler = ref.watch(IOHandler.provider);
-    final workspaceStateNotifier = ref.watch(workspaceStateProvider.notifier);
-
-    if (isFullscreen) {
-      workspaceStateNotifier.toggleFullscreen(false);
-      return null;
-    }
-    if (!workspaceStateNotifier.hasSavedLastWork) {
-      final shouldDiscard = await showDiscardChangesDialog(context);
-      if (shouldDiscard != null && !shouldDiscard && context.mounted) {
-        bool savedImage = await ioHandler.saveImage(context);
-        if (!savedImage) {
-          return null;
-        }
-      }
-    }
-    if (!context.mounted) return null;
-    Navigator.pop(context);
-    return null;
-  }
 
   void Function()? _onUndo(
     Tool currentTool,
@@ -129,13 +100,6 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     ref.watch(appBarProvider);
 
     return AppBar(
-      leading: IconButton(
-        key: const ValueKey(WidgetIdentifier.backButton),
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () async {
-          await _onBack(context, ref);
-        },
-      ),
       title: Text(title),
       centerTitle: false,
       actions: [
