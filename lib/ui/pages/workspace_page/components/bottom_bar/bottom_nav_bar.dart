@@ -92,7 +92,7 @@ class BottomNavBar extends ConsumerWidget {
         _showColorPicker(context, ref);
         break;
       case BottomNavBarItem.LAYERS:
-        _showLayerMenu(context, ref);
+        _showLayerMenu(ref);
       default:
         return;
     }
@@ -136,7 +136,7 @@ class BottomNavBar extends ConsumerWidget {
     );
   }
 
-  void _showLayerMenu(BuildContext context, WidgetRef ref) {
+  void _showLayerMenu(WidgetRef ref) {
     ref.read(layerMenuStateProvider.notifier).toggleVisibility();
   }
 }
