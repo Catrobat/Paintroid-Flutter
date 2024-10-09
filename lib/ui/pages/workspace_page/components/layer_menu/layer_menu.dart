@@ -12,8 +12,8 @@ class LayerMenu extends ConsumerWidget {
       layerMenuStateProvider.select((state) => state.isVisible),
     );
     return Positioned(
-      top: 32,
-      bottom: 32,
+      top: 54,
+      bottom: 54,
       right: 8,
       child: FadeInOutWidget(
         isVisible: isVisible,

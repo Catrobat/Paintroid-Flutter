@@ -15,4 +15,8 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   void toggleVisibility() {
     state = state.copyWith(isVisible: !state.isVisible);
   }
+
+  void hide() {
+    state = state.copyWith(isVisible: false);
+  }
 }
