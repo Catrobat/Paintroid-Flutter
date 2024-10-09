@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-const Duration animationDuration = Duration(milliseconds: 300);
-const double maxAnimationOpacity = 1.0;
-const double minAnimationOpacity = 0.0;
-
 class FadeInOutWidget extends StatelessWidget {
   final bool isVisible;
   final Widget child;
@@ -19,8 +15,8 @@ class FadeInOutWidget extends StatelessWidget {
     return IgnorePointer(
       ignoring: !isVisible,
       child: AnimatedOpacity(
-        opacity: isVisible ? maxAnimationOpacity : minAnimationOpacity,
-        duration: animationDuration,
+        opacity: isVisible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 300),
         child: child,
       ),
     );
