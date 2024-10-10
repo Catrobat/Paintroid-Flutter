@@ -24,7 +24,7 @@ class LayerMenu extends ConsumerWidget {
         child: Container(
           width: 200,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
