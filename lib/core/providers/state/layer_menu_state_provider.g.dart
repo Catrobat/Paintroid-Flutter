@@ -7,7 +7,7 @@ part of 'layer_menu_state_provider.dart';
 // **************************************************************************
 
 String _$layerMenuStateProviderHash() =>
-    r'1dc3f0fa55df98057c2b981e7b215ccea251542a';
+    r'311c058569eb9676b09e9de5c21a44516f2ee183';
 
 /// See also [LayerMenuStateProvider].
 @ProviderFor(LayerMenuStateProvider)

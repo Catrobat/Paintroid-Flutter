@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LayerMenuStateData {
   bool get isVisible => throw _privateConstructorUsedError;
+  List<LayerStateData> get layer => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LayerMenuStateDataCopyWith<LayerMenuStateData> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $LayerMenuStateDataCopyWith<$Res> {
           LayerMenuStateData value, $Res Function(LayerMenuStateData) then) =
       _$LayerMenuStateDataCopyWithImpl<$Res, LayerMenuStateData>;
   @useResult
-  $Res call({bool isVisible});
+  $Res call({bool isVisible, List<LayerStateData> layer});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$LayerMenuStateDataCopyWithImpl<$Res, $Val extends LayerMenuStateData>
   @override
   $Res call({
     Object? isVisible = null,
+    Object? layer = null,
   }) {
     return _then(_value.copyWith(
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      layer: null == layer
+          ? _value.layer
+          : layer // ignore: cast_nullable_to_non_nullable
+              as List<LayerStateData>,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$LayerMenuStateDataImplCopyWith<$Res>
       __$$LayerMenuStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isVisible});
+  $Res call({bool isVisible, List<LayerStateData> layer});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$LayerMenuStateDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isVisible = null,
+    Object? layer = null,
   }) {
     return _then(_$LayerMenuStateDataImpl(
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      layer: null == layer
+          ? _value._layer
+          : layer // ignore: cast_nullable_to_non_nullable
+              as List<LayerStateData>,
     ));
   }
 }
@@ -92,14 +103,23 @@ class __$$LayerMenuStateDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
-  const _$LayerMenuStateDataImpl({required this.isVisible});
+  const _$LayerMenuStateDataImpl(
+      {required this.isVisible, required final List<LayerStateData> layer})
+      : _layer = layer;
 
   @override
   final bool isVisible;
+  final List<LayerStateData> _layer;
+  @override
+  List<LayerStateData> get layer {
+    if (_layer is EqualUnmodifiableListView) return _layer;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_layer);
+  }
 
   @override
   String toString() {
-    return 'LayerMenuStateData(isVisible: $isVisible)';
+    return 'LayerMenuStateData(isVisible: $isVisible, layer: $layer)';
   }
 
   @override
@@ -108,11 +128,13 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
         (other.runtimeType == runtimeType &&
             other is _$LayerMenuStateDataImpl &&
             (identical(other.isVisible, isVisible) ||
-                other.isVisible == isVisible));
+                other.isVisible == isVisible) &&
+            const DeepCollectionEquality().equals(other._layer, _layer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isVisible);
+  int get hashCode => Object.hash(
+      runtimeType, isVisible, const DeepCollectionEquality().hash(_layer));
 
   @JsonKey(ignore: true)
   @override
@@ -123,11 +145,14 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
 }
 
 abstract class _LayerMenuStateData implements LayerMenuStateData {
-  const factory _LayerMenuStateData({required final bool isVisible}) =
-      _$LayerMenuStateDataImpl;
+  const factory _LayerMenuStateData(
+      {required final bool isVisible,
+      required final List<LayerStateData> layer}) = _$LayerMenuStateDataImpl;
 
   @override
   bool get isVisible;
+  @override
+  List<LayerStateData> get layer;
   @override
   @JsonKey(ignore: true)
   _$$LayerMenuStateDataImplCopyWith<_$LayerMenuStateDataImpl> get copyWith =>
