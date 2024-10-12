@@ -9,9 +9,13 @@ class Layer extends ConsumerWidget {
   const Layer({
     super.key,
     this.isSelected = false,
+    this.isVisible = true,
+    this.opacity = 1.0,
   });
 
   final bool isSelected;
+  final bool isVisible;
+  final double opacity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,17 +38,25 @@ class Layer extends ConsumerWidget {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.visibility),
-                    color: Colors.white,
-                    onPressed: () {},
+                    color: isVisible ? Colors.yellow : Colors.white,
+                    onPressed: () {
+                      ref
+                          .read(layerMenuStateProvider.notifier)
+                          .toggleLayerVisibility(key);
+                    },
                   ),
                   Expanded(
                     child: RotatedBox(
                       quarterTurns: 3,
                       child: Slider(
-                        value: 0.5,
+                        value: opacity,
                         activeColor: Colors.grey,
                         inactiveColor: CustomColors.lightGray,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          ref
+                              .read(layerMenuStateProvider.notifier)
+                              .updateLayerOpacity(key, value);
+                        },
                       ),
                     ),
                   )

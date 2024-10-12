@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LayerStateData {
   ValueKey<dynamic> get key => throw _privateConstructorUsedError;
   bool get isSelected => throw _privateConstructorUsedError;
+  bool get isVisible => throw _privateConstructorUsedError;
+  double get opacity => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LayerStateDataCopyWith<LayerStateData> get copyWith =>
@@ -30,7 +32,8 @@ abstract class $LayerStateDataCopyWith<$Res> {
           LayerStateData value, $Res Function(LayerStateData) then) =
       _$LayerStateDataCopyWithImpl<$Res, LayerStateData>;
   @useResult
-  $Res call({ValueKey<dynamic> key, bool isSelected});
+  $Res call(
+      {ValueKey<dynamic> key, bool isSelected, bool isVisible, double opacity});
 }
 
 /// @nodoc
@@ -48,6 +51,8 @@ class _$LayerStateDataCopyWithImpl<$Res, $Val extends LayerStateData>
   $Res call({
     Object? key = null,
     Object? isSelected = null,
+    Object? isVisible = null,
+    Object? opacity = null,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -58,6 +63,14 @@ class _$LayerStateDataCopyWithImpl<$Res, $Val extends LayerStateData>
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      opacity: null == opacity
+          ? _value.opacity
+          : opacity // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -70,7 +83,8 @@ abstract class _$$LayerStateDataImplCopyWith<$Res>
       __$$LayerStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ValueKey<dynamic> key, bool isSelected});
+  $Res call(
+      {ValueKey<dynamic> key, bool isSelected, bool isVisible, double opacity});
 }
 
 /// @nodoc
@@ -86,6 +100,8 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
   $Res call({
     Object? key = null,
     Object? isSelected = null,
+    Object? isVisible = null,
+    Object? opacity = null,
   }) {
     return _then(_$LayerStateDataImpl(
       key: null == key
@@ -96,6 +112,14 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      opacity: null == opacity
+          ? _value.opacity
+          : opacity // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -103,16 +127,24 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LayerStateDataImpl implements _LayerStateData {
-  const _$LayerStateDataImpl({required this.key, required this.isSelected});
+  const _$LayerStateDataImpl(
+      {required this.key,
+      required this.isSelected,
+      required this.isVisible,
+      required this.opacity});
 
   @override
   final ValueKey<dynamic> key;
   @override
   final bool isSelected;
+  @override
+  final bool isVisible;
+  @override
+  final double opacity;
 
   @override
   String toString() {
-    return 'LayerStateData(key: $key, isSelected: $isSelected)';
+    return 'LayerStateData(key: $key, isSelected: $isSelected, isVisible: $isVisible, opacity: $opacity)';
   }
 
   @override
@@ -122,11 +154,15 @@ class _$LayerStateDataImpl implements _LayerStateData {
             other is _$LayerStateDataImpl &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.isSelected, isSelected) ||
-                other.isSelected == isSelected));
+                other.isSelected == isSelected) &&
+            (identical(other.isVisible, isVisible) ||
+                other.isVisible == isVisible) &&
+            (identical(other.opacity, opacity) || other.opacity == opacity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, key, isSelected);
+  int get hashCode =>
+      Object.hash(runtimeType, key, isSelected, isVisible, opacity);
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +175,18 @@ class _$LayerStateDataImpl implements _LayerStateData {
 abstract class _LayerStateData implements LayerStateData {
   const factory _LayerStateData(
       {required final ValueKey<dynamic> key,
-      required final bool isSelected}) = _$LayerStateDataImpl;
+      required final bool isSelected,
+      required final bool isVisible,
+      required final double opacity}) = _$LayerStateDataImpl;
 
   @override
   ValueKey<dynamic> get key;
   @override
   bool get isSelected;
+  @override
+  bool get isVisible;
+  @override
+  double get opacity;
   @override
   @JsonKey(ignore: true)
   _$$LayerStateDataImplCopyWith<_$LayerStateDataImpl> get copyWith =>

@@ -137,6 +137,6 @@ class BottomNavBar extends ConsumerWidget {
   }
 
   void _showLayerMenu(WidgetRef ref) {
-    ref.read(layerMenuStateProvider.notifier).toggleVisibility();
+    ref.read(layerMenuStateProvider.notifier).toggleMenuVisibility();
   }
 }

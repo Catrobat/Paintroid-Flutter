@@ -9,5 +9,7 @@ class LayerStateData with _$LayerStateData {
   const factory LayerStateData({
     required ValueKey key,
     required bool isSelected,
+    required bool isVisible,
+    required double opacity,
   }) = _LayerStateData;
 }

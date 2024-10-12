@@ -18,12 +18,14 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
         LayerStateData(
           key: ValueKey(uuid.v4()),
           isSelected: false,
+          isVisible: true,
+          opacity: 1.0,
         ),
       ],
     );
   }
 
-  void toggleVisibility() =>
+  void toggleMenuVisibility() =>
       state = state.copyWith(isVisible: !state.isVisible);
 
   void hide() => state = state.copyWith(isVisible: false);
@@ -62,10 +64,32 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
     state = state.copyWith(layer: updatedLayerList);
   }
 
+  void toggleLayerVisibility(Key? layerKey) {
+    final updatedLayerList = state.layer.map((layer) {
+      if (layer.key == layerKey) {
+        return layer.copyWith(isVisible: !layer.isVisible);
+      }
+      return layer;
+    }).toList();
+    state = state.copyWith(layer: updatedLayerList);
+  }
+
+  void updateLayerOpacity(Key? layerKey, double opacity) {
+    final updatedLayerList = state.layer.map((layer) {
+      if (layer.key == layerKey) {
+        return layer.copyWith(opacity: opacity);
+      }
+      return layer;
+    }).toList();
+    state = state.copyWith(layer: updatedLayerList);
+  }
+
   void addLayer() {
     final newLayer = LayerStateData(
       key: ValueKey(uuid.v4()),
       isSelected: false,
+      isVisible: true,
+      opacity: 1.0,
     );
     state = state.copyWith(layer: [...state.layer, newLayer]);
   }
