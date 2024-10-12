@@ -15,19 +15,22 @@ class LayerMenu extends ConsumerWidget {
     final layers = ref.watch(
       layerMenuStateProvider.select((state) => state.layer),
     );
-    return Positioned(
-      top: 54,
-      bottom: 54,
-      right: 8,
+
+    return Align(
+      alignment: Alignment.centerRight,
       child: FadeInOutWidget(
         isVisible: isVisible,
         child: Container(
           width: 200,
+          constraints: BoxConstraints(
+            maxHeight: _calculateHeight(layers.length, context),
+          ),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -46,9 +49,9 @@ class LayerMenu extends ConsumerWidget {
                   ),
                 ],
               ),
-              Expanded(
+              Flexible(
                 child: ReorderableListView(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   onReorder: (int oldIndex, int newIndex) {
                     ref.read(layerMenuStateProvider.notifier).reorder(
                           oldIndex,
@@ -57,8 +60,7 @@ class LayerMenu extends ConsumerWidget {
                   },
                   children: List.generate(layers.length, (index) {
                     return Layer(
-                      id: layers[index].id,
-                      key: ValueKey(layers[index].id),
+                      key: layers[index].key,
                       isSelected: layers[index].isSelected,
                     );
                   }),
@@ -69,5 +71,11 @@ class LayerMenu extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  double _calculateHeight(int layerCount, BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final double maxHeight = screenHeight * 0.66;
+    return (layerCount * layerHeight + 64).clamp(0.0, maxHeight);
   }
 }

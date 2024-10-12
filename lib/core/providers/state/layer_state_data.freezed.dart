@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LayerStateData {
-  int get id => throw _privateConstructorUsedError;
+  ValueKey<dynamic> get key => throw _privateConstructorUsedError;
   bool get isSelected => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $LayerStateDataCopyWith<$Res> {
           LayerStateData value, $Res Function(LayerStateData) then) =
       _$LayerStateDataCopyWithImpl<$Res, LayerStateData>;
   @useResult
-  $Res call({int id, bool isSelected});
+  $Res call({ValueKey<dynamic> key, bool isSelected});
 }
 
 /// @nodoc
@@ -46,14 +46,14 @@ class _$LayerStateDataCopyWithImpl<$Res, $Val extends LayerStateData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? key = null,
     Object? isSelected = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as ValueKey<dynamic>,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,7 @@ abstract class _$$LayerStateDataImplCopyWith<$Res>
       __$$LayerStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, bool isSelected});
+  $Res call({ValueKey<dynamic> key, bool isSelected});
 }
 
 /// @nodoc
@@ -84,14 +84,14 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? key = null,
     Object? isSelected = null,
   }) {
     return _then(_$LayerStateDataImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as ValueKey<dynamic>,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -103,16 +103,16 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LayerStateDataImpl implements _LayerStateData {
-  const _$LayerStateDataImpl({required this.id, required this.isSelected});
+  const _$LayerStateDataImpl({required this.key, required this.isSelected});
 
   @override
-  final int id;
+  final ValueKey<dynamic> key;
   @override
   final bool isSelected;
 
   @override
   String toString() {
-    return 'LayerStateData(id: $id, isSelected: $isSelected)';
+    return 'LayerStateData(key: $key, isSelected: $isSelected)';
   }
 
   @override
@@ -120,13 +120,13 @@ class _$LayerStateDataImpl implements _LayerStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LayerStateDataImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.key, key) || other.key == key) &&
             (identical(other.isSelected, isSelected) ||
                 other.isSelected == isSelected));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, isSelected);
+  int get hashCode => Object.hash(runtimeType, key, isSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -138,11 +138,11 @@ class _$LayerStateDataImpl implements _LayerStateData {
 
 abstract class _LayerStateData implements LayerStateData {
   const factory _LayerStateData(
-      {required final int id,
+      {required final ValueKey<dynamic> key,
       required final bool isSelected}) = _$LayerStateDataImpl;
 
   @override
-  int get id;
+  ValueKey<dynamic> get key;
   @override
   bool get isSelected;
   @override

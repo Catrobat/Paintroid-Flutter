@@ -1,48 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
+import 'package:paintroid/ui/theme/data/custom_colors.dart';
 
-List<Color> customColors = [
-  const Color(0xFFFF5733), // Fiery Red
-  const Color(0xFF33C1FF), // Sky Blue
-  const Color(0xFF75FF33), // Lime Green
-  const Color(0xFFFF33A8), // Hot Pink
-  const Color(0xFF33FFF5), // Aqua
-  const Color(0xFFFFD133), // Golden Yellow
-  const Color(0xFF8D33FF), // Deep Purple
-  const Color(0xFFFF8333), // Vibrant Orange
-  const Color(0xFF33FF8D), // Mint Green
-  const Color(0xFF3361FF), // Bright Indigo
-];
+const layerHeight = 180.0;
 
 class Layer extends ConsumerWidget {
   const Layer({
     super.key,
     this.isSelected = false,
-    required this.id,
   });
 
-  final int id;
   final bool isSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(layerMenuStateProvider.notifier).toggleSelection(id);
+        ref.read(layerMenuStateProvider.notifier).toggleSelection(key);
       },
       child: Container(
-        height: 80,
+        height: 180,
         margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
-          color: customColors[id],
+          color: CustomColors.oceanBlue.withOpacity(isSelected ? 0.5 : 1),
           borderRadius: BorderRadius.circular(12),
-          border: isSelected
-              ? Border.all(
-                  color: Colors.blue,
-                  width: 5.0,
-                )
-              : null,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.visibility),
+                    color: Colors.white,
+                    onPressed: () {},
+                  ),
+                  Expanded(
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: Slider(
+                        value: 0.5,
+                        activeColor: Colors.grey,
+                        inactiveColor: CustomColors.lightGray,
+                        onChanged: (value) {},
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            // const Spacer(),
+            Container(
+              width: 80,
+              height: 180 - 32,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                key.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.drag_indicator_outlined),
+              color: Colors.white,
+              onPressed: () {},
+            ),
+          ],
         ),
       ),
     );
