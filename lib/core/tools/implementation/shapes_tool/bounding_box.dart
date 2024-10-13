@@ -1,5 +1,6 @@
-import 'dart:ui';
+import 'dart:math';
 
+import 'package:flutter/widgets.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/bounding_box_corners.dart';
 import 'package:paintroid/core/extensions/offset_extension.dart';
@@ -46,6 +47,12 @@ class BoundingBox {
   double get outerRadius => (topLeftBottomRightDiagonal / 2);
 
   double get innerRadius => distanceToEdgeFromCenter - padding;
+
+  double get angle => (topLeft - center).direction;
+
+  double get width => topLeft.distanceTo(topRight);
+
+  double get height => topLeft.distanceTo(bottomLeft);
 
   double get activeCornerDirection {
     switch (activeCorner) {
@@ -219,4 +226,59 @@ class BoundingBox {
     ..lineToOffset(getPaddedBottomRight(padding: padding))
     ..lineToOffset(getPaddedBottomLeft(padding: padding))
     ..close();
+
+  Path getStarPath(int numberOfPoints, double radius) {
+    final path = Path();
+    final innerRadius = radius / 2;
+    final angleStep = pi / numberOfPoints;
+    for (int i = 0; i < numberOfPoints * 2; i++) {
+      final currentRadius = (i % 2 == 0) ? radius : innerRadius;
+      final currentAngle = i * angleStep + angle;
+      final point = Offset(
+        center.dx + currentRadius * cos(currentAngle),
+        center.dy + currentRadius * sin(currentAngle),
+      );
+      i == 0 ? path.moveToOffset(point) : path.lineToOffset(point);
+    }
+    path.close();
+    return path;
+  }
+
+  Path getHeartPath() {
+    Path path = Path();
+    final double w = width / 2;
+    final double h = height / 2;
+    const double rotationOffset = 3 * pi / 4;
+
+    path.moveTo(0, -h * 0.25);
+
+    path.cubicTo(
+      -w,
+      -h * 1.25,
+      -w * 1.25,
+      h * 0.25,
+      0,
+      h * 0.75,
+    );
+
+    path.cubicTo(
+      w * 1.25,
+      h * 0.25,
+      w,
+      -h * 1.25,
+      0,
+      -h * 0.25,
+    );
+
+    path.close();
+
+    final Matrix4 rotationMatrix = Matrix4.identity()
+      ..rotateZ(angle + rotationOffset);
+
+    path = path.transform(rotationMatrix.storage);
+
+    path = path.shift(center);
+
+    return path;
+  }
 }

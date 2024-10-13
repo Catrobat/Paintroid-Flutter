@@ -3,6 +3,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 abstract class Command with EquatableMixin {
@@ -21,6 +22,8 @@ abstract class Command with EquatableMixin {
         return SquareShapeCommand.fromJson(json);
       case SerializerType.CIRCLE_SHAPE_COMMAND:
         return CircleShapeCommand.fromJson(json);
+      case SerializerType.STAR_SHAPE_COMMAND:
+        return StarShapeCommand.fromJson(json);
       default:
         return PathCommand.fromJson(json);
     }

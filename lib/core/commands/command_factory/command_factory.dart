@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class CommandFactory {
@@ -38,4 +40,28 @@ class CommandFactory {
     Offset center,
   ) =>
       CircleShapeCommand(paint, radius, center);
+
+  StarShapeCommand createStarShapeCommand(
+    Paint paint,
+    int numPoints,
+    double radius,
+    double angle,
+    Offset center,
+  ) =>
+      StarShapeCommand(
+        paint,
+        numPoints,
+        radius,
+        angle,
+        center,
+      );
+
+  HeartShapeCommand createHeartShapeCommand(
+    Paint paint,
+    double width,
+    double height,
+    double angle,
+    Offset center,
+  ) =>
+      HeartShapeCommand(paint, width, height, angle, center);
 }

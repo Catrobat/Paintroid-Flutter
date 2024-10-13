@@ -8,6 +8,7 @@ import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dar
 import 'package:paintroid/core/tools/tool.dart';
 
 class ShapesTool extends Tool {
+  static const starShapeNumberOfPoints = 5;
   bool isRotating;
   BoundingBox boundingBox;
   ShapeType shapeType;
@@ -59,6 +60,24 @@ class ShapesTool extends Tool {
           boundingBox.center,
         );
         break;
+      case ShapeType.star:
+        final radius = boundingBox.innerRadius - padding;
+        command = commandFactory.createStarShapeCommand(
+          paint,
+          starShapeNumberOfPoints,
+          radius,
+          boundingBox.angle,
+          boundingBox.center,
+        );
+        break;
+      case ShapeType.heart:
+        command = commandFactory.createHeartShapeCommand(
+          paint,
+          boundingBox.width,
+          boundingBox.height,
+          boundingBox.angle,
+          boundingBox.center,
+        );
     }
     commandManager.addGraphicCommand(command);
     commandManager.clearRedoStack();
@@ -83,6 +102,13 @@ class ShapesTool extends Tool {
         final radius = boundingBox.innerRadius - padding;
         canvas.drawCircle(boundingBox.center, radius, paint);
         break;
+      case ShapeType.star:
+        final radius = boundingBox.innerRadius - padding;
+        final path = boundingBox.getStarPath(starShapeNumberOfPoints, radius);
+        canvas.drawPath(path, paint);
+      case ShapeType.heart:
+        final path = boundingBox.getHeartPath();
+        canvas.drawPath(path, paint);
     }
   }
 
@@ -116,6 +142,8 @@ class ShapesTool extends Tool {
   double _calculatePaddingAdjustedForStrokeWidth(double strokeWidth) =>
       switch (shapeType) {
         ShapeType.square => strokeWidth * sqrt2 / 2,
-        ShapeType.circle => strokeWidth / 2
+        ShapeType.circle => strokeWidth / 2,
+        ShapeType.star => strokeWidth * sqrt2 / 2,
+        ShapeType.heart => strokeWidth / 2,
       };
 }
