@@ -39,12 +39,7 @@ class StarShapeCommand extends ShapeCommand {
   void call(Canvas canvas) => canvas.drawPath(path, paint);
 
   @override
-  List<Object?> get props => [
-        paint,
-        numberOfPoints,
-        radius,
-        center,
-      ];
+  List<Object?> get props => [paint, numberOfPoints, radius, center];
 
   @override
   Map<String, dynamic> toJson() => _$StarShapeCommandToJson(this);

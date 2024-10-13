@@ -12,9 +12,6 @@ class OffsetConverter implements JsonConverter<Offset, Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson(Offset offset) {
-    return <String, dynamic>{
-      'dx': offset.dx,
-      'dy': offset.dy,
-    };
+    return <String, dynamic>{'dx': offset.dx, 'dy': offset.dy};
   }
 }

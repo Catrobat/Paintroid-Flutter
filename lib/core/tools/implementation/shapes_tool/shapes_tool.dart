@@ -70,6 +70,14 @@ class ShapesTool extends Tool {
           boundingBox.center,
         );
         break;
+      case ShapeType.heart:
+        command = commandFactory.createHeartShapeCommand(
+          paint,
+          boundingBox.width,
+          boundingBox.height,
+          boundingBox.angle,
+          boundingBox.center,
+        );
     }
     commandManager.addGraphicCommand(command);
     commandManager.clearRedoStack();
@@ -97,6 +105,9 @@ class ShapesTool extends Tool {
       case ShapeType.star:
         final radius = boundingBox.innerRadius - padding;
         final path = boundingBox.getStarPath(starShapeNumberOfPoints, radius);
+        canvas.drawPath(path, paint);
+      case ShapeType.heart:
+        final path = boundingBox.getHeartPath();
         canvas.drawPath(path, paint);
     }
   }
@@ -132,6 +143,7 @@ class ShapesTool extends Tool {
       switch (shapeType) {
         ShapeType.square => strokeWidth * sqrt2 / 2,
         ShapeType.circle => strokeWidth / 2,
-        ShapeType.star => strokeWidth * sqrt2 / 2
+        ShapeType.star => strokeWidth * sqrt2 / 2,
+        ShapeType.heart => strokeWidth / 2,
       };
 }

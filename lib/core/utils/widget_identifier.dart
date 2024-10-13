@@ -3,4 +3,5 @@ class WidgetIdentifier {
   static const newImageActionButton = 'NewImageActionButton';
   static const circleShapeTypeChip = 'CircleShapeTypeChip';
   static const starShapeTypeChip = 'StarShapeTypeChip';
+  static const heartShapeTypeChip = 'HeartShapeTypeChip';
 }

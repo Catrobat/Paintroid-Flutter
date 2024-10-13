@@ -6,6 +6,7 @@ class SerializerVersion {
   static const int SQUARE_SHAPE_COMMAND_VERSION = Version.v1;
   static const int CIRCLE_SHAPE_COMMAND_VERSION = Version.v1;
   static const int STAR_SHAPE_COMMAND_VERSION = Version.v1;
+  static const int HEART_SHAPE_COMMAND_VERSION = Version.v1;
 }
 
 class Version {
@@ -23,4 +24,5 @@ class SerializerType {
   static const String SQUARE_SHAPE_COMMAND = 'SquareShapeCommand';
   static const String CIRCLE_SHAPE_COMMAND = 'CircleShapeCommand';
   static const String STAR_SHAPE_COMMAND = 'StarShapeCommand';
+  static const String HEART_SHAPE_COMMAND = 'HeartShapeCommand';
 }

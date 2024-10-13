@@ -22,7 +22,6 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Wrap(
-                spacing: 8,
                 children: [
                   CustomActionChip(
                     hint: 'Square',
@@ -71,6 +70,23 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
                     onPressed: () => ref
                         .read(shapesToolOptionsStateProvider.notifier)
                         .setShapeType(shapeType: ShapeType.star),
+                  ),
+                  CustomActionChip(
+                    key: const ValueKey(
+                      WidgetIdentifier.heartShapeTypeChip,
+                    ),
+                    hint: 'Heart',
+                    chipBackgroundColor:
+                        shapesToolOptionsState.shapeType == ShapeType.heart
+                            ? PaintroidTheme.of(context).primaryColor
+                            : Colors.white,
+                    chipIcon: Icon(
+                      Icons.favorite_outline,
+                      color: PaintroidTheme.of(context).shadowColor,
+                    ),
+                    onPressed: () => ref
+                        .read(shapesToolOptionsStateProvider.notifier)
+                        .setShapeType(shapeType: ShapeType.heart),
                   )
                 ],
               )

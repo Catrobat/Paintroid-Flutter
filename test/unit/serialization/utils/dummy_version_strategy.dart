@@ -8,6 +8,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int squareShapeCommandVersion;
   final int circleShapeCommandVersion;
   final int starShapeCommandVersion;
+  final int heartShapeCommandVersion;
 
   DummyVersionStrategy({
     this.pathCommandVersion = SerializerVersion.PATH_COMMAND_VERSION,
@@ -18,6 +19,7 @@ class DummyVersionStrategy implements IVersionStrategy {
     this.circleShapeCommandVersion =
         SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION,
     this.starShapeCommandVersion = SerializerVersion.STAR_SHAPE_COMMAND_VERSION,
+    this.heartShapeCommandVersion = SerializerVersion.HEART_SHAPE_COMMAND_VERSION,
   });
 
   @override
@@ -37,4 +39,8 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getStarShapeCommandVersion() => starShapeCommandVersion;
+  
+  @override
+  int getHeartShapeCommandVersion() => heartShapeCommandVersion;
+  
 }
