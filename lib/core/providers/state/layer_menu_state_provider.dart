@@ -1,4 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart';
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/layer_menu_state_data.dart';
 import 'package:paintroid/core/providers/state/layer_state_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -59,6 +63,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       return layer;
     }).toList();
     state = state.copyWith(layers: updatedLayerList);
+    ref.read(canvasStateProvider.notifier).updateCachedImage();
   }
 
   void updateLayerOpacity(Key? layerKey, double opacity) {
@@ -69,10 +74,10 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       return layer;
     }).toList();
     state = state.copyWith(layers: updatedLayerList);
+    ref.read(canvasStateProvider.notifier).updateCachedImage();
   }
 
   void addLayer() {
-    // deselect all layers
     final updatedLayerList = state.layers.map((layer) {
       return layer.copyWith(isSelected: false);
     }).toList();
@@ -95,5 +100,35 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
         updatedLayerList[lastIndex].copyWith(isSelected: true);
 
     state = state.copyWith(layers: updatedLayerList);
+    ref.read(canvasStateProvider.notifier).updateCachedImage();
+  }
+
+  LayerStateData getSelectedLayer() =>
+      state.layers.firstWhere((layer) => layer.isSelected);
+
+  void updateImageOfLayer(ui.Image image) {
+    final updatedLayerList = state.layers.map((layer) {
+      if (layer.isSelected) {
+        return layer.copyWith(image: image);
+      }
+      return layer;
+    }).toList();
+    state = state.copyWith(layers: updatedLayerList);
+  }
+
+  Future<ui.Image> getMergedImageOfVisibleLayers(ui.Image image) async {
+    final recorder = ref.read(graphicFactoryProvider).createPictureRecorder();
+    final canvas =
+        ref.read(graphicFactoryProvider).createCanvasWithRecorder(recorder);
+
+    for (final layer in state.layers) {
+      final image = layer.image;
+      if (layer.isVisible && image != null) {
+        canvas.drawImage(image, Offset.zero, Paint());
+      }
+    }
+
+    final picture = recorder.endRecording();
+    return await picture.toImage(image.width, image.height);
   }
 }

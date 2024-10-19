@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
@@ -11,11 +13,13 @@ class Layer extends ConsumerWidget {
     this.isSelected = false,
     this.isVisible = true,
     this.opacity = 1.0,
+    this.image,
   });
 
   final bool isSelected;
   final bool isVisible;
   final double opacity;
+  final ui.Image? image;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,13 +75,9 @@ class Layer extends ConsumerWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
-                key.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: RawImage(
+                image: image,
+                fit: BoxFit.contain,
               ),
             ),
             IconButton(

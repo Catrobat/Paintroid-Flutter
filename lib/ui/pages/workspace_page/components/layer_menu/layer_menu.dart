@@ -65,6 +65,7 @@ class LayerMenu extends ConsumerWidget {
                       isSelected: layers[index].isSelected,
                       isVisible: layers[index].isVisible,
                       opacity: layers[index].opacity,
+                      image: layers[index].image,
                     );
                   }),
                 ),

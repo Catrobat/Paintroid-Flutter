@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
+import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canvas_state_provider.g.dart';
 
@@ -47,11 +46,15 @@ class CanvasStateProvider extends _$CanvasStateProvider {
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
     final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
-    if (state.cachedImage != null) {
+
+    final currentLayer =
+        ref.read(layerMenuStateProvider.notifier).getSelectedLayer();
+
+    if (currentLayer.image != null) {
       paintImage(
         canvas: canvas,
         rect: bounds,
-        image: state.cachedImage!,
+        image: currentLayer.image!,
         fit: BoxFit.fill,
         filterQuality: FilterQuality.none,
       );
@@ -60,7 +63,13 @@ class CanvasStateProvider extends _$CanvasStateProvider {
     state.commandManager.executeLastCommand(canvas);
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.width.toInt(), size.height.toInt());
-    state = state.copyWith(cachedImage: img);
+    ref.read(layerMenuStateProvider.notifier).updateImageOfLayer(img);
+
+    final mergedImage = await ref
+        .read(layerMenuStateProvider.notifier)
+        .getMergedImageOfVisibleLayers(img);
+
+    state = state.copyWith(cachedImage: mergedImage);
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
