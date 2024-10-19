@@ -17,7 +17,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       layer: [
         LayerStateData(
           key: ValueKey(uuid.v4()),
-          isSelected: false,
+          isSelected: true,
           isVisible: true,
           opacity: 1.0,
         ),
@@ -31,7 +31,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   void hide() => state = state.copyWith(isVisible: false);
 
   void reorder(int oldIndex, int newIndex) {
-    List<LayerStateData> layerList = List.from(state.layer);
+    List<LayerStateData> layerList = List.from(state.layers);
     if (oldIndex < newIndex) {
       newIndex -= 1;
     }
@@ -41,31 +41,18 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   }
 
   void toggleSelection(Key? layerKey) {
-    final layers = state.layer;
-
-    final selectedCount = layers.where((layer) => layer.isSelected).length;
-    final unselectedCount = layers.length - selectedCount;
-
-    final updatedLayerList = layers.map((layer) {
+    final updatedLayerList = state.layers.map((layer) {
       if (layer.key == layerKey) {
-        if (!layer.isSelected) {
-          if (unselectedCount <= 1) {
-            return layer;
-          } else {
-            return layer.copyWith(isSelected: true);
-          }
-        } else {
-          return layer.copyWith(isSelected: false);
-        }
+        return layer.copyWith(isSelected: true);
       }
-      return layer;
+      return layer.copyWith(isSelected: false);
     }).toList();
 
     state = state.copyWith(layer: updatedLayerList);
   }
 
   void toggleLayerVisibility(Key? layerKey) {
-    final updatedLayerList = state.layer.map((layer) {
+    final updatedLayerList = state.layers.map((layer) {
       if (layer.key == layerKey) {
         return layer.copyWith(isVisible: !layer.isVisible);
       }
@@ -75,7 +62,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   }
 
   void updateLayerOpacity(Key? layerKey, double opacity) {
-    final updatedLayerList = state.layer.map((layer) {
+    final updatedLayerList = state.layers.map((layer) {
       if (layer.key == layerKey) {
         return layer.copyWith(opacity: opacity);
       }
@@ -85,18 +72,28 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   }
 
   void addLayer() {
+    // deselect all layers
+    final updatedLayerList = state.layers.map((layer) {
+      return layer.copyWith(isSelected: false);
+    }).toList();
     final newLayer = LayerStateData(
       key: ValueKey(uuid.v4()),
-      isSelected: false,
+      isSelected: true,
       isVisible: true,
       opacity: 1.0,
     );
-    state = state.copyWith(layer: [...state.layer, newLayer]);
+    updatedLayerList.add(newLayer);
+    state = state.copyWith(layer: updatedLayerList);
   }
 
   void deleteLayer() {
+    if (state.layers.length == 1) return;
     final updatedLayerList =
-        state.layer.where((layer) => !layer.isSelected).toList();
+        state.layers.where((layer) => !layer.isSelected).toList();
+    final lastIndex = updatedLayerList.length - 1;
+    updatedLayerList[lastIndex] =
+        updatedLayerList[lastIndex].copyWith(isSelected: true);
+
     state = state.copyWith(layer: updatedLayerList);
   }
 }

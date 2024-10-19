@@ -13,7 +13,7 @@ class LayerMenu extends ConsumerWidget {
       layerMenuStateProvider.select((state) => state.isVisible),
     );
     final layers = ref.watch(
-      layerMenuStateProvider.select((state) => state.layer),
+      layerMenuStateProvider.select((state) => state.layers),
     );
 
     return Align(
@@ -51,6 +51,7 @@ class LayerMenu extends ConsumerWidget {
               ),
               Flexible(
                 child: ReorderableListView(
+                  reverse: true,
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   onReorder: (int oldIndex, int newIndex) {
                     ref.read(layerMenuStateProvider.notifier).reorder(

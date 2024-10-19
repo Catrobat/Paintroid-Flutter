@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LayerMenuStateData {
   bool get isVisible => throw _privateConstructorUsedError;
-  List<LayerStateData> get layer => throw _privateConstructorUsedError;
+
+  List<LayerStateData> get layers => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LayerMenuStateDataCopyWith<LayerMenuStateData> get copyWith =>
@@ -29,6 +30,7 @@ abstract class $LayerMenuStateDataCopyWith<$Res> {
   factory $LayerMenuStateDataCopyWith(
           LayerMenuStateData value, $Res Function(LayerMenuStateData) then) =
       _$LayerMenuStateDataCopyWithImpl<$Res, LayerMenuStateData>;
+
   @useResult
   $Res call({bool isVisible, List<LayerStateData> layer});
 }
@@ -40,6 +42,7 @@ class _$LayerMenuStateDataCopyWithImpl<$Res, $Val extends LayerMenuStateData>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -55,7 +58,7 @@ class _$LayerMenuStateDataCopyWithImpl<$Res, $Val extends LayerMenuStateData>
           : isVisible // ignore: cast_nullable_to_non_nullable
               as bool,
       layer: null == layer
-          ? _value.layer
+          ? _value.layers
           : layer // ignore: cast_nullable_to_non_nullable
               as List<LayerStateData>,
     ) as $Val);
@@ -68,6 +71,7 @@ abstract class _$$LayerMenuStateDataImplCopyWith<$Res>
   factory _$$LayerMenuStateDataImplCopyWith(_$LayerMenuStateDataImpl value,
           $Res Function(_$LayerMenuStateDataImpl) then) =
       __$$LayerMenuStateDataImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({bool isVisible, List<LayerStateData> layer});
@@ -110,8 +114,9 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
   @override
   final bool isVisible;
   final List<LayerStateData> _layer;
+
   @override
-  List<LayerStateData> get layer {
+  List<LayerStateData> get layers {
     if (_layer is EqualUnmodifiableListView) return _layer;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_layer);
@@ -119,7 +124,7 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
 
   @override
   String toString() {
-    return 'LayerMenuStateData(isVisible: $isVisible, layer: $layer)';
+    return 'LayerMenuStateData(isVisible: $isVisible, layer: $layers)';
   }
 
   @override
@@ -151,8 +156,10 @@ abstract class _LayerMenuStateData implements LayerMenuStateData {
 
   @override
   bool get isVisible;
+
   @override
-  List<LayerStateData> get layer;
+  List<LayerStateData> get layers;
+
   @override
   @JsonKey(ignore: true)
   _$$LayerMenuStateDataImplCopyWith<_$LayerMenuStateDataImpl> get copyWith =>
