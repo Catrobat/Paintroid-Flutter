@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LayerMenuStateData {
   bool get isVisible => throw _privateConstructorUsedError;
-
   List<LayerStateData> get layers => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,9 +29,8 @@ abstract class $LayerMenuStateDataCopyWith<$Res> {
   factory $LayerMenuStateDataCopyWith(
           LayerMenuStateData value, $Res Function(LayerMenuStateData) then) =
       _$LayerMenuStateDataCopyWithImpl<$Res, LayerMenuStateData>;
-
   @useResult
-  $Res call({bool isVisible, List<LayerStateData> layer});
+  $Res call({bool isVisible, List<LayerStateData> layers});
 }
 
 /// @nodoc
@@ -42,7 +40,6 @@ class _$LayerMenuStateDataCopyWithImpl<$Res, $Val extends LayerMenuStateData>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -50,16 +47,16 @@ class _$LayerMenuStateDataCopyWithImpl<$Res, $Val extends LayerMenuStateData>
   @override
   $Res call({
     Object? isVisible = null,
-    Object? layer = null,
+    Object? layers = null,
   }) {
     return _then(_value.copyWith(
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
               as bool,
-      layer: null == layer
+      layers: null == layers
           ? _value.layers
-          : layer // ignore: cast_nullable_to_non_nullable
+          : layers // ignore: cast_nullable_to_non_nullable
               as List<LayerStateData>,
     ) as $Val);
   }
@@ -71,10 +68,9 @@ abstract class _$$LayerMenuStateDataImplCopyWith<$Res>
   factory _$$LayerMenuStateDataImplCopyWith(_$LayerMenuStateDataImpl value,
           $Res Function(_$LayerMenuStateDataImpl) then) =
       __$$LayerMenuStateDataImplCopyWithImpl<$Res>;
-
   @override
   @useResult
-  $Res call({bool isVisible, List<LayerStateData> layer});
+  $Res call({bool isVisible, List<LayerStateData> layers});
 }
 
 /// @nodoc
@@ -89,16 +85,16 @@ class __$$LayerMenuStateDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isVisible = null,
-    Object? layer = null,
+    Object? layers = null,
   }) {
     return _then(_$LayerMenuStateDataImpl(
       isVisible: null == isVisible
           ? _value.isVisible
           : isVisible // ignore: cast_nullable_to_non_nullable
               as bool,
-      layer: null == layer
-          ? _value._layer
-          : layer // ignore: cast_nullable_to_non_nullable
+      layers: null == layers
+          ? _value._layers
+          : layers // ignore: cast_nullable_to_non_nullable
               as List<LayerStateData>,
     ));
   }
@@ -108,23 +104,22 @@ class __$$LayerMenuStateDataImplCopyWithImpl<$Res>
 
 class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
   const _$LayerMenuStateDataImpl(
-      {required this.isVisible, required final List<LayerStateData> layer})
-      : _layer = layer;
+      {required this.isVisible, required final List<LayerStateData> layers})
+      : _layers = layers;
 
   @override
   final bool isVisible;
-  final List<LayerStateData> _layer;
-
+  final List<LayerStateData> _layers;
   @override
   List<LayerStateData> get layers {
-    if (_layer is EqualUnmodifiableListView) return _layer;
+    if (_layers is EqualUnmodifiableListView) return _layers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_layer);
+    return EqualUnmodifiableListView(_layers);
   }
 
   @override
   String toString() {
-    return 'LayerMenuStateData(isVisible: $isVisible, layer: $layers)';
+    return 'LayerMenuStateData(isVisible: $isVisible, layers: $layers)';
   }
 
   @override
@@ -134,12 +129,12 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
             other is _$LayerMenuStateDataImpl &&
             (identical(other.isVisible, isVisible) ||
                 other.isVisible == isVisible) &&
-            const DeepCollectionEquality().equals(other._layer, _layer));
+            const DeepCollectionEquality().equals(other._layers, _layers));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isVisible, const DeepCollectionEquality().hash(_layer));
+      runtimeType, isVisible, const DeepCollectionEquality().hash(_layers));
 
   @JsonKey(ignore: true)
   @override
@@ -152,14 +147,12 @@ class _$LayerMenuStateDataImpl implements _LayerMenuStateData {
 abstract class _LayerMenuStateData implements LayerMenuStateData {
   const factory _LayerMenuStateData(
       {required final bool isVisible,
-      required final List<LayerStateData> layer}) = _$LayerMenuStateDataImpl;
+      required final List<LayerStateData> layers}) = _$LayerMenuStateDataImpl;
 
   @override
   bool get isVisible;
-
   @override
   List<LayerStateData> get layers;
-
   @override
   @JsonKey(ignore: true)
   _$$LayerMenuStateDataImplCopyWith<_$LayerMenuStateDataImpl> get copyWith =>

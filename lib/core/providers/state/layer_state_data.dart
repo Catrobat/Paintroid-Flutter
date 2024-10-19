@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -11,5 +13,6 @@ class LayerStateData with _$LayerStateData {
     required bool isSelected,
     required bool isVisible,
     required double opacity,
+    ui.Image? image,
   }) = _LayerStateData;
 }

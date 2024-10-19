@@ -74,7 +74,7 @@ class Layer extends ConsumerWidget {
               child: Text(
                 key.toString(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),

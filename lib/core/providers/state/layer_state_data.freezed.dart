@@ -20,6 +20,7 @@ mixin _$LayerStateData {
   bool get isSelected => throw _privateConstructorUsedError;
   bool get isVisible => throw _privateConstructorUsedError;
   double get opacity => throw _privateConstructorUsedError;
+  ui.Image? get image => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LayerStateDataCopyWith<LayerStateData> get copyWith =>
@@ -33,7 +34,11 @@ abstract class $LayerStateDataCopyWith<$Res> {
       _$LayerStateDataCopyWithImpl<$Res, LayerStateData>;
   @useResult
   $Res call(
-      {ValueKey<dynamic> key, bool isSelected, bool isVisible, double opacity});
+      {ValueKey<dynamic> key,
+      bool isSelected,
+      bool isVisible,
+      double opacity,
+      ui.Image? image});
 }
 
 /// @nodoc
@@ -53,6 +58,7 @@ class _$LayerStateDataCopyWithImpl<$Res, $Val extends LayerStateData>
     Object? isSelected = null,
     Object? isVisible = null,
     Object? opacity = null,
+    Object? image = freezed,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -71,6 +77,10 @@ class _$LayerStateDataCopyWithImpl<$Res, $Val extends LayerStateData>
           ? _value.opacity
           : opacity // ignore: cast_nullable_to_non_nullable
               as double,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as ui.Image?,
     ) as $Val);
   }
 }
@@ -84,7 +94,11 @@ abstract class _$$LayerStateDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ValueKey<dynamic> key, bool isSelected, bool isVisible, double opacity});
+      {ValueKey<dynamic> key,
+      bool isSelected,
+      bool isVisible,
+      double opacity,
+      ui.Image? image});
 }
 
 /// @nodoc
@@ -102,6 +116,7 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
     Object? isSelected = null,
     Object? isVisible = null,
     Object? opacity = null,
+    Object? image = freezed,
   }) {
     return _then(_$LayerStateDataImpl(
       key: null == key
@@ -120,6 +135,10 @@ class __$$LayerStateDataImplCopyWithImpl<$Res>
           ? _value.opacity
           : opacity // ignore: cast_nullable_to_non_nullable
               as double,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as ui.Image?,
     ));
   }
 }
@@ -131,7 +150,8 @@ class _$LayerStateDataImpl implements _LayerStateData {
       {required this.key,
       required this.isSelected,
       required this.isVisible,
-      required this.opacity});
+      required this.opacity,
+      this.image});
 
   @override
   final ValueKey<dynamic> key;
@@ -141,10 +161,12 @@ class _$LayerStateDataImpl implements _LayerStateData {
   final bool isVisible;
   @override
   final double opacity;
+  @override
+  final ui.Image? image;
 
   @override
   String toString() {
-    return 'LayerStateData(key: $key, isSelected: $isSelected, isVisible: $isVisible, opacity: $opacity)';
+    return 'LayerStateData(key: $key, isSelected: $isSelected, isVisible: $isVisible, opacity: $opacity, image: $image)';
   }
 
   @override
@@ -157,12 +179,13 @@ class _$LayerStateDataImpl implements _LayerStateData {
                 other.isSelected == isSelected) &&
             (identical(other.isVisible, isVisible) ||
                 other.isVisible == isVisible) &&
-            (identical(other.opacity, opacity) || other.opacity == opacity));
+            (identical(other.opacity, opacity) || other.opacity == opacity) &&
+            (identical(other.image, image) || other.image == image));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, key, isSelected, isVisible, opacity);
+      Object.hash(runtimeType, key, isSelected, isVisible, opacity, image);
 
   @JsonKey(ignore: true)
   @override
@@ -177,7 +200,8 @@ abstract class _LayerStateData implements LayerStateData {
       {required final ValueKey<dynamic> key,
       required final bool isSelected,
       required final bool isVisible,
-      required final double opacity}) = _$LayerStateDataImpl;
+      required final double opacity,
+      final ui.Image? image}) = _$LayerStateDataImpl;
 
   @override
   ValueKey<dynamic> get key;
@@ -187,6 +211,8 @@ abstract class _LayerStateData implements LayerStateData {
   bool get isVisible;
   @override
   double get opacity;
+  @override
+  ui.Image? get image;
   @override
   @JsonKey(ignore: true)
   _$$LayerStateDataImplCopyWith<_$LayerStateDataImpl> get copyWith =>

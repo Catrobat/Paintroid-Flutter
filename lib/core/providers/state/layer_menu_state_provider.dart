@@ -14,7 +14,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
   LayerMenuStateData build() {
     return LayerMenuStateData(
       isVisible: false,
-      layer: [
+      layers: [
         LayerStateData(
           key: ValueKey(uuid.v4()),
           isSelected: true,
@@ -37,7 +37,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
     }
     final movedLayer = layerList.removeAt(oldIndex);
     layerList.insert(newIndex, movedLayer);
-    state = state.copyWith(layer: layerList);
+    state = state.copyWith(layers: layerList);
   }
 
   void toggleSelection(Key? layerKey) {
@@ -48,7 +48,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       return layer.copyWith(isSelected: false);
     }).toList();
 
-    state = state.copyWith(layer: updatedLayerList);
+    state = state.copyWith(layers: updatedLayerList);
   }
 
   void toggleLayerVisibility(Key? layerKey) {
@@ -58,7 +58,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       }
       return layer;
     }).toList();
-    state = state.copyWith(layer: updatedLayerList);
+    state = state.copyWith(layers: updatedLayerList);
   }
 
   void updateLayerOpacity(Key? layerKey, double opacity) {
@@ -68,7 +68,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       }
       return layer;
     }).toList();
-    state = state.copyWith(layer: updatedLayerList);
+    state = state.copyWith(layers: updatedLayerList);
   }
 
   void addLayer() {
@@ -83,7 +83,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       opacity: 1.0,
     );
     updatedLayerList.add(newLayer);
-    state = state.copyWith(layer: updatedLayerList);
+    state = state.copyWith(layers: updatedLayerList);
   }
 
   void deleteLayer() {
@@ -94,6 +94,6 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
     updatedLayerList[lastIndex] =
         updatedLayerList[lastIndex].copyWith(isSelected: true);
 
-    state = state.copyWith(layer: updatedLayerList);
+    state = state.copyWith(layers: updatedLayerList);
   }
 }

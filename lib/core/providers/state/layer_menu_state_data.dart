@@ -8,6 +8,6 @@ part 'layer_menu_state_data.freezed.dart';
 class LayerMenuStateData with _$LayerMenuStateData {
   const factory LayerMenuStateData({
     required bool isVisible,
-    required List<LayerStateData> layer,
+    required List<LayerStateData> layers,
   }) = _LayerMenuStateData;
 }
