@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
@@ -46,6 +45,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
       });
 
   void _onPointerDown(PointerDownEvent _) {
+    ref.read(layerMenuStateProvider.notifier).hide();
     _pointersOnScreen++;
     if (_pointersOnScreen >= 2) {
       _isZooming = true;
