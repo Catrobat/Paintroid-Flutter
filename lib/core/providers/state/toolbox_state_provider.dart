@@ -18,8 +18,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'toolbox_state_provider.g.dart';
 
-const SPRAY_TOOL_RADIUS = 10.0;
-
 @riverpod
 class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   @override

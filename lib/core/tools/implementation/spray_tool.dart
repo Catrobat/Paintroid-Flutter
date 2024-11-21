@@ -6,6 +6,8 @@ import 'package:paintroid/core/commands/command_implementation/graphic/spray_com
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
+const SPRAY_TOOL_RADIUS = 10.0;
+
 class SprayTool extends Tool {
   final GraphicFactory graphicFactory;
   final Size drawingSurfaceSize;
