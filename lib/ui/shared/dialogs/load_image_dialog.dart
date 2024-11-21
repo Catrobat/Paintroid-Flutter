@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:paintroid/core/enums/image_location.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
 Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
@@ -11,13 +11,17 @@ Future<ImageLocation?> showLoadImageDialog(BuildContext context) =>
               text: 'Where do you want to load the image from?',
               actions: [
                 GenericDialogAction(
-                    title: 'Photos',
-                    onPressed: () =>
-                        Navigator.of(context).pop(ImageLocation.photos)),
+                  title: 'Photos',
+                  onPressed: () =>
+                      Navigator.of(context).pop(ImageLocation.photos),
+                  identifier: WidgetIdentifier.genericDialogActionPhotos,
+                ),
                 GenericDialogAction(
-                    title: 'Files',
-                    onPressed: () =>
-                        Navigator.of(context).pop(ImageLocation.files))
+                  title: 'Files',
+                  onPressed: () =>
+                      Navigator.of(context).pop(ImageLocation.files),
+                  identifier: WidgetIdentifier.genericDialogActionFiles,
+                ),
               ],
             ),
         barrierDismissible: true,

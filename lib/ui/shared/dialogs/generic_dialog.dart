@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-
 import 'package:paintroid/ui/theme/theme.dart';
 
 class GenericDialogActionButton extends StatelessWidget {
   final String text;
   final Function? onPressed;
+  final String identifier;
 
-  const GenericDialogActionButton(
-      {super.key, required this.text, this.onPressed});
+  const GenericDialogActionButton({
+    super.key,
+    required this.text,
+    this.onPressed,
+    required this.identifier,
+  });
 
   @override
   Widget build(BuildContext context) => TextButton(
+        key: ValueKey(identifier),
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all(
             PaintroidTheme.of(context).primaryColor,
@@ -26,8 +31,13 @@ class GenericDialogActionButton extends StatelessWidget {
 class GenericDialogAction {
   final Function? onPressed;
   final String title;
+  final String identifier;
 
-  const GenericDialogAction({Key? key, this.onPressed, required this.title});
+  const GenericDialogAction({
+    this.onPressed,
+    required this.title,
+    required this.identifier,
+  });
 }
 
 class GenericDialog extends StatelessWidget {
@@ -36,12 +46,13 @@ class GenericDialog extends StatelessWidget {
   final Widget? content;
   final List<GenericDialogAction> actions;
 
-  const GenericDialog(
-      {super.key,
-      required this.title,
-      this.text,
-      this.content,
-      required this.actions});
+  const GenericDialog({
+    super.key,
+    required this.title,
+    this.text,
+    this.content,
+    required this.actions,
+  });
 
   Widget? getContent(BuildContext context) {
     if (content != null) {
@@ -71,6 +82,7 @@ class GenericDialog extends StatelessWidget {
             .map((action) => GenericDialogActionButton(
                   text: action.title,
                   onPressed: action.onPressed,
+                  identifier: action.identifier,
                 ))
             .toList(),
         content: getContent(context),
