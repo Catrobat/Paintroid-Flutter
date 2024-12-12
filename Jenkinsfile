@@ -4,7 +4,7 @@ class DockerParameters {
     def dir = 'docker'
     def args = ''
     def label = 'LimitedEmulator'
-    def image = 'hhadzimahmutovic/playground:pantroid-flutter.v8'
+    def image = 'catrobat/pantroid-flutter:20241212'
 }
 def d = new DockerParameters()
 pipeline {
