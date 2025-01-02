@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:file_picker/file_picker.dart'; // Add file picker
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
@@ -32,23 +32,30 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   @override
   void initState() {
     super.initState();
-
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
     }
   }
 
-  void _dismissDialogWithData() {
+  Future<void> _dismissDialogWithData() async {
+    final directoryPath = await FilePicker.platform.getDirectoryPath();
+    if (directoryPath == null) {
+      // User canceled the picker
+      return;
+    }
+
     late ImageMetaData data;
     switch (selectedFormat) {
       case ImageFormat.png:
-        data = PngMetaData(nameFieldController.text);
+        data = PngMetaData('${directoryPath}/${nameFieldController.text}.png');
         break;
       case ImageFormat.jpg:
-        data = JpgMetaData(nameFieldController.text, imageQualityValue);
+        data = JpgMetaData(
+            '${directoryPath}/${nameFieldController.text}.jpg', imageQualityValue);
         break;
       case ImageFormat.catrobatImage:
-        data = CatrobatImageMetaData(nameFieldController.text);
+        data = CatrobatImageMetaData(
+            '${directoryPath}/${nameFieldController.text}.catrobat');
         break;
     }
     Navigator.of(context).pop(data);
@@ -120,10 +127,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   TextButton get _saveButton {
     return TextButton(
-      onPressed: () {
+      onPressed: () async {
         final formState = formKey.currentState;
         if (formState != null && formState.validate()) {
-          _dismissDialogWithData();
+          await _dismissDialogWithData();
         }
       },
       child: Text(
