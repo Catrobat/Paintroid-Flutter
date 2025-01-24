@@ -8,6 +8,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/squ
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 
 enum ActionType { UNDO, REDO }
 
@@ -109,6 +110,9 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == CircleShapeCommand) {
       return ToolData.SHAPES;
+    }
+    else if (command.runtimeType == SprayCommand) {
+      return ToolData.SPRAY;
     } else {
       return ToolData.BRUSH;
     }

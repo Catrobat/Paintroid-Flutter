@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
@@ -75,7 +76,7 @@ class UIInteraction {
     return (leftPixel, rightPixel, topPixel, bottomPixel);
   }
 
-  static Future<Color> getPixelColor(int x, int y) async {
+  static Future<Color> getPixelColor(int x, int y, {int radius = 0}) async {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final canvasStateNotifier = container.read(canvasStateProvider.notifier);
@@ -89,15 +90,35 @@ class UIInteraction {
     final rawBytes = byteData.buffer.asUint8List();
     final image =
         img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
-    var pixel = image.getPixel(x, y);
 
+    if (radius != 0) {
+      for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
+          if (i < 0 || i >= image.width || j < 0 || j >= image.height) {
+            continue;
+          }
+          final argbColor = getColorAtPixel(image, i, j);
+          if (argbColor != 0) {
+            return Color(argbColor);
+          }
+        }
+      }
+      return Colors.transparent;
+    }
+
+    final argbColor = getColorAtPixel(image, x, y);
+    return Color(argbColor);
+  }
+
+  static int getColorAtPixel(img.Image image, int x, int y) {
+    var pixel = image.getPixel(x, y);
     final a = img.getAlpha(pixel);
     final r = img.getRed(pixel);
     final g = img.getGreen(pixel);
     final b = img.getBlue(pixel);
 
     final argbColor = (a << 24) | (r << 16) | (g << 8) | b;
-    return Color(argbColor);
+    return argbColor;
   }
 
   static Future<void> createNewImage() async {
@@ -155,6 +176,17 @@ class UIInteraction {
     container.read(paintProvider.notifier).updateColor(color);
   }
 
+  static Future<void> clickBackButton() async {
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+  }
+
+  static Future<void> clickDiscard() async {
+    expect(WidgetFinder.genericDialogActionDiscard, findsOneWidget);
+    await tester.tap(WidgetFinder.genericDialogActionDiscard);
+    await tester.pumpAndSettle();
+  }
+
   static Future<void> clickCheckmark() async {
     expect(WidgetFinder.checkMark, findsOneWidget);
     await tester.tap(WidgetFinder.checkMark);
@@ -189,24 +221,49 @@ class UIInteraction {
     }
   }
 
-  static Future<void> dragFromTo(Offset from, Offset to) async {
+  static Future<void> dragFromTo(
+    Offset from,
+    Offset to, {
+    int steps = 1,
+  }) async {
     final TestGesture gesture = await tester.startGesture(from);
     await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
-    await gesture.moveTo(to);
-    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    final dx = (to.dx - from.dx) / steps;
+    final dy = (to.dy - from.dy) / steps;
 
+    for (int i = 1; i <= steps; i++) {
+      final Offset nextPoint = Offset(from.dx + dx * i, from.dy + dy * i);
+      await gesture.moveTo(nextPoint);
+      await tester.pumpAndSettle(const Duration(milliseconds: 16));
+    }
     await gesture.up();
     await tester.pumpAndSettle();
   }
 
-  static Future<void> tapAt(Offset position) async {
-    await tester.tapAt(position);
+  static Future<void> tapAt(Offset position, {int times = 0}) async {
+    for (var i = 0; i <= times; i++) {
+      await tester.tapAt(position);
+    }
     await tester.pumpAndSettle();
   }
 
   static void expectVertexStackLength(int length) {
     final tool = getCurrentTool();
     expect((tool as LineTool).vertexStack.length, length);
+  }
+
+  static int getUndoStackLength() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final commandManager = container.read(commandManagerProvider);
+    return commandManager.undoStack.length;
+  }
+
+  static int getRedoStackLength() {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final commandManager = container.read(commandManagerProvider);
+    return commandManager.redoStack.length;
   }
 }

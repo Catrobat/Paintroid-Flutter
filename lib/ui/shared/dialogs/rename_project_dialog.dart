@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/text_input_field.dart';
 
@@ -16,9 +16,9 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
         title: 'Rename $name',
         actions: [
           GenericDialogAction(
-            title: 'CANCEL',
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+              title: 'CANCEL',
+              onPressed: () => Navigator.of(context).pop(),
+              identifier: WidgetIdentifier.genericDialogActionCancel),
           GenericDialogAction(
             title: 'RENAME',
             onPressed: () {
@@ -28,6 +28,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
               }
               Navigator.of(context).pop(textFieldController.text);
             },
+            identifier: WidgetIdentifier.genericDialogActionRename,
           ),
         ],
         content: Form(

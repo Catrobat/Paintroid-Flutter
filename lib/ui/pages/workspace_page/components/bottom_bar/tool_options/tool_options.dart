@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/shapes_tool/shapes_tool_options.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/shapes_tool_options.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/spray_tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_tool_options.dart';
 import 'package:paintroid/ui/shared/fade_in_out_widget.dart';
 
 class ToolOptions extends ConsumerWidget {
   const ToolOptions({super.key});
+
+  final maxOpacity = 1.0;
+  final minOpacity = 0.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,6 +30,7 @@ class ToolOptions extends ConsumerWidget {
           ToolType.ERASER => const StrokeToolOptions(),
           ToolType.LINE => const StrokeToolOptions(),
           ToolType.SHAPES => const ShapesToolOptions(),
+          ToolType.SPRAY => const SprayToolOptions(),
           _ => Container(),
         },
       ),
