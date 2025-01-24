@@ -7,7 +7,6 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
-import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canvas_state_provider.g.dart';
@@ -46,15 +45,11 @@ class CanvasStateProvider extends _$CanvasStateProvider {
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
     final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
-
-    final currentLayer =
-        ref.read(layerMenuStateProvider.notifier).getSelectedLayer();
-
-    if (currentLayer.image != null) {
+    if (state.cachedImage != null) {
       paintImage(
         canvas: canvas,
         rect: bounds,
-        image: currentLayer.image!,
+        image: state.cachedImage!,
         fit: BoxFit.fill,
         filterQuality: FilterQuality.none,
       );
@@ -63,16 +58,11 @@ class CanvasStateProvider extends _$CanvasStateProvider {
     state.commandManager.executeLastCommand(canvas);
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.width.toInt(), size.height.toInt());
-    ref.read(layerMenuStateProvider.notifier).updateImageOfLayer(img);
-
-    final mergedImage = await ref
-        .read(layerMenuStateProvider.notifier)
-        .getMergedImageOfVisibleLayers(img);
-
-    state = state.copyWith(cachedImage: mergedImage);
+    state = state.copyWith(cachedImage: img);
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
+    state.commandManager.clearRedoStack();
     state.commandManager.clearUndoStack(newCommands: commands);
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: null);
