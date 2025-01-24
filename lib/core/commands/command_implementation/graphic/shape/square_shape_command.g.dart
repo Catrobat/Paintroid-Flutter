@@ -9,6 +9,8 @@ part of 'square_shape_command.dart';
 SquareShapeCommand _$SquareShapeCommandFromJson(Map<String, dynamic> json) =>
     SquareShapeCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
+      const ValueKeyConverter()
+          .fromJson(json['layerKey'] as Map<String, dynamic>),
       const OffsetConverter().fromJson(json['topLeft'] as Map<String, dynamic>),
       const OffsetConverter()
           .fromJson(json['topRight'] as Map<String, dynamic>),
@@ -23,6 +25,7 @@ SquareShapeCommand _$SquareShapeCommandFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SquareShapeCommandToJson(SquareShapeCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
+      'layerKey': const ValueKeyConverter().toJson(instance.layerKey),
       'topLeft': const OffsetConverter().toJson(instance.topLeft),
       'topRight': const OffsetConverter().toJson(instance.topRight),
       'bottomLeft': const OffsetConverter().toJson(instance.bottomLeft),

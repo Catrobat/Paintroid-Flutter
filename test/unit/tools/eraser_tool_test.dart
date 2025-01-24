@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -15,6 +15,7 @@ void main() {
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
+      layerKey: const ValueKey(0),
     );
   });
 

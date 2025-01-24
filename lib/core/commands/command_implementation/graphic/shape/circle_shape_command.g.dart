@@ -9,6 +9,8 @@ part of 'circle_shape_command.dart';
 CircleShapeCommand _$CircleShapeCommandFromJson(Map<String, dynamic> json) =>
     CircleShapeCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
+      const ValueKeyConverter()
+          .fromJson(json['layerKey'] as Map<String, dynamic>),
       (json['radius'] as num).toDouble(),
       const OffsetConverter().fromJson(json['center'] as Map<String, dynamic>),
       version: (json['version'] as num?)?.toInt(),
@@ -18,6 +20,7 @@ CircleShapeCommand _$CircleShapeCommandFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CircleShapeCommandToJson(CircleShapeCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
+      'layerKey': const ValueKeyConverter().toJson(instance.layerKey),
       'radius': instance.radius,
       'center': const OffsetConverter().toJson(instance.center),
       'version': instance.version,

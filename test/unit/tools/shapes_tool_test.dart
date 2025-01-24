@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
@@ -28,6 +28,7 @@ void main() {
       boundingBox: boundingBox,
       isRotating: false,
       shapeType: ShapeType.square,
+      layerKey: const ValueKey(0),
     );
   });
 

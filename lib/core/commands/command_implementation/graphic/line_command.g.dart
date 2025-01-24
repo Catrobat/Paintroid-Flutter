@@ -10,6 +10,8 @@ LineCommand _$LineCommandFromJson(Map<String, dynamic> json) => LineCommand(
       const PathWithActionHistoryConverter()
           .fromJson(json['path'] as Map<String, dynamic>),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
+      const ValueKeyConverter()
+          .fromJson(json['layerKey'] as Map<String, dynamic>),
       const OffsetConverter()
           .fromJson(json['startPoint'] as Map<String, dynamic>),
       const OffsetConverter()
@@ -21,6 +23,7 @@ LineCommand _$LineCommandFromJson(Map<String, dynamic> json) => LineCommand(
 Map<String, dynamic> _$LineCommandToJson(LineCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
+      'layerKey': const ValueKeyConverter().toJson(instance.layerKey),
       'type': instance.type,
       'version': instance.version,
       'isSourcePath': instance.isSourcePath,

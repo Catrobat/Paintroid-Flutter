@@ -25,7 +25,9 @@ class Layer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(layerMenuStateProvider.notifier).toggleSelection(key);
+        ref
+            .read(layerMenuStateProvider.notifier)
+            .toggleSelection(key as ValueKey);
       },
       child: Container(
         height: 180,
@@ -75,9 +77,14 @@ class Layer extends ConsumerWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: RawImage(
-                image: image,
-                fit: BoxFit.contain,
+              child: Stack(
+                children: [
+                  RawImage(
+                    image: image,
+                    fit: BoxFit.contain,
+                  ),
+                  Text(this.key.toString()),
+                ],
               ),
             ),
             IconButton(

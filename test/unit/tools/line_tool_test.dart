@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
@@ -23,6 +22,7 @@ void main() {
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
       drawingSurfaceSize: const Size(1000, 1000),
+      layerKey: const ValueKey(0),
     );
   });
 

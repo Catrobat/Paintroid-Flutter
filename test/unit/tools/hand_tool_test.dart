@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -12,6 +12,7 @@ void main() {
       type: ToolType.HAND,
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
+      layerKey: const ValueKey(0),
     );
   });
 

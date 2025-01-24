@@ -16,6 +16,7 @@ class LineTool extends Tool with EquatableMixin {
     required this.graphicFactory,
     required this.drawingSurfaceSize,
     required super.type,
+    required super.layerKey,
     super.hasAddFunctionality = true,
     super.hasFinalizeFunctionality = true,
   });
@@ -246,6 +247,7 @@ class LineTool extends Tool with EquatableMixin {
       paint,
       startPoint,
       endPoint,
+      layerKey,
     );
     return command;
   }

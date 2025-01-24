@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
+import 'package:paintroid/core/json_serialization/converter/value_key_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 
@@ -19,7 +20,8 @@ class SprayCommand extends GraphicCommand {
 
   SprayCommand(
     this.points,
-    super.paint, {
+    super.paint,
+    super.layerKey, {
     this.type = SerializerType.SPRAY_COMMAND,
     int? version,
   }) : version =

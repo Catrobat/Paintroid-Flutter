@@ -6,7 +6,7 @@ part of 'line_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lineToolProviderHash() => r'ddd41ee46e06c9c30f63aa9b00d3ddecfa18f9ea';
+String _$lineToolProviderHash() => r'548e10ed548ccf56b29adc94e28b700416fbc3e3';
 
 /// See also [LineToolProvider].
 @ProviderFor(LineToolProvider)

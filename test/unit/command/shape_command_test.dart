@@ -1,9 +1,10 @@
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+
 import 'shape_command_test.mocks.dart';
 
 @GenerateMocks([Canvas])
@@ -13,6 +14,7 @@ void main() {
 
   final squareShapeCommand = SquareShapeCommand(
     testPaint,
+    const ValueKey(0),
     const Offset(0, 0),
     const Offset(200, 0),
     const Offset(0, 200),
@@ -21,7 +23,12 @@ void main() {
 
   const radius = 5.0;
   const center = Offset(200, 200);
-  final circleShapeCommand = CircleShapeCommand(testPaint, radius, center);
+  final circleShapeCommand = CircleShapeCommand(
+    testPaint,
+    const ValueKey(0),
+    radius,
+    center,
+  );
 
   setUp(() => mockCanvas = MockCanvas());
 

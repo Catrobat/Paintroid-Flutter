@@ -1,11 +1,10 @@
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/eraser_tool.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'eraser_tool_provider.g.dart';
 
@@ -17,6 +16,7 @@ class EraserToolProvider extends _$EraserToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
+      layerKey: ref.read(layerMenuStateProvider.notifier).getSelectedLayerKey(),
       type: ToolType.ERASER,
     );
   }

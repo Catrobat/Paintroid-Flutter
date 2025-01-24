@@ -1,11 +1,10 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
+
 import 'draw_path_command_test.mocks.dart';
 
 @GenerateMocks([Canvas])
@@ -22,7 +21,7 @@ void main() {
     () {
       final testPath = PathWithActionHistory();
       final testPaint = Paint();
-      drawPath = PathCommand(testPath, testPaint);
+      drawPath = PathCommand(testPath, testPaint, const ValueKey(0));
       when(mockCanvas.drawPath(testPath.path, testPaint)).thenReturn(null);
       drawPath.call(mockCanvas);
       verify(mockCanvas.drawPath(testPath.path, testPaint));

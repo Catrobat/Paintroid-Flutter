@@ -5,6 +5,7 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/layer_menu_state_data.dart';
 import 'package:paintroid/core/providers/state/layer_state_data.dart';
+import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,6 +35,9 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
 
   void hide() => state = state.copyWith(isVisible: false);
 
+  ValueKey getSelectedLayerKey() =>
+      state.layers.firstWhere((layer) => layer.isSelected).key;
+
   void reorder(int oldIndex, int newIndex) {
     List<LayerStateData> layerList = List.from(state.layers);
     if (oldIndex < newIndex) {
@@ -44,7 +48,7 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
     state = state.copyWith(layers: layerList);
   }
 
-  void toggleSelection(Key? layerKey) {
+  void toggleSelection(ValueKey layerKey) {
     final updatedLayerList = state.layers.map((layer) {
       if (layer.key == layerKey) {
         return layer.copyWith(isSelected: true);
@@ -52,6 +56,8 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       return layer.copyWith(isSelected: false);
     }).toList();
 
+    ref.read(toolBoxStateProvider).currentTool.updateLayerKey(layerKey);
+    print(ref.read(toolBoxStateProvider).currentTool.layerKey);
     state = state.copyWith(layers: updatedLayerList);
   }
 

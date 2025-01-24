@@ -7,6 +7,7 @@ class HandTool extends Tool {
     required super.commandFactory,
     required super.commandManager,
     required super.type,
+    required super.layerKey,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });

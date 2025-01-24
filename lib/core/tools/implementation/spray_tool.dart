@@ -21,6 +21,7 @@ class SprayTool extends Tool {
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
+    required super.layerKey,
     required this.drawingSurfaceSize,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
@@ -33,7 +34,11 @@ class SprayTool extends Tool {
   void onDown(Offset point, Paint paint) {
     this.paint = graphicFactory.copyPaint(paint);
     final initialPoints = _generateSprayPoints(point);
-    sprayCommand = commandFactory.createSprayCommand(initialPoints, this.paint);
+    sprayCommand = commandFactory.createSprayCommand(
+      initialPoints,
+      this.paint,
+      layerKey,
+    );
     commandManager.addGraphicCommand(sprayCommand);
   }
 

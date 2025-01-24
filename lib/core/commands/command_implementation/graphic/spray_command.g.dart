@@ -12,6 +12,8 @@ SprayCommand _$SprayCommandFromJson(Map<String, dynamic> json) => SprayCommand(
               const OffsetConverter().fromJson(e as Map<String, dynamic>))
           .toList(),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
+      const ValueKeyConverter()
+          .fromJson(json['layerKey'] as Map<String, dynamic>),
       type: json['type'] as String? ?? SerializerType.SPRAY_COMMAND,
       version: (json['version'] as num?)?.toInt(),
     );
@@ -19,6 +21,7 @@ SprayCommand _$SprayCommandFromJson(Map<String, dynamic> json) => SprayCommand(
 Map<String, dynamic> _$SprayCommandToJson(SprayCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
+      'layerKey': const ValueKeyConverter().toJson(instance.layerKey),
       'type': instance.type,
       'version': instance.version,
       'points': instance.points.map(const OffsetConverter().toJson).toList(),

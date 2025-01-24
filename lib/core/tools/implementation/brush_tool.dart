@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -17,6 +16,7 @@ class BrushTool extends Tool {
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
+    required super.layerKey,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });
@@ -26,7 +26,11 @@ class BrushTool extends Tool {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
-    final command = commandFactory.createPathCommand(pathToDraw, savedPaint);
+    final command = commandFactory.createPathCommand(
+      pathToDraw,
+      savedPaint,
+      layerKey,
+    );
     commandManager.addGraphicCommand(command);
   }
 

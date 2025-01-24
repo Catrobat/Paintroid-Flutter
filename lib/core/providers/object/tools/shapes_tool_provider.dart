@@ -1,11 +1,12 @@
 import 'package:flutter/painting.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/layer_menu_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shapes_tool_provider.g.dart';
 
@@ -22,6 +23,7 @@ class ShapesToolProvider extends _$ShapesToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       type: ToolType.SHAPES,
+      layerKey: ref.read(layerMenuStateProvider.notifier).getSelectedLayerKey(),
       boundingBox: BoundingBox(
         initialBoundingBox.topLeft,
         initialBoundingBox.topRight,

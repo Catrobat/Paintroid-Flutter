@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -10,14 +9,20 @@ abstract class Tool {
   final CommandFactory commandFactory;
   final bool hasAddFunctionality;
   final bool hasFinalizeFunctionality;
+  ValueKey layerKey;
 
-  const Tool({
+  Tool({
     required this.commandManager,
     required this.commandFactory,
     required this.type,
     required this.hasAddFunctionality,
     required this.hasFinalizeFunctionality,
+    required this.layerKey,
   });
+
+  void updateLayerKey(ValueKey newKey) {
+    layerKey = newKey;
+  }
 
   void onDown(Offset point, Paint paint);
 

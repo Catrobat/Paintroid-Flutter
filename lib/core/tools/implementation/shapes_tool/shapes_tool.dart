@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -17,6 +18,7 @@ class ShapesTool extends Tool {
     required super.commandManager,
     required super.type,
     required this.boundingBox,
+    required super.layerKey,
     this.isRotating = false,
     this.shapeType = ShapeType.square,
     super.hasAddFunctionality = false,
@@ -49,6 +51,7 @@ class ShapesTool extends Tool {
           boundingBox.getPaddedTopRight(padding: padding),
           boundingBox.getPaddedBottomLeft(padding: padding),
           boundingBox.getPaddedBottomRight(padding: padding),
+          layerKey,
         );
         break;
       case ShapeType.circle:
@@ -57,6 +60,7 @@ class ShapesTool extends Tool {
           paint,
           radius,
           boundingBox.center,
+          layerKey,
         );
         break;
     }

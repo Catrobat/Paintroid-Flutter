@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -9,6 +8,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/squ
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+
 import 'dummy_paint_factory.dart';
 import 'dummy_path_factory.dart';
 import 'dummy_version_strategy.dart';
@@ -26,8 +26,11 @@ class DummyCommandFactory {
       PathWithActionHistory originalPath =
           DummyPathFactory.createPathWithActionHistory(i * numberOfCommands);
       Paint originalPaint = DummyPaintFactory.createPaint();
-      PathCommand command =
-          commandFactory.createPathCommand(originalPath, originalPaint);
+      PathCommand command = commandFactory.createPathCommand(
+        originalPath,
+        originalPaint,
+        const ValueKey(0),
+      );
       commands.add(command);
     }
     return commands;
@@ -40,7 +43,7 @@ class DummyCommandFactory {
   }) {
     VersionStrategyManager.setStrategy(
         DummyVersionStrategy(pathCommandVersion: version));
-    return commandFactory.createPathCommand(path, paint);
+    return commandFactory.createPathCommand(path, paint, const ValueKey(0));
   }
 
   static LineCommand createLineCommand(
@@ -52,7 +55,13 @@ class DummyCommandFactory {
   }) {
     VersionStrategyManager.setStrategy(
         DummyVersionStrategy(lineCommandVersion: version));
-    return commandFactory.createLineCommand(path, paint, startPoint, endPoint);
+    return commandFactory.createLineCommand(
+      path,
+      paint,
+      startPoint,
+      endPoint,
+      const ValueKey(0),
+    );
   }
 
   static SquareShapeCommand createSquareShapeCommand(
@@ -72,6 +81,7 @@ class DummyCommandFactory {
       topRight,
       bottomLeft,
       bottomRight,
+      const ValueKey(0),
     );
   }
 
@@ -84,7 +94,12 @@ class DummyCommandFactory {
     VersionStrategyManager.setStrategy(
       DummyVersionStrategy(circleShapeCommandVersion: version),
     );
-    return commandFactory.createCircleShapeCommand(paint, radius, center);
+    return commandFactory.createCircleShapeCommand(
+      paint,
+      radius,
+      center,
+      const ValueKey(0),
+    );
   }
 
   static bool compareCommandLists(

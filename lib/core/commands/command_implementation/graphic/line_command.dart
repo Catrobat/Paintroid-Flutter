@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
+import 'package:paintroid/core/json_serialization/converter/value_key_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 
@@ -30,6 +30,7 @@ class LineCommand extends GraphicCommand {
   LineCommand(
     this.path,
     super.paint,
+    super.layerKey,
     this.startPoint,
     this.endPoint, {
     this.type = SerializerType.LINE_COMMAND,

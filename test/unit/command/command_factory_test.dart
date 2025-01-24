@@ -1,7 +1,5 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -18,8 +16,9 @@ void main() {
   });
 
   test('Should return a valid instance of PathCommand', () {
-    final expected = PathCommand(testPath, testPaint);
-    final command = sut.createPathCommand(testPath, testPaint);
+    final expected = PathCommand(testPath, testPaint, const ValueKey(0));
+    final command =
+        sut.createPathCommand(testPath, testPaint, const ValueKey(0));
     expect(command, isA<PathCommand>());
     expect(command, equals(expected));
   });

@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
@@ -13,16 +12,18 @@ class CommandFactory {
   PathCommand createPathCommand(
     PathWithActionHistory path,
     Paint paint,
+    ValueKey layerKey,
   ) =>
-      PathCommand(path, paint);
+      PathCommand(path, paint, layerKey);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,
     Paint paint,
     Offset startPoint,
     Offset endPoint,
+    ValueKey layerKey,
   ) =>
-      LineCommand(path, paint, startPoint, endPoint);
+      LineCommand(path, paint, layerKey, startPoint, endPoint);
 
   SquareShapeCommand createSquareShapeCommand(
     Paint paint,
@@ -30,17 +31,24 @@ class CommandFactory {
     Offset topRight,
     Offset bottomLeft,
     Offset bottomRight,
+    ValueKey layerKey,
   ) =>
-      SquareShapeCommand(paint, topLeft, topRight, bottomLeft, bottomRight);
+      SquareShapeCommand(
+          paint, layerKey, topLeft, topRight, bottomLeft, bottomRight);
 
   CircleShapeCommand createCircleShapeCommand(
     Paint paint,
     double radius,
     Offset center,
+    ValueKey layerKey,
   ) =>
-      CircleShapeCommand(paint, radius, center);
+      CircleShapeCommand(paint, layerKey, radius, center);
 
-  SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
-    return SprayCommand(points, paint);
+  SprayCommand createSprayCommand(
+    List<Offset> points,
+    Paint paint,
+    ValueKey layerKey,
+  ) {
+    return SprayCommand(points, paint, layerKey);
   }
 }

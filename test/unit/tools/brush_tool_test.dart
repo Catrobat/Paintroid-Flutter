@@ -1,7 +1,5 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
@@ -24,6 +22,7 @@ void main() {
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
       type: ToolType.BRUSH,
+      layerKey: const ValueKey(0),
     );
   });
 

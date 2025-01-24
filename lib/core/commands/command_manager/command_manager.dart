@@ -5,10 +5,10 @@ import 'package:paintroid/core/commands/command_implementation/graphic/graphic_c
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 
 enum ActionType { UNDO, REDO }
 
@@ -38,9 +38,11 @@ class CommandManager {
   void executeAllCommands(Canvas canvas) {
     for (final command in _undoStack) {
       if (command is GraphicCommand) {
+        print(command.layerKey);
         command.call(canvas);
       }
     }
+    print('-----------------------');
   }
 
   void discardLastCommand() {
@@ -110,8 +112,7 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == CircleShapeCommand) {
       return ToolData.SHAPES;
-    }
-    else if (command.runtimeType == SprayCommand) {
+    } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
     } else {
       return ToolData.BRUSH;
