@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -129,5 +128,12 @@ class CommandManager {
     }
 
     return lineCommands.reversed.toList();
+  }
+
+  void removeCommandsOfLayer(ValueKey layerKey) {
+    _undoStack.removeWhere((command) =>
+        (command is GraphicCommand && command.layerKey == layerKey));
+    _redoStack.removeWhere((command) =>
+        (command is GraphicCommand && command.layerKey == layerKey));
   }
 }

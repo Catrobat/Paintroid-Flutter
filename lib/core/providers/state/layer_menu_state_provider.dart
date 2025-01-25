@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
+import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/layer_menu_state_data.dart';
@@ -94,11 +95,16 @@ class LayerMenuStateProvider extends _$LayerMenuStateProvider {
       opacity: 1.0,
     );
     updatedLayerList.add(newLayer);
+    ref.read(toolBoxStateProvider).currentTool.updateLayerKey(newLayer.key);
     state = state.copyWith(layers: updatedLayerList);
   }
 
   void deleteLayer() {
     if (state.layers.length == 1) return;
+
+    final layerToDelete = state.layers.firstWhere((layer) => layer.isSelected);
+    ref.read(commandManagerProvider).removeCommandsOfLayer(layerToDelete.key);
+
     final updatedLayerList =
         state.layers.where((layer) => !layer.isSelected).toList();
     final lastIndex = updatedLayerList.length - 1;
