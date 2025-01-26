@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart'; // Add file picker
+import 'package:file_picker/file_picker.dart'; 
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
@@ -25,6 +25,8 @@ class SaveImageDialog extends StatefulWidget {
 
 class _SaveImageDialogState extends State<SaveImageDialog> {
   final TextEditingController nameFieldController = TextEditingController();
+  final TextEditingController savePathController =
+      TextEditingController(text: 'default/save/path');
   final formKey = GlobalKey<FormState>(debugLabel: 'SaveImageDialog Form');
   var selectedFormat = ImageFormat.jpg;
   var imageQualityValue = 100;
@@ -38,24 +40,25 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   }
 
   Future<void> _dismissDialogWithData() async {
-    final directoryPath = await FilePicker.platform.getDirectoryPath();
-    if (directoryPath == null) {
-      // User canceled the picker
+    final directoryPath = savePathController.text;
+    if (directoryPath.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please specify a valid save path.')));
       return;
     }
 
     late ImageMetaData data;
     switch (selectedFormat) {
       case ImageFormat.png:
-        data = PngMetaData('${directoryPath}/${nameFieldController.text}.png');
+        data = PngMetaData('$directoryPath/${nameFieldController.text}.png');
         break;
       case ImageFormat.jpg:
         data = JpgMetaData(
-            '${directoryPath}/${nameFieldController.text}.jpg', imageQualityValue);
+            '$directoryPath/${nameFieldController.text}.jpg', imageQualityValue);
         break;
       case ImageFormat.catrobatImage:
         data = CatrobatImageMetaData(
-            '${directoryPath}/${nameFieldController.text}.catrobat');
+            '$directoryPath/${nameFieldController.text}.catrobat');
         break;
     }
     Navigator.of(context).pop(data);
@@ -84,6 +87,14 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _imageNameTextField,
+            Divider(
+              height: 16,
+              color: PaintroidTheme.of(context).onSurfaceVariantColor,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _savePathTextField,
+            ),
             Divider(
               height: 16,
               color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -188,6 +199,41 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         }
         return null;
       },
+    );
+  }
+
+  Padding get _savePathTextField {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: savePathController,
+        decoration: InputDecoration(
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          hintText: 'Enter custom save path or use default',
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.folder_open),
+            onPressed: () async {
+              final directoryPath = await FilePicker.platform.getDirectoryPath();
+              if (directoryPath != null) {
+                setState(() {
+                  savePathController.text = directoryPath;
+                });
+              }
+            },
+          ),
+          filled: true,
+          fillColor: PaintroidTheme.of(context).secondaryContainerColor,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        ),
+        validator: (path) {
+          if (path == null || path.isEmpty) {
+            return 'Please specify a save path';
+          }
+          return null;
+        },
+      ),
     );
   }
 
