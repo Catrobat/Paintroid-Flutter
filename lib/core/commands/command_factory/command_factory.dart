@@ -6,6 +6,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/cir
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class CommandFactory {
@@ -64,4 +65,8 @@ class CommandFactory {
     Offset center,
   ) =>
       HeartShapeCommand(paint, width, height, angle, center);
+      
+  SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
+    return SprayCommand(points, paint);
+  }
 }
