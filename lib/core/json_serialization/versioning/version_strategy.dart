@@ -2,10 +2,16 @@ import 'package:paintroid/core/json_serialization/versioning/serializer_version.
 
 abstract class IVersionStrategy {
   int getCatrobatImageVersion();
+
   int getPathCommandVersion();
+
   int getLineCommandVersion();
+
   int getSquareShapeCommandVersion();
+
   int getCircleShapeCommandVersion();
+
+  int getSprayCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -25,6 +31,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getCircleShapeCommandVersion() =>
       SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION;
+
+  @override
+  int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {
