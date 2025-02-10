@@ -176,7 +176,15 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color.value, Colors.red.value);
+      expect(
+        Color.from(
+          alpha: color.a,
+          red: color.r,
+          green: color.g,
+          blue: color.b,
+        ),
+        Colors.red,
+      );
     });
   }
 }

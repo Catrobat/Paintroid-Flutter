@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
@@ -9,7 +8,7 @@ import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
-class LineTool extends Tool with EquatableMixin {
+class LineTool extends Tool {
   LineTool({
     required super.commandFactory,
     required super.commandManager,
@@ -23,7 +22,7 @@ class LineTool extends Tool with EquatableMixin {
   final GraphicFactory graphicFactory;
   final Size drawingSurfaceSize;
 
-  VertexStack vertexStack = VertexStack();
+  final VertexStack vertexStack = VertexStack();
 
   Vertex? movingVertex;
   Vertex? predecessorVertex;
@@ -33,9 +32,6 @@ class LineTool extends Tool with EquatableMixin {
   LineCommand? outgoingGhostPathCommand;
 
   bool addNewPath = false;
-
-  @override
-  List<Object?> get props => [commandManager, commandFactory, graphicFactory];
 
   @override
   void onDown(Offset point, Paint paint) {

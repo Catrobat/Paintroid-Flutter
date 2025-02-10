@@ -15,7 +15,7 @@ class SprayCommand extends GraphicCommand {
   final int version;
 
   @OffsetConverter()
-  List<Offset> points;
+  final List<Offset> points;
 
   SprayCommand(
     this.points,

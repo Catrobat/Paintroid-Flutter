@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/svg.dart';
 
 class IconSvg extends StatelessWidget {
@@ -22,7 +21,7 @@ class IconSvg extends StatelessWidget {
       path,
       height: height,
       width: width,
-      color: color,
+      colorFilter: ColorFilter.mode(color ?? Colors.white, BlendMode.srcIn),
     );
   }
 }

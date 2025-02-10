@@ -22,7 +22,9 @@ mixin _$CanvasStateData {
   CommandManager get commandManager => throw _privateConstructorUsedError;
   GraphicFactory get graphicFactory => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CanvasStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CanvasStateDataCopyWith<CanvasStateData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CanvasStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
       _$CanvasStateDataImpl _value, $Res Function(_$CanvasStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CanvasStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -189,7 +195,9 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
   int get hashCode => Object.hash(runtimeType, backgroundImage, cachedImage,
       size, commandManager, graphicFactory);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CanvasStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CanvasStateDataImplCopyWith<_$CanvasStateDataImpl> get copyWith =>
@@ -215,8 +223,11 @@ abstract class _CanvasStateData implements CanvasStateData {
   CommandManager get commandManager;
   @override
   GraphicFactory get graphicFactory;
+
+  /// Create a copy of CanvasStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CanvasStateDataImplCopyWith<_$CanvasStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

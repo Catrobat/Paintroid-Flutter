@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
@@ -16,16 +15,16 @@ part 'line_command.g.dart';
 class LineCommand extends GraphicCommand {
   final String type;
   final int version;
-  bool isSourcePath = false;
+  late final bool isSourcePath;
 
   @PathWithActionHistoryConverter()
-  PathWithActionHistory path;
+  late final PathWithActionHistory path;
 
   @OffsetConverter()
-  Offset startPoint;
+  late final Offset startPoint;
 
   @OffsetConverter()
-  Offset endPoint;
+  late final Offset endPoint;
 
   LineCommand(
     this.path,
@@ -34,6 +33,7 @@ class LineCommand extends GraphicCommand {
     this.endPoint, {
     this.type = SerializerType.LINE_COMMAND,
     int? version,
+    this.isSourcePath = false,
   }) : version =
             version ?? VersionStrategyManager.strategy.getLineCommandVersion();
 

@@ -41,7 +41,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
     final workspaceStateNotifier = ref.watch(workspaceStateProvider.notifier);
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if (didPop) {
           return;
         }

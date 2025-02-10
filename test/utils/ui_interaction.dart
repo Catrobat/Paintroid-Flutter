@@ -87,9 +87,11 @@ class UIInteraction {
 
     final byteData = await cachedImage.toByteData();
     if (byteData == null) return Colors.transparent;
-    final rawBytes = byteData.buffer.asUint8List();
-    final image =
-        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
+    final image = img.Image.fromBytes(
+      width: cachedImage.width,
+      height: cachedImage.height,
+      bytes: byteData.buffer,
+    );
 
     if (radius != 0) {
       for (int i = x - radius; i <= x + radius; i++) {
@@ -112,10 +114,10 @@ class UIInteraction {
 
   static int getColorAtPixel(img.Image image, int x, int y) {
     var pixel = image.getPixel(x, y);
-    final a = img.getAlpha(pixel);
-    final r = img.getRed(pixel);
-    final g = img.getGreen(pixel);
-    final b = img.getBlue(pixel);
+    final a = pixel.a.toInt();
+    final r = pixel.r.toInt();
+    final g = pixel.g.toInt();
+    final b = pixel.b.toInt();
 
     final argbColor = (a << 24) | (r << 16) | (g << 8) | b;
     return argbColor;

@@ -1,8 +1,8 @@
 import 'package:colorpicker/src/components/checkerboard_square.dart';
-import 'package:colorpicker/src/components/color_square.dart';
-import 'package:colorpicker/src/constants/colors.dart';
 import 'package:colorpicker/src/components/color_comparison.dart';
+import 'package:colorpicker/src/components/color_square.dart';
 import 'package:colorpicker/src/components/opacity_slider.dart';
+import 'package:colorpicker/src/constants/colors.dart';
 import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,8 +35,8 @@ class ColorPicker extends ConsumerWidget {
             ColorComparison(
               currentColor: currentColor,
               newColor: colorPickerStateData.currentColor != null
-                  ? colorPickerStateData.currentColor!.withOpacity(
-                      colorPickerStateData.currentOpacity,
+                  ? colorPickerStateData.currentColor!.withValues(
+                      alpha: colorPickerStateData.currentOpacity,
                     )
                   : currentColor,
             ),
@@ -79,7 +79,8 @@ class ColorPicker extends ConsumerWidget {
                   onPressed: () {
                     if (colorPickerStateData.currentColor != null) {
                       onColorChanged(colorPickerStateData.currentColor!
-                          .withOpacity(colorPickerStateData.currentOpacity));
+                          .withValues(
+                              alpha: colorPickerStateData.currentOpacity));
                     }
                     Navigator.pop(context);
                   },

@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,7 +42,6 @@ class ThemeModeState extends _$ThemeModeState {
       case ThemeMode.system:
         await prefs.setString('themeMode', 'system');
         break;
-      default:
     }
   }
 

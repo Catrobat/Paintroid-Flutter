@@ -16,7 +16,7 @@ class LightPaintroidThemeData extends PaintroidThemeData {
           foregroundColor: CustomColors.pureWhite,
         ),
         sliderTheme: SliderThemeData(
-          overlayColor: CustomColors.oceanBlue.withOpacity(.2),
+          overlayColor: CustomColors.oceanBlue.withValues(alpha: 0.2),
           activeTrackColor: CustomColors.oceanBlue,
           inactiveTrackColor: Colors.grey,
           thumbColor: CustomColors.oceanBlue,

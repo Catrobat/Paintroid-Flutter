@@ -52,11 +52,11 @@ void main() {
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
       await bottomNavBarInteractions
           .selectTool(eraserToolData)
-          .then((_) => _.checkActiveToolIconAndLabel(eraserToolData));
+          .then((tool) => tool.checkActiveToolIconAndLabel(eraserToolData));
 
       await bottomNavBarInteractions
           .selectTool(brushToolData)
-          .then((_) => _.checkActiveToolIconAndLabel(brushToolData));
+          .then((tool) => tool.checkActiveToolIconAndLabel(brushToolData));
     });
   });
 
@@ -182,7 +182,7 @@ void main() {
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
       await bottomNavBarInteractions
           .selectColor(blueColor)
-          .then((_) => _.checkActiveColor(blueColor));
+          .then((color) => color.checkActiveColor(blueColor));
     });
   });
 }

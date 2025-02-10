@@ -12,13 +12,13 @@ part 'square_shape_command.g.dart';
 @JsonSerializable()
 class SquareShapeCommand extends ShapeCommand {
   @OffsetConverter()
-  Offset topLeft;
+  final Offset topLeft;
   @OffsetConverter()
-  Offset topRight;
+  final Offset topRight;
   @OffsetConverter()
-  Offset bottomLeft;
+  final Offset bottomLeft;
   @OffsetConverter()
-  Offset bottomRight;
+  final Offset bottomRight;
 
   final int version;
   final String type;

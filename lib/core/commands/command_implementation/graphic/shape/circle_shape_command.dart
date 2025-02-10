@@ -11,9 +11,9 @@ part 'circle_shape_command.g.dart';
 
 @JsonSerializable()
 class CircleShapeCommand extends ShapeCommand {
-  double radius;
+  final double radius;
   @OffsetConverter()
-  Offset center;
+  final Offset center;
 
   final int version;
   final String type;

@@ -44,20 +44,20 @@ abstract class CustomColors {
 
 extension ToMaterialColor on Color {
   Map<int, Color> _toSwatch() => {
-        50: withOpacity(0.1),
-        100: withOpacity(0.2),
-        200: withOpacity(0.3),
-        300: withOpacity(0.4),
-        400: withOpacity(0.5),
-        500: withOpacity(0.6),
-        600: withOpacity(0.7),
-        700: withOpacity(0.8),
-        800: withOpacity(0.9),
+        50: withValues(alpha: 0.1),
+        100: withValues(alpha: 0.2),
+        200: withValues(alpha: 0.3),
+        300: withValues(alpha: 0.4),
+        400: withValues(alpha: 0.5),
+        500: withValues(alpha: 0.6),
+        600: withValues(alpha: 0.7),
+        700: withValues(alpha: 0.8),
+        800: withValues(alpha: 0.9),
         900: this,
       };
 
   MaterialColor toMaterialColor() => MaterialColor(
-        value,
+        (a.toInt() << 24) | (r.toInt() << 16) | (g.toInt() << 8) | b.toInt(),
         _toSwatch(),
       );
 }

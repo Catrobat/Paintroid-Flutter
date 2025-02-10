@@ -28,8 +28,8 @@ class OpacitySlider extends ConsumerWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              gradientColor.withOpacity(1.0),
-              gradientColor.withOpacity(0.0),
+              gradientColor.withValues(alpha: 1.0),
+              gradientColor.withValues(alpha: 0.0),
             ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,

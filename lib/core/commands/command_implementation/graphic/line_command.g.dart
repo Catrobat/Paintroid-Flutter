@@ -16,7 +16,8 @@ LineCommand _$LineCommandFromJson(Map<String, dynamic> json) => LineCommand(
           .fromJson(json['endPoint'] as Map<String, dynamic>),
       type: json['type'] as String? ?? SerializerType.LINE_COMMAND,
       version: (json['version'] as num?)?.toInt(),
-    )..isSourcePath = json['isSourcePath'] as bool;
+      isSourcePath: json['isSourcePath'] as bool? ?? false,
+    );
 
 Map<String, dynamic> _$LineCommandToJson(LineCommand instance) =>
     <String, dynamic>{

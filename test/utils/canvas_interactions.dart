@@ -3,10 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
 
 class CanvasInteractions {
@@ -53,6 +51,13 @@ class CanvasInteractions {
     final ui.Image image = await boundary.toImage();
     final ByteData? byteData =
         await image.toByteData(format: ui.ImageByteFormat.png);
-    return img.decodeImage(byteData!.buffer.asUint8List())!.getPixel(x, y);
+    final decodedImage = img.decodeImage(byteData!.buffer.asUint8List());
+    final pixel = decodedImage!.getPixel(x, y);
+    final a = pixel.a.toInt();
+    final r = pixel.r.toInt();
+    final g = pixel.g.toInt();
+    final b = pixel.b.toInt();
+
+    return (a << 24) | (r << 16) | (g << 8) | b;
   }
 }

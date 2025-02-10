@@ -3,11 +3,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:oxidized/oxidized.dart';
-
 import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
@@ -43,8 +41,11 @@ class ImageService with LoggableMixin implements IImageService {
     try {
       final byteData = await image.toByteData();
       if (byteData == null) throw 'Unable to convert canvas Image to bytes';
-      final rawBytes = byteData.buffer.asUint8List();
-      final img = Image.fromBytes(image.width, image.height, rawBytes);
+      final img = Image.fromBytes(
+        width: image.width,
+        height: image.height,
+        bytes: byteData.buffer,
+      );
       return Result.ok(Uint8List.fromList(encodeJpg(img, quality: quality)));
     } catch (err, stacktrace) {
       logger.severe('Could not export to Jpg', err, stacktrace);
@@ -57,8 +58,11 @@ class ImageService with LoggableMixin implements IImageService {
     try {
       final byteData = await image.toByteData();
       if (byteData == null) throw 'Unable to convert canvas Image to bytes';
-      final rawBytes = byteData.buffer.asUint8List();
-      final img = Image.fromBytes(image.width, image.height, rawBytes);
+      final img = Image.fromBytes(
+        width: image.width,
+        height: image.height,
+        bytes: byteData.buffer,
+      );
       return Result.ok(Uint8List.fromList(encodePng(img)));
     } catch (err, stacktrace) {
       logger.severe('Could not export to Png', err, stacktrace);
