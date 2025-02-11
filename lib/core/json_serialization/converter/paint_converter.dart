@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
-
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {
   const PaintConverter();
@@ -34,7 +34,7 @@ class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {
     Map<String, dynamic> json = <String, dynamic>{};
     if (SerializerVersion.PAINT_VERSION >= Version.v1) {
       json['version'] = SerializerVersion.PAINT_VERSION;
-      json['color'] = paint.color.value;
+      json['color'] = paint.color.toValue();
       json['strokeWidth'] = paint.strokeWidth;
       json['strokeCap'] = paint.strokeCap.index;
       json['isAntiAlias'] = paint.isAntiAlias;

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 import '../utils/test_utils.dart';
 
@@ -34,7 +35,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.top,
       );
-      expect(colorTopCenter, Colors.transparent);
+      expect(colorTopCenter.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.topLeft);
 
@@ -46,8 +47,8 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.top,
       );
-
-      expect(colorTopCenter, UIInteraction.getCurrentColor());
+      expect(colorTopCenter.toValue(),
+          UIInteraction.getCurrentColor().toValue().toInt());
     });
   }
 
@@ -63,7 +64,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.bottom,
       );
-      expect(colorBottomCenter, Colors.transparent);
+      expect(colorBottomCenter.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.bottomLeft);
 
@@ -76,7 +77,8 @@ void main() {
         CanvasPosition.bottom,
       );
 
-      expect(colorBottomCenter, UIInteraction.getCurrentColor());
+      expect(colorBottomCenter.toValue(),
+          UIInteraction.getCurrentColor().toValue());
     });
   }
 
@@ -91,7 +93,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(colorBefore, Colors.transparent);
+      expect(colorBefore.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.topCenter);
 
@@ -103,7 +105,7 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(colorAfter, UIInteraction.getCurrentColor());
+      expect(colorAfter.toValue(), UIInteraction.getCurrentColor().toValue());
     });
   }
 
@@ -119,7 +121,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(colorBefore, Colors.transparent);
+      expect(colorBefore.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.centerLeft);
 
@@ -131,7 +133,7 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(colorAfter, UIInteraction.getCurrentColor());
+      expect(colorAfter.toValue(), UIInteraction.getCurrentColor().toValue());
     });
   }
 
@@ -146,7 +148,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(colorBefore, Colors.transparent);
+      expect(colorBefore.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.topLeft);
 
@@ -158,7 +160,7 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(colorAfter, UIInteraction.getCurrentColor());
+      expect(colorAfter.toValue(), UIInteraction.getCurrentColor().toValue());
     });
   }
 
@@ -174,7 +176,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.halfwayTop,
       );
-      expect(colorHalfwayTop, Colors.transparent);
+      expect(colorHalfwayTop.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.halfTopLeft);
       await UIInteraction.clickPlus();
@@ -187,14 +189,15 @@ void main() {
         CanvasPosition.halfwayTop,
       );
 
-      expect(colorHalfwayTop, UIInteraction.getCurrentColor());
+      expect(
+          colorHalfwayTop.toValue(), UIInteraction.getCurrentColor().toValue());
 
       var colorHalfwayRight = await UIInteraction.getPixelColor(
         CanvasPosition.halfwayRight,
         CanvasPosition.centerY,
       );
 
-      expect(colorHalfwayRight, Colors.transparent);
+      expect(colorHalfwayRight.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.halfBottomRight);
       await UIInteraction.clickPlus();
@@ -204,14 +207,15 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(colorHalfwayRight, UIInteraction.getCurrentColor());
+      expect(colorHalfwayRight.toValue(),
+          UIInteraction.getCurrentColor().toValue());
 
       var colorHalfwayBottom = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.halfwayBottom,
       );
 
-      expect(colorHalfwayBottom, Colors.transparent);
+      expect(colorHalfwayBottom.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.halfBottomLeft);
       await UIInteraction.clickCheckmark();
@@ -221,7 +225,8 @@ void main() {
         CanvasPosition.halfwayBottom,
       );
 
-      expect(colorHalfwayBottom, UIInteraction.getCurrentColor());
+      expect(colorHalfwayBottom.toValue(),
+          UIInteraction.getCurrentColor().toValue());
     });
   }
 
@@ -238,7 +243,7 @@ void main() {
         CanvasPosition.left,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.topLeft);
       await UIInteraction.clickPlus();
@@ -249,7 +254,7 @@ void main() {
         CanvasPosition.left,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.black);
+      expect(actualColor.toValue(), Colors.black.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.topRight);
 
@@ -257,19 +262,19 @@ void main() {
         CanvasPosition.left,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       actualColor = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       actualColor = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.top,
       );
-      expect(actualColor, Colors.black);
+      expect(actualColor.toValue(), Colors.black.toValue());
     });
   }
 
@@ -286,7 +291,7 @@ void main() {
         CanvasPosition.halfwayLeft,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.halfTopLeft);
 
@@ -300,14 +305,14 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(actualColor, Colors.black);
+      expect(actualColor.toValue(), Colors.black.toValue());
 
       actualColor = await UIInteraction.getPixelColor(
         CanvasPosition.halfwayRight,
         CanvasPosition.centerY,
       );
 
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.dragFromTo(
         CanvasPosition.halfTopLeft,
@@ -329,14 +334,14 @@ void main() {
         CanvasPosition.centerY,
       );
 
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       actualColor = await UIInteraction.getPixelColor(
         CanvasPosition.halfwayRight,
         CanvasPosition.centerY,
       );
 
-      expect(actualColor, Colors.black);
+      expect(actualColor.toValue(), Colors.black.toValue());
     });
   }
 
@@ -353,7 +358,7 @@ void main() {
         CanvasPosition.halfwayLeft,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.halfTopLeft);
 
@@ -374,7 +379,7 @@ void main() {
         CanvasPosition.halfwayLeft,
         CanvasPosition.centerY,
       );
-      expect(actualColor, Colors.black);
+      expect(actualColor.toValue(), Colors.black.toValue());
     });
   }
 
@@ -402,7 +407,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.halfwayBottom,
       );
-      expect(actualColor, Colors.transparent);
+      expect(actualColor.toValue(), Colors.transparent.toValue());
     });
   }
 

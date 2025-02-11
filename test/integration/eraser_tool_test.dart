@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 import '../utils/test_utils.dart';
 
@@ -35,19 +36,19 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.center);
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.selectTool(ToolData.ERASER.name);
       await UIInteraction.tapAt(CanvasPosition.center);
 
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
     });
   }
 
@@ -66,26 +67,26 @@ void main() {
 
       var color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.top);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.bottom);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.selectTool(ToolData.ERASER.name);
       await UIInteraction.tapAt(CanvasPosition.center);
 
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.top);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.bottom);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 
@@ -101,23 +102,23 @@ void main() {
       await UIInteraction.tapAt(CanvasPosition.center);
       var color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.selectTool(ToolData.ERASER.name);
       await UIInteraction.tapAt(CanvasPosition.center);
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.clickUndo();
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.clickRedo();
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
     });
   }
 
@@ -131,12 +132,12 @@ void main() {
 
       var color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.center);
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
     });
   }
 
@@ -153,7 +154,7 @@ void main() {
           CanvasPosition.centerLeft, CanvasPosition.centerRight);
       var color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.selectTool(ToolData.ERASER.name);
 
@@ -161,10 +162,10 @@ void main() {
           CanvasPosition.center, CanvasPosition.centerRight);
       color = await UIInteraction.getPixelColor(
           CanvasPosition.centerX, CanvasPosition.centerY);
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
       color = await UIInteraction.getPixelColor(
           CanvasPosition.halfwayLeft, CanvasPosition.centerY);
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 import '../utils/test_utils.dart';
 
@@ -27,10 +28,10 @@ void main() {
       final (topLeft, topRight, bottomLeft, bottomRight) =
           await UIInteraction.getSquareShapeColors();
 
-      expect(topLeft, Colors.transparent);
-      expect(topRight, Colors.transparent);
-      expect(bottomLeft, Colors.transparent);
-      expect(bottomRight, Colors.transparent);
+      expect(topLeft.toValue(), Colors.transparent.toValue());
+      expect(topRight.toValue(), Colors.transparent.toValue());
+      expect(bottomLeft.toValue(), Colors.transparent.toValue());
+      expect(bottomRight.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.selectTool(ToolData.SHAPES.name);
 
@@ -41,10 +42,10 @@ void main() {
           await UIInteraction.getSquareShapeColors();
 
       final currentColor = UIInteraction.getCurrentColor();
-      expect(topLeftAfter, currentColor);
-      expect(topRightAfter, currentColor);
-      expect(bottomLeftAfter, currentColor);
-      expect(bottomRightAfter, currentColor);
+      expect(topLeftAfter.toValue(), currentColor.toValue());
+      expect(topRightAfter.toValue(), currentColor.toValue());
+      expect(bottomLeftAfter.toValue(), currentColor.toValue());
+      expect(bottomRightAfter.toValue(), currentColor.toValue());
     });
   }
 
@@ -60,10 +61,10 @@ void main() {
       final (left, top, right, bottom) =
           await UIInteraction.getCircleShapeColors();
 
-      expect(left, Colors.transparent);
-      expect(top, Colors.transparent);
-      expect(right, Colors.transparent);
-      expect(bottom, Colors.transparent);
+      expect(left.toValue(), Colors.transparent.toValue().toInt());
+      expect(top.toValue(), Colors.transparent.toValue().toInt());
+      expect(right.toValue(), Colors.transparent.toValue());
+      expect(bottom.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.center);
       await UIInteraction.clickCheckmark();
@@ -73,10 +74,10 @@ void main() {
 
       final currentColor = UIInteraction.getCurrentColor();
 
-      expect(leftAfter, currentColor);
-      expect(topAfter, currentColor);
-      expect(rightAfter, currentColor);
-      expect(bottomAfter, currentColor);
+      expect(leftAfter.toValue(), currentColor.toValue());
+      expect(topAfter.toValue(), currentColor.toValue());
+      expect(rightAfter.toValue(), currentColor.toValue());
+      expect(bottomAfter.toValue(), currentColor.toValue());
     });
   }
 }
