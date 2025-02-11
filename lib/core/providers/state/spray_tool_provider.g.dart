@@ -6,7 +6,7 @@ part of 'spray_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sprayToolProviderHash() => r'4b0bfa7d0b54e859a229fdbf6fa028c1fd9707ff';
+String _$sprayToolProviderHash() => r'7f2f003751d63db37267264ce921a1ed35e4cdd1';
 
 /// See also [SprayToolProvider].
 @ProviderFor(SprayToolProvider)
