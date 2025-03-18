@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/ui/shared/dialogs/delete_project_dialog.dart';
@@ -33,71 +31,76 @@ class ProjectOverflowMenu extends ConsumerStatefulWidget {
 }
 
 class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
-  late ProjectDatabase database;
-
   @override
   Widget build(BuildContext context) {
-    final db = ref.watch(ProjectDatabase.provider);
-    db.when(
-      data: (value) => database = value,
-      error: (err, stacktrace) =>
-          ToastUtils.showShortToast(message: 'Error: $err'),
-      loading: () {},
-    );
+    final databaseAsync = ref.watch(ProjectDatabase.provider);
 
-    return PopupMenuButton(
-      color: PaintroidTheme.of(context).backgroundColor,
-      icon: const Icon(Icons.more_vert),
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(),
-        borderRadius: BorderRadius.circular(20),
+    return databaseAsync.when(
+      data: (database) => PopupMenuButton(
+        color: PaintroidTheme.of(context).backgroundColor,
+        icon: const Icon(Icons.more_vert),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        onSelected: (option) => _handleSelectedOption(option, database),
+        itemBuilder: (BuildContext context) =>
+            ProjectOverflowMenuOption.values.map((option) {
+          return PopupMenuItem(
+            value: option,
+            child: Text(
+              option.label,
+              style: TextStyle(
+                color: PaintroidTheme.of(context).onBackgroundColor,
+              ),
+            ),
+          );
+        }).toList(),
       ),
-      onSelected: _handleSelectedOption,
-      itemBuilder: (BuildContext context) => ProjectOverflowMenuOption.values
-          .map((option) => PopupMenuItem(
-                value: option,
-                child: Text(
-                  option.label,
-                  style: TextStyle(
-                    color: PaintroidTheme.of(context).onBackgroundColor,
-                  ),
-                ),
-              ))
-          .toList(),
+      error: (err, _) {
+        ToastUtils.showShortToast(message: 'Error: $err');
+        return const SizedBox.shrink();
+      },
+      loading: () => const CircularProgressIndicator(),
     );
   }
 
-  void _handleSelectedOption(ProjectOverflowMenuOption option) {
+  void _handleSelectedOption(
+      ProjectOverflowMenuOption option, ProjectDatabase database) {
     switch (option) {
       case ProjectOverflowMenuOption.deleteProject:
-        _deleteProject();
+        _deleteProject(database);
         break;
       case ProjectOverflowMenuOption.getDetails:
         _showProjectDetails();
         break;
       case ProjectOverflowMenuOption.renameProject:
-        _renameProject();
+        _renameProject(database);
         break;
     }
   }
 
-  Future<void> _deleteProject() async {
+  Future<void> _deleteProject(ProjectDatabase database) async {
     bool? shouldDelete = await showDeleteDialog(context, widget.project.name);
-    if (shouldDelete != null && shouldDelete) {
+    if (shouldDelete ?? false) {
       try {
         final projectFile = File(widget.project.path);
-        await projectFile.delete();
+        if (await projectFile.exists()) {
+          await projectFile.delete();
+        }
         if (widget.project.imagePreviewPath != null) {
           final previewFile = File(widget.project.imagePreviewPath!);
-          await previewFile.delete();
+          if (await previewFile.exists()) {
+            await previewFile.delete();
+          }
         }
       } catch (err) {
         ToastUtils.showShortToast(message: err.toString());
       }
-      if (widget.project.id != null) {
-        await database.projectDAO.deleteProject(widget.project.id!);
-        ref.invalidate(ProjectDatabase.provider);
-      }
+      if (widget.project.id == null) return;
+
+      await database.projectDAO.deleteProject(widget.project.id!);
+      ref.invalidate(ProjectDatabase.provider);
     }
   }
 
@@ -105,30 +108,31 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
     await showDetailsDialog(context, widget.project);
   }
 
-  Future<void> _renameProject() async {
+  Future<void> _renameProject(ProjectDatabase database) async {
     try {
-      while (true) {
-        if (!mounted) return;
+      while (mounted) {
         String? name = await showRenameDialog(context, widget.project.name);
-        if (name == null) return;
-
-        Project? project =
-            await database.projectDAO.getProjectByName(widget.project.name);
-        if (project?.name == name) return;
+        if (name == null) return; // Handle user canceling the rename dialog
 
         Project? existingProject =
             await database.projectDAO.getProjectByName(name);
 
         if (existingProject == null) {
-          project?.name = name;
+          Project? project =
+              await database.projectDAO.getProjectByName(widget.project.name);
 
-          await database.projectDAO.deleteProject(project?.id ?? -1);
-          await database.projectDAO.insertProject(project!);
-          ref.invalidate(ProjectDatabase.provider);
+          if (project != null) {
+            project.name = name;
+            await database.projectDAO.deleteProject(project.id ?? -1);
+            await database.projectDAO.insertProject(project);
+            ref.invalidate(ProjectDatabase.provider);
+          }
           break;
         }
+
         ToastUtils.showShortToast(
-            message: 'A project with the name "$name" already exists.');
+          message: 'A project with the name "$name" already exists.',
+        );
       }
     } catch (err) {
       ToastUtils.showShortToast(message: err.toString());
