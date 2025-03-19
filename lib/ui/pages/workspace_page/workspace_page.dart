@@ -51,7 +51,12 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
         }
         if (!workspaceStateNotifier.hasSavedLastWork) {
           final shouldDiscard = await showDiscardChangesDialog(context);
-          if (shouldDiscard != null && !shouldDiscard && context.mounted) {
+
+          if (shouldDiscard == null) {
+            return;
+          }
+
+          if (!shouldDiscard && context.mounted) {
             bool savedImage = await ioHandler.saveImage(context);
             if (!savedImage) {
               return;
