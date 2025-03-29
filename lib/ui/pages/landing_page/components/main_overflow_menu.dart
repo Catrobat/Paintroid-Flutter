@@ -8,16 +8,22 @@ import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum MainOverflowMenuOption {
   rate('Rate us!'),
   help('Help'),
   about('About'),
-  feedback('Feedback');
+  feedback('Feedback'),
+  tip('Disable tip of the day');
 
   const MainOverflowMenuOption(this.label);
 
   final String label;
+
+  static String getTipLabel(bool showTip) {
+    return showTip ? 'Disable tip of the day' : 'Enable tip of the day';
+  }
 }
 
 class MainOverflowMenu extends ConsumerStatefulWidget {
@@ -31,6 +37,28 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
   final feedbackUrl = 'mailto:support-paintroid@catrobat.org';
   final iOSAppId = 'org.catrobat.paintroidflutter';
   final androidAppId = 'org.catrobat.paintroid';
+  bool showTip = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadShowTipPreference();
+  }
+
+  Future<void> _loadShowTipPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      showTip = prefs.getBool('showTip') ?? true;
+    });
+  }
+
+  Future<void> _toggleShowTipPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      showTip = !showTip;
+      prefs.setBool('showTip', showTip);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +69,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
             (option) => PopupMenuItem(
               value: option,
               child: Text(
-                option.label,
+                option == MainOverflowMenuOption.tip ? MainOverflowMenuOption.getTipLabel(showTip) : option.label,
                 style: PaintroidTheme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -69,6 +97,9 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
         break;
       case MainOverflowMenuOption.feedback:
         openUrl(feedbackUrl);
+        break;
+      case MainOverflowMenuOption.tip:
+        await _toggleShowTipPreference();
         break;
     }
   }

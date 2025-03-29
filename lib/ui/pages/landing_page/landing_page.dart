@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
+import 'package:paintroid/ui/shared/dialogs/tip_of_the_day_dialog.dart';
 import 'package:toast/toast.dart';
 
 import 'package:paintroid/core/database/project_database.dart';
@@ -69,8 +70,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
   }
 
-  Future<void> _openProject(
-      Project? project, IOHandler ioHandler, WidgetRef ref) async {
+  Future<void> _openProject(Project? project, IOHandler ioHandler, WidgetRef ref) async {
     if (project != null) {
       ref.read(workspaceStateProvider.notifier).performIOTask(() async {
         await ref.read(IDeviceService.sizeProvider.future);
@@ -81,14 +81,19 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    showTipIfEnabled(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
-      error: (err, stacktrace) =>
-          ToastUtils.showShortToast(message: 'Error: $err'),
+      error: (err, stacktrace) => ToastUtils.showShortToast(message: 'Error: $err'),
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);
@@ -105,8 +110,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       body: FutureBuilder(
         future: _getProjects(),
         builder: (BuildContext context, AsyncSnapshot<List<Project>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             if (snapshot.data!.isNotEmpty) {
               latestModifiedProject = snapshot.data![0];
             }
@@ -182,8 +186,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             icon: Icons.file_download,
             hint: 'Load image',
             onPressed: () async {
-              final bool imageLoaded =
-                  await ioHandler.loadImage(context, this, false);
+              final bool imageLoaded = await ioHandler.loadImage(context, this, false);
               if (imageLoaded && mounted) {
                 _navigateToPocketPaint();
               }
@@ -247,10 +250,7 @@ class _ProjectPreview extends StatelessWidget {
                     height: 170.0,
                     width: 170.0,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: PaintroidTheme.of(context)
-                            .outlineColor
-                            .withAlpha(180)),
+                        shape: BoxShape.circle, color: PaintroidTheme.of(context).outlineColor.withAlpha(180)),
                     child: Center(
                       child: Icon(
                         Icons.add,
