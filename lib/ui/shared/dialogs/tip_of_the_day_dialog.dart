@@ -102,9 +102,7 @@ class _TipOfTheDayDialogState extends State<TipOfTheDayDialog> {
     final prefs = await SharedPreferences.getInstance();
     final tipIndex = prefs.getInt('tipIndex') ?? 0;
     prefs.setInt('tipIndex', (tipIndex + 1) % tips.length);
-    setState(() {
-      currentTipIndex = (tipIndex + 1) % tips.length;
-    });
+    currentTipIndex = (tipIndex + 1) % tips.length;
   }
 
   Future<void> _closeTipDialog(BuildContext context) async {
@@ -176,6 +174,7 @@ class _TipOfTheDayDialogState extends State<TipOfTheDayDialog> {
         TextButton(
           onPressed: () async {
             await _incrementTipIndex();
+            setState(() {});
           },
           child: Text(
             'Next',
