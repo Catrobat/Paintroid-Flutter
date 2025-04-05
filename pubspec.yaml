@@ -6,7 +6,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.5 <4.0.0"
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  flutter_localization: ^0.1.12
+  flutter_localization: ^0.3.2
   intl: ^0.19.0
   logging: ^1.0.2
   flutter_riverpod: ^2.3.6
@@ -25,18 +25,17 @@ dependencies:
   json_annotation: ^4.8.1
   collection: ^1.17.1
   url_launcher: ^6.1.6
-  #url_launcher_ios: ^6.3.2
   toast: ^0.3.0
   oxidized: ^5.2.0
   flutter_svg: ^1.1.0
-  launch_review: ^3.0.1
-  package_info_plus: ^4.0.1
+  launch_review_latest: ^1.0.0
+  package_info_plus: ^8.3.0
   filesize: ^2.0.1
   smooth_page_indicator: ^1.0.0+2
   image: ^3.2.0
-  permission_handler: ^10.0.0
-  device_info_plus: ^9.0.3
-  image_picker: ^0.8.5+3
+  permission_handler: ^11.4.0
+  device_info_plus: ^9.1.2
+  image_picker: ^1.1.2
   path_provider: ^2.0.11
   file_picker: ^8.3.5
   floor: ^1.2.0
@@ -52,7 +51,7 @@ dev_dependencies:
 
   mockito: ^5.2.0
   flutter_launcher_icons: ^0.9.3
-  flutter_lints: ^3.0.2
+  flutter_lints: ^5.0.0
   floor_generator: ^1.4.2
   riverpod_generator: ^2.2.4
   riverpod_lint: ^2.0.0

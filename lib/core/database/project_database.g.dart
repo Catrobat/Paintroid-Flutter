@@ -6,21 +6,32 @@ part of 'project_database.dart';
 // FloorGenerator
 // **************************************************************************
 
+abstract class $ProjectDatabaseBuilderContract {
+  /// Adds migrations to the builder.
+  $ProjectDatabaseBuilderContract addMigrations(List<Migration> migrations);
+
+  /// Adds a database [Callback] to the builder.
+  $ProjectDatabaseBuilderContract addCallback(Callback callback);
+
+  /// Creates the database and initializes it.
+  Future<ProjectDatabase> build();
+}
+
 // ignore: avoid_classes_with_only_static_members
 class $FloorProjectDatabase {
   /// Creates a database builder for a persistent database.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$ProjectDatabaseBuilder databaseBuilder(String name) =>
+  static $ProjectDatabaseBuilderContract databaseBuilder(String name) =>
       _$ProjectDatabaseBuilder(name);
 
   /// Creates a database builder for an in memory database.
   /// Information stored in an in memory database disappears when the process is killed.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$ProjectDatabaseBuilder inMemoryDatabaseBuilder() =>
+  static $ProjectDatabaseBuilderContract inMemoryDatabaseBuilder() =>
       _$ProjectDatabaseBuilder(null);
 }
 
-class _$ProjectDatabaseBuilder {
+class _$ProjectDatabaseBuilder implements $ProjectDatabaseBuilderContract {
   _$ProjectDatabaseBuilder(this.name);
 
   final String? name;
@@ -29,19 +40,19 @@ class _$ProjectDatabaseBuilder {
 
   Callback? _callback;
 
-  /// Adds migrations to the builder.
-  _$ProjectDatabaseBuilder addMigrations(List<Migration> migrations) {
+  @override
+  $ProjectDatabaseBuilderContract addMigrations(List<Migration> migrations) {
     _migrations.addAll(migrations);
     return this;
   }
 
-  /// Adds a database [Callback] to the builder.
-  _$ProjectDatabaseBuilder addCallback(Callback callback) {
+  @override
+  $ProjectDatabaseBuilderContract addCallback(Callback callback) {
     _callback = callback;
     return this;
   }
 
-  /// Creates the database and initializes it.
+  @override
   Future<ProjectDatabase> build() async {
     final path = name != null
         ? await sqfliteDatabaseFactory.getDatabasePath(name!)
