@@ -6,7 +6,7 @@ part of 'spray_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sprayToolProviderHash() => r'4b0bfa7d0b54e859a229fdbf6fa028c1fd9707ff';
+String _$sprayToolProviderHash() => r'7f2f003751d63db37267264ce921a1ed35e4cdd1';
 
 /// See also [SprayToolProvider].
 @ProviderFor(SprayToolProvider)
@@ -23,4 +23,4 @@ final sprayToolProvider =
 
 typedef _$SprayToolProvider = AutoDisposeNotifier<SprayTool>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

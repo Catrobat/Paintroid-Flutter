@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
-import 'package:toast/toast.dart';
-
 import 'package:paintroid/core/database/project_database.dart';
 import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
@@ -22,6 +19,7 @@ import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu
 import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:toast/toast.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
@@ -231,7 +229,9 @@ class _ProjectPreview extends StatelessWidget {
             child: ImagePreview(
               project: latestModifiedProject,
               imageService: imageService,
-              color: PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.5),
+              color: PaintroidTheme.of(context)
+                  .onSurfaceColor
+                  .withValues(alpha: 0.5),
             ),
           ),
         ),

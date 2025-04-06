@@ -50,13 +50,13 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      await bottomNavBarInteractions
-          .selectTool(eraserToolData)
-          .then((_) => _.checkActiveToolIconAndLabel(eraserToolData));
+      await bottomNavBarInteractions.selectTool(eraserToolData).then(
+          (bottomNavBarInteractions) => bottomNavBarInteractions
+              .checkActiveToolIconAndLabel(eraserToolData));
 
-      await bottomNavBarInteractions
-          .selectTool(brushToolData)
-          .then((_) => _.checkActiveToolIconAndLabel(brushToolData));
+      await bottomNavBarInteractions.selectTool(brushToolData).then(
+          (bottomNavBarInteractions) => bottomNavBarInteractions
+              .checkActiveToolIconAndLabel(brushToolData));
     });
   });
 
@@ -180,9 +180,9 @@ void main() {
       await tester.pumpWidget(sut);
 
       final bottomNavBarInteractions = BottomNavBarInteractions(tester);
-      await bottomNavBarInteractions
-          .selectColor(blueColor)
-          .then((_) => _.checkActiveColor(blueColor));
+      await bottomNavBarInteractions.selectColor(blueColor).then(
+          (bottomNavBarInteractions) =>
+              bottomNavBarInteractions.checkActiveColor(blueColor));
     });
   });
 }

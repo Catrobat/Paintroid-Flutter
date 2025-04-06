@@ -19,7 +19,9 @@ mixin _$ShapesToolOptionsStateData {
   bool get isRotating => throw _privateConstructorUsedError;
   ShapeType get shapeType => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ShapesToolOptionsStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ShapesToolOptionsStateDataCopyWith<ShapesToolOptionsStateData>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ShapesToolOptionsStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +89,8 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
       $Res Function(_$ShapesToolOptionsDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ShapesToolOptionsStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,7 +140,9 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
   @override
   int get hashCode => Object.hash(runtimeType, isRotating, shapeType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ShapesToolOptionsStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShapesToolOptionsDataImplCopyWith<_$ShapesToolOptionsDataImpl>
@@ -151,8 +159,11 @@ abstract class _ShapesToolOptionsData implements ShapesToolOptionsStateData {
   bool get isRotating;
   @override
   ShapeType get shapeType;
+
+  /// Create a copy of ShapesToolOptionsStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShapesToolOptionsDataImplCopyWith<_$ShapesToolOptionsDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

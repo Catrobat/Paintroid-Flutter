@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_button_with_label.dart';
 
@@ -77,8 +76,10 @@ class BottomNavBarInteractions {
             widget is InkWell &&
             widget.child is Container &&
             (widget.child as Container).decoration is BoxDecoration &&
-            ((widget.child as Container).decoration as BoxDecoration).color ==
-                color));
+            ((widget.child as Container).decoration as BoxDecoration)
+                    .color
+                    ?.toValue() ==
+                color.toValue()));
 
     expect(activeColor, findsOneWidget);
     return this;

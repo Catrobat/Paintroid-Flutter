@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:toast/toast.dart';
-
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen1.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen2.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen3.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen4.dart';
 import 'package:paintroid/ui/pages/onboarding_page/screens/screen5.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:toast/toast.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
@@ -114,8 +112,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               count: 5,
               controller: _controller,
               effect: SlideEffect(
-                dotColor:
-                    PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.2),
+                dotColor: PaintroidTheme.of(context)
+                    .onSurfaceColor
+                    .withValues(alpha: 0.2),
                 dotHeight: 8,
                 dotWidth: 8,
                 activeDotColor: PaintroidTheme.of(context).onSurfaceColor,
