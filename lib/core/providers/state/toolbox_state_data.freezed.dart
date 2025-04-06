@@ -19,7 +19,9 @@ mixin _$ToolBoxStateData {
   Tool get currentTool => throw _privateConstructorUsedError;
   bool get isDown => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolBoxStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolBoxStateDataCopyWith<ToolBoxStateData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$ToolBoxStateDataCopyWithImpl<$Res, $Val extends ToolBoxStateData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolBoxStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$ToolBoxStateDataImplCopyWithImpl<$Res>
       $Res Function(_$ToolBoxStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolBoxStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,7 +135,9 @@ class _$ToolBoxStateDataImpl implements _ToolBoxStateData {
   @override
   int get hashCode => Object.hash(runtimeType, currentTool, isDown);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolBoxStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolBoxStateDataImplCopyWith<_$ToolBoxStateDataImpl> get copyWith =>
@@ -146,8 +154,11 @@ abstract class _ToolBoxStateData implements ToolBoxStateData {
   Tool get currentTool;
   @override
   bool get isDown;
+
+  /// Create a copy of ToolBoxStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolBoxStateDataImplCopyWith<_$ToolBoxStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

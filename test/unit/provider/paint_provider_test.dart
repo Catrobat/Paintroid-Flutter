@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:paintroid/core/providers/state/paint_provider.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 void main() {
   late ProviderContainer container;
@@ -31,7 +30,7 @@ void main() {
   test('updateColor updates the color correctly', () {
     Color newColor = Colors.blue.shade50;
     container.read(paintProvider.notifier).updateColor(newColor);
-    expect(container.read(paintProvider).color, newColor);
+    expect(container.read(paintProvider).color.toValue(), newColor.toValue());
   });
 
   test('updateBlendMode updates the blend mode correctly', () {
@@ -45,7 +44,7 @@ void main() {
 
     expect(paintState.style, PaintingStyle.stroke);
     expect(paintState.strokeJoin, StrokeJoin.round);
-    expect(paintState.color, const Color(0xff00abbb));
+    expect(paintState.color.toValue(), const Color(0xff00abbb).toValue());
     expect(paintState.strokeCap, StrokeCap.round);
     expect(paintState.strokeWidth, 25);
   });

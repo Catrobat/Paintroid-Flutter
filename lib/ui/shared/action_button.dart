@@ -23,8 +23,8 @@ class ActionButton extends StatelessWidget {
         key: ValueKey(valueKey),
         icon: Icon(icon),
         onPressed: onPressed,
-        disabledColor:
-            PaintroidTheme.of(context).onSurfaceColor.withOpacity(0.4),
+        disabledColor: PaintroidTheme.of(context).onSurfaceColor
+          ..withValues(alpha: 0.4),
         color: PaintroidTheme.of(context).onSurfaceColor,
       ),
     );

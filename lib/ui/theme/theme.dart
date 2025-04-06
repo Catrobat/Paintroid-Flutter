@@ -1,4 +1,4 @@
-library theme;
+library;
 
 export 'data/custom_colors.dart';
 export 'data/dark_paintroid_theme_data.dart';

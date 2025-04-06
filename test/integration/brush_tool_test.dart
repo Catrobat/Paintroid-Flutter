@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
 
 import '../utils/canvas_positions.dart';
 import '../utils/ui_interaction.dart';
@@ -36,7 +37,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.tapAt(CanvasPosition.center);
 
@@ -44,7 +45,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 
@@ -66,7 +67,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 
@@ -85,7 +86,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       await UIInteraction.clickUndo();
 
@@ -93,7 +94,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.transparent);
+      expect(color.toValue(), Colors.transparent.toValue());
 
       await UIInteraction.clickRedo();
 
@@ -101,7 +102,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 
@@ -123,25 +124,25 @@ void main() {
         CanvasPosition.left,
         CanvasPosition.top,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.top,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.bottom,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.bottom,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
     });
   }
 
@@ -163,7 +164,7 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color, Colors.black);
+      expect(color.toValue(), Colors.black.toValue());
 
       UIInteraction.setColor(Colors.red);
 
@@ -176,7 +177,8 @@ void main() {
         CanvasPosition.centerX,
         CanvasPosition.centerY,
       );
-      expect(color.value, Colors.red.value);
+
+      expect(color.toValue(), Colors.red.toValue());
     });
   }
 }

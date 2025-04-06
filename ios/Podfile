@@ -40,11 +40,13 @@ post_install do |installer|
 
     # https://pub.dev/packages/permission_handler
     target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '$(inherited)',
         'PERMISSION_PHOTOS=1',
         'PERMISSION_PHOTOS_ADD_ONLY=1'
       ]
-      end
+    end
   end
 end
