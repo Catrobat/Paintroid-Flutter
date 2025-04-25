@@ -8,6 +8,7 @@ import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/shared/loading_overlay.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:flutter/services.dart';
 
 class App extends StatelessWidget {
   final bool showOnboardingPage;
@@ -57,6 +58,14 @@ class App extends StatelessWidget {
         },
         home: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              final navBarColor = PaintroidTheme.of(context).primaryColor;
+              SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle(
+                  systemNavigationBarColor: navBarColor,
+                ),
+              );
+            });
             return LoadingOverlay(
               isLoading: ref.watch(
                 workspaceStateProvider.select(
