@@ -1,7 +1,10 @@
 name: Build, Test and Analyze
 
-on: [ push, pull_request ]
-
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  
 jobs:
   main:
     runs-on: ubuntu-latest
