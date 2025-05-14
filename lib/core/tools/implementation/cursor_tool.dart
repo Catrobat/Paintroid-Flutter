@@ -29,14 +29,11 @@ class CursorTool extends Tool {
   @override
   void onDrag(Offset point, Paint paint) {
     print("On Drag was pressed");
-
-
   }
 
   @override
   void onUp(Offset point, Paint paint) {
     print("On Up was pressed");
-
   }
 
   @override
