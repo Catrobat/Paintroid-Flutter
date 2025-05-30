@@ -40,6 +40,7 @@ dependencies:
   file_picker: ^8.3.5
   floor: ^1.2.0
   sqflite: ^2.3.0
+  archive: ^3.4.10
   colorpicker:
     path: packages/colorpicker
 

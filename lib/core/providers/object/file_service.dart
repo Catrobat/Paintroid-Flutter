@@ -52,13 +52,16 @@ class FileService with LoggableMixin implements IFileService {
   @override
   Future<Result<File, Failure>> save(String filename, Uint8List data) async {
     try {
-      final saveDirectory = await FilePicker.platform.getDirectoryPath();
-      if (saveDirectory == null) {
+      final savePath = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save As',
+        fileName: filename,
+        bytes: data, // Required for Android/iOS
+      );
+      if (savePath == null) {
         return const Result.err(SaveImageFailure.userCancelled);
       }
-      final file =
-          await File('$saveDirectory/$filename').create(recursive: true);
-      return Result.ok(await file.writeAsBytes(data));
+      // File is already saved by file_picker
+      return Result.ok(File(savePath));
     } catch (err, stacktrace) {
       logger.severe('Could not save file', err, stacktrace);
       return const Result.err(SaveImageFailure.unidentified);
