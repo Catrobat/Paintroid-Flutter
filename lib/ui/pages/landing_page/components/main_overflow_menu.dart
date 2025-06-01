@@ -82,7 +82,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
     String version = packageInfo.version;
     switch (option) {
       case MainOverflowMenuOption.rate:
-        _openStore();
+        await _openStore();
         break;
       case MainOverflowMenuOption.help:
         if (mounted) {
