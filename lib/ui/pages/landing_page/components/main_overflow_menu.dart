@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:paintroid/core/models/loggable_mixin.dart';
 
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
@@ -29,7 +30,8 @@ class MainOverflowMenu extends ConsumerStatefulWidget {
   ConsumerState<MainOverflowMenu> createState() => _MainOverFlowMenuState();
 }
 
-class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
+class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
+    with LoggableMixin {
   final feedbackUrl = 'mailto:support-paintroid@catrobat.org';
   final iOSAppId = 'org.catrobat.paintroidflutter';
   final androidAppId = 'org.catrobat.paintroid';
@@ -52,18 +54,26 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     );
   }
 
-  void _openStore() {
-    if (Platform.isAndroid || Platform.isIOS) {
-      final appId = Platform.isAndroid ? androidAppId : iOSAppId;
-      final url = Uri.parse(
-        Platform.isAndroid
-            ? 'market://details?id=$appId'
-            : 'https://apps.apple.com/at/app/pocket-code/id1117935892',
-      );
-      launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
+  Future<void> _openStore() async {
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        final appId = Platform.isAndroid ? androidAppId : iOSAppId;
+        final url = Uri.parse(
+          Platform.isAndroid
+              ? 'market://details?id=$appId'
+              : 'https://apps.apple.com/app/$appId',
+        );
+        final launched = await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          // launchUrl returned false, meaning it failed to open the url
+          logger.severe('Could not launch app store URL: $url');
+        }
+      }
+    } catch (err, stacktrace) {
+      logger.severe('Failed to open app store', err, stacktrace);
     }
   }
 
