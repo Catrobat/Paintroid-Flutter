@@ -6,8 +6,8 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/squ
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/tools/bounding_box.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 
 void main() {
   late ShapesTool sut;
@@ -26,7 +26,6 @@ void main() {
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       boundingBox: boundingBox,
-      isRotating: false,
       shapeType: ShapeType.square,
     );
   });

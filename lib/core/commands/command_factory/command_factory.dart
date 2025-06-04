@@ -1,5 +1,5 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
@@ -39,6 +39,21 @@ class CommandFactory {
     Offset center,
   ) =>
       CircleShapeCommand(paint, radius, center);
+
+  TextCommand createTextCommand(
+    Offset point,
+    String text,
+    TextStyle style,
+    Paint paint,
+    double rotationAngle,
+  ) =>
+      TextCommand(
+        point,
+        text,
+        style,
+        paint,
+        rotationAngle: rotationAngle,
+      );
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
     return SprayCommand(points, paint);

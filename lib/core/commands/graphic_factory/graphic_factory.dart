@@ -16,6 +16,16 @@ class GraphicFactory {
     ..color = const Color.fromARGB(220, 117, 117, 117)
     ..style = PaintingStyle.fill;
 
+  static final Paint guideRectanglePaint = Paint()
+    ..color = Color(0xff157da2)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 10;
+
+  static final Paint guideCornerArcEdgePaint = Paint()
+    ..color = Color(0xff555555)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 20;
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 

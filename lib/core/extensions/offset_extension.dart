@@ -8,7 +8,7 @@ extension OffsetExtensions on Offset {
 
   Offset moveTowards({
     required Offset towards,
-    required double distance, 
+    required double distance,
     Offset? from,
     double rotation = 0,
   }) =>
@@ -16,4 +16,10 @@ extension OffsetExtensions on Offset {
 
   Offset move(double distance, double direction, {Offset? from}) =>
       (from ?? this) + Offset.fromDirection(direction, distance);
+
+  Offset normalized() {
+    final double d = distance;
+    if (d == 0) return Offset.zero;
+    return Offset(dx / d, dy / d);
+  }
 }

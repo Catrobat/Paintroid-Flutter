@@ -4,4 +4,12 @@ enum BoundingBoxCorner {
   topRight,
   bottomLeft,
   bottomRight,
+  topEdge,
+  bottomEdge,
+  leftEdge,
+  rightEdge,
+  topLeftRotationArc,
+  topRightRotationArc,
+  bottomLeftRotationArc,
+  bottomRightRotationArc,
 }

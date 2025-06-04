@@ -9,7 +9,7 @@ import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart'
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 

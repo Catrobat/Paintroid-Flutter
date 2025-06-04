@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ShapesToolOptionsStateData {
-  bool get isRotating => throw _privateConstructorUsedError;
   ShapeType get shapeType => throw _privateConstructorUsedError;
 
   /// Create a copy of ShapesToolOptionsStateData
@@ -33,7 +32,7 @@ abstract class $ShapesToolOptionsStateDataCopyWith<$Res> {
       _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
           ShapesToolOptionsStateData>;
   @useResult
-  $Res call({bool isRotating, ShapeType shapeType});
+  $Res call({ShapeType shapeType});
 }
 
 /// @nodoc
@@ -52,14 +51,9 @@ class _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isRotating = null,
     Object? shapeType = null,
   }) {
     return _then(_value.copyWith(
-      isRotating: null == isRotating
-          ? _value.isRotating
-          : isRotating // ignore: cast_nullable_to_non_nullable
-              as bool,
       shapeType: null == shapeType
           ? _value.shapeType
           : shapeType // ignore: cast_nullable_to_non_nullable
@@ -77,7 +71,7 @@ abstract class _$$ShapesToolOptionsDataImplCopyWith<$Res>
       __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isRotating, ShapeType shapeType});
+  $Res call({ShapeType shapeType});
 }
 
 /// @nodoc
@@ -94,14 +88,9 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isRotating = null,
     Object? shapeType = null,
   }) {
     return _then(_$ShapesToolOptionsDataImpl(
-      isRotating: null == isRotating
-          ? _value.isRotating
-          : isRotating // ignore: cast_nullable_to_non_nullable
-              as bool,
       shapeType: null == shapeType
           ? _value.shapeType
           : shapeType // ignore: cast_nullable_to_non_nullable
@@ -113,17 +102,14 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
-  const _$ShapesToolOptionsDataImpl(
-      {required this.isRotating, required this.shapeType});
+  const _$ShapesToolOptionsDataImpl({required this.shapeType});
 
-  @override
-  final bool isRotating;
   @override
   final ShapeType shapeType;
 
   @override
   String toString() {
-    return 'ShapesToolOptionsStateData(isRotating: $isRotating, shapeType: $shapeType)';
+    return 'ShapesToolOptionsStateData(shapeType: $shapeType)';
   }
 
   @override
@@ -131,14 +117,12 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShapesToolOptionsDataImpl &&
-            (identical(other.isRotating, isRotating) ||
-                other.isRotating == isRotating) &&
             (identical(other.shapeType, shapeType) ||
                 other.shapeType == shapeType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isRotating, shapeType);
+  int get hashCode => Object.hash(runtimeType, shapeType);
 
   /// Create a copy of ShapesToolOptionsStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -151,12 +135,9 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
 }
 
 abstract class _ShapesToolOptionsData implements ShapesToolOptionsStateData {
-  const factory _ShapesToolOptionsData(
-      {required final bool isRotating,
-      required final ShapeType shapeType}) = _$ShapesToolOptionsDataImpl;
+  const factory _ShapesToolOptionsData({required final ShapeType shapeType}) =
+      _$ShapesToolOptionsDataImpl;
 
-  @override
-  bool get isRotating;
   @override
   ShapeType get shapeType;
 

@@ -5,13 +5,15 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class CommandPainter extends CustomPainter {
   Tool currentTool;
   CommandManager commandManager;
+
   CommandPainter(this.ref)
       : currentTool = ref.read(toolBoxStateProvider).currentTool,
         commandManager = ref.read(commandManagerProvider);
@@ -31,6 +33,9 @@ class CommandPainter extends CustomPainter {
         (currentTool as ShapesTool)
           ..drawShape(canvas, ref.read(paintProvider))
           ..drawGuides(canvas);
+        break;
+      case ToolType.TEXT:
+        (currentTool as TextTool).drawGuides(canvas, ref.read(paintProvider));
         break;
       default:
         commandManager.executeLastCommand(canvas);

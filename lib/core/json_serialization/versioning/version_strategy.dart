@@ -11,6 +11,8 @@ abstract class IVersionStrategy {
 
   int getCircleShapeCommandVersion();
 
+  int getTextCommandVersion();
+
   int getSprayCommandVersion();
 }
 
@@ -31,6 +33,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getCircleShapeCommandVersion() =>
       SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION;
+
+  @override
+  int getTextCommandVersion() => SerializerVersion.TEXT_COMMAND_VERSION;
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;
