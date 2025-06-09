@@ -26,6 +26,11 @@ class GraphicFactory {
     ..style = PaintingStyle.stroke
     ..strokeWidth = 20;
 
+  static Paint thinPaint = Paint()
+    ..color = GraphicFactory.guideCornerArcEdgePaint.color
+    ..strokeWidth = 20
+    ..strokeCap = StrokeCap.round;
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 

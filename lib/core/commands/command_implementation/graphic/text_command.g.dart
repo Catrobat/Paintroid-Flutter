@@ -11,6 +11,7 @@ TextCommand _$TextCommandFromJson(Map<String, dynamic> json) => TextCommand(
       json['text'] as String,
       const TextStyleConverter()
           .fromJson(json['style'] as Map<String, dynamic>),
+      (json['fontSize'] as num).toDouble(),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
       rotationAngle: (json['rotationAngle'] as num).toDouble(),
       version: (json['version'] as num?)?.toInt(),
@@ -26,4 +27,5 @@ Map<String, dynamic> _$TextCommandToJson(TextCommand instance) =>
       'rotationAngle': instance.rotationAngle,
       'version': instance.version,
       'type': instance.type,
+      'fontSize': instance.fontSize,
     };

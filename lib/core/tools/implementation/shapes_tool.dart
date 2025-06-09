@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
+import 'package:paintroid/core/enums/bounding_box_corners.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -24,7 +25,26 @@ class ShapesTool extends Tool {
   void onDown(Offset point, Paint paint) => boundingBox.setActiveCorner(point);
 
   @override
-  void onDrag(Offset point, Paint paint) => boundingBox.update(point);
+  void onDrag(Offset point, Paint paint) {
+    if (shapeType != ShapeType.circle) {
+      boundingBox.update(point);
+      return;
+    }
+    if (boundingBox.activeCorner == BoundingBoxCorner.none) {
+      boundingBox.update(point);
+      return;
+    }
+    final Offset center = boundingBox.center;
+    final double radius = (point - center).distance;
+    final double halfSize = radius;
+
+    boundingBox.updateCorners(
+      center.translate(-halfSize, -halfSize),
+      center.translate(halfSize, -halfSize),
+      center.translate(-halfSize, halfSize),
+      center.translate(halfSize, halfSize),
+    );
+  }
 
   @override
   void onUp(Offset point, Paint paint) => boundingBox.resetActiveCorner();

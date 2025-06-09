@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -21,7 +20,7 @@ class BoundingBox {
   late final double edgeSensitivity;
 
   BoundingBox(this.topLeft, this.topRight, this.bottomLeft, this.bottomRight) {
-    edgeSensitivity = anchorRadius / 2.5;
+    edgeSensitivity = anchorRadius / 2;
   }
 
   double get rotationArcHandleRadius =>
@@ -113,11 +112,11 @@ class BoundingBox {
     } else if (point.isWithinRadius(bottomRight, anchorRadius)) {
       activeCorner = BoundingBoxCorner.bottomRight;
     } else {
-      double distToTopEdge = _distanceToSegment(point, topLeft, topRight);
+      double distToTopEdge = point.distanceToSegment(topLeft, topRight);
       double distToBottomEdge =
-          _distanceToSegment(point, bottomLeft, bottomRight);
-      double distToLeftEdge = _distanceToSegment(point, topLeft, bottomLeft);
-      double distToRightEdge = _distanceToSegment(point, topRight, bottomRight);
+          point.distanceToSegment(bottomLeft, bottomRight);
+      double distToLeftEdge = point.distanceToSegment(topLeft, bottomLeft);
+      double distToRightEdge = point.distanceToSegment(topRight, bottomRight);
 
       if (distToTopEdge <= edgeSensitivity) {
         activeCorner = BoundingBoxCorner.topEdge;
@@ -134,95 +133,103 @@ class BoundingBox {
     lastPoint = point;
   }
 
-  double _distanceToSegment(Offset p, Offset v, Offset w) {
-    final double l2 = (v - w).distanceSquared;
-    if (l2 == 0.0) return (p - v).distance;
-    double t =
-        ((p.dx - v.dx) * (w.dx - v.dx) + (p.dy - v.dy) * (w.dy - v.dy)) / l2;
-    t = max(0, min(1, t));
-    final Offset projection = v + (w - v) * t;
-    return (p - projection).distance;
-  }
-
-  double _getActiveCornerDistanceToCenter(Offset centerPoint) {
+  void scale(Offset point) {
+    late final Offset fixed;
     switch (activeCorner) {
       case BoundingBoxCorner.topLeft:
-      case BoundingBoxCorner.topLeftRotationArc:
-        return topLeft.distanceTo(centerPoint);
+        fixed = bottomRight;
+        break;
       case BoundingBoxCorner.topRight:
-      case BoundingBoxCorner.topRightRotationArc:
-        return topRight.distanceTo(centerPoint);
+        fixed = bottomLeft;
+        break;
       case BoundingBoxCorner.bottomLeft:
-      case BoundingBoxCorner.bottomLeftRotationArc:
-        return bottomLeft.distanceTo(centerPoint);
+        fixed = topRight;
+        break;
       case BoundingBoxCorner.bottomRight:
+        fixed = topLeft;
+        break;
+      case BoundingBoxCorner.none:
+      case BoundingBoxCorner.topEdge:
+      case BoundingBoxCorner.bottomEdge:
+      case BoundingBoxCorner.leftEdge:
+      case BoundingBoxCorner.rightEdge:
+      case BoundingBoxCorner.topLeftRotationArc:
+      case BoundingBoxCorner.topRightRotationArc:
+      case BoundingBoxCorner.bottomLeftRotationArc:
       case BoundingBoxCorner.bottomRightRotationArc:
-        return bottomRight.distanceTo(centerPoint);
-      default:
-        return 1.0;
+        return;
     }
-  }
 
-  void scale(Offset point) {
-    final Offset currentCenter = center;
-    final double initialDistanceOfActiveCorner =
-        _getActiveCornerDistanceToCenter(currentCenter);
-    final double targetDistanceOfActiveCorner =
-        (point - currentCenter).distance;
+    final double left = math.min(point.dx, fixed.dx);
+    final double right = math.max(point.dx, fixed.dx);
+    final double top = math.min(point.dy, fixed.dy);
+    final double bottom = math.max(point.dy, fixed.dy);
 
-    final double scaleFactor = (initialDistanceOfActiveCorner == 0 ||
-            targetDistanceOfActiveCorner == 0)
-        ? 1.0
-        : targetDistanceOfActiveCorner / initialDistanceOfActiveCorner;
+    updateCorners(Offset(left, top), Offset(right, top), Offset(left, bottom),
+        Offset(right, bottom));
 
-    final Offset oldTopLeft = topLeft;
-    final double oldTopLeftAngle = (oldTopLeft - currentCenter).direction;
-    final double newTopLeftDistance =
-        (oldTopLeft - currentCenter).distance * scaleFactor;
-    topLeft = currentCenter.move(newTopLeftDistance, oldTopLeftAngle);
-
-    final Offset oldTopRight = topRight;
-    final double oldTopRightAngle = (oldTopRight - currentCenter).direction;
-    final double newTopRightDistance =
-        (oldTopRight - currentCenter).distance * scaleFactor;
-    topRight = currentCenter.move(newTopRightDistance, oldTopRightAngle);
-
-    final Offset oldBottomLeft = bottomLeft;
-    final double oldBottomLeftAngle = (oldBottomLeft - currentCenter).direction;
-    final double newBottomLeftDistance =
-        (oldBottomLeft - currentCenter).distance * scaleFactor;
-    bottomLeft = currentCenter.move(newBottomLeftDistance, oldBottomLeftAngle);
-
-    final Offset oldBottomRight = bottomRight;
-    final double oldBottomRightAngle =
-        (oldBottomRight - currentCenter).direction;
-    final double newBottomRightDistance =
-        (oldBottomRight - currentCenter).distance * scaleFactor;
-    bottomRight =
-        currentCenter.move(newBottomRightDistance, oldBottomRightAngle);
+    if (point.dx < fixed.dx && point.dy < fixed.dy) {
+      activeCorner = BoundingBoxCorner.topLeft;
+    } else if (point.dx > fixed.dx && point.dy < fixed.dy) {
+      activeCorner = BoundingBoxCorner.topRight;
+    } else if (point.dx < fixed.dx && point.dy > fixed.dy) {
+      activeCorner = BoundingBoxCorner.bottomLeft;
+    } else {
+      activeCorner = BoundingBoxCorner.bottomRight;
+    }
   }
 
   void drawBoundingBox(Canvas canvas) {
-    final double bbWidth =
-        (topRight - topLeft).distance;
-    final double bbHeight =
-        (bottomLeft - topLeft).distance;
-    if (bbWidth <= 0 || bbHeight <= 0) {
-      return;
-    }
-    final double rotationAngle =
-        (topRight - topLeft).direction;
+    final double bbWidth = (topRight - topLeft).distance;
+    final double bbHeight = (bottomLeft - topLeft).distance;
+    if (bbWidth <= 0 || bbHeight <= 0) return;
+    final double rotationAngle = (topRight - topLeft).direction;
 
     canvas.save();
     canvas.translate(topLeft.dx, topLeft.dy);
     canvas.rotate(rotationAngle);
-    final cornerRadius = bbWidth / 10;
+
+    final cornerRadius = math.min(bbWidth / 8, bbHeight / 8);
     final double effectiveCornerRadius = cornerRadius > 0 ? cornerRadius : 0.0;
-    final rrect = RRect.fromRectAndRadius(
+
+    void drawArrowHead(Offset tip, double direction) {
+      final double wingLength = math.min(bbWidth, bbHeight) / 10;
+      final double wingAngle = math.pi / 3;
+
+      final Offset leftWing = tip +
+          Offset.fromDirection(direction + math.pi - wingAngle, wingLength);
+      final Offset rightWing = tip +
+          Offset.fromDirection(direction + math.pi + wingAngle, wingLength);
+
+      canvas.drawLine(tip, leftWing, GraphicFactory.thinPaint);
+      canvas.drawLine(tip, rightWing, GraphicFactory.thinPaint);
+    }
+
+    void drawArcWithArrows(
+        Offset center, double startAngle, double sweepAngle) {
+      final double radius = effectiveCornerRadius * 3.5;
+
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius),
+        startAngle,
+        sweepAngle,
+        false,
+        GraphicFactory.guideCornerArcEdgePaint,
+      );
+
+      final Offset start = center + Offset.fromDirection(startAngle, radius);
+      final Offset end =
+          center + Offset.fromDirection(startAngle + sweepAngle, radius);
+
+      drawArrowHead(start, startAngle - math.pi / 2);
+      drawArrowHead(end, startAngle + sweepAngle + math.pi / 2);
+    }
+
+    final box = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, bbWidth, bbHeight),
       Radius.circular(cornerRadius),
     );
-    canvas.drawRRect(rrect, GraphicFactory.guideRectanglePaint);
+    canvas.drawRRect(box, GraphicFactory.guideRectanglePaint);
     final double arcExtensionLength = effectiveCornerRadius * 0.5;
     if (effectiveCornerRadius > 0) {
       canvas.drawArc(
@@ -240,22 +247,18 @@ class BoundingBox {
           GraphicFactory.guideCornerArcEdgePaint);
       canvas.drawLine(
           Offset(0, effectiveCornerRadius),
-          Offset(0, effectiveCornerRadius + arcExtensionLength), // Extend down
+          Offset(0, effectiveCornerRadius + arcExtensionLength),
           GraphicFactory.guideCornerArcEdgePaint);
-      canvas.drawArc(
-        Rect.fromCircle(
-            center:
-            Offset(effectiveCornerRadius - 30, effectiveCornerRadius - 30),
-            radius: effectiveCornerRadius * 2.5),
+      drawArcWithArrows(
+        Offset(effectiveCornerRadius - 15, effectiveCornerRadius - 15),
         math.pi,
         math.pi / 2,
-        false,
-        GraphicFactory.guideCornerArcEdgePaint,
       );
+
       canvas.drawArc(
         Rect.fromCircle(
             center:
-            Offset(bbWidth - effectiveCornerRadius, effectiveCornerRadius),
+                Offset(bbWidth - effectiveCornerRadius, effectiveCornerRadius),
             radius: effectiveCornerRadius),
         -math.pi / 2,
         math.pi / 2,
@@ -270,15 +273,11 @@ class BoundingBox {
           Offset(bbWidth, effectiveCornerRadius),
           Offset(bbWidth, effectiveCornerRadius + arcExtensionLength),
           GraphicFactory.guideCornerArcEdgePaint);
-      canvas.drawArc(
-        Rect.fromCircle(
-            center: Offset(bbWidth - effectiveCornerRadius + 30,
-                effectiveCornerRadius - 30),
-            radius: effectiveCornerRadius * 2.5),
+      drawArcWithArrows(
+        Offset(
+            bbWidth - effectiveCornerRadius + 15, effectiveCornerRadius - 15),
         -math.pi / 2,
         math.pi / 2,
-        false,
-        GraphicFactory.guideCornerArcEdgePaint,
       );
 
       canvas.drawArc(
@@ -301,21 +300,17 @@ class BoundingBox {
           Offset(
               bbWidth, bbHeight - effectiveCornerRadius - arcExtensionLength),
           GraphicFactory.guideCornerArcEdgePaint);
-      canvas.drawArc(
-        Rect.fromCircle(
-            center: Offset(bbWidth - effectiveCornerRadius + 30,
-                bbHeight - effectiveCornerRadius + 30),
-            radius: effectiveCornerRadius * 2.5),
+      drawArcWithArrows(
+        Offset(bbWidth - effectiveCornerRadius + 15,
+            bbHeight - effectiveCornerRadius + 15),
         0,
         math.pi / 2,
-        false,
-        GraphicFactory.guideCornerArcEdgePaint,
       );
 
       canvas.drawArc(
         Rect.fromCircle(
             center:
-            Offset(effectiveCornerRadius, bbHeight - effectiveCornerRadius),
+                Offset(effectiveCornerRadius, bbHeight - effectiveCornerRadius),
             radius: effectiveCornerRadius),
         math.pi / 2,
         math.pi / 2,
@@ -331,15 +326,10 @@ class BoundingBox {
           Offset(0, bbHeight - effectiveCornerRadius - arcExtensionLength),
           GraphicFactory.guideCornerArcEdgePaint);
     }
-    canvas.drawArc(
-      Rect.fromCircle(
-          center: Offset(effectiveCornerRadius - 30,
-              bbHeight - effectiveCornerRadius + 30),
-          radius: effectiveCornerRadius * 2.5),
+    drawArcWithArrows(
+      Offset(effectiveCornerRadius - 15, bbHeight - effectiveCornerRadius + 15),
       math.pi / 2,
       math.pi / 2,
-      false,
-      GraphicFactory.guideCornerArcEdgePaint,
     );
 
     final double lineLengthFactor = cornerRadius;
@@ -418,55 +408,30 @@ class BoundingBox {
   }
 
   void transform(Offset point) {
-    final originalTopLeft = topLeft;
-    final originalTopRight = topRight;
-    final originalBottomLeft = bottomLeft;
-    final originalBottomRight = bottomRight;
-
     switch (activeCorner) {
       case BoundingBoxCorner.topEdge:
-        final stretchedTop = _calculateStretchedTopEdge(
-            point,
-            originalTopLeft,
-            originalTopRight,
-            originalBottomLeft,
-            originalBottomRight,
-            lastPoint);
-        topLeft = stretchedTop.newTopLeft;
-        topRight = stretchedTop.newTopRight;
+        double top = math.min(point.dy, bottomLeft.dy);
+        topLeft = Offset(topLeft.dx, top);
+        topRight = Offset(topRight.dx, top);
+        if (point.dy > bottomLeft.dy) activeCorner = BoundingBoxCorner.bottomEdge;
         break;
       case BoundingBoxCorner.bottomEdge:
-        final stretchedBottom = _calculateStretchedBottomEdge(
-            point,
-            originalTopLeft,
-            originalTopRight,
-            originalBottomLeft,
-            originalBottomRight,
-            lastPoint);
-        bottomLeft = stretchedBottom.newBottomLeft;
-        bottomRight = stretchedBottom.newBottomRight;
+        double bottom = math.max(point.dy, topLeft.dy);
+        bottomLeft = Offset(bottomLeft.dx, bottom);
+        bottomRight = Offset(bottomRight.dx, bottom);
+        if (point.dy < topLeft.dy) activeCorner = BoundingBoxCorner.topEdge;
         break;
       case BoundingBoxCorner.leftEdge:
-        final stretchedLeft = _calculateStretchedLeftEdge(
-            point,
-            originalTopLeft,
-            originalTopRight,
-            originalBottomLeft,
-            originalBottomRight,
-            lastPoint);
-        topLeft = stretchedLeft.newTopLeft;
-        bottomLeft = stretchedLeft.newBottomLeft;
+        double left = math.min(point.dx, topRight.dx);
+        topLeft = Offset(left, topLeft.dy);
+        bottomLeft = Offset(left, bottomLeft.dy);
+        if (point.dx > topRight.dx) activeCorner = BoundingBoxCorner.rightEdge;
         break;
       case BoundingBoxCorner.rightEdge:
-        final stretchedRight = _calculateStretchedRightEdge(
-            point,
-            originalTopLeft,
-            originalTopRight,
-            originalBottomLeft,
-            originalBottomRight,
-            lastPoint);
-        topRight = stretchedRight.newTopRight;
-        bottomRight = stretchedRight.newBottomRight;
+        double right = math.max(point.dx, topLeft.dx);
+        topRight = Offset(right, topRight.dy);
+        bottomRight = Offset(right, bottomRight.dy);
+        if (point.dx < topLeft.dx) activeCorner = BoundingBoxCorner.leftEdge;
         break;
       default:
         break;
@@ -543,95 +508,6 @@ class BoundingBox {
 
   Offset getPaddedBottomRight({double padding = 0}) =>
       getPaddedOffset(bottomRight, padding: padding);
-
-  ({Offset newTopLeft, Offset newTopRight}) _calculateStretchedTopEdge(
-    Offset currentPoint,
-    Offset originalTopLeft,
-    Offset originalTopRight,
-    Offset originalBottomLeft,
-    Offset originalBottomRight,
-    Offset lastPoint,
-  ) {
-    final dragVector = currentPoint - lastPoint;
-    final edgeVector = originalTopRight - originalTopLeft;
-    final perpendicularToEdge =
-        Offset(edgeVector.dy, -edgeVector.dx).normalized();
-
-    final dragDistance = dragVector.dx * perpendicularToEdge.dx +
-        dragVector.dy * perpendicularToEdge.dy;
-
-    final newTopLeft = originalTopLeft + perpendicularToEdge * dragDistance;
-    final newTopRight = originalTopRight + perpendicularToEdge * dragDistance;
-
-    return (newTopLeft: newTopLeft, newTopRight: newTopRight);
-  }
-
-  ({Offset newBottomLeft, Offset newBottomRight}) _calculateStretchedBottomEdge(
-    Offset currentPoint,
-    Offset originalTopLeft,
-    Offset originalTopRight,
-    Offset originalBottomLeft,
-    Offset originalBottomRight,
-    Offset lastPoint,
-  ) {
-    final dragVector = currentPoint - lastPoint;
-    final edgeVector = originalBottomRight - originalBottomLeft;
-    final perpendicularToEdge =
-        Offset(edgeVector.dy, -edgeVector.dx).normalized();
-    final dragDistance = dragVector.dx * perpendicularToEdge.dx +
-        dragVector.dy * perpendicularToEdge.dy;
-
-    final newBottomLeft =
-        originalBottomLeft + perpendicularToEdge * dragDistance;
-    final newBottomRight =
-        originalBottomRight + perpendicularToEdge * dragDistance;
-
-    return (newBottomLeft: newBottomLeft, newBottomRight: newBottomRight);
-  }
-
-  ({Offset newTopLeft, Offset newBottomLeft}) _calculateStretchedLeftEdge(
-    Offset currentPoint,
-    Offset originalTopLeft,
-    Offset originalTopRight,
-    Offset originalBottomLeft,
-    Offset originalBottomRight,
-    Offset lastPoint,
-  ) {
-    final dragVector = currentPoint - lastPoint;
-    final edgeVector = originalBottomLeft - originalTopLeft;
-    final perpendicularToEdge =
-        Offset(edgeVector.dy, -edgeVector.dx).normalized();
-    final dragDistance = dragVector.dx * perpendicularToEdge.dx +
-        dragVector.dy * perpendicularToEdge.dy;
-
-    final newTopLeft = originalTopLeft + perpendicularToEdge * dragDistance;
-    final newBottomLeft =
-        originalBottomLeft + perpendicularToEdge * dragDistance;
-
-    return (newTopLeft: newTopLeft, newBottomLeft: newBottomLeft);
-  }
-
-  ({Offset newTopRight, Offset newBottomRight}) _calculateStretchedRightEdge(
-    Offset currentPoint,
-    Offset originalTopLeft,
-    Offset originalTopRight,
-    Offset originalBottomLeft,
-    Offset originalBottomRight,
-    Offset lastPoint,
-  ) {
-    final dragVector = currentPoint - lastPoint;
-    final edgeVector = originalBottomRight - originalTopRight;
-    final perpendicularToEdge =
-        Offset(edgeVector.dy, -edgeVector.dx).normalized();
-    final dragDistance = dragVector.dx * perpendicularToEdge.dx +
-        dragVector.dy * perpendicularToEdge.dy;
-
-    final newTopRight = originalTopRight + perpendicularToEdge * dragDistance;
-    final newBottomRight =
-        originalBottomRight + perpendicularToEdge * dragDistance;
-
-    return (newTopRight: newTopRight, newBottomRight: newBottomRight);
-  }
 
   Path getPath({double padding = 0}) => Path()
     ..moveToOffset(getPaddedTopLeft(padding: padding))

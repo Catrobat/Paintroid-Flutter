@@ -16,8 +16,8 @@ class TextToolProvider extends _$TextToolProvider {
   TextTool build() {
     Rect initialBoundingBox = Rect.fromCenter(
       center: ref.read(canvasStateProvider).size.center(Offset.zero),
-      width: 300,
-      height: 300,
+      width: 60,
+      height: 60,
     );
     return TextTool(
       commandManager: ref.watch(commandManagerProvider),
@@ -29,6 +29,7 @@ class TextToolProvider extends _$TextToolProvider {
         initialBoundingBox.bottomLeft,
         initialBoundingBox.bottomRight,
       ),
+      ref: ref,
     );
   }
 }

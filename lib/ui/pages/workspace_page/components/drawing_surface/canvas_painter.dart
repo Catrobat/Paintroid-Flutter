@@ -60,17 +60,27 @@ class PaintingLayer extends ConsumerWidget {
     ref.watch(commandManagerProvider);
     ref.watch(canvasPainterProvider);
     ref.watch(paintProvider);
-    ref.watch(toolBoxStateProvider);
+    final toolBoxState = ref.watch(toolBoxStateProvider);
+    final textOptions = ref.watch(textToolOptionsStateProvider);
+    final textOptionsNotifier = ref.read(textToolOptionsStateProvider.notifier);
 
     final cachedImage = ref.watch(
       canvasStateProvider.select((state) => state.cachedImage),
     );
 
-    final text = ref.watch(textToolOptionsStateProvider);
-
-    final currentTool = ref.read(toolBoxStateProvider).currentTool;
+    final currentTool = toolBoxState.currentTool;
     if (currentTool is TextTool) {
-      currentTool.currentText = text;
+      if (currentTool.currentText != textOptions.text) {
+      currentTool.currentText = textOptions.text;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!currentTool.isEditing) {
+          textOptionsNotifier
+            ..setFontSize(textOptions.fontSize)
+            ..setAutoSize(textOptions.isAutoSize)
+            ..setFontFamily(textOptions.fontFamily);
+        }
+      });
+          }
     }
 
     return RepaintBoundary(

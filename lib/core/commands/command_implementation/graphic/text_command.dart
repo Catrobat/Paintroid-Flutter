@@ -23,11 +23,13 @@ class TextCommand extends GraphicCommand with EquatableMixin {
   final double rotationAngle;
   final int version;
   final String type;
+  double fontSize;
 
   TextCommand(
     this.point,
     this.text,
     this.style,
+    this.fontSize,
     super.paint, {
     required this.rotationAngle,
     int? version,
@@ -38,7 +40,7 @@ class TextCommand extends GraphicCommand with EquatableMixin {
   @override
   void call(Canvas canvas) {
     final textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
+      text: TextSpan(text: text, style: style.copyWith(fontSize: fontSize)),
       textDirection: TextDirection.ltr,
     );
 
@@ -57,6 +59,7 @@ class TextCommand extends GraphicCommand with EquatableMixin {
         point,
         text,
         style,
+        fontSize,
         paint,
         rotationAngle
       ];

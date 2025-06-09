@@ -44,6 +44,7 @@ class CommandFactory {
     Offset point,
     String text,
     TextStyle style,
+    double fontSize,
     Paint paint,
     double rotationAngle,
   ) =>
@@ -51,6 +52,7 @@ class CommandFactory {
         point,
         text,
         style,
+        fontSize,
         paint,
         rotationAngle: rotationAngle,
       );
