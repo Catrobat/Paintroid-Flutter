@@ -1,5 +1,8 @@
 import 'package:flutter/painting.dart';
+import 'package:paintroid/core/providers/object/shapes_tool_options_state_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/tools/bounding_box.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,7 +25,13 @@ class ShapesToolProvider extends _$ShapesToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       type: ToolType.SHAPES,
-      boundingBox: BoundingBox.fromRect(initialBoundingBox),
+      style: ref.watch(shapesToolOptionsStateProvider).shapeStyle,
+      boundingBox: BoundingBox(
+        initialBoundingBox.topLeft,
+        initialBoundingBox.topRight,
+        initialBoundingBox.bottomLeft,
+        initialBoundingBox.bottomRight,
+      ),
     );
   }
 }

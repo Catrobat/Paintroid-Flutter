@@ -7,7 +7,7 @@ part of 'shapes_tool_options_state_provider.dart';
 // **************************************************************************
 
 String _$shapesToolOptionsStateProviderHash() =>
-    r'b39608a393a2bb23090dec2b365649327afcf5e5';
+    r'39682051281248d911981b21cc2379b9530158c0';
 
 /// See also [ShapesToolOptionsStateProvider].
 @ProviderFor(ShapesToolOptionsStateProvider)

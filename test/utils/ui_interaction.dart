@@ -1,4 +1,6 @@
+import 'dart:ui';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,9 +13,9 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
-
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
@@ -24,12 +26,38 @@ class UIInteraction {
     tester = widgetTester;
   }
 
-  static Offset _localToGlobal(Offset localPoint, Offset center, double angle) {
-    final double cosA = math.cos(angle);
-    final double sinA = math.sin(angle);
-    final double rotatedX = localPoint.dx * cosA - localPoint.dy * sinA;
-    final double rotatedY = localPoint.dx * sinA + localPoint.dy * cosA;
-    return Offset(rotatedX + center.dx, rotatedY + center.dy);
+  static void setStrokeWidth(double newStrokeWidth) {
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    container.read(paintProvider.notifier).updateStrokeWidth(newStrokeWidth);
+  }
+
+  static Color _getColorFromPreparedImage(img.Image image, int x, int y,
+      {int radius = 0}) {
+    if (radius != 0) {
+      for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
+          if (i < 0 || i >= image.width || j < 0 || j >= image.height) {
+            continue;
+          }
+          final argbColor = getColorAtPixel(image, i, j);
+          if ((argbColor & 0xFF000000) != 0) {
+            return Color(argbColor);
+          }
+        }
+      }
+      if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
+        final centerArgbColor = getColorAtPixel(image, x, y);
+        return Color(centerArgbColor);
+      }
+      return Colors.transparent;
+    }
+
+    if (x < 0 || x >= image.width || y < 0 || y >= image.height) {
+      return Colors.transparent;
+    }
+    final argbColor = getColorAtPixel(image, x, y);
+    return Color(argbColor);
   }
 
   static Future<
@@ -40,37 +68,55 @@ class UIInteraction {
         Color bottomRight,
       )> getSquareShapeColors() async {
     final shapesTool = getShapesTool();
-    final boundingBox = shapesTool.boundingBox;
-    final paint = getCurrentPaint();
-    final padding = (paint.strokeWidth / 2) + 15.0;
+    final currentPaint = getCurrentPaint();
+    final paddingForPath = currentPaint.strokeWidth / 2;
+    final bounds =
+        shapesTool.boundingBox.getPath(padding: paddingForPath).getBounds();
 
-    final center = boundingBox.center;
-    final halfWidth = boundingBox.width / 2;
-    final halfHeight = boundingBox.height / 2;
-    final angle = boundingBox.angle;
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final canvasStateNotifier = container.read(canvasStateProvider.notifier);
+    await canvasStateNotifier.updateCachedImage();
+    final cachedImage = container.read(canvasStateProvider).cachedImage;
 
-    final localTopLeftPadded =
-        Offset(-halfWidth + padding, -halfHeight + padding);
-    final localTopRightPadded =
-        Offset(halfWidth - padding, -halfHeight + padding);
-    final localBottomLeftPadded =
-        Offset(-halfWidth + padding, halfHeight - padding);
-    final localBottomRightPadded =
-        Offset(halfWidth - padding, halfHeight - padding);
+    if (cachedImage == null) {
+      return (
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent
+      );
+    }
+    final byteData = await cachedImage.toByteData();
+    if (byteData == null) {
+      return (
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent
+      );
+    }
+    final rawBytes = byteData.buffer.asUint8List();
+    final image =
+        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
 
     final topLeft = _localToGlobal(localTopLeftPadded, center, angle);
     final topRight = _localToGlobal(localTopRightPadded, center, angle);
     final bottomLeft = _localToGlobal(localBottomLeftPadded, center, angle);
     final bottomRight = _localToGlobal(localBottomRightPadded, center, angle);
 
-    final topLeftPixel =
-        await getPixelColor(topLeft.dx.toInt(), topLeft.dy.toInt());
-    final topRightPixel =
-        await getPixelColor(topRight.dx.toInt(), topRight.dy.toInt());
-    final bottomLeftPixel =
-        await getPixelColor(bottomLeft.dx.toInt(), bottomLeft.dy.toInt());
-    final bottomRightPixel =
-        await getPixelColor(bottomRight.dx.toInt(), bottomRight.dy.toInt());
+    final topLeftPixel = _getColorFromPreparedImage(
+        image, topLeft.dx.toInt(), topLeft.dy.toInt(),
+        radius: 1);
+    final topRightPixel = _getColorFromPreparedImage(
+        image, topRight.dx.toInt(), topRight.dy.toInt(),
+        radius: 1);
+    final bottomLeftPixel = _getColorFromPreparedImage(
+        image, bottomLeft.dx.toInt(), bottomLeft.dy.toInt(),
+        radius: 1);
+    final bottomRightPixel = _getColorFromPreparedImage(
+        image, bottomRight.dx.toInt(), bottomRight.dy.toInt(),
+        radius: 1);
 
     return (topLeftPixel, topRightPixel, bottomLeftPixel, bottomRightPixel);
   }
@@ -81,37 +127,194 @@ class UIInteraction {
         Color right,
         Color top,
         Color bottom,
-      )> getEllipseShapeColors() async {
+      )> getOvalShapeColors() async {
     final shapesTool = getShapesTool();
+    final currentPaint = getCurrentPaint();
     final boundingBox = shapesTool.boundingBox;
-    final paint = getCurrentPaint();
-    final strokePadding = (paint.strokeWidth / 2) + 15.0;
-
-    final center = boundingBox.center;
+    final double drawingPadding = currentPaint.strokeWidth * 2;
+    final double effectiveWidth =
+        math.max(0.0, boundingBox.width - drawingPadding);
+    final double effectiveHeight =
+        math.max(0.0, boundingBox.height - drawingPadding);
+    final double halfEffectiveWidth = effectiveWidth / 2;
+    final double halfEffectiveHeight = effectiveHeight / 2;
+    final Offset pLeftLocal = Offset(-halfEffectiveWidth, 0);
+    final Offset pRightLocal = Offset(halfEffectiveWidth, 0);
+    final Offset pTopLocal = Offset(0, -halfEffectiveHeight);
+    final Offset pBottomLocal = Offset(0, halfEffectiveHeight);
+    final List<Offset> localPoints = [
+      pLeftLocal,
+      pRightLocal,
+      pTopLocal,
+      pBottomLocal
+    ];
+    final List<Offset> transformedPoints = [];
     final angle = boundingBox.angle;
+    final center = boundingBox.center;
 
-    final double radiusXPadded =
-        math.max(0.0, boundingBox.width / 2 - strokePadding);
-    final double radiusYPadded =
-        math.max(0.0, boundingBox.height / 2 - strokePadding);
+    for (final pLocal in localPoints) {
+      final double rotatedX =
+          pLocal.dx * math.cos(angle) - pLocal.dy * math.sin(angle);
+      final double rotatedY =
+          pLocal.dx * math.sin(angle) + pLocal.dy * math.cos(angle);
+      transformedPoints.add(Offset(rotatedX, rotatedY) + center);
+    }
 
-    final localLeft = Offset(-radiusXPadded, 0);
-    final localRight = Offset(radiusXPadded, 0);
-    final localTop = Offset(0, -radiusYPadded);
-    final localBottom = Offset(0, radiusYPadded);
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final canvasStateNotifier = container.read(canvasStateProvider.notifier);
+    await canvasStateNotifier.updateCachedImage();
+    final cachedImage = container.read(canvasStateProvider).cachedImage;
 
-    final left = _localToGlobal(localLeft, center, angle);
-    final right = _localToGlobal(localRight, center, angle);
-    final top = _localToGlobal(localTop, center, angle);
-    final bottom = _localToGlobal(localBottom, center, angle);
+    if (cachedImage == null) {
+      return (
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent
+      );
+    }
+    final byteData = await cachedImage.toByteData();
+    if (byteData == null) {
+      return (
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent,
+        Colors.transparent
+      );
+    }
+    final rawBytes = byteData.buffer.asUint8List();
+    final image =
+        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
 
-    final leftPixel = await getPixelColor(left.dx.toInt(), left.dy.toInt());
-    final rightPixel = await getPixelColor(right.dx.toInt(), right.dy.toInt());
-    final topPixel = await getPixelColor(top.dx.toInt(), top.dy.toInt());
-    final bottomPixel =
-        await getPixelColor(bottom.dx.toInt(), bottom.dy.toInt());
+    final leftPixel = _getColorFromPreparedImage(
+        image, transformedPoints[0].dx.toInt(), transformedPoints[0].dy.toInt(),
+        radius: 1);
+    final rightPixel = _getColorFromPreparedImage(
+        image, transformedPoints[1].dx.toInt(), transformedPoints[1].dy.toInt(),
+        radius: 1);
+    final topPixel = _getColorFromPreparedImage(
+        image, transformedPoints[2].dx.toInt(), transformedPoints[2].dy.toInt(),
+        radius: 1);
+    final bottomPixel = _getColorFromPreparedImage(
+        image, transformedPoints[3].dx.toInt(), transformedPoints[3].dy.toInt(),
+        radius: 1);
 
     return (leftPixel, rightPixel, topPixel, bottomPixel);
+  }
+
+  static Future<List<Color>> getStarShapeColors() async {
+    final shapesTool = getShapesTool();
+    final boundingBox = shapesTool.boundingBox;
+    final currentPaint = getCurrentPaint();
+    final center = boundingBox.center;
+    final angle = boundingBox.angle;
+    final numberOfPoints = ShapesTool.starShapeNumberOfPoints;
+    final double starDrawingPadding = currentPaint.strokeWidth * 2;
+    final double radiusX =
+        math.max(0.0, (boundingBox.width - starDrawingPadding) / 2);
+    final double radiusY =
+        math.max(0.0, (boundingBox.height - starDrawingPadding) / 2);
+    final double innerRx = radiusX / 2;
+    final double innerRy = radiusY / 2;
+    final double angleStep = math.pi / numberOfPoints;
+    final pointsToSample = <Offset>[];
+
+    for (int i = 0; i < numberOfPoints * 2; i++) {
+      final bool isOuter = i % 2 == 0;
+      final double currentLocalRx = isOuter ? radiusX : innerRx;
+      final double currentLocalRy = isOuter ? radiusY : innerRy;
+      final double pointRelativeAngle = i * angleStep - (math.pi / 2);
+      double localX = currentLocalRx * math.cos(pointRelativeAngle);
+      double localY = currentLocalRy * math.sin(pointRelativeAngle);
+      double rotatedX = localX * math.cos(angle) - localY * math.sin(angle);
+      double rotatedY = localX * math.sin(angle) + localY * math.cos(angle);
+      pointsToSample.add(
+          Offset(center.dx + rotatedX, center.dy + (radiusY / 9) + rotatedY));
+    }
+
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final canvasStateNotifier = container.read(canvasStateProvider.notifier);
+    await canvasStateNotifier.updateCachedImage();
+    final cachedImage = container.read(canvasStateProvider).cachedImage;
+
+    if (cachedImage == null) {
+      return List.filled(pointsToSample.length, Colors.transparent);
+    }
+    final byteData = await cachedImage.toByteData();
+    if (byteData == null) {
+      return List.filled(pointsToSample.length, Colors.transparent);
+    }
+    final rawBytes = byteData.buffer.asUint8List();
+    final image =
+        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
+
+    final colors = <Color>[];
+    for (final point in pointsToSample) {
+      colors.add(_getColorFromPreparedImage(
+          image, point.dx.toInt(), point.dy.toInt(),
+          radius: 0));
+    }
+    return colors;
+  }
+
+  static List<Offset> extractPointsFromPath(Path path, {int? numSamples}) {
+    final List<Offset> points = [];
+    for (PathMetric pathMetric in path.computeMetrics()) {
+      if (pathMetric.length == 0) continue;
+
+      double step;
+      int count;
+
+      if (numSamples != null && numSamples > 0) {
+        count = numSamples;
+        step = pathMetric.length / count.toDouble();
+        if (step <= 0) step = pathMetric.length;
+      } else {
+        step = 1.0;
+        count = (pathMetric.length / step).ceil();
+      }
+
+      for (int i = 0; i < count; i++) {
+        final double distance = math.min(i * step, pathMetric.length);
+        Tangent? tangent = pathMetric.getTangentForOffset(distance);
+        if (tangent != null) {
+          points.add(tangent.position);
+        }
+        if (distance >= pathMetric.length) break;
+      }
+    }
+    return points;
+  }
+
+  static Future<List<Color>> getHeartShapeColors() async {
+    final shapesTool = getShapesTool();
+    final path = shapesTool.boundingBox.getHeartPath();
+    final points = extractPointsFromPath(path, numSamples: 8);
+
+    final container =
+        ProviderScope.containerOf(tester.element(find.byType(App)));
+    final canvasStateNotifier = container.read(canvasStateProvider.notifier);
+    await canvasStateNotifier.updateCachedImage();
+    final cachedImage = container.read(canvasStateProvider).cachedImage;
+
+    if (cachedImage == null) {
+      return List.filled(points.length, Colors.transparent);
+    }
+    final byteData = await cachedImage.toByteData();
+    if (byteData == null) return List.filled(points.length, Colors.transparent);
+    final rawBytes = byteData.buffer.asUint8List();
+    final image =
+        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
+
+    final colors = <Color>[];
+    for (final point in points) {
+      colors.add(_getColorFromPreparedImage(
+          image, point.dx.toInt(), point.dy.toInt(),
+          radius: 0));
+    }
+    return colors;
   }
 
   static Future<Color> getPixelColor(int x, int y, {int radius = 0}) async {
@@ -129,26 +332,15 @@ class UIInteraction {
     final image =
         img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
 
-    if (radius != 0) {
-      for (int i = x - radius; i <= x + radius; i++) {
-        for (int j = y - radius; j <= y + radius; j++) {
-          if (i < 0 || i >= image.width || j < 0 || j >= image.height) {
-            continue;
-          }
-          final argbColor = getColorAtPixel(image, i, j);
-          if (argbColor != 0 && Color(argbColor).a != 0) {
-            return Color(argbColor);
-          }
-        }
-      }
-      return Colors.transparent;
-    }
+    return _getColorFromPreparedImage(image, x, y, radius: radius);
+  }
 
-    if (x < 0 || x >= image.width || y < 0 || y >= image.height) {
-      return Colors.transparent;
-    }
-    final argbColor = getColorAtPixel(image, x, y);
-    return Color(argbColor);
+  static Future<Color> getCenterPixelColor() async {
+    return getPixelColor(
+      CanvasPosition.centerX,
+      CanvasPosition.centerY,
+      radius: 1,
+    );
   }
 
   static int getColorAtPixel(img.Image image, int x, int y) {
@@ -248,9 +440,15 @@ class UIInteraction {
     }
   }
 
-  static Future<void> selectEllipseShapeTypeChip() async {
-    expect(WidgetFinder.ellipseShapeTypeChip, findsOneWidget);
-    await tester.tap(WidgetFinder.ellipseShapeTypeChip);
+  static Future<void> selectShapesToolShapeType(Finder shapeTypeFinder) async {
+    expect(shapeTypeFinder, findsOneWidget);
+    await tester.tap(shapeTypeFinder);
+    await tester.pumpAndSettle();
+  }
+
+  static Future<void> selectShapesToolShapeStyle(Finder styleChipFinder) async {
+    expect(styleChipFinder, findsOneWidget);
+    await tester.tap(styleChipFinder);
     await tester.pumpAndSettle();
   }
 

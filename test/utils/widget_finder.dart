@@ -19,10 +19,26 @@ class WidgetFinder {
       find.byKey(ValueKey(TopBarActionData.UNDO.name));
   static final Finder redoButton =
       find.byKey(ValueKey(TopBarActionData.REDO.name));
-  static final Finder ellipseShapeTypeChip =
-      find.byKey(const ValueKey(WidgetIdentifier.ellipseShapeTypeChip));
   static final Finder backButton =
       find.byKey(const ValueKey(WidgetIdentifier.backButton));
+
+  static final Finder ovalShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.ovalShapeTypeChip));
+  static final Finder squareShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.squareShapeTypeChip));
+  static final Finder heartShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.heartShapeTypeChip));
+  static final Finder starShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.starShapeTypeChip));
+
+  static final Finder fillStyleChip =
+      find.byKey(const ValueKey(WidgetIdentifier.fillStyleChip));
+  static final Finder outlineStyleChip =
+      find.byKey(const ValueKey(WidgetIdentifier.outlineStyleChip));
+  static final Finder dashedStyleChip =
+      find.byKey(const ValueKey(WidgetIdentifier.dashedStyleChip));
+  static final Finder fillAndDashedStyleChip =
+      find.byKey(const ValueKey(WidgetIdentifier.fillAndDashedStyleChip));
 
   static final Finder genericDialogActionDone =
       find.byKey(const ValueKey(WidgetIdentifier.genericDialogActionDone));

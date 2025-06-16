@@ -1,20 +1,18 @@
 import 'dart:math';
 import 'dart:math' as math;
-import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
-import 'package:paintroid/core/enums/bounding_box_action.dart';
+import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
-import 'package:paintroid/core/extensions/offset_extension.dart';
+import 'package:paintroid/ui/utils/shape_drawing_utils.dart';
 
 class ShapesTool extends Tool {
+  static const starShapeNumberOfPoints = 5;
   BoundingBox boundingBox;
   ShapeType shapeType;
-  bool _isInteracting = false;
-
-  static const double _kShapeVisualPadding = 15.0;
+  ShapeStyle style;
 
   ShapesTool({
     required super.commandFactory,
@@ -22,96 +20,73 @@ class ShapesTool extends Tool {
     required super.type,
     required this.boundingBox,
     this.shapeType = ShapeType.square,
+    this.style = ShapeStyle.outline,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
   });
 
   @override
-  void onDown(Offset point, Paint paint) {
-    boundingBox.determineAction(point);
-    _isInteracting = boundingBox.currentAction != BoundingBoxAction.none;
-  }
+  void onDown(Offset point, Paint paint) => boundingBox.setActiveCorner(point);
 
   @override
-  void onDrag(Offset point, Paint paint) {
-    if (_isInteracting) {
-      boundingBox.updateDrag(point);
-    }
-  }
+  void onDrag(Offset point, Paint paint) => boundingBox.update(point);
 
   @override
-  void onUp(Offset point, Paint paint) {
-    if (_isInteracting) {
-      boundingBox.endDrag();
-      _isInteracting = false;
-    }
-  }
+  void onUp(Offset point, Paint paint) => boundingBox.resetActiveCorner();
 
   @override
-  void onCancel() {
-    if (_isInteracting) {
-      boundingBox.endDrag();
-      _isInteracting = false;
-    }
-  }
+  void onCancel() => boundingBox.resetActiveCorner();
 
   @override
   void onCheckmark(Paint paint) {
     ShapeCommand command;
-    final double strokeWidth = paint.strokeWidth;
-
+    final padding = _calculatePaddingAdjustedForStrokeWidth(paint.strokeWidth);
     switch (shapeType) {
       case ShapeType.square:
-        final double padding =
-            _calculatePaddingAdjustedForStrokeWidth(strokeWidth);
-        final Offset center = boundingBox.center;
-        final double boxWidth = boundingBox.width;
-        final double boxHeight = boundingBox.height;
-        final double angle = boundingBox.angle;
-
-        final double halfWidth = boxWidth / 2;
-        final double halfHeight = boxHeight / 2;
-
-        final Offset localTopLeftPadded =
-            Offset(-halfWidth + padding, -halfHeight + padding);
-        final Offset localTopRightPadded =
-            Offset(halfWidth - padding, -halfHeight + padding);
-        final Offset localBottomLeftPadded =
-            Offset(-halfWidth + padding, halfHeight - padding);
-        final Offset localBottomRightPadded =
-            Offset(halfWidth - padding, halfHeight - padding);
-
-        final Offset globalTopLeft =
-            localTopLeftPadded.localToGlobal(center, angle);
-        final Offset globalTopRight =
-            localTopRightPadded.localToGlobal(center, angle);
-        final Offset globalBottomLeft =
-            localBottomLeftPadded.localToGlobal(center, angle);
-        final Offset globalBottomRight =
-            localBottomRightPadded.localToGlobal(center, angle);
-
         command = commandFactory.createSquareShapeCommand(
           paint,
-          globalTopLeft,
-          globalTopRight,
-          globalBottomLeft,
-          globalBottomRight,
+          boundingBox.getPaddedTopLeft(padding: padding),
+          boundingBox.getPaddedTopRight(padding: padding),
+          boundingBox.getPaddedBottomLeft(padding: padding),
+          boundingBox.getPaddedBottomRight(padding: padding),
+          style,
         );
         break;
-      case ShapeType.ellipse:
-        final double strokePadding =
-            _calculatePaddingAdjustedForStrokeWidth(strokeWidth);
-        final double ellipseRadiusX = boundingBox.width / 2 - strokePadding;
-        final double ellipseRadiusY = boundingBox.height / 2 - strokePadding;
-
-        command = commandFactory.createEllipseShapeCommand(
+      case ShapeType.oval:
+        final double rectWidth = math.max(0.0, boundingBox.width - padding);
+        final double rectHeight = math.max(0.0, boundingBox.height - padding);
+        command = commandFactory.createOvalShapeCommand(
           paint,
-          math.max(0, ellipseRadiusX),
-          math.max(0, ellipseRadiusY),
+          rectWidth,
+          rectHeight,
           boundingBox.center,
+          style,
           boundingBox.angle,
         );
         break;
+      case ShapeType.star:
+        final effectiveRadiusX = max(0.0, (boundingBox.width - padding) / 2);
+        final effectiveRadiusY = max(0.0, (boundingBox.height - padding) / 2);
+        command = commandFactory.createStarShapeCommand(
+          paint,
+          starShapeNumberOfPoints,
+          boundingBox.angle,
+          boundingBox.center,
+          style,
+          effectiveRadiusX,
+          effectiveRadiusY,
+        );
+        break;
+
+      case ShapeType.heart:
+        command = commandFactory.createHeartShapeCommand(
+          paint,
+          boundingBox.width,
+          boundingBox.height,
+          boundingBox.angle,
+          boundingBox.center,
+          style,
+        );
     }
     commandManager.addGraphicCommand(command);
     commandManager.clearRedoStack();
@@ -127,47 +102,54 @@ class ShapesTool extends Tool {
   void onUndo() => commandManager.undo();
 
   void drawShape(Canvas canvas, Paint paint) {
-    final double strokeWidth = paint.strokeWidth;
-    final padding = _calculatePaddingAdjustedForStrokeWidth(strokeWidth);
-
-    canvas.save();
-    canvas.translate(boundingBox.center.dx, boundingBox.center.dy);
-    canvas.rotate(boundingBox.angle);
-
-    final double halfWidth = boundingBox.width / 2;
-    final double halfHeight = boundingBox.height / 2;
+    final padding = _calculatePaddingAdjustedForStrokeWidth(paint.strokeWidth);
+    Path? path;
 
     switch (shapeType) {
       case ShapeType.square:
-        final path = Path();
-        path.moveTo(-halfWidth + padding, -halfHeight + padding);
-        path.lineTo(halfWidth - padding, -halfHeight + padding);
-        path.lineTo(halfWidth - padding, halfHeight - padding);
-        path.lineTo(-halfWidth + padding, halfHeight - padding);
-        path.close();
-        canvas.drawPath(path, paint);
+        path = boundingBox.getPath(padding: padding);
         break;
-      case ShapeType.ellipse:
-        final double paddedHalfWidth = halfWidth - padding;
-        final double paddedHalfHeight = halfHeight - padding;
-        final double effectivePaddedHalfWidth = max(0, paddedHalfWidth);
-        final double effectivePaddedHalfHeight = max(0, paddedHalfHeight);
+      case ShapeType.oval:
+        final double rectWidth = math.max(0.0, boundingBox.width - padding);
+        final double rectHeight = math.max(0.0, boundingBox.height - padding);
+        Path ovalPathAtOrigin = Path()
+          ..addOval(Rect.fromCenter(
+            center: Offset.zero,
+            width: rectWidth,
+            height: rectHeight,
+          ));
 
-        final Rect ovalRect = Rect.fromCenter(
-          center: Offset.zero,
-          width: 2 * effectivePaddedHalfWidth,
-          height: 2 * effectivePaddedHalfHeight,
-        );
-        canvas.drawOval(ovalRect, paint);
+        Path rotatedOvalPath = ovalPathAtOrigin;
+        if (boundingBox.angle != 0.0) {
+          final rotationMatrix = Matrix4.identity()..rotateZ(boundingBox.angle);
+          rotatedOvalPath = ovalPathAtOrigin.transform(rotationMatrix.storage);
+        }
+
+        path = rotatedOvalPath.shift(boundingBox.center);
+        break;
+      case ShapeType.star:
+        path = boundingBox.getStarPath(starShapeNumberOfPoints, boxPadding: padding);
+        break;
+      case ShapeType.heart:
+        path = boundingBox.getHeartPath();
         break;
     }
-    canvas.restore();
+
+    ShapeDrawingUtils.drawPathWithStyle(
+      canvas: canvas,
+      path: path,
+      basePaint: paint,
+      style: style,
+    );
   }
 
-  void drawGuides(Canvas canvas) {
-    boundingBox.drawGuides(canvas);
-  }
+  void drawGuides(Canvas canvas) => boundingBox.drawBoundingBox(canvas);
 
   double _calculatePaddingAdjustedForStrokeWidth(double strokeWidth) =>
-      (strokeWidth / 2) + _kShapeVisualPadding;
+      switch (shapeType) {
+        ShapeType.square => strokeWidth / 2,
+        ShapeType.oval => strokeWidth * 2,
+        ShapeType.star => strokeWidth * 2,
+        ShapeType.heart => strokeWidth,
+      };
 }

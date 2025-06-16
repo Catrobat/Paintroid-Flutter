@@ -36,6 +36,37 @@ class GraphicFactory {
     ..strokeWidth = 20
     ..strokeCap = StrokeCap.round;
 
+  static final Paint guideRectanglePaint = Paint()
+    ..color = Color(0xff157da2)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 10;
+
+  static final Paint guideCornerArcEdgePaint = Paint()
+    ..color = Color(0xff555555)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 20;
+
+  static Paint thinPaint = Paint()
+    ..color = GraphicFactory.guideCornerArcEdgePaint.color
+    ..strokeWidth = 20
+    ..strokeCap = StrokeCap.round;
+
+  static Paint createFillPaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = basePaint.strokeWidth;
+  }
+
+  static Paint createStrokePaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = basePaint.strokeWidth
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.round;
+  }
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 
