@@ -1,5 +1,5 @@
 
-import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
+import 'package:paintroid/core/tools/cursor_tool/cursor_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';

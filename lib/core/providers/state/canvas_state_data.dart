@@ -16,5 +16,6 @@ class CanvasStateData with _$CanvasStateData {
     required Size size,
     required CommandManager commandManager,
     required GraphicFactory graphicFactory,
+    required Offset cursorPosition,
   }) = _CanvasStateData;
 }

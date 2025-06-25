@@ -80,7 +80,6 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.CURSOR:
         state = state.copyWith(currentTool: ref.read(cursorToolProvider));
-        print("Changed tool to cursor");
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
@@ -88,5 +87,12 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     }
     ref.read(paintProvider.notifier).updateBlendModeByToolType(data.type);
     ToastUtils.showShortToast(message: data.name);
+  }
+
+  void updateIconPosition(Offset position) {
+    // Create a new tool with the updated position
+    final updatedTool = state.currentTool;
+    // Update the state with the new tool
+    state = state.copyWith(currentTool: updatedTool);
   }
 }

@@ -37,6 +37,7 @@ class MockCanvasState1 extends CanvasStateProvider {
       commandManager: MockCommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
+      cursorPosition: Offset(0, 0),
     );
   }
 }
@@ -49,7 +50,9 @@ class MockCanvasState2 extends CanvasStateProvider {
       commandManager: MockCommandManager(),
       graphicFactory:
           FakeGraphicFactory(MockCanvas(), MockCanvas(), MockCanvas(), Paint()),
+      cursorPosition: Offset(0, 0),
     );
+
   }
 }
 
