@@ -18,6 +18,10 @@ class OpacitySlider extends ConsumerWidget {
     return Container(
       height: 25.0,
       decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1.0,
+        ),
         image: DecorationImage(
           image: PackageAssets.getCheckerboardImgAsset(),
           fit: BoxFit.fitHeight,
@@ -28,8 +32,8 @@ class OpacitySlider extends ConsumerWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              gradientColor..withValues(alpha: 1.0),
-              gradientColor..withValues(alpha: 0.0),
+              gradientColor.withAlpha(255),
+              gradientColor.withAlpha(0),
             ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
