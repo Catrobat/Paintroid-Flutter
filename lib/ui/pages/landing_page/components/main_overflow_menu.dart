@@ -68,7 +68,6 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
           mode: LaunchMode.externalApplication,
         );
         if (!launched) {
-          // launchUrl returned false, meaning it failed to open the url
           logger.severe('Could not launch app store URL: $url');
         }
       }
