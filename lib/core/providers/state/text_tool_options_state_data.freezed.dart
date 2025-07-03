@@ -183,7 +183,7 @@ class __$$TextToolOptionsStateDataImplCopyWithImpl<$Res>
 
 class _$TextToolOptionsStateDataImpl implements _TextToolOptionsStateData {
   const _$TextToolOptionsStateDataImpl(
-      {this.text = '',
+      {this.text = 'Enter Text',
       this.fontSize = 30.0,
       this.isAutoSize = true,
       this.isBold = false,

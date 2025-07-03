@@ -19,7 +19,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
     as _i5;
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart'
     as _i4;
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart'
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart'
     as _i7;
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart'
     as _i6;
@@ -29,12 +29,14 @@ import 'package:paintroid/core/commands/command_implementation/graphic/text_comm
     as _i8;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i13;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i17;
-import 'package:paintroid/core/enums/bounding_box_corners.dart' as _i21;
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
+    as _i17;
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i10;
+import 'package:paintroid/core/enums/bounding_box_action.dart' as _i20;
+import 'package:paintroid/core/enums/bounding_box_resize_action.dart' as _i20;
 import 'package:paintroid/core/tools/bounding_box.dart' as _i20;
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i15;
 import 'package:paintroid/core/tools/tool_data.dart' as _i3;
-import 'package:riverpod/src/internals.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -101,9 +103,9 @@ class _FakeSquareShapeCommand_4 extends _i1.SmartFake
         );
 }
 
-class _FakeCircleShapeCommand_5 extends _i1.SmartFake
-    implements _i7.CircleShapeCommand {
-  _FakeCircleShapeCommand_5(
+class _FakeEllipseShapeCommand_5 extends _i1.SmartFake
+    implements _i7.EllipseShapeCommand {
+  _FakeEllipseShapeCommand_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -132,9 +134,9 @@ class _FakeSprayCommand_7 extends _i1.SmartFake implements _i9.SprayCommand {
         );
 }
 
-class _FakeProviderContainer_8 extends _i1.SmartFake
-    implements _i10.ProviderContainer {
-  _FakeProviderContainer_8(
+class _FakePathWithActionHistory_8 extends _i1.SmartFake
+    implements _i10.PathWithActionHistory {
+  _FakePathWithActionHistory_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -143,8 +145,9 @@ class _FakeProviderContainer_8 extends _i1.SmartFake
         );
 }
 
-class _FakeKeepAliveLink_9 extends _i1.SmartFake implements _i10.KeepAliveLink {
-  _FakeKeepAliveLink_9(
+class _FakePictureRecorder_9 extends _i1.SmartFake
+    implements _i11.PictureRecorder {
+  _FakePictureRecorder_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -153,9 +156,8 @@ class _FakeKeepAliveLink_9 extends _i1.SmartFake implements _i10.KeepAliveLink {
         );
 }
 
-class _FakeProviderSubscription_10<State1> extends _i1.SmartFake
-    implements _i10.ProviderSubscription<State1> {
-  _FakeProviderSubscription_10(
+class _FakeCanvas_10 extends _i1.SmartFake implements _i11.Canvas {
+  _FakeCanvas_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -197,16 +199,6 @@ class _FakeTextStyle_13 extends _i1.SmartFake implements _i12.TextStyle {
   String toString(
           {_i12.DiagnosticLevel? minLevel = _i12.DiagnosticLevel.info}) =>
       super.toString();
-}
-
-class _FakePath_14 extends _i1.SmartFake implements _i11.Path {
-  _FakePath_14(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
 }
 
 /// A class which mocks [CommandManager].
@@ -387,7 +379,7 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
 
   @override
   _i4.PathCommand createPathCommand(
-    _i17.PathWithActionHistory? path,
+    _i10.PathWithActionHistory? path,
     _i11.Paint? paint,
   ) =>
       (super.noSuchMethod(
@@ -412,7 +404,7 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
 
   @override
   _i5.LineCommand createLineCommand(
-    _i17.PathWithActionHistory? path,
+    _i10.PathWithActionHistory? path,
     _i11.Paint? paint,
     _i11.Offset? startPoint,
     _i11.Offset? endPoint,
@@ -476,32 +468,38 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
       ) as _i6.SquareShapeCommand);
 
   @override
-  _i7.CircleShapeCommand createCircleShapeCommand(
+  _i7.EllipseShapeCommand createEllipseShapeCommand(
     _i11.Paint? paint,
-    double? radius,
+    double? radiusX,
+    double? radiusY,
     _i11.Offset? center,
+    double? angle,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createCircleShapeCommand,
+          #createEllipseShapeCommand,
           [
             paint,
-            radius,
+            radiusX,
+            radiusY,
             center,
+            angle,
           ],
         ),
-        returnValue: _FakeCircleShapeCommand_5(
+        returnValue: _FakeEllipseShapeCommand_5(
           this,
           Invocation.method(
-            #createCircleShapeCommand,
+            #createEllipseShapeCommand,
             [
               paint,
-              radius,
+              radiusX,
+              radiusY,
               center,
+              angle,
             ],
           ),
         ),
-      ) as _i7.CircleShapeCommand);
+      ) as _i7.EllipseShapeCommand);
 
   @override
   _i8.TextCommand createTextCommand(
@@ -510,8 +508,10 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
     _i12.TextStyle? style,
     double? fontSize,
     _i11.Paint? paint,
-    double? rotationAngle,
-  ) =>
+    double? rotationAngle, {
+    double? scaleX = 1.0,
+    double? scaleY = 1.0,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #createTextCommand,
@@ -523,6 +523,10 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
             paint,
             rotationAngle,
           ],
+          {
+            #scaleX: scaleX,
+            #scaleY: scaleY,
+          },
         ),
         returnValue: _FakeTextCommand_6(
           this,
@@ -536,6 +540,10 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
               paint,
               rotationAngle,
             ],
+            {
+              #scaleX: scaleX,
+              #scaleY: scaleY,
+            },
           ),
         ),
       ) as _i8.TextCommand);
@@ -566,225 +574,90 @@ class MockCommandFactory extends _i1.Mock implements _i16.CommandFactory {
       ) as _i9.SprayCommand);
 }
 
-/// A class which mocks [Ref].
+/// A class which mocks [GraphicFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRef<State extends Object?> extends _i1.Mock
-    implements _i10.Ref<State> {
-  MockRef() {
+class MockGraphicFactory extends _i1.Mock implements _i17.GraphicFactory {
+  MockGraphicFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i10.ProviderContainer get container => (super.noSuchMethod(
-        Invocation.getter(#container),
-        returnValue: _FakeProviderContainer_8(
-          this,
-          Invocation.getter(#container),
-        ),
-      ) as _i10.ProviderContainer);
-
-  @override
-  T refresh<T>(_i10.Refreshable<T>? provider) => (super.noSuchMethod(
+  _i11.Paint createPaint() => (super.noSuchMethod(
         Invocation.method(
-          #refresh,
-          [provider],
-        ),
-        returnValue: _i18.dummyValue<T>(
-          this,
-          Invocation.method(
-            #refresh,
-            [provider],
-          ),
-        ),
-      ) as T);
-
-  @override
-  void invalidate(_i10.ProviderOrFamily? provider) => super.noSuchMethod(
-        Invocation.method(
-          #invalidate,
-          [provider],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
+          #createPaint,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void listenSelf(
-    void Function(
-      State?,
-      State,
-    )? listener, {
-    void Function(
-      Object,
-      StackTrace,
-    )? onError,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #listenSelf,
-          [listener],
-          {#onError: onError},
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void invalidateSelf() => super.noSuchMethod(
-        Invocation.method(
-          #invalidateSelf,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onAddListener(void Function()? cb) => super.noSuchMethod(
-        Invocation.method(
-          #onAddListener,
-          [cb],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onRemoveListener(void Function()? cb) => super.noSuchMethod(
-        Invocation.method(
-          #onRemoveListener,
-          [cb],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onResume(void Function()? cb) => super.noSuchMethod(
-        Invocation.method(
-          #onResume,
-          [cb],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onCancel(void Function()? cb) => super.noSuchMethod(
-        Invocation.method(
-          #onCancel,
-          [cb],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onDispose(void Function()? cb) => super.noSuchMethod(
-        Invocation.method(
-          #onDispose,
-          [cb],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  T read<T>(_i10.ProviderListenable<T>? provider) => (super.noSuchMethod(
-        Invocation.method(
-          #read,
-          [provider],
-        ),
-        returnValue: _i18.dummyValue<T>(
+        returnValue: _i18.dummyValue<_i11.Paint>(
           this,
           Invocation.method(
-            #read,
-            [provider],
-          ),
-        ),
-      ) as T);
-
-  @override
-  bool exists(_i10.ProviderBase<Object?>? provider) => (super.noSuchMethod(
-        Invocation.method(
-          #exists,
-          [provider],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  T watch<T>(_i10.ProviderListenable<T>? provider) => (super.noSuchMethod(
-        Invocation.method(
-          #watch,
-          [provider],
-        ),
-        returnValue: _i18.dummyValue<T>(
-          this,
-          Invocation.method(
-            #watch,
-            [provider],
-          ),
-        ),
-      ) as T);
-
-  @override
-  _i10.KeepAliveLink keepAlive() => (super.noSuchMethod(
-        Invocation.method(
-          #keepAlive,
-          [],
-        ),
-        returnValue: _FakeKeepAliveLink_9(
-          this,
-          Invocation.method(
-            #keepAlive,
+            #createPaint,
             [],
           ),
         ),
-      ) as _i10.KeepAliveLink);
+      ) as _i11.Paint);
 
   @override
-  _i10.ProviderSubscription<T> listen<T>(
-    _i10.ProviderListenable<T>? provider,
-    void Function(
-      T?,
-      T,
-    )? listener, {
-    void Function(
-      Object,
-      StackTrace,
-    )? onError,
-    bool? fireImmediately,
-  }) =>
+  _i10.PathWithActionHistory createPathWithActionHistory() =>
       (super.noSuchMethod(
         Invocation.method(
-          #listen,
-          [
-            provider,
-            listener,
-          ],
-          {
-            #onError: onError,
-            #fireImmediately: fireImmediately,
-          },
+          #createPathWithActionHistory,
+          [],
         ),
-        returnValue: _FakeProviderSubscription_10<T>(
+        returnValue: _FakePathWithActionHistory_8(
           this,
           Invocation.method(
-            #listen,
-            [
-              provider,
-              listener,
-            ],
-            {
-              #onError: onError,
-              #fireImmediately: fireImmediately,
-            },
+            #createPathWithActionHistory,
+            [],
           ),
         ),
-      ) as _i10.ProviderSubscription<T>);
+      ) as _i10.PathWithActionHistory);
+
+  @override
+  _i11.PictureRecorder createPictureRecorder() => (super.noSuchMethod(
+        Invocation.method(
+          #createPictureRecorder,
+          [],
+        ),
+        returnValue: _FakePictureRecorder_9(
+          this,
+          Invocation.method(
+            #createPictureRecorder,
+            [],
+          ),
+        ),
+      ) as _i11.PictureRecorder);
+
+  @override
+  _i11.Canvas createCanvasWithRecorder(_i11.PictureRecorder? recorder) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createCanvasWithRecorder,
+          [recorder],
+        ),
+        returnValue: _FakeCanvas_10(
+          this,
+          Invocation.method(
+            #createCanvasWithRecorder,
+            [recorder],
+          ),
+        ),
+      ) as _i11.Canvas);
+
+  @override
+  _i11.Paint copyPaint(_i11.Paint? original) => (super.noSuchMethod(
+        Invocation.method(
+          #copyPaint,
+          [original],
+        ),
+        returnValue: _i18.dummyValue<_i11.Paint>(
+          this,
+          Invocation.method(
+            #copyPaint,
+            [original],
+          ),
+        ),
+      ) as _i11.Paint);
 }
 
 /// A class which mocks [Canvas].
@@ -1445,13 +1318,16 @@ class MockTextCommand extends _i1.Mock implements _i8.TextCommand {
       ) as double);
 
   @override
-  set fontSize(double? _fontSize) => super.noSuchMethod(
-        Invocation.setter(
-          #fontSize,
-          _fontSize,
-        ),
-        returnValueForMissingStub: null,
-      );
+  double get scaleX => (super.noSuchMethod(
+        Invocation.getter(#scaleX),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  double get scaleY => (super.noSuchMethod(
+        Invocation.getter(#scaleY),
+        returnValue: 0.0,
+      ) as double);
 
   @override
   List<Object?> get props => (super.noSuchMethod(
@@ -1502,150 +1378,6 @@ class MockBoundingBox extends _i1.Mock implements _i20.BoundingBox {
   }
 
   @override
-  _i11.Offset get topLeft => (super.noSuchMethod(
-        Invocation.getter(#topLeft),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#topLeft),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  set topLeft(_i11.Offset? _topLeft) => super.noSuchMethod(
-        Invocation.setter(
-          #topLeft,
-          _topLeft,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Offset get topRight => (super.noSuchMethod(
-        Invocation.getter(#topRight),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#topRight),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  set topRight(_i11.Offset? _topRight) => super.noSuchMethod(
-        Invocation.setter(
-          #topRight,
-          _topRight,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Offset get bottomLeft => (super.noSuchMethod(
-        Invocation.getter(#bottomLeft),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#bottomLeft),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  set bottomLeft(_i11.Offset? _bottomLeft) => super.noSuchMethod(
-        Invocation.setter(
-          #bottomLeft,
-          _bottomLeft,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Offset get bottomRight => (super.noSuchMethod(
-        Invocation.getter(#bottomRight),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#bottomRight),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  set bottomRight(_i11.Offset? _bottomRight) => super.noSuchMethod(
-        Invocation.setter(
-          #bottomRight,
-          _bottomRight,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Offset get lastPoint => (super.noSuchMethod(
-        Invocation.getter(#lastPoint),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#lastPoint),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  set lastPoint(_i11.Offset? _lastPoint) => super.noSuchMethod(
-        Invocation.setter(
-          #lastPoint,
-          _lastPoint,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  double get anchorRadius => (super.noSuchMethod(
-        Invocation.getter(#anchorRadius),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get rotationArcOffset => (super.noSuchMethod(
-        Invocation.getter(#rotationArcOffset),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get padding => (super.noSuchMethod(
-        Invocation.getter(#padding),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  _i21.BoundingBoxCorner get activeCorner => (super.noSuchMethod(
-        Invocation.getter(#activeCorner),
-        returnValue: _i21.BoundingBoxCorner.none,
-      ) as _i21.BoundingBoxCorner);
-
-  @override
-  set activeCorner(_i21.BoundingBoxCorner? _activeCorner) => super.noSuchMethod(
-        Invocation.setter(
-          #activeCorner,
-          _activeCorner,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  double get edgeSensitivity => (super.noSuchMethod(
-        Invocation.getter(#edgeSensitivity),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  set edgeSensitivity(double? _edgeSensitivity) => super.noSuchMethod(
-        Invocation.setter(
-          #edgeSensitivity,
-          _edgeSensitivity,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  double get rotationArcHandleRadius => (super.noSuchMethod(
-        Invocation.getter(#rotationArcHandleRadius),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
   _i11.Offset get center => (super.noSuchMethod(
         Invocation.getter(#center),
         returnValue: _FakeOffset_12(
@@ -1655,321 +1387,255 @@ class MockBoundingBox extends _i1.Mock implements _i20.BoundingBox {
       ) as _i11.Offset);
 
   @override
-  double get distanceToEdgeFromCenter => (super.noSuchMethod(
-        Invocation.getter(#distanceToEdgeFromCenter),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  _i11.Offset get topEdgeCenter => (super.noSuchMethod(
-        Invocation.getter(#topEdgeCenter),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#topEdgeCenter),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  double get averageX => (super.noSuchMethod(
-        Invocation.getter(#averageX),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get averageY => (super.noSuchMethod(
-        Invocation.getter(#averageY),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get topLeftBottomRightDiagonal => (super.noSuchMethod(
-        Invocation.getter(#topLeftBottomRightDiagonal),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get topRightBottomLeftDiagonal => (super.noSuchMethod(
-        Invocation.getter(#topRightBottomLeftDiagonal),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get topLeftDirection => (super.noSuchMethod(
-        Invocation.getter(#topLeftDirection),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get topRightDirection => (super.noSuchMethod(
-        Invocation.getter(#topRightDirection),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get bottomLeftDirection => (super.noSuchMethod(
-        Invocation.getter(#bottomLeftDirection),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get bottomRightDirection => (super.noSuchMethod(
-        Invocation.getter(#bottomRightDirection),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get outerRadius => (super.noSuchMethod(
-        Invocation.getter(#outerRadius),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  double get innerRadius => (super.noSuchMethod(
-        Invocation.getter(#innerRadius),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  _i11.Offset get topLeftRotationArcCenter => (super.noSuchMethod(
-        Invocation.getter(#topLeftRotationArcCenter),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#topLeftRotationArcCenter),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset get topRightRotationArcCenter => (super.noSuchMethod(
-        Invocation.getter(#topRightRotationArcCenter),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#topRightRotationArcCenter),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset get bottomLeftRotationArcCenter => (super.noSuchMethod(
-        Invocation.getter(#bottomLeftRotationArcCenter),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#bottomLeftRotationArcCenter),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset get bottomRightRotationArcCenter => (super.noSuchMethod(
-        Invocation.getter(#bottomRightRotationArcCenter),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.getter(#bottomRightRotationArcCenter),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  double get activeCornerDirection => (super.noSuchMethod(
-        Invocation.getter(#activeCornerDirection),
-        returnValue: 0.0,
-      ) as double);
-
-  @override
-  void setActiveCorner(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #setActiveCorner,
-          [point],
+  set center(_i11.Offset? _center) => super.noSuchMethod(
+        Invocation.setter(
+          #center,
+          _center,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void scale(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #scale,
-          [point],
+  double get width => (super.noSuchMethod(
+        Invocation.getter(#width),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  set width(double? _width) => super.noSuchMethod(
+        Invocation.setter(
+          #width,
+          _width,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void drawBoundingBox(_i11.Canvas? canvas) => super.noSuchMethod(
-        Invocation.method(
-          #drawBoundingBox,
-          [canvas],
+  double get height => (super.noSuchMethod(
+        Invocation.getter(#height),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  set height(double? _height) => super.noSuchMethod(
+        Invocation.setter(
+          #height,
+          _height,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void resetActiveCorner() => super.noSuchMethod(
+  double get angle => (super.noSuchMethod(
+        Invocation.getter(#angle),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  set angle(double? _angle) => super.noSuchMethod(
+        Invocation.setter(
+          #angle,
+          _angle,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i20.BoundingBoxAction get currentAction => (super.noSuchMethod(
+        Invocation.getter(#currentActioln),
+        returnValue: _i20.BoundingBoxAction.none,
+      ) as _i20.BoundingBoxAction);
+
+  @override
+  set currentAction(_i20.BoundingBoxAction? _currentAction) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #currentAction,
+          _currentAction,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i20.BoundingBoxResizeAction get currentBoundingBoxResizeAction =>
+      (super.noSuchMethod(
+        Invocation.getter(#currentBoundingBoxResizeAction),
+        returnValue: _i20.BoundingBoxResizeAction.none,
+      ) as _i20.BoundingBoxResizeAction);
+
+  @override
+  set currentBoundingBoxResizeAction(
+          _i20.BoundingBoxResizeAction? _currentBoundingBoxResizeAction) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #currentBoundingBoxResizeAction,
+          _currentBoundingBoxResizeAction,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set lastDragGlobalPosition(_i11.Offset? _lastDragGlobalPosition) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #lastDragGlobalPosition,
+          _lastDragGlobalPosition,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set dragStartLocalPosition(_i11.Offset? _dragStartLocalPosition) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #dragStartLocalPosition,
+          _dragStartLocalPosition,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  int get activeRotationArcIndex => (super.noSuchMethod(
+        Invocation.getter(#activeRotationArcIndex),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  set activeRotationArcIndex(int? _activeRotationArcIndex) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #activeRotationArcIndex,
+          _activeRotationArcIndex,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i11.Paint get boxPaint => (super.noSuchMethod(
+        Invocation.getter(#boxPaint),
+        returnValue: _i18.dummyValue<_i11.Paint>(
+          this,
+          Invocation.getter(#boxPaint),
+        ),
+      ) as _i11.Paint);
+
+  @override
+  set boxPaint(_i11.Paint? _boxPaint) => super.noSuchMethod(
+        Invocation.setter(
+          #boxPaint,
+          _boxPaint,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i11.Paint get handlePaint => (super.noSuchMethod(
+        Invocation.getter(#handlePaint),
+        returnValue: _i18.dummyValue<_i11.Paint>(
+          this,
+          Invocation.getter(#handlePaint),
+        ),
+      ) as _i11.Paint);
+
+  @override
+  set handlePaint(_i11.Paint? _handlePaint) => super.noSuchMethod(
+        Invocation.setter(
+          #handlePaint,
+          _handlePaint,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i11.Paint get rotationHandlePaint => (super.noSuchMethod(
+        Invocation.getter(#rotationHandlePaint),
+        returnValue: _i18.dummyValue<_i11.Paint>(
+          this,
+          Invocation.getter(#rotationHandlePaint),
+        ),
+      ) as _i11.Paint);
+
+  @override
+  set rotationHandlePaint(_i11.Paint? _rotationHandlePaint) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #rotationHandlePaint,
+          _rotationHandlePaint,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get isAspectRatioLocked => (super.noSuchMethod(
+        Invocation.getter(#isAspectRatioLocked),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  set isAspectRatioLocked(bool? _isAspectRatioLocked) => super.noSuchMethod(
+        Invocation.setter(
+          #isAspectRatioLocked,
+          _isAspectRatioLocked,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i11.Rect get rect => (super.noSuchMethod(
+        Invocation.getter(#rect),
+        returnValue: _FakeRect_11(
+          this,
+          Invocation.getter(#rect),
+        ),
+      ) as _i11.Rect);
+
+  @override
+  List<_i11.Offset> getCorners() => (super.noSuchMethod(
         Invocation.method(
-          #resetActiveCorner,
+          #getCorners,
+          [],
+        ),
+        returnValue: <_i11.Offset>[],
+      ) as List<_i11.Offset>);
+
+  @override
+  void determineAction(_i11.Offset? globalPoint) => super.noSuchMethod(
+        Invocation.method(
+          #determineAction,
+          [globalPoint],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void updateDrag(_i11.Offset? globalPoint) => super.noSuchMethod(
+        Invocation.method(
+          #updateDrag,
+          [globalPoint],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void endDrag() => super.noSuchMethod(
+        Invocation.method(
+          #endDrag,
           [],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void update(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #update,
-          [point],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void updateCorners(
-    _i11.Offset? topLeft,
-    _i11.Offset? topRight,
-    _i11.Offset? bottomLeft,
-    _i11.Offset? bottomRight, {
-    _i11.Offset? offset = _i11.Offset.zero,
+  void drawGuides(
+    _i11.Canvas? canvas, {
+    _i11.Offset? highlightPoint,
   }) =>
       super.noSuchMethod(
         Invocation.method(
-          #updateCorners,
-          [
-            topLeft,
-            topRight,
-            bottomLeft,
-            bottomRight,
-          ],
-          {#offset: offset},
+          #drawGuides,
+          [canvas],
+          {#highlightPoint: highlightPoint},
         ),
         returnValueForMissingStub: null,
       );
-
-  @override
-  void transform(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #transform,
-          [point],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void rotate(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #rotate,
-          [point],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void moveCenter(_i11.Offset? point) => super.noSuchMethod(
-        Invocation.method(
-          #moveCenter,
-          [point],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Offset getPaddedOffset(
-    _i11.Offset? point, {
-    double? padding = 0.0,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getPaddedOffset,
-          [point],
-          {#padding: padding},
-        ),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.method(
-            #getPaddedOffset,
-            [point],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset getPaddedTopLeft({double? padding = 0.0}) => (super.noSuchMethod(
-        Invocation.method(
-          #getPaddedTopLeft,
-          [],
-          {#padding: padding},
-        ),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.method(
-            #getPaddedTopLeft,
-            [],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset getPaddedTopRight({double? padding = 0.0}) => (super.noSuchMethod(
-        Invocation.method(
-          #getPaddedTopRight,
-          [],
-          {#padding: padding},
-        ),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.method(
-            #getPaddedTopRight,
-            [],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset getPaddedBottomLeft({double? padding = 0.0}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getPaddedBottomLeft,
-          [],
-          {#padding: padding},
-        ),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.method(
-            #getPaddedBottomLeft,
-            [],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Offset getPaddedBottomRight({double? padding = 0.0}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getPaddedBottomRight,
-          [],
-          {#padding: padding},
-        ),
-        returnValue: _FakeOffset_12(
-          this,
-          Invocation.method(
-            #getPaddedBottomRight,
-            [],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Offset);
-
-  @override
-  _i11.Path getPath({double? padding = 0.0}) => (super.noSuchMethod(
-        Invocation.method(
-          #getPath,
-          [],
-          {#padding: padding},
-        ),
-        returnValue: _FakePath_14(
-          this,
-          Invocation.method(
-            #getPath,
-            [],
-            {#padding: padding},
-          ),
-        ),
-      ) as _i11.Path);
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 
 class GraphicFactory {
@@ -12,22 +13,26 @@ class GraphicFactory {
     ..style = PaintingStyle.stroke
     ..strokeWidth = 10;
 
-  static Paint anchorPaint = Paint()
-    ..color = const Color.fromARGB(220, 117, 117, 117)
-    ..style = PaintingStyle.fill;
-
-  static final Paint guideRectanglePaint = Paint()
-    ..color = Color(0xff157da2)
+  static final Paint boundingBoxRectPaint = Paint()
+    ..color = Colors.blue
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 10;
+    ..strokeWidth = 11.0;
 
-  static final Paint guideCornerArcEdgePaint = Paint()
-    ..color = Color(0xff555555)
+  static final Paint boundingBoxTransparentPaint = Paint()
+    ..color = Colors.transparent
+    ..style = PaintingStyle.stroke;
+
+  static final Paint boundingBoxHandlePaint = Paint()
+    ..color = Colors.grey
+    ..strokeWidth = 16.0
+    ..strokeCap = StrokeCap.square
+    ..strokeJoin = StrokeJoin.bevel
+    ..isAntiAlias = true
+    ..style = PaintingStyle.stroke;
+
+  static final Paint boundingBoxRotationHandlePaint = Paint()
+    ..color = Colors.white
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 20;
-
-  static Paint thinPaint = Paint()
-    ..color = GraphicFactory.guideCornerArcEdgePaint.color
     ..strokeWidth = 20
     ..strokeCap = StrokeCap.round;
 

@@ -22,12 +22,7 @@ class ShapesToolProvider extends _$ShapesToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       type: ToolType.SHAPES,
-      boundingBox: BoundingBox(
-        initialBoundingBox.topLeft,
-        initialBoundingBox.topRight,
-        initialBoundingBox.bottomLeft,
-        initialBoundingBox.bottomRight,
-      ),
+      boundingBox: BoundingBox.fromRect(initialBoundingBox),
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:paintroid/core/providers/object/tools/text_tool_options_state_pr
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';
 
@@ -60,28 +59,12 @@ class PaintingLayer extends ConsumerWidget {
     ref.watch(commandManagerProvider);
     ref.watch(canvasPainterProvider);
     ref.watch(paintProvider);
-    final toolBoxState = ref.watch(toolBoxStateProvider);
-    final textOptions = ref.watch(textToolOptionsStateProvider);
-    final textOptionsNotifier = ref.read(textToolOptionsStateProvider.notifier);
+    ref.watch(toolBoxStateProvider);
+    ref.watch(textToolOptionsStateProvider);
 
     final cachedImage = ref.watch(
       canvasStateProvider.select((state) => state.cachedImage),
     );
-
-    final currentTool = toolBoxState.currentTool;
-    if (currentTool is TextTool) {
-      if (currentTool.currentText != textOptions.text) {
-      currentTool.currentText = textOptions.text;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!currentTool.isEditing) {
-          textOptionsNotifier
-            ..setFontSize(textOptions.fontSize)
-            ..setAutoSize(textOptions.isAutoSize)
-            ..setFontFamily(textOptions.fontFamily);
-        }
-      });
-          }
-    }
 
     return RepaintBoundary(
       child: Opacity(

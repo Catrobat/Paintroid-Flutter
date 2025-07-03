@@ -23,7 +23,9 @@ class TextCommand extends GraphicCommand with EquatableMixin {
   final double rotationAngle;
   final int version;
   final String type;
-  double fontSize;
+  final double fontSize; // Changed to final
+  final double scaleX;
+  final double scaleY;
 
   TextCommand(
     this.point,
@@ -32,6 +34,8 @@ class TextCommand extends GraphicCommand with EquatableMixin {
     this.fontSize,
     super.paint, {
     required this.rotationAngle,
+    this.scaleX = 1.0,
+    this.scaleY = 1.0,
     int? version,
     this.type = SerializerType.TEXT_COMMAND,
   }) : version =
@@ -49,6 +53,7 @@ class TextCommand extends GraphicCommand with EquatableMixin {
     canvas.save();
     canvas.translate(point.dx, point.dy);
     canvas.rotate(rotationAngle);
+    canvas.scale(scaleX, scaleY);
     final textOffset = Offset(-textPainter.width / 2, -textPainter.height / 2);
     textPainter.paint(canvas, textOffset);
     canvas.restore();
@@ -60,8 +65,12 @@ class TextCommand extends GraphicCommand with EquatableMixin {
         text,
         style,
         fontSize,
+        rotationAngle,
+        scaleX,
+        scaleY,
+        version,
+        type,
         paint,
-        rotationAngle
       ];
 
   @override

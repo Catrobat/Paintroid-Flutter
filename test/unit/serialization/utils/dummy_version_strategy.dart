@@ -6,7 +6,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int lineCommandVersion;
   final int catrobatImageVersion;
   final int squareShapeCommandVersion;
-  final int circleShapeCommandVersion;
+  final int ellipseShapeCommandVersion;
   final int sprayCommandVersion;
   final int textCommandVersion;
 
@@ -16,8 +16,8 @@ class DummyVersionStrategy implements IVersionStrategy {
     this.lineCommandVersion = SerializerVersion.LINE_COMMAND_VERSION,
     this.squareShapeCommandVersion =
         SerializerVersion.SQUARE_SHAPE_COMMAND_VERSION,
-    this.circleShapeCommandVersion =
-        SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION,
+    this.ellipseShapeCommandVersion =
+        SerializerVersion.ELLIPSE_SHAPE_COMMAND_VERSION,
     this.sprayCommandVersion = SerializerVersion.SPRAY_COMMAND_VERSION,
     this.textCommandVersion = SerializerVersion.TEXT_COMMAND_VERSION,
   });
@@ -35,7 +35,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   int getSquareShapeCommandVersion() => squareShapeCommandVersion;
 
   @override
-  int getCircleShapeCommandVersion() => circleShapeCommandVersion;
+  int getEllipseShapeCommandVersion() => ellipseShapeCommandVersion;
 
   @override
   int getSprayCommandVersion() => sprayCommandVersion;

@@ -1,196 +1,249 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/core/providers/object/tools/text_tool_options_state_provider.dart';
-import 'package:paintroid/core/providers/state/text_tool_options_state_data.dart';
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/enums/bounding_box_action.dart';
 import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/core/providers/state/text_tool_options_state_data.dart';
 
-extension TextToolExtensions on TextToolOptionsStateData {
-  TextStyle toTextStyle(Color color) => TextStyle(
-    color: color,
-    fontSize: fontSize,
-    fontFamily: fontFamily,
-    fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-    fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
-    decoration: isUnderline ? TextDecoration.underline : TextDecoration.none,
-  );
-}
+const double _kTextSizeMagnificationFactor = 3.0;
+const double _kBoxOffset = 20.0;
+const double _kMinDrawableArea = 1.0;
 
 class TextTool extends Tool {
-  final BoundingBox boundingBox;
-  final Ref _ref;
-
-  TextToolOptionsStateData get textOptions =>
-      _ref.read(textToolOptionsStateProvider);
-
-  String currentText = '';
+  BoundingBox boundingBox;
+  TextToolOptionsStateData options;
+  final GraphicFactory graphicFactory;
   bool isEditing = false;
-  static const double minFontSize = 10.0;
-  static const double maxFontSize = 600.0;
+  final void Function(double newFontSize)? onUserManuallyResized;
 
   TextTool({
     required super.commandManager,
     required super.commandFactory,
+    required this.graphicFactory,
     required super.type,
     required this.boundingBox,
-    required Ref ref,
+    required this.options,
+    this.onUserManuallyResized,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
-  }) : _ref = ref;
+  }) {
+    if (options.isAutoSize || options.text.isEmpty) {
+      _resizeBoundingBoxToFitText();
+    }
+  }
+
+  TextStyle _getTextStyle(Color color, {bool useMagnifiedSize = true}) {
+    final baseSize = options.fontSize;
+    final size =
+        useMagnifiedSize ? baseSize * _kTextSizeMagnificationFactor : baseSize;
+    return TextStyle(
+      color: color,
+      fontSize: size,
+      fontWeight: options.isBold ? FontWeight.bold : FontWeight.normal,
+      fontStyle: options.isItalic ? FontStyle.italic : FontStyle.normal,
+      decoration:
+          options.isUnderline ? TextDecoration.underline : TextDecoration.none,
+      fontFamily: options.fontFamily,
+      textBaseline: TextBaseline.alphabetic,
+    );
+  }
+
+  void _resizeBoundingBoxToFitText() {
+    final measure = options.text.isNotEmpty ? options.text : 'T';
+    final painter = TextPainter(
+      text: TextSpan(text: measure, style: _getTextStyle(Colors.black)),
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    )..layout(minWidth: 0, maxWidth: double.infinity);
+
+    boundingBox.width = math.max(
+      painter.width + 2 * _kBoxOffset,
+      BoundingBox.minimalBoxSize,
+    );
+    boundingBox.height = math.max(
+      painter.height + 2 * _kBoxOffset,
+      BoundingBox.minimalBoxSize,
+    );
+  }
+
+  void _calculateAndNotifyNewFontSize() {
+    if (onUserManuallyResized == null) return;
+    final measure = options.text.isNotEmpty ? options.text : 'T';
+    final painter = TextPainter(
+      text: TextSpan(text: measure, style: _getTextStyle(Colors.black)),
+      textDirection: TextDirection.ltr,
+    )..layout(minWidth: 0, maxWidth: double.infinity);
+
+    final textW = painter.width;
+    final textH = painter.height;
+    if (textW < _kMinDrawableArea || textH < _kMinDrawableArea) return;
+
+    final drawableW =
+        math.max(_kMinDrawableArea, boundingBox.width - 2 * _kBoxOffset);
+    final drawableH =
+        math.max(_kMinDrawableArea, boundingBox.height - 2 * _kBoxOffset);
+
+    final scaleX = drawableW / textW;
+    final scaleY = drawableH / textH;
+    final scale = (scaleX + scaleY) / 2;
+
+    final newFontSize = options.fontSize * scale;
+    onUserManuallyResized!(newFontSize);
+  }
 
   @override
   void onDown(Offset point, Paint paint) {
-    boundingBox.setActiveCorner(point);
-    isEditing = true;
+    boundingBox.determineAction(point);
+    isEditing = boundingBox.currentAction != BoundingBoxAction.none;
   }
 
   @override
   void onDrag(Offset point, Paint paint) {
-    if (isEditing) {
-      final double previousHeight =
-          (boundingBox.topLeft - boundingBox.bottomLeft).distance;
-      final double initialRatio =
-          previousHeight > 0 ? textOptions.fontSize / (previousHeight / 2.0) : 1.0;
-
-      boundingBox.update(point);
-
-      final double newHeight =
-          (boundingBox.topLeft - boundingBox.bottomLeft).distance;
-      if (newHeight > 0) {
-        final double newFontSize =
-            (newHeight / 2.0 * initialRatio).clamp(minFontSize, maxFontSize);
-
-        if (newFontSize != textOptions.fontSize && isEditing) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _ref
-                .read(textToolOptionsStateProvider.notifier)
-                .setFontSize(newFontSize);
-          });
-        }
-      }
+    if (!isEditing) return;
+    boundingBox.updateDrag(point);
+    if (boundingBox.currentAction == BoundingBoxAction.resize) {
+      _calculateAndNotifyNewFontSize();
     }
   }
 
   @override
   void onUp(Offset point, Paint paint) {
-    boundingBox.resetActiveCorner();
+    final prevAction = boundingBox.currentAction;
+    boundingBox.endDrag();
+
+    if (options.isAutoSize &&
+        prevAction != BoundingBoxAction.resize &&
+        !isEditing) {
+      _resizeBoundingBoxToFitText();
+    } else if (prevAction == BoundingBoxAction.resize) {
+      _calculateAndNotifyNewFontSize();
+    }
+    isEditing = false;
   }
 
   @override
   void onCancel() {
-    currentText = '';
+    boundingBox.endDrag();
     isEditing = false;
   }
 
   @override
   void onCheckmark(Paint paint) {
-    final String trimmedText = currentText.trim();
-    if (trimmedText.isNotEmpty) {
-      final textOffset = boundingBox.center;
-      final double rotationAngle =
-          (boundingBox.topRight - boundingBox.topLeft).direction;
+    final text = options.text;
+    if (text.isEmpty) return;
 
-      final command = commandFactory.createTextCommand(
-        textOffset,
-        trimmedText,
-        textOptions.toTextStyle(paint.color),
-        textOptions.fontSize,
-        paint,
-        rotationAngle,
-      );
-      commandManager.addGraphicCommand(command);
-      commandManager.clearRedoStack();
-      currentText = '';
-      isEditing = false;
+    final center = boundingBox.center;
+    final style = _getTextStyle(paint.color);
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    )..layout(minWidth: 0, maxWidth: double.infinity);
+
+    final textW = painter.width;
+    final textH = painter.height;
+    final drawableW =
+        math.max(_kMinDrawableArea, boundingBox.width - 2 * _kBoxOffset);
+    final drawableH =
+        math.max(_kMinDrawableArea, boundingBox.height - 2 * _kBoxOffset);
+
+    final scaleX = drawableW / textW;
+    final scaleY = drawableH / textH;
+
+    double effectiveAngle = boundingBox.angle;
+    if ((boundingBox.angle).abs() < 0.0001 &&
+        ((scaleX.isFinite && (scaleX < 0.99 || scaleX > 1.01)) ||
+            (scaleY.isFinite && (scaleY < 0.99 || scaleY > 1.01)))) {
+      effectiveAngle = 0.005;
     }
+
+    final command = commandFactory.createTextCommand(
+      center,
+      text,
+      style,
+      style.fontSize ?? options.fontSize,
+      paint,
+      effectiveAngle,
+      scaleX: scaleX,
+      scaleY: scaleY,
+    );
+    commandManager.addGraphicCommand(command);
+    commandManager.clearRedoStack();
+    isEditing = false;
   }
 
   @override
   void onPlus() {}
 
   @override
-  void onRedo() => commandManager.redo();
-
-  @override
-  void onUndo() => commandManager.undo();
-
-  void drawGuides(Canvas canvas, Paint paint) {
-    paintText(canvas, paint);
-    boundingBox.drawBoundingBox(canvas);
+  void onRedo() {
+    commandManager.redo();
   }
 
-  void paintText(Canvas canvas, Paint paint) {
-    final textStyle = textOptions.toTextStyle(paint.color);
-    final textPainter = TextPainter(
-      text: TextSpan(text: currentText, style: textStyle),
+  @override
+  void onUndo() {
+    commandManager.undo();
+  }
+
+  void drawGuides(Canvas canvas, Paint paint) {
+    boundingBox.drawGuides(canvas);
+    if (options.text.isEmpty) return;
+
+    final style = _getTextStyle(paint.color);
+    final painter = TextPainter(
+      text: TextSpan(text: options.text, style: style),
       textDirection: TextDirection.ltr,
-    );
+      textAlign: TextAlign.center,
+    )..layout(minWidth: 0, maxWidth: double.infinity);
 
-    textPainter.layout(minWidth: 0);
+    final textW = painter.width;
+    final textH = painter.height;
+    final boxW =
+        math.max(_kMinDrawableArea, boundingBox.width - 2 * _kBoxOffset);
+    final boxH =
+        math.max(_kMinDrawableArea, boundingBox.height - 2 * _kBoxOffset);
 
-    final double textWidth = textPainter.width;
-    final double textHeight = textPainter.height;
+    final scaleX = boxW / textW;
+    final scaleY = boxH / textH;
 
-    final double padding = 20.0;
-    final double boxWidth = textWidth + (padding * 2);
-    final double boxHeight = textHeight + (padding * 2);
-
-    final Offset center = boundingBox.center;
-    final double angle = (boundingBox.topRight - boundingBox.topLeft).direction;
-
-    final double halfWidth = boxWidth / 2;
-    final double halfHeight = boxHeight / 2;
-
-    final double cosAngle = math.cos(angle);
-    final double sinAngle = math.sin(angle);
-
-    final Offset topLeft = center +
-        Offset(
-          -halfWidth * cosAngle + halfHeight * sinAngle,
-          -halfWidth * sinAngle - halfHeight * cosAngle,
-        );
-    final Offset topRight = center +
-        Offset(
-          halfWidth * cosAngle + halfHeight * sinAngle,
-          halfWidth * sinAngle - halfHeight * cosAngle,
-        );
-    final Offset bottomLeft = center +
-        Offset(
-          -halfWidth * cosAngle - halfHeight * sinAngle,
-          -halfWidth * sinAngle + halfHeight * cosAngle,
-        );
-    final Offset bottomRight = center +
-        Offset(
-          halfWidth * cosAngle - halfHeight * sinAngle,
-          halfWidth * sinAngle + halfHeight * cosAngle,
-        );
-
-    boundingBox.updateCorners(topLeft, topRight, bottomLeft, bottomRight);
+    double effectiveAngle = boundingBox.angle;
+    if ((boundingBox.angle).abs() < 0.0001 &&
+        ((scaleX.isFinite && (scaleX < 0.99 || scaleX > 1.01)) ||
+            (scaleY.isFinite && (scaleY < 0.99 || scaleY > 1.01)))) {
+      effectiveAngle = 0.005;
+    }
 
     canvas.save();
-    canvas.translate(center.dx, center.dy);
-    canvas.rotate(angle);
-    final Offset centeredTextOffset =
-        Offset(-textPainter.width / 2, -textPainter.height / 2);
-    textPainter.paint(canvas, centeredTextOffset);
+    canvas.translate(boundingBox.center.dx, boundingBox.center.dy);
+    canvas.rotate(effectiveAngle);
+    canvas.scale(scaleX, scaleY);
+    painter.paint(canvas, Offset(-painter.width / 2, -painter.height / 2));
     canvas.restore();
   }
 
-  TextTool copyWith({
-    String? currentText,
-    bool? isEditing,
-    BoundingBox? boundingBox,
-    Ref? ref,
-  }) {
-    return TextTool(
-      commandManager: commandManager,
-      commandFactory: commandFactory,
-      type: type,
-      boundingBox: boundingBox ?? this.boundingBox,
-      ref: ref ?? _ref,
-    )
-      ..currentText = currentText ?? this.currentText
-      ..isEditing = isEditing ?? this.isEditing;
+  void updateOptions(TextToolOptionsStateData newOptions) {
+    final old = options;
+    options = newOptions;
+    if (isEditing) return;
+
+    final textChanged = old.text != options.text ||
+        old.fontFamily != options.fontFamily ||
+        old.isBold != options.isBold ||
+        old.isItalic != options.isItalic ||
+        old.isUnderline != options.isUnderline;
+    final fontSizeChanged = old.fontSize != options.fontSize;
+    final autoSizeChanged = old.isAutoSize != options.isAutoSize;
+
+    if (options.isAutoSize &&
+        (textChanged ||
+            fontSizeChanged ||
+            (autoSizeChanged && options.isAutoSize))) {
+      _resizeBoundingBoxToFitText();
+    } else if (!options.isAutoSize &&
+        textChanged &&
+        onUserManuallyResized != null) {
+      _calculateAndNotifyNewFontSize();
+    }
   }
 }

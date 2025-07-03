@@ -1,21 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_options_state_provider.dart';
+import 'package:paintroid/ui/pages/landing_page/components/toggle_style_button.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
-class TextToolOptions extends ConsumerWidget {
+class TextToolOptions extends ConsumerStatefulWidget {
   const TextToolOptions({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TextToolOptions> createState() => _TextToolOptionsState();
+}
+
+class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
+  late final TextEditingController _textController;
+  late final TextEditingController _fontSizeController;
+
+  @override
+  void initState() {
+    super.initState();
+    final options = ref.read(textToolOptionsStateProvider);
+    _textController = TextEditingController(text: options.text);
+    _fontSizeController =
+        TextEditingController(text: options.fontSize.toInt().toString());
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _fontSizeController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final options = ref.watch(textToolOptionsStateProvider);
     final notifier = ref.read(textToolOptionsStateProvider.notifier);
+
+    if (_textController.text != options.text) {
+      _textController.text = options.text;
+      _textController.selection = TextSelection.fromPosition(
+        TextPosition(offset: options.text.length),
+      );
+    }
+    final fontSizeStr = options.fontSize.toInt().toString();
+    if (_fontSizeController.text != fontSizeStr) {
+      _fontSizeController.text = fontSizeStr;
+      _fontSizeController.selection = TextSelection.fromPosition(
+        TextPosition(offset: fontSizeStr.length),
+      );
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
             children: [
               SizedBox(
@@ -25,12 +64,7 @@ class TextToolOptions extends ConsumerWidget {
                   key: const Key('text_tool_font_size'),
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
-                  controller: TextEditingController(
-                      text: options.fontSize.toInt().toString())
-                    ..selection = TextSelection.fromPosition(
-                      TextPosition(
-                          offset: options.fontSize.toInt().toString().length),
-                    ),
+                  controller: _fontSizeController,
                   onChanged: (value) {
                     final parsed = double.tryParse(value);
                     if (parsed != null && parsed > 0) {
@@ -92,7 +126,7 @@ class TextToolOptions extends ConsumerWidget {
                       child: ChoiceChip(
                         label: Text(
                           font,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         selected: options.fontFamily == font,
                         onSelected: (_) => notifier.setFontFamily(font),
@@ -105,16 +139,13 @@ class TextToolOptions extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: TextField(
             key: const Key('text_tool_input'),
-            controller: TextEditingController(text: options.text)
-              ..selection = TextSelection.fromPosition(
-                TextPosition(offset: options.text.length),
-              ),
+            controller: _textController,
             onChanged: notifier.updateText,
             decoration: InputDecoration(
-              hintText: 'Tap here to write',
+              hintText: 'Enter Text',
               filled: true,
               fillColor:
                   PaintroidTheme.of(context).onSurfaceColor.withAlpha(50),
@@ -127,47 +158,6 @@ class TextToolOptions extends ConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class ToggleStyleButton extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const ToggleStyleButton({
-    super.key,
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: selected
-          ? PaintroidTheme.of(context).primaryColor
-          : PaintroidTheme.of(context).onSurfaceColor,
-      shape:
-          const CircleBorder(side: BorderSide(color: Colors.black, width: 1.0)),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onTap,
-        child: SizedBox(
-          width: 32,
-          height: 32,
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: selected ? Colors.white : Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

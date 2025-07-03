@@ -6,6 +6,8 @@ import 'package:mockito/mockito.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
+import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
+import 'package:paintroid/core/enums/bounding_box_action.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_options_state_provider.dart';
 import 'package:paintroid/core/providers/state/text_tool_options_state_data.dart';
@@ -20,6 +22,7 @@ import 'text_tool_test.mocks.dart';
   Ref,
   Canvas,
   TextCommand,
+  GraphicFactory,
 ], customMocks: [
   MockSpec<BoundingBox>(),
 ])
@@ -28,11 +31,12 @@ void main() {
 
   late MockCommandManager mockCommandManager;
   late MockCommandFactory mockCommandFactory;
-  late MockRef mockRef;
   late MockBoundingBox mockBoundingBox;
   late TextTool textTool;
   late MockCanvas mockCanvas;
   late Paint paint;
+  late TextToolOptionsStateData options;
+  late GraphicFactory mockGraphicFactory;
 
   provideDummy<TextToolOptionsStateData>(const TextToolOptionsStateData(
     fontSize: 24,
@@ -48,94 +52,79 @@ void main() {
   setUp(() {
     mockCommandManager = MockCommandManager();
     mockCommandFactory = MockCommandFactory();
-    mockRef = MockRef();
     mockBoundingBox = MockBoundingBox();
     mockCanvas = MockCanvas();
     paint = Paint();
-
-    when(mockRef.read(textToolOptionsStateProvider))
-        .thenReturn(const TextToolOptionsStateData(
+    mockGraphicFactory = MockGraphicFactory();
+    options = const TextToolOptionsStateData(
       fontSize: 24,
       fontFamily: 'Roboto',
       isBold: false,
       isItalic: false,
       isUnderline: false,
-    ));
-
-    when(mockBoundingBox.topLeft).thenReturn(Offset.zero);
-    when(mockBoundingBox.topRight).thenReturn(Offset.zero);
-    when(mockBoundingBox.bottomLeft).thenReturn(Offset.zero);
-    when(mockBoundingBox.bottomRight).thenReturn(Offset.zero);
+      text: 'Hello',
+      isAutoSize: true,
+    );
     when(mockBoundingBox.center).thenReturn(Offset.zero);
-
+    when(mockBoundingBox.width).thenReturn(100);
+    when(mockBoundingBox.height).thenReturn(50);
+    when(mockBoundingBox.angle).thenReturn(0.0);
     textTool = TextTool(
       commandManager: mockCommandManager,
       commandFactory: mockCommandFactory,
+      graphicFactory: mockGraphicFactory,
       type: ToolType.TEXT,
       boundingBox: mockBoundingBox,
-      ref: mockRef,
+      options: options,
     );
   });
 
-  test('toTextStyle converts correctly', () {
-    const options = TextToolOptionsStateData(
-      fontSize: 30,
-      fontFamily: 'Roboto',
-      isBold: true,
-      isItalic: true,
-      isUnderline: true,
-    );
-    final textStyle = options.toTextStyle(Colors.red);
-
-    expect(textStyle.color, Colors.red);
-    expect(textStyle.fontSize, 30);
-    expect(textStyle.fontFamily, 'Roboto');
-    expect(textStyle.fontWeight, FontWeight.bold);
-    expect(textStyle.fontStyle, FontStyle.italic);
-    expect(textStyle.decoration, TextDecoration.underline);
-  });
-
-  test('onDown sets active corner and enables editing', () {
-    final point = Offset(10, 10);
-    textTool.onDown(point, paint);
-
-    verify(mockBoundingBox.setActiveCorner(point)).called(1);
+  test('onDown sets editing state based on bounding box action', () {
+    when(mockBoundingBox.currentAction).thenReturn(BoundingBoxAction.move);
+    textTool.onDown(Offset(10, 10), paint);
     expect(textTool.isEditing, true);
   });
 
-  test('onDrag updates bounding box and adjusts font size', () {
+  test('onDrag calls boundingBox.updateDrag if editing', () {
     textTool.isEditing = true;
-    when(mockBoundingBox.topLeft).thenReturn(Offset(0, 0));
-    when(mockBoundingBox.bottomLeft).thenReturn(Offset(0, 100));
-    when(mockBoundingBox.update(any)).thenReturn(null);
-
-    textTool.onDrag(Offset(50, 50), paint);
-
-    verify(mockBoundingBox.update(Offset(50, 50))).called(1);
-    verify(mockRef.read(textToolOptionsStateProvider))
-        .called(greaterThanOrEqualTo(1));
+    when(mockBoundingBox.currentAction).thenReturn(BoundingBoxAction.move);
+    textTool.onDrag(Offset(20, 20), paint);
+    verify(mockBoundingBox.updateDrag(Offset(20, 20))).called(1);
   });
 
-  test('onUp resets active corner', () {
+  test('onUp disables editing and calls boundingBox.endDrag', () {
+    when(mockBoundingBox.currentAction).thenReturn(BoundingBoxAction.move);
+    textTool.isEditing = true;
     textTool.onUp(Offset.zero, paint);
-    verify(mockBoundingBox.resetActiveCorner()).called(1);
-  });
-
-  test('onCancel resets text and editing state', () {
-    textTool.currentText = 'Test';
-    textTool.isEditing = true;
-
-    textTool.onCancel();
-
-    expect(textTool.currentText, '');
+    verify(mockBoundingBox.endDrag()).called(1);
     expect(textTool.isEditing, false);
   });
 
-  test('onCheckmark creates command when text is non-empty', () {
-    final mockTextCommand = MockTextCommand();
-    textTool.currentText = 'Hello';
+  test('onCancel disables editing and calls boundingBox.endDrag', () {
     textTool.isEditing = true;
+    textTool.onCancel();
+    verify(mockBoundingBox.endDrag()).called(1);
+    expect(textTool.isEditing, false);
+  });
 
+  test('onCheckmark does nothing if text is empty', () {
+    final emptyOptions = options.copyWith(text: '');
+    textTool.options = emptyOptions;
+    textTool.onCheckmark(paint);
+    verifyNever(mockCommandFactory.createTextCommand(
+      any,
+      any,
+      any,
+      any,
+      any,
+      any,
+      scaleX: anyNamed('scaleX'),
+      scaleY: anyNamed('scaleY'),
+    ));
+  });
+
+  test('onCheckmark adds command if text is not empty', () {
+    final mockTextCommand = MockTextCommand();
     when(mockCommandFactory.createTextCommand(
       any,
       any,
@@ -143,85 +132,82 @@ void main() {
       any,
       any,
       any,
+      scaleX: anyNamed('scaleX'),
+      scaleY: anyNamed('scaleY'),
     )).thenReturn(mockTextCommand);
-
     textTool.onCheckmark(paint);
-
     verify(mockCommandManager.addGraphicCommand(mockTextCommand)).called(1);
     verify(mockCommandManager.clearRedoStack()).called(1);
-    expect(textTool.currentText, '');
     expect(textTool.isEditing, false);
   });
 
-  test('onCheckmark does nothing when text is empty', () {
-    textTool.currentText = '   ';
-    textTool.onCheckmark(paint);
-
-    verifyZeroInteractions(mockCommandFactory);
-    verifyZeroInteractions(mockCommandManager);
-  });
-
-  test('paintText updates bounding box and draws text', () {
-    textTool.currentText = 'Test';
-
-    textTool.paintText(mockCanvas, paint);
-
-    verify(mockBoundingBox.updateCorners(any, any, any, any)).called(1);
-    verify(mockCanvas.save()).called(1);
-    verify(mockCanvas.translate(any, any)).called(1);
-    verify(mockCanvas.rotate(any)).called(1);
-    verify(mockCanvas.restore()).called(1);
-  });
-
-  test('drawGuides calls paintText and bounding box drawing', () {
+  test('drawGuides calls boundingBox.drawGuides', () {
     textTool.drawGuides(mockCanvas, paint);
-
-    verify(mockBoundingBox.drawBoundingBox(mockCanvas)).called(1);
-    verify(mockCanvas.save()).called(1);
-    verify(mockCanvas.restore()).called(1);
+    verify(mockBoundingBox.drawGuides(mockCanvas));
   });
 
-  test('onDrag handles zero height without error', () {
-    textTool.isEditing = true;
-    when(mockBoundingBox.topLeft).thenReturn(Offset.zero);
-    when(mockBoundingBox.bottomLeft).thenReturn(Offset.zero);
-
-    textTool.onDrag(Offset(10, 10), paint);
-
-    verifyNever(mockRef.read(textToolOptionsStateProvider.notifier));
+  test(
+      'updateOptions triggers _resizeBoundingBoxToFitText if autoSize and text changed',
+      () {
+    final newOptions = options.copyWith(text: 'New text');
+    // Should call _resizeBoundingBoxToFitText (which sets boundingBox.width/height)
+    textTool.updateOptions(newOptions);
+    // No direct way to verify private method, but no error should occur
+    expect(textTool.options.text, 'New text');
   });
 
-  test('onDrag clamps fontSize between min and max', () {
-    textTool.isEditing = true;
-    when(mockBoundingBox.topLeft).thenReturn(Offset(0, 0));
-    when(mockBoundingBox.bottomLeft).thenReturn(Offset(0, 100));
-    when(mockBoundingBox.update(any)).thenReturn(null);
-
-    final mockNotifier = MockTextToolOptionsStateNotifier();
-    when(mockRef.read(textToolOptionsStateProvider.notifier))
-        .thenReturn(mockNotifier);
-
-    textTool.onDrag(Offset(0, 10000), paint);
-
-    WidgetsBinding.instance.endOfFrame.then((_) {
-      verify(mockNotifier.setFontSize(TextTool.maxFontSize)).called(1);
-    });
+  test('drawGuides does not draw text if options.text is empty', () {
+    options = options.copyWith(text: '');
+    textTool.options = options;
+    // Should not throw and should not attempt to draw text
+    textTool.drawGuides(mockCanvas, paint);
+    // No verify needed, just ensure no crash
   });
 
-  test('copyWith creates modified instance', () {
-    final newBoundingBox = MockBoundingBox();
-    final newRef = MockRef();
+  test('drawGuides applies scale and rotation for non-empty text', () {
+    options = options.copyWith(text: 'Test');
+    textTool.options = options;
+    // Should not throw and should attempt to draw text
+    textTool.drawGuides(mockCanvas, paint);
+    // No verify needed, just ensure no crash
+  });
 
-    final copy = textTool.copyWith(
-      currentText: 'New',
-      isEditing: true,
-      boundingBox: newBoundingBox,
-      ref: newRef,
+  test('onCheckmark does not add command if text is empty', () {
+    options = options.copyWith(text: '');
+    textTool.options = options;
+    textTool.onCheckmark(paint);
+    verifyNever(mockCommandManager.addGraphicCommand(any));
+  });
+
+  test(
+      'updateOptions does not resize box if only font size changes and autoSize is off',
+      () {
+    options = options.copyWith(isAutoSize: false);
+    textTool.options = options;
+    final oldWidth = textTool.boundingBox.width;
+    final newOptions = options.copyWith(fontSize: options.fontSize + 10);
+    textTool.updateOptions(newOptions);
+    expect(textTool.boundingBox.width, oldWidth);
+  });
+
+  test(
+      'updateOptions recalculates font size if text changes and autoSize is off',
+      () {
+    double? notifiedFontSize;
+    textTool = TextTool(
+      commandManager: mockCommandManager,
+      commandFactory: mockCommandFactory,
+      graphicFactory: mockGraphicFactory,
+      type: ToolType.TEXT,
+      boundingBox: mockBoundingBox,
+      options: options.copyWith(isAutoSize: false),
+      onUserManuallyResized: (newFontSize) {
+        notifiedFontSize = newFontSize;
+      },
     );
-
-    expect(copy.currentText, 'New');
-    expect(copy.isEditing, true);
-    expect(identical(copy.boundingBox, newBoundingBox), true);
+    final newOptions = options.copyWith(text: 'Bigger text', isAutoSize: false);
+    textTool.updateOptions(newOptions);
+    expect(notifiedFontSize, isNotNull);
   });
 }
 

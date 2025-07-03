@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -33,12 +33,20 @@ class CommandFactory {
   ) =>
       SquareShapeCommand(paint, topLeft, topRight, bottomLeft, bottomRight);
 
-  CircleShapeCommand createCircleShapeCommand(
+  EllipseShapeCommand createEllipseShapeCommand(
     Paint paint,
-    double radius,
+    double radiusX,
+    double radiusY,
     Offset center,
+    double angle,
   ) =>
-      CircleShapeCommand(paint, radius, center);
+      EllipseShapeCommand(
+        paint,
+        radiusX,
+        radiusY,
+        center,
+        angle: angle,
+      );
 
   TextCommand createTextCommand(
     Offset point,
@@ -46,8 +54,10 @@ class CommandFactory {
     TextStyle style,
     double fontSize,
     Paint paint,
-    double rotationAngle,
-  ) =>
+    double rotationAngle, {
+    double scaleX = 1.0,
+    double scaleY = 1.0,
+  }) =>
       TextCommand(
         point,
         text,
@@ -55,6 +65,8 @@ class CommandFactory {
         fontSize,
         paint,
         rotationAngle: rotationAngle,
+        scaleX: scaleX,
+        scaleY: scaleY,
       );
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {

@@ -22,7 +22,7 @@ class CommandPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (currentTool.type != ToolType.SHAPES) {
+    if (currentTool.type != ToolType.SHAPES && currentTool.type != ToolType.TEXT) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
     switch (currentTool.type) {

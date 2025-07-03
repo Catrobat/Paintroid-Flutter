@@ -6,7 +6,7 @@ part of 'text_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$textToolProviderHash() => r'b9105ac9932f72b3bfb27c2a47ac0615827ac73d';
+String _$textToolProviderHash() => r'fc7dbe197c019624a1882c4beeb3f6d69a298123';
 
 /// See also [TextToolProvider].
 @ProviderFor(TextToolProvider)

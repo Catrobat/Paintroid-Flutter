@@ -24,18 +24,30 @@ extension OffsetExtensions on Offset {
     return Offset(dx / d, dy / d);
   }
 
-  double distanceToSegment(Offset segmentStart, Offset segmentEnd) {
-    final Offset point = this;
-    final Offset segmentVector = segmentEnd - segmentStart;
-    final double segmentLengthSquared = segmentVector.distanceSquared;
-    if (segmentLengthSquared == 0.0) return (point - segmentStart).distance;
-    final Offset pointToStartVector = point - segmentStart;
-    double projectionFactor = (pointToStartVector.dx * segmentVector.dx +
-            pointToStartVector.dy * segmentVector.dy) /
-        segmentLengthSquared;
-    projectionFactor = max(0, min(1, projectionFactor));
-    final Offset closestPointOnSegment =
-        segmentStart + segmentVector * projectionFactor;
-    return (point - closestPointOnSegment).distance;
+  Offset localToGlobalRelative(double angle) {
+    final double cosA = cos(angle);
+    final double sinA = sin(angle);
+    final double globalX = dx * cosA - dy * sinA;
+    final double globalY = dx * sinA + dy * cosA;
+    return Offset(globalX, globalY);
+  }
+
+  Offset globalToLocal(Offset center, double angle) {
+    final Offset relativeToCenter = this - center;
+    final double cosA = cos(-angle);
+    final double sinA = sin(-angle);
+    final double localX =
+        relativeToCenter.dx * cosA - relativeToCenter.dy * sinA;
+    final double localY =
+        relativeToCenter.dx * sinA + relativeToCenter.dy * cosA;
+    return Offset(localX, localY);
+  }
+
+  Offset localToGlobal(Offset center, double angle) {
+    final double cosA = cos(angle);
+    final double sinA = sin(angle);
+    final double globalX = dx * cosA - dy * sinA;
+    final double globalY = dx * sinA + dy * cosA;
+    return Offset(globalX, globalY) + center;
   }
 }

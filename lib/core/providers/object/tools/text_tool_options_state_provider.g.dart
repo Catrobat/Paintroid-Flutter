@@ -7,7 +7,7 @@ part of 'text_tool_options_state_provider.dart';
 // **************************************************************************
 
 String _$textToolOptionsStateProviderHash() =>
-    r'a4dcb3541cd251f9779379a87706b7ce567b37c4';
+    r'a833418e936cc487c39a8f0299d04ad789398fb4';
 
 /// See also [TextToolOptionsStateProvider].
 @ProviderFor(TextToolOptionsStateProvider)
