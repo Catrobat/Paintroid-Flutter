@@ -9,6 +9,7 @@ import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/watercolor_tool_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/spray_tool_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
@@ -58,6 +59,9 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     switch (data.type) {
       case ToolType.BRUSH:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
+        break;
+      case ToolType.WATERCOLOR:
+        state = state.copyWith(currentTool: ref.read(watercolorToolProvider));
         break;
       case ToolType.HAND:
         state = state.copyWith(currentTool: ref.read(handToolProvider));

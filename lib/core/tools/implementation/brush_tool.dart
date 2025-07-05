@@ -8,6 +8,7 @@ import 'package:paintroid/core/tools/tool.dart';
 
 class BrushTool extends Tool {
   final GraphicFactory graphicFactory;
+  bool isDrawing = false;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
@@ -23,6 +24,7 @@ class BrushTool extends Tool {
 
   @override
   void onDown(Offset point, Paint paint) {
+    isDrawing = true;
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
@@ -37,13 +39,16 @@ class BrushTool extends Tool {
 
   @override
   void onUp(Offset point, Paint paint) {
+    isDrawing = false;
     if (pathToDraw.path.getBounds().size == Size.zero) {
+      pathToDraw.lineTo(point.dx, point.dy);
       pathToDraw.close();
     }
   }
 
   @override
   void onCancel() {
+    isDrawing = false;
     commandManager.discardLastCommand();
   }
 
