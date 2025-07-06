@@ -5,7 +5,6 @@ import 'package:paintroid/core/commands/command_painter.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
-import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';
 
@@ -15,36 +14,20 @@ class CanvasPainter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = ref.watch(canvasStateProvider.select((state) => state.size));
-    final currentTool = ref.read(toolBoxStateProvider).currentTool;
-    final iconPosition = ref.watch(
-        canvasStateProvider.select((state) => state.cursorPosition)
-    );
-    return Stack(
-      children: [
-        Container(
-          key: const ValueKey(WidgetIdentifier.canvasPainter),
-          width: size.width,
-          height: size.height,
-          foregroundDecoration: const BoxDecoration(
-            border: Border.fromBorderSide(BorderSide(width: 0.5)),
-          ),
-          child:  Stack(
-            fit: StackFit.expand,
-            children: [
-              BackgroundLayer(),
-              PaintingLayer(),
-              if (currentTool.icon != null)
-                Positioned(
-                  left: iconPosition!.dx - 160,
-                  top: iconPosition.dy - 160,
-                  child: currentTool.icon!,
-                ),
-            ],
-          ),
-        ),
-
-
-      ],
+    return Container(
+      key: const ValueKey(WidgetIdentifier.canvasPainter),
+      width: size.width,
+      height: size.height,
+      foregroundDecoration: const BoxDecoration(
+        border: Border.fromBorderSide(BorderSide(width: 0.5)),
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          BackgroundLayer(),
+          PaintingLayer(),
+        ],
+      ),
     );
   }
 }

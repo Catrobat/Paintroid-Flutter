@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -24,7 +24,7 @@ class CommandPainter extends CustomPainter {
     if (currentTool.type != ToolType.SHAPES) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
-    print('PAIJT');
+
     switch (currentTool.type) {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
@@ -35,9 +35,10 @@ class CommandPainter extends CustomPainter {
           ..drawGuides(canvas);
         break;
       case ToolType.CURSOR:
-        print('in case');
-        ref.read(canvasStateProvider.notifier).updateCursorPosition(currentTool.iconPosition!);
-        print(currentTool.iconPosition);
+        commandManager.executeLastCommand(canvas);
+        (currentTool as CursorTool)
+            .drawCursorIcon(canvas, ref.read(paintProvider));
+        break;
       default:
         commandManager.executeLastCommand(canvas);
         break;

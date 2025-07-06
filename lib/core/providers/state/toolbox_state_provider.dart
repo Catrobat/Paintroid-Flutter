@@ -88,11 +88,4 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
     ref.read(paintProvider.notifier).updateBlendModeByToolType(data.type);
     ToastUtils.showShortToast(message: data.name);
   }
-
-  void updateIconPosition(Offset position) {
-    // Create a new tool with the updated position
-    final updatedTool = state.currentTool;
-    // Update the state with the new tool
-    state = state.copyWith(currentTool: updatedTool);
-  }
 }

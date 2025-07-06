@@ -18,33 +18,27 @@ class CanvasStateProvider extends _$CanvasStateProvider {
   @override
   CanvasStateData build() {
     initialCanvasSize = ref.watch(IDeviceService.sizeProvider).when(
-      data: (size) => size,
-      error: (_, __) => widgets.WidgetsBinding.instance.platformDispatcher
-          .views.first.physicalSize,
-      loading: () => Size.zero,
-    );
+          data: (size) => size,
+          error: (_, __) => widgets.WidgetsBinding.instance.platformDispatcher
+              .views.first.physicalSize,
+          loading: () => Size.zero,
+        );
     return CanvasStateData(
       size: initialCanvasSize,
       commandManager: ref.watch(commandManagerProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
-      cursorPosition: Offset(initialCanvasSize.width / 2, initialCanvasSize.height / 2), // Initialize at center
     );
   }
 
-  void updateCursorPosition(Offset position) {
-    print('updated');
-    state = state.copyWith(cursorPosition: position);
-  }
-
   void setBackgroundImage(Image image) => state = state.copyWith(
-    backgroundImage: image,
-    size: Size(image.width.toDouble(), image.height.toDouble()),
-  );
+        backgroundImage: image,
+        size: Size(image.width.toDouble(), image.height.toDouble()),
+      );
 
   void clearBackgroundImageAndResetDimensions() => state = state.copyWith(
-    backgroundImage: null,
-    size: initialCanvasSize,
-  );
+        backgroundImage: null,
+        size: initialCanvasSize,
+      );
 
   Future<void> updateCachedImage() async {
     final recorder = state.graphicFactory.createPictureRecorder();
