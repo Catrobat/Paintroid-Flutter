@@ -20,6 +20,11 @@ class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {
       paint.style = PaintingStyle.values[json['style']];
       paint.strokeJoin = StrokeJoin.values[json['strokeJoin']];
       paint.blendMode = BlendMode.values[json['blendMode']];
+      final num? blurSigmaNum = json['maskFilterSigma'] as num?;
+      if (blurSigmaNum != null) {
+        paint.maskFilter =
+            MaskFilter.blur(BlurStyle.inner, blurSigmaNum.toDouble());
+      }
     }
     if (version >= Version.v2) {
       // paint.newAttribute = json['newAttribute'];
@@ -41,6 +46,11 @@ class PaintConverter implements JsonConverter<Paint, Map<String, dynamic>> {
       json['style'] = paint.style.index;
       json['strokeJoin'] = paint.strokeJoin.index;
       json['blendMode'] = paint.blendMode.index;
+    }
+    if (paint.maskFilter != null) {
+      json['maskFilterSigma'] = 20.0;
+    } else {
+      json['maskFilterSigma'] = null;
     }
     if (SerializerVersion.PAINT_VERSION >= Version.v2) {
       // json['newAttribute'] = paint.newAttribute;
