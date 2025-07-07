@@ -54,7 +54,7 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               SizedBox(
@@ -108,7 +108,7 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
         const Spacer(),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Row(
             children: [
               'Roboto',
@@ -133,13 +133,17 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
                         selectedColor: PaintroidTheme.of(context).primaryColor,
                         backgroundColor:
                             PaintroidTheme.of(context).onSurfaceColor,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
                       ),
                     ))
                 .toList(),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.only(top: 2, left: 8, right: 8, bottom: 8),
           child: TextField(
             key: const Key('text_tool_input'),
             controller: _textController,

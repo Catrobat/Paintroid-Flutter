@@ -88,11 +88,8 @@ void main() {
       await tester.pumpWidget(sut);
       await UIInteraction.createNewImage();
       await UIInteraction.selectTool(ToolData.SHAPES.name);
-      // Assuming you have a way to select ellipse, similar to circle
-      await UIInteraction.selectEllipseShapeTypeChip(); 
+      await UIInteraction.selectEllipseShapeTypeChip();
 
-      // Assuming getEllipseShapeColors() samples relevant points for an ellipse
-      // e.g., center-left, center-top, center-right, center-bottom of the bounding box
       final (left, top, right, bottom) =
           await UIInteraction.getEllipseShapeColors();
 
@@ -101,7 +98,6 @@ void main() {
       expect(right.toValue(), Colors.transparent.toValue());
       expect(bottom.toValue(), Colors.transparent.toValue());
 
-      // Tap at the center to place the default ellipse
       await UIInteraction.tapAt(CanvasPosition.center);
       await UIInteraction.clickCheckmark();
 
@@ -110,7 +106,6 @@ void main() {
 
       final currentColor = UIInteraction.getCurrentColor();
 
-      // For a default ellipse, these points should now have the current color
       expect(leftAfter.toValue(), currentColor.toValue());
       expect(topAfter.toValue(), currentColor.toValue());
       expect(rightAfter.toValue(), currentColor.toValue());

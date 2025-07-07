@@ -15,6 +15,17 @@ class ToggleStyleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: selected ? Colors.white : Colors.black,
+    );
+
+    if (label == 'U') {
+      style = style.copyWith(decoration: TextDecoration.underline);
+    } else if (label == 'I') {
+      style = style.copyWith(fontStyle: FontStyle.italic);
+    }
+
     return Material(
       color: selected
           ? PaintroidTheme.of(context).primaryColor
@@ -30,10 +41,7 @@ class ToggleStyleButton extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: selected ? Colors.white : Colors.black,
-              ),
+              style: style,
             ),
           ),
         ),

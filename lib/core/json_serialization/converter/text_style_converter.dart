@@ -14,6 +14,8 @@ class TextStyleConverter
       fontStyle: _parseFontStyle(json['fontStyle'] as String?),
       letterSpacing: (json['letterSpacing'] as num?)?.toDouble(),
       wordSpacing: (json['wordSpacing'] as num?)?.toDouble(),
+      fontFamily: json['fontFamily'] as String?,
+      decoration: _parseDecoration(json['decoration'] as String?),
     );
   }
 
@@ -26,6 +28,8 @@ class TextStyleConverter
       'fontStyle': _fontStyleToString(style.fontStyle),
       'letterSpacing': style.letterSpacing,
       'wordSpacing': style.wordSpacing,
+      'fontFamily': style.fontFamily,
+      'decoration': _decorationToString(style.decoration),
     };
   }
 
@@ -77,5 +81,25 @@ class TextStyleConverter
   String? _fontStyleToString(FontStyle? style) {
     if (style == null) return null;
     return style.toString().split('.').last;
+  }
+
+  TextDecoration? _parseDecoration(String? value) {
+    switch (value) {
+      case 'underline':
+        return TextDecoration.underline;
+      case 'lineThrough':
+        return TextDecoration.lineThrough;
+      case 'overline':
+        return TextDecoration.overline;
+      case 'none':
+        return TextDecoration.none;
+      default:
+        return null;
+    }
+  }
+
+  String? _decorationToString(TextDecoration? decoration) {
+    if (decoration == null) return null;
+    return decoration.toString().split('.').last;
   }
 }

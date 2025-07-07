@@ -23,7 +23,7 @@ class TextCommand extends GraphicCommand with EquatableMixin {
   final double rotationAngle;
   final int version;
   final String type;
-  final double fontSize; // Changed to final
+  final double fontSize;
   final double scaleX;
   final double scaleY;
 

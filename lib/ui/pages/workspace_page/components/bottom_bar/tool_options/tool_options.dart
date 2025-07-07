@@ -23,7 +23,9 @@ class ToolOptions extends ConsumerWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: currentToolType == ToolType.TEXT
+          ? EdgeInsets.zero
+          : const EdgeInsets.all(8),
       child: ToolOption(
         isIgnoring: !visible,
         opacity: visible ? maxOpacity : minOpacity,

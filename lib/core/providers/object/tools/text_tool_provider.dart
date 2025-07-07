@@ -15,8 +15,6 @@ part 'text_tool_provider.g.dart';
 
 @riverpod
 class TextToolProvider extends _$TextToolProvider {
-  TextTool? _tool;
-
   @override
   TextTool build() {
     final canvasSize = ref.read(canvasStateProvider).size;
@@ -27,7 +25,7 @@ class TextToolProvider extends _$TextToolProvider {
       height: 75,
     );
     final defaultOptions = const TextToolOptionsStateData();
-    _tool = TextTool(
+    return TextTool(
       graphicFactory: ref.watch(graphicFactoryProvider),
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
@@ -40,6 +38,5 @@ class TextToolProvider extends _$TextToolProvider {
         notifier.setAutoSize(false);
       },
     );
-    return _tool!;
   }
 }

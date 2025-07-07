@@ -150,26 +150,20 @@ void main() {
       'updateOptions triggers _resizeBoundingBoxToFitText if autoSize and text changed',
       () {
     final newOptions = options.copyWith(text: 'New text');
-    // Should call _resizeBoundingBoxToFitText (which sets boundingBox.width/height)
     textTool.updateOptions(newOptions);
-    // No direct way to verify private method, but no error should occur
     expect(textTool.options.text, 'New text');
   });
 
   test('drawGuides does not draw text if options.text is empty', () {
     options = options.copyWith(text: '');
     textTool.options = options;
-    // Should not throw and should not attempt to draw text
     textTool.drawGuides(mockCanvas, paint);
-    // No verify needed, just ensure no crash
   });
 
   test('drawGuides applies scale and rotation for non-empty text', () {
     options = options.copyWith(text: 'Test');
     textTool.options = options;
-    // Should not throw and should attempt to draw text
     textTool.drawGuides(mockCanvas, paint);
-    // No verify needed, just ensure no crash
   });
 
   test('onCheckmark does not add command if text is empty', () {
