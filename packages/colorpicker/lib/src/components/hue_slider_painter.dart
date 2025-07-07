@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:colorpicker/src/constants/painter_thumb_constants.dart';
 
 class HueSliderPainter extends CustomPainter {
   final double hueSliderThumbY;
+  final Color thumbColor;
 
-  HueSliderPainter({required this.hueSliderThumbY});
+  HueSliderPainter({required this.hueSliderThumbY, required this.thumbColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -25,31 +25,31 @@ class HueSliderPainter extends CustomPainter {
     const double thumbWidthFactor = 0.1;
     const double thumbHeightFactor = 0.05;
     final double thumbHeight = size.height * thumbHeightFactor;
-    const Radius thumbRadius = Radius.circular(2.0);
 
     final Paint thumbPaint = Paint()
-      ..color = kThumbFillColor
+      ..color = Colors.white
       ..style = PaintingStyle.fill;
     final Paint thumbBorderPaint = Paint()
-      ..color = kThumbStrokeColor
+      ..color = Colors.black54
       ..style = PaintingStyle.stroke
-      ..strokeWidth = kHueSliderThumbStrokeWidth;
+      ..strokeWidth = 1.0;
 
     final double clampedThumbY =
         hueSliderThumbY.clamp(thumbHeight / 2, size.height - (thumbHeight / 2));
-
     final Rect thumbRect = Rect.fromCenter(
         center: Offset(size.width / 2, clampedThumbY),
         width: size.width + (size.width * thumbWidthFactor),
         height: thumbHeight);
 
-    final RRect thumbRRect = RRect.fromRectAndRadius(thumbRect, thumbRadius);
+    final RRect thumbRRect =
+        RRect.fromRectAndRadius(thumbRect, const Radius.circular(2.0));
     canvas.drawRRect(thumbRRect, thumbPaint);
     canvas.drawRRect(thumbRRect, thumbBorderPaint);
   }
 
   @override
   bool shouldRepaint(HueSliderPainter oldDelegate) {
-    return oldDelegate.hueSliderThumbY != hueSliderThumbY;
+    return oldDelegate.hueSliderThumbY != hueSliderThumbY ||
+        oldDelegate.thumbColor != thumbColor;
   }
 }

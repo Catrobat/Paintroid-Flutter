@@ -113,7 +113,7 @@ void _handleToolOptionsVisibility(WidgetRef ref) {
 }
 
 void _showColorPicker(BuildContext context, WidgetRef ref) {
-  final Color initialColor = ref.watch(paintProvider).color;
+  final Color initialColor = ref.read(paintProvider).color;
 
   showDialog(
     context: context,

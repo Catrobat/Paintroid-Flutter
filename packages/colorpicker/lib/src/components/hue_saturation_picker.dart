@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:colorpicker/src/components/hue_slider_painter.dart';
+import 'package:colorpicker/src/components/saturation_value_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -116,7 +118,7 @@ class _HueSaturationValuePickerState
                     details.localPosition, pickerSquareSize),
                 child: CustomPaint(
                   size: Size(pickerSquareSize, pickerSquareSize),
-                  painter: _SaturationValuePainter(
+                  painter: SaturationValuePainter(
                     hue: _currentHsvColor.hue,
                     thumbPosition: _svThumbPosition,
                   ),
@@ -130,7 +132,7 @@ class _HueSaturationValuePickerState
                     _handleHueChange(details.localPosition, pickerSquareSize),
                 child: CustomPaint(
                   size: Size(hueSliderWidth, pickerSquareSize),
-                  painter: _HueSliderPainter(
+                  painter: HueSliderPainter(
                     hueSliderThumbY: _hueSliderThumbY,
                     thumbColor: _currentHsvColor.toColor(),
                   ),
@@ -141,114 +143,5 @@ class _HueSaturationValuePickerState
         );
       },
     );
-  }
-}
-
-class _SaturationValuePainter extends CustomPainter {
-  final double hue;
-  final Offset thumbPosition;
-
-  _SaturationValuePainter({required this.hue, required this.thumbPosition});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-
-    final Paint paintWhiteToHue = Paint()
-      ..shader = LinearGradient(
-        colors: [
-          HSVColor.fromAHSV(1.0, hue, 0.0, 1.0).toColor(),
-          HSVColor.fromAHSV(1.0, hue, 1.0, 1.0).toColor(),
-        ],
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      ).createShader(rect);
-    canvas.drawRect(rect, paintWhiteToHue);
-
-    final Paint paintTransparentToBlack = Paint()
-      ..shader = const LinearGradient(
-        colors: [
-          Colors.transparent,
-          Colors.black,
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(rect);
-    canvas.drawRect(rect, paintTransparentToBlack);
-
-    final Paint thumbPaintFill = Paint()..color = Colors.white;
-    final Paint thumbPaintStroke = Paint()
-      ..color = Colors.black54
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    const double thumbRadius = 6.0;
-
-    final double clampedDx =
-        thumbPosition.dx.clamp(thumbRadius, size.width - thumbRadius);
-    final double clampedDy =
-        thumbPosition.dy.clamp(thumbRadius, size.height - thumbRadius);
-    final Offset clampedThumbPosition = Offset(clampedDx, clampedDy);
-
-    canvas.drawCircle(clampedThumbPosition, thumbRadius, thumbPaintFill);
-    canvas.drawCircle(clampedThumbPosition, thumbRadius, thumbPaintStroke);
-  }
-
-  @override
-  bool shouldRepaint(_SaturationValuePainter oldDelegate) {
-    return oldDelegate.hue != hue || oldDelegate.thumbPosition != thumbPosition;
-  }
-}
-
-class _HueSliderPainter extends CustomPainter {
-  final double hueSliderThumbY;
-  final Color thumbColor;
-
-  _HueSliderPainter({required this.hueSliderThumbY, required this.thumbColor});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-
-    final List<Color> hueColors = List.generate(
-      360,
-      (i) => HSVColor.fromAHSV(1.0, i.toDouble(), 1.0, 1.0).toColor(),
-    );
-    final Paint huePaint = Paint()
-      ..shader = LinearGradient(
-        colors: hueColors,
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(rect);
-    canvas.drawRect(rect, huePaint);
-
-    const double thumbWidthFactor = 0.1;
-    const double thumbHeightFactor = 0.05;
-    final double thumbHeight = size.height * thumbHeightFactor;
-
-    final Paint thumbPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-    final Paint thumbBorderPaint = Paint()
-      ..color = Colors.black54
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    final double clampedThumbY =
-        hueSliderThumbY.clamp(thumbHeight / 2, size.height - (thumbHeight / 2));
-    final Rect thumbRect = Rect.fromCenter(
-        center: Offset(size.width / 2, clampedThumbY),
-        width: size.width + (size.width * thumbWidthFactor),
-        height: thumbHeight);
-
-    final RRect thumbRRect =
-        RRect.fromRectAndRadius(thumbRect, const Radius.circular(2.0));
-    canvas.drawRRect(thumbRRect, thumbPaint);
-    canvas.drawRRect(thumbRRect, thumbBorderPaint);
-  }
-
-  @override
-  bool shouldRepaint(_HueSliderPainter oldDelegate) {
-    return oldDelegate.hueSliderThumbY != hueSliderThumbY ||
-        oldDelegate.thumbColor != thumbColor;
   }
 }

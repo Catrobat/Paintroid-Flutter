@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:colorpicker/src/constants/painter_thumb_constants.dart';
 
 class SaturationValuePainter extends CustomPainter {
   final double hue;
@@ -33,11 +32,11 @@ class SaturationValuePainter extends CustomPainter {
       ).createShader(rect);
     canvas.drawRect(rect, paintTransparentToBlack);
 
-    final Paint thumbPaintFill = Paint()..color = kThumbFillColor;
+    final Paint thumbPaintFill = Paint()..color = Colors.white;
     final Paint thumbPaintStroke = Paint()
-      ..color = kThumbStrokeColor
+      ..color = Colors.black54
       ..style = PaintingStyle.stroke
-      ..strokeWidth = kSaturationValueThumbStrokeWidth;
+      ..strokeWidth = 1.5;
     const double thumbRadius = 6.0;
 
     final double clampedDx =

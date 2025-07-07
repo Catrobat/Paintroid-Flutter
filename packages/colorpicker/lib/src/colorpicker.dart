@@ -81,6 +81,12 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
     ref
         .read(colorPickerStateProvider.notifier)
         .updateColor(color.withAlpha(255));
+  }
+
+  void _handleColorAndOpacityChange(Color color) {
+    ref
+        .read(colorPickerStateProvider.notifier)
+        .updateColor(color.withAlpha(255));
     ref.read(colorPickerStateProvider.notifier).updateOpacity(color.a);
   }
 
@@ -103,7 +109,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
 
             return GestureDetector(
               onTap: () {
-                _handleColorChange(color);
+                _handleColorAndOpacityChange(color);
               },
               child: Container(
                 width: 32.0,
@@ -168,83 +174,88 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ColorComparison(
-                currentColor: widget.currentColor,
-                newColor: displayColor,
-              ),
-              _buildRecentColorsSection(),
-              const SizedBox(height: 20.0),
-              SizedBox(
-                height: 48,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: colorScheme.primary,
-                  dividerHeight: 0,
-                  unselectedLabelColor:
-                      colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
-                  indicator: const BoxDecoration(),
-                  tabs: <Widget>[
-                    _buildCustomTab(
-                        const Icon(
-                          Icons.grid_on,
-                        ),
-                        0),
-                    _buildCustomTab(const Icon(Icons.circle), 1),
-                    _buildCustomTab(const Icon(Icons.tune), 2),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ColorComparison(
+                      currentColor: widget.currentColor,
+                      newColor: displayColor,
+                    ),
+                    _buildRecentColorsSection(),
+                    const SizedBox(height: 20.0),
+                    SizedBox(
+                      height: 48,
+                      child: TabBar(
+                        controller: _tabController,
+                        labelColor: colorScheme.primary,
+                        dividerHeight: 0,
+                        unselectedLabelColor: colorScheme.onSurface
+                            .withAlpha((255 * 0.7).toInt()),
+                        indicator: const BoxDecoration(),
+                        tabs: <Widget>[
+                          _buildCustomTab(const Icon(Icons.grid_on), 0),
+                          _buildCustomTab(const Icon(Icons.circle), 1),
+                          _buildCustomTab(const Icon(Icons.tune), 2),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 15.0),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: _buildPickerContent(solidColorForPickers),
+                    ),
+                    if (_mainPickerMode != MainPickerMode.sliders) ...[
+                      const SizedBox(height: 20.0),
+                      OpacitySlider(gradientColor: solidColorForPickers),
+                    ],
+                    const SizedBox(height: 20.0),
                   ],
                 ),
               ),
-              const SizedBox(height: 15.0),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: _buildPickerContent(solidColorForPickers),
-              ),
-              if (_mainPickerMode != MainPickerMode.sliders) ...[
-                const SizedBox(height: 20.0),
-                OpacitySlider(gradientColor: solidColorForPickers),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('CANCEL',
+                      style: TextStyle(
+                          color: CustomColors.oceanBlue,
+                          fontWeight: FontWeight.w500)),
+                ),
+                const SizedBox(width: 15.0),
+                TextButton(
+                  onPressed: () {
+                    ref
+                        .read(recentColorsProvider.notifier)
+                        .addColor(displayColor);
+                    widget.onColorChanged(displayColor);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('APPLY',
+                      style: TextStyle(
+                          color: CustomColors.oceanBlue,
+                          fontWeight: FontWeight.w500)),
+                ),
               ],
-              const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('CANCEL',
-                        style: TextStyle(
-                            color: CustomColors.oceanBlue,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                  const SizedBox(width: 15.0),
-                  TextButton(
-                    onPressed: () {
-                      ref
-                          .read(recentColorsProvider.notifier)
-                          .addColor(displayColor);
-                      widget.onColorChanged(displayColor);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('APPLY',
-                        style: TextStyle(
-                            color: CustomColors.oceanBlue,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildPickerContent(Color colorForPickers) {
-    final theme = Theme.of(context);
-    final paintroidTheme = PaintroidTheme.of(context);
-    final colorScheme = theme.colorScheme;
+    final currentGlobalOpacity = ref
+        .read(colorPickerStateProvider.select((state) => state.currentOpacity));
+    final colorForHsvRgbWithOpacity =
+        colorForPickers.withAlpha((currentGlobalOpacity * 255).round());
 
     switch (_mainPickerMode) {
       case MainPickerMode.grid:
@@ -252,52 +263,57 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
       case MainPickerMode.advanced:
         return _buildAdvancedPicker(colorForPickers, 'Picker', 'Wheel');
       case MainPickerMode.sliders:
-        return Column(
-          key: const ValueKey('slider_picker'),
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ToggleButtons(
-              isSelected: [
-                _sliderTypeMode == SliderPickerMode.hsv,
-                _sliderTypeMode == SliderPickerMode.rgb,
-              ],
-              onPressed: (int index) {
-                setState(() {
-                  _sliderTypeMode =
-                      index == 0 ? SliderPickerMode.hsv : SliderPickerMode.rgb;
-                });
-              },
-              borderRadius: BorderRadius.circular(18.0),
-              borderWidth: 1.5,
-              borderColor: colorScheme.primary,
-              selectedBorderColor: colorScheme.primary,
-              fillColor: paintroidTheme.surfaceColor,
-              color: paintroidTheme.orangeColor,
-              constraints:
-                  const BoxConstraints(minHeight: 30.0, minWidth: 70.0),
-              children: <Widget>[
-                _buildToggleItem(
-                    context, 'HSV', _sliderTypeMode, SliderPickerMode.hsv),
-                _buildToggleItem(
-                    context, 'RGB', _sliderTypeMode, SliderPickerMode.rgb),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: _sliderTypeMode == SliderPickerMode.hsv
-                  ? HsvSliderGroup(
-                      initialColor: colorForPickers,
-                      onColorChanged: _handleColorChange)
-                  : RgbSliderGroup(
-                      initialColor: colorForPickers,
-                      onColorChanged: _handleColorChange),
-            ),
-            const SizedBox(height: 20.0),
-            OpacitySlider(gradientColor: colorForPickers),
-          ],
-        );
+        return _buildHsvRgbSlidersPicker(colorForHsvRgbWithOpacity);
     }
+  }
+
+  Widget _buildHsvRgbSlidersPicker(Color colorForHsvRgbWithOpacity) {
+    final theme = Theme.of(context);
+    final paintroidTheme = PaintroidTheme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Column(
+      key: const ValueKey('slider_picker'),
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ToggleButtons(
+          isSelected: [
+            _sliderTypeMode == SliderPickerMode.hsv,
+            _sliderTypeMode == SliderPickerMode.rgb,
+          ],
+          onPressed: (int index) {
+            setState(() {
+              _sliderTypeMode =
+                  index == 0 ? SliderPickerMode.hsv : SliderPickerMode.rgb;
+            });
+          },
+          borderRadius: BorderRadius.circular(18.0),
+          borderWidth: 1.5,
+          borderColor: colorScheme.primary,
+          selectedBorderColor: colorScheme.primary,
+          fillColor: paintroidTheme.surfaceColor,
+          color: paintroidTheme.orangeColor,
+          constraints: const BoxConstraints(minHeight: 30.0, minWidth: 70.0),
+          children: <Widget>[
+            _buildToggleItem(
+                context, 'HSV', _sliderTypeMode, SliderPickerMode.hsv),
+            _buildToggleItem(
+                context, 'RGB', _sliderTypeMode, SliderPickerMode.rgb),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: _sliderTypeMode == SliderPickerMode.hsv
+              ? HsvSliderGroup(
+                  initialColor: colorForHsvRgbWithOpacity,
+                  onColorChanged: _handleColorAndOpacityChange)
+              : RgbSliderGroup(
+                  initialColor: colorForHsvRgbWithOpacity,
+                  onColorChanged: _handleColorAndOpacityChange),
+        ),
+      ],
+    );
   }
 
   Widget _buildGridPicker() {
@@ -367,7 +383,10 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
   }
 
   Widget _buildAdvancedPicker(
-      Color colorForPickers, String text1, String text2) {
+    Color colorForPickers,
+    String text1,
+    String text2,
+  ) {
     final theme = Theme.of(context);
     final paintroidTheme = PaintroidTheme.of(context);
     final colorScheme = theme.colorScheme;

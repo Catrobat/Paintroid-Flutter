@@ -1,10 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorpicker/src/components/color_wheel_painter.dart';
 import 'package:colorpicker/src/constants/painter_thumb_constants.dart';
 
-class ColorWheel extends ConsumerStatefulWidget {
+class ColorWheel extends StatefulWidget {
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
 
@@ -15,10 +14,10 @@ class ColorWheel extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ColorWheel> createState() => _ColorWheelState();
+  State<ColorWheel> createState() => _ColorWheelState();
 }
 
-class _ColorWheelState extends ConsumerState<ColorWheel> {
+class _ColorWheelState extends State<ColorWheel> {
   late Offset thumbPosition;
   double _currentRadius = 0.0;
 
