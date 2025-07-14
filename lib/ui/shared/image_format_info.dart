@@ -27,7 +27,7 @@ extension on ImageFormat {
       case ImageFormat.ora:
         return const TextSpan(
             text:
-            'OpenRaster format. Supports layers and various attributes like opacity and visibility for each layer.');
+                'OpenRaster format. Supports layers and various attributes like opacity and visibility for each layer.');
     }
   }
 }

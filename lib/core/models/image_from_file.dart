@@ -12,7 +12,7 @@ class ImageFromFile {
     Image? backgroundImage,
   })  : catrobatImage = image,
         oraImageLayers = null,
-  rasterImage = backgroundImage;
+        rasterImage = backgroundImage;
 
   const ImageFromFile.rasterImage(Image image)
       : rasterImage = image,

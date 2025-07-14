@@ -55,12 +55,11 @@ class FileService with LoggableMixin implements IFileService {
       final savePath = await FilePicker.platform.saveFile(
         dialogTitle: 'Save As',
         fileName: filename,
-        bytes: data, // Required for Android/iOS
+        bytes: data,
       );
       if (savePath == null) {
         return const Result.err(SaveImageFailure.userCancelled);
       }
-      // File is already saved by file_picker
       return Result.ok(File(savePath));
     } catch (err, stacktrace) {
       logger.severe('Could not save file', err, stacktrace);

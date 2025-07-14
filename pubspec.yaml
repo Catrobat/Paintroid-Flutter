@@ -41,6 +41,7 @@ dependencies:
   floor: ^1.2.0
   sqflite: ^2.3.0
   archive: ^3.4.10
+  xml: ^6.1.0
   colorpicker:
     path: packages/colorpicker
 
