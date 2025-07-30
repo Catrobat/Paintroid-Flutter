@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
-import 'package:paintroid/core/enums/shape_style.dart'; // Added import
+import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 import '../utils/dummy_command_factory.dart';
