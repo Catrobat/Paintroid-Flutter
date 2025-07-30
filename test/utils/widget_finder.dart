@@ -22,8 +22,8 @@ class WidgetFinder {
   static final Finder backButton =
       find.byKey(const ValueKey(WidgetIdentifier.backButton));
 
-  static final Finder ovalShapeTypeChip =
-      find.byKey(const ValueKey(WidgetIdentifier.ovalShapeTypeChip));
+  static final Finder ellipseShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.ellipseShapeTypeChip));
   static final Finder squareShapeTypeChip =
       find.byKey(const ValueKey(WidgetIdentifier.squareShapeTypeChip));
   static final Finder heartShapeTypeChip =

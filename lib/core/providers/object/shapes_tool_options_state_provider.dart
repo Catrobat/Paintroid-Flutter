@@ -42,12 +42,12 @@ class ShapesToolOptionsStateProvider extends _$ShapesToolOptionsStateProvider {
       final canvasState = ref.read(canvasStateProvider);
       final canvasCenter = canvasState.size.center(Offset.zero);
 
-      currentToolInstance.boundingBox.resetToDefaultsAroundCenter(
-        newCenter: canvasCenter,
-        defaultWidth: 300.0,
-        defaultHeight: 300.0,
-        defaultAngle: 0.0,
-      );
+      if(currentToolInstance.style == state.shapeStyle) {
+        currentToolInstance.boundingBox.angle = 0.0;
+        currentToolInstance.boundingBox.width = 300.0;
+        currentToolInstance.boundingBox.height = 300.0;
+        currentToolInstance.boundingBox.center = canvasCenter;
+      }
 
       currentToolInstance.shapeType = state.shapeType;
       currentToolInstance.style = state.shapeStyle;

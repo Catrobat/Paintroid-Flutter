@@ -49,17 +49,17 @@ void main() {
   }
 
   if (testID == -1 || testID == 1) {
-    testWidgets('[SHAPES_TOOL]: test oval shape', (WidgetTester tester) async {
+    testWidgets('[SHAPES_TOOL]: test ellipse shape', (WidgetTester tester) async {
       UIInteraction.initialize(tester);
       await tester.pumpWidget(sut);
       await UIInteraction.createNewImage();
       await UIInteraction.selectTool(ToolData.SHAPES.name);
       await UIInteraction.selectShapesToolShapeType(
-        WidgetFinder.ovalShapeTypeChip,
+        WidgetFinder.ellipseShapeTypeChip,
       );
 
       final (left, top, right, bottom) =
-          await UIInteraction.getOvalShapeColors();
+          await UIInteraction.getEllipseShapeColors();
 
       expect(left.toARGB32(), Colors.transparent.toARGB32());
       expect(top.toARGB32(), Colors.transparent.toARGB32());
@@ -70,7 +70,7 @@ void main() {
       await UIInteraction.clickCheckmark();
 
       final (leftAfter, topAfter, rightAfter, bottomAfter) =
-          await UIInteraction.getOvalShapeColors();
+          await UIInteraction.getEllipseShapeColors();
 
       final currentColor = UIInteraction.getCurrentColor();
 

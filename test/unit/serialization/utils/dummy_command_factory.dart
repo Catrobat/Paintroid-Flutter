@@ -4,8 +4,8 @@ import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/oval_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -81,7 +81,7 @@ class DummyCommandFactory {
     );
   }
 
-  static OvalShapeCommand createOvalShapeCommand(
+  static EllipseShapeCommand createEllipseShapeCommand(
     Paint paint,
     double width,
     double height,
@@ -91,9 +91,9 @@ class DummyCommandFactory {
     int version = Version.v1,
   }) {
     VersionStrategyManager.setStrategy(
-      DummyVersionStrategy(ovalShapeCommandVersion: version),
+      DummyVersionStrategy(ellipseShapeCommandVersion: version),
     );
-    return commandFactory.createOvalShapeCommand(
+    return commandFactory.createEllipseShapeCommand(
       paint,
       width,
       height,

@@ -17,38 +17,42 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
     final shapeToolSelected = currentTool.type == ToolType.SHAPES;
     final shapesToolOptionsState = ref.watch(shapesToolOptionsStateProvider);
     final shapeItems = [
-      CustomActionChip(
-        key: const ValueKey(
-          WidgetIdentifier.squareShapeTypeChip,
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: CustomActionChip(
+          key: const ValueKey(
+            WidgetIdentifier.squareShapeTypeChip,
+          ),
+          hint: 'Square',
+          chipBackgroundColor:
+              shapesToolOptionsState.shapeType == ShapeType.square
+                  ? PaintroidTheme.of(context).primaryColor
+                  : Colors.white,
+          chipIcon: Icon(
+            Icons.square_outlined,
+            color: PaintroidTheme.of(context).shadowColor,
+          ),
+          onPressed: () => ref
+              .read(shapesToolOptionsStateProvider.notifier)
+              .setShapeType(shapeType: ShapeType.square),
         ),
-        hint: 'Square',
-        chipBackgroundColor:
-            shapesToolOptionsState.shapeType == ShapeType.square
-                ? PaintroidTheme.of(context).primaryColor
-                : Colors.white,
-        chipIcon: Icon(
-          Icons.square_outlined,
-          color: PaintroidTheme.of(context).shadowColor,
-        ),
-        onPressed: () => ref
-            .read(shapesToolOptionsStateProvider.notifier)
-            .setShapeType(shapeType: ShapeType.square),
       ),
       CustomActionChip(
         key: const ValueKey(
-          WidgetIdentifier.ovalShapeTypeChip,
+          WidgetIdentifier.ellipseShapeTypeChip,
         ),
-        hint: 'Oval',
-        chipBackgroundColor: shapesToolOptionsState.shapeType == ShapeType.oval
-            ? PaintroidTheme.of(context).primaryColor
-            : Colors.white,
+        hint: 'Ellipse',
+        chipBackgroundColor:
+            shapesToolOptionsState.shapeType == ShapeType.ellipse
+                ? PaintroidTheme.of(context).primaryColor
+                : Colors.white,
         chipIcon: Icon(
           Icons.circle_outlined,
           color: PaintroidTheme.of(context).shadowColor,
         ),
         onPressed: () => ref
             .read(shapesToolOptionsStateProvider.notifier)
-            .setShapeType(shapeType: ShapeType.oval),
+            .setShapeType(shapeType: ShapeType.ellipse),
       ),
       CustomActionChip(
         key: const ValueKey(
@@ -87,7 +91,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
     return !shapeToolSelected
         ? const SizedBox.shrink()
         : SizedBox(
-            height: 60,
+            height: 40,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: shapeItems.length,

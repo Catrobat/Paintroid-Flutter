@@ -11,13 +11,16 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final style = ref.watch(shapesToolOptionsStateProvider).shapeStyle;
     final shapeStyle = [
-      ChoiceChip(
-        key: ValueKey(WidgetIdentifier.outlineStyleChip),
-        label: const Text('Outline'),
-        selected: style == ShapeStyle.outline,
-        onSelected: (_) => ref
-            .read(shapesToolOptionsStateProvider.notifier)
-            .setShapeStyle(ShapeStyle.outline),
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: ChoiceChip(
+          key: ValueKey(WidgetIdentifier.outlineStyleChip),
+          label: const Text('Outline'),
+          selected: style == ShapeStyle.outline,
+          onSelected: (_) => ref
+              .read(shapesToolOptionsStateProvider.notifier)
+              .setShapeStyle(ShapeStyle.outline),
+        ),
       ),
       ChoiceChip(
         key: ValueKey(WidgetIdentifier.fillStyleChip),
@@ -45,7 +48,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
     ];
     return SizedBox(
-      height: 60,
+      height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: shapeStyle.length,

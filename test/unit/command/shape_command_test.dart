@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/oval_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
@@ -29,7 +29,7 @@ void main() {
     ShapeStyle.outline,
   );
 
-  final ovalShapeCommand = OvalShapeCommand(
+  final ellipseShapeCommand = EllipseShapeCommand(
     testPaint,
     radius,
     radius,
@@ -66,9 +66,9 @@ void main() {
     verifyNoMoreInteractions(mockCanvas);
   });
 
-  test('OvalShapeCommand: should call drawPath path', () {
+  test('EllipseShapeCommand: should call drawPath path', () {
     when(mockCanvas.drawPath(any, any)).thenReturn(null);
-    ovalShapeCommand.call(mockCanvas);
+    ellipseShapeCommand.call(mockCanvas);
     verify(mockCanvas.drawPath(any, any));
     verifyNoMoreInteractions(mockCanvas);
   });

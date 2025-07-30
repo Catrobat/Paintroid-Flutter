@@ -16,11 +16,13 @@ import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'package:paintroid/ui/utils/shape_path_generator.dart';
 import 'canvas_positions.dart';
 import 'widget_finder.dart';
 
 class UIInteraction {
   static late WidgetTester tester;
+  static const double _kShapeVisualPadding = 15.0;
 
   static void initialize(WidgetTester widgetTester) {
     tester = widgetTester;
@@ -69,9 +71,41 @@ class UIInteraction {
       )> getSquareShapeColors() async {
     final shapesTool = getShapesTool();
     final currentPaint = getCurrentPaint();
-    final paddingForPath = currentPaint.strokeWidth / 2;
-    final bounds =
-        shapesTool.boundingBox.getPath(padding: paddingForPath).getBounds();
+    final boundingBox = shapesTool.boundingBox;
+
+    final double padding = calculateShapePadding(currentPaint.strokeWidth);
+
+    final double halfWidth = boundingBox.width / 2;
+    final double halfHeight = boundingBox.height / 2;
+    final double angle = boundingBox.angle;
+    final Offset center = boundingBox.center;
+
+    final Offset localTopLeft = Offset(-halfWidth + padding, -halfHeight + padding);
+    final Offset localTopRight = Offset(halfWidth - padding, -halfHeight + padding);
+    final Offset localBottomLeft = Offset(-halfWidth + padding, halfHeight - padding);
+    final Offset localBottomRight = Offset(halfWidth - padding, halfHeight - padding);
+
+    Offset toGlobal(Offset localPoint) {
+      final double s = math.sin(angle);
+      final double c = math.cos(angle);
+      final double rotatedX = localPoint.dx * c - localPoint.dy * s;
+      final double rotatedY = localPoint.dx * s + localPoint.dy * c;
+      return Offset(rotatedX + center.dx, rotatedY + center.dy);
+    }
+
+    final Offset globalTopLeft = toGlobal(localTopLeft);
+    final Offset globalTopRight = toGlobal(localTopRight);
+    final Offset globalBottomLeft = toGlobal(localBottomLeft);
+    final Offset globalBottomRight = toGlobal(localBottomRight);
+
+    final path = Path()
+      ..moveTo(globalTopLeft.dx, globalTopLeft.dy)
+      ..lineTo(globalTopRight.dx, globalTopRight.dy)
+      ..lineTo(globalBottomRight.dx, globalBottomRight.dy)
+      ..lineTo(globalBottomLeft.dx, globalBottomLeft.dy)
+      ..close();
+
+    final bounds = path.getBounds();
 
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
@@ -127,7 +161,7 @@ class UIInteraction {
         Color right,
         Color top,
         Color bottom,
-      )> getOvalShapeColors() async {
+      )> getEllipseShapeColors() async {
     final shapesTool = getShapesTool();
     final currentPaint = getCurrentPaint();
     final boundingBox = shapesTool.boundingBox;
@@ -290,7 +324,19 @@ class UIInteraction {
 
   static Future<List<Color>> getHeartShapeColors() async {
     final shapesTool = getShapesTool();
-    final path = shapesTool.boundingBox.getHeartPath();
+    final boundingBox = shapesTool.boundingBox;
+    final currentPaint = getCurrentPaint();
+
+    final double padding = calculateShapePadding(currentPaint.strokeWidth);
+    final double paddedWidth = math.max(0, boundingBox.width - 2 * padding);
+    final double paddedHeight = math.max(0, boundingBox.height - 2 * padding);
+
+    final path = ShapePathUtils.generateHeartPath(
+      width: paddedWidth,
+      height: paddedHeight,
+      angle: boundingBox.angle,
+      center: boundingBox.center,
+    );
     final points = extractPointsFromPath(path, numSamples: 8);
 
     final container =
@@ -504,5 +550,9 @@ class UIInteraction {
         ProviderScope.containerOf(tester.element(find.byType(App)));
     final commandManager = container.read(commandManagerProvider);
     return commandManager.redoStack.length;
+  }
+
+  static double calculateShapePadding(double strokeWidth) {
+    return (strokeWidth / 2) + _kShapeVisualPadding;
   }
 }

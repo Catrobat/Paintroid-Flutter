@@ -23,12 +23,14 @@ class ShapePathUtils {
       double localX = currentLocalRx * cos(pointRelativeAngle);
       double localY = currentLocalRy * sin(pointRelativeAngle);
 
+      localY += radiusY / 9.0;
+
       double rotatedX = localX * cos(angle) - localY * sin(angle);
       double rotatedY = localX * sin(angle) + localY * cos(angle);
 
       final point = Offset(
         center.dx + rotatedX,
-        center.dy + radiusY/9 + rotatedY,
+        center.dy + rotatedY,
       );
 
       if (i == 0) {
@@ -52,8 +54,8 @@ class ShapePathUtils {
     final double h = height / 2;
 
     pathAtOrigin.moveTo(0, -h * 0.25);
-    pathAtOrigin.cubicTo(-w, -h * 1.25, -w * 1.25, h * 0.25, 0, h * 0.75);
-    pathAtOrigin.cubicTo(w * 1.25, h * 0.25, w, -h * 1.25, 0, -h * 0.25);
+    pathAtOrigin.cubicTo(-w, -h * 2, -w * 1.45, h * 0.25, 0, h * 0.95);
+    pathAtOrigin.cubicTo(w * 1.45, h * 0.25, w, -h * 2, 0, -h * 0.25);
     pathAtOrigin.close();
 
     if (angle != 0.0) {

@@ -1,7 +1,7 @@
 class WidgetIdentifier {
   static const canvasPainter = 'CanvasPainter';
   static const newImageActionButton = 'NewImageActionButton';
-  static const ovalShapeTypeChip = 'OvalShapeTypeChip';
+  static const ellipseShapeTypeChip = 'EllipseShapeTypeChip';
   static const squareShapeTypeChip = 'SquareShapeTypeChip';
   static const starShapeTypeChip = 'StarShapeTypeChip';
   static const heartShapeTypeChip = 'HeartShapeTypeChip';

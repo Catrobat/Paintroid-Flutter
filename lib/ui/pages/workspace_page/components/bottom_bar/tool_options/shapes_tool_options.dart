@@ -8,18 +8,17 @@ class ShapesToolOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        StrokeWidthSlider(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StrokeWidthSlider(),
+        ),
         Spacer(),
-        Row(
-          children: [
-            Expanded(
-              child: ShapesToolShapeTypeOptions(),
-            ),
-            SizedBox(width: 8),
-            Expanded(child: ShapesToolShapeStyleOptions())
-          ],
+        ShapesToolShapeTypeOptions(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: ShapesToolShapeStyleOptions(),
         ),
       ],
     );
