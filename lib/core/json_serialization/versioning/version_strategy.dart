@@ -9,9 +9,13 @@ abstract class IVersionStrategy {
 
   int getSquareShapeCommandVersion();
 
-  int getCircleShapeCommandVersion();
+  int getEllipseShapeCommandVersion();
 
   int getSprayCommandVersion();
+
+  int getClipboardCommandVersion();
+
+  int getDeleteRegionCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -29,11 +33,19 @@ class ProductionVersionStrategy implements IVersionStrategy {
       SerializerVersion.SQUARE_SHAPE_COMMAND_VERSION;
 
   @override
-  int getCircleShapeCommandVersion() =>
-      SerializerVersion.CIRCLE_SHAPE_COMMAND_VERSION;
+  int getEllipseShapeCommandVersion() =>
+      SerializerVersion.ELLIPSE_SHAPE_COMMAND_VERSION;
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;
+
+  @override
+  int getClipboardCommandVersion() =>
+      SerializerVersion.CLIPBOARD_COMMAND_VERSION;
+
+  @override
+  int getDeleteRegionCommandVersion() =>
+      SerializerVersion.DELETE_REGION_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

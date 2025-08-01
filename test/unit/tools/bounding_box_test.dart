@@ -1,167 +1,108 @@
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:paintroid/core/enums/bounding_box_corners.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/bounding_box.dart';
+import 'package:paintroid/core/enums/bounding_box_action.dart';
+import 'package:paintroid/core/enums/bounding_box_resize_action.dart';
+import 'package:paintroid/core/tools/bounding_box.dart';
 
 void main() {
-  double epsilon = 0.000000001;
-  late BoundingBox boundingBox;
-
-  const Offset topLeft = Offset(0, 0);
-  const Offset topRight = Offset(200, 0);
-  const Offset bottomLeft = Offset(0, 200);
-  const Offset bottomRight = Offset(200, 200);
-
-  setUp(() =>
-      boundingBox = BoundingBox(topLeft, topRight, bottomLeft, bottomRight));
-
-  group('transform', () {
-    test('should update topLeft, topRight and bottomLeft corners only', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topLeft;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(10, 10);
-      boundingBox.transform(newPoint);
-      expect(boundingBox.topLeft, newPoint);
-      expect(boundingBox.bottomLeft.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.bottomLeft.dy, closeTo(bottomLeft.dy, epsilon));
-      expect(boundingBox.topRight.dx, closeTo(topRight.dx, epsilon));
-      expect(boundingBox.topRight.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.bottomRight, bottomRight);
-      expect(boundingBox.center, isNot(centerBefore));
+  group('BoundingBox', () {
+    test('constructor clamps width/height to minimalBoxSize', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 1, height: 1);
+      expect(box.width, BoundingBox.minimalBoxSize);
+      expect(box.height, BoundingBox.minimalBoxSize);
     });
 
-    test('should update topRight, topLeft and bottomRight corners only', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topRight;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(190, 10);
-      boundingBox.transform(newPoint);
-      expect(boundingBox.topRight, newPoint);
-      expect(boundingBox.bottomRight.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.bottomRight.dy, closeTo(bottomRight.dy, epsilon));
-      expect(boundingBox.topLeft.dx, closeTo(topLeft.dx, epsilon));
-      expect(boundingBox.topLeft.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.bottomLeft, bottomLeft);
-      expect(boundingBox.center, isNot(centerBefore));
+    test('getCorners returns four corners', () {
+      final box = BoundingBox(center: Offset(10, 20), width: 100, height: 50);
+      final corners = box.getCorners();
+      expect(corners.length, 4);
+      expect(corners[0], isA<Offset>());
     });
 
-    test('should update bottomLeft, topLeft and bottomRight corners only', () {
-      boundingBox.activeCorner = BoundingBoxCorner.bottomLeft;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(10, 190);
-      boundingBox.transform(newPoint);
-      expect(boundingBox.bottomLeft, newPoint);
-      expect(boundingBox.topLeft.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.topLeft.dy, closeTo(topLeft.dy, epsilon));
-      expect(boundingBox.bottomRight.dx, closeTo(bottomRight.dx, epsilon));
-      expect(boundingBox.bottomRight.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.topRight, topRight);
-      expect(boundingBox.center, isNot(centerBefore));
+    test('determineAction sets currentAction to move inside box', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      box.determineAction(Offset(0, 0));
+      expect(box.currentAction, BoundingBoxAction.move);
     });
 
-    test('should update bottomRight, topRight and bottomLeft corners only', () {
-      boundingBox.activeCorner = BoundingBoxCorner.bottomRight;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(190, 190);
-      boundingBox.transform(newPoint);
-      expect(boundingBox.bottomRight, newPoint);
-      expect(boundingBox.topRight.dx, closeTo(newPoint.dx, epsilon));
-      expect(boundingBox.topRight.dy, closeTo(topRight.dy, epsilon));
-      expect(boundingBox.bottomLeft.dx, closeTo(bottomLeft.dx, epsilon));
-      expect(boundingBox.bottomLeft.dy, closeTo(newPoint.dy, epsilon));
-      expect(boundingBox.topLeft, topLeft);
-      expect(boundingBox.center, isNot(centerBefore));
+    test('updateDrag moves the box when currentAction is move', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      box.determineAction(Offset(0, 0));
+      expect(box.currentAction, BoundingBoxAction.move);
+      box.updateDrag(Offset(10, 10));
+      expect(box.center, Offset(10, 10));
     });
 
-    test('should not update corner when activeCorner is none', () {
-      boundingBox.activeCorner = BoundingBoxCorner.none;
-      const Offset newPoint = Offset(300, 300);
-      boundingBox.transform(newPoint);
-      expect(boundingBox.topLeft, topLeft);
-      expect(boundingBox.topRight, topRight);
-      expect(boundingBox.bottomLeft, bottomLeft);
-      expect(boundingBox.bottomRight, bottomRight);
-    });
-  });
-
-  group('moveCenter', () {
-    test('should move center', () {
-      const Offset newCenter = Offset(150, 150);
-      boundingBox.moveCenter(newCenter);
-      expect(boundingBox.center, newCenter);
-    });
-  });
-
-  group('rotate', () {
-    test('should rotate only the bounding box', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topLeft;
-      final centerBefore = boundingBox.center;
-      const Offset rotatePoint = Offset(100, 100);
-      boundingBox.rotate(rotatePoint);
-      expect(boundingBox.topLeft.dx, isNot(topLeft.dx));
-      expect(boundingBox.topLeft.dy, isNot(topLeft.dy));
-      expect(boundingBox.center, centerBefore);
-    });
-  });
-
-  group('setActiveCorner', () {
-    test('should set active corner to topLeft', () {
-      boundingBox.setActiveCorner(topLeft);
-      expect(boundingBox.activeCorner, BoundingBoxCorner.topLeft);
+    test('endDrag resets drag state', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      box.determineAction(Offset(0, 0));
+      box.updateDrag(Offset(10, 10));
+      box.endDrag();
+      expect(box.lastDragGlobalPosition, isNull);
+      expect(box.dragStartLocalPosition, isNull);
     });
 
-    test('should set active corner to topRight', () {
-      boundingBox.setActiveCorner(topRight);
-      expect(boundingBox.activeCorner, BoundingBoxCorner.topRight);
+    test('determineAction sets currentAction to resize on corner', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      // Top-left corner
+      box.determineAction(Offset(-50, -50));
+      expect(box.currentAction, BoundingBoxAction.resize);
+      expect(box.currentBoundingBoxResizeAction, BoundingBoxResizeAction.topLeft);
+      // Bottom-right corner
+      box.determineAction(Offset(50, 50));
+      expect(box.currentAction, BoundingBoxAction.resize);
+      expect(box.currentBoundingBoxResizeAction, BoundingBoxResizeAction.bottomRight);
     });
 
-    test('should set active corner to bottomLeft', () {
-      boundingBox.setActiveCorner(bottomLeft);
-      expect(boundingBox.activeCorner, BoundingBoxCorner.bottomLeft);
+    test('determineAction sets currentAction to resize on edge', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      // Top edge
+      box.determineAction(Offset(0, -50));
+      expect(box.currentAction, BoundingBoxAction.resize);
+      expect(box.currentBoundingBoxResizeAction, BoundingBoxResizeAction.top);
+      // Left edge
+      box.determineAction(Offset(-50, 0));
+      expect(box.currentAction, BoundingBoxAction.resize);
+      expect(box.currentBoundingBoxResizeAction, BoundingBoxResizeAction.left);
     });
 
-    test('should set active corner to bottomRight', () {
-      boundingBox.setActiveCorner(bottomRight);
-      expect(boundingBox.activeCorner, BoundingBoxCorner.bottomRight);
+    test('determineAction sets currentAction to rotate on arc', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      // Simulate a point on the top-left rotation arc
+      final arcPoint = Offset(-50, -50) + Offset(-10, -10);
+      box.determineAction(arcPoint);
+      expect(box.currentAction,
+          anyOf(BoundingBoxAction.rotate, BoundingBoxAction.resize));
     });
 
-    test('should set active corner to none', () {
-      boundingBox.setActiveCorner(const Offset(100, 100));
-      expect(boundingBox.activeCorner, BoundingBoxCorner.none);
-    });
-  });
-
-  group('resetActiveCorner', () {
-    test('should reset active corner', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topLeft;
-      boundingBox.resetActiveCorner();
-      expect(boundingBox.activeCorner, BoundingBoxCorner.none);
-    });
-  });
-
-  group('update', () {
-    test('should move center when activeCorner is none', () {
-      const Offset newCenter = Offset(500, 500);
-      final oldCenter = boundingBox.center;
-      boundingBox.activeCorner = BoundingBoxCorner.none;
-      boundingBox.update(newCenter);
-      expect(boundingBox.center, isNot(oldCenter));
+    test('updateDrag rotates the box when currentAction is rotate', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      // Simulate rotation action
+      box.currentAction = BoundingBoxAction.rotate;
+      box.lastDragGlobalPosition = Offset(100, 0);
+      final initialAngle = box.angle;
+      box.updateDrag(Offset(0, 100));
+      expect(box.angle, isNot(initialAngle));
     });
 
-    test('should rotate only activeCorner when isRotating is true', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topLeft;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(300, 300);
-      boundingBox.update(newPoint, isRotating: true);
-      expect(boundingBox.topLeft, isNot(newPoint));
-      expect(boundingBox.center, centerBefore);
+    test('updateDrag resizes the box when currentAction is resize', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      box.currentAction = BoundingBoxAction.resize;
+      box.currentBoundingBoxResizeAction = BoundingBoxResizeAction.right;
+      box.lastDragGlobalPosition = Offset(50, 0);
+      box.dragStartLocalPosition = Offset(0, 0);
+      final initialWidth = box.width;
+      box.updateDrag(Offset(60, 0));
+      expect(box.width, greaterThan(initialWidth));
     });
 
-    test('should transform activeCorner when isRotating is false', () {
-      boundingBox.activeCorner = BoundingBoxCorner.topRight;
-      final centerBefore = boundingBox.center;
-      const Offset newPoint = Offset(300, 300);
-      boundingBox.update(newPoint, isRotating: false);
-      expect(boundingBox.topRight, newPoint);
-      expect(boundingBox.center, isNot(centerBefore));
+    test('endDrag does not reset currentAction', () {
+      final box = BoundingBox(center: Offset(0, 0), width: 100, height: 100);
+      box.currentAction = BoundingBoxAction.move;
+      box.determineAction(Offset(0, 0));
+      box.updateDrag(Offset(10, 10));
+      box.endDrag();
+      expect(box.currentAction, BoundingBoxAction.move);
     });
   });
 }

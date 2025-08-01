@@ -1,8 +1,12 @@
-import 'dart:ui';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
+import 'package:flutter/material.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
@@ -33,14 +37,45 @@ class CommandFactory {
   ) =>
       SquareShapeCommand(paint, topLeft, topRight, bottomLeft, bottomRight);
 
-  CircleShapeCommand createCircleShapeCommand(
+  EllipseShapeCommand createEllipseShapeCommand(
     Paint paint,
-    double radius,
+    double radiusX,
+    double radiusY,
     Offset center,
+    double angle,
   ) =>
-      CircleShapeCommand(paint, radius, center);
+      EllipseShapeCommand(
+        paint,
+        radiusX,
+        radiusY,
+        center,
+        angle: angle,
+      );
+
+  ClipboardCommand createClipboardCommand(
+    Paint paint,
+    Uint8List imageData,
+    ui.Offset offset,
+    double scale,
+    double rotation,
+  ) =>
+      ClipboardCommand(
+        paint,
+        imageData,
+        offset,
+        scale,
+        rotation,
+      );
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
     return SprayCommand(points, paint);
   }
+
+  DeleteRegionCommand createDeleteRegionCommand(
+    ui.Rect region,
+  ) =>
+      DeleteRegionCommand(
+        Paint(),
+        region,
+      );
 }

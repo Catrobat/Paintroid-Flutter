@@ -44,7 +44,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
                     ),
                     hint: 'Circle',
                     chipBackgroundColor:
-                        shapesToolOptionsState.shapeType == ShapeType.circle
+                        shapesToolOptionsState.shapeType == ShapeType.ellipse
                             ? PaintroidTheme.of(context).primaryColor
                             : Colors.white,
                     chipIcon: Icon(
@@ -53,7 +53,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
                     ),
                     onPressed: () => ref
                         .read(shapesToolOptionsStateProvider.notifier)
-                        .setShapeType(shapeType: ShapeType.circle),
+                        .setShapeType(shapeType: ShapeType.ellipse),
                   )
                 ],
               )
