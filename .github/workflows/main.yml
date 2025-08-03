@@ -56,13 +56,13 @@ jobs:
           sha256sum build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.zip > build/app/outputs/flutter-apk/checksum.txt
 
       - name: Upload APK ZIP
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: flutter-paint-apk-${{ github.event.number }}
           path: build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.zip
 
       - name: Upload Checksum
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: flutter-paint-checksum-${{ github.event.number }}
           path: build/app/outputs/flutter-apk/checksum.txt
