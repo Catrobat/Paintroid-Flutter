@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
@@ -11,6 +12,8 @@ abstract class Command with EquatableMixin {
 
   Map<String, dynamic> toJson();
 
+  Future<void> prepareForRuntime() async {}
+
   factory Command.fromJson(Map<String, dynamic> json) {
     String type = json['type'] as String;
     switch (type) {
@@ -22,6 +25,8 @@ abstract class Command with EquatableMixin {
         return SquareShapeCommand.fromJson(json);
       case SerializerType.ELLIPSE_SHAPE_COMMAND:
         return EllipseShapeCommand.fromJson(json);
+      case SerializerType.CLIPBOARD_COMMAND:
+        return ClipboardCommand.fromJson(json);
       case SerializerType.DELETE_REGION_COMMAND:
         return DeleteRegionCommand.fromJson(json);
       default:

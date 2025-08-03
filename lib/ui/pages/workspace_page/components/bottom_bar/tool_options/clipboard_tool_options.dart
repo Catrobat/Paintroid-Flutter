@@ -4,6 +4,7 @@ import 'package:paintroid/core/providers/object/clipboard_tool_options_state_pro
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
+import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
 class ClipboardToolOptions extends ConsumerWidget {
@@ -18,17 +19,18 @@ class ClipboardToolOptions extends ConsumerWidget {
     final canvasImage =
         ref.watch(canvasStateProvider.select((s) => s.cachedImage));
     final paint = ref.watch(paintProvider);
+    final shadowColor = PaintroidTheme.of(context).shadowColor;
 
     return Column(
       children: [
-        Spacer(),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomActionChip(
-              chipIcon: const Icon(Icons.copy),
+              chipIcon: Icon(Icons.copy, color: shadowColor),
               hint: 'Copy selection',
-              chipBackgroundColor: Colors.blue.shade100,
+              chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
                   await clipboardOptionsNotifier.performCopy(canvasImage);
@@ -37,9 +39,9 @@ class ClipboardToolOptions extends ConsumerWidget {
             ),
             const SizedBox(width: 16),
             CustomActionChip(
-              chipIcon: const Icon(Icons.content_cut),
+              chipIcon: Icon(Icons.content_cut, color: shadowColor),
               hint: 'Cut selection',
-              chipBackgroundColor: Colors.orange.shade100,
+              chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
                   await clipboardOptionsNotifier.performCut(canvasImage);
@@ -48,18 +50,19 @@ class ClipboardToolOptions extends ConsumerWidget {
             ),
             const SizedBox(width: 16),
             CustomActionChip(
-                chipIcon: const Icon(Icons.paste),
-                hint: 'Paste clipboard',
-                chipBackgroundColor: Colors.green.shade100,
-                onPressed: clipboardOptionsState.hasCopiedContent
-                    ? () async {
-                        await clipboardOptionsNotifier.performPaste(paint);
-                      }
-                    : () {
-                        ToastUtils.showShortToast(message: 'Nothing to paste!');
-                      }),
+              chipIcon: Icon(Icons.paste, color: shadowColor),
+              hint: 'Paste clipboard',
+              chipBackgroundColor: Colors.white,
+              onPressed: clipboardOptionsState.hasCopiedContent
+                  ? () async {
+                      await clipboardOptionsNotifier.performPaste(paint);
+                    }
+                  : () {
+                      ToastUtils.showShortToast(message: 'Nothing to paste!');
+                    },
+            ),
           ],
-        )
+        ),
       ],
     );
   }

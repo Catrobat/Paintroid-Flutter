@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
+import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'canvas_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class CanvasStateProvider extends _$CanvasStateProvider {
+class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
   Size initialCanvasSize = Size.zero;
 
   @override
@@ -62,9 +64,22 @@ class CanvasStateProvider extends _$CanvasStateProvider {
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
+    final List<Command> preparedCommands = [];
+    for (final command in commands) {
+      try {
+        await command.prepareForRuntime();
+        preparedCommands.add(command);
+      } catch (e) {
+        if (kDebugMode) {
+          logger.warning(
+              'Error preparing command ${command.runtimeType} during resetCanvasWithNewCommands: $e');
+        }
+      }
+    }
+
     state.commandManager.clearRedoStack();
-    state.commandManager.clearUndoStack(newCommands: commands);
-    if (commands.isEmpty) {
+    state.commandManager.clearUndoStack(newCommands: preparedCommands);
+    if (preparedCommands.isEmpty) {
       state = state.copyWith(cachedImage: null);
     } else {
       await _executeAllCommandsOnCanvas();

@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:ui' as ui;
-import 'package:flutter/painting.dart' as painting;
-
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
@@ -11,11 +9,12 @@ import 'package:paintroid/core/json_serialization/converter/paint_converter.dart
 import 'package:paintroid/core/json_serialization/converter/uint8list_base64_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+import 'package:paintroid/core/models/loggable_mixin.dart';
 
 part 'clipboard_command.g.dart';
 
 @JsonSerializable()
-class ClipboardCommand extends GraphicCommand {
+class ClipboardCommand extends GraphicCommand with LoggableMixin {
   @Uint8ListBase64Converter()
   final Uint8List imageData;
   @OffsetConverter()
@@ -26,6 +25,7 @@ class ClipboardCommand extends GraphicCommand {
   final int version;
   final String type;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ui.Image? _runtimeImage;
 
   ClipboardCommand(
@@ -40,15 +40,34 @@ class ClipboardCommand extends GraphicCommand {
             VersionStrategyManager.strategy.getClipboardCommandVersion();
 
   Future<void> prepare() async {
-    _runtimeImage ??= await painting.decodeImageFromList(imageData);
+    if (_runtimeImage == null && imageData.isNotEmpty) {
+      try {
+        final buffer = await ui.ImmutableBuffer.fromUint8List(imageData);
+        final descriptor = await ui.ImageDescriptor.encoded(buffer);
+        final codec = await descriptor.instantiateCodec();
+        final frameInfo = await codec.getNextFrame();
+        _runtimeImage = frameInfo.image;
+      } catch (e, s) {
+        if (kDebugMode) {
+          logger.warning(
+              'Error decoding image in ClipboardCommand.prepare: $e', e, s);
+        }
+        _runtimeImage = null;
+      }
+    }
+  }
+
+  @override
+  Future<void> prepareForRuntime() async {
+    await prepare();
   }
 
   @override
   void call(ui.Canvas canvas) {
     if (_runtimeImage == null) {
       if (kDebugMode) {
-        print(
-            'ClipboardCommand: _runtimeImage is null. Call prepare() first. Cannot draw.');
+        logger
+            .info('ClipboardCommand.call: _runtimeImage is null. Cannot draw.');
       }
       return;
     }
@@ -68,8 +87,8 @@ class ClipboardCommand extends GraphicCommand {
       imageWidth,
       imageHeight,
     );
-
-    canvas.drawImageRect(_runtimeImage!, src, dst, paint);
+    final imagePaint = ui.Paint()..filterQuality = ui.FilterQuality.high;
+    canvas.drawImageRect(_runtimeImage!, src, dst, imagePaint);
     canvas.restore();
   }
 
