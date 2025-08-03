@@ -46,9 +46,23 @@ jobs:
           flutter build apk --release
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
 
-      - name: Archive build artifacts
+      - name: Zip the APK
+        run: |
+          cd build/app/outputs/flutter-apk
+          zip flutter-paint-${{ github.event.number }}.zip flutter-paint-${{ github.event.number }}.apk
+
+      - name: Calculate ZIP SHA256 checksum
+        run: |
+          sha256sum build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.zip > build/app/outputs/flutter-apk/checksum.txt
+
+      - name: Upload APK ZIP
         uses: actions/upload-artifact@v4.3.3
         with:
           name: flutter-paint-apk-${{ github.event.number }}
-          path: |
-            build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
+          path: build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.zip
+
+      - name: Upload Checksum
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: flutter-paint-checksum-${{ github.event.number }}
+          path: build/app/outputs/flutter-apk/checksum.txt
