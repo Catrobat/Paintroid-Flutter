@@ -36,10 +36,10 @@ jobs:
       - name: Install xmlstarlet
         run: sudo apt-get install -y xmlstarlet
 
-      - name: Prepare App Name and Identifier
-        run: |
-          chmod +x ./.github/workflows/update_app_identifiers.sh
-          ./.github/workflows/update_app_identifiers.sh ${{ github.event.number }}
+      # - name: Prepare App Name and Identifier
+      #   run: |
+      #     chmod +x ./.github/workflows/update_app_identifiers.sh
+      #     ./.github/workflows/update_app_identifiers.sh ${{ github.event.number }}
 
       - name: Build release package
         run: |
