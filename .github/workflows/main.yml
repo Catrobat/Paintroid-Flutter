@@ -51,5 +51,6 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: flutter-paint-apk-${{ github.event.number }}
+          compression-level: 0
           path: |
             build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
