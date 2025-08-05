@@ -43,6 +43,7 @@ jobs:
 
       - name: Build release package
         run: |
+          flutter clean 
           flutter build apk --release
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/flutter-paint-${{ github.event.number }}.apk
 
