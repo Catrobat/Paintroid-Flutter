@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'toolbox_state_provider.dart';
+part of 'clipping_tool_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolBoxStateProviderHash() =>
-    r'da6d2b98d522cf0c320e2619789bc448be0d0fd4';
+String _$clippingToolProviderHash() =>
+    r'7ebab6a5f8f8c8bd87712118c7df41a89f3022d1';
 
-/// See also [ToolBoxStateProvider].
-@ProviderFor(ToolBoxStateProvider)
-final toolBoxStateProvider = AutoDisposeNotifierProvider<ToolBoxStateProvider,
-    ToolBoxStateData>.internal(
-  ToolBoxStateProvider.new,
-  name: r'toolBoxStateProvider',
+/// See also [ClippingToolProvider].
+@ProviderFor(ClippingToolProvider)
+final clippingToolProvider =
+    AutoDisposeNotifierProvider<ClippingToolProvider, ClippingTool>.internal(
+  ClippingToolProvider.new,
+  name: r'clippingToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$toolBoxStateProviderHash,
+      : _$clippingToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ToolBoxStateProvider = AutoDisposeNotifier<ToolBoxStateData>;
+typedef _$ClippingToolProvider = AutoDisposeNotifier<ClippingTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

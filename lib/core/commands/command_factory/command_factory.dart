@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/dashed_path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -24,6 +25,12 @@ class CommandFactory {
     bool isCursor = false,
   }) =>
       PathCommand(path, paint, isCursorPath: isCursor);
+
+  DashedPathCommand createDashedPathCommand(
+    PathWithActionHistory path,
+    Paint paint,
+  ) =>
+      DashedPathCommand(path, paint);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,
