@@ -4,12 +4,9 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
-<<<<<<< HEAD
 import 'package:paintroid/core/providers/object/tools/clipboard_tool_provider.dart';
-import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart';
-=======
 import 'package:paintroid/core/providers/object/tools/clipping_tool_provider.dart';
->>>>>>> 8d1676d (PAINTROID-796 initial setup)
+import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';

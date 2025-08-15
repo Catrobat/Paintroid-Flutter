@@ -24,6 +24,8 @@ abstract class IVersionStrategy {
   int getDeleteRegionCommandVersion();
 
   int getDashedPathCommandVersion();
+
+  int getClipPathCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -69,6 +71,10 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getDashedPathCommandVersion() =>
       SerializerVersion.DASHED_PATH_COMMAND_VERSION;
+
+  @override
+  int getClipPathCommandVersion() =>
+      SerializerVersion.CLIP_PATH_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

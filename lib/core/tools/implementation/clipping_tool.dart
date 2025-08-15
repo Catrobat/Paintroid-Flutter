@@ -28,8 +28,9 @@ class ClippingTool extends Tool {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
 
-    final command = commandFactory.createDashedPathCommand(pathToDraw, paint);
-    commandManager.addGraphicCommand(command);
+    final dashedCommand =
+    commandFactory.createClipPathCommand(pathToDraw, paint);
+    commandManager.addGraphicCommand(dashedCommand);
   }
 
   @override
@@ -39,17 +40,21 @@ class ClippingTool extends Tool {
 
   @override
   void onUp(Offset point, Paint paint) {
+    commandManager.discardLastCommand();
+
     bool pointAddedInUp = false;
     if (pathToDraw.actions.isNotEmpty) {
       final lastAction = pathToDraw.actions.last;
       bool isSameAsLastPoint = false;
+
       if (lastAction is LineToAction) {
         isSameAsLastPoint =
-            (lastAction.x == point.dx && lastAction.y == point.dy);
+        (lastAction.x == point.dx && lastAction.y == point.dy);
       } else if (lastAction is MoveToAction && pathToDraw.actions.length == 1) {
         isSameAsLastPoint =
-            (lastAction.x == point.dx && lastAction.y == point.dy);
+        (lastAction.x == point.dx && lastAction.y == point.dy);
       }
+
       if (!isSameAsLastPoint) {
         pathToDraw.lineTo(point.dx, point.dy);
         pointAddedInUp = true;
@@ -60,8 +65,8 @@ class ClippingTool extends Tool {
       pointAddedInUp = true;
     }
 
-    if (_startPoint != null && pathToDraw.actions.isNotEmpty) {
-      Offset currentEndPoint = point;
+    Offset currentEndPoint = point;
+    if (pathToDraw.actions.isNotEmpty) {
       if (pathToDraw.actions.last is LineToAction) {
         final lastLineTo = pathToDraw.actions.last as LineToAction;
         currentEndPoint = Offset(lastLineTo.x, lastLineTo.y);
@@ -69,20 +74,41 @@ class ClippingTool extends Tool {
         final lastMoveTo = pathToDraw.actions.last as MoveToAction;
         currentEndPoint = Offset(lastMoveTo.x, lastMoveTo.y);
       }
-
-      if (!(currentEndPoint.dx == _startPoint!.dx &&
-          currentEndPoint.dy == _startPoint!.dy)) {
-        bool isEffectivelySingleTap =
-            pathToDraw.actions.length <= (pointAddedInUp ? 2 : 1) &&
-                (currentEndPoint.dx == _startPoint!.dx &&
-                    currentEndPoint.dy == _startPoint!.dy);
-        if (!isEffectivelySingleTap) {
-          pathToDraw.lineTo(_startPoint!.dx, _startPoint!.dy);
-        }
-      }
     }
 
-    pathToDraw.close();
+    if (_startPoint != null && pathToDraw.actions.isNotEmpty) {
+      bool needsSolidClosingLine = !(currentEndPoint.dx == _startPoint!.dx &&
+          currentEndPoint.dy == _startPoint!.dy);
+
+      bool isEffectivelySingleTap =
+          pathToDraw.actions.length <= (pointAddedInUp ? 2 : 1) &&
+              (currentEndPoint.dx == _startPoint!.dx &&
+                  currentEndPoint.dy == _startPoint!.dy);
+
+      if (needsSolidClosingLine && !isEffectivelySingleTap) {
+        final finalDashedCommand = commandFactory.createClipPathCommand(
+          pathToDraw,
+          paint,
+          startPoint: currentEndPoint,
+          endPoint: _startPoint!,
+        );
+        commandManager.addGraphicCommand(finalDashedCommand);
+      } else {
+        pathToDraw.close();
+        final finalDashedCommand = commandFactory.createClipPathCommand(
+          pathToDraw,
+          paint,
+        );
+        commandManager.addGraphicCommand(finalDashedCommand);
+      }
+    } else {
+      pathToDraw.close();
+      final finalDashedCommand = commandFactory.createClipPathCommand(
+        pathToDraw,
+        paint,
+      );
+      commandManager.addGraphicCommand(finalDashedCommand);
+    }
     _startPoint = null;
   }
 

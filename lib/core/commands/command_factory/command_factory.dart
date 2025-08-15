@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/dashed_path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -26,11 +26,18 @@ class CommandFactory {
   }) =>
       PathCommand(path, paint, isCursorPath: isCursor);
 
-  DashedPathCommand createDashedPathCommand(
+  ClipPathCommand createClipPathCommand(
     PathWithActionHistory path,
-    Paint paint,
-  ) =>
-      DashedPathCommand(path, paint);
+    Paint paint, {
+    Offset? startPoint,
+    Offset? endPoint,
+  }) =>
+      ClipPathCommand(
+        path,
+        paint,
+        startPoint: startPoint,
+        endPoint: endPoint,
+      );
 
   LineCommand createLineCommand(
     PathWithActionHistory path,

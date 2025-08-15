@@ -15,10 +15,10 @@ import 'package:paintroid/core/commands/command_factory/command_factory.dart'
     as _i24;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i3;
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart'
+    as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart'
     as _i10;
-import 'package:paintroid/core/commands/command_implementation/graphic/dashed_path_command.dart'
-    as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart'
     as _i15;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
@@ -112,9 +112,9 @@ class _FakePathCommand_4 extends _i1.SmartFake implements _i5.PathCommand {
         );
 }
 
-class _FakeDashedPathCommand_5 extends _i1.SmartFake
-    implements _i6.DashedPathCommand {
-  _FakeDashedPathCommand_5(
+class _FakeClipPathCommand_5 extends _i1.SmartFake
+    implements _i6.ClipPathCommand {
+  _FakeClipPathCommand_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -710,29 +710,39 @@ class MockCommandFactory extends _i1.Mock implements _i24.CommandFactory {
       ) as _i5.PathCommand);
 
   @override
-  _i6.DashedPathCommand createDashedPathCommand(
+  _i6.ClipPathCommand createClipPathCommand(
     _i25.PathWithActionHistory? path,
-    _i2.Paint? paint,
-  ) =>
+    _i2.Paint? paint, {
+    _i2.Offset? startPoint,
+    _i2.Offset? endPoint,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createDashedPathCommand,
+          #createClipPathCommand,
           [
             path,
             paint,
           ],
+          {
+            #startPoint: startPoint,
+            #endPoint: endPoint,
+          },
         ),
-        returnValue: _FakeDashedPathCommand_5(
+        returnValue: _FakeClipPathCommand_5(
           this,
           Invocation.method(
-            #createDashedPathCommand,
+            #createClipPathCommand,
             [
               path,
               paint,
             ],
+            {
+              #startPoint: startPoint,
+              #endPoint: endPoint,
+            },
           ),
         ),
-      ) as _i6.DashedPathCommand);
+      ) as _i6.ClipPathCommand);
 
   @override
   _i7.LineCommand createLineCommand(

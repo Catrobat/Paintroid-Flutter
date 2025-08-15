@@ -12,6 +12,7 @@ class SerializerVersion {
   static const int CLIPBOARD_COMMAND_VERSION = Version.v1;
   static const int DELETE_REGION_COMMAND_VERSION = Version.v1;
   static const int DASHED_PATH_COMMAND_VERSION = Version.v1;
+  static const int CLIP_PATH_COMMAND_VERSION = Version.v1;
 }
 
 class Version {
@@ -35,4 +36,5 @@ class SerializerType {
   static const String CLIPBOARD_COMMAND = 'ClipboardCommand';
   static const String DELETE_REGION_COMMAND = 'DeleteRegionCommand';
   static const String DASHED_PATH_COMMAND = 'DashedPathCommand';
+  static const String CLIP_PATH_COMMAND = 'DashedPathCommand';
 }
