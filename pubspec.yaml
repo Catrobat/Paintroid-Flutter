@@ -70,3 +70,4 @@ flutter:
     - assets/svg/
     - assets/lang/
     - test/assets/images/
+    - assets/pr_number.txt
