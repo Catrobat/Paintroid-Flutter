@@ -27,13 +27,19 @@ class CommandManager {
     _undoStack.add(command);
   }
 
+  void removeCommand(Command commandToRemove) {
+    _undoStack.remove(commandToRemove);
+  }
+
   void setUndoStack(List<Command> commands) {
     _undoStack.clear();
     _undoStack.addAll(commands);
   }
 
   void executeLastCommand(Canvas canvas) {
-    if (_undoStack.isEmpty) return;
+    if (_undoStack.isEmpty) {
+      return;
+    }
     final lastCommand = _undoStack.last;
     if (lastCommand is GraphicCommand) {
       lastCommand.call(canvas);
@@ -49,7 +55,9 @@ class CommandManager {
   }
 
   void discardLastCommand() {
-    if (_undoStack.isNotEmpty) _undoStack.removeLast();
+    if (_undoStack.isNotEmpty) {
+      _undoStack.removeLast();
+    }
   }
 
   void clearUndoStack({Iterable<Command>? newCommands}) {

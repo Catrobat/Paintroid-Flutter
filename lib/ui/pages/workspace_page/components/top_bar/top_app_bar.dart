@@ -74,7 +74,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         currentTool is LineTool && currentTool.vertexStack.isNotEmpty;
     final isShapeTool = currentTool.type == ToolType.SHAPES;
     final isTextTool = currentTool is TextTool;
-    if (isLineTool || isShapeTool || isTextTool) {
+    if (isLineTool || isShapeTool || isTextTool || currentTool.type == ToolType.CLIPPING) {
       return () {
         currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();

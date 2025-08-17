@@ -1,22 +1,28 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/object/tools/clipping_tool_state_provider.dart';
 
 class ClippingTool extends Tool {
   final GraphicFactory graphicFactory;
+  final ClippingToolState clippingToolState;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
   Offset? _startPoint;
+  GraphicCommand? _activePreviewCommand;
+  GraphicCommand? _liveDrawingCommand;
 
   ClippingTool({
     required super.commandFactory,
     required super.commandManager,
     required this.graphicFactory,
+    required this.clippingToolState,
     super.type = ToolType.CLIPPING,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
@@ -24,13 +30,27 @@ class ClippingTool extends Tool {
 
   @override
   void onDown(Offset point, Paint paint) {
+    if (clippingToolState.hasActiveClipPath) {
+      if (_activePreviewCommand != null) {
+        commandManager.removeCommand(_activePreviewCommand!);
+        _activePreviewCommand = null;
+      }
+      clippingToolState.clearClipPath();
+    }
+
+    if (_liveDrawingCommand != null) {
+      commandManager.removeCommand(_liveDrawingCommand!);
+      _liveDrawingCommand = null;
+    }
+
     _startPoint = point;
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
 
-    final dashedCommand =
-    commandFactory.createClipPathCommand(pathToDraw, paint);
-    commandManager.addGraphicCommand(dashedCommand);
+    final newLiveDrawingCommand =
+        commandFactory.createClipPathCommand(pathToDraw, paint);
+    commandManager.addGraphicCommand(newLiveDrawingCommand);
+    _liveDrawingCommand = newLiveDrawingCommand;
   }
 
   @override
@@ -40,7 +60,10 @@ class ClippingTool extends Tool {
 
   @override
   void onUp(Offset point, Paint paint) {
-    commandManager.discardLastCommand();
+    if (_liveDrawingCommand != null) {
+      commandManager.removeCommand(_liveDrawingCommand!);
+      _liveDrawingCommand = null;
+    }
 
     bool pointAddedInUp = false;
     if (pathToDraw.actions.isNotEmpty) {
@@ -49,10 +72,10 @@ class ClippingTool extends Tool {
 
       if (lastAction is LineToAction) {
         isSameAsLastPoint =
-        (lastAction.x == point.dx && lastAction.y == point.dy);
+            (lastAction.x == point.dx && lastAction.y == point.dy);
       } else if (lastAction is MoveToAction && pathToDraw.actions.length == 1) {
         isSameAsLastPoint =
-        (lastAction.x == point.dx && lastAction.y == point.dy);
+            (lastAction.x == point.dx && lastAction.y == point.dy);
       }
 
       if (!isSameAsLastPoint) {
@@ -76,6 +99,7 @@ class ClippingTool extends Tool {
       }
     }
 
+    GraphicCommand newPreviewCommand;
     if (_startPoint != null && pathToDraw.actions.isNotEmpty) {
       bool needsSolidClosingLine = !(currentEndPoint.dx == _startPoint!.dx &&
           currentEndPoint.dy == _startPoint!.dy);
@@ -86,40 +110,73 @@ class ClippingTool extends Tool {
                   currentEndPoint.dy == _startPoint!.dy);
 
       if (needsSolidClosingLine && !isEffectivelySingleTap) {
-        final finalDashedCommand = commandFactory.createClipPathCommand(
+        newPreviewCommand = commandFactory.createClipPathCommand(
           pathToDraw,
           paint,
           startPoint: currentEndPoint,
           endPoint: _startPoint!,
         );
-        commandManager.addGraphicCommand(finalDashedCommand);
       } else {
         pathToDraw.close();
-        final finalDashedCommand = commandFactory.createClipPathCommand(
+        newPreviewCommand = commandFactory.createClipPathCommand(
           pathToDraw,
           paint,
         );
-        commandManager.addGraphicCommand(finalDashedCommand);
       }
     } else {
       pathToDraw.close();
-      final finalDashedCommand = commandFactory.createClipPathCommand(
+      newPreviewCommand = commandFactory.createClipPathCommand(
         pathToDraw,
         paint,
       );
-      commandManager.addGraphicCommand(finalDashedCommand);
     }
+    commandManager.addGraphicCommand(newPreviewCommand);
+    _activePreviewCommand = newPreviewCommand;
+    clippingToolState.setHasActiveClipPath(true);
     _startPoint = null;
   }
 
   @override
   void onCancel() {
-    commandManager.discardLastCommand();
+    if (_liveDrawingCommand != null) {
+      commandManager.removeCommand(_liveDrawingCommand!);
+      _liveDrawingCommand = null;
+    }
+
+    if (clippingToolState.hasActiveClipPath) {
+      if (_activePreviewCommand != null) {
+        commandManager.removeCommand(_activePreviewCommand!);
+        _activePreviewCommand = null;
+      }
+      clippingToolState.clearClipPath();
+    }
     _startPoint = null;
   }
 
   @override
-  void onCheckmark(Paint paint) {}
+  void onCheckmark(Paint paint) {
+    if (clippingToolState.hasActiveClipPath) {
+      if (_activePreviewCommand != null) {
+        commandManager.removeCommand(_activePreviewCommand!);
+        _activePreviewCommand = null;
+      }
+      clippingToolState.clearClipPath();
+    }
+
+    if (_liveDrawingCommand != null) {
+      commandManager.removeCommand(_liveDrawingCommand!);
+      _liveDrawingCommand = null;
+    }
+
+    if (pathToDraw.actions.isNotEmpty) {
+      pathToDraw.close();
+
+      final cropCommand =
+          commandFactory.createClipAreaCommand(pathToDraw, paint);
+      commandManager.addGraphicCommand(cropCommand);
+    }
+    _startPoint = null;
+  }
 
   @override
   void onPlus() {}

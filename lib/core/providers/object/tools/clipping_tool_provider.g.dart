@@ -7,7 +7,7 @@ part of 'clipping_tool_provider.dart';
 // **************************************************************************
 
 String _$clippingToolProviderHash() =>
-    r'7ebab6a5f8f8c8bd87712118c7df41a89f3022d1';
+    r'a7b34cc0817d2b94f4fd348d61a115622f72e259';
 
 /// See also [ClippingToolProvider].
 @ProviderFor(ClippingToolProvider)

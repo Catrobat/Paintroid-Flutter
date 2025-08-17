@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:paintroid/core/commands/command_implementation/command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/models/loggable_mixin.dart';
@@ -49,11 +50,28 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
     final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
-    if (state.cachedImage != null) {
+
+    bool isDrawingClipPathPreview = false;
+    if (state.commandManager.undoStack.isNotEmpty) {
+      final lastCommand = state.commandManager.undoStack.last;
+      if (lastCommand is ClipPathCommand) {
+        isDrawingClipPathPreview = true;
+      }
+    }
+
+    if (!isDrawingClipPathPreview && state.cachedImage != null) {
       paintImage(
         canvas: canvas,
         rect: bounds,
         image: state.cachedImage!,
+        fit: BoxFit.fill,
+        filterQuality: FilterQuality.none,
+      );
+    } else if (state.backgroundImage != null) {
+      paintImage(
+        canvas: canvas,
+        rect: bounds,
+        image: state.backgroundImage!,
         fit: BoxFit.fill,
         filterQuality: FilterQuality.none,
       );
@@ -102,7 +120,19 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     final recorder = state.graphicFactory.createPictureRecorder();
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
-    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
+
+    if (state.backgroundImage != null) {
+      paintImage(
+        canvas: canvas,
+        rect: bounds,
+        image: state.backgroundImage!,
+        fit: BoxFit.fill,
+        filterQuality: FilterQuality.none,
+      );
+    }
+
+    canvas.clipRect(bounds);
     state.commandManager.executeAllCommands(canvas);
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.width.toInt(), size.height.toInt());
