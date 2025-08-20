@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
@@ -110,10 +111,17 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == CircleShapeCommand) {
       return ToolData.SHAPES;
-    }
-    else if (command.runtimeType == SprayCommand) {
+    } else if (command.runtimeType == CircleShapeCommand) {
+      return ToolData.SHAPES;
+    } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
     } else {
+      if (command.runtimeType == PathCommand) {
+        final pathCommand = command as PathCommand;
+        if (pathCommand.isCursorPath) {
+          return ToolData.CURSOR;
+        }
+      }
       return ToolData.BRUSH;
     }
   }

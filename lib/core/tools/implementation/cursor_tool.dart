@@ -23,6 +23,7 @@ class CursorTool extends BrushTool {
     required super.graphicFactory,
     required this.canvasCenter,
     required super.type,
+    super.isCursor = true,
   }) {
     lastPoint = canvasCenter;
   }
@@ -34,17 +35,17 @@ class CursorTool extends BrushTool {
   @override
   void onDown(Offset point, Paint paint) {
     _initializeTouch(point);
-
-    if (isActive) {
-      super.onDown(lastPoint, paint);
-      _isCurrentlyDrawing = true;
-    }
   }
 
   @override
   void onDrag(Offset point, Paint paint) {
     _updateDragState(point);
     _updateCursorPosition(point);
+
+    if (isActive && !_isCurrentlyDrawing) {
+      super.onDown(lastPoint, paint);
+      _isCurrentlyDrawing = true;
+    }
 
     if (isActive && _isCurrentlyDrawing) {
       super.onDrag(lastPoint, paint);

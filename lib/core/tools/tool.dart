@@ -12,7 +12,7 @@ abstract class Tool {
   final bool hasAddFunctionality;
   final bool hasFinalizeFunctionality;
 
-  Tool({
+  const Tool({
     required this.commandManager,
     required this.commandFactory,
     required this.type,

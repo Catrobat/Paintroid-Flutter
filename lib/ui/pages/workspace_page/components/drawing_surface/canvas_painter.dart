@@ -21,7 +21,7 @@ class CanvasPainter extends ConsumerWidget {
       foregroundDecoration: const BoxDecoration(
         border: Border.fromBorderSide(BorderSide(width: 0.5)),
       ),
-      child: Stack(
+      child: const Stack(
         fit: StackFit.expand,
         children: [
           BackgroundLayer(),

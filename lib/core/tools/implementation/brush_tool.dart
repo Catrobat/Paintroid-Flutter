@@ -8,6 +8,7 @@ import 'package:paintroid/core/tools/tool.dart';
 
 class BrushTool extends Tool {
   final GraphicFactory graphicFactory;
+  final bool isCursor;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
@@ -17,6 +18,7 @@ class BrushTool extends Tool {
     required super.commandManager,
     required this.graphicFactory,
     required super.type,
+    this.isCursor = false,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
   });
@@ -26,7 +28,11 @@ class BrushTool extends Tool {
     pathToDraw = graphicFactory.createPathWithActionHistory()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
-    final command = commandFactory.createPathCommand(pathToDraw, savedPaint);
+    final command = commandFactory.createPathCommand(
+      pathToDraw,
+      savedPaint,
+      isCursor: isCursor,
+    );
     commandManager.addGraphicCommand(command);
   }
 
