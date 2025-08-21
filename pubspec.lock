@@ -672,14 +672,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.9.0"
-  launch_review_latest:
-    dependency: "direct main"
-    description:
-      name: launch_review_latest
-      sha256: dd0f28a8612b10e550e44d45a0caa9559cf7a3b96a56249aaf3f24ee765ddbe9
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:
