@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +10,7 @@ import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart'
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
@@ -23,6 +24,14 @@ class UIInteraction {
     tester = widgetTester;
   }
 
+  static Offset _localToGlobal(Offset localPoint, Offset center, double angle) {
+    final double cosA = math.cos(angle);
+    final double sinA = math.sin(angle);
+    final double rotatedX = localPoint.dx * cosA - localPoint.dy * sinA;
+    final double rotatedY = localPoint.dx * sinA + localPoint.dy * cosA;
+    return Offset(rotatedX + center.dx, rotatedY + center.dy);
+  }
+
   static Future<
       (
         Color topLeft,
@@ -30,14 +39,29 @@ class UIInteraction {
         Color bottomLeft,
         Color bottomRight,
       )> getSquareShapeColors() async {
-    final padding = getCurrentPaint().strokeWidth;
-    final bounds =
-        getShapesTool().boundingBox.getPath(padding: padding).getBounds();
+    final shapesTool = getShapesTool();
+    final boundingBox = shapesTool.boundingBox;
+    final paint = getCurrentPaint();
+    final padding = (paint.strokeWidth / 2) + 15.0;
 
-    final topLeft = bounds.topLeft;
-    final topRight = bounds.topRight;
-    final bottomLeft = bounds.bottomLeft;
-    final bottomRight = bounds.bottomRight;
+    final center = boundingBox.center;
+    final halfWidth = boundingBox.width / 2;
+    final halfHeight = boundingBox.height / 2;
+    final angle = boundingBox.angle;
+
+    final localTopLeftPadded =
+        Offset(-halfWidth + padding, -halfHeight + padding);
+    final localTopRightPadded =
+        Offset(halfWidth - padding, -halfHeight + padding);
+    final localBottomLeftPadded =
+        Offset(-halfWidth + padding, halfHeight - padding);
+    final localBottomRightPadded =
+        Offset(halfWidth - padding, halfHeight - padding);
+
+    final topLeft = _localToGlobal(localTopLeftPadded, center, angle);
+    final topRight = _localToGlobal(localTopRightPadded, center, angle);
+    final bottomLeft = _localToGlobal(localBottomLeftPadded, center, angle);
+    final bottomRight = _localToGlobal(localBottomRightPadded, center, angle);
 
     final topLeftPixel =
         await getPixelColor(topLeft.dx.toInt(), topLeft.dy.toInt());
@@ -57,15 +81,29 @@ class UIInteraction {
         Color right,
         Color top,
         Color bottom,
-      )> getCircleShapeColors() async {
-    final padding = getCurrentPaint().strokeWidth / 2;
-    final radius = getShapesTool().boundingBox.innerRadius - padding;
-    final center = getShapesTool().boundingBox.center;
+      )> getEllipseShapeColors() async {
+    final shapesTool = getShapesTool();
+    final boundingBox = shapesTool.boundingBox;
+    final paint = getCurrentPaint();
+    final strokePadding = (paint.strokeWidth / 2) + 15.0;
 
-    final left = center.translate(-radius, 0);
-    final right = center.translate(radius, 0);
-    final top = center.translate(0, -radius);
-    final bottom = center.translate(0, radius);
+    final center = boundingBox.center;
+    final angle = boundingBox.angle;
+
+    final double radiusXPadded =
+        math.max(0.0, boundingBox.width / 2 - strokePadding);
+    final double radiusYPadded =
+        math.max(0.0, boundingBox.height / 2 - strokePadding);
+
+    final localLeft = Offset(-radiusXPadded, 0);
+    final localRight = Offset(radiusXPadded, 0);
+    final localTop = Offset(0, -radiusYPadded);
+    final localBottom = Offset(0, radiusYPadded);
+
+    final left = _localToGlobal(localLeft, center, angle);
+    final right = _localToGlobal(localRight, center, angle);
+    final top = _localToGlobal(localTop, center, angle);
+    final bottom = _localToGlobal(localBottom, center, angle);
 
     final leftPixel = await getPixelColor(left.dx.toInt(), left.dy.toInt());
     final rightPixel = await getPixelColor(right.dx.toInt(), right.dy.toInt());
@@ -98,7 +136,7 @@ class UIInteraction {
             continue;
           }
           final argbColor = getColorAtPixel(image, i, j);
-          if (argbColor != 0) {
+          if (argbColor != 0 && Color(argbColor).a != 0) {
             return Color(argbColor);
           }
         }
@@ -106,6 +144,9 @@ class UIInteraction {
       return Colors.transparent;
     }
 
+    if (x < 0 || x >= image.width || y < 0 || y >= image.height) {
+      return Colors.transparent;
+    }
     final argbColor = getColorAtPixel(image, x, y);
     return Color(argbColor);
   }
@@ -207,9 +248,9 @@ class UIInteraction {
     }
   }
 
-  static Future<void> selectCircleShapeTypeChip() async {
-    expect(WidgetFinder.circleShapeTypeChip, findsOneWidget);
-    await tester.tap(WidgetFinder.circleShapeTypeChip);
+  static Future<void> selectEllipseShapeTypeChip() async {
+    expect(WidgetFinder.ellipseShapeTypeChip, findsOneWidget);
+    await tester.tap(WidgetFinder.ellipseShapeTypeChip);
     await tester.pumpAndSettle();
   }
 
