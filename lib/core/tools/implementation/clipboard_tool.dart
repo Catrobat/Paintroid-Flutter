@@ -64,7 +64,7 @@ class ClipboardTool extends Tool {
       pasteScale,
       pasteRotation,
     );
-    await command.prepare();
+    await command.prepareForRuntime();
     commandManager.addGraphicCommand(command);
   }
 

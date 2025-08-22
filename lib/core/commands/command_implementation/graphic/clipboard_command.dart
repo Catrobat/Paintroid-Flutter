@@ -39,7 +39,8 @@ class ClipboardCommand extends GraphicCommand with LoggableMixin {
   }) : version = version ??
             VersionStrategyManager.strategy.getClipboardCommandVersion();
 
-  Future<void> prepare() async {
+  @override
+  Future<void> prepareForRuntime() async {
     if (_runtimeImage == null && imageData.isNotEmpty) {
       try {
         final buffer = await ui.ImmutableBuffer.fromUint8List(imageData);
@@ -55,11 +56,6 @@ class ClipboardCommand extends GraphicCommand with LoggableMixin {
         _runtimeImage = null;
       }
     }
-  }
-
-  @override
-  Future<void> prepareForRuntime() async {
-    await prepare();
   }
 
   @override
