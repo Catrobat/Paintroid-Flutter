@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -65,6 +66,27 @@ class CommandFactory {
         offset,
         scale,
         rotation,
+      );
+
+  TextCommand createTextCommand(
+    Offset point,
+    String text,
+    TextStyle style,
+    double fontSize,
+    Paint paint,
+    double rotationAngle, {
+    double scaleX = 1.0,
+    double scaleY = 1.0,
+  }) =>
+      TextCommand(
+        point,
+        text,
+        style,
+        fontSize,
+        paint,
+        rotationAngle: rotationAngle,
+        scaleX: scaleX,
+        scaleY: scaleY,
       );
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {

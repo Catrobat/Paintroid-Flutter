@@ -34,10 +34,10 @@ class UIInteraction {
 
   static Future<
       (
-      Color topLeft,
-      Color topRight,
-      Color bottomLeft,
-      Color bottomRight,
+        Color topLeft,
+        Color topRight,
+        Color bottomLeft,
+        Color bottomRight,
       )> getSquareShapeColors() async {
     final shapesTool = getShapesTool();
     final boundingBox = shapesTool.boundingBox;
@@ -50,13 +50,13 @@ class UIInteraction {
     final angle = boundingBox.angle;
 
     final localTopLeftPadded =
-    Offset(-halfWidth + padding, -halfHeight + padding);
+        Offset(-halfWidth + padding, -halfHeight + padding);
     final localTopRightPadded =
-    Offset(halfWidth - padding, -halfHeight + padding);
+        Offset(halfWidth - padding, -halfHeight + padding);
     final localBottomLeftPadded =
-    Offset(-halfWidth + padding, halfHeight - padding);
+        Offset(-halfWidth + padding, halfHeight - padding);
     final localBottomRightPadded =
-    Offset(halfWidth - padding, halfHeight - padding);
+        Offset(halfWidth - padding, halfHeight - padding);
 
     final topLeft = _localToGlobal(localTopLeftPadded, center, angle);
     final topRight = _localToGlobal(localTopRightPadded, center, angle);
@@ -64,23 +64,23 @@ class UIInteraction {
     final bottomRight = _localToGlobal(localBottomRightPadded, center, angle);
 
     final topLeftPixel =
-    await getPixelColor(topLeft.dx.toInt(), topLeft.dy.toInt());
+        await getPixelColor(topLeft.dx.toInt(), topLeft.dy.toInt());
     final topRightPixel =
-    await getPixelColor(topRight.dx.toInt(), topRight.dy.toInt());
+        await getPixelColor(topRight.dx.toInt(), topRight.dy.toInt());
     final bottomLeftPixel =
-    await getPixelColor(bottomLeft.dx.toInt(), bottomLeft.dy.toInt());
+        await getPixelColor(bottomLeft.dx.toInt(), bottomLeft.dy.toInt());
     final bottomRightPixel =
-    await getPixelColor(bottomRight.dx.toInt(), bottomRight.dy.toInt());
+        await getPixelColor(bottomRight.dx.toInt(), bottomRight.dy.toInt());
 
     return (topLeftPixel, topRightPixel, bottomLeftPixel, bottomRightPixel);
   }
 
   static Future<
       (
-      Color left,
-      Color right,
-      Color top,
-      Color bottom,
+        Color left,
+        Color right,
+        Color top,
+        Color bottom,
       )> getEllipseShapeColors() async {
     final shapesTool = getShapesTool();
     final boundingBox = shapesTool.boundingBox;
@@ -91,9 +91,9 @@ class UIInteraction {
     final angle = boundingBox.angle;
 
     final double radiusXPadded =
-    math.max(0.0, boundingBox.width / 2 - strokePadding);
+        math.max(0.0, boundingBox.width / 2 - strokePadding);
     final double radiusYPadded =
-    math.max(0.0, boundingBox.height / 2 - strokePadding);
+        math.max(0.0, boundingBox.height / 2 - strokePadding);
 
     final localLeft = Offset(-radiusXPadded, 0);
     final localRight = Offset(radiusXPadded, 0);
@@ -109,14 +109,14 @@ class UIInteraction {
     final rightPixel = await getPixelColor(right.dx.toInt(), right.dy.toInt());
     final topPixel = await getPixelColor(top.dx.toInt(), top.dy.toInt());
     final bottomPixel =
-    await getPixelColor(bottom.dx.toInt(), bottom.dy.toInt());
+        await getPixelColor(bottom.dx.toInt(), bottom.dy.toInt());
 
     return (leftPixel, rightPixel, topPixel, bottomPixel);
   }
 
   static Future<Color> getPixelColor(int x, int y, {int radius = 0}) async {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     final canvasStateNotifier = container.read(canvasStateProvider.notifier);
     await canvasStateNotifier.updateCachedImage();
     final cachedImage = container.read(canvasStateProvider).cachedImage;
@@ -127,7 +127,7 @@ class UIInteraction {
     if (byteData == null) return Colors.transparent;
     final rawBytes = byteData.buffer.asUint8List();
     final image =
-    img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
+        img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
 
     if (radius != 0) {
       for (int i = x - radius; i <= x + radius; i++) {
@@ -183,14 +183,14 @@ class UIInteraction {
 
   static Tool getCurrentTool() {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     final toolBoxProvider = container.read(toolBoxStateProvider);
     return toolBoxProvider.currentTool;
   }
 
   static ShapesTool getShapesTool() {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     return container.read(shapesToolProvider);
   }
 
@@ -207,13 +207,13 @@ class UIInteraction {
 
   static Paint getCurrentPaint() {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     return container.read(paintProvider);
   }
 
   static void setColor(Color color) {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     container.read(paintProvider.notifier).updateColor(color);
   }
 
@@ -263,10 +263,10 @@ class UIInteraction {
   }
 
   static Future<void> dragFromTo(
-      Offset from,
-      Offset to, {
-        int steps = 1,
-      }) async {
+    Offset from,
+    Offset to, {
+    int steps = 1,
+  }) async {
     final TestGesture gesture = await tester.startGesture(from);
     await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
@@ -296,14 +296,14 @@ class UIInteraction {
 
   static int getUndoStackLength() {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     final commandManager = container.read(commandManagerProvider);
     return commandManager.undoStack.length;
   }
 
   static int getRedoStackLength() {
     final container =
-    ProviderScope.containerOf(tester.element(find.byType(App)));
+        ProviderScope.containerOf(tester.element(find.byType(App)));
     final commandManager = container.read(commandManagerProvider);
     return commandManager.redoStack.length;
   }

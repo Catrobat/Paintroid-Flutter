@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/clipboard_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
+import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
@@ -23,6 +24,7 @@ class CommandPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (currentTool.type != ToolType.SHAPES &&
+        currentTool.type != ToolType.TEXT &&
         currentTool.type != ToolType.CLIPBOARD) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
@@ -37,6 +39,8 @@ class CommandPainter extends CustomPainter {
         break;
       case ToolType.CLIPBOARD:
         (currentTool as ClipboardTool).paint(canvas, size);
+      case ToolType.TEXT:
+        (currentTool as TextTool).drawGuides(canvas, ref.read(paintProvider));
         break;
       default:
         commandManager.executeLastCommand(canvas);

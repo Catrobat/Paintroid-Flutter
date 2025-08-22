@@ -15,54 +15,55 @@ import 'dummy_version_strategy.dart';
 
 class DummyCommandFactory {
   static const commandFactory = CommandFactory();
+
   static Iterable<Command> createCommandList(
-      int numberOfCommands, {
-        int version = Version.v1,
-      }) {
+    int numberOfCommands, {
+    int version = Version.v1,
+  }) {
     VersionStrategyManager.setStrategy(
         DummyVersionStrategy(pathCommandVersion: version));
     List<Command> commands = [];
     for (int i = 0; i < numberOfCommands; i++) {
       PathWithActionHistory originalPath =
-      DummyPathFactory.createPathWithActionHistory(i * numberOfCommands);
+          DummyPathFactory.createPathWithActionHistory(i * numberOfCommands);
       Paint originalPaint = DummyPaintFactory.createPaint();
       PathCommand command =
-      commandFactory.createPathCommand(originalPath, originalPaint);
+          commandFactory.createPathCommand(originalPath, originalPaint);
       commands.add(command);
     }
     return commands;
   }
 
   static PathCommand createPathCommand(
-      PathWithActionHistory path,
-      Paint paint, {
-        int version = Version.v1,
-      }) {
+    PathWithActionHistory path,
+    Paint paint, {
+    int version = Version.v1,
+  }) {
     VersionStrategyManager.setStrategy(
         DummyVersionStrategy(pathCommandVersion: version));
     return commandFactory.createPathCommand(path, paint);
   }
 
   static LineCommand createLineCommand(
-      PathWithActionHistory path,
-      Paint paint,
-      Offset startPoint,
-      Offset endPoint, {
-        int version = Version.v1,
-      }) {
+    PathWithActionHistory path,
+    Paint paint,
+    Offset startPoint,
+    Offset endPoint, {
+    int version = Version.v1,
+  }) {
     VersionStrategyManager.setStrategy(
         DummyVersionStrategy(lineCommandVersion: version));
     return commandFactory.createLineCommand(path, paint, startPoint, endPoint);
   }
 
   static SquareShapeCommand createSquareShapeCommand(
-      Paint paint,
-      Offset topLeft,
-      Offset topRight,
-      Offset bottomLeft,
-      Offset bottomRight, {
-        int version = Version.v1,
-      }) {
+    Paint paint,
+    Offset topLeft,
+    Offset topRight,
+    Offset bottomLeft,
+    Offset bottomRight, {
+    int version = Version.v1,
+  }) {
     VersionStrategyManager.setStrategy(
       DummyVersionStrategy(squareShapeCommandVersion: version),
     );
@@ -76,13 +77,13 @@ class DummyCommandFactory {
   }
 
   static EllipseShapeCommand createEllipseShapeCommand(
-      Paint paint,
-      double radiusX,
-      double radiusY,
-      Offset center,
-      double angle, {
-        int version = Version.v1,
-      }) {
+    Paint paint,
+    double radiusX,
+    double radiusY,
+    Offset center,
+    double angle, {
+    int version = Version.v1,
+  }) {
     VersionStrategyManager.setStrategy(
       DummyVersionStrategy(ellipseShapeCommandVersion: version),
     );

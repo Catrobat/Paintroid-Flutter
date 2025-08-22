@@ -11,6 +11,8 @@ abstract class IVersionStrategy {
 
   int getEllipseShapeCommandVersion();
 
+  int getTextCommandVersion();
+
   int getSprayCommandVersion();
 
   int getClipboardCommandVersion();
@@ -35,6 +37,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getEllipseShapeCommandVersion() =>
       SerializerVersion.ELLIPSE_SHAPE_COMMAND_VERSION;
+
+  @override
+  int getTextCommandVersion() => SerializerVersion.TEXT_COMMAND_VERSION;
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;

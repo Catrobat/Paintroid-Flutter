@@ -180,7 +180,7 @@ void main() {
       final mockCmd = MockClipboardCommand();
       when(commandFactory.createClipboardCommand(any, any, any, any, any))
           .thenReturn(mockCmd);
-      when(mockCmd.prepare()).thenAnswer((_) async {});
+      when(mockCmd.prepareForRuntime()).thenAnswer((_) async {});
 
       await sut.paste(paint);
 
@@ -195,7 +195,7 @@ void main() {
         argThat(equals(expectedScale)),
         argThat(equals(expectedAngle)),
       )).called(1);
-      verify(mockCmd.prepare()).called(1);
+      verify(mockCmd.prepareForRuntime()).called(1);
       verify(commandManager.addGraphicCommand(mockCmd)).called(1);
     });
   });

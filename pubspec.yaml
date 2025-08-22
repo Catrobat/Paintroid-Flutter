@@ -28,7 +28,6 @@ dependencies:
   toast: ^0.3.0
   oxidized: ^5.2.0
   flutter_svg: ^1.1.0
-  launch_review_latest: ^1.0.0
   package_info_plus: ^8.3.0
   filesize: ^2.0.1
   smooth_page_indicator: ^1.0.0+2
@@ -63,6 +62,34 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter.ttf
+    - family: Cursive
+      fonts:
+        - asset: assets/fonts/cursive.ttf
+    - family: Dancing
+      fonts:
+        - asset: assets/fonts/dancing.ttf
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/open_sans.ttf
+    - family: Monospace
+      fonts:
+        - asset: assets/fonts/mono_space.ttf
+    - family: Sans Serif Shaded
+      fonts:
+        - asset: assets/fonts/sans_serif_shade.ttf
+    - family: Wind
+      fonts:
+        - asset: assets/fonts/wind.ttf
+    - family: Space Mono
+      fonts:
+        - asset: assets/fonts/space_mono.ttf
+    - family: Work Sans
+      fonts:
+        - asset: assets/fonts/work_sans.ttf
 
   assets:
     - assets/icon/
@@ -70,3 +97,4 @@ flutter:
     - assets/svg/
     - assets/lang/
     - test/assets/images/
+    - assets/pr_number.txt

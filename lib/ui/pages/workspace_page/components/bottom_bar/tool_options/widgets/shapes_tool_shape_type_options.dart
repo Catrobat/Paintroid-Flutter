@@ -40,7 +40,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
                   ),
                   CustomActionChip(
                     key: const ValueKey(
-                      WidgetIdentifier.circleShapeTypeChip,
+                      WidgetIdentifier.ellipseShapeTypeChip,
                     ),
                     hint: 'Circle',
                     chipBackgroundColor:

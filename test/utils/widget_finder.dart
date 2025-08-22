@@ -20,7 +20,7 @@ class WidgetFinder {
   static final Finder redoButton =
       find.byKey(ValueKey(TopBarActionData.REDO.name));
   static final Finder ellipseShapeTypeChip =
-      find.byKey(const ValueKey(WidgetIdentifier.circleShapeTypeChip));
+      find.byKey(const ValueKey(WidgetIdentifier.ellipseShapeTypeChip));
   static final Finder backButton =
       find.byKey(const ValueKey(WidgetIdentifier.backButton));
 

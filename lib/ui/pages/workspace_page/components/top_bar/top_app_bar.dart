@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
@@ -72,7 +73,8 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final isLineTool =
         currentTool is LineTool && currentTool.vertexStack.isNotEmpty;
     final isShapeTool = currentTool.type == ToolType.SHAPES;
-    if (isLineTool || isShapeTool) {
+    final isTextTool = currentTool is TextTool;
+    if (isLineTool || isShapeTool || isTextTool) {
       return () {
         currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();

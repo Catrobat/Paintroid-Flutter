@@ -21,7 +21,7 @@ void main() {
       );
 
       final deserializedCommand =
-      EllipseShapeCommand.fromJson(command.toJson());
+          EllipseShapeCommand.fromJson(command.toJson());
 
       expect(
           DummyPaintFactory.comparePaint(
@@ -58,7 +58,7 @@ void main() {
       );
 
       final deserializedCommand =
-      EllipseShapeCommand.fromJson(command.toJson());
+          EllipseShapeCommand.fromJson(command.toJson());
 
       expect(
           DummyPaintFactory.comparePaint(

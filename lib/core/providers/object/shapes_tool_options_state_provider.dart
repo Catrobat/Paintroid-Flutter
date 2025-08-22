@@ -13,16 +13,8 @@ class ShapesToolOptionsStateProvider extends _$ShapesToolOptionsStateProvider {
   @override
   ShapesToolOptionsStateData build() {
     return const ShapesToolOptionsStateData(
-      isRotating: false,
       shapeType: ShapeType.square,
     );
-  }
-
-  void setIsRotating({required bool isRotating}) {
-    state = state.copyWith(isRotating: isRotating);
-    _handleCurrentTool();
-    ref.read(canvasPainterProvider.notifier).repaint();
-    ref.notifyListeners();
   }
 
   void setShapeType({required ShapeType shapeType}) {

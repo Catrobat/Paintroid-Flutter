@@ -134,6 +134,28 @@ void main() {
   );
 
   testWidgets(
+    'Should tap Rate us! option and handle it without crashing',
+    (tester) async {
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
+      await tester.pumpWidget(sut);
+      await tester.pumpAndSettle();
+
+      final mainOverflowMenu = find.byType(MainOverflowMenu);
+      expect(mainOverflowMenu, findsOneWidget);
+
+      await tester.tap(mainOverflowMenu);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Rate us!'));
+      await tester.pumpAndSettle();
+
+      expect(mainOverflowMenu, findsOneWidget);
+    },
+  );
+
+  testWidgets(
     'Should have the two FABs',
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
