@@ -7,7 +7,6 @@ part 'shapes_tool_options_state_data.freezed.dart';
 @freezed
 class ShapesToolOptionsStateData with _$ShapesToolOptionsStateData {
   const factory ShapesToolOptionsStateData({
-    required bool isRotating,
     required ShapeType shapeType,
   }) = _ShapesToolOptionsData;
 }

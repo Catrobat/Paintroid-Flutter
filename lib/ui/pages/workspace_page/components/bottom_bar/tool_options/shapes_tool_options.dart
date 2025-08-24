@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/shapes_tool_shape_type_options.dart';
-import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/shapes_tool_transformation_mode_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_width_slider.dart';
 
 class ShapesToolOptions extends StatelessWidget {
@@ -15,8 +14,6 @@ class ShapesToolOptions extends StatelessWidget {
         Row(
           children: [
             ShapesToolShapeTypeOptions(),
-            Spacer(),
-            ShapesToolTransformationModeOptions()
           ],
         ),
       ],

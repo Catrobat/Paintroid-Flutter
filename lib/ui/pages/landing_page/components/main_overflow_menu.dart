@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:launch_review_latest/launch_review_latest.dart';
+import 'package:paintroid/core/models/loggable_mixin.dart';
 
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum MainOverflowMenuOption {
   rate('Rate us!'),
@@ -27,7 +30,8 @@ class MainOverflowMenu extends ConsumerStatefulWidget {
   ConsumerState<MainOverflowMenu> createState() => _MainOverFlowMenuState();
 }
 
-class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
+class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
+    with LoggableMixin {
   final feedbackUrl = 'mailto:support-paintroid@catrobat.org';
   final iOSAppId = 'org.catrobat.paintroidflutter';
   final androidAppId = 'org.catrobat.paintroid';
@@ -50,12 +54,34 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu> {
     );
   }
 
+  Future<void> _openStore() async {
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        final appId = Platform.isAndroid ? androidAppId : iOSAppId;
+        final url = Uri.parse(
+          Platform.isAndroid
+              ? 'market://details?id=$appId'
+              : 'https://apps.apple.com/app/$appId',
+        );
+        final launched = await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          logger.severe('Could not launch app store URL: $url');
+        }
+      }
+    } catch (err, stacktrace) {
+      logger.severe('Failed to open app store', err, stacktrace);
+    }
+  }
+
   Future<void> _handleSelectedOption(MainOverflowMenuOption option) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     switch (option) {
       case MainOverflowMenuOption.rate:
-        LaunchReviewLatest.launch(androidAppId: androidAppId, iOSAppId: iOSAppId);
+        await _openStore();
         break;
       case MainOverflowMenuOption.help:
         if (mounted) {

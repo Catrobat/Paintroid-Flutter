@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 abstract class Command with EquatableMixin {
@@ -19,8 +20,10 @@ abstract class Command with EquatableMixin {
         return LineCommand.fromJson(json);
       case SerializerType.SQUARE_SHAPE_COMMAND:
         return SquareShapeCommand.fromJson(json);
-      case SerializerType.CIRCLE_SHAPE_COMMAND:
-        return CircleShapeCommand.fromJson(json);
+      case SerializerType.ELLIPSE_SHAPE_COMMAND:
+        return EllipseShapeCommand.fromJson(json);
+      case SerializerType.TEXT_COMMAND:
+        return TextCommand.fromJson(json);
       default:
         return PathCommand.fromJson(json);
     }
