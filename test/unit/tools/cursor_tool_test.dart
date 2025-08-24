@@ -113,15 +113,17 @@ void main() {
       sut.toggleActive();
     });
 
-    test('Should create PathCommand when active on down', () {
+    test('Should create PathCommand when active on drag', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
       sut.onDown(pointA, paint);
+      sut.onDrag(pointB, paint);
       expect(sut.commandManager.undoStack.first is PathCommand, true);
     });
 
-    test('Should add MoveToAction when active on down', () {
+    test('Should add MoveToAction when active on drag', () {
       expect(sut.commandManager.undoStack.isEmpty, true);
       sut.onDown(pointA, paint);
+      sut.onDrag(pointB, paint);
       final firstAction = (sut.commandManager.undoStack.first as PathCommand)
           .path
           .actions
