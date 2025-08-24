@@ -56,11 +56,17 @@ void main() {
       UIInteraction.setColor(Colors.black);
       await UIInteraction.selectTool(ToolData.CURSOR.name);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topLeft,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -80,11 +86,18 @@ void main() {
       UIInteraction.setColor(Colors.black);
       await UIInteraction.selectTool(ToolData.CURSOR.name);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topLeft,
+        steps: 20,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -104,11 +117,18 @@ void main() {
       UIInteraction.setColor(Colors.black);
       await UIInteraction.selectTool(ToolData.CURSOR.name);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topLeft,
+        steps: 20,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
-        CanvasPosition.centerLeft,
+        CanvasPosition.center,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -122,6 +142,7 @@ void main() {
       await UIInteraction.dragFromTo(
         CanvasPosition.centerRight,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       color = await UIInteraction.getPixelColor(
@@ -146,11 +167,13 @@ void main() {
       await UIInteraction.dragFromTo(
         CanvasPosition.center,
         CanvasPosition.topLeft,
+        steps: 20,
       );
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -170,11 +193,18 @@ void main() {
       UIInteraction.setColor(Colors.black);
       await UIInteraction.selectTool(ToolData.CURSOR.name);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topLeft,
+        steps: 20,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -254,18 +284,26 @@ void main() {
 
       UIInteraction.setColor(Colors.black);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topLeft,
+        steps: 20,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topLeft,
         CanvasPosition.bottomRight,
+        steps: 20,
       );
 
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.bottomRight,
-        CanvasPosition.topLeft,
+        CanvasPosition.center,
+        steps: 20,
       );
 
       var color = await UIInteraction.getPixelColor(
@@ -276,11 +314,18 @@ void main() {
 
       UIInteraction.setColor(Colors.red);
 
+      await UIInteraction.dragFromTo(
+        CanvasPosition.center,
+        CanvasPosition.topRight,
+        steps: 20,
+      );
+
       await UIInteraction.tapAt(CanvasPosition.center);
 
       await UIInteraction.dragFromTo(
         CanvasPosition.topRight,
         CanvasPosition.bottomLeft,
+        steps: 20,
       );
 
       color = await UIInteraction.getPixelColor(
