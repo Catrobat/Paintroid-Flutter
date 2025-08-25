@@ -8,7 +8,6 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/shapes_tool_options_state_data.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shapes_tool_options_state_provider.g.dart';

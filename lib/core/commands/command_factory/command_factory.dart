@@ -55,6 +55,27 @@ class CommandFactory {
         angle,
       );
 
+  TextCommand createTextCommand(
+    Offset point,
+    String text,
+    TextStyle style,
+    double fontSize,
+    Paint paint,
+    double rotationAngle, {
+    double scaleX = 1.0,
+    double scaleY = 1.0,
+  }) =>
+      TextCommand(
+        point,
+        text,
+        style,
+        fontSize,
+        paint,
+        rotationAngle: rotationAngle,
+        scaleX: scaleX,
+        scaleY: scaleY,
+      );
+
   StarShapeCommand createStarShapeCommand(
     Paint paint,
     int numPoints,

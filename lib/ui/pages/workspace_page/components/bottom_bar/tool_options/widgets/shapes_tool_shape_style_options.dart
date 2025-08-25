@@ -3,46 +3,73 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/providers/object/shapes_tool_options_state_provider.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
+import 'package:paintroid/ui/shared/custom_action_chip.dart';
+import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 
 class ShapesToolShapeStyleOptions extends ConsumerWidget {
   const ShapesToolShapeStyleOptions({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final style = ref.watch(shapesToolOptionsStateProvider).shapeStyle;
-    final shapeStyle = [
+    final currentShapeStyle =
+        ref.watch(shapesToolOptionsStateProvider).shapeStyle;
+    final shapeStyleItems = [
       Padding(
         padding: const EdgeInsets.only(left: 8.0),
-        child: ChoiceChip(
-          key: ValueKey(WidgetIdentifier.outlineStyleChip),
-          label: const Text('Outline'),
-          selected: style == ShapeStyle.outline,
-          onSelected: (_) => ref
+        child: CustomActionChip(
+          key: const ValueKey(WidgetIdentifier.outlineStyleChip),
+          hint: 'Outline',
+          chipIcon: Icon(
+            Icons.square_outlined,
+            color: PaintroidTheme.of(context).shadowColor,
+          ),
+          chipBackgroundColor: currentShapeStyle == ShapeStyle.outline
+              ? PaintroidTheme.of(context).primaryColor
+              : Colors.white,
+          onPressed: () => ref
               .read(shapesToolOptionsStateProvider.notifier)
               .setShapeStyle(ShapeStyle.outline),
         ),
       ),
-      ChoiceChip(
-        key: ValueKey(WidgetIdentifier.fillStyleChip),
-        label: const Text('Fill'),
-        selected: style == ShapeStyle.fill,
-        onSelected: (_) => ref
+      CustomActionChip(
+        key: const ValueKey(WidgetIdentifier.fillStyleChip),
+        hint: 'Fill',
+        chipIcon: Icon(
+          Icons.square,
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
+        chipBackgroundColor: currentShapeStyle == ShapeStyle.fill
+            ? PaintroidTheme.of(context).primaryColor
+            : Colors.white,
+        onPressed: () => ref
             .read(shapesToolOptionsStateProvider.notifier)
             .setShapeStyle(ShapeStyle.fill),
       ),
-      ChoiceChip(
-        key: ValueKey(WidgetIdentifier.dashedStyleChip),
-        label: const Text('Dashed'),
-        selected: style == ShapeStyle.dashed,
-        onSelected: (_) => ref
+      CustomActionChip(
+        key: const ValueKey(WidgetIdentifier.dashedStyleChip),
+        hint: 'Dashed',
+        chipIcon: Icon(
+          Icons.border_style_outlined,
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
+        chipBackgroundColor: currentShapeStyle == ShapeStyle.dashed
+            ? PaintroidTheme.of(context).primaryColor
+            : Colors.white,
+        onPressed: () => ref
             .read(shapesToolOptionsStateProvider.notifier)
             .setShapeStyle(ShapeStyle.dashed),
       ),
-      ChoiceChip(
-        key: ValueKey(WidgetIdentifier.fillAndDashedStyleChip),
-        label: const Text('Fill & Dashed'),
-        selected: style == ShapeStyle.fillAndDashed,
-        onSelected: (_) => ref
+      CustomActionChip(
+        key: const ValueKey(WidgetIdentifier.fillAndDashedStyleChip),
+        hint: 'Fill & Dashed',
+        chipIcon: Icon(
+          Icons.texture,
+          color: PaintroidTheme.of(context).shadowColor,
+        ),
+        chipBackgroundColor: currentShapeStyle == ShapeStyle.fillAndDashed
+            ? PaintroidTheme.of(context).primaryColor
+            : Colors.white,
+        onPressed: () => ref
             .read(shapesToolOptionsStateProvider.notifier)
             .setShapeStyle(ShapeStyle.fillAndDashed),
       ),
@@ -51,8 +78,8 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: shapeStyle.length,
-        itemBuilder: (context, index) => shapeStyle[index],
+        itemCount: shapeStyleItems.length,
+        itemBuilder: (context, index) => shapeStyleItems[index],
         separatorBuilder: (context, index) => const SizedBox(width: 8),
       ),
     );

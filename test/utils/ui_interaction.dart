@@ -13,7 +13,6 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/utils/shape_path_generator.dart';
@@ -26,6 +25,14 @@ class UIInteraction {
 
   static void initialize(WidgetTester widgetTester) {
     tester = widgetTester;
+  }
+
+  static Offset _localToGlobal(Offset localPoint, Offset center, double angle) {
+    final double cosA = math.cos(angle);
+    final double sinA = math.sin(angle);
+    final double rotatedX = localPoint.dx * cosA - localPoint.dy * sinA;
+    final double rotatedY = localPoint.dx * sinA + localPoint.dy * cosA;
+    return Offset(rotatedX + center.dx, rotatedY + center.dy);
   }
 
   static void setStrokeWidth(double newStrokeWidth) {
@@ -80,10 +87,14 @@ class UIInteraction {
     final double angle = boundingBox.angle;
     final Offset center = boundingBox.center;
 
-    final Offset localTopLeft = Offset(-halfWidth + padding, -halfHeight + padding);
-    final Offset localTopRight = Offset(halfWidth - padding, -halfHeight + padding);
-    final Offset localBottomLeft = Offset(-halfWidth + padding, halfHeight - padding);
-    final Offset localBottomRight = Offset(halfWidth - padding, halfHeight - padding);
+    final Offset localTopLeft =
+        Offset(-halfWidth + padding, -halfHeight + padding);
+    final Offset localTopRight =
+        Offset(halfWidth - padding, -halfHeight + padding);
+    final Offset localBottomLeft =
+        Offset(-halfWidth + padding, halfHeight - padding);
+    final Offset localBottomRight =
+        Offset(halfWidth - padding, halfHeight - padding);
 
     Offset toGlobal(Offset localPoint) {
       final double s = math.sin(angle);
@@ -105,7 +116,7 @@ class UIInteraction {
       ..lineTo(globalBottomLeft.dx, globalBottomLeft.dy)
       ..close();
 
-    final bounds = path.getBounds();
+    path.getBounds();
 
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
@@ -133,6 +144,15 @@ class UIInteraction {
     final rawBytes = byteData.buffer.asUint8List();
     final image =
         img.Image.fromBytes(cachedImage.width, cachedImage.height, rawBytes);
+
+    final localTopLeftPadded =
+        Offset(-halfWidth + padding, -halfHeight + padding);
+    final localTopRightPadded =
+        Offset(halfWidth - padding, -halfHeight + padding);
+    final localBottomLeftPadded =
+        Offset(-halfWidth + padding, halfHeight - padding);
+    final localBottomRightPadded =
+        Offset(halfWidth - padding, halfHeight - padding);
 
     final topLeft = _localToGlobal(localTopLeftPadded, center, angle);
     final topRight = _localToGlobal(localTopRightPadded, center, angle);

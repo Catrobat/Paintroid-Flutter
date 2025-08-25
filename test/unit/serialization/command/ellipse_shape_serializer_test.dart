@@ -37,8 +37,8 @@ void main() {
           isTrue);
       expect(command.version, equals(deserializedCommand.version));
       expect(deserializedCommand.center, equals(center));
-      expect(deserializedCommand.width, equals(radius));
-      expect(deserializedCommand.height, equals(radius));
+      expect(deserializedCommand.radiusX, equals(radius));
+      expect(deserializedCommand.radiusY, equals(radius));
       expect(deserializedCommand.type, equals(type));
     });
   });

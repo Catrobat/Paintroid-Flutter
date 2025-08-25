@@ -10,8 +10,6 @@ import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
-import 'package:paintroid/core/tools/bounding_box.dart';
-import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 
 void main() {
   late ShapesTool sut;

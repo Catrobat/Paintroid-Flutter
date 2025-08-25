@@ -5,6 +5,7 @@ class SerializerVersion {
   static const int LINE_COMMAND_VERSION = Version.v1;
   static const int SQUARE_SHAPE_COMMAND_VERSION = Version.v1;
   static const int ELLIPSE_SHAPE_COMMAND_VERSION = Version.v1;
+  static const int TEXT_COMMAND_VERSION = Version.v1;
   static const int STAR_SHAPE_COMMAND_VERSION = Version.v1;
   static const int HEART_SHAPE_COMMAND_VERSION = Version.v1;
   static const int SPRAY_COMMAND_VERSION = Version.v1;
@@ -24,6 +25,7 @@ class SerializerType {
   static const String CLOSE_ACTION = 'CloseAction';
   static const String SQUARE_SHAPE_COMMAND = 'SquareShapeCommand';
   static const String ELLIPSE_SHAPE_COMMAND = 'EllipseShapeCommand';
+  static const String TEXT_COMMAND = 'TextCommand';
   static const String STAR_SHAPE_COMMAND = 'StarShapeCommand';
   static const String HEART_SHAPE_COMMAND = 'HeartShapeCommand';
   static const String SPRAY_COMMAND = 'SprayCommand';

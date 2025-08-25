@@ -9,8 +9,8 @@ part of 'ellipse_shape_command.dart';
 EllipseShapeCommand _$EllipseShapeCommandFromJson(Map<String, dynamic> json) =>
     EllipseShapeCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
-      (json['width'] as num).toDouble(),
-      (json['height'] as num).toDouble(),
+      (json['radiusX'] as num).toDouble(),
+      (json['radiusY'] as num).toDouble(),
       const OffsetConverter().fromJson(json['center'] as Map<String, dynamic>),
       $enumDecode(_$ShapeStyleEnumMap, json['style']),
       (json['angle'] as num).toDouble(),
@@ -22,8 +22,8 @@ Map<String, dynamic> _$EllipseShapeCommandToJson(
         EllipseShapeCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
-      'width': instance.width,
-      'height': instance.height,
+      'radiusX': instance.radiusX,
+      'radiusY': instance.radiusY,
       'center': const OffsetConverter().toJson(instance.center),
       'angle': instance.angle,
       'style': _$ShapeStyleEnumMap[instance.style]!,

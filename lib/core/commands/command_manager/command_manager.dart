@@ -113,6 +113,8 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == EllipseShapeCommand) {
       return ToolData.SHAPES;
+    } else if (command.runtimeType == TextCommand) {
+      return ToolData.TEXT;
     } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
     } else if (command.runtimeType == StarShapeCommand) {
