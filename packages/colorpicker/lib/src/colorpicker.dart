@@ -1,22 +1,15 @@
-import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:colorpicker/src/components/checkerboard_square.dart';
 import 'package:colorpicker/src/components/color_comparison.dart';
-import 'package:colorpicker/src/components/hsv_slider_group.dart';
-import 'package:colorpicker/src/components/color_wheel.dart';
 import 'package:colorpicker/src/components/opacity_slider.dart';
-import 'package:colorpicker/src/components/hue_saturation_picker.dart';
-import 'package:colorpicker/src/components/rgb_slider_group.dart';
-import 'package:colorpicker/src/constants/colors.dart';
-import 'package:colorpicker/src/enums/advanced_picker_mode_type.dart';
+import 'package:colorpicker/src/components/recent_colors_section_widget.dart';
+import 'package:colorpicker/src/components/custom_tab_widget.dart';
+import 'package:colorpicker/src/components/picker_content_widget.dart';
 import 'package:colorpicker/src/enums/main_picker_mode_type.dart';
-import 'package:colorpicker/src/enums/slider_picker_mode_type.dart';
 import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:colorpicker/src/state/recent_color_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/ui/theme/theme.dart';
-import 'package:colorpicker/src/constants/color_picker_constants.dart';
+import 'package:colorpicker/src/constants/colorpicker_colors.dart';
 
 class ColorPicker extends ConsumerStatefulWidget {
   const ColorPicker({
@@ -36,8 +29,6 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   MainPickerMode _mainPickerMode = MainPickerMode.grid;
-  AdvancedPickerMode _advancedPickerMode = AdvancedPickerMode.picker;
-  SliderPickerMode _sliderTypeMode = SliderPickerMode.hsv;
 
   final double _selectedIndicatorHeight = 5.0;
   final double _unselectedIndicatorHeight = 2.0;
@@ -90,67 +81,6 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
     ref.read(colorPickerStateProvider.notifier).updateOpacity(color.a);
   }
 
-  Widget _buildRecentColorsSection() {
-    final recentColors = ref.watch(recentColorsProvider);
-    final theme = Theme.of(context);
-
-    if (recentColors.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 15.0),
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 8.0,
-          children: recentColors.map((color) {
-            final bool needsCheckerboard = color.a < 1.0;
-
-            return GestureDetector(
-              onTap: () {
-                _handleColorAndOpacityChange(color);
-              },
-              child: Container(
-                width: 32.0,
-                height: 32.0,
-                decoration: BoxDecoration(
-                  image: needsCheckerboard
-                      ? DecorationImage(
-                          image: PackageAssets.getCheckerboardImgAsset(),
-                          repeat: ImageRepeat.repeat,
-                        )
-                      : null,
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(color: theme.dividerColor, width: 1.0),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 8.0),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'recently used',
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.bold,
-              color:
-                  theme.textTheme.bodySmall?.color?.withAlpha((178.5).toInt()),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorPickerState = ref.watch(colorPickerStateProvider);
@@ -177,8 +107,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+            Flexible(
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -187,7 +116,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                       currentColor: widget.currentColor,
                       newColor: displayColor,
                     ),
-                    _buildRecentColorsSection(),
+                    RecentColorsSectionWidget(
+                        onColorSelected: _handleColorAndOpacityChange),
                     const SizedBox(height: 20.0),
                     SizedBox(
                       height: 48,
@@ -199,16 +129,42 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                             .withAlpha((255 * 0.7).toInt()),
                         indicator: const BoxDecoration(),
                         tabs: <Widget>[
-                          _buildCustomTab(const Icon(Icons.grid_on), 0),
-                          _buildCustomTab(const Icon(Icons.circle), 1),
-                          _buildCustomTab(const Icon(Icons.tune), 2),
+                          CustomTabWidget(
+                            iconWidget: const Icon(Icons.grid_on),
+                            index: 0,
+                            tabController: _tabController,
+                            selectedIndicatorHeight: _selectedIndicatorHeight,
+                            unselectedIndicatorHeight:
+                                _unselectedIndicatorHeight,
+                          ),
+                          CustomTabWidget(
+                            iconWidget: const Icon(Icons.circle),
+                            index: 1,
+                            tabController: _tabController,
+                            selectedIndicatorHeight: _selectedIndicatorHeight,
+                            unselectedIndicatorHeight:
+                                _unselectedIndicatorHeight,
+                          ),
+                          CustomTabWidget(
+                            iconWidget: const Icon(Icons.tune),
+                            index: 2,
+                            tabController: _tabController,
+                            selectedIndicatorHeight: _selectedIndicatorHeight,
+                            unselectedIndicatorHeight:
+                                _unselectedIndicatorHeight,
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 15.0),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 200),
-                      child: _buildPickerContent(solidColorForPickers),
+                      child: PickerContentWidget(
+                        mainPickerMode: _mainPickerMode,
+                        colorForPickers: solidColorForPickers,
+                        onColorChanged: _handleColorChange,
+                        onColorAndOpacityChanged: _handleColorAndOpacityChange,
+                      ),
                     ),
                     if (_mainPickerMode != MainPickerMode.sliders) ...[
                       const SizedBox(height: 20.0),
@@ -226,7 +182,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                   onPressed: () => Navigator.pop(context),
                   child: const Text('CANCEL',
                       style: TextStyle(
-                          color: CustomColors.oceanBlue,
+                          color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),
                 const SizedBox(width: 15.0),
@@ -240,7 +196,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                   },
                   child: const Text('APPLY',
                       style: TextStyle(
-                          color: CustomColors.oceanBlue,
+                          color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),
               ],
@@ -249,246 +205,5 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
         ),
       ),
     );
-  }
-
-  Widget _buildPickerContent(Color colorForPickers) {
-    final currentGlobalOpacity = ref
-        .read(colorPickerStateProvider.select((state) => state.currentOpacity));
-    final colorForHsvRgbWithOpacity =
-        colorForPickers.withAlpha((currentGlobalOpacity * 255).round());
-
-    switch (_mainPickerMode) {
-      case MainPickerMode.grid:
-        return _buildGridPicker();
-      case MainPickerMode.advanced:
-        return _buildAdvancedPicker(colorForPickers, 'Picker', 'Wheel');
-      case MainPickerMode.sliders:
-        return _buildHsvRgbSlidersPicker(colorForHsvRgbWithOpacity);
-    }
-  }
-
-  Widget _buildHsvRgbSlidersPicker(Color colorForHsvRgbWithOpacity) {
-    final theme = Theme.of(context);
-    final paintroidTheme = PaintroidTheme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Column(
-      key: const ValueKey('slider_picker'),
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ToggleButtons(
-          isSelected: [
-            _sliderTypeMode == SliderPickerMode.hsv,
-            _sliderTypeMode == SliderPickerMode.rgb,
-          ],
-          onPressed: (int index) {
-            setState(() {
-              _sliderTypeMode =
-                  index == 0 ? SliderPickerMode.hsv : SliderPickerMode.rgb;
-            });
-          },
-          borderRadius: BorderRadius.circular(18.0),
-          borderWidth: 1.5,
-          borderColor: colorScheme.primary,
-          selectedBorderColor: colorScheme.primary,
-          fillColor: paintroidTheme.surfaceColor,
-          color: paintroidTheme.orangeColor,
-          constraints: const BoxConstraints(minHeight: 30.0, minWidth: 70.0),
-          children: <Widget>[
-            _buildToggleItem(
-                context, 'HSV', _sliderTypeMode, SliderPickerMode.hsv),
-            _buildToggleItem(
-                context, 'RGB', _sliderTypeMode, SliderPickerMode.rgb),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: _sliderTypeMode == SliderPickerMode.hsv
-              ? HsvSliderGroup(
-                  initialColor: colorForHsvRgbWithOpacity,
-                  onColorChanged: _handleColorAndOpacityChange)
-              : RgbSliderGroup(
-                  initialColor: colorForHsvRgbWithOpacity,
-                  onColorChanged: _handleColorAndOpacityChange),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGridPicker() {
-    const List<Color> colors = DisplayColors.colors;
-    final theme = Theme.of(context);
-
-    return GridView.builder(
-      key: const ValueKey('grid_picker'),
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: colors.length + 1,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        crossAxisSpacing: 6.0,
-        mainAxisSpacing: 6.0,
-        childAspectRatio: 1.0,
-      ),
-      itemBuilder: (context, index) {
-        if (index == colors.length) {
-          return GestureDetector(
-            onTap: () => _handleColorChange(Colors.transparent),
-            child: const CheckerboardSquare(),
-          );
-        }
-        final color = colors[index];
-        return GestureDetector(
-          onTap: () => _handleColorChange(color),
-          child: Container(
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(4.0),
-              border: Border.all(color: theme.dividerColor, width: 1.0),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildToggleItem<T>(
-    BuildContext context,
-    String text,
-    T currentMode,
-    T buttonMode,
-  ) {
-    final bool isSelected = currentMode == buttonMode;
-    final colorScheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          if (isSelected)
-            Icon(
-              Icons.check,
-              size: 18.0,
-              color: colorScheme.onSurface,
-            ),
-          if (isSelected) const SizedBox(width: 6.0),
-          Text(
-            text,
-            style: TextStyle(color: colorScheme.onSurface),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAdvancedPicker(
-    Color colorForPickers,
-    String text1,
-    String text2,
-  ) {
-    final theme = Theme.of(context);
-    final paintroidTheme = PaintroidTheme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Column(
-      key: const ValueKey('advanced_picker'),
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ToggleButtons(
-          isSelected: [
-            _advancedPickerMode == AdvancedPickerMode.picker,
-            _advancedPickerMode == AdvancedPickerMode.wheel,
-          ],
-          onPressed: (int index) {
-            setState(() {
-              _advancedPickerMode = index == 0
-                  ? AdvancedPickerMode.picker
-                  : AdvancedPickerMode.wheel;
-            });
-          },
-          borderRadius: BorderRadius.circular(18.0),
-          borderWidth: 1.5,
-          borderColor: colorScheme.primary,
-          selectedBorderColor: colorScheme.primary,
-          fillColor: paintroidTheme.surfaceColor,
-          constraints: const BoxConstraints(minHeight: 30.0, minWidth: 70.0),
-          children: <Widget>[
-            _buildToggleItem(
-                context, text1, _advancedPickerMode, AdvancedPickerMode.picker),
-            _buildToggleItem(
-                context, text2, _advancedPickerMode, AdvancedPickerMode.wheel),
-          ],
-        ),
-        const SizedBox(height: 20),
-        SizedBox(
-          height: 220.0,
-          child: Center(
-            child: _advancedPickerMode == AdvancedPickerMode.picker
-                ? HueSaturationValuePicker(
-                    initialColor: colorForPickers,
-                    onColorChanged: _handleColorChange)
-                : ColorWheel(
-                    pickerColor: colorForPickers,
-                    onColorChanged: _handleColorChange),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCustomTab(Icon iconWidget, int index) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return AnimatedBuilder(
-        animation: _tabController,
-        builder: (BuildContext context, Widget? child) {
-          final bool isSelected = _tabController.index == index;
-          return GestureDetector(
-            onTap: () {
-              if (_tabController.index != index) {
-                _tabController.animateTo(index);
-              }
-            },
-            child: Container(
-              height: 48,
-              padding: const EdgeInsets.only(bottom: 2.0),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    child: Center(
-                        child: ShaderMask(
-                      shaderCallback: (Rect bounds) {
-                        return hueSweepGradient.createShader(bounds);
-                      },
-                      blendMode: BlendMode.srcIn,
-                      child: IconTheme(
-                        data: const IconThemeData(
-                          color: Colors.white,
-                        ),
-                        child: iconWidget,
-                      ),
-                    )),
-                  ),
-                  Container(
-                    height: isSelected
-                        ? _selectedIndicatorHeight
-                        : _unselectedIndicatorHeight,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color:
-                          isSelected ? colorScheme.primary : theme.dividerColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

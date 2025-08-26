@@ -15,8 +15,6 @@ dependencies:
   riverpod_annotation: ^2.1.1
   freezed_annotation: ^2.4.1
   logging: ^1.0.2
-  paintroid:
-    path: ../../
 
 dev_dependencies:
   flutter_test:

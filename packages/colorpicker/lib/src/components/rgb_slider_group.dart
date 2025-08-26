@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paintroid/ui/theme/data/custom_colors.dart';
+import 'package:colorpicker/src/constants/colorpicker_colors.dart';
 import 'package:logging/logging.dart';
-import 'package:colorpicker/src/utils/upper_case_text_formatter.dart';
-import 'package:colorpicker/src/utils/hex_input_formatter.dart';
+import 'package:colorpicker/src/components/color_slider_row_widget.dart';
+import 'package:colorpicker/src/components/hex_input_row_widget.dart';
 
 final log = Logger('RgbSliderGroup');
 
@@ -13,10 +12,10 @@ class RgbSliderGroup extends ConsumerStatefulWidget {
   final ValueChanged<Color> onColorChanged;
 
   const RgbSliderGroup({
-    Key? key,
+    super.key,
     required this.initialColor,
     required this.onColorChanged,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<RgbSliderGroup> createState() => _SliderColorState();
@@ -28,6 +27,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
   late int _blue;
   late int _alphaValue;
   late TextEditingController _hexController;
+  late FocusNode _hexFocusNode;
 
   int _getAlpha(Color color) => (color.a * 255).round();
 
@@ -40,6 +40,8 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
   @override
   void initState() {
     super.initState();
+    _hexController = TextEditingController();
+    _hexFocusNode = FocusNode();
     _initializeStateFromColor(widget.initialColor);
   }
 
@@ -56,7 +58,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
     _green = _getGreen(color);
     _blue = _getBlue(color);
     _alphaValue = _getAlpha(color);
-    _hexController = TextEditingController(text: _colorToHex(color));
+    _hexController.text = _colorToHex(color);
   }
 
   String _colorToHex(Color color) {
@@ -93,7 +95,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
     final newColor = Color.fromARGB(_alphaValue, _red, _green, _blue);
     final newHex = _colorToHex(newColor);
     if (mounted &&
-        !FocusScope.of(context).hasFocus &&
+        !_hexFocusNode.hasFocus &&
         _hexController.text.toUpperCase() != newHex.toUpperCase()) {
       _hexController.text = newHex;
     }
@@ -133,155 +135,96 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _buildSliderRow('Red', _red.toDouble(), 0, 255, (value) {
-          if (_red != value.round()) {
-            if (mounted) {
-              setState(() {
-                _red = value.round();
-              });
+        ColorSliderRowWidget(
+          label: 'Red',
+          value: _red.toDouble(),
+          min: 0,
+          max: 255,
+          onChanged: (value) {
+            if (_red != value.round()) {
+              if (mounted) {
+                setState(() {
+                  _red = value.round();
+                });
+              }
+              _updateColorFromSliders();
             }
-            _updateColorFromSliders();
-          }
-        }, Colors.red),
-        const SizedBox(height: 10),
-        _buildSliderRow('Green', _green.toDouble(), 0, 255, (value) {
-          if (_green != value.round()) {
-            if (mounted) {
-              setState(() {
-                _green = value.round();
-              });
-            }
-            _updateColorFromSliders();
-          }
-        }, Colors.green),
-        const SizedBox(height: 10),
-        _buildSliderRow('Blue', _blue.toDouble(), 0, 255, (value) {
-          if (_blue != value.round()) {
-            if (mounted) {
-              setState(() {
-                _blue = value.round();
-              });
-            }
-            _updateColorFromSliders();
-          }
-        }, Colors.blue),
-        const SizedBox(height: 10),
-        _buildSliderRow('Alpha', _alphaValue.toDouble(), 0, 255, (value) {
-          if (_alphaValue != value.round()) {
-            if (mounted) {
-              setState(() {
-                _alphaValue = value.round();
-              });
-            }
-            _updateColorFromSliders();
-          }
-        }, CustomColors.oceanBlue, isAlpha: true),
-        const SizedBox(height: 16),
-        _buildHexInputRow(),
-      ],
-    );
-  }
-
-  Widget _buildSliderRow(String label, double value, double min, double max,
-      ValueChanged<double> onChanged, Color sliderActiveColor,
-      {bool isAlpha = false}) {
-    final clampedValue = value.clamp(min, max);
-    final String displayValue = isAlpha && max == 255
-        ? '${(clampedValue / 255 * 100).round()}%'
-        : clampedValue.round().toString();
-
-    return Row(
-      children: <Widget>[
-        SizedBox(
-          width: 55,
-          child: Text(label,
-              style: TextStyle(
-                fontSize: 14,
-                color: isAlpha ? CustomColors.oceanBlue : sliderActiveColor,
-              )),
+          },
+          sliderActiveColor: Colors.red,
         ),
-        Expanded(
-          child: SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              activeTrackColor:
-                  sliderActiveColor.withAlpha((255 * 0.7).round()),
-              inactiveTrackColor:
-                  sliderActiveColor.withAlpha((255 * 0.3).round()),
-              thumbColor: sliderActiveColor,
-              overlayColor: sliderActiveColor.withAlpha(0x29),
-              trackHeight: 6.0,
-              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 9.0),
-              overlayShape: const RoundSliderOverlayShape(overlayRadius: 14.0),
-            ),
-            child: Slider(
-              value: clampedValue,
-              min: min,
-              max: max,
-              divisions: (max - min).round(),
-              label: displayValue,
-              onChanged: onChanged,
-            ),
-          ),
+        const SizedBox(height: 10),
+        ColorSliderRowWidget(
+          label: 'Green',
+          value: _green.toDouble(),
+          min: 0,
+          max: 255,
+          onChanged: (value) {
+            if (_green != value.round()) {
+              if (mounted) {
+                setState(() {
+                  _green = value.round();
+                });
+              }
+              _updateColorFromSliders();
+            }
+          },
+          sliderActiveColor: Colors.green,
         ),
-        SizedBox(
-          width: 45,
-          child: Text(displayValue,
-              textAlign: TextAlign.right,
-              style:
-                  const TextStyle(fontSize: 14, color: CustomColors.oceanBlue)),
+        const SizedBox(height: 10),
+        ColorSliderRowWidget(
+          label: 'Blue',
+          value: _blue.toDouble(),
+          min: 0,
+          max: 255,
+          onChanged: (value) {
+            if (_blue != value.round()) {
+              if (mounted) {
+                setState(() {
+                  _blue = value.round();
+                });
+              }
+              _updateColorFromSliders();
+            }
+          },
+          sliderActiveColor: Colors.blue,
+        ),
+        const SizedBox(height: 10),
+        ColorSliderRowWidget(
+          label: 'Alpha',
+          value: _alphaValue.toDouble(),
+          min: 0,
+          max: 255,
+          onChanged: (value) {
+            if (_alphaValue != value.round()) {
+              if (mounted) {
+                setState(() {
+                  _alphaValue = value.round();
+                });
+              }
+              _updateColorFromSliders();
+            }
+          },
+          sliderActiveColor: ColorPickerColors.oceanBlue,
+          isAlpha: true,
+        ),
+        const SizedBox(height: 16.0),
+        HexInputRowWidget(
+          hexController: _hexController,
+          hexFocusNode: _hexFocusNode,
+          onSubmitted: _updateColorFromHex,
+          onEditingComplete: () {
+            _updateColorFromHex(_hexController.text);
+            if (mounted) _hexFocusNode.unfocus();
+          },
         ),
       ],
-    );
-  }
-
-  Widget _buildHexInputRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          const SizedBox(
-            width: 55,
-            child: Text('HEX',
-                style: TextStyle(fontSize: 14, color: Colors.black)),
-          ),
-          Expanded(
-            child: TextField(
-              controller: _hexController,
-              maxLength: 9,
-              style: const TextStyle(fontSize: 14),
-              decoration: const InputDecoration(
-                isDense: true,
-                focusColor: CustomColors.oceanBlue,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: CustomColors.oceanBlue),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: CustomColors.oceanBlue),
-                ),
-                counterText: '',
-              ),
-              inputFormatters: [
-                UpperCaseTextFormatter(),
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9a-fA-F#]')),
-                HexInputFormatter(),
-              ],
-              onSubmitted: _updateColorFromHex,
-              onEditingComplete: () {
-                _updateColorFromHex(_hexController.text);
-                if (mounted) FocusScope.of(context).unfocus();
-              },
-            ),
-          ),
-          const SizedBox(width: 45),
-        ],
-      ),
     );
   }
 
   @override
   void dispose() {
     _hexController.dispose();
+    _hexFocusNode.dispose();
     super.dispose();
   }
 }
