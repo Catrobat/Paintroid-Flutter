@@ -6,6 +6,7 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/implementation/clipping_tool.dart';
 import 'package:paintroid/core/providers/object/tools/clipping_tool_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 
 part 'clipping_tool_provider.g.dart';
 
@@ -18,6 +19,7 @@ class ClippingToolProvider extends _$ClippingToolProvider {
       commandFactory: ref.watch(commandFactoryProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
       clippingToolState: ref.watch(clippingToolState.notifier),
+      canvasStateProvider: ref.watch(canvasStateProvider.notifier),
       type: ToolType.CLIPPING,
     );
   }

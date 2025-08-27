@@ -1,6 +1,9 @@
+import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -38,6 +41,10 @@ abstract class Command with EquatableMixin {
         return HeartShapeCommand.fromJson(json);
       case SerializerType.STAR_SHAPE_COMMAND:
         return StarShapeCommand.fromJson(json);
+      case SerializerType.CLIP_PATH_COMMAND:
+        return ClipPathCommand.fromJson(json);
+      case SerializerType.CLIP_AREA_COMMAND:
+        return ClipAreaCommand.fromJson(json);
       default:
         return PathCommand.fromJson(json);
     }

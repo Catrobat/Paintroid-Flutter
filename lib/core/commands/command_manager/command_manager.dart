@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -135,6 +137,9 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == HeartShapeCommand) {
       return ToolData.SHAPES;
+    } else if (command.runtimeType == ClipAreaCommand ||
+        command.runtimeType == ClipPathCommand) {
+      return ToolData.CLIPPING;
     } else if (command is PathCommand) {
       if (command.isCursorPath) {
         return ToolData.CURSOR;

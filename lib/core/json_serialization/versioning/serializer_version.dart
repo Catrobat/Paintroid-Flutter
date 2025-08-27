@@ -37,6 +37,6 @@ class SerializerType {
   static const String CLIPBOARD_COMMAND = 'ClipboardCommand';
   static const String DELETE_REGION_COMMAND = 'DeleteRegionCommand';
   static const String DASHED_PATH_COMMAND = 'DashedPathCommand';
-  static const String CLIP_PATH_COMMAND = 'DashedPathCommand';
+  static const String CLIP_PATH_COMMAND = 'ClipPathCommand';
   static const String CLIP_AREA_COMMAND = 'ClipAreaCommand';
 }

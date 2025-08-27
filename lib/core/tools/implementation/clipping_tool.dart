@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/clipping_tool_state_provider.dart';
@@ -11,6 +12,7 @@ import 'package:paintroid/core/providers/object/tools/clipping_tool_state_provid
 class ClippingTool extends Tool {
   final GraphicFactory graphicFactory;
   final ClippingToolState clippingToolState;
+  final CanvasStateProvider canvasStateProvider;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
@@ -23,6 +25,7 @@ class ClippingTool extends Tool {
     required super.commandManager,
     required this.graphicFactory,
     required this.clippingToolState,
+    required this.canvasStateProvider,
     super.type = ToolType.CLIPPING,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = true,
@@ -30,10 +33,12 @@ class ClippingTool extends Tool {
 
   @override
   void onDown(Offset point, Paint paint) {
+    bool requiresRefresh = false;
     if (clippingToolState.hasActiveClipPath) {
       if (_activePreviewCommand != null) {
         commandManager.removeCommand(_activePreviewCommand!);
         _activePreviewCommand = null;
+        requiresRefresh = true;
       }
       clippingToolState.clearClipPath();
     }
@@ -41,6 +46,11 @@ class ClippingTool extends Tool {
     if (_liveDrawingCommand != null) {
       commandManager.removeCommand(_liveDrawingCommand!);
       _liveDrawingCommand = null;
+      requiresRefresh = true;
+    }
+
+    if (requiresRefresh) {
+      canvasStateProvider.resetCanvasWithExistingCommands();
     }
 
     _startPoint = point;
@@ -60,9 +70,11 @@ class ClippingTool extends Tool {
 
   @override
   void onUp(Offset point, Paint paint) {
+    bool requiresRefresh = false;
     if (_liveDrawingCommand != null) {
       commandManager.removeCommand(_liveDrawingCommand!);
       _liveDrawingCommand = null;
+      requiresRefresh = true;
     }
 
     bool pointAddedInUp = false;
@@ -134,31 +146,45 @@ class ClippingTool extends Tool {
     _activePreviewCommand = newPreviewCommand;
     clippingToolState.setHasActiveClipPath(true);
     _startPoint = null;
+
+    if (requiresRefresh) {
+      canvasStateProvider.resetCanvasWithExistingCommands();
+    }
+    canvasStateProvider.updateCachedImage();
   }
 
   @override
   void onCancel() {
+    bool requiresRefresh = false;
     if (_liveDrawingCommand != null) {
       commandManager.removeCommand(_liveDrawingCommand!);
       _liveDrawingCommand = null;
+      requiresRefresh = true;
     }
 
     if (clippingToolState.hasActiveClipPath) {
       if (_activePreviewCommand != null) {
         commandManager.removeCommand(_activePreviewCommand!);
         _activePreviewCommand = null;
+        requiresRefresh = true;
       }
       clippingToolState.clearClipPath();
+    }
+
+    if (requiresRefresh) {
+      canvasStateProvider.resetCanvasWithExistingCommands();
     }
     _startPoint = null;
   }
 
   @override
   void onCheckmark(Paint paint) {
+    bool requiresRefresh = false;
     if (clippingToolState.hasActiveClipPath) {
       if (_activePreviewCommand != null) {
         commandManager.removeCommand(_activePreviewCommand!);
         _activePreviewCommand = null;
+        requiresRefresh = true;
       }
       clippingToolState.clearClipPath();
     }
@@ -166,6 +192,7 @@ class ClippingTool extends Tool {
     if (_liveDrawingCommand != null) {
       commandManager.removeCommand(_liveDrawingCommand!);
       _liveDrawingCommand = null;
+      requiresRefresh = true;
     }
 
     if (pathToDraw.actions.isNotEmpty) {
@@ -174,6 +201,11 @@ class ClippingTool extends Tool {
       final cropCommand =
           commandFactory.createClipAreaCommand(pathToDraw, paint);
       commandManager.addGraphicCommand(cropCommand);
+      requiresRefresh = true;
+    }
+
+    if (requiresRefresh) {
+      canvasStateProvider.resetCanvasWithExistingCommands();
     }
     _startPoint = null;
   }
@@ -184,10 +216,12 @@ class ClippingTool extends Tool {
   @override
   void onRedo() {
     commandManager.redo();
+    canvasStateProvider.resetCanvasWithExistingCommands();
   }
 
   @override
   void onUndo() {
     commandManager.undo();
+    canvasStateProvider.resetCanvasWithExistingCommands();
   }
 }
