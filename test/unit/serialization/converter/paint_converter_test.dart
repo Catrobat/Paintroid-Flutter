@@ -88,5 +88,45 @@ void main() {
 
       expect(deserializedPaint.color, equals(originalPaint.color));
     });
+
+    test('Paint with and without MaskFilter handles serialization correctly',
+        () {
+      Paint paintWithMask = Paint()
+        ..color = Colors.teal
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10.0);
+
+      Map<String, dynamic> jsonWithMask = converter.toJson(paintWithMask);
+      Paint deserializedPaintWithMask = converter.fromJson(jsonWithMask);
+
+      expect(deserializedPaintWithMask.maskFilter, isNotNull,
+          reason: 'MaskFilter should be present after deserialization');
+      final expectedMaskFilter = MaskFilter.blur(BlurStyle.inner, 20.0);
+      expect(deserializedPaintWithMask.maskFilter.toString(),
+          equals(expectedMaskFilter.toString()),
+          reason:
+              'Deserialized MaskFilter should be BlurStyle.inner with sigma 20.0');
+
+      expect(deserializedPaintWithMask.color, equals(paintWithMask.color));
+      expect(deserializedPaintWithMask.strokeWidth,
+          equals(paintWithMask.strokeWidth));
+      expect(deserializedPaintWithMask.style, equals(paintWithMask.style));
+
+      Paint paintWithoutMask = Paint()
+        ..color = Colors.red
+        ..strokeWidth = 1.0
+        ..style = PaintingStyle.fill
+        ..maskFilter = null;
+
+      Map<String, dynamic> jsonWithoutMask = converter.toJson(paintWithoutMask);
+      Paint deserializedPaintWithoutMask = converter.fromJson(jsonWithoutMask);
+
+      expect(deserializedPaintWithoutMask.maskFilter, isNull,
+          reason:
+              'MaskFilter should be null after deserialization if originally null');
+      expect(
+          deserializedPaintWithoutMask.color, equals(paintWithoutMask.color));
+    });
   });
 }
