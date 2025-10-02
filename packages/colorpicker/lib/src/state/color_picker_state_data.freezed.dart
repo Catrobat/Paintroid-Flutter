@@ -12,14 +12,16 @@ part of 'color_picker_state_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ColorPickerStateData {
   Color? get currentColor => throw _privateConstructorUsedError;
   double get currentOpacity => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ColorPickerStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ColorPickerStateDataCopyWith<ColorPickerStateData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$ColorPickerStateDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ColorPickerStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64,31 +68,33 @@ class _$ColorPickerStateDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ColorPickerStateDataCopyWith<$Res>
+abstract class _$$ColorPickerStateDataImplCopyWith<$Res>
     implements $ColorPickerStateDataCopyWith<$Res> {
-  factory _$$_ColorPickerStateDataCopyWith(_$_ColorPickerStateData value,
-          $Res Function(_$_ColorPickerStateData) then) =
-      __$$_ColorPickerStateDataCopyWithImpl<$Res>;
+  factory _$$ColorPickerStateDataImplCopyWith(_$ColorPickerStateDataImpl value,
+          $Res Function(_$ColorPickerStateDataImpl) then) =
+      __$$ColorPickerStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Color? currentColor, double currentOpacity});
 }
 
 /// @nodoc
-class __$$_ColorPickerStateDataCopyWithImpl<$Res>
-    extends _$ColorPickerStateDataCopyWithImpl<$Res, _$_ColorPickerStateData>
-    implements _$$_ColorPickerStateDataCopyWith<$Res> {
-  __$$_ColorPickerStateDataCopyWithImpl(_$_ColorPickerStateData _value,
-      $Res Function(_$_ColorPickerStateData) _then)
+class __$$ColorPickerStateDataImplCopyWithImpl<$Res>
+    extends _$ColorPickerStateDataCopyWithImpl<$Res, _$ColorPickerStateDataImpl>
+    implements _$$ColorPickerStateDataImplCopyWith<$Res> {
+  __$$ColorPickerStateDataImplCopyWithImpl(_$ColorPickerStateDataImpl _value,
+      $Res Function(_$ColorPickerStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ColorPickerStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? currentColor = freezed,
     Object? currentOpacity = null,
   }) {
-    return _then(_$_ColorPickerStateData(
+    return _then(_$ColorPickerStateDataImpl(
       currentColor: freezed == currentColor
           ? _value.currentColor
           : currentColor // ignore: cast_nullable_to_non_nullable
@@ -103,8 +109,8 @@ class __$$_ColorPickerStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ColorPickerStateData implements _ColorPickerStateData {
-  const _$_ColorPickerStateData(
+class _$ColorPickerStateDataImpl implements _ColorPickerStateData {
+  const _$ColorPickerStateDataImpl(
       {required this.currentColor, required this.currentOpacity});
 
   @override
@@ -121,7 +127,7 @@ class _$_ColorPickerStateData implements _ColorPickerStateData {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ColorPickerStateData &&
+            other is _$ColorPickerStateDataImpl &&
             (identical(other.currentColor, currentColor) ||
                 other.currentColor == currentColor) &&
             (identical(other.currentOpacity, currentOpacity) ||
@@ -131,25 +137,31 @@ class _$_ColorPickerStateData implements _ColorPickerStateData {
   @override
   int get hashCode => Object.hash(runtimeType, currentColor, currentOpacity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ColorPickerStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ColorPickerStateDataCopyWith<_$_ColorPickerStateData> get copyWith =>
-      __$$_ColorPickerStateDataCopyWithImpl<_$_ColorPickerStateData>(
-          this, _$identity);
+  _$$ColorPickerStateDataImplCopyWith<_$ColorPickerStateDataImpl>
+      get copyWith =>
+          __$$ColorPickerStateDataImplCopyWithImpl<_$ColorPickerStateDataImpl>(
+              this, _$identity);
 }
 
 abstract class _ColorPickerStateData implements ColorPickerStateData {
   const factory _ColorPickerStateData(
       {required final Color? currentColor,
-      required final double currentOpacity}) = _$_ColorPickerStateData;
+      required final double currentOpacity}) = _$ColorPickerStateDataImpl;
 
   @override
   Color? get currentColor;
   @override
   double get currentOpacity;
+
+  /// Create a copy of ColorPickerStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_ColorPickerStateDataCopyWith<_$_ColorPickerStateData> get copyWith =>
-      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ColorPickerStateDataImplCopyWith<_$ColorPickerStateDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

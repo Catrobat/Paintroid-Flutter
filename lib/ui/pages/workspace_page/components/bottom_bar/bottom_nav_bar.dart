@@ -113,24 +113,20 @@ void _handleToolOptionsVisibility(WidgetRef ref) {
 }
 
 void _showColorPicker(BuildContext context, WidgetRef ref) {
-  showModalBottomSheet(
+  final Color initialColor = ref.read(paintProvider).color;
+
+  showDialog(
     context: context,
-    isScrollControlled: true,
-    builder: (BuildContext dialogContext) => Container(
-      height: MediaQuery.of(dialogContext).size.height * 0.7,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: PaintroidTheme.of(dialogContext).onSurfaceColor,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16.0),
-            topRight: Radius.circular(16.0),
-          )),
-      child: ColorPicker(
-        currentColor: ref.watch(paintProvider).color,
-        onColorChanged: (newColor) {
-          ref.watch(paintProvider.notifier).updateColor(newColor);
-        },
-      ),
-    ),
+    builder: (BuildContext dialogContext) {
+      return Dialog(
+        clipBehavior: Clip.antiAlias,
+        child: ColorPicker(
+          currentColor: initialColor,
+          onColorChanged: (newColor) {
+            ref.read(paintProvider.notifier).updateColor(newColor);
+          },
+        ),
+      );
+    },
   );
 }

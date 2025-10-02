@@ -68,7 +68,7 @@ class ColorDescription extends StatelessWidget {
         const SizedBox(width: 8.0),
         Text(
           description,
-          style: const TextStyle(color: Color.fromARGB(255, 149, 149, 149)),
+          style: const TextStyle(color: Colors.black),
         ),
       ],
     );
