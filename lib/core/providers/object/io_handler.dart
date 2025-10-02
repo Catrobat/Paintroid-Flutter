@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:image/image.dart' as img;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,12 +12,15 @@ import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/enums/image_location.dart';
 import 'package:paintroid/core/models/catrobat_image.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
+import 'package:paintroid/core/models/loggable_mixin.dart';
+import 'package:paintroid/core/models/ora_image.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/core/providers/object/load_image_from_file_manager.dart';
 import 'package:paintroid/core/providers/object/load_image_from_photo_library.dart';
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/object/save_as_catrobat_image.dart';
+import 'package:paintroid/core/providers/object/save_as_ora_image.dart';
 import 'package:paintroid/core/providers/object/save_as_raster_image.dart';
 import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
@@ -27,14 +32,13 @@ import 'package:paintroid/ui/shared/dialogs/load_image_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
-class IOHandler {
+class IOHandler with LoggableMixin {
   final Ref ref;
 
-  const IOHandler(this.ref);
+  IOHandler(this.ref);
 
   static final provider = Provider((ref) => IOHandler(ref));
 
-  /// Returns [true] if the image was saved successfully
   Future<bool> saveImage(BuildContext context) async {
     final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     final imageMetaData = await showSaveImageDialog(context, false);
@@ -62,9 +66,6 @@ class IOHandler {
     return savedFile;
   }
 
-  /// Returns [true] if -
-  /// - There was no unsaved work, or
-  /// - The unsaved work was saved successfully
   Future<bool> handleUnsavedChanges(BuildContext context, State state) async {
     final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
     if (!workspaceStateNotifier.hasSavedLastWork) {
@@ -79,7 +80,6 @@ class IOHandler {
     return true;
   }
 
-  /// Returns [true] if the image was loaded successfully
   Future<bool> loadImage(
       BuildContext context, State state, bool unsavedChanges) async {
     if (unsavedChanges) {
@@ -101,7 +101,6 @@ class IOHandler {
     }
   }
 
-  /// Returns [true] if a new image canvas was created successfully
   Future<bool> newImage(BuildContext context, State state) async {
     final shouldContinue = await handleUnsavedChanges(context, state);
     if (!shouldContinue) return false;
@@ -178,8 +177,63 @@ class IOHandler {
     } else if (imageData is CatrobatImageMetaData) {
       final savedFile = await _saveAsCatrobatImage(imageData, false);
       isImageSaved = (savedFile != null);
+    } else if (imageData is OraMetaData) {
+      isImageSaved = await _saveAsOraImage(imageData);
     }
     return isImageSaved;
+  }
+
+  Future<img.Image> convertUiImageToImgImage(ui.Image uiImage) async {
+    final ByteData? byteData =
+        await uiImage.toByteData(format: ui.ImageByteFormat.png);
+    if (byteData == null) {
+      const message = 'Failed to convert ui.Image to PNG byte data.';
+      logger.severe(message);
+      throw Exception(message);
+    }
+    final Uint8List pngBytes = byteData.buffer.asUint8List();
+    final img.Image? decodedImage = img.decodePng(pngBytes);
+    if (decodedImage == null) {
+      const message = 'Failed to decode PNG bytes to img.Image.';
+      logger.severe(message);
+      throw Exception(message);
+    }
+    return decodedImage;
+  }
+
+  Future<bool> _saveAsOraImage(OraMetaData imageData) async {
+    final oraImageService = ref.read(SaveAsOraImage.provider);
+
+    final ui.Image imageToExport = await ref
+        .read(RenderImageForExport.provider)
+        .call(keepTransparency: true);
+
+    final imgWidth = imageToExport.width;
+    final imgHeight = imageToExport.height;
+
+    img.Image layer = await convertUiImageToImgImage(imageToExport);
+
+    final oraImage = OraImage(
+      width: imgWidth,
+      height: imgHeight,
+      layers: [layer],
+      xmlMetadata:
+          OraImage.generateXmlMetadataForOra([layer], imgWidth, imgHeight),
+    );
+
+    final fileName = '${imageData.name}.ora';
+    final result = await oraImageService.call(oraImage, fileName);
+
+    return result.match(
+      (file) {
+        ToastUtils.showShortToast(message: 'Saved successfully');
+        return true;
+      },
+      (error) {
+        ToastUtils.showShortToast(message: error.message);
+        return false;
+      },
+    );
   }
 
   Future<bool> _saveAsRasterImage(ImageMetaData imageData) async {
