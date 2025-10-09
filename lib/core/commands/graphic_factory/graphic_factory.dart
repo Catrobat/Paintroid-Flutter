@@ -59,6 +59,17 @@ class GraphicFactory {
 
   Canvas createCanvasWithRecorder(PictureRecorder recorder) => Canvas(recorder);
 
+  Paint createWatercolorPaint(Paint originalPaint, double blurSigma) {
+    return Paint()
+      ..color = originalPaint.color
+      ..strokeCap = originalPaint.strokeCap
+      ..strokeWidth = originalPaint.strokeWidth
+      ..style = originalPaint.style
+      ..blendMode = originalPaint.blendMode
+      ..isAntiAlias = true
+      ..maskFilter = MaskFilter.blur(BlurStyle.inner, blurSigma);
+  }
+
   Paint copyPaint(Paint original) {
     return Paint()
       ..blendMode = original.blendMode
