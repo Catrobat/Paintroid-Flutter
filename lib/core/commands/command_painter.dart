@@ -3,27 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/implementation/text_tool.dart';
+import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class CommandPainter extends CustomPainter {
   Tool currentTool;
   CommandManager commandManager;
+  bool isCachingCommand;
 
   CommandPainter(this.ref)
       : currentTool = ref.read(toolBoxStateProvider).currentTool,
-        commandManager = ref.read(commandManagerProvider);
+        commandManager = ref.read(commandManagerProvider),
+        isCachingCommand = ref.read(
+            canvasStateProvider.select((state) => state.isCachingCommand));
 
   final WidgetRef ref;
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (currentTool.type != ToolType.SHAPES && currentTool.type != ToolType.TEXT) {
+    if (currentTool.type != ToolType.SHAPES &&
+        currentTool.type != ToolType.TEXT) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
 
@@ -45,7 +51,13 @@ class CommandPainter extends CustomPainter {
         (currentTool as TextTool).drawGuides(canvas, ref.read(paintProvider));
         break;
       default:
-        commandManager.executeLastCommand(canvas);
+        if (currentTool is BrushTool) {
+          if ((currentTool as BrushTool).isDrawing || isCachingCommand) {
+            commandManager.executeLastCommand(canvas);
+          }
+        } else {
+          commandManager.executeLastCommand(canvas);
+        }
         break;
     }
   }

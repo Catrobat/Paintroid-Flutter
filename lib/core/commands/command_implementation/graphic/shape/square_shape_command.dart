@@ -4,10 +4,12 @@ import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/shape_command.dart';
+import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+import 'package:paintroid/ui/utils/shape_drawing_utils.dart';
 
 part 'square_shape_command.g.dart';
 
@@ -22,29 +24,41 @@ class SquareShapeCommand extends ShapeCommand {
   @OffsetConverter()
   Offset bottomRight;
 
+  final ShapeStyle style;
   final int version;
   final String type;
 
-  Path get path => Path()
-    ..moveTo(topLeft.dx, topLeft.dy)
-    ..lineTo(topRight.dx, topRight.dy)
-    ..lineTo(bottomRight.dx, bottomRight.dy)
-    ..lineTo(bottomLeft.dx, bottomLeft.dy)
-    ..close();
+  Path get path {
+    final path = Path()
+      ..moveTo(topLeft.dx, topLeft.dy)
+      ..lineTo(topRight.dx, topRight.dy)
+      ..lineTo(bottomRight.dx, bottomRight.dy)
+      ..lineTo(bottomLeft.dx, bottomLeft.dy)
+      ..close();
+    return path;
+  }
 
   SquareShapeCommand(
     super.paint,
     this.topLeft,
     this.topRight,
     this.bottomLeft,
-    this.bottomRight, {
+    this.bottomRight,
+    this.style, {
     int? version,
     this.type = SerializerType.SQUARE_SHAPE_COMMAND,
   }) : version = version ??
             VersionStrategyManager.strategy.getSquareShapeCommandVersion();
 
   @override
-  void call(Canvas canvas) => canvas.drawPath(path, paint);
+  void call(Canvas canvas) {
+    ShapeDrawingUtils.drawPathWithStyle(
+      canvas: canvas,
+      path: path,
+      basePaint: paint,
+      style: style,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -53,6 +67,7 @@ class SquareShapeCommand extends ShapeCommand {
         topRight,
         bottomLeft,
         bottomRight,
+        style,
       ];
 
   @override

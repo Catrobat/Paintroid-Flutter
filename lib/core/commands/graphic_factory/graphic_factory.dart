@@ -36,12 +36,39 @@ class GraphicFactory {
     ..strokeWidth = 20
     ..strokeCap = StrokeCap.round;
 
+  static Paint createFillPaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = basePaint.strokeWidth;
+  }
+
+  static Paint createStrokePaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = basePaint.strokeWidth
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.round;
+  }
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 
   PictureRecorder createPictureRecorder() => PictureRecorder();
 
   Canvas createCanvasWithRecorder(PictureRecorder recorder) => Canvas(recorder);
+
+  Paint createWatercolorPaint(Paint originalPaint, double blurSigma) {
+    return Paint()
+      ..color = originalPaint.color
+      ..strokeCap = originalPaint.strokeCap
+      ..strokeWidth = originalPaint.strokeWidth
+      ..style = originalPaint.style
+      ..blendMode = originalPaint.blendMode
+      ..isAntiAlias = true
+      ..maskFilter = MaskFilter.blur(BlurStyle.inner, blurSigma);
+  }
 
   Paint copyPaint(Paint original) {
     return Paint()

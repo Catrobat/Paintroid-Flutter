@@ -12,7 +12,8 @@ EllipseShapeCommand _$EllipseShapeCommandFromJson(Map<String, dynamic> json) =>
       (json['radiusX'] as num).toDouble(),
       (json['radiusY'] as num).toDouble(),
       const OffsetConverter().fromJson(json['center'] as Map<String, dynamic>),
-      angle: (json['angle'] as num?)?.toDouble() ?? 0.0,
+      $enumDecode(_$ShapeStyleEnumMap, json['style']),
+      (json['angle'] as num).toDouble(),
       version: (json['version'] as num?)?.toInt(),
       type: json['type'] as String? ?? SerializerType.ELLIPSE_SHAPE_COMMAND,
     );
@@ -25,6 +26,14 @@ Map<String, dynamic> _$EllipseShapeCommandToJson(
       'radiusY': instance.radiusY,
       'center': const OffsetConverter().toJson(instance.center),
       'angle': instance.angle,
+      'style': _$ShapeStyleEnumMap[instance.style]!,
       'version': instance.version,
       'type': instance.type,
     };
+
+const _$ShapeStyleEnumMap = {
+  ShapeStyle.fill: 'fill',
+  ShapeStyle.outline: 'outline',
+  ShapeStyle.fillAndDashed: 'fillAndDashed',
+  ShapeStyle.dashed: 'dashed',
+};

@@ -13,6 +13,10 @@ abstract class IVersionStrategy {
 
   int getTextCommandVersion();
 
+  int getStarShapeCommandVersion();
+
+  int getHeartShapeCommandVersion();
+
   int getSprayCommandVersion();
 }
 
@@ -36,6 +40,14 @@ class ProductionVersionStrategy implements IVersionStrategy {
 
   @override
   int getTextCommandVersion() => SerializerVersion.TEXT_COMMAND_VERSION;
+
+  @override
+  int getStarShapeCommandVersion() =>
+      SerializerVersion.STAR_SHAPE_COMMAND_VERSION;
+
+  @override
+  int getHeartShapeCommandVersion() =>
+      SerializerVersion.HEART_SHAPE_COMMAND_VERSION;
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;

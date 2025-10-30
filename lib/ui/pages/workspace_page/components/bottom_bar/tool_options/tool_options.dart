@@ -23,7 +23,7 @@ class ToolOptions extends ConsumerWidget {
     );
 
     return Padding(
-      padding: currentToolType == ToolType.TEXT
+      padding: currentToolType == ToolType.SHAPES
           ? EdgeInsets.zero
           : const EdgeInsets.all(8),
       child: ToolOption(
@@ -31,6 +31,7 @@ class ToolOptions extends ConsumerWidget {
         opacity: visible ? maxOpacity : minOpacity,
         child: switch (currentToolType) {
           ToolType.BRUSH => const StrokeToolOptions(),
+          ToolType.WATERCOLOR => const StrokeToolOptions(),
           ToolType.ERASER => const StrokeToolOptions(),
           ToolType.LINE => const StrokeToolOptions(),
           ToolType.SHAPES => const ShapesToolOptions(),

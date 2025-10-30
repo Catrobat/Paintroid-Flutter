@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 import '../utils/dummy_command_factory.dart';
@@ -22,6 +23,7 @@ void main() {
         originalTopRight,
         originalBottomLeft,
         originalBottomRight,
+        ShapeStyle.outline,
         version: Version.v1,
       );
 
