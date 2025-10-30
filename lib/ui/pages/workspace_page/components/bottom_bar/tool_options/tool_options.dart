@@ -24,7 +24,7 @@ class ToolOptions extends ConsumerWidget {
     );
 
     return Padding(
-      padding: currentToolType == ToolType.TEXT
+      padding: currentToolType == ToolType.SHAPES
           ? EdgeInsets.zero
           : const EdgeInsets.all(8),
       child: ToolOption(

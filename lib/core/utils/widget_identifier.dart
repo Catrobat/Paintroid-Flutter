@@ -2,6 +2,13 @@ class WidgetIdentifier {
   static const canvasPainter = 'CanvasPainter';
   static const newImageActionButton = 'NewImageActionButton';
   static const ellipseShapeTypeChip = 'EllipseShapeTypeChip';
+  static const squareShapeTypeChip = 'SquareShapeTypeChip';
+  static const starShapeTypeChip = 'StarShapeTypeChip';
+  static const heartShapeTypeChip = 'HeartShapeTypeChip';
+  static const fillStyleChip = 'FillStyleChip';
+  static const outlineStyleChip = 'OutlineStyleChip';
+  static const dashedStyleChip = 'DashedStyleChip';
+  static const fillAndDashedStyleChip = 'FillAndDashedStyleChip';
   static const backButton = 'BackButton';
 
   // GenericDialogAction

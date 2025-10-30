@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/enums/bounding_box_action.dart';
 import 'package:paintroid/core/enums/bounding_box_resize_action.dart';

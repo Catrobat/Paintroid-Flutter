@@ -2,8 +2,10 @@
 import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/enums/shape_type.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -30,7 +32,21 @@ void main() {
     );
   });
 
-  test('onCheckmark: should generate EllipseShapeCommand for circle type', () {
+  test('onCheckmark: should generate HearthShapeCommand', () {
+    sut.shapeType = ShapeType.heart;
+    sut.onCheckmark(paint);
+    final command = sut.commandManager.undoStack.last;
+    expect(command.runtimeType, HeartShapeCommand);
+  });
+
+  test('onCheckmark: should generate StarShapeCommand', () {
+    sut.shapeType = ShapeType.star;
+    sut.onCheckmark(paint);
+    final command = sut.commandManager.undoStack.last;
+    expect(command.runtimeType, StarShapeCommand);
+  });
+
+  test('onCheckmark: should generate EllipseShapeCommand', () {
     sut.shapeType = ShapeType.ellipse;
     sut.onCheckmark(paint);
     final command = sut.commandManager.undoStack.last;

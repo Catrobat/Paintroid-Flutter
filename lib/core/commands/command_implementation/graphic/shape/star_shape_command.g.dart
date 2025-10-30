@@ -1,32 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ellipse_shape_command.dart';
+part of 'star_shape_command.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-EllipseShapeCommand _$EllipseShapeCommandFromJson(Map<String, dynamic> json) =>
-    EllipseShapeCommand(
+StarShapeCommand _$StarShapeCommandFromJson(Map<String, dynamic> json) =>
+    StarShapeCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
-      (json['radiusX'] as num).toDouble(),
-      (json['radiusY'] as num).toDouble(),
+      (json['numberOfPoints'] as num).toInt(),
+      (json['angle'] as num).toDouble(),
       const OffsetConverter().fromJson(json['center'] as Map<String, dynamic>),
       $enumDecode(_$ShapeStyleEnumMap, json['style']),
-      (json['angle'] as num).toDouble(),
+      (json['radiusX'] as num).toDouble(),
+      (json['radiusY'] as num).toDouble(),
       version: (json['version'] as num?)?.toInt(),
-      type: json['type'] as String? ?? SerializerType.ELLIPSE_SHAPE_COMMAND,
+      type: json['type'] as String? ?? SerializerType.STAR_SHAPE_COMMAND,
     );
 
-Map<String, dynamic> _$EllipseShapeCommandToJson(
-        EllipseShapeCommand instance) =>
+Map<String, dynamic> _$StarShapeCommandToJson(StarShapeCommand instance) =>
     <String, dynamic>{
       'paint': const PaintConverter().toJson(instance.paint),
+      'numberOfPoints': instance.numberOfPoints,
+      'angle': instance.angle,
+      'center': const OffsetConverter().toJson(instance.center),
+      'style': _$ShapeStyleEnumMap[instance.style]!,
       'radiusX': instance.radiusX,
       'radiusY': instance.radiusY,
-      'center': const OffsetConverter().toJson(instance.center),
-      'angle': instance.angle,
-      'style': _$ShapeStyleEnumMap[instance.style]!,
       'version': instance.version,
       'type': instance.type,
     };

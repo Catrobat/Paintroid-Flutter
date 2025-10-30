@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ShapesToolOptionsStateData {
   ShapeType get shapeType => throw _privateConstructorUsedError;
+  ShapeStyle get shapeStyle => throw _privateConstructorUsedError;
 
   /// Create a copy of ShapesToolOptionsStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $ShapesToolOptionsStateDataCopyWith<$Res> {
       _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
           ShapesToolOptionsStateData>;
   @useResult
-  $Res call({ShapeType shapeType});
+  $Res call({ShapeType shapeType, ShapeStyle shapeStyle});
 }
 
 /// @nodoc
@@ -52,12 +53,17 @@ class _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
   @override
   $Res call({
     Object? shapeType = null,
+    Object? shapeStyle = null,
   }) {
     return _then(_value.copyWith(
       shapeType: null == shapeType
           ? _value.shapeType
           : shapeType // ignore: cast_nullable_to_non_nullable
               as ShapeType,
+      shapeStyle: null == shapeStyle
+          ? _value.shapeStyle
+          : shapeStyle // ignore: cast_nullable_to_non_nullable
+              as ShapeStyle,
     ) as $Val);
   }
 }
@@ -71,7 +77,7 @@ abstract class _$$ShapesToolOptionsDataImplCopyWith<$Res>
       __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ShapeType shapeType});
+  $Res call({ShapeType shapeType, ShapeStyle shapeStyle});
 }
 
 /// @nodoc
@@ -89,12 +95,17 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? shapeType = null,
+    Object? shapeStyle = null,
   }) {
     return _then(_$ShapesToolOptionsDataImpl(
       shapeType: null == shapeType
           ? _value.shapeType
           : shapeType // ignore: cast_nullable_to_non_nullable
               as ShapeType,
+      shapeStyle: null == shapeStyle
+          ? _value.shapeStyle
+          : shapeStyle // ignore: cast_nullable_to_non_nullable
+              as ShapeStyle,
     ));
   }
 }
@@ -102,14 +113,17 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
-  const _$ShapesToolOptionsDataImpl({required this.shapeType});
+  const _$ShapesToolOptionsDataImpl(
+      {required this.shapeType, required this.shapeStyle});
 
   @override
   final ShapeType shapeType;
+  @override
+  final ShapeStyle shapeStyle;
 
   @override
   String toString() {
-    return 'ShapesToolOptionsStateData(shapeType: $shapeType)';
+    return 'ShapesToolOptionsStateData(shapeType: $shapeType, shapeStyle: $shapeStyle)';
   }
 
   @override
@@ -118,11 +132,13 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
         (other.runtimeType == runtimeType &&
             other is _$ShapesToolOptionsDataImpl &&
             (identical(other.shapeType, shapeType) ||
-                other.shapeType == shapeType));
+                other.shapeType == shapeType) &&
+            (identical(other.shapeStyle, shapeStyle) ||
+                other.shapeStyle == shapeStyle));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, shapeType);
+  int get hashCode => Object.hash(runtimeType, shapeType, shapeStyle);
 
   /// Create a copy of ShapesToolOptionsStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -135,11 +151,14 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
 }
 
 abstract class _ShapesToolOptionsData implements ShapesToolOptionsStateData {
-  const factory _ShapesToolOptionsData({required final ShapeType shapeType}) =
-      _$ShapesToolOptionsDataImpl;
+  const factory _ShapesToolOptionsData(
+      {required final ShapeType shapeType,
+      required final ShapeStyle shapeStyle}) = _$ShapesToolOptionsDataImpl;
 
   @override
   ShapeType get shapeType;
+  @override
+  ShapeStyle get shapeStyle;
 
   /// Create a copy of ShapesToolOptionsStateData
   /// with the given fields replaced by the non-null parameter values.
