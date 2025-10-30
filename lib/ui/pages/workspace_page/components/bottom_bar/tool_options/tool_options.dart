@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/clipboard_tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/shapes_tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/spray_tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/stroke_tool_options.dart';
@@ -36,6 +37,7 @@ class ToolOptions extends ConsumerWidget {
           ToolType.LINE => const StrokeToolOptions(),
           ToolType.SHAPES => const ShapesToolOptions(),
           ToolType.SPRAY => const SprayToolOptions(),
+          ToolType.CLIPBOARD => const ClipboardToolOptions(),
           ToolType.TEXT => const TextToolOptions(),
           _ => Container(),
         },

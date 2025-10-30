@@ -4,6 +4,7 @@ import 'package:paintroid/core/commands/command_manager/command_manager_provider
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/clipboard_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
@@ -84,6 +85,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         final currentStrokeWidth = ref.read(paintProvider).strokeWidth;
         (state.currentTool as SprayTool).updateSprayRadius(currentStrokeWidth);
         ref.read(paintProvider.notifier).updateStrokeWidth(SPRAY_TOOL_RADIUS);
+        break;
+      case ToolType.CLIPBOARD:
+        state = state.copyWith(currentTool: ref.read(clipboardToolProvider));
+        ref.read(canvasPainterProvider.notifier).repaint();
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
