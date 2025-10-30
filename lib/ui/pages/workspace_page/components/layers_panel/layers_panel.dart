@@ -50,7 +50,6 @@ class _LayersPanelState extends ConsumerState<LayersPanel> {
     final topPadding = mediaQuery.padding.top;
     final bottomPadding = mediaQuery.padding.bottom;
 
-    // Account for app bar (~56) and bottom nav bar (~64) plus some spacing
     const appBarHeight = 56.0;
     const bottomNavBarHeight = 64.0;
     const verticalSpacing = 16.0;
