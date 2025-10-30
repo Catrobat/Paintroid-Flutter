@@ -23,11 +23,11 @@ class InterActiveViewerInteractions {
 
     final initialMatrix = controller.value;
 
-    await _tester.drag(finder, const Offset(-50, 50));
+    await _tester.drag(finder, offset);
     await _tester.pumpAndSettle();
 
-    double expectedX = initialMatrix.getTranslation().x - 50;
-    double expectedY = initialMatrix.getTranslation().y + 50;
+    double expectedX = initialMatrix.getTranslation().x + offset.dx;
+    double expectedY = initialMatrix.getTranslation().y + offset.dy;
 
     expect(controller.value.getTranslation().x, closeTo(expectedX, epsilon));
     expect(controller.value.getTranslation().y, closeTo(expectedY, epsilon));
