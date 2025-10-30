@@ -5,8 +5,10 @@ import 'package:paintroid/core/commands/command_implementation/graphic/text_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -118,6 +120,10 @@ class CommandManager {
       return ToolData.TEXT;
     } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
+    } else if (command.runtimeType == StarShapeCommand) {
+      return ToolData.SHAPES;
+    } else if (command.runtimeType == HeartShapeCommand) {
+      return ToolData.SHAPES;
     } else if (command is PathCommand) {
       if (command.paint.maskFilter != null) {
         return ToolData.WATERCOLOR;

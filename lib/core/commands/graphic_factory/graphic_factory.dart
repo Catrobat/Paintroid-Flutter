@@ -36,6 +36,22 @@ class GraphicFactory {
     ..strokeWidth = 20
     ..strokeCap = StrokeCap.round;
 
+  static Paint createFillPaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = basePaint.strokeWidth;
+  }
+
+  static Paint createStrokePaint(Paint basePaint) {
+    return Paint()
+      ..color = basePaint.color.withAlpha(255)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = basePaint.strokeWidth
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.round;
+  }
+
   PathWithActionHistory createPathWithActionHistory() =>
       PathWithActionHistory();
 

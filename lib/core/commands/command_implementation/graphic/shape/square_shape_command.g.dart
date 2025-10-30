@@ -16,6 +16,7 @@ SquareShapeCommand _$SquareShapeCommandFromJson(Map<String, dynamic> json) =>
           .fromJson(json['bottomLeft'] as Map<String, dynamic>),
       const OffsetConverter()
           .fromJson(json['bottomRight'] as Map<String, dynamic>),
+      $enumDecode(_$ShapeStyleEnumMap, json['style']),
       version: (json['version'] as num?)?.toInt(),
       type: json['type'] as String? ?? SerializerType.SQUARE_SHAPE_COMMAND,
     );
@@ -27,6 +28,14 @@ Map<String, dynamic> _$SquareShapeCommandToJson(SquareShapeCommand instance) =>
       'topRight': const OffsetConverter().toJson(instance.topRight),
       'bottomLeft': const OffsetConverter().toJson(instance.bottomLeft),
       'bottomRight': const OffsetConverter().toJson(instance.bottomRight),
+      'style': _$ShapeStyleEnumMap[instance.style]!,
       'version': instance.version,
       'type': instance.type,
     };
+
+const _$ShapeStyleEnumMap = {
+  ShapeStyle.fill: 'fill',
+  ShapeStyle.outline: 'outline',
+  ShapeStyle.fillAndDashed: 'fillAndDashed',
+  ShapeStyle.dashed: 'dashed',
+};
