@@ -5,6 +5,7 @@ import 'package:colorpicker/colorpicker.dart';
 
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/layers_panel_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -92,6 +93,9 @@ void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
     case BottomNavBarItem.COLOR:
       _showColorPicker(context, ref);
       break;
+    case BottomNavBarItem.LAYERS:
+      _handleLayersPanelVisibility(ref);
+      break;
     default:
       return;
   }
@@ -110,6 +114,10 @@ void _showToolBottomSheet(BuildContext context) {
 
 void _handleToolOptionsVisibility(WidgetRef ref) {
   ref.read(toolOptionsVisibilityStateProvider.notifier).toggleVisibility();
+}
+
+void _handleLayersPanelVisibility(WidgetRef ref) {
+  ref.read(layersPanelVisibilityStateProvider.notifier).toggleVisibility();
 }
 
 void _showColorPicker(BuildContext context, WidgetRef ref) {

@@ -7,6 +7,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/bottom_n
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/tool_options.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exit_fullscreen_button.dart';
+import 'package:paintroid/ui/pages/workspace_page/components/layers_panel/layers_panel.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
 import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 import 'package:toast/toast.dart';
@@ -76,6 +77,7 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
               )
             else
               const ToolOptions(),
+            if (!isFullscreen) const LayersPanel(),
           ],
         ),
         bottomNavigationBar: isFullscreen ? null : const BottomNavBar(),
