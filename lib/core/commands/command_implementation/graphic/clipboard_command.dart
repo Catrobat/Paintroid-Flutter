@@ -10,6 +10,7 @@ import 'package:paintroid/core/json_serialization/converter/uint8list_base64_con
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 import 'package:paintroid/core/models/loggable_mixin.dart';
+import 'package:toast/toast.dart';
 
 part 'clipboard_command.g.dart';
 
@@ -48,11 +49,12 @@ class ClipboardCommand extends GraphicCommand with LoggableMixin {
         final codec = await descriptor.instantiateCodec();
         final frameInfo = await codec.getNextFrame();
         _runtimeImage = frameInfo.image;
-      } catch (e, s) {
-        if (kDebugMode) {
-          logger.warning(
-              'Error decoding image in ClipboardCommand.prepare: $e', e, s);
-        }
+      } catch (e, _) {
+        Toast.show(
+          'Error: $e',
+          duration: Toast.lengthShort,
+          gravity: Toast.bottom,
+        );
         _runtimeImage = null;
       }
     }
@@ -61,10 +63,12 @@ class ClipboardCommand extends GraphicCommand with LoggableMixin {
   @override
   void call(ui.Canvas canvas) {
     if (_runtimeImage == null) {
-      if (kDebugMode) {
-        logger
-            .info('ClipboardCommand.call: _runtimeImage is null. Cannot draw.');
-      }
+      Toast.show(
+        'ClipboardCommand.call: _runtimeImage is null. Cannot draw.',
+        duration: Toast.lengthShort,
+        gravity: Toast.bottom,
+      );
+
       return;
     }
 

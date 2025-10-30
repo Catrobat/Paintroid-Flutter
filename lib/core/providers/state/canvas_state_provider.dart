@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:paintroid/core/commands/command_implementation/command.dart';
@@ -10,6 +9,7 @@ import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:toast/toast.dart';
 
 part 'canvas_state_provider.g.dart';
 
@@ -72,10 +72,11 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
         await command.prepareForRuntime();
         preparedCommands.add(command);
       } catch (e) {
-        if (kDebugMode) {
-          logger.warning(
-              'Error preparing command ${command.runtimeType} during resetCanvasWithNewCommands: $e');
-        }
+        Toast.show(
+          'Error preparing command ${command.runtimeType} during resetCanvasWithNewCommands: $e',
+          duration: Toast.lengthShort,
+          gravity: Toast.bottom,
+        );
       }
     }
 
