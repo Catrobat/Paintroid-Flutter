@@ -45,7 +45,7 @@ class BackgroundLayer extends ConsumerWidget {
     return RepaintBoundary(
       child: CheckerboardPattern(
         child:
-            backgroundImage != null ? RawImage(image: backgroundImage) : null,
+        backgroundImage != null ? RawImage(image: backgroundImage) : null,
       ),
     );
   }
@@ -67,17 +67,17 @@ class PaintingLayer extends ConsumerWidget {
     );
 
     return RepaintBoundary(
-      child: Opacity(
-        opacity: 0.99,
-        child: CustomPaint(
-          foregroundPainter: CommandPainter(ref),
-          child: cachedImage != null
-              ? RawImage(
-                  image: cachedImage,
-                  filterQuality: FilterQuality.none,
-                )
-              : null,
-        ),
+      child: CustomPaint(
+        foregroundPainter: CommandPainter(ref),
+        child: cachedImage != null
+            ? Opacity(
+          opacity: 0.99,
+          child: RawImage(
+            image: cachedImage,
+            filterQuality: FilterQuality.none,
+          ),
+        )
+            : null,
       ),
     );
   }

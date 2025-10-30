@@ -29,6 +29,7 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
       size: initialCanvasSize,
       commandManager: ref.watch(commandManagerProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
+      isCachingCommand: false,
     );
   }
 
@@ -43,6 +44,7 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
       );
 
   Future<void> updateCachedImage() async {
+    state = state.copyWith(isCachingCommand: true);
     final recorder = state.graphicFactory.createPictureRecorder();
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
@@ -60,7 +62,7 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     state.commandManager.executeLastCommand(canvas);
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.width.toInt(), size.height.toInt());
-    state = state.copyWith(cachedImage: img);
+    state = state.copyWith(cachedImage: img, isCachingCommand: false);
   }
 
   Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
@@ -78,9 +80,13 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     }
 
     state.commandManager.clearRedoStack();
+
     state.commandManager.clearUndoStack(newCommands: preparedCommands);
     if (preparedCommands.isEmpty) {
       state = state.copyWith(cachedImage: null);
+    }
+    if (commands.isEmpty) {
+      state = state.copyWith(cachedImage: null, isCachingCommand: false);
     } else {
       await _executeAllCommandsOnCanvas();
     }
@@ -91,6 +97,7 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
   }
 
   Future<void> _executeAllCommandsOnCanvas() async {
+    state = state.copyWith(isCachingCommand: true);
     final recorder = state.graphicFactory.createPictureRecorder();
     final canvas = state.graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
@@ -98,6 +105,6 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     state.commandManager.executeAllCommands(canvas);
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.width.toInt(), size.height.toInt());
-    state = state.copyWith(cachedImage: img);
+    state = state.copyWith(cachedImage: img, isCachingCommand: false);
   }
 }

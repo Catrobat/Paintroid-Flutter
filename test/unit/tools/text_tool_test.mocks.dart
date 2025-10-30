@@ -1696,6 +1696,31 @@ class MockGraphicFactory extends _i1.Mock implements _i23.GraphicFactory {
       ) as _i13.Canvas);
 
   @override
+  _i13.Paint createWatercolorPaint(
+    _i13.Paint? originalPaint,
+    double? blurSigma,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createWatercolorPaint,
+          [
+            originalPaint,
+            blurSigma,
+          ],
+        ),
+        returnValue: _i21.dummyValue<_i13.Paint>(
+          this,
+          Invocation.method(
+            #createWatercolorPaint,
+            [
+              originalPaint,
+              blurSigma,
+            ],
+          ),
+        ),
+      ) as _i13.Paint);
+
+  @override
   _i13.Paint copyPaint(_i13.Paint? original) => (super.noSuchMethod(
         Invocation.method(
           #copyPaint,

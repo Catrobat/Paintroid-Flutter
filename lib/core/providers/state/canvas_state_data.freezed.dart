@@ -21,6 +21,7 @@ mixin _$CanvasStateData {
   ui.Size get size => throw _privateConstructorUsedError;
   CommandManager get commandManager => throw _privateConstructorUsedError;
   GraphicFactory get graphicFactory => throw _privateConstructorUsedError;
+  bool get isCachingCommand => throw _privateConstructorUsedError;
 
   /// Create a copy of CanvasStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $CanvasStateDataCopyWith<$Res> {
       ui.Image? cachedImage,
       ui.Size size,
       CommandManager commandManager,
-      GraphicFactory graphicFactory});
+      GraphicFactory graphicFactory,
+      bool isCachingCommand});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
     Object? size = null,
     Object? commandManager = null,
     Object? graphicFactory = null,
+    Object? isCachingCommand = null,
   }) {
     return _then(_value.copyWith(
       backgroundImage: freezed == backgroundImage
@@ -85,6 +88,10 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
           ? _value.graphicFactory
           : graphicFactory // ignore: cast_nullable_to_non_nullable
               as GraphicFactory,
+      isCachingCommand: null == isCachingCommand
+          ? _value.isCachingCommand
+          : isCachingCommand // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$CanvasStateDataImplCopyWith<$Res>
       ui.Image? cachedImage,
       ui.Size size,
       CommandManager commandManager,
-      GraphicFactory graphicFactory});
+      GraphicFactory graphicFactory,
+      bool isCachingCommand});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
     Object? size = null,
     Object? commandManager = null,
     Object? graphicFactory = null,
+    Object? isCachingCommand = null,
   }) {
     return _then(_$CanvasStateDataImpl(
       backgroundImage: freezed == backgroundImage
@@ -145,6 +154,10 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
           ? _value.graphicFactory
           : graphicFactory // ignore: cast_nullable_to_non_nullable
               as GraphicFactory,
+      isCachingCommand: null == isCachingCommand
+          ? _value.isCachingCommand
+          : isCachingCommand // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
       this.cachedImage,
       required this.size,
       required this.commandManager,
-      required this.graphicFactory});
+      required this.graphicFactory,
+      this.isCachingCommand = false});
 
   @override
   final ui.Image? backgroundImage;
@@ -169,10 +183,13 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
   final CommandManager commandManager;
   @override
   final GraphicFactory graphicFactory;
+  @override
+  @JsonKey()
+  final bool isCachingCommand;
 
   @override
   String toString() {
-    return 'CanvasStateData(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory)';
+    return 'CanvasStateData(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory, isCachingCommand: $isCachingCommand)';
   }
 
   @override
@@ -188,12 +205,14 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
             (identical(other.commandManager, commandManager) ||
                 other.commandManager == commandManager) &&
             (identical(other.graphicFactory, graphicFactory) ||
-                other.graphicFactory == graphicFactory));
+                other.graphicFactory == graphicFactory) &&
+            (identical(other.isCachingCommand, isCachingCommand) ||
+                other.isCachingCommand == isCachingCommand));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, backgroundImage, cachedImage,
-      size, commandManager, graphicFactory);
+      size, commandManager, graphicFactory, isCachingCommand);
 
   /// Create a copy of CanvasStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -211,7 +230,8 @@ abstract class _CanvasStateData implements CanvasStateData {
       final ui.Image? cachedImage,
       required final ui.Size size,
       required final CommandManager commandManager,
-      required final GraphicFactory graphicFactory}) = _$CanvasStateDataImpl;
+      required final GraphicFactory graphicFactory,
+      final bool isCachingCommand}) = _$CanvasStateDataImpl;
 
   @override
   ui.Image? get backgroundImage;
@@ -223,6 +243,8 @@ abstract class _CanvasStateData implements CanvasStateData {
   CommandManager get commandManager;
   @override
   GraphicFactory get graphicFactory;
+  @override
+  bool get isCachingCommand;
 
   /// Create a copy of CanvasStateData
   /// with the given fields replaced by the non-null parameter values.

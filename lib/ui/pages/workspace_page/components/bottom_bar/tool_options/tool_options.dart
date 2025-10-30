@@ -32,6 +32,7 @@ class ToolOptions extends ConsumerWidget {
         opacity: visible ? maxOpacity : minOpacity,
         child: switch (currentToolType) {
           ToolType.BRUSH => const StrokeToolOptions(),
+          ToolType.WATERCOLOR => const StrokeToolOptions(),
           ToolType.ERASER => const StrokeToolOptions(),
           ToolType.LINE => const StrokeToolOptions(),
           ToolType.SHAPES => const ShapesToolOptions(),

@@ -1,0 +1,1 @@
+enum SliderPickerMode { hsv, rgb }

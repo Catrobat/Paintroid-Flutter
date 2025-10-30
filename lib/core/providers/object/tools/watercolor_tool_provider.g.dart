@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'canvas_state_provider.dart';
+part of 'watercolor_tool_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$canvasStateProviderHash() =>
-    r'c78d1fae71139f70c3927e5db013d1d885347f60';
+String _$watercolorToolProviderHash() =>
+    r'd9cd556d81025f88e04d078fbde0865d071161f9';
 
-/// See also [CanvasStateProvider].
-@ProviderFor(CanvasStateProvider)
-final canvasStateProvider =
-    NotifierProvider<CanvasStateProvider, CanvasStateData>.internal(
-  CanvasStateProvider.new,
-  name: r'canvasStateProvider',
+/// See also [WatercolorToolProvider].
+@ProviderFor(WatercolorToolProvider)
+final watercolorToolProvider = AutoDisposeNotifierProvider<
+    WatercolorToolProvider, WatercolorTool>.internal(
+  WatercolorToolProvider.new,
+  name: r'watercolorToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$canvasStateProviderHash,
+      : _$watercolorToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CanvasStateProvider = Notifier<CanvasStateData>;
+typedef _$WatercolorToolProvider = AutoDisposeNotifier<WatercolorTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,6 +6,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/text_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
@@ -98,9 +99,11 @@ class CommandManager {
     Command? command;
     switch (actionType) {
       case ActionType.UNDO:
+        if (_undoStack.isEmpty) return ToolData.BRUSH;
         command = _undoStack.last;
         break;
       case ActionType.REDO:
+        if (_redoStack.isEmpty) return ToolData.BRUSH;
         command = _redoStack.last;
         break;
     }
@@ -118,6 +121,12 @@ class CommandManager {
       return ToolData.TEXT;
     } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
+    } else if (command is PathCommand) {
+      if (command.paint.maskFilter != null) {
+        return ToolData.WATERCOLOR;
+      } else {
+        return ToolData.BRUSH;
+      }
     } else {
       return ToolData.BRUSH;
     }
