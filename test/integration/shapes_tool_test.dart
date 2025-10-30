@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/utils/color_utils.dart';
+
 import '../utils/test_utils.dart';
 
 void main() {
@@ -49,7 +50,8 @@ void main() {
   }
 
   if (testID == -1 || testID == 1) {
-    testWidgets('[SHAPES_TOOL]: test ellipse shape', (WidgetTester tester) async {
+    testWidgets('[SHAPES_TOOL]: test ellipse shape',
+        (WidgetTester tester) async {
       UIInteraction.initialize(tester);
       await tester.pumpWidget(sut);
       await UIInteraction.createNewImage();
@@ -272,7 +274,8 @@ void main() {
       await tester.pumpWidget(sut);
       await UIInteraction.createNewImage();
       await UIInteraction.selectTool(ToolData.SHAPES.name);
-      await UIInteraction.selectEllipseShapeTypeChip();
+      await UIInteraction.selectShapesToolShapeType(
+          WidgetFinder.ellipseShapeTypeChip);
 
       final (left, top, right, bottom) =
           await UIInteraction.getEllipseShapeColors();
