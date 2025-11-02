@@ -34,16 +34,13 @@ class CommandPainter extends CustomPainter {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
     
-    // Check if current tool is eraser and we're actively drawing
     bool isEraserDrawing = currentTool.type == ToolType.ERASER && 
                            currentTool is BrushTool && 
                            ((currentTool as BrushTool).isDrawing || isCachingCommand);
     
-    // If eraser is being used, we need to draw cached image + current stroke in a layer
     if (isEraserDrawing) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
       
-      // Draw the cached image first (all previous commands)
       if (cachedImage != null) {
         canvas.drawImage(cachedImage!, Offset.zero, Paint());
       }
@@ -72,7 +69,6 @@ class CommandPainter extends CustomPainter {
         break;
     }
     
-    // Restore the layer if we saved one
     if (isEraserDrawing) {
       canvas.restore();
     }
