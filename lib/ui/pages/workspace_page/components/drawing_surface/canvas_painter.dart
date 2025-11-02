@@ -71,7 +71,6 @@ class PaintingLayer extends ConsumerWidget {
     final currentTool = ref.watch(toolBoxStateProvider.select((state) => state.currentTool));
     final isCachingCommand = ref.watch(canvasStateProvider.select((state) => state.isCachingCommand));
     
-    // Only hide cached image when eraser is ACTIVELY drawing, not just selected
     bool isEraserDrawing = false;
     if (currentTool.type == ToolType.ERASER && currentTool is BrushTool) {
       isEraserDrawing = currentTool.isDrawing || isCachingCommand;
@@ -80,7 +79,6 @@ class PaintingLayer extends ConsumerWidget {
     return RepaintBoundary(
       child: CustomPaint(
         foregroundPainter: CommandPainter(ref, cachedImage: cachedImage),
-        // Only hide cachedImage when eraser is actively drawing
         child: cachedImage != null && !isEraserDrawing
             ? Opacity(
           opacity: 0.99,
