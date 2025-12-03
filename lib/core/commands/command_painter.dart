@@ -12,13 +12,15 @@ import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
+import 'dart:ui' as ui;
 
 class CommandPainter extends CustomPainter {
   Tool currentTool;
   CommandManager commandManager;
   bool isCachingCommand;
+  final ui.Image? cachedImage;
 
-  CommandPainter(this.ref)
+  CommandPainter(this.ref, {this.cachedImage})
       : currentTool = ref.read(toolBoxStateProvider).currentTool,
         commandManager = ref.read(commandManagerProvider),
         isCachingCommand = ref.read(
@@ -33,6 +35,19 @@ class CommandPainter extends CustomPainter {
         currentTool.type != ToolType.CLIPBOARD) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
+    
+    bool isEraserDrawing = currentTool.type == ToolType.ERASER && 
+                           currentTool is BrushTool && 
+                           ((currentTool as BrushTool).isDrawing || isCachingCommand);
+    
+    if (isEraserDrawing) {
+      canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
+      
+      if (cachedImage != null) {
+        canvas.drawImage(cachedImage!, Offset.zero, Paint());
+      }
+    }
+    
     switch (currentTool.type) {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
@@ -56,6 +71,10 @@ class CommandPainter extends CustomPainter {
           commandManager.executeLastCommand(canvas);
         }
         break;
+    }
+    
+    if (isEraserDrawing) {
+      canvas.restore();
     }
   }
 
