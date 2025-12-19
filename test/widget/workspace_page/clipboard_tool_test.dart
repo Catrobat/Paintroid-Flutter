@@ -36,6 +36,7 @@ void main() {
     expect(find.widgetWithIcon(CustomActionChip, Icons.content_cut),
         findsOneWidget);
     expect(find.widgetWithIcon(CustomActionChip, Icons.paste), findsOneWidget);
+    expect(find.widgetWithIcon(CustomActionChip, Icons.clear), findsOneWidget);
   });
 
   testWidgets(
