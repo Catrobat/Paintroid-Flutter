@@ -61,6 +61,20 @@ class ClipboardToolOptions extends ConsumerWidget {
                       ToastUtils.showShortToast(message: 'Nothing to paste!');
                     },
             ),
+            const SizedBox(width: 16),
+            CustomActionChip(
+              chipIcon: Icon(Icons.delete_outline, color: shadowColor),
+              hint: 'Clear clipboard',
+              chipBackgroundColor: Colors.white,
+              onPressed: clipboardOptionsState.hasCopiedContent
+                  ? () {
+                      clipboardOptionsNotifier.clearClipboard();
+                      ToastUtils.showShortToast(message: 'Clipboard cleared');
+                    }
+                  : () {
+                      ToastUtils.showShortToast(message: 'Nothing to clear!');
+                    },
+            )
           ],
         ),
       ],
