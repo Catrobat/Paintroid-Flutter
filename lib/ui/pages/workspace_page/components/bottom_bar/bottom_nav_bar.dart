@@ -5,6 +5,7 @@ import 'package:colorpicker/colorpicker.dart';
 
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -139,7 +140,7 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
   if (initialColor.a == 0) {
     initialColor = initialColor.withValues(alpha: 1.0);
   }
-
+  final snapshot = ref.read(canvasStateProvider).cachedImage;
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
@@ -147,6 +148,7 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
         clipBehavior: Clip.antiAlias,
         child: ColorPicker(
           currentColor: initialColor,
+          snapshotImage: snapshot,
           onColorChanged: (newColor) {
             ref.read(paintProvider.notifier).updateColor(newColor);
           },
