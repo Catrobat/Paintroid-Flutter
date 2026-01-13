@@ -278,12 +278,17 @@ void main() {
             ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isTrue,
             reason: 'hasCopiedContent should be true after copy');
 
-        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.clear);
+        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.delete_outline);
         expect(clearButton, findsOneWidget,
             reason: 'Clear button should be present');
+
+        final undoBeforeClear = UIInteraction.getUndoStackLength();
         await tester.tap(clearButton);
         await tester.pumpAndSettle();
-
+        final undoAfterClear = UIInteraction.getUndoStackLength();
+        expect(undoAfterClear, equals(undoBeforeClear),
+        reason: 'Canvas should remain unchanged after clearing clipboard');
+        
         expect(
             ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isFalse,
             reason: 'hasCopiedContent should be false after clear');
@@ -292,8 +297,6 @@ void main() {
             await ClipboardIntegrationTestUtils.getCanvasImage(tester,
                 forceUpdate: true);
 
-        expect(imageAfterClear.hashCode, equals(imageAfterDraw.hashCode),
-            reason: 'Canvas should remain unchanged after clearing clipboard');
         
         final pasteButton = find.widgetWithIcon(CustomActionChip, Icons.paste);
         expect(pasteButton, findsOneWidget,
@@ -350,18 +353,20 @@ void main() {
         expect(imageAfterCut.hashCode, isNot(equals(imageAfterDraw.hashCode)),
             reason: 'Canvas should change after cut (shape removed)');
 
-        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.clear);
+        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.delete_outline);
         expect(clearButton, findsOneWidget,
             reason: 'Clear button should be present');
+
+        final undoBeforeClear = UIInteraction.getUndoStackLength();
         await tester.tap(clearButton);
         await tester.pumpAndSettle();
+        final undoAfterClear = UIInteraction.getUndoStackLength();
+        expect(undoAfterClear, equals(undoBeforeClear),
+        reason: 'Canvas should remain unchanged after clearing clipboard');
 
         ui.Image? imageAfterClear =
             await ClipboardIntegrationTestUtils.getCanvasImage(tester,
                 forceUpdate: true);
-
-        expect(imageAfterClear.hashCode, equals(imageAfterCut.hashCode),
-            reason: 'Canvas should remain unchanged after clearing clipboard');
 
         expect(
             ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isFalse,
@@ -395,12 +400,13 @@ void main() {
             ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isFalse,
             reason: 'Initially, clipboard should be empty');
 
+      final undoBefore = UIInteraction.getUndoStackLength();
         await ClipboardIntegrationTestUtils.selectTool(
             tester, ToolData.CLIPBOARD.name);
         expect(find.byType(ClipboardToolOptions), findsOneWidget,
             reason: 'Clipboard options should be visible');
 
-        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.clear);
+        final clearButton = find.widgetWithIcon(CustomActionChip, Icons.delete_outline);
         expect(clearButton, findsOneWidget,
             reason: 'Clear button should be present');
         await tester.tap(clearButton);
@@ -414,7 +420,11 @@ void main() {
         expect(
             ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isFalse,
             reason: 'hasCopiedContent should be false after multiple clear operations');
-      });
+        
+        final undoAfter = UIInteraction.getUndoStackLength();
+        expect(undoAfter, equals(undoBefore),
+        reason: 'Multiple clear operations should not affect undo stack');
+        });
     }
   });
 }
