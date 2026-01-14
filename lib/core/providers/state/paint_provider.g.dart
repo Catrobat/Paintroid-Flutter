@@ -6,7 +6,7 @@ part of 'paint_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$paintProviderHash() => r'cdcdb845f24c29a6168d48244ec2dbf26fa72163';
+String _$paintProviderHash() => r'830dbe8ba87f541fb2518b9d9cfee458f7918173';
 
 /// See also [PaintProvider].
 @ProviderFor(PaintProvider)
