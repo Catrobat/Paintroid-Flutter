@@ -34,17 +34,7 @@ class PipetteTool extends Tool {
 
   @override
   void onUp(Offset point, Paint paint) {
-    _pickColor(point);
-    final currentColor = paint.color;
-    if (_initialColor != null && _initialColor != currentColor) {
-      final command = commandFactory.createColorChangedCommand(
-        _initialColor!,
-        currentColor,
-        paint,
-      );
-      commandManager.addGraphicCommand(command);
-    }
-    _initialColor = null;
+    _pickColor(point, isFinal: true, originalPaint: paint);
   }
 
   @override
@@ -81,7 +71,8 @@ class PipetteTool extends Tool {
   @override
   void onPlus() {}
 
-  Future<void> _pickColor(Offset point) async {
+  Future<void> _pickColor(Offset point,
+      {bool isFinal = false, Paint? originalPaint}) async {
     final image = canvasStateProvider.currentState.cachedImage;
     if (image == null) return;
 
@@ -89,17 +80,30 @@ class PipetteTool extends Tool {
         point.dy < 0 ||
         point.dx >= image.width ||
         point.dy >= image.height) {
+      if (isFinal) {
+        _initialColor = null;
+      }
       return;
     }
 
     final byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-    if (byteData == null) return;
+    if (byteData == null) {
+      if (isFinal) {
+        _initialColor = null;
+      }
+      return;
+    }
 
     final int x = point.dx.toInt();
     final int y = point.dy.toInt();
     final int offset = (y * image.width + x) * 4;
 
-    if (offset + 3 >= byteData.lengthInBytes) return;
+    if (offset + 3 >= byteData.lengthInBytes) {
+      if (isFinal) {
+        _initialColor = null;
+      }
+      return;
+    }
 
     final int r = byteData.getUint8(offset);
     final int g = byteData.getUint8(offset + 1);
@@ -108,5 +112,17 @@ class PipetteTool extends Tool {
 
     final pickedColor = Color.fromARGB(a, r, g, b);
     paintProvider.updateColor(pickedColor);
+
+    if (isFinal) {
+      if (_initialColor != null && _initialColor != pickedColor) {
+        final command = commandFactory.createColorChangedCommand(
+          _initialColor!,
+          pickedColor,
+          originalPaint!,
+        );
+        commandManager.addGraphicCommand(command);
+      }
+      _initialColor = null;
+    }
   }
 }
