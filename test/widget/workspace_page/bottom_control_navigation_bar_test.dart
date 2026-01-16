@@ -171,8 +171,8 @@ void main() {
       expect(animatedOpacityWidget.opacity, equals(VISIBLE));
     });
   });
-
-  group('BottomNavBarItem.COLOR', () {
+  
+group('BottomNavBarItem.COLOR', () {
     testWidgets('Test if color changes on selection',
         (WidgetTester tester) async {
       const blueColor = Color(0xff0073cc);
@@ -183,6 +183,22 @@ void main() {
       await bottomNavBarInteractions.selectColor(blueColor).then(
           (bottomNavBarInteractions) =>
               bottomNavBarInteractions.checkActiveColor(blueColor));
+    });
+
+    testWidgets('Verify color preview has a white background layer for transparency',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(sut);
+
+      final thirdNavDestination = find.byType(NavigationDestination).at(2);
+      final whiteBackgroundFinder = find.descendant(
+        of: thirdNavDestination,
+        matching: find.byWidgetPredicate((widget) =>
+            widget is Container &&
+            widget.decoration is BoxDecoration &&
+            (widget.decoration as BoxDecoration).color == Colors.white),
+      );
+
+      expect(whiteBackgroundFinder, findsOneWidget);
     });
   });
 }

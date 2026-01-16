@@ -43,18 +43,21 @@ class BottomNavBar extends ConsumerWidget {
           ),
           NavigationDestination(
             label: localizations.color,
-            icon: InkWell(
-              child: Container(
-                height: 24.0,
-                width: 24.0,
-                decoration: BoxDecoration(
-                  color: currentPaint.color,
-                  border: Border.all(
-                    color: PaintroidTheme.of(context).onSurfaceColor,
-                    width: 1.4,
-                  ),
-                  borderRadius: BorderRadius.circular(2.0),
+            icon: Container(
+
+              height: 24.0,
+              width: 24.0,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(2.0),
+                border: Border.all(
+                  color: PaintroidTheme.of(context).onSurfaceColor,
+                  width: 1.4,
                 ),
+              ),
+              child: Container(
+                color: currentPaint.color,
               ),
             ),
           ),
@@ -72,16 +75,15 @@ class BottomNavBar extends ConsumerWidget {
       toolBoxStateProvider.select((value) => value.currentTool.type),
     );
 
-    final currentToolData = ToolData.allToolsData.firstWhere(
+    return ToolData.allToolsData.firstWhere(
       (toolData) => toolData.type == currentToolType,
       orElse: () => ToolData.BRUSH,
     );
-    return currentToolData;
   }
 }
 
 void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
-  BottomNavBarItem item = BottomNavBarItem.values[index];
+  final BottomNavBarItem item = BottomNavBarItem.values[index];
   switch (item) {
     case BottomNavBarItem.TOOLS:
       _showToolBottomSheet(context);
@@ -98,7 +100,7 @@ void _onNavigationItemSelected(int index, BuildContext context, WidgetRef ref) {
 }
 
 void _showToolBottomSheet(BuildContext context) {
-  double screenHeight = MediaQuery.of(context).size.height;
+  final double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) => SizedBox(

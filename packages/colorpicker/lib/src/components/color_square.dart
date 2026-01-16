@@ -11,16 +11,21 @@ class ColorSquare extends ConsumerWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () {
-        ref.read(colorPickerStateProvider.notifier).updateColor(color);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
+Widget build(BuildContext context, WidgetRef ref) {
+  return GestureDetector(
+    onTap: () {
+      ref.read(colorPickerStateProvider.notifier).updateColor(color);
+    },
+    child: Stack( 
+      children: [
+        Container(color: Colors.white),
+        Container(
+          decoration: BoxDecoration(
+            color: color, 
+          ),
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
 }
