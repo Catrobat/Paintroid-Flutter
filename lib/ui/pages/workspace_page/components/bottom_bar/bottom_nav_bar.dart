@@ -44,17 +44,39 @@ class BottomNavBar extends ConsumerWidget {
           NavigationDestination(
             label: localizations.color,
             icon: InkWell(
-              child: Container(
-                height: 24.0,
-                width: 24.0,
-                decoration: BoxDecoration(
-                  color: currentPaint.color,
-                  border: Border.all(
-                    color: PaintroidTheme.of(context).onSurfaceColor,
-                    width: 1.4,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (currentPaint.color.a < 1.0)
+                    Container(
+                      height: 24.0,
+                      width: 24.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: PaintroidTheme.of(context).onSurfaceColor,
+                          width: 1.4,
+                        ),
+                        borderRadius: BorderRadius.circular(2.0),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/img/checkerboard.png'),
+                          fit: BoxFit.cover,
+                          repeat: ImageRepeat.repeat,
+                        ),
+                      ),
+                    ),
+                  Container(
+                    height: 24.0,
+                    width: 24.0,
+                    decoration: BoxDecoration(
+                      color: currentPaint.color,
+                      border: Border.all(
+                        color: PaintroidTheme.of(context).onSurfaceColor,
+                        width: 1.4,
+                      ),
+                      borderRadius: BorderRadius.circular(2.0),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
+                ],
               ),
             ),
           ),
@@ -113,7 +135,10 @@ void _handleToolOptionsVisibility(WidgetRef ref) {
 }
 
 void _showColorPicker(BuildContext context, WidgetRef ref) {
-  final Color initialColor = ref.read(paintProvider).color;
+  var initialColor = ref.read(paintProvider).color;
+  if (initialColor.a == 0) {
+    initialColor = initialColor.withValues(alpha: 1.0);
+  }
 
   showDialog(
     context: context,
