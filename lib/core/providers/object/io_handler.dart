@@ -107,7 +107,8 @@ class IOHandler {
     if (!shouldContinue) return false;
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
-      ..resetCanvasWithNewCommands([]);
+      ..resetCanvasWithNewCommands([])
+      ..resetCanvasScaleCallback.call();
     ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
     ref.read(appBarProvider).update();
     return true;

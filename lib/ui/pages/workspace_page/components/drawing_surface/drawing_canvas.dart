@@ -102,6 +102,9 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void initState() {
     super.initState();
     _resetCanvasScale();
+    ref
+        .read(canvasStateProvider.notifier)
+        .setResetCanvasScaleCallback(_resetCanvasScale);
   }
 
   @override
