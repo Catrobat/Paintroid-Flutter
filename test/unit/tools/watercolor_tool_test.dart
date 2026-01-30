@@ -89,4 +89,13 @@ void main() {
   test('Should return WATERCOLOR as ToolType', () {
     expect(sut.type, ToolType.WATERCOLOR);
   });
+  test('WatercolorTool paint should maintain constant alpha and use correct blend mode', () {
+  final basePaint = Paint()..color = const Color.fromARGB(100, 255, 0, 0);
+  
+  sut.onDown(Offset.zero, basePaint);
+  final command = sut.commandManager.undoStack.first as PathCommand;
+  
+  expect(command.paint.color.alpha, equals(100));
+  expect(command.paint.blendMode, equals(BlendMode.srcOver));
+});
 }

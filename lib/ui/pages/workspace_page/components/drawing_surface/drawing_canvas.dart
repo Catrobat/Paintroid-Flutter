@@ -25,6 +25,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
+  var _hasActiveDrawing = false; 
+  
   Offset _lastPointerUpPosition = Offset.zero;
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
@@ -49,6 +51,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     _pointersOnScreen++;
     if (_pointersOnScreen >= 2) {
       _isZooming = true;
+      _hasActiveDrawing = false;
       _toolBoxStateNotifier.didSwitchToZooming();
     }
   }
@@ -66,24 +69,24 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   }
 
   void _onInteractionStart(ScaleStartDetails details) {
-    if (!_isZooming) {
-      if (details.pointerCount == 1) {
-        _toolBoxStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
-      }
+  
+    if (!_isZooming && details.pointerCount == 1) {
+      _hasActiveDrawing = true;
+      _toolBoxStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
     }
   }
 
   void _onInteractionUpdate(ScaleUpdateDetails details) {
-    if (!_isZooming) {
-      if (details.pointerCount == 1) {
-        _toolBoxStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
-        ref.read(canvasPainterProvider.notifier).repaint();
-      }
+  
+    if (_hasActiveDrawing) {
+      _toolBoxStateNotifier.didDrag(_globalToCanvas(details.focalPoint));
+      ref.read(canvasPainterProvider.notifier).repaint();
     }
   }
 
   void _onInteractionEnd(ScaleEndDetails details) {
-    if (!_isZooming) {
+ 
+    if (_hasActiveDrawing) {
       _toolBoxStateNotifier.didTapUp(_globalToCanvas(_lastPointerUpPosition));
       ref.read(canvasPainterProvider.notifier).repaint();
       final currentTool = ref.read(toolBoxStateProvider).currentTool;
@@ -95,6 +98,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
           _canvasStateNotifier.updateCachedImage();
           break;
       }
+      _hasActiveDrawing = false;
     }
   }
 
