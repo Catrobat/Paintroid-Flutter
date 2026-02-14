@@ -14,7 +14,7 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = "org.catrobat.paintroid"
-    compileSdkVersion 35
+    compileSdkVersion 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -33,7 +33,7 @@ android {
     defaultConfig {
         applicationId "org.catrobat.paintroidflutter"
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0.0"
     }

@@ -44,7 +44,7 @@ class ImageService with LoggableMixin implements IImageService {
       final byteData = await image.toByteData();
       if (byteData == null) throw 'Unable to convert canvas Image to bytes';
       final rawBytes = byteData.buffer.asUint8List();
-      final img = Image.fromBytes(image.width, image.height, rawBytes);
+      final img = Image.fromBytes(width: image.width, height: image.height, bytes: rawBytes.buffer);
       return Result.ok(Uint8List.fromList(encodeJpg(img, quality: quality)));
     } catch (err, stacktrace) {
       logger.severe('Could not export to Jpg', err, stacktrace);
@@ -58,7 +58,7 @@ class ImageService with LoggableMixin implements IImageService {
       final byteData = await image.toByteData();
       if (byteData == null) throw 'Unable to convert canvas Image to bytes';
       final rawBytes = byteData.buffer.asUint8List();
-      final img = Image.fromBytes(image.width, image.height, rawBytes);
+      final img = Image.fromBytes(width: image.width, height: image.height, bytes: rawBytes.buffer);
       return Result.ok(Uint8List.fromList(encodePng(img)));
     } catch (err, stacktrace) {
       logger.severe('Could not export to Png', err, stacktrace);
