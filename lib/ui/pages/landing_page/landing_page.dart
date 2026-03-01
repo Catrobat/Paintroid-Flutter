@@ -34,6 +34,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late ProjectDatabase database;
   late IFileService fileService;
   late IImageService imageService;
+  bool _hasShownDatabaseErrorToast = false;
 
   Future<List<Project>> _getProjects() async {
     return database.projectDAO.getProjects();
@@ -84,9 +85,18 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
-      data: (value) => database = value,
-      error: (err, stacktrace) =>
-          ToastUtils.showShortToast(message: 'Error: $err'),
+      data: (value) {
+        database = value;
+        _hasShownDatabaseErrorToast = false;
+      },
+      error: (err, stacktrace) {
+        if (_hasShownDatabaseErrorToast) return;
+        _hasShownDatabaseErrorToast = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          ToastUtils.showShortToast(message: 'Error: $err');
+        });
+      },
       loading: () {},
     );
     final ioHandler = ref.watch(IOHandler.provider);

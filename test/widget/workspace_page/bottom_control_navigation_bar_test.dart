@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_cap_chips.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_width_slider.dart';
@@ -183,6 +184,32 @@ void main() {
       await bottomNavBarInteractions.selectColor(blueColor).then(
           (bottomNavBarInteractions) =>
               bottomNavBarInteractions.checkActiveColor(blueColor));
+    });
+
+    testWidgets('Test if semi-transparent color swatch has white background',
+        (WidgetTester tester) async {
+      const transparentBlue = Color.fromARGB(96, 0, 115, 204);
+
+      await tester.pumpWidget(sut);
+
+      final container =
+        ProviderScope.containerOf(tester.element(find.byType(WorkspacePage)));
+      container.read(paintProvider.notifier).updateColor(transparentBlue);
+      await tester.pumpAndSettle();
+
+      final thirdNavDestination = find.byType(NavigationDestination).at(2);
+
+      final whiteBackgroundFinder = find.descendant(
+        of: thirdNavDestination,
+        matching: find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is Container &&
+              widget.decoration is BoxDecoration &&
+              (widget.decoration as BoxDecoration).color == Colors.white,
+        ),
+      );
+
+      expect(whiteBackgroundFinder, findsOneWidget);
     });
   });
 }

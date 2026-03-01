@@ -25,6 +25,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
+  var _interactionWasZooming = false;
   Offset _lastPointerUpPosition = Offset.zero;
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
@@ -49,6 +50,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     _pointersOnScreen++;
     if (_pointersOnScreen >= 2) {
       _isZooming = true;
+      _interactionWasZooming = true;
       _toolBoxStateNotifier.didSwitchToZooming();
     }
   }
@@ -83,6 +85,11 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   }
 
   void _onInteractionEnd(ScaleEndDetails details) {
+    if (_interactionWasZooming) {
+      _interactionWasZooming = false;
+      return;
+    }
+
     if (!_isZooming) {
       _toolBoxStateNotifier.didTapUp(_globalToCanvas(_lastPointerUpPosition));
       ref.read(canvasPainterProvider.notifier).repaint();

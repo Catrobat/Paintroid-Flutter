@@ -44,17 +44,29 @@ class BottomNavBar extends ConsumerWidget {
           NavigationDestination(
             label: localizations.color,
             icon: InkWell(
-              child: Container(
-                height: 24.0,
-                width: 24.0,
-                decoration: BoxDecoration(
-                  color: currentPaint.color,
-                  border: Border.all(
-                    color: PaintroidTheme.of(context).onSurfaceColor,
-                    width: 1.4,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 24.0,
+                    width: 24.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: PaintroidTheme.of(context).onSurfaceColor,
+                        width: 1.4,
+                      ),
+                      borderRadius: BorderRadius.circular(2.0),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
+                  Container(
+                    height: 24.0,
+                    width: 24.0,
+                    decoration: BoxDecoration(
+                      color: currentPaint.color,
+                      borderRadius: BorderRadius.circular(2.0),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

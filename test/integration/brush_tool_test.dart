@@ -181,4 +181,52 @@ void main() {
       expect(color.toValue(), Colors.red.toValue());
     });
   }
+
+  if (testID == -1 || testID == 5) {
+    testWidgets('[BRUSH_TOOL]: opacity should stay stable after zoom',
+        (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      UIInteraction.setColor(const Color.fromARGB(96, 0, 0, 255));
+      await UIInteraction.selectTool(ToolData.BRUSH.name);
+
+      await UIInteraction.tapAt(CanvasPosition.center);
+
+      final colorBeforeZoom = await UIInteraction.getPixelColor(
+        CanvasPosition.centerX,
+        CanvasPosition.centerY,
+      );
+      final alphaBeforeZoom = colorBeforeZoom.a;
+      expect(alphaBeforeZoom, greaterThan(0));
+      expect(alphaBeforeZoom, lessThan(255));
+
+      final ivFinder = find.byType(InteractiveViewer);
+      expect(ivFinder, findsOneWidget,
+          reason: 'InteractiveViewer should be present');
+
+      final interactiveViewer = tester.widget<InteractiveViewer>(ivFinder);
+      final transformationController =
+          interactiveViewer.transformationController!;
+
+      transformationController.value = Matrix4.identity()..scale(2.0);
+      await tester.pumpAndSettle();
+
+      transformationController.value = Matrix4.identity();
+      await tester.pumpAndSettle();
+
+      final colorAfterZoom = await UIInteraction.getPixelColor(
+        CanvasPosition.centerX,
+        CanvasPosition.centerY,
+      );
+      final alphaAfterZoom = colorAfterZoom.a;
+
+      expect(
+        (alphaAfterZoom - alphaBeforeZoom).abs(),
+        lessThanOrEqualTo(2),
+        reason:
+            'Alpha channel should stay stable after zoom/repaint for existing strokes',
+      );
+    });
+  }
 }
