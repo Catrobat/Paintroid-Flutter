@@ -209,7 +209,7 @@ void main() {
       final transformationController =
           interactiveViewer.transformationController!;
 
-      transformationController.value = Matrix4.identity()..scale(2.0);
+      transformationController.value = Matrix4.diagonal3Values(2.0, 2.0, 1.0);
       await tester.pumpAndSettle();
 
       transformationController.value = Matrix4.identity();
