@@ -26,6 +26,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   var _pointersOnScreen = 0;
   var _isZooming = false;
   var _interactionWasZooming = false;
+  var _interactionHasPaintInput = false;
   Offset _lastPointerUpPosition = Offset.zero;
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
@@ -51,6 +52,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
     if (_pointersOnScreen >= 2) {
       _isZooming = true;
       _interactionWasZooming = true;
+      _interactionHasPaintInput = false;
       _toolBoxStateNotifier.didSwitchToZooming();
     }
   }
@@ -58,7 +60,9 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onPointerUp(PointerUpEvent event) {
     _pointersOnScreen--;
     _lastPointerUpPosition = event.position;
-    if (_isZooming && _pointersOnScreen == 0) _isZooming = false;
+    if (_pointersOnScreen == 0) {
+      if (_isZooming) _isZooming = false;
+    }
   }
 
   Offset _globalToCanvas(Offset global) {
@@ -70,6 +74,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onInteractionStart(ScaleStartDetails details) {
     if (!_isZooming) {
       if (details.pointerCount == 1) {
+        _interactionHasPaintInput = true;
         _toolBoxStateNotifier.didTapDown(_globalToCanvas(details.focalPoint));
       }
     }
@@ -87,6 +92,11 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onInteractionEnd(ScaleEndDetails details) {
     if (_interactionWasZooming) {
       _interactionWasZooming = false;
+      _interactionHasPaintInput = false;
+      return;
+    }
+
+    if (!_interactionHasPaintInput) {
       return;
     }
 
@@ -103,6 +113,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
           break;
       }
     }
+
+    _interactionHasPaintInput = false;
   }
 
   @override
