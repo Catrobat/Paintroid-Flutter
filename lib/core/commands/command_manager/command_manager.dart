@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/fill_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -123,6 +124,8 @@ class CommandManager {
       return ToolData.TEXT;
     } else if (command.runtimeType == SprayCommand) {
       return ToolData.SPRAY;
+    } else if (command.runtimeType == FillCommand) {
+      return ToolData.FILL;
     } else if (command.runtimeType == StarShapeCommand) {
       return ToolData.SHAPES;
     } else if (command.runtimeType == HeartShapeCommand) {

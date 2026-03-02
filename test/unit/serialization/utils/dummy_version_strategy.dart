@@ -13,6 +13,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int clipboardCommandVersion;
   final int deleteRegionCommandVersion;
   final int textCommandVersion;
+  final int fillCommandVersion;
 
   DummyVersionStrategy({
     this.pathCommandVersion = SerializerVersion.PATH_COMMAND_VERSION,
@@ -30,6 +31,7 @@ class DummyVersionStrategy implements IVersionStrategy {
     this.deleteRegionCommandVersion =
         SerializerVersion.DELETE_REGION_COMMAND_VERSION,
     this.textCommandVersion = SerializerVersion.TEXT_COMMAND_VERSION,
+    this.fillCommandVersion = SerializerVersion.FILL_COMMAND_VERSION,
   });
 
   @override
@@ -64,4 +66,7 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getTextCommandVersion() => textCommandVersion;
+
+  @override
+  int getFillCommandVersion() => fillCommandVersion;
 }
