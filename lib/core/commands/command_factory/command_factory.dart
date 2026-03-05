@@ -1,4 +1,9 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
@@ -56,6 +61,21 @@ class CommandFactory {
         angle,
       );
 
+  ClipboardCommand createClipboardCommand(
+    Paint paint,
+    Uint8List imageData,
+    ui.Offset offset,
+    double scale,
+    double rotation,
+  ) =>
+      ClipboardCommand(
+        paint,
+        imageData,
+        offset,
+        scale,
+        rotation,
+      );
+
   TextCommand createTextCommand(
     Offset point,
     String text,
@@ -109,4 +129,12 @@ class CommandFactory {
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
     return SprayCommand(points, paint);
   }
+
+  DeleteRegionCommand createDeleteRegionCommand(
+    ui.Rect region,
+  ) =>
+      DeleteRegionCommand(
+        Paint(),
+        region,
+      );
 }

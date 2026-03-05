@@ -18,6 +18,10 @@ abstract class IVersionStrategy {
   int getHeartShapeCommandVersion();
 
   int getSprayCommandVersion();
+
+  int getClipboardCommandVersion();
+
+  int getDeleteRegionCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -51,6 +55,14 @@ class ProductionVersionStrategy implements IVersionStrategy {
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;
+
+  @override
+  int getClipboardCommandVersion() =>
+      SerializerVersion.CLIPBOARD_COMMAND_VERSION;
+
+  @override
+  int getDeleteRegionCommandVersion() =>
+      SerializerVersion.DELETE_REGION_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

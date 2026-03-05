@@ -9,6 +9,8 @@ class SerializerVersion {
   static const int STAR_SHAPE_COMMAND_VERSION = Version.v1;
   static const int HEART_SHAPE_COMMAND_VERSION = Version.v1;
   static const int SPRAY_COMMAND_VERSION = Version.v1;
+  static const int CLIPBOARD_COMMAND_VERSION = Version.v1;
+  static const int DELETE_REGION_COMMAND_VERSION = Version.v1;
 }
 
 class Version {
@@ -29,4 +31,6 @@ class SerializerType {
   static const String STAR_SHAPE_COMMAND = 'StarShapeCommand';
   static const String HEART_SHAPE_COMMAND = 'HeartShapeCommand';
   static const String SPRAY_COMMAND = 'SprayCommand';
+  static const String CLIPBOARD_COMMAND = 'ClipboardCommand';
+  static const String DELETE_REGION_COMMAND = 'DeleteRegionCommand';
 }
