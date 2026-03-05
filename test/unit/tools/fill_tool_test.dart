@@ -30,6 +30,16 @@ void main() {
     return completer.future;
   }
 
+  Future<ui.Image> imageFromPng(Uint8List pngBytes) async {
+    final buffer = await ui.ImmutableBuffer.fromUint8List(pngBytes);
+    final descriptor = await ui.ImageDescriptor.encoded(buffer);
+    final codec = await descriptor.instantiateCodec();
+    final frameInfo = await codec.getNextFrame();
+    return frameInfo.image;
+  }
+
+  int rgbaIndex(int x, int y, int width) => (y * width + x) * 4;
+
   setUp(() {
     commandManager = CommandManager();
     paint = ui.Paint()..color = const ui.Color(0xFF000000);
@@ -95,5 +105,83 @@ void main() {
 
     expect(commandManager.undoStack.length, 1);
     expect(commandManager.undoStack.first, isA<FillCommand>());
+  });
+
+  test('Filling outer region does not fill inner enclosed region', () async {
+    const width = 9;
+    const height = 9;
+    final rgba = Uint8List(width * height * 4);
+
+    void setPixel(int x, int y, int r, int g, int b, int a) {
+      final index = rgbaIndex(x, y, width);
+      rgba[index] = r;
+      rgba[index + 1] = g;
+      rgba[index + 2] = b;
+      rgba[index + 3] = a;
+    }
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        setPixel(x, y, 255, 255, 255, 255);
+      }
+    }
+
+    for (int x = 1; x <= 7; x++) {
+      setPixel(x, 1, 0, 0, 0, 255);
+      setPixel(x, 7, 0, 0, 0, 255);
+    }
+    for (int y = 1; y <= 7; y++) {
+      setPixel(1, y, 0, 0, 0, 255);
+      setPixel(7, y, 0, 0, 0, 255);
+    }
+
+    for (int x = 3; x <= 5; x++) {
+      setPixel(x, 3, 0, 0, 0, 255);
+      setPixel(x, 5, 0, 0, 0, 255);
+    }
+    for (int y = 3; y <= 5; y++) {
+      setPixel(3, y, 0, 0, 0, 255);
+      setPixel(5, y, 0, 0, 0, 255);
+    }
+
+    final source = await imageFromRgba(rgba, width, height);
+    final appliedCompleter = Completer<void>();
+
+    sut = FillTool(
+      commandFactory: const CommandFactory(),
+      commandManager: commandManager,
+      graphicFactory: const GraphicFactory(),
+      type: ToolType.FILL,
+      getSourceImage: () async => source,
+      onFillApplied: () async {
+        if (!appliedCompleter.isCompleted) {
+          appliedCompleter.complete();
+        }
+      },
+    );
+
+    sut.onDown(const ui.Offset(2, 2), paint);
+    await appliedCompleter.future;
+
+    expect(commandManager.undoStack.length, 1);
+    final fillCommand = commandManager.undoStack.first as FillCommand;
+    final outputImage = await imageFromPng(fillCommand.imageData);
+    final outputData =
+        await outputImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    expect(outputData, isNotNull);
+
+    final outputPixels = outputData!.buffer.asUint8List();
+
+    final innerIndex = rgbaIndex(4, 4, width);
+    expect(outputPixels[innerIndex], 255);
+    expect(outputPixels[innerIndex + 1], 255);
+    expect(outputPixels[innerIndex + 2], 255);
+    expect(outputPixels[innerIndex + 3], 255);
+
+    final annulusIndex = rgbaIndex(2, 2, width);
+    expect(outputPixels[annulusIndex], 0);
+    expect(outputPixels[annulusIndex + 1], 0);
+    expect(outputPixels[annulusIndex + 2], 0);
+    expect(outputPixels[annulusIndex + 3], 255);
   });
 }
