@@ -7,7 +7,6 @@ import 'package:paintroid/core/commands/command_implementation/graphic/line_comm
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
@@ -126,18 +125,14 @@ class CommandManager {
     } else if (command.runtimeType == HeartShapeCommand) {
       return ToolData.SHAPES;
     } else if (command is PathCommand) {
-      if (command.paint.maskFilter != null) {
+      if (command.isCursorPath) {
+        return ToolData.CURSOR;
+      } else if (command.paint.maskFilter != null) {
         return ToolData.WATERCOLOR;
       } else {
         return ToolData.BRUSH;
       }
     } else {
-      if (command.runtimeType == PathCommand) {
-        final pathCommand = command as PathCommand;
-        if (pathCommand.isCursorPath) {
-          return ToolData.CURSOR;
-        }
-      }
       return ToolData.BRUSH;
     }
   }

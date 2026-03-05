@@ -132,6 +132,15 @@ class CursorTool extends BrushTool {
     ..strokeCap = StrokeCap.round
     ..isAntiAlias = true;
 
+  @override
+  void onCancel() {
+    if (_isCurrentlyDrawing) {
+      super.onUp(lastPoint, Paint());
+    }
+    _isCurrentlyDrawing = false;
+    _resetTracking();
+  }
+
   void _drawCrossLines(Canvas canvas, Paint paint) {
     final crossStart = _circleRadius;
     final crossEnd = crossStart + _crossLength;
