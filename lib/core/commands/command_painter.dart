@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/clipboard_tool.dart';
+import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/implementation/brush_tool.dart';
@@ -35,19 +36,19 @@ class CommandPainter extends CustomPainter {
         currentTool.type != ToolType.CLIPBOARD) {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
-    
-    bool isEraserDrawing = currentTool.type == ToolType.ERASER && 
-                           currentTool is BrushTool && 
+
+    bool isEraserDrawing = currentTool.type == ToolType.ERASER &&
+                           currentTool is BrushTool &&
                            ((currentTool as BrushTool).isDrawing || isCachingCommand);
-    
+
     if (isEraserDrawing) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
-      
+
       if (cachedImage != null) {
         canvas.drawImage(cachedImage!, Offset.zero, Paint());
       }
     }
-    
+
     switch (currentTool.type) {
       case ToolType.LINE:
         _drawGhostPathsAndVertices(canvas, currentTool as LineTool);
@@ -56,6 +57,11 @@ class CommandPainter extends CustomPainter {
         (currentTool as ShapesTool)
           ..drawShape(canvas, ref.read(paintProvider))
           ..drawGuides(canvas);
+        break;
+      case ToolType.CURSOR:
+        commandManager.executeLastCommand(canvas);
+        (currentTool as CursorTool)
+            .drawCursorIcon(canvas, ref.read(paintProvider));
         break;
       case ToolType.CLIPBOARD:
         (currentTool as ClipboardTool).paint(canvas, size);

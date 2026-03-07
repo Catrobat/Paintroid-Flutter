@@ -672,8 +672,9 @@ class MockCommandFactory extends _i1.Mock implements _i23.CommandFactory {
   @override
   _i5.PathCommand createPathCommand(
     _i24.PathWithActionHistory? path,
-    _i2.Paint? paint,
-  ) =>
+    _i2.Paint? paint, {
+    bool? isCursor = false,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #createPathCommand,
@@ -681,6 +682,7 @@ class MockCommandFactory extends _i1.Mock implements _i23.CommandFactory {
             path,
             paint,
           ],
+          {#isCursor: isCursor},
         ),
         returnValue: _FakePathCommand_4(
           this,
@@ -690,6 +692,7 @@ class MockCommandFactory extends _i1.Mock implements _i23.CommandFactory {
               path,
               paint,
             ],
+            {#isCursor: isCursor},
           ),
         ),
       ) as _i5.PathCommand);

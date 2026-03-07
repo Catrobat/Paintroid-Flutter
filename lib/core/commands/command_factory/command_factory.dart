@@ -20,9 +20,10 @@ class CommandFactory {
 
   PathCommand createPathCommand(
     PathWithActionHistory path,
-    Paint paint,
-  ) =>
-      PathCommand(path, paint);
+    Paint paint, {
+    bool isCursor = false,
+  }) =>
+      PathCommand(path, paint, isCursorPath: isCursor);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,

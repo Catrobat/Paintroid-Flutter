@@ -17,12 +17,14 @@ part 'path_command.g.dart';
 class PathCommand extends GraphicCommand {
   final String type;
   final int version;
+  final bool isCursorPath;
 
   PathCommand(
     this.path,
     super.paint, {
     this.type = SerializerType.PATH_COMMAND,
     int? version,
+    this.isCursorPath = false,
   }) : version =
             version ?? VersionStrategyManager.strategy.getPathCommandVersion();
 
