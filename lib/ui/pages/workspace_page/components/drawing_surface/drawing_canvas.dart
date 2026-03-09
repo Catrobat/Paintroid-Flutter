@@ -40,8 +40,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
             _transformationController.toScene(widgetCenterOffset) -
                 widgetCenterOffset;
         final centeredMatrix = _transformationController.value.clone()
-          ..translate(
-              scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy);
+          ..translateByDouble(
+              scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy, 0.0, 1.0);
         _transformationController.value = centeredMatrix;
       });
 

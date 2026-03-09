@@ -17,6 +17,8 @@ analyzer:
     missing_required_param: error
     invalid_use_of_protected_member: error
     unused_import: error
+    deprecated_member_use: info
+    experimental_member_use: ignore
 
   exclude:
     - lib/src/**.pb*.dart
