@@ -14,16 +14,16 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = "org.catrobat.paintroid"
-    compileSdkVersion 35
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -33,7 +33,7 @@ android {
     defaultConfig {
         applicationId "org.catrobat.paintroidflutter"
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0.0"
     }
