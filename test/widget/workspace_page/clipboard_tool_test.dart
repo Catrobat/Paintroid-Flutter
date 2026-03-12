@@ -5,7 +5,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/clipboard_tool_options.dart';
-import 'package:paintroid/ui/shared/custom_action_chip.dart';
+// import 'package:paintroid/ui/shared/custom_action_chip.dart';
 
 import '../../utils/test_utils.dart';
 
@@ -32,10 +32,10 @@ void main() {
     await UIInteraction.createNewImage();
     await selectClipboardTool(tester);
 
-    expect(find.widgetWithIcon(CustomActionChip, Icons.copy), findsOneWidget);
-    expect(find.widgetWithIcon(CustomActionChip, Icons.content_cut),
-        findsOneWidget);
-    expect(find.widgetWithIcon(CustomActionChip, Icons.paste), findsOneWidget);
+    expect(find.text('Copy'), findsOneWidget);
+    expect(find.text('Cut'), findsOneWidget);
+    expect(find.text('Paste'), findsOneWidget);
+    expect(find.text('Clear'), findsOneWidget);
   });
 
   testWidgets(
