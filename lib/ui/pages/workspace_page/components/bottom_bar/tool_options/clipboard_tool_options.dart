@@ -5,7 +5,6 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
-import 'package:paintroid/ui/utils/toast_utils.dart';
 
 class ClipboardToolOptions extends ConsumerWidget {
   const ClipboardToolOptions({super.key});
@@ -22,46 +21,107 @@ class ClipboardToolOptions extends ConsumerWidget {
     final shadowColor = PaintroidTheme.of(context).shadowColor;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomActionChip(
-              chipIcon: Icon(Icons.copy, color: shadowColor),
-              hint: 'Copy selection',
-              chipBackgroundColor: Colors.white,
-              onPressed: () async {
-                if (canvasImage != null) {
-                  await clipboardOptionsNotifier.performCopy(canvasImage);
-                }
-              },
-            ),
-            const SizedBox(width: 16),
-            CustomActionChip(
-              chipIcon: Icon(Icons.content_cut, color: shadowColor),
-              hint: 'Cut selection',
-              chipBackgroundColor: Colors.white,
-              onPressed: () async {
-                if (canvasImage != null) {
-                  await clipboardOptionsNotifier.performCut(canvasImage);
-                }
-              },
-            ),
-            const SizedBox(width: 16),
-            CustomActionChip(
-              chipIcon: Icon(Icons.paste, color: shadowColor),
-              hint: 'Paste clipboard',
-              chipBackgroundColor: Colors.white,
-              onPressed: clipboardOptionsState.hasCopiedContent
-                  ? () async {
-                      await clipboardOptionsNotifier.performPaste(paint);
-                    }
-                  : () {
-                      ToastUtils.showShortToast(message: 'Nothing to paste!');
-                    },
-            ),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              CustomActionChip(
+                chipIcon: ChipContent(
+                    iconColor: shadowColor,
+                    icon: Icons.copy,
+                    text: 'Copy'
+                ),
+                hint: 'Copy selection',
+                chipBackgroundColor: PaintroidTheme.of(context).onSurfaceColor,
+                onPressed: () async {
+                  if (canvasImage != null) {
+                    await clipboardOptionsNotifier.performCopy(canvasImage);
+                  }
+                },
+              ),
+              const SizedBox(width: 4),
+              CustomActionChip(
+                chipIcon: ChipContent(
+                    iconColor: shadowColor,
+                    icon: Icons.content_cut,
+                    text: 'Cut'
+                ),
+                hint: 'Cut selection',
+                chipBackgroundColor: Colors.white,
+                onPressed: () async {
+                  if (canvasImage != null) {
+                    await clipboardOptionsNotifier.performCut(canvasImage);
+                  }
+                },
+              ),
+              const SizedBox(width: 4),
+              CustomActionChip(
+                chipIcon: ChipContent(
+                    iconColor: shadowColor,
+                    icon: Icons.paste,
+                    text: 'Paste'
+                ),
+                hint: 'Paste clipboard',
+                chipBackgroundColor: Colors.white,
+                onPressed: clipboardOptionsState.hasCopiedContent
+                    ? () async {
+                        await clipboardOptionsNotifier.performPaste(paint);
+                      }
+                    : null,
+              ),
+              const SizedBox(width: 4),
+              CustomActionChip(
+                chipIcon:ChipContent(
+                    iconColor: shadowColor,
+                    icon: Icons.cleaning_services_rounded,
+                    text: 'Clear'
+                ),
+                hint: 'Clear clipboard',
+                chipBackgroundColor: PaintroidTheme.of(context).onSurfaceColor,
+                onPressed: clipboardOptionsState.hasCopiedContent
+                    ? () async {
+                        clipboardOptionsNotifier.clearClipboard();
+                      }
+                    : null,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ChipContent extends StatelessWidget {
+  final Color iconColor;
+  final IconData icon;
+  final String text;
+
+  const ChipContent({
+    super.key,
+    required this.iconColor,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: iconColor,
+          size: 20,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: TextStyle(
+            color: iconColor
+          ),
         ),
       ],
     );
