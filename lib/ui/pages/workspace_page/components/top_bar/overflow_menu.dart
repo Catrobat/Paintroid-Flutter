@@ -21,6 +21,7 @@ enum OverflowMenuOption {
   saveImage,
   saveProject,
   loadImage,
+  shareImage,
   newImage;
 
   String localizedLabel(BuildContext context) {
@@ -36,6 +37,8 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
+      case OverflowMenuOption.shareImage:
+        return localizations.shareImage;
     }
   }
 }
@@ -82,6 +85,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+      case OverflowMenuOption.shareImage:
+      // todo: implement io handeler to share image 
         break;
     }
   }
