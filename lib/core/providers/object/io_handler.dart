@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
@@ -26,6 +26,7 @@ import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/load_image_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 class IOHandler {
   final Ref ref;
@@ -196,6 +197,22 @@ class IOHandler {
         return false;
       },
     );
+  }
+
+  Future<void> shareImage() async {
+    final image = await ref
+        .read(RenderImageForExport.provider)
+        .call();
+
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final bytes = byteData!.buffer.asUint8List();
+
+    final XFile file = XFile.fromData(
+      bytes,
+      mimeType: 'image/png',
+      name: 'drawing.png',
+    );
+    Share.shareXFiles([file]);
   }
 
   Future<String?> getPreviewPath(ImageMetaData imageData) async {

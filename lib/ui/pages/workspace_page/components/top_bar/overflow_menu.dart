@@ -87,7 +87,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         ioHandler.newImage(context, this);
         break;
       case OverflowMenuOption.shareImage:
-      // todo: implement io handeler to share image 
+        ioHandler.shareImage();
         break;
     }
   }
