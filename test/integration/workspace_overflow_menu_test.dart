@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:paintroid/app.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
@@ -19,6 +20,14 @@ import '../utils/ui_interaction.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
+  const MethodChannel shareChannel =
+  MethodChannel('dev.fluttercommunity.plus/share');
+
+  const MethodChannel pathProviderChannel =
+  MethodChannel('plugins.flutter.io/path_provider');
+
+  bool shareCalled = false;
+
   const String testIDStr = String.fromEnvironment('id', defaultValue: '-1');
   final testID = int.tryParse(testIDStr) ?? -1;
 
@@ -26,6 +35,25 @@ void main() {
   late AppLocalizations localizations;
 
   setUp(() async {
+    shareCalled = false;
+
+    // Mock path_provider
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(pathProviderChannel, (call) async {
+      if (call.method == 'getTemporaryDirectory') {
+        return '/tmp';
+      }
+      return null;
+    });
+
+    // Mock share_plus
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(shareChannel, (call) async {
+      if (call.method == 'shareFiles') {
+        shareCalled = true;
+      }
+      return null;
+    });
     sut = ProviderScope(
       child: App(
         showOnboardingPage: false,
@@ -79,6 +107,9 @@ void main() {
             break;
           case OverflowMenuOption.saveProject:
             label = localizations.saveProject;
+            break;
+          case OverflowMenuOption.shareImage:
+            label = localizations.shareImage;
             break;
         }
         expect(find.text(label), findsOneWidget,
@@ -253,5 +284,18 @@ void main() {
 
       expect(canvasFinder, findsNothing);
     });
+  }
+
+  if (testID == -1 || testID == 12) {
+    testWidgets('[OVERFLOW_MENU]: Share Image uses share_plus',
+            (tester) async {
+          await initializeAppAndLocalizations(tester);
+          await tester.tap(find.byIcon(Icons.more_vert));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(localizations.shareImage));
+          await tester.pumpAndSettle();
+
+          expect(shareCalled, true);
+        });
   }
 }
