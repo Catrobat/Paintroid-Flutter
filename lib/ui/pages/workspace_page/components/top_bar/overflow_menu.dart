@@ -11,6 +11,8 @@ import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
+import 'package:paintroid/core/utils/widget_identifier.dart';
+import 'package:paintroid/ui/shared/dialogs/advanced_options_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
@@ -21,7 +23,8 @@ enum OverflowMenuOption {
   saveImage,
   saveProject,
   loadImage,
-  newImage;
+  newImage,
+  advancedOptions;
 
   String localizedLabel(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -36,6 +39,8 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
+      case OverflowMenuOption.advancedOptions:
+        return localizations.advancedOptions;
     }
   }
 }
@@ -56,6 +61,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => OverflowMenuOption.values
           .map((option) => PopupMenuItem(
+              key: option == OverflowMenuOption.advancedOptions 
+                  ? const ValueKey(WidgetIdentifier.advancedOptionsMenuItem) 
+                  : null,
               value: option,
               child: Text(
                 option.localizedLabel(context),
@@ -82,6 +90,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+      case OverflowMenuOption.advancedOptions:
+        showAdvancedOptionsDialog(context);
         break;
     }
   }

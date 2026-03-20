@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import '../../utils/test_utils.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
   late Widget sut;
 
   setUp(() async {
@@ -57,14 +53,14 @@ void main() {
       expect(smoothingSwitch, findsOneWidget);
 
       // 4. Assert defaults OFF
-      expect(tester.widget<Switch>(antialiasingSwitch).value, false);
-      expect(tester.widget<Switch>(smoothingSwitch).value, false);
+      expect(tester.widget<SwitchListTile>(antialiasingSwitch).value, false);
+      expect(tester.widget<SwitchListTile>(smoothingSwitch).value, false);
 
       // 5. Toggle at least one switch
       await tester.tap(antialiasingSwitch);
-      await tester.pumpAndSettle();
+      await tester.pump();
 
-      expect(tester.widget<Switch>(antialiasingSwitch).value, true);
+      expect(tester.widget<SwitchListTile>(antialiasingSwitch).value, true);
 
       // 6. Tap OK
       final okButton =
@@ -76,6 +72,10 @@ void main() {
 
       // Verify dialog is dismissed
       expect(dialog, findsNothing);
+
+      // We use repeating pump to let the dialog out animation naturally flush
+      await tester.pumpWidget(Container());
+      await tester.pumpAndSettle();
     });
   });
 }
