@@ -53,6 +53,7 @@ class AdvancedOptionsDialog extends ConsumerWidget {
               ),
               value: advancedOptionsStateData.isAntialiasingEnabled,
               activeColor: theme.primaryColor,
+              inactiveTrackColor: Colors.white,
               onChanged: (_) => notifier.toggleAntialiasing(),
             ),
             SwitchListTile(
@@ -63,6 +64,7 @@ class AdvancedOptionsDialog extends ConsumerWidget {
               ),
               value: advancedOptionsStateData.isSmoothingEnabled,
               activeColor: theme.primaryColor,
+              inactiveTrackColor: Colors.white,
               onChanged: (_) => notifier.toggleSmoothing(),
             ),
           ],

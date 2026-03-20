@@ -73,7 +73,7 @@ class GenericDialog extends StatelessWidget {
   Widget build(BuildContext context) => AlertDialog(
         backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2.0))),
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
         title: Text(
           title,
           style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
