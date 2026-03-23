@@ -44,4 +44,44 @@ void main() {
       expect(deserializedCommand.type, equals(type));
     });
   });
+
+  group('Version 2', () {
+    test('Test SquareShapeCommand deserialization for version 2', () {
+      const type = SerializerType.SQUARE_SHAPE_COMMAND;
+
+      final originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
+      const originalTopLeft = Offset(0, 0);
+      const originalTopRight = Offset(1, 0);
+      const originalBottomLeft = Offset(0, 1);
+      const originalBottomRight = Offset(1, 1);
+
+      final command = DummyCommandFactory.createSquareShapeCommand(
+        originalPaint,
+        originalTopLeft,
+        originalTopRight,
+        originalBottomLeft,
+        originalBottomRight,
+        ShapeStyle.outline,
+        version: Version.v1,
+      );
+
+      final json = command.toJson();
+      json['version'] = Version.v2;
+      final deserializedCommand = SquareShapeCommand.fromJson(json);
+
+      expect(
+          DummyPaintFactory.comparePaint(
+            originalPaint,
+            deserializedCommand.paint,
+            version: Version.v1,
+          ),
+          isTrue);
+      expect(deserializedCommand.version, equals(Version.v2));
+      expect(deserializedCommand.topLeft, equals(originalTopLeft));
+      expect(deserializedCommand.topRight, equals(originalTopRight));
+      expect(deserializedCommand.bottomLeft, equals(originalBottomLeft));
+      expect(deserializedCommand.bottomRight, equals(originalBottomRight));
+      expect(deserializedCommand.type, equals(type));
+    });
+  });
 }
