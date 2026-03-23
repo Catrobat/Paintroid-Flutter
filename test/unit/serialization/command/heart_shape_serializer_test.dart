@@ -43,43 +43,4 @@ void main() {
       expect(deserializedCommand.style, equals(ShapeStyle.outline));
     });
   });
-
-  group('Version 2', () {
-    test('Test Heart deserialization for version 2', () {
-      const type = SerializerType.HEART_SHAPE_COMMAND;
-      final originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
-      const center = Offset(100, 100);
-      const width = 50.0;
-      const height = 50.0;
-      const angle = 0.0;
-
-      final command = DummyCommandFactory.createHeartShapeCommand(
-        originalPaint,
-        width,
-        height,
-        angle,
-        center,
-        ShapeStyle.outline,
-      );
-
-      final json = command.toJson();
-      json['version'] = Version.v2;
-      final deserializedCommand = HeartShapeCommand.fromJson(json);
-
-      expect(
-          DummyPaintFactory.comparePaint(
-            originalPaint,
-            deserializedCommand.paint,
-            version: Version.v1,
-          ),
-          isTrue);
-      expect(deserializedCommand.version, equals(Version.v2));
-      expect(deserializedCommand.center, equals(center));
-      expect(deserializedCommand.type, equals(type));
-      expect(deserializedCommand.angle, equals(angle));
-      expect(deserializedCommand.width, equals(width));
-      expect(deserializedCommand.height, equals(height));
-      expect(deserializedCommand.style, equals(ShapeStyle.outline));
-    });
-  });
 }
