@@ -40,29 +40,29 @@ class ClipPathCommand extends GraphicCommand {
 
   @override
   void call(Canvas canvas) {
-    final dashLength = paint.strokeWidth * 4;
-    final dashGap = paint.strokeWidth * 2;
+    final dashLength = paint.strokeWidth * 2.5;
+    final dashGap = paint.strokeWidth * 1.5;
+    final dashArray = CircularIntervalList<double>([dashLength, dashGap]);
 
     final dashedPath = dashPath(
       path.path,
-      dashArray: CircularIntervalList<double>([dashLength, dashGap]),
+      dashArray: dashArray,
     );
     canvas.drawPath(dashedPath, paint);
 
     if (startPoint != null &&
         endPoint != null &&
         (startPoint!.dx != endPoint!.dx || startPoint!.dy != endPoint!.dy)) {
-      final solidPaint = Paint()
-        ..color = paint.color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = paint.strokeWidth
-        ..isAntiAlias = true;
-
-      final solidPath = Path()
+      final closingPath = Path()
         ..moveTo(startPoint!.dx, startPoint!.dy)
         ..lineTo(endPoint!.dx, endPoint!.dy);
 
-      canvas.drawPath(solidPath, solidPaint);
+      final dashedClosingPath = dashPath(
+        closingPath,
+        dashArray: dashArray,
+      );
+
+      canvas.drawPath(dashedClosingPath, paint);
     }
   }
 
