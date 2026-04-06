@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-
+// ignore: experimental_member_use
 class DateTimeConverter extends TypeConverter<DateTime, int> {
   @override
   DateTime decode(int databaseValue) {
