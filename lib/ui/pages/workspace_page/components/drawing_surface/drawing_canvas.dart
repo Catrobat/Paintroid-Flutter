@@ -25,6 +25,7 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   final _transformationController = TransformationController();
   var _pointersOnScreen = 0;
   var _isZooming = false;
+  var _wasZooming = false;
   Offset _lastPointerUpPosition = Offset.zero;
 
   void _resetCanvasScale({bool fitToScreen = false}) =>
@@ -40,8 +41,8 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
             _transformationController.toScene(widgetCenterOffset) -
                 widgetCenterOffset;
         final centeredMatrix = _transformationController.value.clone()
-          ..translate(
-              scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy);
+          ..translateByDouble(
+              scaleAdjustedCenterOffset.dx, scaleAdjustedCenterOffset.dy,0.0,1.0);
         _transformationController.value = centeredMatrix;
       });
 
@@ -56,7 +57,10 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   void _onPointerUp(PointerUpEvent event) {
     _pointersOnScreen--;
     _lastPointerUpPosition = event.position;
-    if (_isZooming && _pointersOnScreen == 0) _isZooming = false;
+    if (_isZooming && _pointersOnScreen == 0) {
+      _wasZooming = true;
+      _isZooming = false;
+    }
   }
 
   Offset _globalToCanvas(Offset global) {
@@ -83,6 +87,10 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   }
 
   void _onInteractionEnd(ScaleEndDetails details) {
+    if (_wasZooming) {
+      _wasZooming = false;
+      return;
+    }
     if (!_isZooming) {
       _toolBoxStateNotifier.didTapUp(_globalToCanvas(_lastPointerUpPosition));
       ref.read(canvasPainterProvider.notifier).repaint();

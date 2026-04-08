@@ -12,6 +12,7 @@ PathCommand _$PathCommandFromJson(Map<String, dynamic> json) => PathCommand(
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
       type: json['type'] as String? ?? SerializerType.PATH_COMMAND,
       version: (json['version'] as num?)?.toInt(),
+      isCursorPath: json['isCursorPath'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$PathCommandToJson(PathCommand instance) =>
@@ -19,5 +20,6 @@ Map<String, dynamic> _$PathCommandToJson(PathCommand instance) =>
       'paint': const PaintConverter().toJson(instance.paint),
       'type': instance.type,
       'version': instance.version,
+      'isCursorPath': instance.isCursorPath,
       'path': const PathWithActionHistoryConverter().toJson(instance.path),
     };

@@ -9,10 +9,10 @@ class HueSaturationValuePicker extends ConsumerStatefulWidget {
   final ValueChanged<Color> onColorChanged;
 
   const HueSaturationValuePicker({
-    Key? key,
+    super.key,
     required this.initialColor,
     required this.onColorChanged,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<HueSaturationValuePicker> createState() =>
