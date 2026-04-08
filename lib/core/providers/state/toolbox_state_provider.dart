@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/clipboard_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/fill_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
@@ -77,6 +78,9 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
       case ToolType.SHAPES:
         state = state.copyWith(currentTool: ref.read(shapesToolProvider));
         ref.read(canvasPainterProvider.notifier).repaint();
+        break;
+      case ToolType.FILL:
+        state = state.copyWith(currentTool: ref.read(fillToolProvider));
         break;
       case ToolType.TEXT:
         state = state.copyWith(currentTool: ref.read(textToolProvider));
