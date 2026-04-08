@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:typed_data'; 
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; 
@@ -75,8 +74,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           await _navigateToPocketPaint();
         }
       } catch (e) {
-        log("error in loading file from Intent: $e");
-        ToastUtils.showShortToast(message: "failed to open image from file.");
+        log('error in loading file from Intent: $e');
+        ToastUtils.showShortToast(message: 'failed to open image from file.');
       }
     });
   }
