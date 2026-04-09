@@ -62,16 +62,28 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   Future<void> _handleInitialFile(String uri) async {
+    if (mounted) {
+      final ioHandler = ref.read(IOHandler.provider);
+      final shouldContinue = await ioHandler.handleUnsavedChanges(context, this);
+      if (!shouldContinue) return;
+    }
+
     ref.read(workspaceStateProvider.notifier).performIOTask(() async {
       try {
-        final platform = MethodChannel('org.catrobat.paintroid/file_handler');
+        final platform = const MethodChannel('org.catrobat.paintroid/file_handler');
         final Uint8List? imageBytes = await platform.invokeMethod('getFileBytes', {'uri': uri});
 
         if (imageBytes != null && mounted) {
           _clearCanvas();
           final ui.Image image = await decodeImageFromList(imageBytes);
           ref.read(canvasStateProvider.notifier).setBackgroundImage(image);
-          await _navigateToPocketPaint();
+          if (!mounted) return;
+          final currentRoute = ModalRoute.of(context)?.settings.name;
+          if (currentRoute != '/PocketPaint') {
+             await _navigateToPocketPaint();
+          } else {
+             setState(() {});
+          }
         }
       } catch (e) {
         log('error in loading file from Intent: $e');
@@ -79,7 +91,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       }
     });
   }
-
   Future<List<Project>> _getProjects() async {
     return database.projectDAO.getProjects();
   }
