@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
