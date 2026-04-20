@@ -44,26 +44,28 @@ class ClipPathCommand extends GraphicCommand {
     final dashGap = paint.strokeWidth * 1.5;
     final dashArray = CircularIntervalList<double>([dashLength, dashGap]);
 
-    final dashedPath = dashPath(
-      path.path,
-      dashArray: dashArray,
-    );
-    canvas.drawPath(dashedPath, paint);
+    final borderPaint = Paint()
+      ..color = const Color(0xFF000000)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = paint.strokeWidth * 1.2
+      ..strokeCap = paint.strokeCap
+      ..strokeJoin = paint.strokeJoin;
+
+    final combinedPath = Path()..addPath(path.path, Offset.zero);
 
     if (startPoint != null &&
         endPoint != null &&
         (startPoint!.dx != endPoint!.dx || startPoint!.dy != endPoint!.dy)) {
-      final closingPath = Path()
-        ..moveTo(startPoint!.dx, startPoint!.dy)
-        ..lineTo(endPoint!.dx, endPoint!.dy);
-
-      final dashedClosingPath = dashPath(
-        closingPath,
-        dashArray: dashArray,
-      );
-
-      canvas.drawPath(dashedClosingPath, paint);
+      combinedPath.lineTo(endPoint!.dx, endPoint!.dy);
     }
+
+    final dashedPath = dashPath(
+      combinedPath,
+      dashArray: dashArray,
+    );
+
+    canvas.drawPath(dashedPath, borderPaint);
+    canvas.drawPath(dashedPath, paint);
   }
 
   @override
