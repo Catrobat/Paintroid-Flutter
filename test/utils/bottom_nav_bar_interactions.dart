@@ -72,14 +72,12 @@ class BottomNavBarInteractions {
     final thirdNavDestination = find.byType(NavigationDestination).at(2);
     final activeColor = find.descendant(
         of: thirdNavDestination,
-        matching: find.byWidgetPredicate((Widget widget) =>
-            widget is InkWell &&
-            widget.child is Container &&
-            (widget.child as Container).decoration is BoxDecoration &&
-            ((widget.child as Container).decoration as BoxDecoration)
-                    .color
-                    ?.toValue() ==
-                color.toValue()));
+        matching: find.byWidgetPredicate((Widget widget) {
+          if (widget is! Container) return false;
+          final decoration = widget.decoration;
+          if (decoration is! BoxDecoration) return false;
+          return decoration.color?.toValue() == color.toValue();
+        }));
 
     expect(activeColor, findsOneWidget);
     return this;
