@@ -28,6 +28,8 @@ abstract class IVersionStrategy {
   int getClipPathCommandVersion();
 
   int getClipAreaCommandVersion();
+
+  int getColorChangedCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -81,6 +83,10 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getClipAreaCommandVersion() =>
       SerializerVersion.CLIP_AREA_COMMAND_VERSION;
+
+  @override
+  int getColorChangedCommandVersion() =>
+      SerializerVersion.COLOR_CHANGED_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

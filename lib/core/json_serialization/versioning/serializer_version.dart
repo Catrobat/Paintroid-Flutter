@@ -14,6 +14,7 @@ class SerializerVersion {
   static const int DASHED_PATH_COMMAND_VERSION = Version.v1;
   static const int CLIP_PATH_COMMAND_VERSION = Version.v1;
   static const int CLIP_AREA_COMMAND_VERSION = Version.v1;
+  static const int COLOR_CHANGED_COMMAND_VERSION = Version.v1;
 }
 
 class Version {
@@ -39,4 +40,5 @@ class SerializerType {
   static const String DASHED_PATH_COMMAND = 'DashedPathCommand';
   static const String CLIP_PATH_COMMAND = 'ClipPathCommand';
   static const String CLIP_AREA_COMMAND = 'ClipAreaCommand';
+  static const String COLOR_CHANGED_COMMAND = 'ColorChangedCommand';
 }

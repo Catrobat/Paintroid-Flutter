@@ -10,6 +10,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/squ
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 abstract class Command with EquatableMixin {
@@ -44,6 +45,8 @@ abstract class Command with EquatableMixin {
         return ClipPathCommand.fromJson(json);
       case SerializerType.CLIP_AREA_COMMAND:
         return ClipAreaCommand.fromJson(json);
+      case SerializerType.COLOR_CHANGED_COMMAND:
+        return ColorChangedCommand.fromJson(json);
       default:
         return PathCommand.fromJson(json);
     }

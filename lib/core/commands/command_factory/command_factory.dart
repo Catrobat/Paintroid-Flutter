@@ -14,6 +14,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/hea
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
 
@@ -125,11 +126,28 @@ class CommandFactory {
     return SprayCommand(points, paint);
   }
 
-  DeleteRegionCommand createDeleteRegionCommand(ui.Rect region) =>
-      DeleteRegionCommand(Paint(), region);
+  DeleteRegionCommand createDeleteRegionCommand(
+    ui.Rect region,
+  ) =>
+      DeleteRegionCommand(
+        Paint(),
+        region,
+      );
 
   ClipAreaCommand createClipAreaCommand(
     PathWithActionHistory path,
     Paint paint,
-  ) => ClipAreaCommand(path, paint);
+  ) =>
+      ClipAreaCommand(path, paint);
+
+  ColorChangedCommand createColorChangedCommand(
+    Color oldColor,
+    Color newColor,
+    Paint paint,
+  ) =>
+      ColorChangedCommand(
+        oldColor: oldColor,
+        newColor: newColor,
+        paint: paint,
+      );
 }

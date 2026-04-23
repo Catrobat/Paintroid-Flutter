@@ -10,6 +10,7 @@ import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart'
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/pipette_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/watercolor_tool_provider.dart';
@@ -97,6 +98,9 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.CLIPPING:
         state = state.copyWith(currentTool: ref.read(clippingToolProvider));
+        break;
+      case ToolType.PIPETTE:
+        state = state.copyWith(currentTool: ref.read(pipetteToolProvider));
         break;
       default:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));

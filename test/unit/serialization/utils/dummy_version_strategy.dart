@@ -16,6 +16,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int dashedPathCommandVersion;
   final int clipPathCommandVersion;
   final int clipAreaCommandVersion;
+  final int colorChangedCommandVersion;
 
   DummyVersionStrategy({
     this.pathCommandVersion = SerializerVersion.PATH_COMMAND_VERSION,
@@ -37,6 +38,8 @@ class DummyVersionStrategy implements IVersionStrategy {
         SerializerVersion.DASHED_PATH_COMMAND_VERSION,
     this.clipPathCommandVersion = SerializerVersion.CLIP_PATH_COMMAND_VERSION,
     this.clipAreaCommandVersion = SerializerVersion.CLIP_AREA_COMMAND_VERSION,
+    this.colorChangedCommandVersion =
+        SerializerVersion.COLOR_CHANGED_COMMAND_VERSION,
   });
 
   @override
@@ -80,4 +83,7 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getClipAreaCommandVersion() => clipAreaCommandVersion;
+
+  @override
+  int getColorChangedCommandVersion() => colorChangedCommandVersion;
 }

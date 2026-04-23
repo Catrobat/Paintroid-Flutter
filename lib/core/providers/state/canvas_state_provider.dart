@@ -33,6 +33,8 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     );
   }
 
+  CanvasStateData get currentState => state;
+
   void setBackgroundImage(Image image) => state = state.copyWith(
         backgroundImage: image,
         size: Size(image.width.toDouble(), image.height.toDouble()),

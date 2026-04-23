@@ -553,6 +553,17 @@ class UIInteraction {
     await tester.pumpAndSettle();
   }
 
+  static Future<TestGesture> tapDownAt(Offset position) async {
+    final gesture = await tester.startGesture(position);
+    await tester.pump();
+    return gesture;
+  }
+
+  static Future<void> tapUpAt(TestGesture gesture) async {
+    await gesture.up();
+    await tester.pumpAndSettle();
+  }
+
   static void expectVertexStackLength(int length) {
     final tool = getCurrentTool();
     expect((tool as LineTool).vertexStack.length, length);
