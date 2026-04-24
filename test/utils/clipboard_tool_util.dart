@@ -6,14 +6,17 @@ import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/object/clipboard_tool_options_state_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
-
-import 'ui_interaction.dart';
-import 'canvas_positions.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
+import 'test_utils.dart';
 
 class ClipboardIntegrationTestUtils {
   static Future<void> launchAppAndInit(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          IDeviceService.sizeProvider
+              .overrideWithValue(TestConstants.standardDeviceSize),
+        ],
         child: App(showOnboardingPage: false),
       ),
     );

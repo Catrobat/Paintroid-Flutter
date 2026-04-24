@@ -28,17 +28,16 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
+import '../../utils/test_constants.dart';
 import 'landing_page_test.mocks.dart';
 
-@GenerateMocks(
-    [ProjectDatabase, ProjectDAO, IImageService, IFileService, IDeviceService])
+@GenerateMocks([ProjectDatabase, ProjectDAO, IImageService, IFileService])
 void main() {
   late Widget sut;
   late ProjectDatabase database;
   late ProjectDAO dao;
   late IImageService imageService;
   late IFileService fileService;
-  late IDeviceService deviceService;
   late List<Project> projects;
   final date = DateTime.now();
   const filePath = 'test/assets/images/test.jpg';
@@ -59,13 +58,13 @@ void main() {
     dao = MockProjectDAO();
     imageService = MockIImageService();
     fileService = MockIFileService();
-    deviceService = MockIDeviceService();
     sut = ProviderScope(
       overrides: [
         ProjectDatabase.provider.overrideWith((ref) => Future.value(database)),
         IImageService.provider.overrideWith((ref) => imageService),
         IFileService.provider.overrideWith((ref) => fileService),
-        IDeviceService.provider.overrideWith((ref) => deviceService),
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
       ],
       child: App(
         showOnboardingPage: false,
@@ -202,11 +201,14 @@ void main() {
       expect(overflowMenuButtonFinder, findsOneWidget);
 
       // Check the canvas is empty
-      final container = ProviderContainer();
+      final container = ProviderContainer(overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ]);
       final canvasState = container.read(canvasStateProvider);
       expect(canvasState.backgroundImage, isNull);
       expect(canvasState.cachedImage, isNull);
-      expect(canvasState.size, equals(Size.zero));
+      expect(canvasState.size, equals(TestConstants.standardDeviceSize));
 
       await tester.pageBack();
       await tester.pumpAndSettle();
@@ -248,11 +250,14 @@ void main() {
       expect(overflowMenuButtonFinder, findsOneWidget);
 
       // Check the canvas is empty
-      final container = ProviderContainer();
+      final container = ProviderContainer(overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ]);
       final canvasState = container.read(canvasStateProvider);
       expect(canvasState.backgroundImage, isNull);
       expect(canvasState.cachedImage, isNull);
-      expect(canvasState.size, equals(Size.zero));
+      expect(canvasState.size, equals(TestConstants.standardDeviceSize));
 
       await tester.tap(overflowMenuButtonFinder);
       await tester.pumpAndSettle();
@@ -646,8 +651,6 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value([project]));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
-      when(deviceService.getSizeInPixels())
-          .thenAnswer((_) => Future.value(const Size(1080, 1920)));
       when(dao.insertProject(project)).thenAnswer((_) => Future.value(1));
       when(fileService.getFile(filePath)).thenReturn(Result.ok(testFile));
 
@@ -675,8 +678,6 @@ void main() {
           .thenAnswer((_) => Future.value([project1, project2]));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
-      when(deviceService.getSizeInPixels())
-          .thenAnswer((_) => Future.value(const Size(1080, 1920)));
       when(dao.insertProject(project2)).thenAnswer((_) => Future.value(1));
       when(fileService.getFile(filePath)).thenReturn(Result.ok(testFile));
 

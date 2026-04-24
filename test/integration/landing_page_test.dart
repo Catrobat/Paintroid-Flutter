@@ -27,10 +27,10 @@ import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
 
+import '../utils/test_utils.dart';
 import 'landing_page_test.mocks.dart';
 
-@GenerateMocks(
-    [ProjectDatabase, ProjectDAO, IImageService, IFileService, IDeviceService])
+@GenerateMocks([ProjectDatabase, ProjectDAO, IImageService, IFileService])
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   const String testIDStr = String.fromEnvironment('id', defaultValue: '-1');
@@ -41,7 +41,6 @@ void main() {
   late ProjectDAO mockDao;
   late IImageService mockImageService;
   late IFileService mockFileService;
-  late IDeviceService mockDeviceService;
   late List<Project> testProjects;
   final testDate = DateTime.now();
   const testFilePath = 'test/assets/images/test.jpg';
@@ -62,7 +61,6 @@ void main() {
     mockDao = MockProjectDAO();
     mockImageService = MockIImageService();
     mockFileService = MockIFileService();
-    mockDeviceService = MockIDeviceService();
 
     sut = ProviderScope(
       overrides: [
@@ -70,7 +68,8 @@ void main() {
             .overrideWith((ref) => Future.value(mockDatabase)),
         IImageService.provider.overrideWith((ref) => mockImageService),
         IFileService.provider.overrideWith((ref) => mockFileService),
-        IDeviceService.provider.overrideWith((ref) => mockDeviceService),
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
       ],
       child: App(showOnboardingPage: false),
     );
@@ -82,8 +81,6 @@ void main() {
     when(mockDatabase.projectDAO).thenReturn(mockDao);
     when(mockImageService.getProjectPreview(testFilePath))
         .thenReturn(Result.ok(testFile.readAsBytesSync()));
-    when(mockDeviceService.getSizeInPixels())
-        .thenAnswer((_) => Future.value(const Size(1080, 1920)));
   });
 
   if (testID == -1 || testID == 0) {
@@ -350,11 +347,16 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final container = ProviderContainer();
+      final container = ProviderContainer(
+        overrides: [
+          IDeviceService.sizeProvider
+              .overrideWithValue(TestConstants.standardDeviceSize),
+        ],
+      );
       final canvasState = container.read(canvasStateProvider);
       expect(canvasState.backgroundImage, isNull);
       expect(canvasState.cachedImage, isNull);
-      expect(canvasState.size, equals(Size.zero));
+      expect(canvasState.size, equals(TestConstants.standardDeviceSize));
 
       await tester.pageBack();
       await tester.pumpAndSettle();

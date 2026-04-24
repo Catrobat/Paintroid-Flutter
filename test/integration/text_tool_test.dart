@@ -5,6 +5,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_options_state_provider.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
+
 import '../../test/utils/test_utils.dart';
 
 void main() {
@@ -12,12 +14,14 @@ void main() {
   late Widget sut;
 
   setUp(() async {
-    sut = ProviderScope(child: App(showOnboardingPage: false));
+    sut = ProviderScope(overrides: [
+      IDeviceService.sizeProvider
+          .overrideWithValue(TestConstants.standardDeviceSize),
+    ], child: App(showOnboardingPage: false));
   });
 
   group('[TEXT_TOOL] Integration Tests', () {
-   
-  testWidgets('should add text to canvas when text is entered and confirmed',
+    testWidgets('should add text to canvas when text is entered and confirmed',
         (WidgetTester tester) async {
       UIInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -29,7 +33,8 @@ void main() {
       await tester.tapAt(center);
 
       const testText = 'Test Text';
-      await tester.enterText(find.byKey(const ValueKey('text_tool_input')), testText);
+      await tester.enterText(
+          find.byKey(const ValueKey('text_tool_input')), testText);
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('text_tool_input')));
@@ -46,9 +51,11 @@ void main() {
 
       await UIInteraction.selectTool(ToolData.TEXT.name);
 
-      final container = ProviderScope.containerOf(tester.element(find.byType(App)));
-      final textOptionsNotifier = container.read(textToolOptionsStateProvider.notifier);
-      
+      final container =
+          ProviderScope.containerOf(tester.element(find.byType(App)));
+      final textOptionsNotifier =
+          container.read(textToolOptionsStateProvider.notifier);
+
       textOptionsNotifier.setFontSize(40);
       await tester.pumpAndSettle();
 
@@ -56,7 +63,7 @@ void main() {
       expect(textState.fontSize, 40);
     });
 
-     testWidgets('should toggle text styles correctly',
+    testWidgets('should toggle text styles correctly',
         (WidgetTester tester) async {
       UIInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -64,8 +71,10 @@ void main() {
 
       await UIInteraction.selectTool(ToolData.TEXT.name);
 
-      final container = ProviderScope.containerOf(tester.element(find.byType(App)));
-      final textOptionsNotifier = container.read(textToolOptionsStateProvider.notifier);
+      final container =
+          ProviderScope.containerOf(tester.element(find.byType(App)));
+      final textOptionsNotifier =
+          container.read(textToolOptionsStateProvider.notifier);
 
       textOptionsNotifier.toggleUnderline();
       await tester.pumpAndSettle();
@@ -80,8 +89,7 @@ void main() {
       expect(container.read(textToolOptionsStateProvider).isBold, true);
     });
 
-
-  testWidgets('should change font family when selected',
+    testWidgets('should change font family when selected',
         (WidgetTester tester) async {
       UIInteraction.initialize(tester);
       await tester.pumpWidget(sut);
@@ -89,8 +97,10 @@ void main() {
 
       await UIInteraction.selectTool(ToolData.TEXT.name);
 
-      final container = ProviderScope.containerOf(tester.element(find.byType(App)));
-      final textOptionsNotifier = container.read(textToolOptionsStateProvider.notifier);
+      final container =
+          ProviderScope.containerOf(tester.element(find.byType(App)));
+      final textOptionsNotifier =
+          container.read(textToolOptionsStateProvider.notifier);
 
       textOptionsNotifier.setFontFamily('Monospace');
       await tester.pumpAndSettle();

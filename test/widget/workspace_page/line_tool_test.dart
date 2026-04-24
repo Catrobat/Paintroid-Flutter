@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,6 +16,9 @@ void main() {
 
   setUp(() async {
     sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider.overrideWithValue(const Size(600, 600)),
+      ],
       child: App(
         showOnboardingPage: false,
       ),

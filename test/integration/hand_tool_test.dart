@@ -10,8 +10,8 @@ import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
-import '../utils/bottom_nav_bar_interactions.dart';
-import '../utils/interactive_viewer_interactions.dart';
+
+import '../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ void main() {
     sut = ProviderScope(
       overrides: [
         IDeviceService.sizeProvider
-            .overrideWith((ref) => Future.value(const Size(600, 600)))
+            .overrideWithValue(TestConstants.standardDeviceSize),
       ],
       child: PaintroidTheme(
         lightTheme: lightTheme,

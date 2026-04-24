@@ -9,6 +9,8 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_ap
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
+import '../../utils/test_utils.dart';
 
 void main() {
   late Widget sut;
@@ -54,6 +56,10 @@ void main() {
     final darkTheme = DarkPaintroidThemeData();
 
     sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ],
       child: PaintroidTheme(
         lightTheme: lightTheme,
         darkTheme: darkTheme,

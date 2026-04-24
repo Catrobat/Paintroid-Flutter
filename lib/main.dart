@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:paintroid/app.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 
 void main() async {
   Logger.root.onRecord.listen(
@@ -27,6 +28,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showOnboarding = prefs.getBool('showOnboarding') ?? true;
+  final deviceSize = await DeviceService.getSizeInPixels();
 
-  runApp(ProviderScope(child: App(showOnboardingPage: showOnboarding)));
+  runApp(ProviderScope(
+    overrides: [
+      IDeviceService.sizeProvider.overrideWithValue(deviceSize),
+    ],
+    child: App(showOnboardingPage: showOnboarding),
+  ));
 }

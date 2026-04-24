@@ -12,9 +12,9 @@ import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/dra
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exit_fullscreen_button.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 
-import '../utils/canvas_positions.dart';
-import '../utils/ui_interaction.dart';
+import '../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +27,10 @@ void main() {
 
   setUp(() async {
     sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ],
       child: App(
         showOnboardingPage: false,
       ),

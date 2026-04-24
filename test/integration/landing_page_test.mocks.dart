@@ -6,16 +6,15 @@
 import 'dart:async' as _i3;
 import 'dart:io' as _i13;
 import 'dart:typed_data' as _i11;
-import 'dart:ui' as _i6;
+import 'dart:ui' as _i9;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:oxidized/oxidized.dart' as _i5;
 import 'package:paintroid/core/database/project_dao.dart' as _i2;
-import 'package:paintroid/core/database/project_database.dart' as _i7;
-import 'package:paintroid/core/models/database/project.dart' as _i8;
-import 'package:paintroid/core/providers/object/device_service.dart' as _i14;
+import 'package:paintroid/core/database/project_database.dart' as _i6;
+import 'package:paintroid/core/models/database/project.dart' as _i7;
 import 'package:paintroid/core/providers/object/file_service.dart' as _i12;
-import 'package:paintroid/core/providers/object/image_service.dart' as _i9;
+import 'package:paintroid/core/providers/object/image_service.dart' as _i8;
 import 'package:paintroid/core/utils/failure.dart' as _i10;
 import 'package:sqflite/sqflite.dart' as _i4;
 
@@ -75,20 +74,10 @@ class _FakeResult_3<T extends Object, E extends Object> extends _i1.SmartFake
         );
 }
 
-class _FakeSize_4 extends _i1.SmartFake implements _i6.Size {
-  _FakeSize_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [ProjectDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockProjectDatabase extends _i1.Mock implements _i7.ProjectDatabase {
+class MockProjectDatabase extends _i1.Mock implements _i6.ProjectDatabase {
   MockProjectDatabase() {
     _i1.throwOnMissingStub(this);
   }
@@ -159,7 +148,7 @@ class MockProjectDAO extends _i1.Mock implements _i2.ProjectDAO {
   }
 
   @override
-  _i3.Future<int> insertProject(_i8.Project? project) => (super.noSuchMethod(
+  _i3.Future<int> insertProject(_i7.Project? project) => (super.noSuchMethod(
         Invocation.method(
           #insertProject,
           [project],
@@ -168,7 +157,7 @@ class MockProjectDAO extends _i1.Mock implements _i2.ProjectDAO {
       ) as _i3.Future<int>);
 
   @override
-  _i3.Future<List<int>> insertProjects(List<_i8.Project>? projects) =>
+  _i3.Future<List<int>> insertProjects(List<_i7.Project>? projects) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertProjects,
@@ -188,7 +177,7 @@ class MockProjectDAO extends _i1.Mock implements _i2.ProjectDAO {
       ) as _i3.Future<void>);
 
   @override
-  _i3.Future<void> deleteProjects(List<_i8.Project>? projects) =>
+  _i3.Future<void> deleteProjects(List<_i7.Project>? projects) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteProjects,
@@ -199,54 +188,54 @@ class MockProjectDAO extends _i1.Mock implements _i2.ProjectDAO {
       ) as _i3.Future<void>);
 
   @override
-  _i3.Future<List<_i8.Project>> getProjects() => (super.noSuchMethod(
+  _i3.Future<List<_i7.Project>> getProjects() => (super.noSuchMethod(
         Invocation.method(
           #getProjects,
           [],
         ),
-        returnValue: _i3.Future<List<_i8.Project>>.value(<_i8.Project>[]),
-      ) as _i3.Future<List<_i8.Project>>);
+        returnValue: _i3.Future<List<_i7.Project>>.value(<_i7.Project>[]),
+      ) as _i3.Future<List<_i7.Project>>);
 
   @override
-  _i3.Future<_i8.Project?> getProjectByName(String? name) =>
+  _i3.Future<_i7.Project?> getProjectByName(String? name) =>
       (super.noSuchMethod(
         Invocation.method(
           #getProjectByName,
           [name],
         ),
-        returnValue: _i3.Future<_i8.Project?>.value(),
-      ) as _i3.Future<_i8.Project?>);
+        returnValue: _i3.Future<_i7.Project?>.value(),
+      ) as _i3.Future<_i7.Project?>);
 }
 
 /// A class which mocks [IImageService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIImageService extends _i1.Mock implements _i9.IImageService {
+class MockIImageService extends _i1.Mock implements _i8.IImageService {
   MockIImageService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i5.Result<_i6.Image, _i10.Failure>> import(
+  _i3.Future<_i5.Result<_i9.Image, _i10.Failure>> import(
           _i11.Uint8List? fileData) =>
       (super.noSuchMethod(
         Invocation.method(
           #import,
           [fileData],
         ),
-        returnValue: _i3.Future<_i5.Result<_i6.Image, _i10.Failure>>.value(
-            _FakeResult_3<_i6.Image, _i10.Failure>(
+        returnValue: _i3.Future<_i5.Result<_i9.Image, _i10.Failure>>.value(
+            _FakeResult_3<_i9.Image, _i10.Failure>(
           this,
           Invocation.method(
             #import,
             [fileData],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i6.Image, _i10.Failure>>);
+      ) as _i3.Future<_i5.Result<_i9.Image, _i10.Failure>>);
 
   @override
   _i3.Future<_i5.Result<_i11.Uint8List, _i10.Failure>> exportAsJpg(
-    _i6.Image? image,
+    _i9.Image? image,
     int? quality,
   ) =>
       (super.noSuchMethod(
@@ -272,7 +261,7 @@ class MockIImageService extends _i1.Mock implements _i9.IImageService {
 
   @override
   _i3.Future<_i5.Result<_i11.Uint8List, _i10.Failure>> exportAsPng(
-          _i6.Image? image) =>
+          _i9.Image? image) =>
       (super.noSuchMethod(
         Invocation.method(
           #exportAsPng,
@@ -424,28 +413,4 @@ class MockIFileService extends _i1.Mock implements _i12.IFileService {
               ),
             )),
           ) as _i3.Future<_i5.Result<_i13.FileSystemEntity, _i10.Failure>>);
-}
-
-/// A class which mocks [IDeviceService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockIDeviceService extends _i1.Mock implements _i14.IDeviceService {
-  MockIDeviceService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i3.Future<_i6.Size> getSizeInPixels() => (super.noSuchMethod(
-        Invocation.method(
-          #getSizeInPixels,
-          [],
-        ),
-        returnValue: _i3.Future<_i6.Size>.value(_FakeSize_4(
-          this,
-          Invocation.method(
-            #getSizeInPixels,
-            [],
-          ),
-        )),
-      ) as _i3.Future<_i6.Size>);
 }

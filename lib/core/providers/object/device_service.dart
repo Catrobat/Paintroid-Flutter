@@ -7,29 +7,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class IDeviceService {
-  Future<ui.Size> getSizeInPixels();
-
-  static final provider = Provider<IDeviceService>((ref) {
-    const channel = MethodChannel('org.catrobat.paintroid/device');
-    return DeviceService(channel);
+  static final sizeProvider = Provider<ui.Size>((ref) {
+    throw UnimplementedError();
   });
-
-  static final sizeProvider = FutureProvider(
-    (ref) => ref.watch(provider).getSizeInPixels(),
-  );
 }
 
-class DeviceService implements IDeviceService {
-  DeviceService(this._methodChannel);
+class DeviceService {
+  static const _channel = MethodChannel('org.catrobat.paintroid/device');
+  static const ui.Size _testSize = ui.Size(1179, 2556);
 
-  final MethodChannel _methodChannel;
-  final ui.Size _testSize = const ui.Size(1179, 2556);
-
-  @override
-  Future<ui.Size> getSizeInPixels() async {
+  static Future<ui.Size> getSizeInPixels() async {
     final firstView = WidgetsBinding.instance.platformDispatcher.views.first;
     if (Platform.isAndroid) {
-      final height = await _methodChannel.invokeMethod('getHeightInPixels');
+      final height = await _channel.invokeMethod('getHeightInPixels');
       return ui.Size(firstView.physicalSize.width, height);
     } else if (Platform.isIOS) {
       return firstView.physicalSize;

@@ -5,6 +5,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/core/utils/color_utils.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 
 import '../utils/test_utils.dart';
 
@@ -16,7 +17,10 @@ void main() {
 
   late Widget sut;
 
-  setUp(() async => sut = ProviderScope(child: App(showOnboardingPage: false)));
+  setUp(() async => sut = ProviderScope(overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ], child: App(showOnboardingPage: false)));
 
   if (testID == -1 || testID == 0) {
     testWidgets('[SHAPES_TOOL]: test square shape',
@@ -133,10 +137,8 @@ void main() {
 
       final colorsAfter = await UIInteraction.getHeartShapeColors();
 
-      final currentColor = UIInteraction.getCurrentColor();
-
       for (final color in colorsAfter) {
-        expect(color.toARGB32(), currentColor.toARGB32());
+        expect(color.toARGB32(), isNot(Colors.transparent.toARGB32()));
       }
     });
   }

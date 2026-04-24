@@ -23,8 +23,7 @@ void main() {
 
     sut = ProviderScope(
       overrides: [
-        IDeviceService.sizeProvider
-            .overrideWith((ref) => Future.value(const Size(600, 600)))
+        IDeviceService.sizeProvider.overrideWithValue(const Size(600, 600)),
       ],
       child: PaintroidTheme(
         lightTheme: lightTheme,

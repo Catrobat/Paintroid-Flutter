@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart' as widgets;
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
@@ -19,12 +18,7 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
 
   @override
   CanvasStateData build() {
-    initialCanvasSize = ref.watch(IDeviceService.sizeProvider).when(
-          data: (size) => size,
-          error: (_, __) => widgets.WidgetsBinding.instance.platformDispatcher
-              .views.first.physicalSize,
-          loading: () => Size.zero,
-        );
+    initialCanvasSize = ref.watch(IDeviceService.sizeProvider);
     return CanvasStateData(
       size: initialCanvasSize,
       commandManager: ref.watch(commandManagerProvider),
