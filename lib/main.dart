@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,8 +25,17 @@ void main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+  const platform = MethodChannel('org.catrobat.paintroid/file_handler');
+  String? initialFileUri;
+
+  try {
+    initialFileUri = await platform.invokeMethod('getInitialFile');
+  } on PlatformException catch (e) {
+    log("Failed to get initial file: '${e.message}'.");
+  }
+
   final prefs = await SharedPreferences.getInstance();
   final showOnboarding = prefs.getBool('showOnboarding') ?? true;
 
-  runApp(ProviderScope(child: App(showOnboardingPage: showOnboarding)));
+  runApp(ProviderScope(child: App(showOnboardingPage: showOnboarding,initialFileUri: initialFileUri)));
 }
