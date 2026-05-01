@@ -64,7 +64,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
   }
 
   Future<void> _openProject(

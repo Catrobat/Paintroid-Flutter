@@ -9,6 +9,7 @@ import 'package:paintroid/core/models/loggable_mixin.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:toast/toast.dart';
 
 part 'canvas_state_provider.g.dart';
@@ -83,6 +84,8 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
     state.commandManager.clearRedoStack();
 
     state.commandManager.clearUndoStack(newCommands: preparedCommands);
+    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
+
     if (preparedCommands.isEmpty) {
       state = state.copyWith(cachedImage: null);
     }
