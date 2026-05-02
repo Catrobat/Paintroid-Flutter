@@ -25,6 +25,14 @@ void main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   const platform = MethodChannel('org.catrobat.paintroid/file_handler');
   String? initialFileUri;
 
