@@ -24,9 +24,7 @@ mixin _$TextToolOptionsStateData {
   bool get isUnderline => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
 
-  /// Create a copy of TextToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TextToolOptionsStateDataCopyWith<TextToolOptionsStateData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,8 +56,6 @@ class _$TextToolOptionsStateDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TextToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,8 +129,6 @@ class __$$TextToolOptionsStateDataImplCopyWithImpl<$Res>
       $Res Function(_$TextToolOptionsStateDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TextToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -241,9 +235,7 @@ class _$TextToolOptionsStateDataImpl implements _TextToolOptionsStateData {
   int get hashCode => Object.hash(runtimeType, text, fontSize, isAutoSize,
       isBold, isItalic, isUnderline, fontFamily);
 
-  /// Create a copy of TextToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TextToolOptionsStateDataImplCopyWith<_$TextToolOptionsStateDataImpl>
@@ -275,11 +267,8 @@ abstract class _TextToolOptionsStateData implements TextToolOptionsStateData {
   bool get isUnderline;
   @override
   String get fontFamily;
-
-  /// Create a copy of TextToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TextToolOptionsStateDataImplCopyWith<_$TextToolOptionsStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

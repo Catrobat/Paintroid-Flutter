@@ -1,4 +1,7 @@
+import 'dart:developer';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:paintroid/core/database/project_database.dart';
@@ -23,8 +26,9 @@ import 'package:toast/toast.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
-
-  const LandingPage({super.key, required this.title});
+  final String? initialFileUri;
+  
+  const LandingPage({super.key, required this.title,this.initialFileUri});
 
   @override
   ConsumerState<LandingPage> createState() => _LandingPageState();
@@ -35,13 +39,65 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late IFileService fileService;
   late IImageService imageService;
 
+  @override
+  void initState() {
+    super.initState();
+
+    final platform = MethodChannel('org.catrobat.paintroid/file_handler');
+    SystemChannels.lifecycle.setMessageHandler((msg) async {
+      if (msg == AppLifecycleState.resumed.toString()) {
+        final String? newUri = await platform.invokeMethod('getInitialFile');
+        if (newUri != null) {
+          _handleInitialFile(newUri);
+        }
+      }
+      return null;
+    });
+
+    if (widget.initialFileUri != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _handleInitialFile(widget.initialFileUri!);
+      });
+    }
+  }
+
+  Future<void> _handleInitialFile(String uri) async {
+    if (mounted) {
+      final ioHandler = ref.read(IOHandler.provider);
+      final shouldContinue = await ioHandler.handleUnsavedChanges(context, this);
+      if (!shouldContinue) return;
+    }
+
+    ref.read(workspaceStateProvider.notifier).performIOTask(() async {
+      try {
+        final platform = const MethodChannel('org.catrobat.paintroid/file_handler');
+        final Uint8List? imageBytes = await platform.invokeMethod('getFileBytes', {'uri': uri});
+
+        if (imageBytes != null && mounted) {
+          _clearCanvas();
+          final ui.Image image = await decodeImageFromList(imageBytes);
+          ref.read(canvasStateProvider.notifier).setBackgroundImage(image);
+          if (!mounted) return;
+          final currentRoute = ModalRoute.of(context)?.settings.name;
+          if (currentRoute != '/PocketPaint') {
+             await _navigateToPocketPaint();
+          } else {
+             setState(() {});
+          }
+        }
+      } catch (e) {
+        log('error in loading file from Intent: $e');
+        ToastUtils.showShortToast(message: 'failed to open image from file.');
+      }
+    });
+  }
   Future<List<Project>> _getProjects() async {
     return database.projectDAO.getProjects();
   }
 
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
-    setState(() {});
+     if (mounted){setState(() {});}
   }
 
   Future<bool> _loadProject(IOHandler ioHandler, Project project) async {

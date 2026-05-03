@@ -7,7 +7,7 @@ part of 'canvas_state_provider.dart';
 // **************************************************************************
 
 String _$canvasStateProviderHash() =>
-    r'18b157df0a616edc9cf9a0946ebe80a7119a9f38';
+    r'bc09521821fd3da6e3221e6630d39f081b8155de';
 
 /// See also [CanvasStateProvider].
 @ProviderFor(CanvasStateProvider)
@@ -24,4 +24,4 @@ final canvasStateProvider =
 
 typedef _$CanvasStateProvider = Notifier<CanvasStateData>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

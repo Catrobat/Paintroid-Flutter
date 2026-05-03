@@ -11,8 +11,9 @@ import 'package:paintroid/ui/theme/theme.dart';
 
 class App extends StatelessWidget {
   final bool showOnboardingPage;
+  final String? initialFileUri;
 
-  App({super.key, required this.showOnboardingPage});
+  App({super.key, required this.showOnboardingPage,this.initialFileUri});
 
   final _lightTheme = LightPaintroidThemeData();
   final _darkTheme = DarkPaintroidThemeData();
@@ -42,7 +43,7 @@ class App extends StatelessWidget {
                     ? const OnboardingPage(
                         navigateTo: LandingPage(title: 'Pocket Paint'),
                       )
-                    : const LandingPage(title: 'Pocket Paint'),
+                    :LandingPage(title: 'Pocket Paint',initialFileUri:initialFileUri),                   
               );
             case '/PocketPaint':
               return MaterialPageRoute(
@@ -66,7 +67,7 @@ class App extends StatelessWidget {
               child: child,
             );
           },
-          child: const LandingPage(title: 'Pocket Paint'),
+          child:  LandingPage(title: 'Pocket Paint',initialFileUri:initialFileUri),          
         ),
       ),
     );

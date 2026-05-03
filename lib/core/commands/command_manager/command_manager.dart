@@ -14,6 +14,7 @@ import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 
 enum ActionType { UNDO, REDO }
 
@@ -135,6 +136,8 @@ class CommandManager {
       } else {
         return ToolData.BRUSH;
       }
+    } else if (command is ColorChangedCommand) {
+      return ToolData.PIPETTE;
     } else {
       return ToolData.BRUSH;
     }

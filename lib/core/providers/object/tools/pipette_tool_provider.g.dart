@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'brush_tool_provider.dart';
+part of 'pipette_tool_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$brushToolProviderHash() => r'097ab3e3003d7fd63210aba5980917eb3a449173';
+String _$pipetteToolProviderHash() =>
+    r'b770c97ecdde8f402ea447e51a36632b8e3e75dc';
 
-/// See also [BrushToolProvider].
-@ProviderFor(BrushToolProvider)
-final brushToolProvider =
-    AutoDisposeNotifierProvider<BrushToolProvider, BrushTool>.internal(
-  BrushToolProvider.new,
-  name: r'brushToolProvider',
+/// See also [PipetteToolProvider].
+@ProviderFor(PipetteToolProvider)
+final pipetteToolProvider =
+    AutoDisposeNotifierProvider<PipetteToolProvider, PipetteTool>.internal(
+  PipetteToolProvider.new,
+  name: r'pipetteToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$brushToolProviderHash,
+      : _$pipetteToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$BrushToolProvider = AutoDisposeNotifier<BrushTool>;
+typedef _$PipetteToolProvider = AutoDisposeNotifier<PipetteTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

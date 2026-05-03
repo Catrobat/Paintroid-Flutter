@@ -19,9 +19,7 @@ mixin _$ShapesToolOptionsStateData {
   ShapeType get shapeType => throw _privateConstructorUsedError;
   ShapeStyle get shapeStyle => throw _privateConstructorUsedError;
 
-  /// Create a copy of ShapesToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ShapesToolOptionsStateDataCopyWith<ShapesToolOptionsStateData>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47,8 +45,6 @@ class _$ShapesToolOptionsStateDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ShapesToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,8 +85,6 @@ class __$$ShapesToolOptionsDataImplCopyWithImpl<$Res>
       $Res Function(_$ShapesToolOptionsDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ShapesToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,9 +134,7 @@ class _$ShapesToolOptionsDataImpl implements _ShapesToolOptionsData {
   @override
   int get hashCode => Object.hash(runtimeType, shapeType, shapeStyle);
 
-  /// Create a copy of ShapesToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ShapesToolOptionsDataImplCopyWith<_$ShapesToolOptionsDataImpl>
@@ -159,11 +151,8 @@ abstract class _ShapesToolOptionsData implements ShapesToolOptionsStateData {
   ShapeType get shapeType;
   @override
   ShapeStyle get shapeStyle;
-
-  /// Create a copy of ShapesToolOptionsStateData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ShapesToolOptionsDataImplCopyWith<_$ShapesToolOptionsDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

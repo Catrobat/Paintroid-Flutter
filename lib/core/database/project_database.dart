@@ -11,7 +11,7 @@ import 'package:paintroid/core/utils/date_time_converter.dart';
 part 'project_database.g.dart';
 
 String databaseName = 'project_database.db';
-
+// ignore: experimental_member_use
 @TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Project])
 abstract class ProjectDatabase extends FloorDatabase {

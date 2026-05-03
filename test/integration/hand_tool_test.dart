@@ -162,8 +162,8 @@ void main() {
 
       const double zoomFactor = 2.0;
       controller.value = Matrix4.identity()
-        ..scale(zoomFactor)
-        ..translate(initialTranslation.x, initialTranslation.y);
+        ..scaleByDouble(zoomFactor,zoomFactor,zoomFactor,1.0)
+        ..translateByDouble(initialTranslation.x, initialTranslation.y,0.0,1.0);
 
       await tester.pumpAndSettle();
 

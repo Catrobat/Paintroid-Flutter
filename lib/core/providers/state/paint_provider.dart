@@ -19,6 +19,8 @@ class PaintProvider extends _$PaintProvider {
       ..strokeWidth = 25;
   }
 
+  Paint get currentState => state;
+
   void updateStrokeWidth(double newStrokeWidth) {
     state = GraphicFactory.copyPaintWith(
       original: state,
