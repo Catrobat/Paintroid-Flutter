@@ -9,7 +9,7 @@ import '../utils/dummy_path_factory.dart';
 void main() {
   group('Version 1', () {
     test('Test LineCommand serialization as sourcePath', () {
-      final originalPath = DummyPathFactory.createPathWithActionHistory(1);
+      final originalPath = DummyPathFactory.createPathModel(1);
       final originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
       const startPoint = Offset(0, 0);
       const endPoint = Offset(1, 1);
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('Test LineCommand serialization not as sourcePath', () {
-      final originalPath = DummyPathFactory.createPathWithActionHistory(1);
+      final originalPath = DummyPathFactory.createPathModel(1);
       final originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
       const startPoint = Offset(0, 0);
       const endPoint = Offset(1, 1);

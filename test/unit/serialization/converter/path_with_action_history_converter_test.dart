@@ -1,42 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:paintroid/core/commands/path_with_action_history.dart';
-import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import '../utils/dummy_path_factory.dart';
 
 void main() {
-  const PathWithActionHistoryConverter converter =
-      PathWithActionHistoryConverter();
+  test('Test serialization for PathModel with one path', () {
+    PathModel path = DummyPathFactory.createPathModel(1);
 
-  test('Test converter for PathWithActionHistory with one path', () {
-    PathWithActionHistory path =
-        DummyPathFactory.createPathWithActionHistory(1);
+    var json = path.toJson();
 
-    var json = converter.toJson(path);
-
-    PathWithActionHistory deserializedPath = converter.fromJson(json);
+    PathModel deserializedPath = PathModel.fromJson(json);
 
     expect(path, equals(deserializedPath));
   });
 
-  test('Test converter for PathWithActionHistory with two paths', () {
-    PathWithActionHistory path =
-        DummyPathFactory.createPathWithActionHistory(2);
+  test('Test serialization for PathModel with two paths', () {
+    PathModel path = DummyPathFactory.createPathModel(2);
 
-    var json = converter.toJson(path);
+    var json = path.toJson();
 
-    PathWithActionHistory deserializedPath = converter.fromJson(json);
+    PathModel deserializedPath = PathModel.fromJson(json);
 
     expect(path, equals(deserializedPath));
   });
 
-  test('Test converter for PathWithActionHistory with multiple paths', () {
-    PathWithActionHistory path =
-        DummyPathFactory.createPathWithActionHistory(10);
+  test('Test serialization for PathModel with multiple paths', () {
+    PathModel path = DummyPathFactory.createPathModel(10);
 
-    var json = converter.toJson(path);
+    var json = path.toJson();
 
-    PathWithActionHistory deserializedPath = converter.fromJson(json);
+    PathModel deserializedPath = PathModel.fromJson(json);
 
     expect(path, equals(deserializedPath));
   });

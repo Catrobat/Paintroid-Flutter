@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 
 class GraphicFactory {
   const GraphicFactory();
@@ -52,8 +52,7 @@ class GraphicFactory {
       ..strokeJoin = StrokeJoin.round;
   }
 
-  PathWithActionHistory createPathWithActionHistory() =>
-      PathWithActionHistory();
+  PathModel createPathModel() => PathModel();
 
   PictureRecorder createPictureRecorder() => PictureRecorder();
 

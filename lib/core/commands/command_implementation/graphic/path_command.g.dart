@@ -7,8 +7,7 @@ part of 'path_command.dart';
 // **************************************************************************
 
 PathCommand _$PathCommandFromJson(Map<String, dynamic> json) => PathCommand(
-      const PathWithActionHistoryConverter()
-          .fromJson(json['path'] as Map<String, dynamic>),
+      PathModel.fromJson(json['path'] as Map<String, dynamic>),
       const PaintConverter().fromJson(json['paint'] as Map<String, dynamic>),
       type: json['type'] as String? ?? SerializerType.PATH_COMMAND,
       version: (json['version'] as num?)?.toInt(),
@@ -21,5 +20,5 @@ Map<String, dynamic> _$PathCommandToJson(PathCommand instance) =>
       'type': instance.type,
       'version': instance.version,
       'isCursorPath': instance.isCursorPath,
-      'path': const PathWithActionHistoryConverter().toJson(instance.path),
+      'path': instance.path.toJson(),
     };

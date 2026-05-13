@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import '../utils/dummy_command_factory.dart';
 import '../utils/dummy_paint_factory.dart';
@@ -13,8 +13,8 @@ import '../utils/dummy_path_factory.dart';
 void main() {
   group('Version 1', () {
     test('Test PathCommand serialization with one path', () {
-      PathWithActionHistory originalPath =
-          DummyPathFactory.createPathWithActionHistory(1);
+      PathModel originalPath =
+          DummyPathFactory.createPathModel(1);
       Paint originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
       PathCommand command = DummyCommandFactory.createPathCommand(
         originalPath,
@@ -37,8 +37,8 @@ void main() {
     });
 
     test('Test PathCommand serialization with multiple paths', () {
-      PathWithActionHistory originalPath =
-          DummyPathFactory.createPathWithActionHistory(5);
+      PathModel originalPath =
+          DummyPathFactory.createPathModel(5);
       Paint originalPaint = DummyPaintFactory.createPaint(version: Version.v1);
       PathCommand command = DummyCommandFactory.createPathCommand(
         originalPath,

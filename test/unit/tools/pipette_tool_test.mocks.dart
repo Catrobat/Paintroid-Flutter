@@ -43,9 +43,9 @@ import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i20;
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart'
     as _i32;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i19;
 import 'package:paintroid/core/enums/shape_style.dart' as _i24;
 import 'package:paintroid/core/enums/tool_types.dart' as _i29;
+import 'package:paintroid/core/models/path_model.dart' as _i19;
 import 'package:paintroid/core/providers/state/canvas_state_data.dart' as _i17;
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart'
     as _i30;
@@ -256,9 +256,8 @@ class _FakeColor_17 extends _i1.SmartFake implements _i16.Color {
         );
 }
 
-class _FakePathWithActionHistory_18 extends _i1.SmartFake
-    implements _i19.PathWithActionHistory {
-  _FakePathWithActionHistory_18(
+class _FakePathModel_18 extends _i1.SmartFake implements _i19.PathModel {
+  _FakePathModel_18(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -466,7 +465,7 @@ class MockCommandFactory extends _i1.Mock implements _i23.CommandFactory {
 
   @override
   _i4.PathCommand createPathCommand(
-    _i19.PathWithActionHistory? path,
+    _i19.PathModel? path,
     _i16.Paint? paint, {
     bool? isCursor = false,
   }) =>
@@ -494,7 +493,7 @@ class MockCommandFactory extends _i1.Mock implements _i23.CommandFactory {
 
   @override
   _i5.LineCommand createLineCommand(
-    _i19.PathWithActionHistory? path,
+    _i19.PathModel? path,
     _i16.Paint? paint,
     _i16.Offset? startPoint,
     _i16.Offset? endPoint,
@@ -1250,20 +1249,19 @@ class MockGraphicFactory extends _i1.Mock implements _i32.GraphicFactory {
       ) as _i16.Paint);
 
   @override
-  _i19.PathWithActionHistory createPathWithActionHistory() =>
-      (super.noSuchMethod(
+  _i19.PathModel createPathModel() => (super.noSuchMethod(
         Invocation.method(
-          #createPathWithActionHistory,
+          #createPathModel,
           [],
         ),
-        returnValue: _FakePathWithActionHistory_18(
+        returnValue: _FakePathModel_18(
           this,
           Invocation.method(
-            #createPathWithActionHistory,
+            #createPathModel,
             [],
           ),
         ),
-      ) as _i19.PathWithActionHistory);
+      ) as _i19.PathModel);
 
   @override
   _i16.PictureRecorder createPictureRecorder() => (super.noSuchMethod(

@@ -41,10 +41,10 @@ import 'package:paintroid/core/commands/command_implementation/graphic/text_comm
     as _i10;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
     as _i21;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i25;
 import 'package:paintroid/core/enums/bounding_box_action.dart' as _i18;
 import 'package:paintroid/core/enums/bounding_box_resize_action.dart' as _i19;
 import 'package:paintroid/core/enums/shape_style.dart' as _i26;
+import 'package:paintroid/core/models/path_model.dart' as _i25;
 import 'package:paintroid/core/tools/bounding_box.dart' as _i17;
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i23;
 import 'package:paintroid/core/tools/tool_data.dart' as _i4;
@@ -683,7 +683,7 @@ class MockCommandFactory extends _i1.Mock implements _i24.CommandFactory {
 
   @override
   _i5.PathCommand createPathCommand(
-    _i25.PathWithActionHistory? path,
+    _i25.PathModel? path,
     _i2.Paint? paint, {
     bool? isCursor = false,
   }) =>
@@ -711,7 +711,7 @@ class MockCommandFactory extends _i1.Mock implements _i24.CommandFactory {
 
   @override
   _i6.LineCommand createLineCommand(
-    _i25.PathWithActionHistory? path,
+    _i25.PathModel? path,
     _i2.Paint? paint,
     _i2.Offset? startPoint,
     _i2.Offset? endPoint,

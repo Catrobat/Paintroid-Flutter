@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/tools/tool.dart';
 
 class BrushTool extends Tool {
@@ -12,7 +12,7 @@ class BrushTool extends Tool {
   bool isDrawing = false;
 
   @visibleForTesting
-  late PathWithActionHistory pathToDraw;
+  late PathModel pathToDraw;
 
   BrushTool({
     required super.commandFactory,
@@ -27,7 +27,7 @@ class BrushTool extends Tool {
   @override
   void onDown(Offset point, Paint paint) {
     isDrawing = true;
-    pathToDraw = graphicFactory.createPathWithActionHistory()
+    pathToDraw = graphicFactory.createPathModel()
       ..moveTo(point.dx, point.dy);
     Paint savedPaint = graphicFactory.copyPaint(paint);
     final command = commandFactory.createPathCommand(
@@ -46,7 +46,7 @@ class BrushTool extends Tool {
   @override
   void onUp(Offset point, Paint paint) {
     isDrawing = false;
-    if (pathToDraw.path.getBounds().size == Size.zero) {
+    if (pathToDraw.getBounds().size == Size.zero) {
       pathToDraw.lineTo(point.dx, point.dy);
       pathToDraw.close();
     }

@@ -5,23 +5,23 @@ import 'dart:ui';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
+import 'package:paintroid/core/models/path_actions/move_to_action.dart';
+import 'package:paintroid/core/models/path_actions/line_to_action.dart';
 import 'package:paintroid/core/json_serialization/converter/offset_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
-import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 
 part 'line_command.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class LineCommand extends GraphicCommand {
   final String type;
   final int version;
   bool isSourcePath = false;
 
-  @PathWithActionHistoryConverter()
-  PathWithActionHistory path;
+  PathModel path;
 
   @OffsetConverter()
   Offset startPoint;
@@ -41,7 +41,7 @@ class LineCommand extends GraphicCommand {
 
   @override
   void call(Canvas canvas) {
-    canvas.drawPath(path.path, paint);
+    canvas.drawPath(path.nativePath, paint);
   }
 
   @override
@@ -51,7 +51,7 @@ class LineCommand extends GraphicCommand {
     isSourcePath = true;
   }
 
-  void updatePath(PathWithActionHistory newPath) {
+  void updatePath(PathModel newPath) {
     path = newPath;
     final moveAction = path.actions.first as MoveToAction;
     final lineAction = path.actions.last as LineToAction;
@@ -63,10 +63,12 @@ class LineCommand extends GraphicCommand {
   Map<String, dynamic> toJson() => _$LineCommandToJson(this);
 
   factory LineCommand.fromJson(Map<String, dynamic> json) {
-    int version = json['version'] as int;
+    int? version = json['version'] as int?;
 
     switch (version) {
       case Version.v1:
+        return _$LineCommandFromJson(json);
+      case null:
         return _$LineCommandFromJson(json);
       case Version.v2:
       // For different versions of PathCommand the deserialization

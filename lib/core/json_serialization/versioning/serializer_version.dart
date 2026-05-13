@@ -12,6 +12,7 @@ class SerializerVersion {
   static const int CLIPBOARD_COMMAND_VERSION = Version.v1;
   static const int DELETE_REGION_COMMAND_VERSION = Version.v1;
   static const int COLOR_CHANGED_COMMAND_VERSION = Version.v1;
+  static const int PATH_MODEL_VERSION = Version.v1;
 }
 
 class Version {

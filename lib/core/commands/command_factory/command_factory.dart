@@ -13,21 +13,21 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/squ
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
 
 class CommandFactory {
   const CommandFactory();
 
   PathCommand createPathCommand(
-    PathWithActionHistory path,
+    PathModel path,
     Paint paint, {
     bool isCursor = false,
   }) =>
       PathCommand(path, paint, isCursorPath: isCursor);
 
   LineCommand createLineCommand(
-    PathWithActionHistory path,
+    PathModel path,
     Paint paint,
     Offset startPoint,
     Offset endPoint,

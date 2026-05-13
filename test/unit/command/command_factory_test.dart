@@ -4,15 +4,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 
 void main() {
-  late PathWithActionHistory testPath;
+  late PathModel testPath;
   late Paint testPaint;
   late CommandFactory sut;
 
   setUp(() {
-    testPath = PathWithActionHistory();
+    testPath = PathModel();
     testPaint = Paint();
     sut = const CommandFactory();
   });
