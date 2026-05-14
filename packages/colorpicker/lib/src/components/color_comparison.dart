@@ -1,5 +1,6 @@
 import 'package:colorpicker/utils/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 class ColorComparison extends StatelessWidget {
   const ColorComparison({
@@ -13,6 +14,7 @@ class ColorComparison extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = ColorPickerLocalizations.of(context);
     return SizedBox(
       width: 130.0,
       height: 70.0,
@@ -21,13 +23,13 @@ class ColorComparison extends StatelessWidget {
           Expanded(
             child: ColorDescription(
               color: currentColor,
-              description: 'current',
+              description: localizations!.color_picker_current_color,
             ),
           ),
           Expanded(
             child: ColorDescription(
               color: newColor,
-              description: 'new',
+              description: localizations.color_picker_new_color,
             ),
           ),
         ],

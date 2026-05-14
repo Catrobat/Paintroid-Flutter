@@ -4,6 +4,7 @@ import 'package:colorpicker/src/constants/colorpicker_colors.dart';
 import 'package:logging/logging.dart';
 import 'package:colorpicker/src/components/color_slider_row_widget.dart';
 import 'package:colorpicker/src/components/hex_input_row_widget.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 final log = Logger('RgbSliderGroup');
 
@@ -132,11 +133,12 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = ColorPickerLocalizations.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         ColorSliderRowWidget(
-          label: 'Red',
+          label: localizations!.color_red,
           value: _red.toDouble(),
           min: 0,
           max: 255,
@@ -154,7 +156,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: 'Green',
+          label: localizations.color_green,
           value: _green.toDouble(),
           min: 0,
           max: 255,
@@ -172,7 +174,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: 'Blue',
+          label: localizations.color_blue,
           value: _blue.toDouble(),
           min: 0,
           max: 255,
@@ -190,7 +192,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: 'Alpha',
+          label: localizations.color_alpha,
           value: _alphaValue.toDouble(),
           min: 0,
           max: 255,

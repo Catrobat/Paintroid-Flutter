@@ -5,6 +5,7 @@ import 'package:colorpicker/src/enums/main_picker_mode_type.dart';
 import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 class PickerContentWidget extends ConsumerWidget {
   final MainPickerMode mainPickerMode;
@@ -22,6 +23,7 @@ class PickerContentWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = ColorPickerLocalizations.of(context);
     final currentGlobalOpacity = ref
         .read(colorPickerStateProvider.select((state) => state.currentOpacity));
     final colorForHsvRgbWithOpacity =
@@ -34,8 +36,8 @@ class PickerContentWidget extends ConsumerWidget {
         return AdvancedPickerWidget(
             colorForPickers: colorForPickers,
             onColorChanged: onColorChanged,
-            text1: 'Picker',
-            text2: 'Wheel');
+            text1: localizations!.color_picker_picker,
+            text2: localizations.color_picker_wheel);
       case MainPickerMode.sliders:
         return HsvRgbSlidersPickerWidget(
             initialColor: colorForHsvRgbWithOpacity,
