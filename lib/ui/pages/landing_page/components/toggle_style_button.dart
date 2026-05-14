@@ -5,12 +5,14 @@ class ToggleStyleButton extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
+  final String mode;
 
   const ToggleStyleButton({
     super.key,
     required this.label,
     required this.selected,
     required this.onTap,
+    required this.mode,   
   });
 
   @override
@@ -20,9 +22,11 @@ class ToggleStyleButton extends StatelessWidget {
       color: selected ? Colors.white : Colors.black,
     );
 
-    if (label == 'U') {
+    if (selected && mode == 'U') {
       style = style.copyWith(decoration: TextDecoration.underline);
-    } else if (label == 'I') {
+    }
+    
+    if (selected && mode == 'I') {
       style = style.copyWith(fontStyle: FontStyle.italic);
     }
 

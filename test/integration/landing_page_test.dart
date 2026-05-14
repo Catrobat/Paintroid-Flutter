@@ -167,7 +167,7 @@ void main() {
       }
 
       final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-      expect(find.text('last modified: ${dateFormat.format(testDate)}'),
+      expect(find.text('Last modified: ${dateFormat.format(testDate)}'),
           findsNWidgets(4));
     });
   }
@@ -238,7 +238,7 @@ void main() {
       expect(find.text('Creation date: ${formatter.format(testDate)}'),
           findsOneWidget);
 
-      await tester.tap(find.widgetWithText(TextButton, 'OK'));
+      await tester.tap(find.widgetWithText(TextButton, 'DONE'));
       await tester.pumpAndSettle();
       expect(find.widgetWithText(ProjectDetailsDialog, 'project$position'),
           findsNothing);
@@ -265,13 +265,13 @@ void main() {
           findsOneWidget);
       expect(find.text('Do you really want to delete your project?'),
           findsOneWidget);
-      expect(find.widgetWithText(GenericDialogActionButton, 'Cancel'),
+      expect(find.widgetWithText(GenericDialogActionButton, 'CANCEL'),
           findsOneWidget);
-      expect(find.widgetWithText(GenericDialogActionButton, 'Delete'),
+      expect(find.widgetWithText(GenericDialogActionButton, 'DELETE'),
           findsOneWidget);
 
       await tester
-          .tap(find.widgetWithText(GenericDialogActionButton, 'Cancel'));
+          .tap(find.widgetWithText(GenericDialogActionButton, 'CANCEL'));
       await tester.pumpAndSettle();
       expect(find.widgetWithText(GenericDialog, 'Delete project$position'),
           findsNothing);
@@ -421,7 +421,7 @@ void main() {
       final projectNameField =
           find.widgetWithText(TextFormField, 'Project name');
       await tester.enterText(projectNameField, projectName);
-      await tester.tap(find.widgetWithText(TextButton, 'Save'));
+      await tester.tap(find.widgetWithText(TextButton, 'SAVE'));
       await tester.pumpAndSettle();
 
       await tester.pageBack();
@@ -463,10 +463,10 @@ void main() {
       final projectNameField =
           find.widgetWithText(TextFormField, 'Project name');
       await tester.enterText(projectNameField, projectName);
-      await tester.tap(find.widgetWithText(TextButton, 'Save'));
+      await tester.tap(find.widgetWithText(TextButton, 'SAVE'));
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(GenericDialog, 'Overwrite'), findsOneWidget);
+      expect(find.widgetWithText(GenericDialog, 'OVERWRITE'), findsOneWidget);
     });
   }
 

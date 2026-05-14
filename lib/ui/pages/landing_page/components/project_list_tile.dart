@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/ui/pages/landing_page/components/image_preview.dart';
 import 'package:paintroid/ui/pages/landing_page/components/project_overflow_menu.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class ProjectListTile extends StatelessWidget {
   final Project project;
@@ -24,6 +25,7 @@ class ProjectListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     return Card(
@@ -40,7 +42,7 @@ class ProjectListTile extends StatelessWidget {
           style: const TextStyle(color: Color(0xFFFFFFFF)),
         ),
         subtitle: Text(
-          'last modified: ${dateFormat.format(project.lastModified)}',
+          '${localizations!.details_last_modified}: ${dateFormat.format(project.lastModified)}',
           style: const TextStyle(color: Color(0xFFFFFFFF)),
         ),
         trailing: ProjectOverflowMenu(

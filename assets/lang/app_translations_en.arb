@@ -1,12 +1,257 @@
 {
     "@@locale": "en",
-    "fullscreen": "Fullscreen",
-    "saveImage": "Save image",
-    "loadImage": "Load image",
-    "newImage": "New image",
-    "saveProject": "Save project",
-    "tools": "Tools",
-    "brush": "Brush",
-    "color": "Color",
-    "layers": "Layers"
+    "pocketpaint_app_name": "Pocket Paint",
+    "button_undo": "Undo",
+    "button_redo": "Redo",
+
+    "project_delete": "Delete",
+    "project_details": "Details",
+    "project_rename": "Rename",
+    "my_projects": "My Projects",
+    "project_rename_title": "Rename __name__",
+    "project_delete_title": "Delete __name__",
+    "project_delete_dialog": "Do you really want to delete your project?",
+    
+    "details_resolution": "Resolution",
+    "details_last_modified": "Last modified",
+    "details_creation_date": "Creation date",
+    "details_size": "Size",
+
+    "menu_hide_menu": "Fullscreen",
+    "menu_save_image": "Save image",
+    "menu_save_project": "Save project",
+    "menu_load_image": "Load image",
+    "menu_new_image": "New image",
+    
+    "menu_save_copy": "Save copy",
+    "menu_discard_image": "Discard image",
+    "menu_replace_image": "Replace image",
+    "menu_add_to_current_layer": "Add to current layer",
+
+
+    "button_brush": "Brush",
+    "button_hand": "Hand",
+    "button_eraser": "Eraser",
+    "button_line": "Line",
+    "button_shape": "Shapes",
+    "button_fill": "Fill",
+    "button_spray_can": "Spray can",
+    "button_cursor": "Cursor",
+    "button_text": "Text",
+    "button_clipboard": "Clipboard",
+    "button_transform": "Transform",
+    "button_import_image": "Import image",
+    "button_pipette": "Pipette",
+    "button_watercolor": "Watercolour",
+    "button_smudge": "Smudge",
+    "button_clip": "Clip area",
+
+
+    "clipboard_tool_paste": "Paste",
+    "clipboard_tool_copy": "Copy",
+    "clipboard_tool_cut": "Cut",
+
+
+    "bottom_navigation_tools": "Tools",
+    "bottom_navigation_current": "Current",
+    "bottom_navigation_color": "Colour",
+    "bottom_navigation_layers": "Layers",
+    "bottom_navigation_item": "Item for bottom navigation",
+
+
+    "button_apply": "Apply",
+    "button_checkmark": "Checkmark",
+    "button_info": "Information",
+    "done": "Done",
+    "gallery": "Select image",
+    "no_connection_sticker": "Stickers not available, check your internet connection.",
+    "stickers": "Stickers",
+
+    "dialog_tools_title": "Tools",
+    "dialog_error_save_title": "Error load/save File",
+    "dialog_error_sdcard_text": "Check Image or SD-Card!",
+    "dialog_brush_width_text": "Stroke Width",
+    "dialog_warning_new_image": "Save Changes?",
+
+
+    "help_title": "Help",
+    "help_content_eraser": "Remove parts of the image like with an eraser.",
+    "help_content_brush": "Tap on the symbols on the bottom bar to change the colour or the brush size.",
+    "help_content_watercolor": "Similar to the brush tool with a watercolour effect. However you can also change the strength of the brush with the slider in the colour menu.",
+    "help_content_eyedropper": "Tap on the image to select a colour.",
+    "help_content_undo": "Tap to undo your previous action.",
+    "help_content_redo": "Tap to redo an undone action.",
+    "help_content_fill": "Tap on the image to fill an area with the selected colour.",
+    "help_content_cursor": "Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.",
+    "help_content_transform": "Use to transform the image.",
+    "help_content_clipboard": "Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.",
+    "help_content_import_png": "Import an image from the gallery to the stamp tool.",
+    "help_content_line": "Draw a straight line.",
+    "help_content_text": "Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.",
+    "help_content_shape": "Choose a shape and tap on the checkmark to insert the selected shape.",
+    "help_content_layer": "Create new layers or modify existing ones.",
+    "help_content_color_chooser": "Select or adjust a colour.",
+    "help_content_hand": "Move your finger to move the canvas.",
+    "help_content_spray_can": "Move your finger on the image to create a spray can pattern.",
+    "help_content_smudge": "Move your finger on the image on different drawings to smudge them.",
+    "help_content_clip": "Mark area which should not be erased.",
+
+
+    "closing_security_question_title": "Quit",
+    "closing_security_question": "Save Changes?",
+
+    
+    "no_longclick_on_hidden_layer": "You are only able to merge or reorder if all layers are visible",
+    "no_tools_on_hidden_layer": "No tools are available on hidden layer",
+
+
+    "menu_rate_us": "Rate us!",
+    "menu_feedback": "Feedback",
+
+    "menu_export": "Export",
+    "menu_advanced": "Advanced settings",
+    "menu_zoom_settings": "Zoom window settings",
+
+
+    "share_image_menu": "Share image",
+    "share_image_via_text": "Send image via",
+    "saved_to": "Image saved to\n",
+    "saved": "Image saved",
+    "copy_to": "Copy saved to\n",
+    "copy": "Copy saved",
+    "menu_quit": "Quit",
+
+    "save_button_text": "Save",
+    "discard_button_text": "Discard",
+    "cancel_button_text": "Cancel",
+    "overwrite_button_text": "Overwrite",
+    "delete_button_text": "Delete",
+
+
+    "resize_nothing_to_resize": "nothing to resize",
+    "resize_cannot_resize_to_this_size": "cannot resize to this size",
+    "resize_max_image_resolution_reached": "max image resolution reached",
+
+
+    "text_tool_dialog_underline_shortcut": "U",
+    "text_tool_dialog_italic_shortcut": "I",
+    "text_tool_dialog_bold_shortcut": "B",
+    "text_tool_dialog_input_hint": "Tap here to write",
+    "text_tool_dialog_font_monospace": "Monospace",
+    "text_tool_dialog_font_serif": "Serif",
+    "text_tool_dialog_font_sans_serif": "Sans Serif",
+    "text_tool_dialog_font_dubai": "Dubai",
+    "text_tool_dialog_font_arabic_stc": "STC",
+
+    "shape_tool_dialog_rect_title": "Rectangle",
+    "shape_tool_dialog_ellipse_title": "Ellipse",
+    "shape_tool_dialog_star_title": "Star",
+    "shape_tool_dialog_heart_title": "Heart",
+    "shape_tool_dialog_fill_title": "Fill",
+    "shape_tool_dialog_outline_title": "Outline",
+    "shape_tool_dialog_dashed": "Dashed",
+    "shape_tool_dialog_fill_dashed": "Fill & Dashed",
+
+    "stroke_type_round": "Round stroke", 
+    "stroke_type_square": "Square stroke",
+
+    "fill_tool_dialog_color_tolerance_title": "Colour tolerance",
+
+    "smudge_tool_dialog_pressure_title": "Pressure",
+    "smudge_tool_dialog_drag_title": "Drag",
+
+    "transform_tool_rotate_left": "rotate left",
+    "transform_tool_rotate_right": "rotate right",
+    "transform_tool_flip_vertical": "flip vertical",
+    "transform_tool_flip_horizontal": "flip horizontal",
+    "transform_tool_resize_text": "resize",
+    "transform_tool_auto_crop_text": "crop/enlarge",
+    "transform_width_text": "Width",
+    "transform_height_text": "Height",
+    "transform_auto_crop_text": "Auto",
+    "transform_set_center_text": "Set center",
+
+    "pixel": "px",
+
+    "clipboard_tool_copy_hint": "Tap on copy to copy content",
+
+    "layers_title": "Layers",
+    "layer_new": "New layer",
+    "layer_delete": "Delete layer",
+    "layer_too_many_layers": "Too many layers",
+    "layer_merged": "Layers merged",
+    "layer_background": "Layer background",
+    "layer_preview": "Layer preview",
+
+    "dialog_loading_image_failed_title": "Error on loading image",
+    "dialog_loading_image_failed_text": "Not a valid image",
+    "dialog_settings": "Settings",
+    "dialog_save_image_name": "Image name",
+    "dialog_save_image_format": "Image format",
+    "dialog_save_project_name": "Project name",
+    "dialog_error_project_name": "Please specifiy a project name",
+    "dialog_error_image_name": "Please specifiy an image name",
+    "dialog_antialiasing": "Antialiasing",
+    "dialog_smoothing": "Smoothing",
+    "dialog_zoom_window_enabled": "Enabled",
+    "dialog_save_jpg_option_quality": "Quality",
+
+    "pocketpaint_jpg_message_dialog": "Takes up minimal storage space. No transparency is remembered.",
+    "pocketpaint_png_message_dialog": "Lossless compression. Transparency is preserved.",
+    "pocketpaint_ora_message_dialog": "This format remembers <b>layers</b>. <b>It can be opened by apps that support the Openraster format.</b>",
+    "pocketpaint_catrobat_message_dialog": "Pocket Paint's native image format. This format remembers commands and layers.",
+
+    "permission_info_external_storage_text": "This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.",
+    "permission_info_permanent_denial_text": "This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.<\b> As you have denied permission with do not ask again, please go to your phone settings and grant the required permissions if you wish to use the associated functions.",
+    
+    "set_center_info_text": "Tap the screen to define the new center position.",
+    "transform_info_text": "Drag edges to their new position, then tap to enlarge or crop the image area.",
+    "cursor_draw_inactive": "Pan to position, then tap to start painting.",
+    "cursor_draw_active": "Pan to draw, then tap again to stop painting.",
+    
+    "welcome_to_pocket_paint": "Welcome To Pocket Paint",
+    "intro_welcome_text": "With Pocket Paint there are no limits to your creativity. If you are new, start the intro, or skip it if you are already familiar with Pocket Paint.",
+    "intro_tool_more_information": "Tap on a tool to get more information",
+    "more_possibilities": "More possibilities",
+    "intro_possibilities_text": "Use the top bar to open the overflow menu and to undo or redo changes",
+    
+    "landscape": "Landscape",
+    "intro_landscape_text": "Pocket Paint also supports drawing in landscape mode to give you the best painting experience.",
+    
+    "enjoy_pocket_paint": "You are all set. Enjoy Pocket Paint.",
+    
+    "intro_get_started": "Get started and create a new masterpiece.",
+    
+    "lets_go": "Let's go",
+    "next": "Next",
+    "skip": "Skip",
+    
+    "pocketpaint_about_title": "About",
+    "pocketpaint_about_content": "Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the __license__.\nFor precise details of the license see the link below.",
+    "pocketpaint_about_url_license_description": "Pocket Paint source code license",
+    "pocketpaint_about_url_catrobat_description": "About Catrobat",
+    
+    "pocketpaint_intro": "Intro",
+    "pocketpaint_intro_split_screen_not_supported": "Intro does not support split screen.",
+    
+    "pocketpaint_overwrite_title": "Overwrite File?",
+    "pocketpaint_overwrite": "You are about to overwrite an existing project. Save anyway?",
+    "pocketpaint_like_us": "Do you like Pocket Paint?",
+    "pocketpaint_rate_us": "Would you like to rate Pocket Paint?",
+    "pocketpaint_feedback": "We are sorry to hear that. If you want to share your experience with us, please write to contact@catrobat.org",
+    "pocketpaint_yes": "Yes",
+    "pocketpaint_no": "No",
+    "pocketpaint_cancel": "Cancel",
+    "pocketpaint_not_now": "Not now",
+    "pocketpaint_rate_us_title": "Rate Pocket Paint",
+
+    "intro_bottom_navigation_tools_description": "Switch to the tool you want to use.",
+    "intro_bottom_navigation_current_description": "Shows the currently used tool and opens its options.",
+    "intro_bottom_navigation_color_description": "Shows the currently used colour and opens the colour picker.",
+    "intro_bottom_navigation_layers_description": "Opens the layer menu and lets you manage your layers.",
+
+    "pocketpaint_tool_icon_description": "Current tool icon",
+    "dialog_scale_title": "Image is too big to load",
+    "dialog_scale_message": "The image is too big to load. Tap OK to scale down the image automatically.",
+    "zoom_window_description": "Used to display a zoomed in part of the drawing surface"
 }

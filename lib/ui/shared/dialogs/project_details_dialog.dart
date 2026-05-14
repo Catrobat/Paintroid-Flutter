@@ -10,6 +10,7 @@ import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 Future<bool?> showDetailsDialog(BuildContext context, Project project) =>
     showGeneralDialog<bool>(
@@ -34,6 +35,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     imageService = ref.watch(IImageService.provider);
     fileService = ref.watch(IFileService.provider);
 
@@ -43,7 +45,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
       title: widget.project.name,
       actions: [
         GenericDialogAction(
-          title: 'OK',
+          title: localizations!.done.toUpperCase(),
           onPressed: () => Navigator.of(context).pop(false),
           identifier: WidgetIdentifier.genericDialogActionOk,
         ),
@@ -58,12 +60,12 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Resolution: ${dimensions[0]} X ${dimensions[1]}'),
+                Text('${localizations.details_resolution}: ${dimensions[0]} X ${dimensions[1]}'),
                 Text(
-                    'Last modified: ${formatter.format(widget.project.lastModified)}'),
+                    '${localizations.details_last_modified}: ${formatter.format(widget.project.lastModified)}'),
                 Text(
-                    'Creation date: ${formatter.format(widget.project.creationDate)}'),
-                Text('Size: ${filesize(_getProjectSize())}'),
+                    '${localizations.details_creation_date}: ${formatter.format(widget.project.creationDate)}'),
+                Text('${localizations.details_size}: ${filesize(_getProjectSize())}'),
               ],
             );
           } else {

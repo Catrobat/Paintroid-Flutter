@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class StrokeCapChips extends ConsumerStatefulWidget {
   const StrokeCapChips({super.key});
@@ -47,6 +48,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final currentPaint = ref.watch(paintProvider);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,7 +57,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
           spacing: 8,
           children: [
             CustomActionChip(
-              hint: 'Round stroke',
+              hint: localizations!.stroke_type_round,
               chipIcon: Icon(
                 Icons.circle,
                 color: PaintroidTheme.of(context).shadowColor,
@@ -65,7 +67,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
               chipBackgroundColor: _roundChipBackgroundColor,
             ),
             CustomActionChip(
-              hint: 'Square stroke',
+              hint: localizations.stroke_type_square,
               chipIcon: Icon(
                 Icons.square,
                 color: PaintroidTheme.of(context).shadowColor,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:paintroid/core/models/loggable_mixin.dart';
-
+import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/utils/open_url.dart';
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
@@ -13,14 +13,23 @@ import 'package:paintroid/ui/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum MainOverflowMenuOption {
-  rate('Rate us!'),
-  help('Help'),
-  about('About'),
-  feedback('Feedback');
+  rate,
+  help,
+  about,
+  feedback;
 
-  const MainOverflowMenuOption(this.label);
-
-  final String label;
+  String localizedLabel(AppLocalizations localizations) {
+    switch (this) {
+      case MainOverflowMenuOption.rate:
+        return localizations.menu_rate_us;
+      case MainOverflowMenuOption.help:
+        return localizations.help_title;
+      case MainOverflowMenuOption.about:
+        return localizations.pocketpaint_about_title;
+      case MainOverflowMenuOption.feedback:
+        return localizations.menu_feedback;
+    }
+  }
 }
 
 class MainOverflowMenu extends ConsumerStatefulWidget {
@@ -38,6 +47,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return StyledPopMenuButton<MainOverflowMenuOption>(
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => MainOverflowMenuOption.values
@@ -45,7 +55,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
             (option) => PopupMenuItem(
               value: option,
               child: Text(
-                option.label,
+                option.localizedLabel(localizations!),
                 style: PaintroidTheme.of(context).textTheme.bodyMedium,
               ),
             ),

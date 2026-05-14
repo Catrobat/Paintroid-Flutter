@@ -11,15 +11,23 @@ import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/rename_project_dialog.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 enum ProjectOverflowMenuOption {
-  deleteProject('Delete'),
-  getDetails('Details'),
-  renameProject('Rename');
+  deleteProject,
+  getDetails,
+  renameProject;
 
-  const ProjectOverflowMenuOption(this.label);
-
-  final String label;
+  String localizedLabel(AppLocalizations localizations) {
+    switch (this) {
+      case ProjectOverflowMenuOption.deleteProject:
+        return localizations.project_delete;
+      case ProjectOverflowMenuOption.getDetails:
+        return localizations.project_details;
+      case ProjectOverflowMenuOption.renameProject:
+        return localizations.project_rename;
+    }
+  }
 }
 
 class ProjectOverflowMenu extends ConsumerStatefulWidget {
@@ -37,6 +45,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
       data: (value) => database = value,
@@ -57,7 +66,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
           .map((option) => PopupMenuItem(
                 value: option,
                 child: Text(
-                  option.label,
+                  option.localizedLabel(localizations!),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onBackgroundColor,
                   ),

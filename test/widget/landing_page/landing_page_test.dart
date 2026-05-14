@@ -268,7 +268,7 @@ void main() {
 
       await tester.enterText(textFormField, 'project');
 
-      final saveButton = find.widgetWithText(TextButton, 'Save');
+      final saveButton = find.widgetWithText(TextButton, 'SAVE');
       expect(saveButton, findsOneWidget);
 
       await tester.tap(saveButton);
@@ -337,7 +337,7 @@ void main() {
       verify(imageService.getProjectPreview(filePath)).called(5);
       expect(find.byType(ProjectOverflowMenu), findsNWidgets(5));
       final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-      expect(find.text('last modified: ${dateFormat.format(date)}'),
+      expect(find.text('Last modified: ${dateFormat.format(date)}'),
           findsNWidgets(4));
       for (int i = 1; i < 5; i++) {
         expect(find.text(projects[i].name), findsOneWidget);
@@ -417,7 +417,7 @@ void main() {
       expect(find.text('Size: ${filesize(testFile.lengthSync())}'),
           findsOneWidget);
 
-      final okButton = find.widgetWithText(TextButton, 'OK');
+      final okButton = find.widgetWithText(TextButton, 'DONE');
       expect(okButton, findsOneWidget);
       await tester.tap(okButton);
       await tester.pumpAndSettle();
@@ -458,9 +458,9 @@ void main() {
       expect(find.text('Do you really want to delete your project?'),
           findsOneWidget);
       final cancelButton =
-          find.widgetWithText(GenericDialogActionButton, 'Cancel');
+          find.widgetWithText(GenericDialogActionButton, 'CANCEL');
       final deleteButton =
-          find.widgetWithText(GenericDialogActionButton, 'Delete');
+          find.widgetWithText(GenericDialogActionButton, 'DELETE');
       expect(cancelButton, findsOneWidget);
       expect(deleteButton, findsOneWidget);
       await tester.tap(cancelButton);
@@ -624,14 +624,14 @@ void main() {
 
       await tester.enterText(textFormField, 'project');
 
-      final saveButton = find.widgetWithText(TextButton, 'Save');
+      final saveButton = find.widgetWithText(TextButton, 'SAVE');
       expect(saveButton, findsOneWidget);
 
       await tester.tap(saveButton);
       await tester.pumpAndSettle();
 
       final confirmationDialogFinder =
-          find.widgetWithText(GenericDialog, 'Overwrite');
+          find.widgetWithText(GenericDialog, 'OVERWRITE');
 
       expect(confirmationDialogFinder, findsOneWidget);
     },

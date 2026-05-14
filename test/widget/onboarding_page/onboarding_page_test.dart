@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -9,24 +8,25 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_ap
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 void main() {
   late Widget sut;
   final List<String> descriptions = [
-    'Tap on the symbols on the bottom bar to change the color or the brush size.',
+    'Tap on the symbols on the bottom bar to change the colour or the brush size.',
     'Move your finger to move the canvas.',
     'Remove parts of the image like with an eraser.',
     'Draw a straight line.',
     'Choose a shape and tap on the checkmark to insert the selected shape.',
-    'Tap on the image to fill an area with the selected color.',
+    'Tap on the image to fill an area with the selected colour.',
     'Move your finger on the image to create a spray can pattern.',
     'Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.',
     'Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.',
     'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.',
     'Use to transform the image.',
     'Import an image from the gallery to the stamp tool.',
-    'Tap on the image to select a color.',
-    'Similar to the brush tool with a watercolor effect. However you can also change the strength of the brush with the slider in the color menu.',
+    'Tap on the image to select a colour.',
+    'Similar to the brush tool with a watercolour effect. However you can also change the strength of the brush with the slider in the colour menu.',
     'Move your finger on the image on different drawings to smudge them.',
     'Mark area which should not be erased.',
   ];
@@ -40,11 +40,11 @@ void main() {
     'Spray can',
     'Cursor',
     'Text',
-    'Stamp',
+    'Clipboard',
     'Transform',
     'Import image',
     'Pipette',
-    'Watercolor',
+    'Watercolour',
     'Smudge',
     'Clip area',
   ];
@@ -61,9 +61,8 @@ void main() {
           theme: lightTheme.materialThemeData,
           darkTheme: darkTheme.materialThemeData,
           home: const OnboardingPage(),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         ),
       ),
     );
@@ -136,14 +135,14 @@ void main() {
       expect(find.text('Shows the currently used tool and opens its options.'),
           findsOneWidget);
 
-      expect(find.text('Color'), findsOneWidget);
-      final colorButton = find.text('Color');
+      expect(find.text('Colour'), findsOneWidget);
+      final colorButton = find.text('Colour');
       await tester.tap(colorButton);
       await tester.pumpAndSettle();
-      expect(find.text('Color'), findsNWidgets(2));
+      expect(find.text('Colour'), findsNWidgets(2));
       expect(
           find.text(
-              'Shows the currently used color and opens the color picker.'),
+              'Shows the currently used colour and opens the colour picker.'),
           findsOneWidget);
 
       expect(find.text('Layers'), findsOneWidget);
@@ -171,7 +170,7 @@ void main() {
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       expect(find.text('Tools'), findsOneWidget);
-      expect(find.text('Select the tool you want to use.'), findsOneWidget);
+      expect(find.text('Switch to the tool you want to use.'), findsOneWidget);
 
       expect(find.byType(OnboardingPageAppBar), findsNothing);
 

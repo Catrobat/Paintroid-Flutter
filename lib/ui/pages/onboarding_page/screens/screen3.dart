@@ -4,6 +4,7 @@ import 'package:paintroid/ui/pages/onboarding_page/components/bottom_nav_bar_con
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({super.key});
@@ -13,24 +14,8 @@ class Screen3 extends StatefulWidget {
 }
 
 class _Screen3State extends State<Screen3> {
-  List<String> titles = [
-    'Brush',
-    'Hand',
-    'Eraser',
-    'Line',
-    'Shapes',
-    'Fill',
-    'Spray can',
-    'Cursor',
-    'Text',
-    'Stamp',
-    'Transform',
-    'Import image',
-    'Pipette',
-    'Watercolor',
-    'Smudge',
-    'Clip area',
-  ];
+  List<String> titles = [];
+  List<String> descriptions = [];
 
   List<String> icons = [
     'assets/svg/ic_brush.svg',
@@ -42,7 +27,7 @@ class _Screen3State extends State<Screen3> {
     'assets/svg/ic_spray_can.svg',
     'assets/svg/ic_cursor.svg',
     'assets/svg/ic_text.svg',
-    'assets/svg/ic_stamp.svg',
+    'assets/svg/ic_clipboard.svg',
     'assets/svg/ic_transform.svg',
     'assets/svg/ic_import.svg',
     'assets/svg/ic_pipette.svg',
@@ -51,27 +36,8 @@ class _Screen3State extends State<Screen3> {
     'assets/svg/ic_clipping.svg',
   ];
 
-  List<String> descriptions = [
-    'Tap on the symbols on the bottom bar to change the color or the brush size.',
-    'Move your finger to move the canvas.',
-    'Remove parts of the image like with an eraser.',
-    'Draw a straight line.',
-    'Choose a shape and tap on the checkmark to insert the selected shape.',
-    'Tap on the image to fill an area with the selected color.',
-    'Move your finger on the image to create a spray can pattern.',
-    'Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.',
-    'Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.',
-    'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.',
-    'Use to transform the image.',
-    'Import an image from the gallery to the stamp tool.',
-    'Tap on the image to select a color.',
-    'Similar to the brush tool with a watercolor effect. However you can also change the strength of the brush with the slider in the color menu.',
-    'Move your finger on the image on different drawings to smudge them.',
-    'Mark area which should not be erased.',
-  ];
-
-  String titleText = 'Tools';
-  String descText = 'Select the tool you want to use.';
+  String titleText = '';
+  String descText = '';
   String? toolIconSrc;
 
   void toolPressed(int i) {
@@ -129,10 +95,51 @@ class _Screen3State extends State<Screen3> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
+    titles = [
+      localizations!.button_brush, 
+      localizations.button_hand,
+      localizations.button_eraser,
+      localizations.button_line,
+      localizations.button_shape,
+      localizations.button_fill,
+      localizations.button_spray_can,
+      localizations.button_cursor,
+      localizations.button_text,
+      localizations.button_clipboard,
+      localizations.button_transform,
+      localizations.button_import_image,
+      localizations.button_pipette,
+      localizations.button_watercolor,
+      localizations.button_smudge,
+      localizations.button_clip
+    ];
+
+    descriptions = [
+      localizations.help_content_brush, 
+      localizations.help_content_hand,
+      localizations.help_content_eraser,
+      localizations.help_content_line,
+      localizations.help_content_shape,
+      localizations.help_content_fill,
+      localizations.help_content_spray_can,
+      localizations.help_content_cursor,
+      localizations.help_content_text,
+      localizations.help_content_clipboard,
+      localizations.help_content_transform,
+      localizations.help_content_import_png,
+      localizations.help_content_eyedropper,
+      localizations.help_content_watercolor,
+      localizations.help_content_smudge,
+      localizations.help_content_clip
+    ];
+    
+
     var title = Row(
       children: [
         Text(
-          titleText,
+          titleText != ''? titleText : localizations.dialog_tools_title,
           style: PaintroidTheme.of(context).descStyle,
           textAlign: TextAlign.start,
         ),
@@ -151,7 +158,7 @@ class _Screen3State extends State<Screen3> {
     );
 
     var desc = Text(
-      descText,
+      descText != '' ? descText : localizations.intro_bottom_navigation_tools_description,
       style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
@@ -178,7 +185,7 @@ class _Screen3State extends State<Screen3> {
                 padding: const EdgeInsets.only(bottom: 10),
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  'Tap on a tool to get more information',
+                  localizations.intro_tool_more_information,
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,

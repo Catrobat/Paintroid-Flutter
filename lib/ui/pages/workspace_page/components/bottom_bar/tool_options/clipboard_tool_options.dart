@@ -6,12 +6,14 @@ import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class ClipboardToolOptions extends ConsumerWidget {
   const ClipboardToolOptions({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context);
     final clipboardOptionsState = ref.watch(clipboardToolOptionsStateProvider);
     final clipboardOptionsNotifier =
         ref.read(clipboardToolOptionsStateProvider.notifier);
@@ -29,7 +31,7 @@ class ClipboardToolOptions extends ConsumerWidget {
           children: [
             CustomActionChip(
               chipIcon: Icon(Icons.copy, color: shadowColor),
-              hint: 'Copy selection',
+              hint: localizations!.clipboard_tool_copy,
               chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
@@ -40,7 +42,7 @@ class ClipboardToolOptions extends ConsumerWidget {
             const SizedBox(width: 16),
             CustomActionChip(
               chipIcon: Icon(Icons.content_cut, color: shadowColor),
-              hint: 'Cut selection',
+              hint: localizations.clipboard_tool_cut,
               chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
@@ -51,7 +53,7 @@ class ClipboardToolOptions extends ConsumerWidget {
             const SizedBox(width: 16),
             CustomActionChip(
               chipIcon: Icon(Icons.paste, color: shadowColor),
-              hint: 'Paste clipboard',
+              hint: localizations.clipboard_tool_paste,
               chipBackgroundColor: Colors.white,
               onPressed: clipboardOptionsState.hasCopiedContent
                   ? () async {

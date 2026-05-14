@@ -4,6 +4,8 @@ import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
+// import 'package:sqflite/utils/utils.dart';
 
 Future<ImageMetaData?> showSaveImageDialog(
         BuildContext context, bool savingProject) =>
@@ -56,19 +58,17 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var dialogTitle = 'Save ';
-    if (widget.savingProject) {
-      dialogTitle += 'Project';
-    } else {
-      dialogTitle += 'Image';
-    }
+  final localizations = AppLocalizations.of(context);
+    var dialogTitle = widget.savingProject ? 
+                      localizations!.menu_save_project : localizations!.menu_save_image;
+
     return AlertDialog(
       backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
       title: Text(
         dialogTitle,
         style: PaintroidTheme.of(context).titleTheme.titleMedium,
       ),
-      actions: [_cancelButton, _saveButton],
+      actions: [_cancelButton(localizations.cancel_button_text.toUpperCase()), _saveButton(localizations.save_button_text.toUpperCase())],
       contentTextStyle: PaintroidTheme.of(context).textTheme.bodyMedium,
       content: Form(
         key: formKey,
@@ -76,7 +76,8 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _imageNameTextField,
+            _imageNameTextField(widget.savingProject? localizations.dialog_save_project_name : localizations.dialog_save_image_name,
+                                widget.savingProject? localizations.dialog_error_project_name : localizations.dialog_error_image_name ),
             Divider(
               height: 16,
               color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -84,7 +85,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
             if (!widget.savingProject)
               Column(
                 children: [
-                  _imageFormatDropdown,
+                  _imageFormatDropdown(localizations.dialog_save_image_format),
                   Divider(
                     height: 8,
                     color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -94,7 +95,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
             if (!widget.savingProject && selectedFormat == ImageFormat.jpg)
               Column(
                 children: [
-                  _qualitySlider,
+                  _qualitySlider(localizations.dialog_save_jpg_option_quality),
                   Divider(
                     height: 8,
                     color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -108,17 +109,17 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     );
   }
 
-  TextButton get _cancelButton {
+  TextButton _cancelButton(String localization) {
     return TextButton(
       onPressed: () => Navigator.of(context).pop(),
       child: Text(
-        'Cancel',
+        localization,
         style: TextStyle(color: PaintroidTheme.of(context).primaryColor),
       ),
     );
   }
 
-  TextButton get _saveButton {
+  TextButton _saveButton(String localization) {
     return TextButton(
       onPressed: () {
         final formState = formKey.currentState;
@@ -127,19 +128,19 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         }
       },
       child: Text(
-        'Save',
+        localization,
         style: TextStyle(color: PaintroidTheme.of(context).primaryColor),
       ),
     );
   }
 
-  Widget get _qualitySlider {
+  Widget _qualitySlider(String localization) {
     return StatefulBuilder(
       builder: (context, setState) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Quality: $imageQualityValue%'),
+            Text('$localization: $imageQualityValue%'),
             Slider(
               secondaryActiveColor: PaintroidTheme.of(context).primaryColor,
               thumbColor: PaintroidTheme.of(context).primaryColor,
@@ -158,11 +159,11 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     );
   }
 
-  TextFormField get _imageNameTextField {
+  TextFormField _imageNameTextField(String localization, String localizationErr) {
     return TextFormField(
       controller: nameFieldController,
       decoration: InputDecoration(
-        hintText: widget.savingProject ? 'Project name' : 'Image name',
+        hintText: localization,
         hintStyle: PaintroidTheme.of(context).textTheme.bodySmall!.apply(
               color: PaintroidTheme.of(context).onSurfaceColor,
             ),
@@ -173,10 +174,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
       ),
       validator: (text) {
         if (text == null || text.isEmpty) {
-          var errMsg = 'Please specify an image name';
-          if (widget.savingProject) {
-            errMsg = 'Please specify a project name';
-          }
+          var errMsg = localizationErr;
           return errMsg;
         }
         return null;
@@ -184,10 +182,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
     );
   }
 
-  Row get _imageFormatDropdown {
+  Row _imageFormatDropdown(String localization) {
     return Row(
       children: [
-        const Text('Format:'),
+        Text('$localization:'),
         const VerticalDivider(width: 12),
         DropdownButton<ImageFormat>(
           dropdownColor: PaintroidTheme.of(context).onSurfaceColor,

@@ -3,24 +3,25 @@ import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 
-Future<bool?> showDiscardChangesDialog(BuildContext context) =>
-    showGeneralDialog<bool>(
-        context: context,
-        pageBuilder: (_, __, ___) => GenericDialog(
-                title: 'Discard changes',
-                text:
-                    'You have not saved your last changes. They will be lost!',
-                actions: [
-                  GenericDialogAction(
-                    title: AppLocalizations.of(context).discard,
-                    onPressed: () => Navigator.of(context).pop(true),
-                    identifier: WidgetIdentifier.genericDialogActionDiscard,
-                  ),
-                  GenericDialogAction(
-                    title: AppLocalizations.of(context).save,
-                    onPressed: () => Navigator.of(context).pop(false),
-                    identifier: WidgetIdentifier.genericDialogActionSave,
-                  ),
-                ]),
-        barrierDismissible: true,
-        barrierLabel: 'Dismiss discard changes dialog box');
+Future<bool?> showDiscardChangesDialog(BuildContext context) {
+  final localizations = AppLocalizations.of(context);
+  return showGeneralDialog<bool>(
+      context: context,
+      pageBuilder: (_, __, ___) => GenericDialog(
+              title: localizations!.closing_security_question_title,
+              text:  localizations.closing_security_question,
+              actions: [
+                GenericDialogAction(
+                  title: localizations.discard_button_text.toUpperCase(),
+                  onPressed: () => Navigator.of(context).pop(true),
+                  identifier: WidgetIdentifier.genericDialogActionDiscard,
+                ),
+                GenericDialogAction(
+                  title: localizations.save_button_text.toUpperCase(),
+                  onPressed: () => Navigator.of(context).pop(false),
+                  identifier: WidgetIdentifier.genericDialogActionSave,
+                ),
+              ]),
+      barrierDismissible: true,
+      barrierLabel: 'Dismiss discard changes dialog box');
+}

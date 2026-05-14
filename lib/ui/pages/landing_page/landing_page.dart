@@ -23,6 +23,7 @@ import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 import 'package:toast/toast.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   final String title;
@@ -137,6 +138,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
+    final localizations = AppLocalizations.of(context);
 
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
@@ -187,7 +189,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'My Projects',
+                      localizations!.my_projects,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -234,7 +236,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           CustomActionButton(
             heroTag: 'import_image',
             icon: Icons.file_download,
-            hint: 'Load image',
+            hint: localizations!.menu_load_image,
             onPressed: () async {
               final bool imageLoaded =
                   await ioHandler.loadImage(context, this, false);
@@ -250,7 +252,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             key: const ValueKey(WidgetIdentifier.newImageActionButton),
             heroTag: 'new_image',
             icon: Icons.add,
-            hint: 'New image',
+            hint: localizations.menu_new_image,
             onPressed: () async {
               _clearCanvas();
               _navigateToPocketPaint();

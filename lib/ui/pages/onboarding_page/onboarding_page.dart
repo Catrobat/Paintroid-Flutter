@@ -9,6 +9,7 @@ import 'package:paintroid/ui/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class OnboardingPage extends StatefulWidget {
   final Widget? navigateTo;
@@ -60,6 +61,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
+    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       body: Padding(
@@ -100,7 +102,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: TextButton(
                 onPressed: () => finish(),
                 child: Text(
-                  _isLastPage ? '' : 'SKIP',
+                  _isLastPage ? '' : localizations!.skip.toUpperCase(),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
@@ -134,7 +136,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   }
                 },
                 child: Text(
-                  _isLastPage ? "LET'S GO" : 'NEXT',
+                  _isLastPage ? localizations!.lets_go.toUpperCase() : localizations!.next.toUpperCase(),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
