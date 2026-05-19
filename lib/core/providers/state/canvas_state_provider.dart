@@ -16,10 +16,9 @@ part 'canvas_state_provider.g.dart';
 @Riverpod(keepAlive: true)
 class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
   Size initialCanvasSize = Size.zero;
-  late VoidCallback resetCanvasScaleCallback;
 
-  void setResetCanvasScaleCallback(VoidCallback callback) =>
-      resetCanvasScaleCallback = callback;
+  void requestResetView() =>
+      state = state.copyWith(resetViewSignal: state.resetViewSignal + 1);
 
   @override
   CanvasStateData build() {
@@ -36,6 +35,8 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
       isCachingCommand: false,
     );
   }
+
+  CanvasStateData get currentState => state;
 
   void setBackgroundImage(Image image) => state = state.copyWith(
         backgroundImage: image,

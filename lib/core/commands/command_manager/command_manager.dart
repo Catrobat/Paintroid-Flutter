@@ -5,15 +5,16 @@ import 'package:paintroid/core/commands/command_implementation/graphic/clipboard
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 
 enum ActionType { UNDO, REDO }
 
@@ -128,11 +129,15 @@ class CommandManager {
     } else if (command.runtimeType == HeartShapeCommand) {
       return ToolData.SHAPES;
     } else if (command is PathCommand) {
-      if (command.paint.maskFilter != null) {
+      if (command.isCursorPath) {
+        return ToolData.CURSOR;
+      } else if (command.paint.maskFilter != null) {
         return ToolData.WATERCOLOR;
       } else {
         return ToolData.BRUSH;
       }
+    } else if (command is ColorChangedCommand) {
+      return ToolData.PIPETTE;
     } else {
       return ToolData.BRUSH;
     }

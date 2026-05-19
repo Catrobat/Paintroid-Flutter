@@ -7,7 +7,7 @@ part of 'toolbox_state_provider.dart';
 // **************************************************************************
 
 String _$toolBoxStateProviderHash() =>
-    r'206acf9ae4e9afd5aead49ae432264b37e7c63ab';
+    r'c6fa1661445899c5abd6725b49ccbaf6ca3340e8';
 
 /// See also [ToolBoxStateProvider].
 @ProviderFor(ToolBoxStateProvider)
@@ -24,4 +24,4 @@ final toolBoxStateProvider = AutoDisposeNotifierProvider<ToolBoxStateProvider,
 
 typedef _$ToolBoxStateProvider = AutoDisposeNotifier<ToolBoxStateData>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

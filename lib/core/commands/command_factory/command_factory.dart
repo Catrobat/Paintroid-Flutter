@@ -12,6 +12,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/hea
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
 
@@ -20,9 +21,10 @@ class CommandFactory {
 
   PathCommand createPathCommand(
     PathWithActionHistory path,
-    Paint paint,
-  ) =>
-      PathCommand(path, paint);
+    Paint paint, {
+    bool isCursor = false,
+  }) =>
+      PathCommand(path, paint, isCursorPath: isCursor);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,
@@ -135,5 +137,16 @@ class CommandFactory {
       DeleteRegionCommand(
         Paint(),
         region,
+      );
+
+  ColorChangedCommand createColorChangedCommand(
+    Color oldColor,
+    Color newColor,
+    Paint paint,
+  ) =>
+      ColorChangedCommand(
+        oldColor: oldColor,
+        newColor: newColor,
+        paint: paint,
       );
 }

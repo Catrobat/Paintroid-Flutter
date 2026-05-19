@@ -21,9 +21,7 @@ mixin _$WorkspaceState {
   bool get hasUnsavedChanges => throw _privateConstructorUsedError;
   int get commandCountWhenLastSaved => throw _privateConstructorUsedError;
 
-  /// Create a copy of WorkspaceState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WorkspaceStateCopyWith<WorkspaceState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,8 +49,6 @@ class _$WorkspaceStateCopyWithImpl<$Res, $Val extends WorkspaceState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WorkspaceState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,8 +101,6 @@ class __$$WorkspaceStateImplCopyWithImpl<$Res>
       _$WorkspaceStateImpl _value, $Res Function(_$WorkspaceStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WorkspaceState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,9 +173,7 @@ class _$WorkspaceStateImpl implements _WorkspaceState {
   int get hashCode => Object.hash(runtimeType, isFullscreen, isPerformingIOTask,
       hasUnsavedChanges, commandCountWhenLastSaved);
 
-  /// Create a copy of WorkspaceState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WorkspaceStateImplCopyWith<_$WorkspaceStateImpl> get copyWith =>
@@ -204,11 +196,8 @@ abstract class _WorkspaceState implements WorkspaceState {
   bool get hasUnsavedChanges;
   @override
   int get commandCountWhenLastSaved;
-
-  /// Create a copy of WorkspaceState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WorkspaceStateImplCopyWith<_$WorkspaceStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
