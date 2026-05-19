@@ -58,12 +58,18 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Resolution: ${dimensions[0]} X ${dimensions[1]}'),
+                Text('Resolution: ${dimensions[0]} X ${dimensions[1]}',
+                    style: TextStyle(color: PaintroidTheme.of(context).shadowColor)),
                 Text(
-                    'Last modified: ${formatter.format(widget.project.lastModified)}'),
+                    'Last modified: ${formatter.format(
+                        widget.project.lastModified)}',
+                    style: TextStyle(color: PaintroidTheme.of(context).shadowColor)),
                 Text(
-                    'Creation date: ${formatter.format(widget.project.creationDate)}'),
-                Text('Size: ${filesize(_getProjectSize())}'),
+                    'Creation date: ${formatter.format(
+                        widget.project.creationDate)}',
+                    style: TextStyle(color: PaintroidTheme.of(context).shadowColor)),
+                Text('Size: ${filesize(_getProjectSize())}',
+                    style: TextStyle(color: Colors.black)),
               ],
             );
           } else {
@@ -71,7 +77,7 @@ class _ProjectDetailsDialogState extends ConsumerState<ProjectDetailsDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
-                  backgroundColor: PaintroidTheme.of(context).backgroundColor,
+                  backgroundColor: PaintroidTheme.of(context).shadowColor,
                 ),
               ],
             );

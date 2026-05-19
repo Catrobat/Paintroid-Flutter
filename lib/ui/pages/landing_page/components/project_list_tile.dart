@@ -37,11 +37,11 @@ class ProjectListTile extends StatelessWidget {
         dense: false,
         title: Text(
           project.name,
-          style: const TextStyle(color: Color(0xFFFFFFFF)),
+          style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
         ),
         subtitle: Text(
           'last modified: ${dateFormat.format(project.lastModified)}',
-          style: const TextStyle(color: Color(0xFFFFFFFF)),
+          style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
         ),
         trailing: ProjectOverflowMenu(
           key: Key('ProjectOverflowMenu Key$index'),
@@ -49,6 +49,7 @@ class ProjectListTile extends StatelessWidget {
         ),
         enabled: true,
         onTap: onTap,
+        tileColor: PaintroidTheme.of(context).backgroundColor,
       ),
     );
   }
