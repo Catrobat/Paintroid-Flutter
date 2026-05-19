@@ -38,6 +38,8 @@ void main() async {
 
   try {
     initialFileUri = await platform.invokeMethod('getInitialFile');
+  } on MissingPluginException {
+    // file_handler channel is Android-only; no-op on iOS.
   } on PlatformException catch (e) {
     log("Failed to get initial file: '${e.message}'.");
   }
