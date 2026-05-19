@@ -108,7 +108,6 @@ class IOHandler {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
     ref.read(appBarProvider).update();
     return true;
   }
@@ -143,7 +142,6 @@ class IOHandler {
 
   Future<bool> loadFromFiles(Result<File, Failure>? file) async {
     final loadImage = ref.read(LoadImageFromFileManager.provider);
-    final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
 
     final result = await loadImage(file);
     return result.when(
@@ -159,7 +157,7 @@ class IOHandler {
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
         }
-        workspaceStateNotifier.updateLastSavedCommandCount();
+
         return true;
       },
       err: (failure) {
