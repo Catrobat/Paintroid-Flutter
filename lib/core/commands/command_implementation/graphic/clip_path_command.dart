@@ -15,9 +15,7 @@ part 'clip_path_command.g.dart';
 
 @JsonSerializable()
 class ClipPathCommand extends GraphicCommand {
-  @JsonKey(includeToJson: true, includeFromJson: true)
   final String type;
-  @JsonKey(includeToJson: true, includeFromJson: true)
   final int version;
 
   @PathWithActionHistoryConverter()

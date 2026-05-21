@@ -12,9 +12,7 @@ part 'clip_area_command.g.dart';
 
 @JsonSerializable()
 class ClipAreaCommand extends GraphicCommand {
-  @JsonKey(includeToJson: true, includeFromJson: true)
   final String type;
-  @JsonKey(includeToJson: true, includeFromJson: true)
   final int version;
 
   @PathWithActionHistoryConverter()
