@@ -245,5 +245,110 @@ void main() {
                 'Canvas should change after pasting, and it should be different from just having A and B');
       });
     }
+    if (testID == -1 || testID == 5) {
+      testWidgets(
+        '[CLIPBOARD_TOOL_TEST_ID_5]: Clear removes copied content and paste does nothing',
+            (WidgetTester tester) async {
+          await ClipboardIntegrationTestUtils.launchAppAndInit(tester);
+
+          await ClipboardIntegrationTestUtils.drawSomethingOnCanvas(tester);
+          ui.Image? imageBefore =
+          await ClipboardIntegrationTestUtils.getCanvasImage(tester, forceUpdate: true);
+          int initialUndoStack = UIInteraction.getUndoStackLength();
+
+          await ClipboardIntegrationTestUtils.selectTool(
+              tester, ToolData.CLIPBOARD.name);
+
+          final copyButton = find.widgetWithIcon(CustomActionChip, Icons.copy);
+          await tester.tap(copyButton);
+          await tester.pumpAndSettle();
+          expect(ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isTrue);
+
+          final clearButton = find.widgetWithIcon(
+              CustomActionChip, Icons.cleaning_services_rounded);
+          await tester.tap(clearButton);
+          await tester.pumpAndSettle();
+          expect(ClipboardIntegrationTestUtils.getHasCopiedContent(tester), isFalse);
+
+          final pasteButton = find.widgetWithIcon(CustomActionChip, Icons.paste);
+          await tester.tap(pasteButton);
+          await tester.pumpAndSettle();
+
+          ui.Image? imageAfter =
+          await ClipboardIntegrationTestUtils.getCanvasImage(tester, forceUpdate: false);
+          int finalUndoStack = UIInteraction.getUndoStackLength();
+
+          expect(imageAfter?.hashCode, equals(imageBefore?.hashCode),
+              reason: 'Canvas should not change after paste when clipboard was cleared');
+
+          expect(finalUndoStack, equals(initialUndoStack),
+              reason: 'Undo stack should not change after no-op paste');
+        },
+      );
+    }
+
+    if(testID == -1 || testID == 6){
+      testWidgets(
+        '[CLIPBOARD_TOOL_TEST_ID_6]: Clear disabled when clipboard empty',
+            (tester) async {
+          await ClipboardIntegrationTestUtils.launchAppAndInit(tester);
+          await ClipboardIntegrationTestUtils.selectTool(
+              tester, ToolData.CLIPBOARD.name);
+
+          final clearButton =
+          find.widgetWithIcon(CustomActionChip, Icons.cleaning_services_rounded);
+
+          final chip = tester.widget<CustomActionChip>(clearButton);
+          expect(chip.onPressed, isNull);
+        },
+      );
+    }
+
+    if (testID == -1 || testID == 7) {
+      testWidgets(
+        '[CLIPBOARD_TOOL_TEST_ID_7]: Multiple Clear operations on empty clipboard are safe',
+            (WidgetTester tester) async {
+
+          await ClipboardIntegrationTestUtils.launchAppAndInit(tester);
+
+          await ClipboardIntegrationTestUtils.selectTool(
+              tester, ToolData.CLIPBOARD.name);
+
+          expect(find.byType(ClipboardToolOptions), findsOneWidget);
+          expect(
+            ClipboardIntegrationTestUtils.getHasCopiedContent(tester),
+            isFalse,
+            reason: 'Initially, clipboard should be empty',
+          );
+
+          final undoBefore = UIInteraction.getUndoStackLength();
+
+          final clearButton = find.widgetWithIcon(
+              CustomActionChip, Icons.cleaning_services_rounded);
+
+          expect(clearButton, findsOneWidget);
+
+          await tester.tap(clearButton);
+          await tester.pumpAndSettle();
+
+          await tester.tap(clearButton);
+          await tester.pumpAndSettle();
+
+          expect(
+            ClipboardIntegrationTestUtils.getHasCopiedContent(tester),
+            isFalse,
+            reason: 'Clipboard should remain empty after multiple clear taps',
+          );
+
+          final undoAfter = UIInteraction.getUndoStackLength();
+
+          expect(
+            undoAfter,
+            equals(undoBefore),
+            reason: 'Multiple clear operations should not affect undo stack',
+          );
+        },
+      );
+    }
   });
 }

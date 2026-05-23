@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomActionChip extends StatelessWidget {
-  final Icon chipIcon;
-  final VoidCallback onPressed;
+  final Widget chipIcon;
+  final VoidCallback? onPressed;
   final OutlinedBorder? shape;
   final Color chipBackgroundColor;
   final EdgeInsetsGeometry? padding;
@@ -30,6 +30,7 @@ class CustomActionChip extends StatelessWidget {
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
+      disabledColor: chipBackgroundColor.withValues(alpha: 0.9),
       backgroundColor: chipBackgroundColor,
       padding: padding ?? const EdgeInsets.fromLTRB(8, 0, 8, 0),
       materialTapTargetSize:
