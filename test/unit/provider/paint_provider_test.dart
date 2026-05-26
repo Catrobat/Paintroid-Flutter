@@ -38,6 +38,20 @@ void main() {
     container.read(paintProvider.notifier).updateBlendMode(newMode);
     expect(container.read(paintProvider).blendMode, newMode);
   });
+  test('updateAntialiasing should update the active paint', () {
+    final notifier = container.read(paintProvider.notifier);
+    notifier.updateAntialiasing(false);
+    final state = container.read(paintProvider);
+    expect(state.isAntiAlias, isFalse);
+  });
+
+  test('strokeWidth <= 1 should force antialiasing off', () {
+      final notifier = container.read(paintProvider.notifier);
+      notifier.updateAntialiasing(true);
+      notifier.updateStrokeWidth(1.0);
+      final state = container.read(paintProvider);
+      expect(state.isAntiAlias, isFalse);
+    });
 
   test('build sets default values correctly', () {
     Paint paintState = container.read(paintProvider);

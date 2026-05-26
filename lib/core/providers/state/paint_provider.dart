@@ -22,9 +22,24 @@ class PaintProvider extends _$PaintProvider {
   Paint get currentState => state;
 
   void updateStrokeWidth(double newStrokeWidth) {
+    final effectiveAntiAlias = newStrokeWidth <= 1.0
+        ? false
+        : state.isAntiAlias;
     state = GraphicFactory.copyPaintWith(
       original: state,
       strokeWidth: newStrokeWidth,
+      isAntiAlias: effectiveAntiAlias,
+    );
+  }
+
+  void updateAntialiasing(bool isAntialiasingEnabled) {
+    final effectiveAntiAlias = state.strokeWidth <= 1.0
+        ? false
+        : isAntialiasingEnabled;
+
+    state = GraphicFactory.copyPaintWith(
+      original: state,
+      isAntiAlias: effectiveAntiAlias,
     );
   }
 
