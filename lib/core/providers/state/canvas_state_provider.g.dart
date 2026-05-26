@@ -7,7 +7,7 @@ part of 'canvas_state_provider.dart';
 // **************************************************************************
 
 String _$canvasStateProviderHash() =>
-    r'bc09521821fd3da6e3221e6630d39f081b8155de';
+    r'ab6e4974666290aa9dd871398f78c6d1797c624b';
 
 /// See also [CanvasStateProvider].
 @ProviderFor(CanvasStateProvider)
