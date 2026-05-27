@@ -15,13 +15,15 @@ import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/ui/shared/dialogs/advanced_settings_dialog.dart';
 
 enum OverflowMenuOption {
   fullscreen,
   saveImage,
   saveProject,
   loadImage,
-  newImage;
+  newImage,
+  advancedSettings;
 
   String localizedLabel(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -36,6 +38,8 @@ enum OverflowMenuOption {
         return localizations.newImage;
       case OverflowMenuOption.saveProject:
         return localizations.saveProject;
+      case OverflowMenuOption.advancedSettings:
+        return 'Advanced Settings';
     }
   }
 }
@@ -82,6 +86,12 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+      case OverflowMenuOption.advancedSettings: // <--- ADDED THIS BLOCK
+        showDialog(
+          context: context,
+          builder: (context) => const AdvancedSettingsDialog(),
+        );
         break;
     }
   }
