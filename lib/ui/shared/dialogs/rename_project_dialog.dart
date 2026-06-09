@@ -15,14 +15,14 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
     context: context,
     builder: (context) {
       return GenericDialog(
-        title: localizations!.project_rename_title.replaceAll('__name__', name),
+        title: localizations.projectRenameTitle.replaceAll('__name__', name),
         actions: [
           GenericDialogAction(
-              title: localizations.cancel_button_text.toUpperCase(),
+              title: localizations.cancelButtonText.toUpperCase(),
               onPressed: () => Navigator.of(context).pop(),
               identifier: WidgetIdentifier.genericDialogActionCancel),
           GenericDialogAction(
-            title: localizations.project_rename.toUpperCase(),
+            title: localizations.projectRename.toUpperCase(),
             onPressed: () {
               final formState = formKey.currentState;
               if (formState == null || !formState.validate()) {
@@ -43,7 +43,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
                 controller: textFieldController,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return localizations.dialog_error_project_name;
+                    return localizations.dialogErrorProjectName;
                   }
                   return null;
                 },

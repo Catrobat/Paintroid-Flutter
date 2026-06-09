@@ -67,8 +67,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -98,305 +98,305 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// No description provided for @pocketpaint_app_name.
+  /// No description provided for @pocketpaintAppName.
   ///
   /// In en, this message translates to:
   /// **'Pocket Paint'**
-  String get pocketpaint_app_name;
+  String get pocketpaintAppName;
 
-  /// No description provided for @button_undo.
+  /// No description provided for @buttonUndo.
   ///
   /// In en, this message translates to:
   /// **'Undo'**
-  String get button_undo;
+  String get buttonUndo;
 
-  /// No description provided for @button_redo.
+  /// No description provided for @buttonRedo.
   ///
   /// In en, this message translates to:
   /// **'Redo'**
-  String get button_redo;
+  String get buttonRedo;
 
-  /// No description provided for @project_delete.
+  /// No description provided for @projectDelete.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
-  String get project_delete;
+  String get projectDelete;
 
-  /// No description provided for @project_details.
+  /// No description provided for @projectDetails.
   ///
   /// In en, this message translates to:
   /// **'Details'**
-  String get project_details;
+  String get projectDetails;
 
-  /// No description provided for @project_rename.
+  /// No description provided for @projectRename.
   ///
   /// In en, this message translates to:
   /// **'Rename'**
-  String get project_rename;
+  String get projectRename;
 
-  /// No description provided for @my_projects.
+  /// No description provided for @myProjects.
   ///
   /// In en, this message translates to:
   /// **'My Projects'**
-  String get my_projects;
+  String get myProjects;
 
-  /// No description provided for @project_rename_title.
+  /// No description provided for @projectRenameTitle.
   ///
   /// In en, this message translates to:
   /// **'Rename __name__'**
-  String get project_rename_title;
+  String get projectRenameTitle;
 
-  /// No description provided for @project_delete_title.
+  /// No description provided for @projectDeleteTitle.
   ///
   /// In en, this message translates to:
   /// **'Delete __name__'**
-  String get project_delete_title;
+  String get projectDeleteTitle;
 
-  /// No description provided for @project_delete_dialog.
+  /// No description provided for @projectDeleteDialog.
   ///
   /// In en, this message translates to:
   /// **'Do you really want to delete your project?'**
-  String get project_delete_dialog;
+  String get projectDeleteDialog;
 
-  /// No description provided for @details_resolution.
+  /// No description provided for @detailsResolution.
   ///
   /// In en, this message translates to:
   /// **'Resolution'**
-  String get details_resolution;
+  String get detailsResolution;
 
-  /// No description provided for @details_last_modified.
+  /// No description provided for @detailsLastModified.
   ///
   /// In en, this message translates to:
   /// **'Last modified'**
-  String get details_last_modified;
+  String get detailsLastModified;
 
-  /// No description provided for @details_creation_date.
+  /// No description provided for @detailsCreationDate.
   ///
   /// In en, this message translates to:
   /// **'Creation date'**
-  String get details_creation_date;
+  String get detailsCreationDate;
 
-  /// No description provided for @details_size.
+  /// No description provided for @detailsSize.
   ///
   /// In en, this message translates to:
   /// **'Size'**
-  String get details_size;
+  String get detailsSize;
 
-  /// No description provided for @menu_hide_menu.
+  /// No description provided for @menuHideMenu.
   ///
   /// In en, this message translates to:
   /// **'Fullscreen'**
-  String get menu_hide_menu;
+  String get menuHideMenu;
 
-  /// No description provided for @menu_save_image.
+  /// No description provided for @menuSaveImage.
   ///
   /// In en, this message translates to:
   /// **'Save image'**
-  String get menu_save_image;
+  String get menuSaveImage;
 
-  /// No description provided for @menu_save_project.
+  /// No description provided for @menuSaveProject.
   ///
   /// In en, this message translates to:
   /// **'Save project'**
-  String get menu_save_project;
+  String get menuSaveProject;
 
-  /// No description provided for @menu_load_image.
+  /// No description provided for @menuLoadImage.
   ///
   /// In en, this message translates to:
   /// **'Load image'**
-  String get menu_load_image;
+  String get menuLoadImage;
 
-  /// No description provided for @menu_new_image.
+  /// No description provided for @menuNewImage.
   ///
   /// In en, this message translates to:
   /// **'New image'**
-  String get menu_new_image;
+  String get menuNewImage;
 
-  /// No description provided for @menu_save_copy.
+  /// No description provided for @menuSaveCopy.
   ///
   /// In en, this message translates to:
   /// **'Save copy'**
-  String get menu_save_copy;
+  String get menuSaveCopy;
 
-  /// No description provided for @menu_discard_image.
+  /// No description provided for @menuDiscardImage.
   ///
   /// In en, this message translates to:
   /// **'Discard image'**
-  String get menu_discard_image;
+  String get menuDiscardImage;
 
-  /// No description provided for @menu_replace_image.
+  /// No description provided for @menuReplaceImage.
   ///
   /// In en, this message translates to:
   /// **'Replace image'**
-  String get menu_replace_image;
+  String get menuReplaceImage;
 
-  /// No description provided for @menu_add_to_current_layer.
+  /// No description provided for @menuAddToCurrentLayer.
   ///
   /// In en, this message translates to:
   /// **'Add to current layer'**
-  String get menu_add_to_current_layer;
+  String get menuAddToCurrentLayer;
 
-  /// No description provided for @button_brush.
+  /// No description provided for @buttonBrush.
   ///
   /// In en, this message translates to:
   /// **'Brush'**
-  String get button_brush;
+  String get buttonBrush;
 
-  /// No description provided for @button_hand.
+  /// No description provided for @buttonHand.
   ///
   /// In en, this message translates to:
   /// **'Hand'**
-  String get button_hand;
+  String get buttonHand;
 
-  /// No description provided for @button_eraser.
+  /// No description provided for @buttonEraser.
   ///
   /// In en, this message translates to:
   /// **'Eraser'**
-  String get button_eraser;
+  String get buttonEraser;
 
-  /// No description provided for @button_line.
+  /// No description provided for @buttonLine.
   ///
   /// In en, this message translates to:
   /// **'Line'**
-  String get button_line;
+  String get buttonLine;
 
-  /// No description provided for @button_shape.
+  /// No description provided for @buttonShape.
   ///
   /// In en, this message translates to:
   /// **'Shapes'**
-  String get button_shape;
+  String get buttonShape;
 
-  /// No description provided for @button_fill.
+  /// No description provided for @buttonFill.
   ///
   /// In en, this message translates to:
   /// **'Fill'**
-  String get button_fill;
+  String get buttonFill;
 
-  /// No description provided for @button_spray_can.
+  /// No description provided for @buttonSprayCan.
   ///
   /// In en, this message translates to:
   /// **'Spray can'**
-  String get button_spray_can;
+  String get buttonSprayCan;
 
-  /// No description provided for @button_cursor.
+  /// No description provided for @buttonCursor.
   ///
   /// In en, this message translates to:
   /// **'Cursor'**
-  String get button_cursor;
+  String get buttonCursor;
 
-  /// No description provided for @button_text.
+  /// No description provided for @buttonText.
   ///
   /// In en, this message translates to:
   /// **'Text'**
-  String get button_text;
+  String get buttonText;
 
-  /// No description provided for @button_clipboard.
+  /// No description provided for @buttonClipboard.
   ///
   /// In en, this message translates to:
   /// **'Clipboard'**
-  String get button_clipboard;
+  String get buttonClipboard;
 
-  /// No description provided for @button_transform.
+  /// No description provided for @buttonTransform.
   ///
   /// In en, this message translates to:
   /// **'Transform'**
-  String get button_transform;
+  String get buttonTransform;
 
-  /// No description provided for @button_import_image.
+  /// No description provided for @buttonImportImage.
   ///
   /// In en, this message translates to:
   /// **'Import image'**
-  String get button_import_image;
+  String get buttonImportImage;
 
-  /// No description provided for @button_pipette.
+  /// No description provided for @buttonPipette.
   ///
   /// In en, this message translates to:
   /// **'Pipette'**
-  String get button_pipette;
+  String get buttonPipette;
 
-  /// No description provided for @button_watercolor.
+  /// No description provided for @buttonWatercolor.
   ///
   /// In en, this message translates to:
   /// **'Watercolour'**
-  String get button_watercolor;
+  String get buttonWatercolor;
 
-  /// No description provided for @button_smudge.
+  /// No description provided for @buttonSmudge.
   ///
   /// In en, this message translates to:
   /// **'Smudge'**
-  String get button_smudge;
+  String get buttonSmudge;
 
-  /// No description provided for @button_clip.
+  /// No description provided for @buttonClip.
   ///
   /// In en, this message translates to:
   /// **'Clip area'**
-  String get button_clip;
+  String get buttonClip;
 
-  /// No description provided for @clipboard_tool_paste.
+  /// No description provided for @clipboardToolPaste.
   ///
   /// In en, this message translates to:
   /// **'Paste'**
-  String get clipboard_tool_paste;
+  String get clipboardToolPaste;
 
-  /// No description provided for @clipboard_tool_copy.
+  /// No description provided for @clipboardToolCopy.
   ///
   /// In en, this message translates to:
   /// **'Copy'**
-  String get clipboard_tool_copy;
+  String get clipboardToolCopy;
 
-  /// No description provided for @clipboard_tool_cut.
+  /// No description provided for @clipboardToolCut.
   ///
   /// In en, this message translates to:
   /// **'Cut'**
-  String get clipboard_tool_cut;
+  String get clipboardToolCut;
 
-  /// No description provided for @bottom_navigation_tools.
+  /// No description provided for @bottomNavigationTools.
   ///
   /// In en, this message translates to:
   /// **'Tools'**
-  String get bottom_navigation_tools;
+  String get bottomNavigationTools;
 
-  /// No description provided for @bottom_navigation_current.
+  /// No description provided for @bottomNavigationCurrent.
   ///
   /// In en, this message translates to:
   /// **'Current'**
-  String get bottom_navigation_current;
+  String get bottomNavigationCurrent;
 
-  /// No description provided for @bottom_navigation_color.
+  /// No description provided for @bottomNavigationColor.
   ///
   /// In en, this message translates to:
   /// **'Colour'**
-  String get bottom_navigation_color;
+  String get bottomNavigationColor;
 
-  /// No description provided for @bottom_navigation_layers.
+  /// No description provided for @bottomNavigationLayers.
   ///
   /// In en, this message translates to:
   /// **'Layers'**
-  String get bottom_navigation_layers;
+  String get bottomNavigationLayers;
 
-  /// No description provided for @bottom_navigation_item.
+  /// No description provided for @bottomNavigationItem.
   ///
   /// In en, this message translates to:
   /// **'Item for bottom navigation'**
-  String get bottom_navigation_item;
+  String get bottomNavigationItem;
 
-  /// No description provided for @button_apply.
+  /// No description provided for @buttonApply.
   ///
   /// In en, this message translates to:
   /// **'Apply'**
-  String get button_apply;
+  String get buttonApply;
 
-  /// No description provided for @button_checkmark.
+  /// No description provided for @buttonCheckmark.
   ///
   /// In en, this message translates to:
   /// **'Checkmark'**
-  String get button_checkmark;
+  String get buttonCheckmark;
 
-  /// No description provided for @button_info.
+  /// No description provided for @buttonInfo.
   ///
   /// In en, this message translates to:
   /// **'Information'**
-  String get button_info;
+  String get buttonInfo;
 
   /// No description provided for @done.
   ///
@@ -410,11 +410,11 @@ abstract class AppLocalizations {
   /// **'Select image'**
   String get gallery;
 
-  /// No description provided for @no_connection_sticker.
+  /// No description provided for @noConnectionSticker.
   ///
   /// In en, this message translates to:
   /// **'Stickers not available, check your internet connection.'**
-  String get no_connection_sticker;
+  String get noConnectionSticker;
 
   /// No description provided for @stickers.
   ///
@@ -422,233 +422,233 @@ abstract class AppLocalizations {
   /// **'Stickers'**
   String get stickers;
 
-  /// No description provided for @dialog_tools_title.
+  /// No description provided for @dialogToolsTitle.
   ///
   /// In en, this message translates to:
   /// **'Tools'**
-  String get dialog_tools_title;
+  String get dialogToolsTitle;
 
-  /// No description provided for @dialog_error_save_title.
+  /// No description provided for @dialogErrorSaveTitle.
   ///
   /// In en, this message translates to:
   /// **'Error load/save File'**
-  String get dialog_error_save_title;
+  String get dialogErrorSaveTitle;
 
-  /// No description provided for @dialog_error_sdcard_text.
+  /// No description provided for @dialogErrorSdcardText.
   ///
   /// In en, this message translates to:
   /// **'Check Image or SD-Card!'**
-  String get dialog_error_sdcard_text;
+  String get dialogErrorSdcardText;
 
-  /// No description provided for @dialog_brush_width_text.
+  /// No description provided for @dialogBrushWidthText.
   ///
   /// In en, this message translates to:
   /// **'Stroke Width'**
-  String get dialog_brush_width_text;
+  String get dialogBrushWidthText;
 
-  /// No description provided for @dialog_warning_new_image.
+  /// No description provided for @dialogWarningNewImage.
   ///
   /// In en, this message translates to:
   /// **'Save Changes?'**
-  String get dialog_warning_new_image;
+  String get dialogWarningNewImage;
 
-  /// No description provided for @help_title.
+  /// No description provided for @helpTitle.
   ///
   /// In en, this message translates to:
   /// **'Help'**
-  String get help_title;
+  String get helpTitle;
 
-  /// No description provided for @help_content_eraser.
+  /// No description provided for @helpContentEraser.
   ///
   /// In en, this message translates to:
   /// **'Remove parts of the image like with an eraser.'**
-  String get help_content_eraser;
+  String get helpContentEraser;
 
-  /// No description provided for @help_content_brush.
+  /// No description provided for @helpContentBrush.
   ///
   /// In en, this message translates to:
   /// **'Tap on the symbols on the bottom bar to change the colour or the brush size.'**
-  String get help_content_brush;
+  String get helpContentBrush;
 
-  /// No description provided for @help_content_watercolor.
+  /// No description provided for @helpContentWatercolor.
   ///
   /// In en, this message translates to:
   /// **'Similar to the brush tool with a watercolour effect. However you can also change the strength of the brush with the slider in the colour menu.'**
-  String get help_content_watercolor;
+  String get helpContentWatercolor;
 
-  /// No description provided for @help_content_eyedropper.
+  /// No description provided for @helpContentEyedropper.
   ///
   /// In en, this message translates to:
   /// **'Tap on the image to select a colour.'**
-  String get help_content_eyedropper;
+  String get helpContentEyedropper;
 
-  /// No description provided for @help_content_undo.
+  /// No description provided for @helpContentUndo.
   ///
   /// In en, this message translates to:
   /// **'Tap to undo your previous action.'**
-  String get help_content_undo;
+  String get helpContentUndo;
 
-  /// No description provided for @help_content_redo.
+  /// No description provided for @helpContentRedo.
   ///
   /// In en, this message translates to:
   /// **'Tap to redo an undone action.'**
-  String get help_content_redo;
+  String get helpContentRedo;
 
-  /// No description provided for @help_content_fill.
+  /// No description provided for @helpContentFill.
   ///
   /// In en, this message translates to:
   /// **'Tap on the image to fill an area with the selected colour.'**
-  String get help_content_fill;
+  String get helpContentFill;
 
-  /// No description provided for @help_content_cursor.
+  /// No description provided for @helpContentCursor.
   ///
   /// In en, this message translates to:
   /// **'Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.'**
-  String get help_content_cursor;
+  String get helpContentCursor;
 
-  /// No description provided for @help_content_transform.
+  /// No description provided for @helpContentTransform.
   ///
   /// In en, this message translates to:
   /// **'Use to transform the image.'**
-  String get help_content_transform;
+  String get helpContentTransform;
 
-  /// No description provided for @help_content_clipboard.
+  /// No description provided for @helpContentClipboard.
   ///
   /// In en, this message translates to:
   /// **'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.'**
-  String get help_content_clipboard;
+  String get helpContentClipboard;
 
-  /// No description provided for @help_content_import_png.
+  /// No description provided for @helpContentImportPng.
   ///
   /// In en, this message translates to:
   /// **'Import an image from the gallery to the stamp tool.'**
-  String get help_content_import_png;
+  String get helpContentImportPng;
 
-  /// No description provided for @help_content_line.
+  /// No description provided for @helpContentLine.
   ///
   /// In en, this message translates to:
   /// **'Draw a straight line.'**
-  String get help_content_line;
+  String get helpContentLine;
 
-  /// No description provided for @help_content_text.
+  /// No description provided for @helpContentText.
   ///
   /// In en, this message translates to:
   /// **'Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.'**
-  String get help_content_text;
+  String get helpContentText;
 
-  /// No description provided for @help_content_shape.
+  /// No description provided for @helpContentShape.
   ///
   /// In en, this message translates to:
   /// **'Choose a shape and tap on the checkmark to insert the selected shape.'**
-  String get help_content_shape;
+  String get helpContentShape;
 
-  /// No description provided for @help_content_layer.
+  /// No description provided for @helpContentLayer.
   ///
   /// In en, this message translates to:
   /// **'Create new layers or modify existing ones.'**
-  String get help_content_layer;
+  String get helpContentLayer;
 
-  /// No description provided for @help_content_color_chooser.
+  /// No description provided for @helpContentColorChooser.
   ///
   /// In en, this message translates to:
   /// **'Select or adjust a colour.'**
-  String get help_content_color_chooser;
+  String get helpContentColorChooser;
 
-  /// No description provided for @help_content_hand.
+  /// No description provided for @helpContentHand.
   ///
   /// In en, this message translates to:
   /// **'Move your finger to move the canvas.'**
-  String get help_content_hand;
+  String get helpContentHand;
 
-  /// No description provided for @help_content_spray_can.
+  /// No description provided for @helpContentSprayCan.
   ///
   /// In en, this message translates to:
   /// **'Move your finger on the image to create a spray can pattern.'**
-  String get help_content_spray_can;
+  String get helpContentSprayCan;
 
-  /// No description provided for @help_content_smudge.
+  /// No description provided for @helpContentSmudge.
   ///
   /// In en, this message translates to:
   /// **'Move your finger on the image on different drawings to smudge them.'**
-  String get help_content_smudge;
+  String get helpContentSmudge;
 
-  /// No description provided for @help_content_clip.
+  /// No description provided for @helpContentClip.
   ///
   /// In en, this message translates to:
   /// **'Mark area which should not be erased.'**
-  String get help_content_clip;
+  String get helpContentClip;
 
-  /// No description provided for @closing_security_question_title.
+  /// No description provided for @closingSecurityQuestionTitle.
   ///
   /// In en, this message translates to:
   /// **'Quit'**
-  String get closing_security_question_title;
+  String get closingSecurityQuestionTitle;
 
-  /// No description provided for @closing_security_question.
+  /// No description provided for @closingSecurityQuestion.
   ///
   /// In en, this message translates to:
   /// **'Save Changes?'**
-  String get closing_security_question;
+  String get closingSecurityQuestion;
 
-  /// No description provided for @no_longclick_on_hidden_layer.
+  /// No description provided for @noLongclickOnHiddenLayer.
   ///
   /// In en, this message translates to:
   /// **'You are only able to merge or reorder if all layers are visible'**
-  String get no_longclick_on_hidden_layer;
+  String get noLongclickOnHiddenLayer;
 
-  /// No description provided for @no_tools_on_hidden_layer.
+  /// No description provided for @noToolsOnHiddenLayer.
   ///
   /// In en, this message translates to:
   /// **'No tools are available on hidden layer'**
-  String get no_tools_on_hidden_layer;
+  String get noToolsOnHiddenLayer;
 
-  /// No description provided for @menu_rate_us.
+  /// No description provided for @menuRateUs.
   ///
   /// In en, this message translates to:
   /// **'Rate us!'**
-  String get menu_rate_us;
+  String get menuRateUs;
 
-  /// No description provided for @menu_feedback.
+  /// No description provided for @menuFeedback.
   ///
   /// In en, this message translates to:
   /// **'Feedback'**
-  String get menu_feedback;
+  String get menuFeedback;
 
-  /// No description provided for @menu_export.
+  /// No description provided for @menuExport.
   ///
   /// In en, this message translates to:
   /// **'Export'**
-  String get menu_export;
+  String get menuExport;
 
-  /// No description provided for @menu_advanced.
+  /// No description provided for @menuAdvanced.
   ///
   /// In en, this message translates to:
   /// **'Advanced settings'**
-  String get menu_advanced;
+  String get menuAdvanced;
 
-  /// No description provided for @menu_zoom_settings.
+  /// No description provided for @menuZoomSettings.
   ///
   /// In en, this message translates to:
   /// **'Zoom window settings'**
-  String get menu_zoom_settings;
+  String get menuZoomSettings;
 
-  /// No description provided for @share_image_menu.
+  /// No description provided for @shareImageMenu.
   ///
   /// In en, this message translates to:
   /// **'Share image'**
-  String get share_image_menu;
+  String get shareImageMenu;
 
-  /// No description provided for @share_image_via_text.
+  /// No description provided for @shareImageViaText.
   ///
   /// In en, this message translates to:
   /// **'Send image via'**
-  String get share_image_via_text;
+  String get shareImageViaText;
 
-  /// No description provided for @saved_to.
+  /// No description provided for @savedTo.
   ///
   /// In en, this message translates to:
   /// **'Image saved to\n'**
-  String get saved_to;
+  String get savedTo;
 
   /// No description provided for @saved.
   ///
@@ -656,11 +656,11 @@ abstract class AppLocalizations {
   /// **'Image saved'**
   String get saved;
 
-  /// No description provided for @copy_to.
+  /// No description provided for @copyTo.
   ///
   /// In en, this message translates to:
   /// **'Copy saved to\n'**
-  String get copy_to;
+  String get copyTo;
 
   /// No description provided for @copy.
   ///
@@ -668,251 +668,251 @@ abstract class AppLocalizations {
   /// **'Copy saved'**
   String get copy;
 
-  /// No description provided for @menu_quit.
+  /// No description provided for @menuQuit.
   ///
   /// In en, this message translates to:
   /// **'Quit'**
-  String get menu_quit;
+  String get menuQuit;
 
-  /// No description provided for @save_button_text.
+  /// No description provided for @saveButtonText.
   ///
   /// In en, this message translates to:
   /// **'Save'**
-  String get save_button_text;
+  String get saveButtonText;
 
-  /// No description provided for @discard_button_text.
+  /// No description provided for @discardButtonText.
   ///
   /// In en, this message translates to:
   /// **'Discard'**
-  String get discard_button_text;
+  String get discardButtonText;
 
-  /// No description provided for @cancel_button_text.
+  /// No description provided for @cancelButtonText.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get cancel_button_text;
+  String get cancelButtonText;
 
-  /// No description provided for @overwrite_button_text.
+  /// No description provided for @overwriteButtonText.
   ///
   /// In en, this message translates to:
   /// **'Overwrite'**
-  String get overwrite_button_text;
+  String get overwriteButtonText;
 
-  /// No description provided for @delete_button_text.
+  /// No description provided for @deleteButtonText.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
-  String get delete_button_text;
+  String get deleteButtonText;
 
-  /// No description provided for @resize_nothing_to_resize.
+  /// No description provided for @resizeNothingToResize.
   ///
   /// In en, this message translates to:
   /// **'nothing to resize'**
-  String get resize_nothing_to_resize;
+  String get resizeNothingToResize;
 
-  /// No description provided for @resize_cannot_resize_to_this_size.
+  /// No description provided for @resizeCannotResizeToThisSize.
   ///
   /// In en, this message translates to:
   /// **'cannot resize to this size'**
-  String get resize_cannot_resize_to_this_size;
+  String get resizeCannotResizeToThisSize;
 
-  /// No description provided for @resize_max_image_resolution_reached.
+  /// No description provided for @resizeMaxImageResolutionReached.
   ///
   /// In en, this message translates to:
   /// **'max image resolution reached'**
-  String get resize_max_image_resolution_reached;
+  String get resizeMaxImageResolutionReached;
 
-  /// No description provided for @text_tool_dialog_underline_shortcut.
+  /// No description provided for @textToolDialogUnderlineShortcut.
   ///
   /// In en, this message translates to:
   /// **'U'**
-  String get text_tool_dialog_underline_shortcut;
+  String get textToolDialogUnderlineShortcut;
 
-  /// No description provided for @text_tool_dialog_italic_shortcut.
+  /// No description provided for @textToolDialogItalicShortcut.
   ///
   /// In en, this message translates to:
   /// **'I'**
-  String get text_tool_dialog_italic_shortcut;
+  String get textToolDialogItalicShortcut;
 
-  /// No description provided for @text_tool_dialog_bold_shortcut.
+  /// No description provided for @textToolDialogBoldShortcut.
   ///
   /// In en, this message translates to:
   /// **'B'**
-  String get text_tool_dialog_bold_shortcut;
+  String get textToolDialogBoldShortcut;
 
-  /// No description provided for @text_tool_dialog_input_hint.
+  /// No description provided for @textToolDialogInputHint.
   ///
   /// In en, this message translates to:
   /// **'Tap here to write'**
-  String get text_tool_dialog_input_hint;
+  String get textToolDialogInputHint;
 
-  /// No description provided for @text_tool_dialog_font_monospace.
+  /// No description provided for @textToolDialogFontMonospace.
   ///
   /// In en, this message translates to:
   /// **'Monospace'**
-  String get text_tool_dialog_font_monospace;
+  String get textToolDialogFontMonospace;
 
-  /// No description provided for @text_tool_dialog_font_serif.
+  /// No description provided for @textToolDialogFontSerif.
   ///
   /// In en, this message translates to:
   /// **'Serif'**
-  String get text_tool_dialog_font_serif;
+  String get textToolDialogFontSerif;
 
-  /// No description provided for @text_tool_dialog_font_sans_serif.
+  /// No description provided for @textToolDialogFontSansSerif.
   ///
   /// In en, this message translates to:
   /// **'Sans Serif'**
-  String get text_tool_dialog_font_sans_serif;
+  String get textToolDialogFontSansSerif;
 
-  /// No description provided for @text_tool_dialog_font_dubai.
+  /// No description provided for @textToolDialogFontDubai.
   ///
   /// In en, this message translates to:
   /// **'Dubai'**
-  String get text_tool_dialog_font_dubai;
+  String get textToolDialogFontDubai;
 
-  /// No description provided for @text_tool_dialog_font_arabic_stc.
+  /// No description provided for @textToolDialogFontArabicStc.
   ///
   /// In en, this message translates to:
   /// **'STC'**
-  String get text_tool_dialog_font_arabic_stc;
+  String get textToolDialogFontArabicStc;
 
-  /// No description provided for @shape_tool_dialog_rect_title.
+  /// No description provided for @shapeToolDialogRectTitle.
   ///
   /// In en, this message translates to:
   /// **'Rectangle'**
-  String get shape_tool_dialog_rect_title;
+  String get shapeToolDialogRectTitle;
 
-  /// No description provided for @shape_tool_dialog_ellipse_title.
+  /// No description provided for @shapeToolDialogEllipseTitle.
   ///
   /// In en, this message translates to:
   /// **'Ellipse'**
-  String get shape_tool_dialog_ellipse_title;
+  String get shapeToolDialogEllipseTitle;
 
-  /// No description provided for @shape_tool_dialog_star_title.
+  /// No description provided for @shapeToolDialogStarTitle.
   ///
   /// In en, this message translates to:
   /// **'Star'**
-  String get shape_tool_dialog_star_title;
+  String get shapeToolDialogStarTitle;
 
-  /// No description provided for @shape_tool_dialog_heart_title.
+  /// No description provided for @shapeToolDialogHeartTitle.
   ///
   /// In en, this message translates to:
   /// **'Heart'**
-  String get shape_tool_dialog_heart_title;
+  String get shapeToolDialogHeartTitle;
 
-  /// No description provided for @shape_tool_dialog_fill_title.
+  /// No description provided for @shapeToolDialogFillTitle.
   ///
   /// In en, this message translates to:
   /// **'Fill'**
-  String get shape_tool_dialog_fill_title;
+  String get shapeToolDialogFillTitle;
 
-  /// No description provided for @shape_tool_dialog_outline_title.
+  /// No description provided for @shapeToolDialogOutlineTitle.
   ///
   /// In en, this message translates to:
   /// **'Outline'**
-  String get shape_tool_dialog_outline_title;
+  String get shapeToolDialogOutlineTitle;
 
-  /// No description provided for @shape_tool_dialog_dashed.
+  /// No description provided for @shapeToolDialogDashed.
   ///
   /// In en, this message translates to:
   /// **'Dashed'**
-  String get shape_tool_dialog_dashed;
+  String get shapeToolDialogDashed;
 
-  /// No description provided for @shape_tool_dialog_fill_dashed.
+  /// No description provided for @shapeToolDialogFillDashed.
   ///
   /// In en, this message translates to:
   /// **'Fill & Dashed'**
-  String get shape_tool_dialog_fill_dashed;
+  String get shapeToolDialogFillDashed;
 
-  /// No description provided for @stroke_type_round.
+  /// No description provided for @strokeTypeRound.
   ///
   /// In en, this message translates to:
   /// **'Round stroke'**
-  String get stroke_type_round;
+  String get strokeTypeRound;
 
-  /// No description provided for @stroke_type_square.
+  /// No description provided for @strokeTypeSquare.
   ///
   /// In en, this message translates to:
   /// **'Square stroke'**
-  String get stroke_type_square;
+  String get strokeTypeSquare;
 
-  /// No description provided for @fill_tool_dialog_color_tolerance_title.
+  /// No description provided for @fillToolDialogColorToleranceTitle.
   ///
   /// In en, this message translates to:
   /// **'Colour tolerance'**
-  String get fill_tool_dialog_color_tolerance_title;
+  String get fillToolDialogColorToleranceTitle;
 
-  /// No description provided for @smudge_tool_dialog_pressure_title.
+  /// No description provided for @smudgeToolDialogPressureTitle.
   ///
   /// In en, this message translates to:
   /// **'Pressure'**
-  String get smudge_tool_dialog_pressure_title;
+  String get smudgeToolDialogPressureTitle;
 
-  /// No description provided for @smudge_tool_dialog_drag_title.
+  /// No description provided for @smudgeToolDialogDragTitle.
   ///
   /// In en, this message translates to:
   /// **'Drag'**
-  String get smudge_tool_dialog_drag_title;
+  String get smudgeToolDialogDragTitle;
 
-  /// No description provided for @transform_tool_rotate_left.
+  /// No description provided for @transformToolRotateLeft.
   ///
   /// In en, this message translates to:
   /// **'rotate left'**
-  String get transform_tool_rotate_left;
+  String get transformToolRotateLeft;
 
-  /// No description provided for @transform_tool_rotate_right.
+  /// No description provided for @transformToolRotateRight.
   ///
   /// In en, this message translates to:
   /// **'rotate right'**
-  String get transform_tool_rotate_right;
+  String get transformToolRotateRight;
 
-  /// No description provided for @transform_tool_flip_vertical.
+  /// No description provided for @transformToolFlipVertical.
   ///
   /// In en, this message translates to:
   /// **'flip vertical'**
-  String get transform_tool_flip_vertical;
+  String get transformToolFlipVertical;
 
-  /// No description provided for @transform_tool_flip_horizontal.
+  /// No description provided for @transformToolFlipHorizontal.
   ///
   /// In en, this message translates to:
   /// **'flip horizontal'**
-  String get transform_tool_flip_horizontal;
+  String get transformToolFlipHorizontal;
 
-  /// No description provided for @transform_tool_resize_text.
+  /// No description provided for @transformToolResizeText.
   ///
   /// In en, this message translates to:
   /// **'resize'**
-  String get transform_tool_resize_text;
+  String get transformToolResizeText;
 
-  /// No description provided for @transform_tool_auto_crop_text.
+  /// No description provided for @transformToolAutoCropText.
   ///
   /// In en, this message translates to:
   /// **'crop/enlarge'**
-  String get transform_tool_auto_crop_text;
+  String get transformToolAutoCropText;
 
-  /// No description provided for @transform_width_text.
+  /// No description provided for @transformWidthText.
   ///
   /// In en, this message translates to:
   /// **'Width'**
-  String get transform_width_text;
+  String get transformWidthText;
 
-  /// No description provided for @transform_height_text.
+  /// No description provided for @transformHeightText.
   ///
   /// In en, this message translates to:
   /// **'Height'**
-  String get transform_height_text;
+  String get transformHeightText;
 
-  /// No description provided for @transform_auto_crop_text.
+  /// No description provided for @transformAutoCropText.
   ///
   /// In en, this message translates to:
   /// **'Auto'**
-  String get transform_auto_crop_text;
+  String get transformAutoCropText;
 
-  /// No description provided for @transform_set_center_text.
+  /// No description provided for @transformSetCenterText.
   ///
   /// In en, this message translates to:
   /// **'Set center'**
-  String get transform_set_center_text;
+  String get transformSetCenterText;
 
   /// No description provided for @pixel.
   ///
@@ -920,215 +920,215 @@ abstract class AppLocalizations {
   /// **'px'**
   String get pixel;
 
-  /// No description provided for @clipboard_tool_copy_hint.
+  /// No description provided for @clipboardToolCopyHint.
   ///
   /// In en, this message translates to:
   /// **'Tap on copy to copy content'**
-  String get clipboard_tool_copy_hint;
+  String get clipboardToolCopyHint;
 
-  /// No description provided for @layers_title.
+  /// No description provided for @layersTitle.
   ///
   /// In en, this message translates to:
   /// **'Layers'**
-  String get layers_title;
+  String get layersTitle;
 
-  /// No description provided for @layer_new.
+  /// No description provided for @layerNew.
   ///
   /// In en, this message translates to:
   /// **'New layer'**
-  String get layer_new;
+  String get layerNew;
 
-  /// No description provided for @layer_delete.
+  /// No description provided for @layerDelete.
   ///
   /// In en, this message translates to:
   /// **'Delete layer'**
-  String get layer_delete;
+  String get layerDelete;
 
-  /// No description provided for @layer_too_many_layers.
+  /// No description provided for @layerTooManyLayers.
   ///
   /// In en, this message translates to:
   /// **'Too many layers'**
-  String get layer_too_many_layers;
+  String get layerTooManyLayers;
 
-  /// No description provided for @layer_merged.
+  /// No description provided for @layerMerged.
   ///
   /// In en, this message translates to:
   /// **'Layers merged'**
-  String get layer_merged;
+  String get layerMerged;
 
-  /// No description provided for @layer_background.
+  /// No description provided for @layerBackground.
   ///
   /// In en, this message translates to:
   /// **'Layer background'**
-  String get layer_background;
+  String get layerBackground;
 
-  /// No description provided for @layer_preview.
+  /// No description provided for @layerPreview.
   ///
   /// In en, this message translates to:
   /// **'Layer preview'**
-  String get layer_preview;
+  String get layerPreview;
 
-  /// No description provided for @dialog_loading_image_failed_title.
+  /// No description provided for @dialogLoadingImageFailedTitle.
   ///
   /// In en, this message translates to:
   /// **'Error on loading image'**
-  String get dialog_loading_image_failed_title;
+  String get dialogLoadingImageFailedTitle;
 
-  /// No description provided for @dialog_loading_image_failed_text.
+  /// No description provided for @dialogLoadingImageFailedText.
   ///
   /// In en, this message translates to:
   /// **'Not a valid image'**
-  String get dialog_loading_image_failed_text;
+  String get dialogLoadingImageFailedText;
 
-  /// No description provided for @dialog_settings.
+  /// No description provided for @dialogSettings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
-  String get dialog_settings;
+  String get dialogSettings;
 
-  /// No description provided for @dialog_save_image_name.
+  /// No description provided for @dialogSaveImageName.
   ///
   /// In en, this message translates to:
   /// **'Image name'**
-  String get dialog_save_image_name;
+  String get dialogSaveImageName;
 
-  /// No description provided for @dialog_save_image_format.
+  /// No description provided for @dialogSaveImageFormat.
   ///
   /// In en, this message translates to:
   /// **'Image format'**
-  String get dialog_save_image_format;
+  String get dialogSaveImageFormat;
 
-  /// No description provided for @dialog_save_project_name.
+  /// No description provided for @dialogSaveProjectName.
   ///
   /// In en, this message translates to:
   /// **'Project name'**
-  String get dialog_save_project_name;
+  String get dialogSaveProjectName;
 
-  /// No description provided for @dialog_error_project_name.
+  /// No description provided for @dialogErrorProjectName.
   ///
   /// In en, this message translates to:
   /// **'Please specifiy a project name'**
-  String get dialog_error_project_name;
+  String get dialogErrorProjectName;
 
-  /// No description provided for @dialog_error_image_name.
+  /// No description provided for @dialogErrorImageName.
   ///
   /// In en, this message translates to:
   /// **'Please specifiy an image name'**
-  String get dialog_error_image_name;
+  String get dialogErrorImageName;
 
-  /// No description provided for @dialog_antialiasing.
+  /// No description provided for @dialogAntialiasing.
   ///
   /// In en, this message translates to:
   /// **'Antialiasing'**
-  String get dialog_antialiasing;
+  String get dialogAntialiasing;
 
-  /// No description provided for @dialog_smoothing.
+  /// No description provided for @dialogSmoothing.
   ///
   /// In en, this message translates to:
   /// **'Smoothing'**
-  String get dialog_smoothing;
+  String get dialogSmoothing;
 
-  /// No description provided for @dialog_zoom_window_enabled.
+  /// No description provided for @dialogZoomWindowEnabled.
   ///
   /// In en, this message translates to:
   /// **'Enabled'**
-  String get dialog_zoom_window_enabled;
+  String get dialogZoomWindowEnabled;
 
-  /// No description provided for @dialog_save_jpg_option_quality.
+  /// No description provided for @dialogSaveJpgOptionQuality.
   ///
   /// In en, this message translates to:
   /// **'Quality'**
-  String get dialog_save_jpg_option_quality;
+  String get dialogSaveJpgOptionQuality;
 
-  /// No description provided for @pocketpaint_jpg_message_dialog.
+  /// No description provided for @pocketpaintJpgMessageDialog.
   ///
   /// In en, this message translates to:
   /// **'Takes up minimal storage space. No transparency is remembered.'**
-  String get pocketpaint_jpg_message_dialog;
+  String get pocketpaintJpgMessageDialog;
 
-  /// No description provided for @pocketpaint_png_message_dialog.
+  /// No description provided for @pocketpaintPngMessageDialog.
   ///
   /// In en, this message translates to:
   /// **'Lossless compression. Transparency is preserved.'**
-  String get pocketpaint_png_message_dialog;
+  String get pocketpaintPngMessageDialog;
 
-  /// No description provided for @pocketpaint_ora_message_dialog.
+  /// No description provided for @pocketpaintOraMessageDialog.
   ///
   /// In en, this message translates to:
   /// **'This format remembers <b>layers</b>. <b>It can be opened by apps that support the Openraster format.</b>'**
-  String get pocketpaint_ora_message_dialog;
+  String get pocketpaintOraMessageDialog;
 
-  /// No description provided for @pocketpaint_catrobat_message_dialog.
+  /// No description provided for @pocketpaintCatrobatMessageDialog.
   ///
   /// In en, this message translates to:
   /// **'Pocket Paint\'s native image format. This format remembers commands and layers.'**
-  String get pocketpaint_catrobat_message_dialog;
+  String get pocketpaintCatrobatMessageDialog;
 
-  /// No description provided for @permission_info_external_storage_text.
+  /// No description provided for @permissionInfoExternalStorageText.
   ///
   /// In en, this message translates to:
   /// **'This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.'**
-  String get permission_info_external_storage_text;
+  String get permissionInfoExternalStorageText;
 
-  /// No description provided for @permission_info_permanent_denial_text.
+  /// No description provided for @permissionInfoPermanentDenialText.
   ///
   /// In en, this message translates to:
   /// **'This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.<\b> As you have denied permission with do not ask again, please go to your phone settings and grant the required permissions if you wish to use the associated functions.'**
-  String get permission_info_permanent_denial_text;
+  String get permissionInfoPermanentDenialText;
 
-  /// No description provided for @set_center_info_text.
+  /// No description provided for @setCenterInfoText.
   ///
   /// In en, this message translates to:
   /// **'Tap the screen to define the new center position.'**
-  String get set_center_info_text;
+  String get setCenterInfoText;
 
-  /// No description provided for @transform_info_text.
+  /// No description provided for @transformInfoText.
   ///
   /// In en, this message translates to:
   /// **'Drag edges to their new position, then tap to enlarge or crop the image area.'**
-  String get transform_info_text;
+  String get transformInfoText;
 
-  /// No description provided for @cursor_draw_inactive.
+  /// No description provided for @cursorDrawInactive.
   ///
   /// In en, this message translates to:
   /// **'Pan to position, then tap to start painting.'**
-  String get cursor_draw_inactive;
+  String get cursorDrawInactive;
 
-  /// No description provided for @cursor_draw_active.
+  /// No description provided for @cursorDrawActive.
   ///
   /// In en, this message translates to:
   /// **'Pan to draw, then tap again to stop painting.'**
-  String get cursor_draw_active;
+  String get cursorDrawActive;
 
-  /// No description provided for @welcome_to_pocket_paint.
+  /// No description provided for @welcomeToPocketPaint.
   ///
   /// In en, this message translates to:
   /// **'Welcome To Pocket Paint'**
-  String get welcome_to_pocket_paint;
+  String get welcomeToPocketPaint;
 
-  /// No description provided for @intro_welcome_text.
+  /// No description provided for @introWelcomeText.
   ///
   /// In en, this message translates to:
   /// **'With Pocket Paint there are no limits to your creativity. If you are new, start the intro, or skip it if you are already familiar with Pocket Paint.'**
-  String get intro_welcome_text;
+  String get introWelcomeText;
 
-  /// No description provided for @intro_tool_more_information.
+  /// No description provided for @introToolMoreInformation.
   ///
   /// In en, this message translates to:
   /// **'Tap on a tool to get more information'**
-  String get intro_tool_more_information;
+  String get introToolMoreInformation;
 
-  /// No description provided for @more_possibilities.
+  /// No description provided for @morePossibilities.
   ///
   /// In en, this message translates to:
   /// **'More possibilities'**
-  String get more_possibilities;
+  String get morePossibilities;
 
-  /// No description provided for @intro_possibilities_text.
+  /// No description provided for @introPossibilitiesText.
   ///
   /// In en, this message translates to:
   /// **'Use the top bar to open the overflow menu and to undo or redo changes'**
-  String get intro_possibilities_text;
+  String get introPossibilitiesText;
 
   /// No description provided for @landscape.
   ///
@@ -1136,29 +1136,29 @@ abstract class AppLocalizations {
   /// **'Landscape'**
   String get landscape;
 
-  /// No description provided for @intro_landscape_text.
+  /// No description provided for @introLandscapeText.
   ///
   /// In en, this message translates to:
   /// **'Pocket Paint also supports drawing in landscape mode to give you the best painting experience.'**
-  String get intro_landscape_text;
+  String get introLandscapeText;
 
-  /// No description provided for @enjoy_pocket_paint.
+  /// No description provided for @enjoyPocketPaint.
   ///
   /// In en, this message translates to:
   /// **'You are all set. Enjoy Pocket Paint.'**
-  String get enjoy_pocket_paint;
+  String get enjoyPocketPaint;
 
-  /// No description provided for @intro_get_started.
+  /// No description provided for @introGetStarted.
   ///
   /// In en, this message translates to:
   /// **'Get started and create a new masterpiece.'**
-  String get intro_get_started;
+  String get introGetStarted;
 
-  /// No description provided for @lets_go.
+  /// No description provided for @letsGo.
   ///
   /// In en, this message translates to:
   /// **'Let\'s go'**
-  String get lets_go;
+  String get letsGo;
 
   /// No description provided for @next.
   ///
@@ -1172,149 +1172,149 @@ abstract class AppLocalizations {
   /// **'Skip'**
   String get skip;
 
-  /// No description provided for @pocketpaint_about_title.
+  /// No description provided for @pocketpaintAboutTitle.
   ///
   /// In en, this message translates to:
   /// **'About'**
-  String get pocketpaint_about_title;
+  String get pocketpaintAboutTitle;
 
-  /// No description provided for @pocketpaint_about_content.
+  /// No description provided for @pocketpaintAboutContent.
   ///
   /// In en, this message translates to:
   /// **'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the __license__.\nFor precise details of the license see the link below.'**
-  String get pocketpaint_about_content;
+  String get pocketpaintAboutContent;
 
-  /// No description provided for @pocketpaint_about_url_license_description.
+  /// No description provided for @pocketpaintAboutUrlLicenseDescription.
   ///
   /// In en, this message translates to:
   /// **'Pocket Paint source code license'**
-  String get pocketpaint_about_url_license_description;
+  String get pocketpaintAboutUrlLicenseDescription;
 
-  /// No description provided for @pocketpaint_about_url_catrobat_description.
+  /// No description provided for @pocketpaintAboutUrlCatrobatDescription.
   ///
   /// In en, this message translates to:
   /// **'About Catrobat'**
-  String get pocketpaint_about_url_catrobat_description;
+  String get pocketpaintAboutUrlCatrobatDescription;
 
-  /// No description provided for @pocketpaint_intro.
+  /// No description provided for @pocketpaintIntro.
   ///
   /// In en, this message translates to:
   /// **'Intro'**
-  String get pocketpaint_intro;
+  String get pocketpaintIntro;
 
-  /// No description provided for @pocketpaint_intro_split_screen_not_supported.
+  /// No description provided for @pocketpaintIntroSplitScreenNotSupported.
   ///
   /// In en, this message translates to:
   /// **'Intro does not support split screen.'**
-  String get pocketpaint_intro_split_screen_not_supported;
+  String get pocketpaintIntroSplitScreenNotSupported;
 
-  /// No description provided for @pocketpaint_overwrite_title.
+  /// No description provided for @pocketpaintOverwriteTitle.
   ///
   /// In en, this message translates to:
   /// **'Overwrite File?'**
-  String get pocketpaint_overwrite_title;
+  String get pocketpaintOverwriteTitle;
 
-  /// No description provided for @pocketpaint_overwrite.
+  /// No description provided for @pocketpaintOverwrite.
   ///
   /// In en, this message translates to:
   /// **'You are about to overwrite an existing project. Save anyway?'**
-  String get pocketpaint_overwrite;
+  String get pocketpaintOverwrite;
 
-  /// No description provided for @pocketpaint_like_us.
+  /// No description provided for @pocketpaintLikeUs.
   ///
   /// In en, this message translates to:
   /// **'Do you like Pocket Paint?'**
-  String get pocketpaint_like_us;
+  String get pocketpaintLikeUs;
 
-  /// No description provided for @pocketpaint_rate_us.
+  /// No description provided for @pocketpaintRateUs.
   ///
   /// In en, this message translates to:
   /// **'Would you like to rate Pocket Paint?'**
-  String get pocketpaint_rate_us;
+  String get pocketpaintRateUs;
 
-  /// No description provided for @pocketpaint_feedback.
+  /// No description provided for @pocketpaintFeedback.
   ///
   /// In en, this message translates to:
   /// **'We are sorry to hear that. If you want to share your experience with us, please write to contact@catrobat.org'**
-  String get pocketpaint_feedback;
+  String get pocketpaintFeedback;
 
-  /// No description provided for @pocketpaint_yes.
+  /// No description provided for @pocketpaintYes.
   ///
   /// In en, this message translates to:
   /// **'Yes'**
-  String get pocketpaint_yes;
+  String get pocketpaintYes;
 
-  /// No description provided for @pocketpaint_no.
+  /// No description provided for @pocketpaintNo.
   ///
   /// In en, this message translates to:
   /// **'No'**
-  String get pocketpaint_no;
+  String get pocketpaintNo;
 
-  /// No description provided for @pocketpaint_cancel.
+  /// No description provided for @pocketpaintCancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get pocketpaint_cancel;
+  String get pocketpaintCancel;
 
-  /// No description provided for @pocketpaint_not_now.
+  /// No description provided for @pocketpaintNotNow.
   ///
   /// In en, this message translates to:
   /// **'Not now'**
-  String get pocketpaint_not_now;
+  String get pocketpaintNotNow;
 
-  /// No description provided for @pocketpaint_rate_us_title.
+  /// No description provided for @pocketpaintRateUsTitle.
   ///
   /// In en, this message translates to:
   /// **'Rate Pocket Paint'**
-  String get pocketpaint_rate_us_title;
+  String get pocketpaintRateUsTitle;
 
-  /// No description provided for @intro_bottom_navigation_tools_description.
+  /// No description provided for @introBottomNavigationToolsDescription.
   ///
   /// In en, this message translates to:
   /// **'Switch to the tool you want to use.'**
-  String get intro_bottom_navigation_tools_description;
+  String get introBottomNavigationToolsDescription;
 
-  /// No description provided for @intro_bottom_navigation_current_description.
+  /// No description provided for @introBottomNavigationCurrentDescription.
   ///
   /// In en, this message translates to:
   /// **'Shows the currently used tool and opens its options.'**
-  String get intro_bottom_navigation_current_description;
+  String get introBottomNavigationCurrentDescription;
 
-  /// No description provided for @intro_bottom_navigation_color_description.
+  /// No description provided for @introBottomNavigationColorDescription.
   ///
   /// In en, this message translates to:
   /// **'Shows the currently used colour and opens the colour picker.'**
-  String get intro_bottom_navigation_color_description;
+  String get introBottomNavigationColorDescription;
 
-  /// No description provided for @intro_bottom_navigation_layers_description.
+  /// No description provided for @introBottomNavigationLayersDescription.
   ///
   /// In en, this message translates to:
   /// **'Opens the layer menu and lets you manage your layers.'**
-  String get intro_bottom_navigation_layers_description;
+  String get introBottomNavigationLayersDescription;
 
-  /// No description provided for @pocketpaint_tool_icon_description.
+  /// No description provided for @pocketpaintToolIconDescription.
   ///
   /// In en, this message translates to:
   /// **'Current tool icon'**
-  String get pocketpaint_tool_icon_description;
+  String get pocketpaintToolIconDescription;
 
-  /// No description provided for @dialog_scale_title.
+  /// No description provided for @dialogScaleTitle.
   ///
   /// In en, this message translates to:
   /// **'Image is too big to load'**
-  String get dialog_scale_title;
+  String get dialogScaleTitle;
 
-  /// No description provided for @dialog_scale_message.
+  /// No description provided for @dialogScaleMessage.
   ///
   /// In en, this message translates to:
   /// **'The image is too big to load. Tap OK to scale down the image automatically.'**
-  String get dialog_scale_message;
+  String get dialogScaleMessage;
 
-  /// No description provided for @zoom_window_description.
+  /// No description provided for @zoomWindowDescription.
   ///
   /// In en, this message translates to:
   /// **'Used to display a zoomed in part of the drawing surface'**
-  String get zoom_window_description;
+  String get zoomWindowDescription;
 }
 
 class _AppLocalizationsDelegate

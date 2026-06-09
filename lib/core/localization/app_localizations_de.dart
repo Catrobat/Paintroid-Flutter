@@ -9,154 +9,154 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get pocketpaint_app_name => 'Pocket Paint';
+  String get pocketpaintAppName => 'Pocket Paint';
 
   @override
-  String get button_undo => 'Rückgängig';
+  String get buttonUndo => 'Rückgängig';
 
   @override
-  String get button_redo => 'Wiederholen';
+  String get buttonRedo => 'Wiederholen';
 
   @override
-  String get project_delete => 'Löschen';
+  String get projectDelete => 'Löschen';
 
   @override
-  String get project_details => 'Details';
+  String get projectDetails => 'Details';
 
   @override
-  String get project_rename => 'Umbenennen';
+  String get projectRename => 'Umbenennen';
 
   @override
-  String get my_projects => 'Meine Projekte';
+  String get myProjects => 'Meine Projekte';
 
   @override
-  String get project_rename_title => '__name__ umbenennen';
+  String get projectRenameTitle => '__name__ umbenennen';
 
   @override
-  String get project_delete_title => '__name__ löschen';
+  String get projectDeleteTitle => '__name__ löschen';
 
   @override
-  String get project_delete_dialog => 'Projekt wirklich löschen?';
+  String get projectDeleteDialog => 'Projekt wirklich löschen?';
 
   @override
-  String get details_resolution => 'Auflösung';
+  String get detailsResolution => 'Auflösung';
 
   @override
-  String get details_last_modified => 'Letzte Änderung';
+  String get detailsLastModified => 'Letzte Änderung';
 
   @override
-  String get details_creation_date => 'Erstelldatum';
+  String get detailsCreationDate => 'Erstelldatum';
 
   @override
-  String get details_size => 'Größe';
+  String get detailsSize => 'Größe';
 
   @override
-  String get menu_hide_menu => 'Vollbild';
+  String get menuHideMenu => 'Vollbild';
 
   @override
-  String get menu_save_image => 'Bild speichern';
+  String get menuSaveImage => 'Bild speichern';
 
   @override
-  String get menu_save_project => 'Projekt speichern';
+  String get menuSaveProject => 'Projekt speichern';
 
   @override
-  String get menu_load_image => 'Bild laden';
+  String get menuLoadImage => 'Bild laden';
 
   @override
-  String get menu_new_image => 'Neues Bild';
+  String get menuNewImage => 'Neues Bild';
 
   @override
-  String get menu_save_copy => 'Kopie speichern';
+  String get menuSaveCopy => 'Kopie speichern';
 
   @override
-  String get menu_discard_image => 'Bild verwerfen';
+  String get menuDiscardImage => 'Bild verwerfen';
 
   @override
-  String get menu_replace_image => 'Replace image';
+  String get menuReplaceImage => 'Bild ersetzen';
 
   @override
-  String get menu_add_to_current_layer => 'Add to current layer';
+  String get menuAddToCurrentLayer => 'Zur aktuellen Ebene hinzufügen';
 
   @override
-  String get button_brush => 'Pinsel';
+  String get buttonBrush => 'Pinsel';
 
   @override
-  String get button_hand => 'Hand';
+  String get buttonHand => 'Hand';
 
   @override
-  String get button_eraser => 'Radiergummi';
+  String get buttonEraser => 'Radiergummi';
 
   @override
-  String get button_line => 'Linie';
+  String get buttonLine => 'Linie';
 
   @override
-  String get button_shape => 'Formen';
+  String get buttonShape => 'Formen';
 
   @override
-  String get button_fill => 'Füllen';
+  String get buttonFill => 'Füllen';
 
   @override
-  String get button_spray_can => 'Sprühdose';
+  String get buttonSprayCan => 'Sprühdose';
 
   @override
-  String get button_cursor => 'Eingabezeiger';
+  String get buttonCursor => 'Eingabezeiger';
 
   @override
-  String get button_text => 'Text';
+  String get buttonText => 'Text';
 
   @override
-  String get button_clipboard => 'Clipboard';
+  String get buttonClipboard => 'Zwischenablage';
 
   @override
-  String get button_transform => 'Transformieren';
+  String get buttonTransform => 'Transformieren';
 
   @override
-  String get button_import_image => 'Bild importieren';
+  String get buttonImportImage => 'Bild importieren';
 
   @override
-  String get button_pipette => 'Pipette';
+  String get buttonPipette => 'Pipette';
 
   @override
-  String get button_watercolor => 'Wasserfarben';
+  String get buttonWatercolor => 'Wasserfarben';
 
   @override
-  String get button_smudge => 'Smudge';
+  String get buttonSmudge => 'Verwischen';
 
   @override
-  String get button_clip => 'Clip area';
+  String get buttonClip => 'Zuschneidebereich';
 
   @override
-  String get clipboard_tool_paste => 'Einfügen';
+  String get clipboardToolPaste => 'Einfügen';
 
   @override
-  String get clipboard_tool_copy => 'Kopieren';
+  String get clipboardToolCopy => 'Kopieren';
 
   @override
-  String get clipboard_tool_cut => 'Ausschneiden';
+  String get clipboardToolCut => 'Ausschneiden';
 
   @override
-  String get bottom_navigation_tools => 'Werkzeuge';
+  String get bottomNavigationTools => 'Werkzeuge';
 
   @override
-  String get bottom_navigation_current => 'Aktuell';
+  String get bottomNavigationCurrent => 'Aktuell';
 
   @override
-  String get bottom_navigation_color => 'Farbe';
+  String get bottomNavigationColor => 'Farbe';
 
   @override
-  String get bottom_navigation_layers => 'Ebenen';
+  String get bottomNavigationLayers => 'Ebenen';
 
   @override
-  String get bottom_navigation_item => 'Element für die untere Navigation';
+  String get bottomNavigationItem => 'Element für die untere Navigation';
 
   @override
-  String get button_apply => 'Anwenden';
+  String get buttonApply => 'Anwenden';
 
   @override
-  String get button_checkmark => 'Häkchen';
+  String get buttonCheckmark => 'Häkchen';
 
   @override
-  String get button_info => 'Information';
+  String get buttonInfo => 'Information';
 
   @override
   String get done => 'Fertig';
@@ -165,418 +165,416 @@ class AppLocalizationsDe extends AppLocalizations {
   String get gallery => 'Galerie';
 
   @override
-  String get no_connection_sticker =>
-      'Stickers not available, check your internet connection.';
+  String get noConnectionSticker =>
+      'Sticker nicht verfügbar. Bitte überprüfe deine Internetverbindung';
 
   @override
   String get stickers => 'Sticker';
 
   @override
-  String get dialog_tools_title => 'Werkzeuge';
+  String get dialogToolsTitle => 'Werkzeuge';
 
   @override
-  String get dialog_error_save_title => 'Fehler Laden/Speichern Datei';
+  String get dialogErrorSaveTitle => 'Fehler Laden/Speichern Datei';
 
   @override
-  String get dialog_error_sdcard_text =>
-      'Überprüfe das Bild oder die SD-Karte!';
+  String get dialogErrorSdcardText => 'Überprüfe das Bild oder die SD-Karte!';
 
   @override
-  String get dialog_brush_width_text => 'Strichstärke';
+  String get dialogBrushWidthText => 'Strichstärke';
 
   @override
-  String get dialog_warning_new_image => 'Änderungen speichern?';
+  String get dialogWarningNewImage => 'Änderungen speichern?';
 
   @override
-  String get help_title => 'Hilfe';
+  String get helpTitle => 'Hilfe';
 
   @override
-  String get help_content_eraser =>
+  String get helpContentEraser =>
       'Entferne Teile des Bildes mit einem Radiergummi.';
 
   @override
-  String get help_content_brush =>
+  String get helpContentBrush =>
       'Tippe auf die Symbole auf der unteren Leiste, um die Farbe oder die Größe des Pinsels zu ändern.';
 
   @override
-  String get help_content_watercolor =>
+  String get helpContentWatercolor =>
       'Ähnlich dem Pinselwerkzeug mit einem Aquarell-Effekt. Du kannst jedoch auch die Stärke des Pinsels mit dem Schieberegler im Farbmenü ändern.';
 
   @override
-  String get help_content_eyedropper =>
+  String get helpContentEyedropper =>
       'Tippe auf das Bild, um eine Farbe auszuwählen.';
 
   @override
-  String get help_content_undo =>
+  String get helpContentUndo =>
       'Tippe, um deine vorherige Aktion rückgängig zu machen.';
 
   @override
-  String get help_content_redo =>
+  String get helpContentRedo =>
       'Tippe, um eine rückgängig gemachte Aktion wiederherzustellen.';
 
   @override
-  String get help_content_fill =>
+  String get helpContentFill =>
       'Tippe auf das Bild, um einen Bereich mit der ausgewählten Farbe zu füllen.';
 
   @override
-  String get help_content_cursor =>
+  String get helpContentCursor =>
       'Positioniere den Zeiger dort wo du zeichnen willst. Tippe um den Zeiger zu aktivieren. Bewege den Finger um zu zeichnen. Tippe erneut, um dies zu deaktivieren.';
 
   @override
-  String get help_content_transform =>
+  String get helpContentTransform =>
       'Benutze dies um das Bild zu transformieren.';
 
   @override
-  String get help_content_clipboard =>
-      'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.';
+  String get helpContentClipboard =>
+      'Verschiebe und skaliere das Rechteck, um den Bereich abzudecken, den du stempeln möchtest. Tippe auf ‚Kopieren‘ oder ‚Ausschneiden‘, um den Bereich auszuwählen. Verschiebe ihn und tippe dann auf ‚Einfügen‘, um den Inhalt aus der Zwischenablage einzufügen.';
 
   @override
-  String get help_content_import_png =>
+  String get helpContentImportPng =>
       'Importiere ein Bild aus der Galerie auf das Stempel-Werkzeug.';
 
   @override
-  String get help_content_line => 'Zeichne eine gerade Linie.';
+  String get helpContentLine => 'Zeichne eine gerade Linie.';
 
   @override
-  String get help_content_text =>
+  String get helpContentText =>
       'Schreibe und formatiere Text. Verändere danach die Größe der Textbox. Tippe, um den Text ins Bild zu malen.';
 
   @override
-  String get help_content_shape =>
+  String get helpContentShape =>
       'Wähle eine Form und tipp sie an, um die ausgewählte Form einzufügen';
 
   @override
-  String get help_content_layer =>
+  String get helpContentLayer =>
       'Erstelle neue Ebenen oder verändere bestehende';
 
   @override
-  String get help_content_color_chooser => 'Wähle eine Farbe oder passe sie an';
+  String get helpContentColorChooser => 'Wähle eine Farbe oder passe sie an';
 
   @override
-  String get help_content_hand =>
-      'Bewege deinen Finger um das Bild zu bewegen.';
+  String get helpContentHand => 'Bewege deinen Finger um das Bild zu bewegen.';
 
   @override
-  String get help_content_spray_can =>
+  String get helpContentSprayCan =>
       'Bewegen deinen Finger auf das Bild, um ein Spray kann Muster zu erstellen.';
 
   @override
-  String get help_content_smudge =>
-      'Move your finger on the image on different drawings to smudge them.';
+  String get helpContentSmudge =>
+      'Bewege deinen Finger über das Bild, um die Zeichnungen zu verwischen.';
 
   @override
-  String get help_content_clip => 'Mark area which should not be erased.';
+  String get helpContentClip =>
+      'Markiere den Bereich, der erhalten bleiben soll.';
 
   @override
-  String get closing_security_question_title => 'Verlassen';
+  String get closingSecurityQuestionTitle => 'Verlassen';
 
   @override
-  String get closing_security_question => 'Änderungen speichern?';
+  String get closingSecurityQuestion => 'Änderungen speichern?';
 
   @override
-  String get no_longclick_on_hidden_layer =>
+  String get noLongclickOnHiddenLayer =>
       'Du kannst nur zusammenführen oder neu anordnen, wenn alle Ebenen sichtbar sind';
 
   @override
-  String get no_tools_on_hidden_layer =>
+  String get noToolsOnHiddenLayer =>
       'Keine Werkzeuge auf versteckter Ebene verfügbar';
 
   @override
-  String get menu_rate_us => 'Bewerte uns!';
+  String get menuRateUs => 'Bewerte uns!';
 
   @override
-  String get menu_feedback => 'Feedback';
+  String get menuFeedback => 'Feedback';
 
   @override
-  String get menu_export => 'Exportieren';
+  String get menuExport => 'Exportieren';
 
   @override
-  String get menu_advanced => 'Erweiterte Einstellungen';
+  String get menuAdvanced => 'Erweiterte Einstellungen';
 
   @override
-  String get menu_zoom_settings => 'Zoom window settings';
+  String get menuZoomSettings => 'Zoomfenster Einstellungen';
 
   @override
-  String get share_image_menu => 'Bild teilen';
+  String get shareImageMenu => 'Bild teilen';
 
   @override
-  String get share_image_via_text => 'Bild senden über';
+  String get shareImageViaText => 'Bild senden über';
 
   @override
-  String get saved_to => 'Bild gespeichert untern';
+  String get savedTo => 'Bild gespeichert untern';
 
   @override
   String get saved => 'Bild gespeichert\n';
 
   @override
-  String get copy_to => 'Kopie gespeichert in\n';
+  String get copyTo => 'Kopie gespeichert in\n';
 
   @override
   String get copy => 'Kopie gespeichert';
 
   @override
-  String get menu_quit => 'Verlassen';
+  String get menuQuit => 'Verlassen';
 
   @override
-  String get save_button_text => 'Speichern';
+  String get saveButtonText => 'Speichern';
 
   @override
-  String get discard_button_text => 'Verwerfen';
+  String get discardButtonText => 'Verwerfen';
 
   @override
-  String get cancel_button_text => 'Abbrechen';
+  String get cancelButtonText => 'Abbrechen';
 
   @override
-  String get overwrite_button_text => 'Überschreiben';
+  String get overwriteButtonText => 'Überschreiben';
 
   @override
-  String get delete_button_text => 'Löschen';
+  String get deleteButtonText => 'Löschen';
 
   @override
-  String get resize_nothing_to_resize => 'nichts zu verändern';
+  String get resizeNothingToResize => 'nichts zu verändern';
 
   @override
-  String get resize_cannot_resize_to_this_size =>
+  String get resizeCannotResizeToThisSize =>
       'Kann nicht auf diese Größe angepasst werden';
 
   @override
-  String get resize_max_image_resolution_reached =>
+  String get resizeMaxImageResolutionReached =>
       'Maximale Bildauflösung erreicht';
 
   @override
-  String get text_tool_dialog_underline_shortcut => 'U';
+  String get textToolDialogUnderlineShortcut => 'U';
 
   @override
-  String get text_tool_dialog_italic_shortcut => 'K';
+  String get textToolDialogItalicShortcut => 'K';
 
   @override
-  String get text_tool_dialog_bold_shortcut => 'F';
+  String get textToolDialogBoldShortcut => 'F';
 
   @override
-  String get text_tool_dialog_input_hint => 'Tippe hier, um zu schreiben';
+  String get textToolDialogInputHint => 'Tippe hier, um zu schreiben';
 
   @override
-  String get text_tool_dialog_font_monospace => 'Monospace';
+  String get textToolDialogFontMonospace => 'Monospace';
 
   @override
-  String get text_tool_dialog_font_serif => 'Serif';
+  String get textToolDialogFontSerif => 'Serif';
 
   @override
-  String get text_tool_dialog_font_sans_serif => 'Sans Serif';
+  String get textToolDialogFontSansSerif => 'Sans Serif';
 
   @override
-  String get text_tool_dialog_font_dubai => 'Dubai';
+  String get textToolDialogFontDubai => 'Dubai';
 
   @override
-  String get text_tool_dialog_font_arabic_stc => 'STC';
+  String get textToolDialogFontArabicStc => 'STC';
 
   @override
-  String get shape_tool_dialog_rect_title => 'Rechteck';
+  String get shapeToolDialogRectTitle => 'Rechteck';
 
   @override
-  String get shape_tool_dialog_ellipse_title => 'Ellipse';
+  String get shapeToolDialogEllipseTitle => 'Ellipse';
 
   @override
-  String get shape_tool_dialog_star_title => 'Stern';
+  String get shapeToolDialogStarTitle => 'Stern';
 
   @override
-  String get shape_tool_dialog_heart_title => 'Herz';
+  String get shapeToolDialogHeartTitle => 'Herz';
 
   @override
-  String get shape_tool_dialog_fill_title => 'Füllen';
+  String get shapeToolDialogFillTitle => 'Füllen';
 
   @override
-  String get shape_tool_dialog_outline_title => 'Kontur';
+  String get shapeToolDialogOutlineTitle => 'Kontur';
 
   @override
-  String get shape_tool_dialog_dashed => 'Gestrichelt';
+  String get shapeToolDialogDashed => 'Gestrichelt';
 
   @override
-  String get shape_tool_dialog_fill_dashed => 'Gefüllt & gestrichelt';
+  String get shapeToolDialogFillDashed => 'Gefüllt & gestrichelt';
 
   @override
-  String get stroke_type_round => 'Runder Strich';
+  String get strokeTypeRound => 'Runder Strich';
 
   @override
-  String get stroke_type_square => 'Eckiger Strich';
+  String get strokeTypeSquare => 'Eckiger Strich';
 
   @override
-  String get fill_tool_dialog_color_tolerance_title => 'Farbtoleranz';
+  String get fillToolDialogColorToleranceTitle => 'Farbtoleranz';
 
   @override
-  String get smudge_tool_dialog_pressure_title => 'Pressure';
+  String get smudgeToolDialogPressureTitle => 'Druck';
 
   @override
-  String get smudge_tool_dialog_drag_title => 'Drag';
+  String get smudgeToolDialogDragTitle => 'Ziehen';
 
   @override
-  String get transform_tool_rotate_left => 'Nach links drehen';
+  String get transformToolRotateLeft => 'Nach links drehen';
 
   @override
-  String get transform_tool_rotate_right => 'Nach rechts drehen';
+  String get transformToolRotateRight => 'Nach rechts drehen';
 
   @override
-  String get transform_tool_flip_vertical => 'Vertikal spiegeln';
+  String get transformToolFlipVertical => 'Vertikal spiegeln';
 
   @override
-  String get transform_tool_flip_horizontal => 'Horizontal spiegeln';
+  String get transformToolFlipHorizontal => 'Horizontal spiegeln';
 
   @override
-  String get transform_tool_resize_text => 'Größe anpassen';
+  String get transformToolResizeText => 'Größe anpassen';
 
   @override
-  String get transform_tool_auto_crop_text => 'Zuschneiden/Vergrößern';
+  String get transformToolAutoCropText => 'Zuschneiden/Vergrößern';
 
   @override
-  String get transform_width_text => 'Breite';
+  String get transformWidthText => 'Breite';
 
   @override
-  String get transform_height_text => 'Höhe';
+  String get transformHeightText => 'Höhe';
 
   @override
-  String get transform_auto_crop_text => 'automatisch';
+  String get transformAutoCropText => 'automatisch';
 
   @override
-  String get transform_set_center_text => 'Set center';
+  String get transformSetCenterText => 'Mitte setzen';
 
   @override
   String get pixel => 'px';
 
   @override
-  String get clipboard_tool_copy_hint => 'Tap on copy to copy content';
+  String get clipboardToolCopyHint =>
+      'Tippe auf ‚Kopieren‘, um den Inhalt zu kopieren.';
 
   @override
-  String get layers_title => 'Ebenen';
+  String get layersTitle => 'Ebenen';
 
   @override
-  String get layer_new => 'Neue Ebene';
+  String get layerNew => 'Neue Ebene';
 
   @override
-  String get layer_delete => 'Ebene löschen';
+  String get layerDelete => 'Ebene löschen';
 
   @override
-  String get layer_too_many_layers => 'Zu viele Ebenen';
+  String get layerTooManyLayers => 'Zu viele Ebenen';
 
   @override
-  String get layer_merged => 'Ebenen zusammengefügt';
+  String get layerMerged => 'Ebenen zusammengefügt';
 
   @override
-  String get layer_background => 'Ebenenhintergrund';
+  String get layerBackground => 'Ebenenhintergrund';
 
   @override
-  String get layer_preview => 'Layer preview';
+  String get layerPreview => 'Ebenenvorschau';
 
   @override
-  String get dialog_loading_image_failed_title => 'Fehler beim Laden vom Bild';
+  String get dialogLoadingImageFailedTitle => 'Fehler beim Laden vom Bild';
 
   @override
-  String get dialog_loading_image_failed_text => 'Kein gültiges Bild';
+  String get dialogLoadingImageFailedText => 'Kein gültiges Bild';
 
   @override
-  String get dialog_settings => 'Einstellungen';
+  String get dialogSettings => 'Einstellungen';
 
   @override
-  String get dialog_save_image_name => 'Bildname';
+  String get dialogSaveImageName => 'Bildname';
 
   @override
-  String get dialog_save_image_format => 'Bildformat';
+  String get dialogSaveImageFormat => 'Bildformat';
 
   @override
-  String get dialog_save_project_name => 'Projektname';
+  String get dialogSaveProjectName => 'Projektname';
 
   @override
-  String get dialog_error_project_name => 'Bitte gib einen Projektnamen ein';
+  String get dialogErrorProjectName => 'Bitte gib einen Projektnamen ein';
 
   @override
-  String get dialog_error_image_name => 'Bitte gib einen Bildnamen ein';
+  String get dialogErrorImageName => 'Bitte gib einen Bildnamen ein';
 
   @override
-  String get dialog_antialiasing => 'Antialiasing';
+  String get dialogAntialiasing => 'Antialiasing';
 
   @override
-  String get dialog_smoothing => 'Glättung';
+  String get dialogSmoothing => 'Glättung';
 
   @override
-  String get dialog_zoom_window_enabled => 'Enabled';
+  String get dialogZoomWindowEnabled => 'Enabled';
 
   @override
-  String get dialog_save_jpg_option_quality => 'Qualität';
+  String get dialogSaveJpgOptionQuality => 'Qualität';
 
   @override
-  String get pocketpaint_jpg_message_dialog =>
+  String get pocketpaintJpgMessageDialog =>
       'Verwendet minimalen Speicherplatz. Keine Transparenz wird gespeichert.';
 
   @override
-  String get pocketpaint_png_message_dialog =>
+  String get pocketpaintPngMessageDialog =>
       'Verlustfreie Kompression. Transparenz bleibt erhalten.';
 
   @override
-  String get pocketpaint_ora_message_dialog =>
-      'Dieses Format erinnert sich an ';
+  String get pocketpaintOraMessageDialog => 'Dieses Format erinnert sich an ';
 
   @override
-  String get pocketpaint_catrobat_message_dialog =>
+  String get pocketpaintCatrobatMessageDialog =>
       'Das native Bildformat von Pocket Paint. Dieses Format merkt sich Befehle und Ebenen.';
 
   @override
-  String get permission_info_external_storage_text =>
+  String get permissionInfoExternalStorageText =>
       'Diese App benötigt die angeforderte Berechtigung, um richtig zu funktionieren. Um Bilder im lokalen Speicher zu speichern, benötigt die App Lese- und Schreibzugriff.';
 
   @override
-  String get permission_info_permanent_denial_text =>
+  String get permissionInfoPermanentDenialText =>
       'Diese App benötigt die angeforderte Berechtigung, um richtig zu funktionieren. Um Bilder im lokalen Speicher zu speichern, benötigt die App Lese- und Schreibzugriff.\n        Da du die Erlaubnis mit nicht erneut fragen verweigert hast , geh bitte zu deinen Telefoneinstellungen und erteile die erforderlichen Berechtigungen, wenn du die zugehörigen Funktionen nutzen möchtest.';
 
   @override
-  String get set_center_info_text =>
-      'Tap the screen to define the new center position.';
+  String get setCenterInfoText =>
+      'Tippe auf den Bildschirm, um den neuen Mittelpunkt festzulegen.';
 
   @override
-  String get transform_info_text =>
+  String get transformInfoText =>
       'Ziehe die Kanten an ihre neue Position und tipp dann, um den Bildbereich zu vergrößern oder zu verkleinern.';
 
   @override
-  String get cursor_draw_inactive =>
+  String get cursorDrawInactive =>
       'Verschieben, dann tippen, um mit dem Malen beginnen.';
 
   @override
-  String get cursor_draw_active =>
+  String get cursorDrawActive =>
       'Verschieben um zu zeichnen, dann tippen um Malen zu stoppen.';
 
   @override
-  String get welcome_to_pocket_paint => 'Willkommen bei Pocket Paint';
+  String get welcomeToPocketPaint => 'Willkommen bei Pocket Paint';
 
   @override
-  String get intro_welcome_text =>
+  String get introWelcomeText =>
       'Mit Pocket Paint sind deiner Kreativität keine Grenzen gesetzt. Wenn du hier neu bist, starte das Intro oder überspringe es, wenn du bereits mit Pocket Paint vertraut bist.';
 
   @override
-  String get intro_tool_more_information =>
+  String get introToolMoreInformation =>
       'Tippe auf ein Werkzeug, um weitere Informationen zu erhalten';
 
   @override
-  String get more_possibilities => 'Mehr Möglichkeiten';
+  String get morePossibilities => 'Mehr Möglichkeiten';
 
   @override
-  String get intro_possibilities_text =>
+  String get introPossibilitiesText =>
       'Verwende die obere Leiste, um das Hauptmenü zu öffnen und Änderungen rückgängig zu machen';
 
   @override
   String get landscape => 'Querformat';
 
   @override
-  String get intro_landscape_text =>
+  String get introLandscapeText =>
       'Pocket Paint unterstützt auch zeichnen im Querformatmodus, um das beste Malerlebnis zu bieten.';
 
   @override
-  String get enjoy_pocket_paint =>
+  String get enjoyPocketPaint =>
       'Es kann losgehen. Viel Spaß mit Pocket Paint.';
 
   @override
-  String get intro_get_started =>
-      'Lege los und gestalte ein neues Meisterwerk.';
+  String get introGetStarted => 'Lege los und gestalte ein neues Meisterwerk.';
 
   @override
-  String get lets_go => 'Los geht\'s';
+  String get letsGo => 'Los geht\'s';
 
   @override
   String get next => 'Weiter';
@@ -585,85 +583,85 @@ class AppLocalizationsDe extends AppLocalizations {
   String get skip => 'Überspringen';
 
   @override
-  String get pocketpaint_about_title => 'Über';
+  String get pocketpaintAboutTitle => 'Über';
 
   @override
-  String get pocketpaint_about_content =>
+  String get pocketpaintAboutContent =>
       'Pocket Paint ist ein Bild-Editor, der Teil des Catrobat Projektes ist.\n\nCatrobat ist eine visuelle Programmiersprache welche kreative Tools für Smartphones bereitstellt.\n\n Der Source-Code von Pocket Paint steht hauptsächlich unter der __license__ Lizenz.\n Für genaue Angaben zu der Lizenz, beachte den Link unten.';
 
   @override
-  String get pocketpaint_about_url_license_description =>
+  String get pocketpaintAboutUrlLicenseDescription =>
       'Pocket Code Source Code Lizenz';
 
   @override
-  String get pocketpaint_about_url_catrobat_description => 'Über Catrobat';
+  String get pocketpaintAboutUrlCatrobatDescription => 'Über Catrobat';
 
   @override
-  String get pocketpaint_intro => 'Intro';
+  String get pocketpaintIntro => 'Intro';
 
   @override
-  String get pocketpaint_intro_split_screen_not_supported =>
+  String get pocketpaintIntroSplitScreenNotSupported =>
       'Das Teilen des Bildschirms wird im Intro nicht unterstützt';
 
   @override
-  String get pocketpaint_overwrite_title => 'Datei überschreiben?';
+  String get pocketpaintOverwriteTitle => 'Datei überschreiben?';
 
   @override
-  String get pocketpaint_overwrite =>
+  String get pocketpaintOverwrite =>
       'Du bist dabei ein vorhandenes Projekt zu überschreiben. Trotzdem speichern?';
 
   @override
-  String get pocketpaint_like_us => 'Gefällt dir Pocket Paint?';
+  String get pocketpaintLikeUs => 'Gefällt dir Pocket Paint?';
 
   @override
-  String get pocketpaint_rate_us => 'Möchtest du Pocket Paint bewerten?';
+  String get pocketpaintRateUs => 'Möchtest du Pocket Paint bewerten?';
 
   @override
-  String get pocketpaint_feedback =>
+  String get pocketpaintFeedback =>
       'Es tut uns leid, das zu hören. Wenn du deine Erfahrungen mit uns teilen möchtest, schreib uns an contact@catrobat.org';
 
   @override
-  String get pocketpaint_yes => 'Ja';
+  String get pocketpaintYes => 'Ja';
 
   @override
-  String get pocketpaint_no => 'Nein';
+  String get pocketpaintNo => 'Nein';
 
   @override
-  String get pocketpaint_cancel => 'Abbrechen';
+  String get pocketpaintCancel => 'Abbrechen';
 
   @override
-  String get pocketpaint_not_now => 'Nicht jetzt';
+  String get pocketpaintNotNow => 'Nicht jetzt';
 
   @override
-  String get pocketpaint_rate_us_title => 'Bewerte Pocket Paint';
+  String get pocketpaintRateUsTitle => 'Bewerte Pocket Paint';
 
   @override
-  String get intro_bottom_navigation_tools_description =>
+  String get introBottomNavigationToolsDescription =>
       'Wechsle zum Werkzeug das du verwenden willst.';
 
   @override
-  String get intro_bottom_navigation_current_description =>
+  String get introBottomNavigationCurrentDescription =>
       'Zeigt das aktuell verwendete Werkzeug an und öffnet seine Optionen.';
 
   @override
-  String get intro_bottom_navigation_color_description =>
+  String get introBottomNavigationColorDescription =>
       'Zeigt die aktuell verwendete Farbe an und öffnet den Farbwähler.';
 
   @override
-  String get intro_bottom_navigation_layers_description =>
+  String get introBottomNavigationLayersDescription =>
       'Öffnet das Ebenenmenü und lässt dich deine Ebenen verwalten.';
 
   @override
-  String get pocketpaint_tool_icon_description => 'Aktuelles Werkzeug Symbol';
+  String get pocketpaintToolIconDescription => 'Aktuelles Werkzeug Symbol';
 
   @override
-  String get dialog_scale_title => 'Bild ist zu groß zum laden';
+  String get dialogScaleTitle => 'Bild ist zu groß zum laden';
 
   @override
-  String get dialog_scale_message =>
+  String get dialogScaleMessage =>
       'Das Bild ist zu groß zum Laden. Klicke auf OK, um das Bild automatisch zu verkleinern.';
 
   @override
-  String get zoom_window_description =>
-      'Used to display a zoomed in part of the drawing surface';
+  String get zoomWindowDescription =>
+      'Zeigt einen vergrößerten Bereich der Zeichenfläche an.';
 }

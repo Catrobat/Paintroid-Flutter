@@ -28,7 +28,7 @@ class HexInputRowWidget extends StatelessWidget {
         children: <Widget>[
           SizedBox(
             width: 55,
-            child: Text(localizations!.color_hex, style: const TextStyle(fontSize: 14)),
+            child: Text(localizations.colorHex, style: const TextStyle(fontSize: 14)),
           ),
           Expanded(
             child: TextField(

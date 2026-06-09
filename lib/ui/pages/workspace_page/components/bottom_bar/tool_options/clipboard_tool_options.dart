@@ -31,7 +31,7 @@ class ClipboardToolOptions extends ConsumerWidget {
           children: [
             CustomActionChip(
               chipIcon: Icon(Icons.copy, color: shadowColor),
-              hint: localizations!.clipboard_tool_copy,
+              hint: localizations.clipboardToolCopy,
               chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
@@ -42,7 +42,7 @@ class ClipboardToolOptions extends ConsumerWidget {
             const SizedBox(width: 16),
             CustomActionChip(
               chipIcon: Icon(Icons.content_cut, color: shadowColor),
-              hint: localizations.clipboard_tool_cut,
+              hint: localizations.clipboardToolCut,
               chipBackgroundColor: Colors.white,
               onPressed: () async {
                 if (canvasImage != null) {
@@ -53,7 +53,7 @@ class ClipboardToolOptions extends ConsumerWidget {
             const SizedBox(width: 16),
             CustomActionChip(
               chipIcon: Icon(Icons.paste, color: shadowColor),
-              hint: localizations.clipboard_tool_paste,
+              hint: localizations.clipboardToolPaste,
               chipBackgroundColor: Colors.white,
               onPressed: clipboardOptionsState.hasCopiedContent
                   ? () async {

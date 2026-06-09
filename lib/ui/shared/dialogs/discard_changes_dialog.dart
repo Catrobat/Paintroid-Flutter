@@ -8,16 +8,16 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) {
   return showGeneralDialog<bool>(
       context: context,
       pageBuilder: (_, __, ___) => GenericDialog(
-              title: localizations!.closing_security_question_title,
-              text:  localizations.closing_security_question,
+              title: localizations.closingSecurityQuestionTitle,
+              text:  localizations.closingSecurityQuestion,
               actions: [
                 GenericDialogAction(
-                  title: localizations.discard_button_text.toUpperCase(),
+                  title: localizations.discardButtonText.toUpperCase(),
                   onPressed: () => Navigator.of(context).pop(true),
                   identifier: WidgetIdentifier.genericDialogActionDiscard,
                 ),
                 GenericDialogAction(
-                  title: localizations.save_button_text.toUpperCase(),
+                  title: localizations.saveButtonText.toUpperCase(),
                   onPressed: () => Navigator.of(context).pop(false),
                   identifier: WidgetIdentifier.genericDialogActionSave,
                 ),

@@ -45,38 +45,38 @@ class _Screen2State extends State<Screen2> {
     final localizations = AppLocalizations.of(context);
 
     titles = [
-      localizations!.bottom_navigation_tools,
-      localizations.bottom_navigation_current,
-      localizations.bottom_navigation_color,
-      localizations.bottom_navigation_layers,
-      localizations.button_undo,
-      localizations.button_redo
+      localizations.bottomNavigationTools,
+      localizations.bottomNavigationCurrent,
+      localizations.bottomNavigationColor,
+      localizations.bottomNavigationLayers,
+      localizations.buttonUndo,
+      localizations.buttonRedo
     ];
 
     descriptions = [
-      localizations.intro_bottom_navigation_tools_description,
-      localizations.intro_bottom_navigation_current_description,
-      localizations.intro_bottom_navigation_color_description,
-      localizations.intro_bottom_navigation_layers_description,
-      localizations.help_content_undo,
-      localizations.help_content_redo
+      localizations.introBottomNavigationToolsDescription,
+      localizations.introBottomNavigationCurrentDescription,
+      localizations.introBottomNavigationColorDescription,
+      localizations.introBottomNavigationLayersDescription,
+      localizations.helpContentUndo,
+      localizations.helpContentRedo
     ];
 
     var title = Text(
-      titleText != '' ? titleText : localizations.more_possibilities,
+      titleText != '' ? titleText : localizations.morePossibilities,
       style: PaintroidTheme.of(context).titleStyle,
       textAlign: TextAlign.start,
     );
 
     var desc = Text(
-      descText != '' ? descText : localizations.intro_possibilities_text,
+      descText != '' ? descText : localizations.introPossibilitiesText,
       style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
 
     return Scaffold(
       appBar: OnboardingPageAppBar(
-        title: localizations.pocketpaint_app_name,
+        title: localizations.pocketpaintAppName,
         onPressed: [undo, redo],
       ),
       backgroundColor: Colors.grey.shade400,
@@ -118,15 +118,15 @@ class _Screen2State extends State<Screen2> {
         onPressedFunctions: [tools, current, color, layers],
         barItems: [
           BottomNavigationBarItem(
-            label: localizations.bottom_navigation_tools,
+            label: localizations.bottomNavigationTools,
             icon: BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
           BottomNavigationBarItem(
-            label: localizations.bottom_navigation_current,
+            label: localizations.bottomNavigationCurrent,
             icon: BottomBarIcon(asset: 'assets/svg/ic_hand.svg'),
           ),
           BottomNavigationBarItem(
-            label: localizations.bottom_navigation_color,
+            label: localizations.bottomNavigationColor,
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
@@ -134,7 +134,7 @@ class _Screen2State extends State<Screen2> {
             ),
           ),
           BottomNavigationBarItem(
-              label: localizations.bottom_navigation_layers,
+              label: localizations.bottomNavigationLayers,
               icon: BottomBarIcon(asset: 'assets/svg/ic_layers.svg')),
         ],
       ),

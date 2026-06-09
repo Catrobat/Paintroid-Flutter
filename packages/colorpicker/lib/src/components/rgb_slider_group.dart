@@ -138,7 +138,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         ColorSliderRowWidget(
-          label: localizations!.color_red,
+          label: localizations.colorRed,
           value: _red.toDouble(),
           min: 0,
           max: 255,
@@ -156,7 +156,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: localizations.color_green,
+          label: localizations.colorGreen,
           value: _green.toDouble(),
           min: 0,
           max: 255,
@@ -174,7 +174,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: localizations.color_blue,
+          label: localizations.colorBlue,
           value: _blue.toDouble(),
           min: 0,
           max: 255,
@@ -192,7 +192,7 @@ class _SliderColorState extends ConsumerState<RgbSliderGroup> {
         ),
         const SizedBox(height: 10),
         ColorSliderRowWidget(
-          label: localizations.color_alpha,
+          label: localizations.colorAlpha,
           value: _alphaValue.toDouble(),
           min: 0,
           max: 255,

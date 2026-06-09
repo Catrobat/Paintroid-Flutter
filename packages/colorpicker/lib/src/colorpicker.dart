@@ -182,7 +182,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(localizations!.color_picker_cancel.toUpperCase(),
+                  child: Text(localizations.colorPickerCancel.toUpperCase(),
                       style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
@@ -196,7 +196,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                     widget.onColorChanged(displayColor);
                     Navigator.pop(context);
                   },
-                  child: Text(localizations.color_picker_apply.toUpperCase(),
+                  child: Text(localizations.colorPickerApply.toUpperCase(),
                       style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),

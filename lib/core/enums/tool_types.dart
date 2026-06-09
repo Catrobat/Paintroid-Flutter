@@ -21,37 +21,37 @@ enum ToolType {
   String localizedName(AppLocalizations localizations) {
     switch(this){
       case ToolType.BRUSH:
-        return localizations.button_brush;
+        return localizations.buttonBrush;
       case ToolType.CLIPBOARD:
-        return localizations.button_clipboard;
+        return localizations.buttonClipboard;
       case ToolType.CLIPPING:
-        return localizations.button_clip;
+        return localizations.buttonClip;
       case ToolType.CURSOR:
-        return localizations.button_cursor;
+        return localizations.buttonCursor;
       case ToolType.ERASER:
-        return localizations.button_eraser;
+        return localizations.buttonEraser;
       case ToolType.FILL:
-        return localizations.button_fill;
+        return localizations.buttonFill;
       case ToolType.HAND:
-        return localizations.button_hand;
+        return localizations.buttonHand;
       case ToolType.IMPORT:
-        return localizations.button_import_image;
+        return localizations.buttonImportImage;
       case ToolType.LINE:
-        return localizations.button_line;
+        return localizations.buttonLine;
       case ToolType.PIPETTE:
-        return localizations.button_pipette;
+        return localizations.buttonPipette;
       case ToolType.SHAPES:
-        return localizations.button_shape;
+        return localizations.buttonShape;
       case ToolType.SMUDGE:
-        return localizations.button_smudge;
+        return localizations.buttonSmudge;
       case ToolType.SPRAY:
-        return localizations.button_spray_can;
+        return localizations.buttonSprayCan;
       case ToolType.TEXT:
-        return localizations.button_text;
+        return localizations.buttonText;
       case ToolType.TRANSFORM:
-        return localizations.button_transform;
+        return localizations.buttonTransform;
       case ToolType.WATERCOLOR:
-        return localizations.button_watercolor;
+        return localizations.buttonWatercolor;
     }
   }
 }

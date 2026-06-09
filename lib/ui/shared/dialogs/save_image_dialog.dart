@@ -60,7 +60,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
   Widget build(BuildContext context) {
   final localizations = AppLocalizations.of(context);
     var dialogTitle = widget.savingProject ? 
-                      localizations!.menu_save_project : localizations!.menu_save_image;
+                      localizations.menuSaveProject : localizations.menuSaveImage;
 
     return AlertDialog(
       backgroundColor: PaintroidTheme.of(context).onSurfaceColor,
@@ -68,7 +68,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
         dialogTitle,
         style: PaintroidTheme.of(context).titleTheme.titleMedium,
       ),
-      actions: [_cancelButton(localizations.cancel_button_text.toUpperCase()), _saveButton(localizations.save_button_text.toUpperCase())],
+      actions: [_cancelButton(localizations.cancelButtonText.toUpperCase()), _saveButton(localizations.saveButtonText.toUpperCase())],
       contentTextStyle: PaintroidTheme.of(context).textTheme.bodyMedium,
       content: Form(
         key: formKey,
@@ -76,8 +76,8 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _imageNameTextField(widget.savingProject? localizations.dialog_save_project_name : localizations.dialog_save_image_name,
-                                widget.savingProject? localizations.dialog_error_project_name : localizations.dialog_error_image_name ),
+            _imageNameTextField(widget.savingProject? localizations.dialogSaveProjectName : localizations.dialogSaveImageName,
+                                widget.savingProject? localizations.dialogErrorProjectName : localizations.dialogErrorImageName ),
             Divider(
               height: 16,
               color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -85,7 +85,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
             if (!widget.savingProject)
               Column(
                 children: [
-                  _imageFormatDropdown(localizations.dialog_save_image_format),
+                  _imageFormatDropdown(localizations.dialogSaveImageFormat),
                   Divider(
                     height: 8,
                     color: PaintroidTheme.of(context).onSurfaceVariantColor,
@@ -95,7 +95,7 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
             if (!widget.savingProject && selectedFormat == ImageFormat.jpg)
               Column(
                 children: [
-                  _qualitySlider(localizations.dialog_save_jpg_option_quality),
+                  _qualitySlider(localizations.dialogSaveJpgOptionQuality),
                   Divider(
                     height: 8,
                     color: PaintroidTheme.of(context).onSurfaceVariantColor,

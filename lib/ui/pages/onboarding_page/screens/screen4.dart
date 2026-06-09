@@ -21,7 +21,7 @@ class Screen4 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                localizations!.landscape,
+                localizations.landscape,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
@@ -34,7 +34,7 @@ class Screen4 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                localizations.intro_landscape_text,
+                localizations.introLandscapeText,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,

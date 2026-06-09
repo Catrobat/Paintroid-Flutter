@@ -25,7 +25,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
           key: const ValueKey(
             WidgetIdentifier.squareShapeTypeChip,
           ),
-          hint: localizations!.shape_tool_dialog_rect_title,
+          hint: localizations.shapeToolDialogRectTitle,
           chipBackgroundColor:
               shapesToolOptionsState.shapeType == ShapeType.square
                   ? PaintroidTheme.of(context).primaryColor
@@ -43,7 +43,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.ellipseShapeTypeChip,
         ),
-        hint: localizations.shape_tool_dialog_ellipse_title,
+        hint: localizations.shapeToolDialogEllipseTitle,
         chipBackgroundColor:
             shapesToolOptionsState.shapeType == ShapeType.ellipse
                 ? PaintroidTheme.of(context).primaryColor
@@ -60,7 +60,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.starShapeTypeChip,
         ),
-        hint: localizations.shape_tool_dialog_star_title,
+        hint: localizations.shapeToolDialogStarTitle,
         chipBackgroundColor: shapesToolOptionsState.shapeType == ShapeType.star
             ? PaintroidTheme.of(context).primaryColor
             : Colors.white,
@@ -76,7 +76,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.heartShapeTypeChip,
         ),
-        hint: localizations.shape_tool_dialog_heart_title,
+        hint: localizations.shapeToolDialogHeartTitle,
         chipBackgroundColor: shapesToolOptionsState.shapeType == ShapeType.heart
             ? PaintroidTheme.of(context).primaryColor
             : Colors.white,

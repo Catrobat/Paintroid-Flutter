@@ -8,16 +8,16 @@ Future<bool?> showOverwriteDialog(BuildContext context){
   return showGeneralDialog<bool>(
     context: context,
     pageBuilder: (_, __, ___) => GenericDialog(
-      title: localizations!.pocketpaint_overwrite_title,
-      text: localizations.pocketpaint_overwrite,
+      title: localizations.pocketpaintOverwriteTitle,
+      text: localizations.pocketpaintOverwrite,
       actions: [
         GenericDialogAction(
-          title: localizations.cancel_button_text.toUpperCase(),
+          title: localizations.cancelButtonText.toUpperCase(),
           onPressed: () => Navigator.of(context).pop(true),
           identifier: WidgetIdentifier.genericDialogActionCancel,
         ),
         GenericDialogAction(
-          title: localizations.overwrite_button_text.toUpperCase(),
+          title: localizations.overwriteButtonText.toUpperCase(),
           onPressed: () => Navigator.of(context).pop(false),
           identifier: WidgetIdentifier.genericDialogActionYes,
         ),

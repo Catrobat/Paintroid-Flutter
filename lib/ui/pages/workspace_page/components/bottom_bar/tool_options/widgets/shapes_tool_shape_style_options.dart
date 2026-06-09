@@ -20,7 +20,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
         padding: const EdgeInsets.only(left: 8.0),
         child: CustomActionChip(
           key: const ValueKey(WidgetIdentifier.outlineStyleChip),
-          hint: localizations!.shape_tool_dialog_outline_title,
+          hint: localizations.shapeToolDialogOutlineTitle,
           chipIcon: Icon(
             Icons.square_outlined,
             color: PaintroidTheme.of(context).shadowColor,
@@ -35,7 +35,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.fillStyleChip),
-        hint: localizations.shape_tool_dialog_fill_title,
+        hint: localizations.shapeToolDialogFillTitle,
         chipIcon: Icon(
           Icons.square,
           color: PaintroidTheme.of(context).shadowColor,
@@ -49,7 +49,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.dashedStyleChip),
-        hint: localizations.shape_tool_dialog_dashed,
+        hint: localizations.shapeToolDialogDashed,
         chipIcon: Icon(
           Icons.border_style_outlined,
           color: PaintroidTheme.of(context).shadowColor,
@@ -63,7 +63,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.fillAndDashedStyleChip),
-        hint: localizations.shape_tool_dialog_fill_dashed,
+        hint: localizations.shapeToolDialogFillDashed,
         chipIcon: Icon(
           Icons.texture,
           color: PaintroidTheme.of(context).shadowColor,

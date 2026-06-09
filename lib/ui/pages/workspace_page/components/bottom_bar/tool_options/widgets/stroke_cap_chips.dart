@@ -57,7 +57,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
           spacing: 8,
           children: [
             CustomActionChip(
-              hint: localizations!.stroke_type_round,
+              hint: localizations.strokeTypeRound,
               chipIcon: Icon(
                 Icons.circle,
                 color: PaintroidTheme.of(context).shadowColor,
@@ -67,7 +67,7 @@ class _StrokeCapToolOptionState extends ConsumerState<StrokeCapChips> {
               chipBackgroundColor: _roundChipBackgroundColor,
             ),
             CustomActionChip(
-              hint: localizations.stroke_type_square,
+              hint: localizations.strokeTypeSquare,
               chipIcon: Icon(
                 Icons.square,
                 color: PaintroidTheme.of(context).shadowColor,

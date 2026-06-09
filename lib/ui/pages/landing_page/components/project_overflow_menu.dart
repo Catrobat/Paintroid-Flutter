@@ -21,11 +21,11 @@ enum ProjectOverflowMenuOption {
   String localizedLabel(AppLocalizations localizations) {
     switch (this) {
       case ProjectOverflowMenuOption.deleteProject:
-        return localizations.project_delete;
+        return localizations.projectDelete;
       case ProjectOverflowMenuOption.getDetails:
-        return localizations.project_details;
+        return localizations.projectDetails;
       case ProjectOverflowMenuOption.renameProject:
-        return localizations.project_rename;
+        return localizations.projectRename;
     }
   }
 }
@@ -66,7 +66,7 @@ class _ProjectOverFlowMenuState extends ConsumerState<ProjectOverflowMenu> {
           .map((option) => PopupMenuItem(
                 value: option,
                 child: Text(
-                  option.localizedLabel(localizations!),
+                  option.localizedLabel(localizations),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onBackgroundColor,
                   ),

@@ -9,60 +9,59 @@ class ColorPickerLocalizationsEn extends ColorPickerLocalizations {
   ColorPickerLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get color_picker_title => 'Colour picker';
+  String get colorPickerTitle => 'Colour picker';
 
   @override
-  String get color_picker_tab_icon => 'Colour picker tab icon';
+  String get colorPickerTabIcon => 'Colour picker tab icon';
 
   @override
-  String get color_red => 'Red';
+  String get colorRed => 'Red';
 
   @override
-  String get color_green => 'Green';
+  String get colorGreen => 'Green';
 
   @override
-  String get color_blue => 'Blue';
+  String get colorBlue => 'Blue';
 
   @override
-  String get color_alpha => 'Alpha';
+  String get colorAlpha => 'Alpha';
 
   @override
-  String get color_hex => 'HEX';
+  String get colorHex => 'HEX';
 
   @override
-  String get color_picker_apply => 'Apply';
+  String get colorPickerApply => 'Apply';
 
   @override
-  String get color_picker_cancel => 'Cancel';
+  String get colorPickerCancel => 'Cancel';
 
   @override
-  String get color_picker_current_color => 'current';
+  String get colorPickerCurrentColor => 'current';
 
   @override
-  String get color_picker_new_color => 'new';
+  String get colorPickerNewColor => 'new';
 
   @override
-  String get color_picker_pipette => 'Pipette';
+  String get colorPickerPipette => 'Pipette';
 
   @override
-  String get color_picker_save_dialog_title => 'Save changes?';
+  String get colorPickerSaveDialogTitle => 'Save changes?';
 
   @override
-  String get color_picker_save_dialog_msg =>
-      'Do you want to save your changes?';
+  String get colorPickerSaveDialogMsg => 'Do you want to save your changes?';
 
   @override
-  String get color_picker_no => 'no';
+  String get colorPickerNo => 'no';
 
   @override
-  String get color_picker_yes => 'yes';
+  String get colorPickerYes => 'yes';
 
   @override
-  String get color_picker_history_recently_used => 'recently used';
+  String get colorPickerHistoryRecentlyUsed => 'recently used';
 
   @override
-  String get color_picker_picker => 'Picker';
+  String get colorPickerPicker => 'Picker';
 
   @override
-  String get color_picker_wheel => 'Wheel';
+  String get colorPickerWheel => 'Wheel';
 }

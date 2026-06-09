@@ -67,9 +67,9 @@ abstract class ColorPickerLocalizations {
 
   final String localeName;
 
-  static ColorPickerLocalizations? of(BuildContext context) {
+  static ColorPickerLocalizations of(BuildContext context) {
     return Localizations.of<ColorPickerLocalizations>(
-        context, ColorPickerLocalizations);
+        context, ColorPickerLocalizations)!;
   }
 
   static const LocalizationsDelegate<ColorPickerLocalizations> delegate =
@@ -99,119 +99,119 @@ abstract class ColorPickerLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @color_picker_title.
+  /// No description provided for @colorPickerTitle.
   ///
   /// In en, this message translates to:
   /// **'Colour picker'**
-  String get color_picker_title;
+  String get colorPickerTitle;
 
-  /// No description provided for @color_picker_tab_icon.
+  /// No description provided for @colorPickerTabIcon.
   ///
   /// In en, this message translates to:
   /// **'Colour picker tab icon'**
-  String get color_picker_tab_icon;
+  String get colorPickerTabIcon;
 
-  /// No description provided for @color_red.
+  /// No description provided for @colorRed.
   ///
   /// In en, this message translates to:
   /// **'Red'**
-  String get color_red;
+  String get colorRed;
 
-  /// No description provided for @color_green.
+  /// No description provided for @colorGreen.
   ///
   /// In en, this message translates to:
   /// **'Green'**
-  String get color_green;
+  String get colorGreen;
 
-  /// No description provided for @color_blue.
+  /// No description provided for @colorBlue.
   ///
   /// In en, this message translates to:
   /// **'Blue'**
-  String get color_blue;
+  String get colorBlue;
 
-  /// No description provided for @color_alpha.
+  /// No description provided for @colorAlpha.
   ///
   /// In en, this message translates to:
   /// **'Alpha'**
-  String get color_alpha;
+  String get colorAlpha;
 
-  /// No description provided for @color_hex.
+  /// No description provided for @colorHex.
   ///
   /// In en, this message translates to:
   /// **'HEX'**
-  String get color_hex;
+  String get colorHex;
 
-  /// No description provided for @color_picker_apply.
+  /// No description provided for @colorPickerApply.
   ///
   /// In en, this message translates to:
   /// **'Apply'**
-  String get color_picker_apply;
+  String get colorPickerApply;
 
-  /// No description provided for @color_picker_cancel.
+  /// No description provided for @colorPickerCancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get color_picker_cancel;
+  String get colorPickerCancel;
 
-  /// No description provided for @color_picker_current_color.
+  /// No description provided for @colorPickerCurrentColor.
   ///
   /// In en, this message translates to:
   /// **'current'**
-  String get color_picker_current_color;
+  String get colorPickerCurrentColor;
 
-  /// No description provided for @color_picker_new_color.
+  /// No description provided for @colorPickerNewColor.
   ///
   /// In en, this message translates to:
   /// **'new'**
-  String get color_picker_new_color;
+  String get colorPickerNewColor;
 
-  /// No description provided for @color_picker_pipette.
+  /// No description provided for @colorPickerPipette.
   ///
   /// In en, this message translates to:
   /// **'Pipette'**
-  String get color_picker_pipette;
+  String get colorPickerPipette;
 
-  /// No description provided for @color_picker_save_dialog_title.
+  /// No description provided for @colorPickerSaveDialogTitle.
   ///
   /// In en, this message translates to:
   /// **'Save changes?'**
-  String get color_picker_save_dialog_title;
+  String get colorPickerSaveDialogTitle;
 
-  /// No description provided for @color_picker_save_dialog_msg.
+  /// No description provided for @colorPickerSaveDialogMsg.
   ///
   /// In en, this message translates to:
   /// **'Do you want to save your changes?'**
-  String get color_picker_save_dialog_msg;
+  String get colorPickerSaveDialogMsg;
 
-  /// No description provided for @color_picker_no.
+  /// No description provided for @colorPickerNo.
   ///
   /// In en, this message translates to:
   /// **'no'**
-  String get color_picker_no;
+  String get colorPickerNo;
 
-  /// No description provided for @color_picker_yes.
+  /// No description provided for @colorPickerYes.
   ///
   /// In en, this message translates to:
   /// **'yes'**
-  String get color_picker_yes;
+  String get colorPickerYes;
 
-  /// No description provided for @color_picker_history_recently_used.
+  /// No description provided for @colorPickerHistoryRecentlyUsed.
   ///
   /// In en, this message translates to:
   /// **'recently used'**
-  String get color_picker_history_recently_used;
+  String get colorPickerHistoryRecentlyUsed;
 
-  /// No description provided for @color_picker_picker.
+  /// No description provided for @colorPickerPicker.
   ///
   /// In en, this message translates to:
   /// **'Picker'**
-  String get color_picker_picker;
+  String get colorPickerPicker;
 
-  /// No description provided for @color_picker_wheel.
+  /// No description provided for @colorPickerWheel.
   ///
   /// In en, this message translates to:
   /// **'Wheel'**
-  String get color_picker_wheel;
+  String get colorPickerWheel;
 }
 
 class _ColorPickerLocalizationsDelegate

@@ -21,13 +21,13 @@ enum MainOverflowMenuOption {
   String localizedLabel(AppLocalizations localizations) {
     switch (this) {
       case MainOverflowMenuOption.rate:
-        return localizations.menu_rate_us;
+        return localizations.menuRateUs;
       case MainOverflowMenuOption.help:
-        return localizations.help_title;
+        return localizations.helpTitle;
       case MainOverflowMenuOption.about:
-        return localizations.pocketpaint_about_title;
+        return localizations.pocketpaintAboutTitle;
       case MainOverflowMenuOption.feedback:
-        return localizations.menu_feedback;
+        return localizations.menuFeedback;
     }
   }
 }
@@ -55,7 +55,7 @@ class _MainOverFlowMenuState extends ConsumerState<MainOverflowMenu>
             (option) => PopupMenuItem(
               value: option,
               child: Text(
-                option.localizedLabel(localizations!),
+                option.localizedLabel(localizations),
                 style: PaintroidTheme.of(context).textTheme.bodyMedium,
               ),
             ),

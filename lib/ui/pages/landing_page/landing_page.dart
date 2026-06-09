@@ -121,7 +121,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
-    ref.read(workspaceStateProvider.notifier).updateLastSavedCommandCount();
   }
 
   Future<void> _openProject(
@@ -189,7 +188,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      localizations!.my_projects,
+                      localizations.myProjects,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -236,7 +235,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           CustomActionButton(
             heroTag: 'import_image',
             icon: Icons.file_download,
-            hint: localizations!.menu_load_image,
+            hint: localizations.menuLoadImage,
             onPressed: () async {
               final bool imageLoaded =
                   await ioHandler.loadImage(context, this, false);
@@ -252,7 +251,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             key: const ValueKey(WidgetIdentifier.newImageActionButton),
             heroTag: 'new_image',
             icon: Icons.add,
-            hint: localizations.menu_new_image,
+            hint: localizations.menuNewImage,
             onPressed: () async {
               _clearCanvas();
               _navigateToPocketPaint();

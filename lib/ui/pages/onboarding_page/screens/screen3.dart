@@ -98,48 +98,48 @@ class _Screen3State extends State<Screen3> {
     final localizations = AppLocalizations.of(context);
 
     titles = [
-      localizations!.button_brush, 
-      localizations.button_hand,
-      localizations.button_eraser,
-      localizations.button_line,
-      localizations.button_shape,
-      localizations.button_fill,
-      localizations.button_spray_can,
-      localizations.button_cursor,
-      localizations.button_text,
-      localizations.button_clipboard,
-      localizations.button_transform,
-      localizations.button_import_image,
-      localizations.button_pipette,
-      localizations.button_watercolor,
-      localizations.button_smudge,
-      localizations.button_clip
+      localizations.buttonBrush, 
+      localizations.buttonHand,
+      localizations.buttonEraser,
+      localizations.buttonLine,
+      localizations.buttonShape,
+      localizations.buttonFill,
+      localizations.buttonSprayCan,
+      localizations.buttonCursor,
+      localizations.buttonText,
+      localizations.buttonClipboard,
+      localizations.buttonTransform,
+      localizations.buttonImportImage,
+      localizations.buttonPipette,
+      localizations.buttonWatercolor,
+      localizations.buttonSmudge,
+      localizations.buttonClip
     ];
 
     descriptions = [
-      localizations.help_content_brush, 
-      localizations.help_content_hand,
-      localizations.help_content_eraser,
-      localizations.help_content_line,
-      localizations.help_content_shape,
-      localizations.help_content_fill,
-      localizations.help_content_spray_can,
-      localizations.help_content_cursor,
-      localizations.help_content_text,
-      localizations.help_content_clipboard,
-      localizations.help_content_transform,
-      localizations.help_content_import_png,
-      localizations.help_content_eyedropper,
-      localizations.help_content_watercolor,
-      localizations.help_content_smudge,
-      localizations.help_content_clip
+      localizations.helpContentBrush, 
+      localizations.helpContentHand,
+      localizations.helpContentEraser,
+      localizations.helpContentLine,
+      localizations.helpContentShape,
+      localizations.helpContentFill,
+      localizations.helpContentSprayCan,
+      localizations.helpContentCursor,
+      localizations.helpContentText,
+      localizations.helpContentClipboard,
+      localizations.helpContentTransform,
+      localizations.helpContentImportPng,
+      localizations.helpContentEyedropper,
+      localizations.helpContentWatercolor,
+      localizations.helpContentSmudge,
+      localizations.helpContentClip
     ];
     
 
     var title = Row(
       children: [
         Text(
-          titleText != ''? titleText : localizations.dialog_tools_title,
+          titleText != ''? titleText : localizations.dialogToolsTitle,
           style: PaintroidTheme.of(context).descStyle,
           textAlign: TextAlign.start,
         ),
@@ -158,7 +158,7 @@ class _Screen3State extends State<Screen3> {
     );
 
     var desc = Text(
-      descText != '' ? descText : localizations.intro_bottom_navigation_tools_description,
+      descText != '' ? descText : localizations.introBottomNavigationToolsDescription,
       style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
@@ -185,7 +185,7 @@ class _Screen3State extends State<Screen3> {
                 padding: const EdgeInsets.only(bottom: 10),
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  localizations.intro_tool_more_information,
+                  localizations.introToolMoreInformation,
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,

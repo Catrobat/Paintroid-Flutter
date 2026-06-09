@@ -23,13 +23,13 @@ class ColorComparison extends StatelessWidget {
           Expanded(
             child: ColorDescription(
               color: currentColor,
-              description: localizations!.color_picker_current_color,
+              description: localizations.colorPickerCurrentColor,
             ),
           ),
           Expanded(
             child: ColorDescription(
               color: newColor,
-              description: localizations.color_picker_new_color,
+              description: localizations.colorPickerNewColor,
             ),
           ),
         ],

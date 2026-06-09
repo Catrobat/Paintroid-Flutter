@@ -102,7 +102,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: TextButton(
                 onPressed: () => finish(),
                 child: Text(
-                  _isLastPage ? '' : localizations!.skip.toUpperCase(),
+                  _isLastPage ? '' : localizations.skip.toUpperCase(),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,
@@ -136,7 +136,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   }
                 },
                 child: Text(
-                  _isLastPage ? localizations!.lets_go.toUpperCase() : localizations!.next.toUpperCase(),
+                  _isLastPage ? localizations.letsGo.toUpperCase() : localizations.next.toUpperCase(),
                   style: TextStyle(
                     color: PaintroidTheme.of(context).onSurfaceColor,
                     fontSize: 15,

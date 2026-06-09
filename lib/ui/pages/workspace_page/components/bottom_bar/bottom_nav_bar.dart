@@ -34,7 +34,7 @@ class BottomNavBar extends ConsumerWidget {
         destinations: [
           NavigationDestination(
             key: const ValueKey(BottomNavBarItem.TOOLS),
-            label: localizations!.bottom_navigation_tools,
+            label: localizations.bottomNavigationTools,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
           NavigationDestination(
@@ -42,7 +42,7 @@ class BottomNavBar extends ConsumerWidget {
             icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
           ),
           NavigationDestination(
-            label: localizations.bottom_navigation_color,
+            label: localizations.bottomNavigationColor,
             icon: InkWell(
               child: Stack(
                 alignment: Alignment.center,
@@ -81,7 +81,7 @@ class BottomNavBar extends ConsumerWidget {
             ),
           ),
           NavigationDestination(
-            label: localizations.bottom_navigation_layers,
+            label: localizations.bottomNavigationLayers,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
           ),
         ],

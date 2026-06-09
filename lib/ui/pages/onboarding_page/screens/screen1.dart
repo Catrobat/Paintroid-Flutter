@@ -16,7 +16,7 @@ class Screen1 extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            localizations!.welcome_to_pocket_paint,
+            localizations.welcomeToPocketPaint,
             style: TextStyle(
               color: PaintroidTheme.of(context).onSurfaceColor,
               fontSize: 25,
@@ -25,7 +25,7 @@ class Screen1 extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 50),
             child: Text(
-              localizations.intro_welcome_text,
+              localizations.introWelcomeText,
               style: TextStyle(
                 color: PaintroidTheme.of(context).onSurfaceColor,
                 fontSize: 15,

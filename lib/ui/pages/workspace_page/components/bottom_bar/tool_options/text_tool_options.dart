@@ -88,21 +88,21 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
               ),
               const Spacer(),
               ToggleStyleButton(
-                label: localizations!.text_tool_dialog_underline_shortcut,
+                label: localizations.textToolDialogUnderlineShortcut,
                 selected: options.isUnderline,
                 onTap: notifier.toggleUnderline,
                 mode: 'U',
               ),
               const SizedBox(width: 8),
               ToggleStyleButton(
-                label: localizations.text_tool_dialog_italic_shortcut,
+                label: localizations.textToolDialogItalicShortcut,
                 selected: options.isItalic,
                 onTap: notifier.toggleItalic,
                 mode: 'I',
               ),
               const SizedBox(width: 8),
               ToggleStyleButton(
-                label: localizations.text_tool_dialog_bold_shortcut,
+                label: localizations.textToolDialogBoldShortcut,
                 selected: options.isBold,
                 onTap: notifier.toggleBold,
                 mode: 'B',
@@ -117,9 +117,9 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
           child: Row(
             children: [
               'Roboto',
-              localizations.text_tool_dialog_font_sans_serif,
-              localizations.text_tool_dialog_font_serif,
-              localizations.text_tool_dialog_font_monospace,
+              localizations.textToolDialogFontSansSerif,
+              localizations.textToolDialogFontSerif,
+              localizations.textToolDialogFontMonospace,
               'Open Sans',
               'Inter',
               'Wind',
@@ -154,7 +154,7 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
             controller: _textController,
             onChanged: notifier.updateText,
             decoration: InputDecoration(
-              hintText: localizations.text_tool_dialog_input_hint,
+              hintText: localizations.textToolDialogInputHint,
               filled: true,
               fillColor:
                   PaintroidTheme.of(context).onSurfaceColor.withAlpha(50),

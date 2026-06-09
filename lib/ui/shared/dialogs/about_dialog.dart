@@ -48,7 +48,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
       decoration: TextDecoration.underline,
     );
     return GenericDialog(
-      title: localizations!.pocketpaint_about_title,
+      title: localizations.pocketpaintAboutTitle,
       actions: [
         GenericDialogAction(
           title: localizations.done.toUpperCase(),
@@ -74,14 +74,14 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
             TextSpan(
               style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
               children: [
-                TextSpan(text: '${localizations.pocketpaint_about_content.replaceAll("__license__", license)}\n\n'),
+                TextSpan(text: '${localizations.pocketpaintAboutContent.replaceAll("__license__", license)}\n\n'),
                 _clickableText(
-                  '${localizations.pocketpaint_about_url_license_description}\n',
+                  '${localizations.pocketpaintAboutUrlLicenseDescription}\n',
                   urlLicense,
                   urlTextStyle,
                 ),
                 _clickableText(
-                  localizations.pocketpaint_about_url_catrobat_description,
+                  localizations.pocketpaintAboutUrlCatrobatDescription,
                   urlCatrobat,
                   urlTextStyle,
                 ),

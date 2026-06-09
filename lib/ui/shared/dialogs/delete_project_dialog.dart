@@ -8,16 +8,16 @@ Future<bool?> showDeleteDialog(BuildContext context, String name){
   return showGeneralDialog<bool>(
     context: context,
     pageBuilder: (_, __, ___) => GenericDialog(
-            title: localizations!.project_delete_title.replaceAll('__name__', name),
-            text: localizations.project_delete_dialog,
+            title: localizations.projectDeleteTitle.replaceAll('__name__', name),
+            text: localizations.projectDeleteDialog,
             actions: [
               GenericDialogAction(
-                title: localizations.cancel_button_text.toUpperCase(),
+                title: localizations.cancelButtonText.toUpperCase(),
                 onPressed: () => Navigator.of(context).pop(false),
                 identifier: WidgetIdentifier.genericDialogActionCancel,
               ),
               GenericDialogAction(
-                title: localizations.delete_button_text.toUpperCase(),
+                title: localizations.deleteButtonText.toUpperCase(),
                 onPressed: () => Navigator.of(context).pop(true),
                 identifier: WidgetIdentifier.genericDialogActionDelete,
               ),

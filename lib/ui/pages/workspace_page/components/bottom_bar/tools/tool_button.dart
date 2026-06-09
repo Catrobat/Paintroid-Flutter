@@ -37,7 +37,7 @@ class ToolButton extends StatelessWidget {
                 width: 30.0,
                 color: PaintroidTheme.of(context).onSurfaceColor,
               ),
-              label: toolData.type.localizedName(localizations!),
+              label: toolData.type.localizedName(localizations),
               key: ValueKey(toolData.name),
               onPressed: () {
                 Navigator.pop(context);

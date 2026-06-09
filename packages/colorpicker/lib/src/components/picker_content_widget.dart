@@ -36,8 +36,8 @@ class PickerContentWidget extends ConsumerWidget {
         return AdvancedPickerWidget(
             colorForPickers: colorForPickers,
             onColorChanged: onColorChanged,
-            text1: localizations!.color_picker_picker,
-            text2: localizations.color_picker_wheel);
+            text1: localizations.colorPickerPicker,
+            text2: localizations.colorPickerWheel);
       case MainPickerMode.sliders:
         return HsvRgbSlidersPickerWidget(
             initialColor: colorForHsvRgbWithOpacity,

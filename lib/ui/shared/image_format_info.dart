@@ -9,14 +9,14 @@ extension on ImageFormat {
     switch (this) {
       case ImageFormat.png:
         return TextSpan(
-            text: localizations.pocketpaint_png_message_dialog);
+            text: localizations.pocketpaintPngMessageDialog);
       case ImageFormat.jpg:
         return TextSpan(
-          text: localizations.pocketpaint_jpg_message_dialog,
+          text: localizations.pocketpaintJpgMessageDialog,
         );
       case ImageFormat.catrobatImage:
         return TextSpan(
-            text: localizations.pocketpaint_catrobat_message_dialog);
+            text: localizations.pocketpaintCatrobatMessageDialog);
     }
   }
 }
@@ -38,7 +38,7 @@ class ImageFormatInfo extends StatelessWidget {
         ),
         Flexible(
           child: Text.rich(
-            format.info(localizations!),
+            format.info(localizations),
             style: TextStyle(
               fontSize: 11,
               color: PaintroidTheme.of(context).shadowColor,

@@ -21,7 +21,7 @@ class Screen5 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                localizations!.enjoy_pocket_paint,
+                localizations.enjoyPocketPaint,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
@@ -34,7 +34,7 @@ class Screen5 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                localizations.intro_get_started,
+                localizations.introGetStarted,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,

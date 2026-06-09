@@ -26,15 +26,15 @@ enum OverflowMenuOption {
   String localizedLabel(AppLocalizations localizations) {
     switch (this) {
       case OverflowMenuOption.fullscreen:
-        return localizations.menu_hide_menu;
+        return localizations.menuHideMenu;
       case OverflowMenuOption.saveImage:
-        return localizations.menu_save_image;
+        return localizations.menuSaveImage;
       case OverflowMenuOption.loadImage:
-        return localizations.menu_load_image;
+        return localizations.menuLoadImage;
       case OverflowMenuOption.newImage:
-        return localizations.menu_new_image;
+        return localizations.menuNewImage;
       case OverflowMenuOption.saveProject:
-        return localizations.menu_save_project;
+        return localizations.menuSaveProject;
     }
   }
 }
@@ -58,7 +58,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
           .map((option) => PopupMenuItem(
               value: option,
               child: Text(
-                option.localizedLabel(localizations!),
+                option.localizedLabel(localizations),
                 style: PaintroidTheme.of(context).textTheme.bodyMedium,
               )))
           .toList(),

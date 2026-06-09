@@ -9,155 +9,155 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get pocketpaint_app_name => 'Pocket Paint';
+  String get pocketpaintAppName => 'Pocket Paint';
 
   @override
-  String get button_undo => 'Undo';
+  String get buttonUndo => 'Undo';
 
   @override
-  String get button_redo => 'Redo';
+  String get buttonRedo => 'Redo';
 
   @override
-  String get project_delete => 'Delete';
+  String get projectDelete => 'Delete';
 
   @override
-  String get project_details => 'Details';
+  String get projectDetails => 'Details';
 
   @override
-  String get project_rename => 'Rename';
+  String get projectRename => 'Rename';
 
   @override
-  String get my_projects => 'My Projects';
+  String get myProjects => 'My Projects';
 
   @override
-  String get project_rename_title => 'Rename __name__';
+  String get projectRenameTitle => 'Rename __name__';
 
   @override
-  String get project_delete_title => 'Delete __name__';
+  String get projectDeleteTitle => 'Delete __name__';
 
   @override
-  String get project_delete_dialog =>
+  String get projectDeleteDialog =>
       'Do you really want to delete your project?';
 
   @override
-  String get details_resolution => 'Resolution';
+  String get detailsResolution => 'Resolution';
 
   @override
-  String get details_last_modified => 'Last modified';
+  String get detailsLastModified => 'Last modified';
 
   @override
-  String get details_creation_date => 'Creation date';
+  String get detailsCreationDate => 'Creation date';
 
   @override
-  String get details_size => 'Size';
+  String get detailsSize => 'Size';
 
   @override
-  String get menu_hide_menu => 'Fullscreen';
+  String get menuHideMenu => 'Fullscreen';
 
   @override
-  String get menu_save_image => 'Save image';
+  String get menuSaveImage => 'Save image';
 
   @override
-  String get menu_save_project => 'Save project';
+  String get menuSaveProject => 'Save project';
 
   @override
-  String get menu_load_image => 'Load image';
+  String get menuLoadImage => 'Load image';
 
   @override
-  String get menu_new_image => 'New image';
+  String get menuNewImage => 'New image';
 
   @override
-  String get menu_save_copy => 'Save copy';
+  String get menuSaveCopy => 'Save copy';
 
   @override
-  String get menu_discard_image => 'Discard image';
+  String get menuDiscardImage => 'Discard image';
 
   @override
-  String get menu_replace_image => 'Replace image';
+  String get menuReplaceImage => 'Replace image';
 
   @override
-  String get menu_add_to_current_layer => 'Add to current layer';
+  String get menuAddToCurrentLayer => 'Add to current layer';
 
   @override
-  String get button_brush => 'Brush';
+  String get buttonBrush => 'Brush';
 
   @override
-  String get button_hand => 'Hand';
+  String get buttonHand => 'Hand';
 
   @override
-  String get button_eraser => 'Eraser';
+  String get buttonEraser => 'Eraser';
 
   @override
-  String get button_line => 'Line';
+  String get buttonLine => 'Line';
 
   @override
-  String get button_shape => 'Shapes';
+  String get buttonShape => 'Shapes';
 
   @override
-  String get button_fill => 'Fill';
+  String get buttonFill => 'Fill';
 
   @override
-  String get button_spray_can => 'Spray can';
+  String get buttonSprayCan => 'Spray can';
 
   @override
-  String get button_cursor => 'Cursor';
+  String get buttonCursor => 'Cursor';
 
   @override
-  String get button_text => 'Text';
+  String get buttonText => 'Text';
 
   @override
-  String get button_clipboard => 'Clipboard';
+  String get buttonClipboard => 'Clipboard';
 
   @override
-  String get button_transform => 'Transform';
+  String get buttonTransform => 'Transform';
 
   @override
-  String get button_import_image => 'Import image';
+  String get buttonImportImage => 'Import image';
 
   @override
-  String get button_pipette => 'Pipette';
+  String get buttonPipette => 'Pipette';
 
   @override
-  String get button_watercolor => 'Watercolour';
+  String get buttonWatercolor => 'Watercolour';
 
   @override
-  String get button_smudge => 'Smudge';
+  String get buttonSmudge => 'Smudge';
 
   @override
-  String get button_clip => 'Clip area';
+  String get buttonClip => 'Clip area';
 
   @override
-  String get clipboard_tool_paste => 'Paste';
+  String get clipboardToolPaste => 'Paste';
 
   @override
-  String get clipboard_tool_copy => 'Copy';
+  String get clipboardToolCopy => 'Copy';
 
   @override
-  String get clipboard_tool_cut => 'Cut';
+  String get clipboardToolCut => 'Cut';
 
   @override
-  String get bottom_navigation_tools => 'Tools';
+  String get bottomNavigationTools => 'Tools';
 
   @override
-  String get bottom_navigation_current => 'Current';
+  String get bottomNavigationCurrent => 'Current';
 
   @override
-  String get bottom_navigation_color => 'Colour';
+  String get bottomNavigationColor => 'Colour';
 
   @override
-  String get bottom_navigation_layers => 'Layers';
+  String get bottomNavigationLayers => 'Layers';
 
   @override
-  String get bottom_navigation_item => 'Item for bottom navigation';
+  String get bottomNavigationItem => 'Item for bottom navigation';
 
   @override
-  String get button_apply => 'Apply';
+  String get buttonApply => 'Apply';
 
   @override
-  String get button_checkmark => 'Checkmark';
+  String get buttonCheckmark => 'Checkmark';
 
   @override
-  String get button_info => 'Information';
+  String get buttonInfo => 'Information';
 
   @override
   String get done => 'Done';
@@ -166,408 +166,406 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gallery => 'Select image';
 
   @override
-  String get no_connection_sticker =>
+  String get noConnectionSticker =>
       'Stickers not available, check your internet connection.';
 
   @override
   String get stickers => 'Stickers';
 
   @override
-  String get dialog_tools_title => 'Tools';
+  String get dialogToolsTitle => 'Tools';
 
   @override
-  String get dialog_error_save_title => 'Error load/save File';
+  String get dialogErrorSaveTitle => 'Error load/save File';
 
   @override
-  String get dialog_error_sdcard_text => 'Check Image or SD-Card!';
+  String get dialogErrorSdcardText => 'Check Image or SD-Card!';
 
   @override
-  String get dialog_brush_width_text => 'Stroke Width';
+  String get dialogBrushWidthText => 'Stroke Width';
 
   @override
-  String get dialog_warning_new_image => 'Save Changes?';
+  String get dialogWarningNewImage => 'Save Changes?';
 
   @override
-  String get help_title => 'Help';
+  String get helpTitle => 'Help';
 
   @override
-  String get help_content_eraser =>
+  String get helpContentEraser =>
       'Remove parts of the image like with an eraser.';
 
   @override
-  String get help_content_brush =>
+  String get helpContentBrush =>
       'Tap on the symbols on the bottom bar to change the colour or the brush size.';
 
   @override
-  String get help_content_watercolor =>
+  String get helpContentWatercolor =>
       'Similar to the brush tool with a watercolour effect. However you can also change the strength of the brush with the slider in the colour menu.';
 
   @override
-  String get help_content_eyedropper => 'Tap on the image to select a colour.';
+  String get helpContentEyedropper => 'Tap on the image to select a colour.';
 
   @override
-  String get help_content_undo => 'Tap to undo your previous action.';
+  String get helpContentUndo => 'Tap to undo your previous action.';
 
   @override
-  String get help_content_redo => 'Tap to redo an undone action.';
+  String get helpContentRedo => 'Tap to redo an undone action.';
 
   @override
-  String get help_content_fill =>
+  String get helpContentFill =>
       'Tap on the image to fill an area with the selected colour.';
 
   @override
-  String get help_content_cursor =>
+  String get helpContentCursor =>
       'Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.';
 
   @override
-  String get help_content_transform => 'Use to transform the image.';
+  String get helpContentTransform => 'Use to transform the image.';
 
   @override
-  String get help_content_clipboard =>
+  String get helpContentClipboard =>
       'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.';
 
   @override
-  String get help_content_import_png =>
+  String get helpContentImportPng =>
       'Import an image from the gallery to the stamp tool.';
 
   @override
-  String get help_content_line => 'Draw a straight line.';
+  String get helpContentLine => 'Draw a straight line.';
 
   @override
-  String get help_content_text =>
+  String get helpContentText =>
       'Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.';
 
   @override
-  String get help_content_shape =>
+  String get helpContentShape =>
       'Choose a shape and tap on the checkmark to insert the selected shape.';
 
   @override
-  String get help_content_layer => 'Create new layers or modify existing ones.';
+  String get helpContentLayer => 'Create new layers or modify existing ones.';
 
   @override
-  String get help_content_color_chooser => 'Select or adjust a colour.';
+  String get helpContentColorChooser => 'Select or adjust a colour.';
 
   @override
-  String get help_content_hand => 'Move your finger to move the canvas.';
+  String get helpContentHand => 'Move your finger to move the canvas.';
 
   @override
-  String get help_content_spray_can =>
+  String get helpContentSprayCan =>
       'Move your finger on the image to create a spray can pattern.';
 
   @override
-  String get help_content_smudge =>
+  String get helpContentSmudge =>
       'Move your finger on the image on different drawings to smudge them.';
 
   @override
-  String get help_content_clip => 'Mark area which should not be erased.';
+  String get helpContentClip => 'Mark area which should not be erased.';
 
   @override
-  String get closing_security_question_title => 'Quit';
+  String get closingSecurityQuestionTitle => 'Quit';
 
   @override
-  String get closing_security_question => 'Save Changes?';
+  String get closingSecurityQuestion => 'Save Changes?';
 
   @override
-  String get no_longclick_on_hidden_layer =>
+  String get noLongclickOnHiddenLayer =>
       'You are only able to merge or reorder if all layers are visible';
 
   @override
-  String get no_tools_on_hidden_layer =>
-      'No tools are available on hidden layer';
+  String get noToolsOnHiddenLayer => 'No tools are available on hidden layer';
 
   @override
-  String get menu_rate_us => 'Rate us!';
+  String get menuRateUs => 'Rate us!';
 
   @override
-  String get menu_feedback => 'Feedback';
+  String get menuFeedback => 'Feedback';
 
   @override
-  String get menu_export => 'Export';
+  String get menuExport => 'Export';
 
   @override
-  String get menu_advanced => 'Advanced settings';
+  String get menuAdvanced => 'Advanced settings';
 
   @override
-  String get menu_zoom_settings => 'Zoom window settings';
+  String get menuZoomSettings => 'Zoom window settings';
 
   @override
-  String get share_image_menu => 'Share image';
+  String get shareImageMenu => 'Share image';
 
   @override
-  String get share_image_via_text => 'Send image via';
+  String get shareImageViaText => 'Send image via';
 
   @override
-  String get saved_to => 'Image saved to\n';
+  String get savedTo => 'Image saved to\n';
 
   @override
   String get saved => 'Image saved';
 
   @override
-  String get copy_to => 'Copy saved to\n';
+  String get copyTo => 'Copy saved to\n';
 
   @override
   String get copy => 'Copy saved';
 
   @override
-  String get menu_quit => 'Quit';
+  String get menuQuit => 'Quit';
 
   @override
-  String get save_button_text => 'Save';
+  String get saveButtonText => 'Save';
 
   @override
-  String get discard_button_text => 'Discard';
+  String get discardButtonText => 'Discard';
 
   @override
-  String get cancel_button_text => 'Cancel';
+  String get cancelButtonText => 'Cancel';
 
   @override
-  String get overwrite_button_text => 'Overwrite';
+  String get overwriteButtonText => 'Overwrite';
 
   @override
-  String get delete_button_text => 'Delete';
+  String get deleteButtonText => 'Delete';
 
   @override
-  String get resize_nothing_to_resize => 'nothing to resize';
+  String get resizeNothingToResize => 'nothing to resize';
 
   @override
-  String get resize_cannot_resize_to_this_size => 'cannot resize to this size';
+  String get resizeCannotResizeToThisSize => 'cannot resize to this size';
 
   @override
-  String get resize_max_image_resolution_reached =>
-      'max image resolution reached';
+  String get resizeMaxImageResolutionReached => 'max image resolution reached';
 
   @override
-  String get text_tool_dialog_underline_shortcut => 'U';
+  String get textToolDialogUnderlineShortcut => 'U';
 
   @override
-  String get text_tool_dialog_italic_shortcut => 'I';
+  String get textToolDialogItalicShortcut => 'I';
 
   @override
-  String get text_tool_dialog_bold_shortcut => 'B';
+  String get textToolDialogBoldShortcut => 'B';
 
   @override
-  String get text_tool_dialog_input_hint => 'Tap here to write';
+  String get textToolDialogInputHint => 'Tap here to write';
 
   @override
-  String get text_tool_dialog_font_monospace => 'Monospace';
+  String get textToolDialogFontMonospace => 'Monospace';
 
   @override
-  String get text_tool_dialog_font_serif => 'Serif';
+  String get textToolDialogFontSerif => 'Serif';
 
   @override
-  String get text_tool_dialog_font_sans_serif => 'Sans Serif';
+  String get textToolDialogFontSansSerif => 'Sans Serif';
 
   @override
-  String get text_tool_dialog_font_dubai => 'Dubai';
+  String get textToolDialogFontDubai => 'Dubai';
 
   @override
-  String get text_tool_dialog_font_arabic_stc => 'STC';
+  String get textToolDialogFontArabicStc => 'STC';
 
   @override
-  String get shape_tool_dialog_rect_title => 'Rectangle';
+  String get shapeToolDialogRectTitle => 'Rectangle';
 
   @override
-  String get shape_tool_dialog_ellipse_title => 'Ellipse';
+  String get shapeToolDialogEllipseTitle => 'Ellipse';
 
   @override
-  String get shape_tool_dialog_star_title => 'Star';
+  String get shapeToolDialogStarTitle => 'Star';
 
   @override
-  String get shape_tool_dialog_heart_title => 'Heart';
+  String get shapeToolDialogHeartTitle => 'Heart';
 
   @override
-  String get shape_tool_dialog_fill_title => 'Fill';
+  String get shapeToolDialogFillTitle => 'Fill';
 
   @override
-  String get shape_tool_dialog_outline_title => 'Outline';
+  String get shapeToolDialogOutlineTitle => 'Outline';
 
   @override
-  String get shape_tool_dialog_dashed => 'Dashed';
+  String get shapeToolDialogDashed => 'Dashed';
 
   @override
-  String get shape_tool_dialog_fill_dashed => 'Fill & Dashed';
+  String get shapeToolDialogFillDashed => 'Fill & Dashed';
 
   @override
-  String get stroke_type_round => 'Round stroke';
+  String get strokeTypeRound => 'Round stroke';
 
   @override
-  String get stroke_type_square => 'Square stroke';
+  String get strokeTypeSquare => 'Square stroke';
 
   @override
-  String get fill_tool_dialog_color_tolerance_title => 'Colour tolerance';
+  String get fillToolDialogColorToleranceTitle => 'Colour tolerance';
 
   @override
-  String get smudge_tool_dialog_pressure_title => 'Pressure';
+  String get smudgeToolDialogPressureTitle => 'Pressure';
 
   @override
-  String get smudge_tool_dialog_drag_title => 'Drag';
+  String get smudgeToolDialogDragTitle => 'Drag';
 
   @override
-  String get transform_tool_rotate_left => 'rotate left';
+  String get transformToolRotateLeft => 'rotate left';
 
   @override
-  String get transform_tool_rotate_right => 'rotate right';
+  String get transformToolRotateRight => 'rotate right';
 
   @override
-  String get transform_tool_flip_vertical => 'flip vertical';
+  String get transformToolFlipVertical => 'flip vertical';
 
   @override
-  String get transform_tool_flip_horizontal => 'flip horizontal';
+  String get transformToolFlipHorizontal => 'flip horizontal';
 
   @override
-  String get transform_tool_resize_text => 'resize';
+  String get transformToolResizeText => 'resize';
 
   @override
-  String get transform_tool_auto_crop_text => 'crop/enlarge';
+  String get transformToolAutoCropText => 'crop/enlarge';
 
   @override
-  String get transform_width_text => 'Width';
+  String get transformWidthText => 'Width';
 
   @override
-  String get transform_height_text => 'Height';
+  String get transformHeightText => 'Height';
 
   @override
-  String get transform_auto_crop_text => 'Auto';
+  String get transformAutoCropText => 'Auto';
 
   @override
-  String get transform_set_center_text => 'Set center';
+  String get transformSetCenterText => 'Set center';
 
   @override
   String get pixel => 'px';
 
   @override
-  String get clipboard_tool_copy_hint => 'Tap on copy to copy content';
+  String get clipboardToolCopyHint => 'Tap on copy to copy content';
 
   @override
-  String get layers_title => 'Layers';
+  String get layersTitle => 'Layers';
 
   @override
-  String get layer_new => 'New layer';
+  String get layerNew => 'New layer';
 
   @override
-  String get layer_delete => 'Delete layer';
+  String get layerDelete => 'Delete layer';
 
   @override
-  String get layer_too_many_layers => 'Too many layers';
+  String get layerTooManyLayers => 'Too many layers';
 
   @override
-  String get layer_merged => 'Layers merged';
+  String get layerMerged => 'Layers merged';
 
   @override
-  String get layer_background => 'Layer background';
+  String get layerBackground => 'Layer background';
 
   @override
-  String get layer_preview => 'Layer preview';
+  String get layerPreview => 'Layer preview';
 
   @override
-  String get dialog_loading_image_failed_title => 'Error on loading image';
+  String get dialogLoadingImageFailedTitle => 'Error on loading image';
 
   @override
-  String get dialog_loading_image_failed_text => 'Not a valid image';
+  String get dialogLoadingImageFailedText => 'Not a valid image';
 
   @override
-  String get dialog_settings => 'Settings';
+  String get dialogSettings => 'Settings';
 
   @override
-  String get dialog_save_image_name => 'Image name';
+  String get dialogSaveImageName => 'Image name';
 
   @override
-  String get dialog_save_image_format => 'Image format';
+  String get dialogSaveImageFormat => 'Image format';
 
   @override
-  String get dialog_save_project_name => 'Project name';
+  String get dialogSaveProjectName => 'Project name';
 
   @override
-  String get dialog_error_project_name => 'Please specifiy a project name';
+  String get dialogErrorProjectName => 'Please specifiy a project name';
 
   @override
-  String get dialog_error_image_name => 'Please specifiy an image name';
+  String get dialogErrorImageName => 'Please specifiy an image name';
 
   @override
-  String get dialog_antialiasing => 'Antialiasing';
+  String get dialogAntialiasing => 'Antialiasing';
 
   @override
-  String get dialog_smoothing => 'Smoothing';
+  String get dialogSmoothing => 'Smoothing';
 
   @override
-  String get dialog_zoom_window_enabled => 'Enabled';
+  String get dialogZoomWindowEnabled => 'Enabled';
 
   @override
-  String get dialog_save_jpg_option_quality => 'Quality';
+  String get dialogSaveJpgOptionQuality => 'Quality';
 
   @override
-  String get pocketpaint_jpg_message_dialog =>
+  String get pocketpaintJpgMessageDialog =>
       'Takes up minimal storage space. No transparency is remembered.';
 
   @override
-  String get pocketpaint_png_message_dialog =>
+  String get pocketpaintPngMessageDialog =>
       'Lossless compression. Transparency is preserved.';
 
   @override
-  String get pocketpaint_ora_message_dialog =>
+  String get pocketpaintOraMessageDialog =>
       'This format remembers <b>layers</b>. <b>It can be opened by apps that support the Openraster format.</b>';
 
   @override
-  String get pocketpaint_catrobat_message_dialog =>
+  String get pocketpaintCatrobatMessageDialog =>
       'Pocket Paint\'s native image format. This format remembers commands and layers.';
 
   @override
-  String get permission_info_external_storage_text =>
+  String get permissionInfoExternalStorageText =>
       'This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.';
 
   @override
-  String get permission_info_permanent_denial_text =>
+  String get permissionInfoPermanentDenialText =>
       'This app needs the requested permission to function properly. In order to save images to the local memory, the app needs read and write access to it.<\b> As you have denied permission with do not ask again, please go to your phone settings and grant the required permissions if you wish to use the associated functions.';
 
   @override
-  String get set_center_info_text =>
+  String get setCenterInfoText =>
       'Tap the screen to define the new center position.';
 
   @override
-  String get transform_info_text =>
+  String get transformInfoText =>
       'Drag edges to their new position, then tap to enlarge or crop the image area.';
 
   @override
-  String get cursor_draw_inactive =>
+  String get cursorDrawInactive =>
       'Pan to position, then tap to start painting.';
 
   @override
-  String get cursor_draw_active =>
+  String get cursorDrawActive =>
       'Pan to draw, then tap again to stop painting.';
 
   @override
-  String get welcome_to_pocket_paint => 'Welcome To Pocket Paint';
+  String get welcomeToPocketPaint => 'Welcome To Pocket Paint';
 
   @override
-  String get intro_welcome_text =>
+  String get introWelcomeText =>
       'With Pocket Paint there are no limits to your creativity. If you are new, start the intro, or skip it if you are already familiar with Pocket Paint.';
 
   @override
-  String get intro_tool_more_information =>
+  String get introToolMoreInformation =>
       'Tap on a tool to get more information';
 
   @override
-  String get more_possibilities => 'More possibilities';
+  String get morePossibilities => 'More possibilities';
 
   @override
-  String get intro_possibilities_text =>
+  String get introPossibilitiesText =>
       'Use the top bar to open the overflow menu and to undo or redo changes';
 
   @override
   String get landscape => 'Landscape';
 
   @override
-  String get intro_landscape_text =>
+  String get introLandscapeText =>
       'Pocket Paint also supports drawing in landscape mode to give you the best painting experience.';
 
   @override
-  String get enjoy_pocket_paint => 'You are all set. Enjoy Pocket Paint.';
+  String get enjoyPocketPaint => 'You are all set. Enjoy Pocket Paint.';
 
   @override
-  String get intro_get_started => 'Get started and create a new masterpiece.';
+  String get introGetStarted => 'Get started and create a new masterpiece.';
 
   @override
-  String get lets_go => 'Let\'s go';
+  String get letsGo => 'Let\'s go';
 
   @override
   String get next => 'Next';
@@ -576,85 +574,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skip => 'Skip';
 
   @override
-  String get pocketpaint_about_title => 'About';
+  String get pocketpaintAboutTitle => 'About';
 
   @override
-  String get pocketpaint_about_content =>
+  String get pocketpaintAboutContent =>
       'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the __license__.\nFor precise details of the license see the link below.';
 
   @override
-  String get pocketpaint_about_url_license_description =>
+  String get pocketpaintAboutUrlLicenseDescription =>
       'Pocket Paint source code license';
 
   @override
-  String get pocketpaint_about_url_catrobat_description => 'About Catrobat';
+  String get pocketpaintAboutUrlCatrobatDescription => 'About Catrobat';
 
   @override
-  String get pocketpaint_intro => 'Intro';
+  String get pocketpaintIntro => 'Intro';
 
   @override
-  String get pocketpaint_intro_split_screen_not_supported =>
+  String get pocketpaintIntroSplitScreenNotSupported =>
       'Intro does not support split screen.';
 
   @override
-  String get pocketpaint_overwrite_title => 'Overwrite File?';
+  String get pocketpaintOverwriteTitle => 'Overwrite File?';
 
   @override
-  String get pocketpaint_overwrite =>
+  String get pocketpaintOverwrite =>
       'You are about to overwrite an existing project. Save anyway?';
 
   @override
-  String get pocketpaint_like_us => 'Do you like Pocket Paint?';
+  String get pocketpaintLikeUs => 'Do you like Pocket Paint?';
 
   @override
-  String get pocketpaint_rate_us => 'Would you like to rate Pocket Paint?';
+  String get pocketpaintRateUs => 'Would you like to rate Pocket Paint?';
 
   @override
-  String get pocketpaint_feedback =>
+  String get pocketpaintFeedback =>
       'We are sorry to hear that. If you want to share your experience with us, please write to contact@catrobat.org';
 
   @override
-  String get pocketpaint_yes => 'Yes';
+  String get pocketpaintYes => 'Yes';
 
   @override
-  String get pocketpaint_no => 'No';
+  String get pocketpaintNo => 'No';
 
   @override
-  String get pocketpaint_cancel => 'Cancel';
+  String get pocketpaintCancel => 'Cancel';
 
   @override
-  String get pocketpaint_not_now => 'Not now';
+  String get pocketpaintNotNow => 'Not now';
 
   @override
-  String get pocketpaint_rate_us_title => 'Rate Pocket Paint';
+  String get pocketpaintRateUsTitle => 'Rate Pocket Paint';
 
   @override
-  String get intro_bottom_navigation_tools_description =>
+  String get introBottomNavigationToolsDescription =>
       'Switch to the tool you want to use.';
 
   @override
-  String get intro_bottom_navigation_current_description =>
+  String get introBottomNavigationCurrentDescription =>
       'Shows the currently used tool and opens its options.';
 
   @override
-  String get intro_bottom_navigation_color_description =>
+  String get introBottomNavigationColorDescription =>
       'Shows the currently used colour and opens the colour picker.';
 
   @override
-  String get intro_bottom_navigation_layers_description =>
+  String get introBottomNavigationLayersDescription =>
       'Opens the layer menu and lets you manage your layers.';
 
   @override
-  String get pocketpaint_tool_icon_description => 'Current tool icon';
+  String get pocketpaintToolIconDescription => 'Current tool icon';
 
   @override
-  String get dialog_scale_title => 'Image is too big to load';
+  String get dialogScaleTitle => 'Image is too big to load';
 
   @override
-  String get dialog_scale_message =>
+  String get dialogScaleMessage =>
       'The image is too big to load. Tap OK to scale down the image automatically.';
 
   @override
-  String get zoom_window_description =>
+  String get zoomWindowDescription =>
       'Used to display a zoomed in part of the drawing surface';
 }
