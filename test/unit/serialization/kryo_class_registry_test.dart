@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/backward_compatibility/kryo_class_registry.dart';
 import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
-import 'package:paintroid/core/backward_compatibility/legacy_deserializers.dart';
+import 'package:paintroid/core/backward_compatibility/models/models.dart';
 import 'package:paintroid/core/backward_compatibility/legacy_model_parser.dart';
 
 void main() {
