@@ -26,6 +26,8 @@ class SerializerType {
   static const String MOVE_TO_ACTION = 'MoveToAction';
   static const String LINE_TO_ACTION = 'LineToAction';
   static const String CLOSE_ACTION = 'CloseAction';
+  static const String QUAD_TO_ACTION = 'QuadToAction';
+  static const String CUBIC_TO_ACTION = 'CubicToAction';
   static const String SQUARE_SHAPE_COMMAND = 'SquareShapeCommand';
   static const String ELLIPSE_SHAPE_COMMAND = 'EllipseShapeCommand';
   static const String TEXT_COMMAND = 'TextCommand';
