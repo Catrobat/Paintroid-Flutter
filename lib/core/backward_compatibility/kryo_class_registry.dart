@@ -1,5 +1,5 @@
 import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
-import 'package:paintroid/core/backward_compatibility/legacy_deserializers.dart';
+import 'package:paintroid/core/backward_compatibility/models/models.dart';
 
 class KryoClassRegistry {
   static const int baseRegistrationId = 9;
@@ -100,6 +100,8 @@ class KryoClassRegistry {
         return LegacySerializablePathRewind.deserialize(reader);
       case 'SerializablePathCube':
         return LegacySerializablePathCube.deserialize(reader);
+      case 'SerializableTypeface':
+        return LegacySerializableTypeface.deserialize(reader);
       default:
         return className;
     }
