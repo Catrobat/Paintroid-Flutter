@@ -330,5 +330,93 @@ void main() {
       final layer2 = commands[1] as ClipboardCommand;
       expect(layer2.paint.color.a, equals(1.0));
     });
+
+    test(
+      'transform canvas state commands: Rotate, Flip, Crop, Resize, Reset',
+      () {
+        final legacyPaint = LegacyPaint(
+          color: 0xFF00FF00,
+          strokeWidth: 4.5,
+          strokeCap: 1,
+          isAntiAlias: true,
+          style: 1,
+          strokeJoin: 1,
+          hadFilter: false,
+          alpha: 255,
+        );
+
+        final legacyPath = LegacySerializablePath([
+          LegacySerializablePathMove(10.0, 20.0),
+        ]);
+
+        final legacyPathCmd = {
+          'type': 'PathCommand',
+          'paint': legacyPaint,
+          'path': legacyPath,
+        };
+
+        final legacyRotate = {'type': 'RotateCommand', 'rotateDirection': 1};
+
+        final legacyFlip = {'type': 'FlipCommand', 'flipDirection': 1};
+
+        final legacyCrop = {
+          'type': 'CropCommand',
+          'coordinateXLeft': 5,
+          'coordinateYTop': 5,
+          'coordinateXRight': 55,
+          'coordinateYBottom': 55,
+        };
+
+        final legacyResize = {
+          'type': 'ResizeCommand',
+          'width': 100,
+          'height': 100,
+        };
+
+        final model = LegacyCommandManagerModel(
+          initialCommand: {
+            'type': 'SetDimensionCommand',
+            'width': 100,
+            'height': 200,
+          },
+          commands: [
+            legacyPathCmd,
+            legacyRotate,
+            legacyFlip,
+            legacyCrop,
+            legacyResize,
+          ],
+        );
+
+        final image = LegacyModelTransformer.transform(model);
+        expect(image.width, equals(100));
+        expect(image.height, equals(100));
+
+        final commands = image.commands.toList();
+        expect(commands.length, equals(1));
+        expect(commands[0], isA<PathCommand>());
+
+        final pathCmd = commands[0] as PathCommand;
+        expect(pathCmd.path.actions.length, equals(1));
+        final moveAction = pathCmd.path.actions[0] as MoveToAction;
+        expect(moveAction.x, closeTo(30.0, 0.01));
+        expect(moveAction.y, closeTo(10.0, 0.01));
+
+        // Test ResetCommand
+        final modelReset = LegacyCommandManagerModel(
+          initialCommand: {
+            'type': 'SetDimensionCommand',
+            'width': 100,
+            'height': 100,
+          },
+          commands: [
+            legacyPathCmd,
+            {'type': 'ResetCommand'},
+          ],
+        );
+        final imageReset = LegacyModelTransformer.transform(modelReset);
+        expect(imageReset.commands.isEmpty, isTrue);
+      },
+    );
   });
 }

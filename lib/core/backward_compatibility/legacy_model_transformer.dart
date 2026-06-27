@@ -245,6 +245,92 @@ class LegacyModelTransformer {
           // Safely ignored to flatten multi-layer legacy drawings onto the modern single canvas.
           break;
 
+        case 'RotateCommand':
+          final rotateDirection = legacyCmd['rotateDirection'] as int;
+          final double oldW = width.toDouble();
+          final double oldH = height.toDouble();
+
+          if (rotateDirection == 1) {
+            _transformAccumulatedCommands(
+              commands,
+              (p) => Offset(oldH - p.dy, p.dx),
+              swapSize: true,
+              mapAngle: (a) => a + math.pi / 2,
+            );
+            final temp = width;
+            width = height;
+            height = temp;
+          } else if (rotateDirection == 2) {
+            _transformAccumulatedCommands(
+              commands,
+              (p) => Offset(p.dy, oldW - p.dx),
+              swapSize: true,
+              mapAngle: (a) => a - math.pi / 2,
+            );
+            final temp = width;
+            width = height;
+            height = temp;
+          }
+          break;
+
+        case 'FlipCommand':
+          final flipDirection = legacyCmd['flipDirection'] as int;
+          final double currentW = width.toDouble();
+          final double currentH = height.toDouble();
+
+          if (flipDirection == 1) {
+            _transformAccumulatedCommands(
+              commands,
+              (p) => Offset(currentW - p.dx, p.dy),
+              swapSize: false,
+              mapAngle: (a) => -a,
+            );
+          } else if (flipDirection == 2) {
+            _transformAccumulatedCommands(
+              commands,
+              (p) => Offset(p.dx, currentH - p.dy),
+              swapSize: false,
+              mapAngle: (a) => -a,
+            );
+          }
+          break;
+
+        case 'CropCommand':
+          final left = (legacyCmd['coordinateXLeft'] as int).toDouble();
+          final top = (legacyCmd['coordinateYTop'] as int).toDouble();
+          final right = (legacyCmd['coordinateXRight'] as int).toDouble();
+          final bottom = (legacyCmd['coordinateYBottom'] as int).toDouble();
+
+          _transformAccumulatedCommands(
+            commands,
+            (p) => Offset(p.dx - left, p.dy - top),
+            swapSize: false,
+            mapAngle: (a) => a,
+          );
+          width = (right - left).toInt();
+          height = (bottom - top).toInt();
+          break;
+
+        case 'ResizeCommand':
+          final newWidth = legacyCmd['width'] as int;
+          final newHeight = legacyCmd['height'] as int;
+          final double scaleX = width > 0 ? newWidth / width : 1.0;
+          final double scaleY = height > 0 ? newHeight / height : 1.0;
+
+          _transformAccumulatedCommands(
+            commands,
+            (p) => Offset(p.dx * scaleX, p.dy * scaleY),
+            swapSize: false,
+            mapAngle: (a) => a,
+          );
+          width = newWidth;
+          height = newHeight;
+          break;
+
+        case 'ResetCommand':
+          commands.clear();
+          break;
+
         default:
           break;
       }
@@ -349,5 +435,125 @@ class LegacyModelTransformer {
     final rx = x * cosA - y * sinA;
     final ry = x * sinA + y * cosA;
     return Offset(rx, ry) + center;
+  }
+
+  static void _transformAccumulatedCommands(
+    List<Command> commands,
+    Offset Function(Offset) mapOffset, {
+    required bool swapSize,
+    required double Function(double) mapAngle,
+  }) {
+    for (int i = 0; i < commands.length; i++) {
+      final cmd = commands[i];
+      if (cmd is PathCommand) {
+        commands[i] = PathCommand(
+          _transformPathHistory(cmd.path, mapOffset),
+          cmd.paint,
+        );
+      } else if (cmd is SprayCommand) {
+        commands[i] = SprayCommand(
+          cmd.points.map(mapOffset).toList(),
+          cmd.paint,
+        );
+      } else if (cmd is TextCommand) {
+        commands[i] = TextCommand(
+          mapOffset(cmd.point),
+          cmd.text,
+          cmd.style,
+          cmd.fontSize,
+          cmd.paint,
+          rotationAngle: mapAngle(cmd.rotationAngle),
+          scaleX: cmd.scaleX,
+          scaleY: cmd.scaleY,
+          version: cmd.version,
+        );
+      } else if (cmd is ClipboardCommand) {
+        commands[i] = ClipboardCommand(
+          cmd.paint,
+          cmd.imageData,
+          mapOffset(cmd.offset),
+          cmd.scale,
+          mapAngle(cmd.rotation),
+          version: cmd.version,
+        );
+      } else if (cmd is DeleteRegionCommand) {
+        final p1 = mapOffset(cmd.region.topLeft);
+        final p2 = mapOffset(cmd.region.bottomRight);
+        commands[i] = DeleteRegionCommand(
+          cmd.paint,
+          Rect.fromPoints(p1, p2),
+          version: cmd.version,
+        );
+      } else if (cmd is EllipseShapeCommand) {
+        commands[i] = EllipseShapeCommand(
+          cmd.paint,
+          swapSize ? cmd.radiusY : cmd.radiusX,
+          swapSize ? cmd.radiusX : cmd.radiusY,
+          mapOffset(cmd.center),
+          cmd.style,
+          mapAngle(cmd.angle),
+          version: cmd.version,
+        );
+      } else if (cmd is SquareShapeCommand) {
+        commands[i] = SquareShapeCommand(
+          cmd.paint,
+          mapOffset(cmd.topLeft),
+          mapOffset(cmd.topRight),
+          mapOffset(cmd.bottomLeft),
+          mapOffset(cmd.bottomRight),
+          cmd.style,
+          version: cmd.version,
+        );
+      } else if (cmd is HeartShapeCommand) {
+        commands[i] = HeartShapeCommand(
+          cmd.paint,
+          swapSize ? cmd.height : cmd.width,
+          swapSize ? cmd.width : cmd.height,
+          mapAngle(cmd.angle),
+          mapOffset(cmd.center),
+          cmd.style,
+          version: cmd.version,
+        );
+      } else if (cmd is StarShapeCommand) {
+        commands[i] = StarShapeCommand(
+          cmd.paint,
+          cmd.numberOfPoints,
+          mapAngle(cmd.angle),
+          mapOffset(cmd.center),
+          cmd.style,
+          swapSize ? cmd.radiusY : cmd.radiusX,
+          swapSize ? cmd.radiusX : cmd.radiusY,
+          version: cmd.version,
+        );
+      }
+    }
+  }
+
+  static PathWithActionHistory _transformPathHistory(
+    PathWithActionHistory original,
+    Offset Function(Offset) mapOffset,
+  ) {
+    final result = PathWithActionHistory();
+    for (final action in original.actions) {
+      if (action is MoveToAction) {
+        final p = mapOffset(Offset(action.x, action.y));
+        result.moveTo(p.dx, p.dy);
+      } else if (action is LineToAction) {
+        final p = mapOffset(Offset(action.x, action.y));
+        result.lineTo(p.dx, p.dy);
+      } else if (action is CloseAction) {
+        result.close();
+      } else if (action is QuadToAction) {
+        final p1 = mapOffset(Offset(action.x1, action.y1));
+        final p2 = mapOffset(Offset(action.x2, action.y2));
+        result.quadTo(p1.dx, p1.dy, p2.dx, p2.dy);
+      } else if (action is CubicToAction) {
+        final p1 = mapOffset(Offset(action.x1, action.y1));
+        final p2 = mapOffset(Offset(action.x2, action.y2));
+        final p3 = mapOffset(Offset(action.x3, action.y3));
+        result.cubicTo(p1.dx, p1.dy, p2.dx, p2.dy, p3.dx, p3.dy);
+      }
+    }
+    return result;
   }
 }
