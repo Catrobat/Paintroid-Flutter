@@ -238,5 +238,97 @@ void main() {
       final cut = commands[1] as DeleteRegionCommand;
       expect(cut.region, equals(const Rect.fromLTWH(260.0, 370.0, 80.0, 60.0)));
     });
+
+    test('transform layer state commands and load layer list', () {
+      final pngHeader = Uint8List.fromList([
+        0x89,
+        0x50,
+        0x4E,
+        0x47,
+        0x0D,
+        0x0A,
+        0x1A,
+        0x0A,
+        0x00,
+        0x00,
+        0x00,
+        0x0D,
+        0x49,
+        0x48,
+        0x44,
+        0x52,
+        0x00,
+        0x00,
+        0x00,
+        0x64,
+        0x00,
+        0x00,
+        0x00,
+        0x64,
+        0x08,
+        0x02,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+      ]);
+
+      final legacyLoadLayers = {
+        'type': 'LoadLayerListCommand',
+        'layers': [
+          {'bitmap': pngHeader, 'opacity': 128},
+          {'bitmap': pngHeader, 'opacity': 255},
+        ],
+      };
+
+      final legacyAddEmpty = {'type': 'AddEmptyLayerCommand'};
+      final legacySelect = {'type': 'SelectLayerCommand', 'layerIndex': 1};
+      final legacyReorder = {
+        'type': 'ReorderLayersCommand',
+        'fromIndex': 0,
+        'toIndex': 1,
+      };
+      final legacyRemove = {'type': 'RemoveLayerCommand', 'layerIndex': 0};
+      final legacyOpacity = {
+        'type': 'LayerOpacityCommand',
+        'layerIndex': 1,
+        'opacity': 0.5,
+      };
+
+      final model = LegacyCommandManagerModel(
+        initialCommand: {
+          'type': 'SetDimensionCommand',
+          'width': 800,
+          'height': 600,
+        },
+        commands: [
+          legacyLoadLayers,
+          legacyAddEmpty,
+          legacySelect,
+          legacyReorder,
+          legacyRemove,
+          legacyOpacity,
+        ],
+      );
+
+      final image = LegacyModelTransformer.transform(model);
+      final commands = image.commands.toList();
+
+      expect(commands.length, equals(2));
+      expect(commands[0], isA<ClipboardCommand>());
+      expect(commands[1], isA<ClipboardCommand>());
+
+      final layer1 = commands[0] as ClipboardCommand;
+      expect(layer1.offset, equals(Offset.zero));
+      expect(layer1.scale, equals(1.0));
+      expect(layer1.rotation, equals(0.0));
+      expect(layer1.paint.color.a, closeTo(128 / 255, 0.01));
+
+      final layer2 = commands[1] as ClipboardCommand;
+      expect(layer2.paint.color.a, equals(1.0));
+    });
   });
 }

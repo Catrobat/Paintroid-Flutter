@@ -219,6 +219,32 @@ class LegacyModelTransformer {
           }
           break;
 
+        case 'LoadLayerListCommand':
+          final layers = legacyCmd['layers'] as List<dynamic>;
+          for (final layer in layers) {
+            final bitmapBytes = layer['bitmap'] as Uint8List;
+            final opacity = layer['opacity'] as int;
+
+            final scale = 1.0;
+            final offset = Offset.zero;
+            final paint = Paint()
+              ..color = Colors.black.withValues(alpha: opacity / 255.0);
+
+            commands.add(
+              ClipboardCommand(paint, bitmapBytes, offset, scale, 0.0),
+            );
+          }
+          break;
+
+        case 'AddEmptyLayerCommand':
+        case 'SelectLayerCommand':
+        case 'RemoveLayerCommand':
+        case 'MergeLayersCommand':
+        case 'ReorderLayersCommand':
+        case 'LayerOpacityCommand':
+          // Safely ignored to flatten multi-layer legacy drawings onto the modern single canvas.
+          break;
+
         default:
           break;
       }
