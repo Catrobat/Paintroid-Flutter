@@ -155,7 +155,7 @@
   "dialogErrorImageName": "Bitte gib einen Bildnamen ein",
   "dialogAntialiasing": "Antialiasing",
   "dialogSmoothing": "Glättung",
-  "dialogZoomWindowEnabled": "Enabled",
+  "dialogZoomWindowEnabled": "Aktiviert",
   "dialogSaveJpgOptionQuality": "Qualität",
   "pocketpaintJpgMessageDialog": "Verwendet minimalen Speicherplatz. Keine Transparenz wird gespeichert.",
   "pocketpaintPngMessageDialog": "Verlustfreie Kompression. Transparenz bleibt erhalten.",
