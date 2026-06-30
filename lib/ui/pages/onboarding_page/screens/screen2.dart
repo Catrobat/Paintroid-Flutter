@@ -16,6 +16,14 @@ class Screen2 extends StatefulWidget {
 class _Screen2State extends State<Screen2> {
   List<String> titles = ['Tools', 'Current', 'Color', 'Layers', 'Undo', 'Redo'];
 
+  List<String> icons = [
+    'assets/svg/ic_tools.svg',
+    'assets/svg/ic_hand.svg',
+    '',
+    'assets/svg/ic_layers.svg'
+  ];
+
+
   List<String> descriptions = [
     'Switch to the tool you want to use.',
     'Shows the currently used tool and opens its options.',
@@ -36,17 +44,24 @@ class _Screen2State extends State<Screen2> {
     });
   }
 
-  void tools() => onPressed(0);
-
-  void current() => onPressed(1);
-
-  void color() => onPressed(2);
-
-  void layers() => onPressed(3);
-
   void undo() => onPressed(4);
 
   void redo() => onPressed(5);
+
+  List<BottomNavItemData> _getBottomNavItems(int l, int r) {
+  return List.generate(
+    r - l + 1,
+    (i) {
+      final index = l + i;
+
+      return BottomNavItemData(
+        label: titles[index],
+        icon: index != 2 ? BottomBarIcon(asset: icons[index]) : Icon(Icons.check_box_outline_blank, size: 24, color: PaintroidTheme.of(context).onSurfaceColor),
+        onPressed: () => onPressed(index),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -103,29 +118,8 @@ class _Screen2State extends State<Screen2> {
         ),
       ),
       bottomNavigationBar: OnboardingPageBottomNavigationBar(
-        onPressedFunctions: [tools, current, color, layers],
-        barItems: [
-          const BottomNavigationBarItem(
-            label: 'Tools',
-            icon: BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
-          ),
-          const BottomNavigationBarItem(
-            label: 'Current',
-            icon: BottomBarIcon(asset: 'assets/svg/ic_hand.svg'),
-          ),
-          BottomNavigationBarItem(
-            label: 'Color',
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              size: 24,
-              color: PaintroidTheme.of(context).onSurfaceColor,
-            ),
-          ),
-          const BottomNavigationBarItem(
-              label: 'Layers',
-              icon: BottomBarIcon(asset: 'assets/svg/ic_layers.svg')),
-        ],
-      ),
+        items: _getBottomNavItems(0, 3),
+      )
     );
   }
 }
