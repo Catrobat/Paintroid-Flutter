@@ -22,6 +22,7 @@ class CursorTool extends BrushTool {
     required super.commandManager,
     required super.graphicFactory,
     required this.canvasCenter,
+    required super.isSmoothingEnabled,
     required super.type,
     super.isCursor = true,
   }) {

@@ -22,6 +22,7 @@ void main() {
     sut = BrushTool(
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
+      isSmoothingEnabled: () => false,
       graphicFactory: const GraphicFactory(),
       type: ToolType.BRUSH,
     );

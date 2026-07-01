@@ -14,6 +14,12 @@ class PathActionConverter
         return MoveToAction(json['x'] as double, json['y'] as double);
       case SerializerType.LINE_TO_ACTION:
         return LineToAction(json['x'] as double, json['y'] as double);
+      case 'CUBIC_TO_ACTION': 
+        return CubicToAction(
+          json['x1'] as double, json['y1'] as double,
+          json['x2'] as double, json['y2'] as double,
+          json['x3'] as double, json['y3'] as double,
+        );
       case SerializerType.CLOSE_ACTION:
         return const CloseAction();
       default:
@@ -37,6 +43,18 @@ class PathActionConverter
           'type': SerializerType.LINE_TO_ACTION,
           'x': action.x,
           'y': action.y,
+        };
+      // --- ADDED CUBIC TO SERIALIZATION ---
+      case == CubicToAction:
+        action as CubicToAction;
+        return {
+          'type': 'CUBIC_TO_ACTION',
+          'x1': action.x1,
+          'y1': action.y1,
+          'x2': action.x2,
+          'y2': action.y2,
+          'x3': action.x3,
+          'y3': action.y3,
         };
       default:
         return {'type': SerializerType.CLOSE_ACTION};

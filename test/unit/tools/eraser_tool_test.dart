@@ -15,6 +15,7 @@ void main() {
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
+      isSmoothingEnabled: () => false,
     );
   });
 
