@@ -27,6 +27,11 @@ import 'package:paintroid/ui/shared/dialogs/load_image_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
 
+import 'package:toast/toast.dart';
+import 'package:paintroid/core/database/project_database.dart';
+import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
+import 'package:paintroid/core/models/database/project.dart';
+
 class IOHandler {
   final Ref ref;
 
@@ -44,22 +49,60 @@ class IOHandler {
     final isFileSaved = await workspaceStateNotifier
         .performIOTask(() => _saveImageWith(imageMetaData));
 
-    if (!isFileSaved) {
-      workspaceStateNotifier.markUnsavedChanges();
-    } else {
-      workspaceStateNotifier.updateLastSavedCommandCount();
-    }
-
     return isFileSaved;
   }
 
-  Future<File?> saveProject(ImageMetaData imageMetaData) async {
-    if (imageMetaData is! CatrobatImageMetaData) return null;
+  Future<bool> saveProject(BuildContext context) async {
+    ImageMetaData? imageData;
+
+    final project = ref.read(
+      workspaceStateProvider.select((state) => state.loadedProject),
+    );
+
+
+    if (project == null || project.name == '') {
+      imageData = await showSaveImageDialog(context, true);
+    } else {
+      imageData = CatrobatImageMetaData(project.name);
+    }
+
+    if (imageData == null) {
+      return false;
+    }
+
+    final catrobatImageData = imageData as CatrobatImageMetaData;
+
+    final db = await ref.read(ProjectDatabase.provider.future);
+    if (!context.mounted) return false;
+    
+    if ((project == null || project.name == '') && !await _checkIfFileExistsAndConfirmOverwrite(context, catrobatImageData, db)) {
+      return false;
+    }
+
     final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
-    final savedFile = await workspaceStateNotifier
-        .performIOTask(() => _saveAsCatrobatImage(imageMetaData, true));
-    if (savedFile != null) workspaceStateNotifier.updateLastSavedCommandCount();
-    return savedFile;
+    final savedProject = await workspaceStateNotifier
+      .performIOTask(() => _saveAsCatrobatImage(catrobatImageData, true));
+    if (savedProject != null) {
+      String? imagePreview =
+          await getPreviewPath(catrobatImageData);
+      if (project == null || project.name == '') {
+        Project projectNew = Project(
+          name: catrobatImageData.name,
+          path: savedProject.path,
+          lastModified: DateTime.now(),
+          creationDate: DateTime.now(),
+          resolution: '',
+          format: catrobatImageData.format.name,
+          size: await savedProject.length(),
+          imagePreviewPath: imagePreview,
+        );
+
+        await db.projectDAO.insertProject(projectNew);
+      }
+      workspaceStateNotifier.updateLastSavedCommandCount();
+      return true;
+    }
+    return false;
   }
 
   /// Returns [true] if -
@@ -72,7 +115,8 @@ class IOHandler {
       if (shouldDiscard == null || !state.mounted) return false;
       if (!shouldDiscard) {
         if (!context.mounted) return false;
-        final didSave = await saveImage(context);
+
+        final didSave = await saveProject(context);
         if (!didSave) return false;
       }
     }
@@ -81,7 +125,7 @@ class IOHandler {
 
   /// Returns [true] if the image was loaded successfully
   Future<bool> loadImage(
-      BuildContext context, State state, bool unsavedChanges) async {
+      BuildContext context, State state, { bool unsavedChanges = true }) async {
     if (unsavedChanges) {
       final shouldContinue = await handleUnsavedChanges(context, state);
       if (!shouldContinue) return false;
@@ -105,6 +149,7 @@ class IOHandler {
   Future<bool> newImage(BuildContext context, State state) async {
     final shouldContinue = await handleUnsavedChanges(context, state);
     if (!shouldContinue) return false;
+    ref.read(workspaceStateProvider.notifier).updateProject();
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
@@ -253,5 +298,56 @@ class IOHandler {
         return null;
       },
     );
+  }
+
+  Future<bool> _showOverwriteDialog(BuildContext context) async {
+    return await showOverwriteDialog(context) ?? false;
+  }
+
+  Future<bool> _deleteFileAndAssociatedProject(CatrobatImageMetaData imageData,
+      ProjectDatabase db, IFileService fileService) async {
+    final fileName = '${imageData.name}.${imageData.format.extension}';
+
+    final result = await fileService.deleteFileInApplicationDirectory(fileName);
+    if (result is Err) {
+      Toast.show(
+        'Could not delete the file while overwriting!',
+        duration: Toast.lengthShort,
+        gravity: Toast.bottom,
+      );
+      return false;
+    }
+
+    final oldProject = await db.projectDAO.getProjectByName(imageData.name);
+    final oldProjectId = oldProject?.id;
+    if (oldProject != null && oldProjectId != null) {
+      await db.projectDAO.deleteProject(oldProjectId);
+      ref.invalidate(ProjectDatabase.provider);
+    }
+
+    return true;
+  }
+
+  Future<bool> _checkIfFileExistsAndConfirmOverwrite(
+      BuildContext context, CatrobatImageMetaData imageData, ProjectDatabase db) async {
+    final fileService = ref.watch(IFileService.provider);
+    final fileName = '${imageData.name}.${imageData.format.extension}';
+    final fileExists =
+        await fileService.checkIfFileExistsInApplicationDirectory(fileName);
+
+    if (context.mounted && fileExists) {
+      final overWriteCanceled = await _showOverwriteDialog(context);
+      if (overWriteCanceled) {
+        Toast.show(
+          'Project not saved!',
+          duration: Toast.lengthShort,
+          gravity: Toast.bottom,
+        );
+        return false;
+      }
+      return await _deleteFileAndAssociatedProject(imageData, db, fileService);
+    }
+
+    return true;
   }
 }

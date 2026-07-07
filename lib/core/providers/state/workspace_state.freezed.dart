@@ -20,6 +20,7 @@ mixin _$WorkspaceState {
   bool get isPerformingIOTask => throw _privateConstructorUsedError;
   bool get hasUnsavedChanges => throw _privateConstructorUsedError;
   int get commandCountWhenLastSaved => throw _privateConstructorUsedError;
+  Project? get loadedProject => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WorkspaceStateCopyWith<WorkspaceState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $WorkspaceStateCopyWith<$Res> {
       {bool isFullscreen,
       bool isPerformingIOTask,
       bool hasUnsavedChanges,
-      int commandCountWhenLastSaved});
+      int commandCountWhenLastSaved,
+      Project? loadedProject});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$WorkspaceStateCopyWithImpl<$Res, $Val extends WorkspaceState>
     Object? isPerformingIOTask = null,
     Object? hasUnsavedChanges = null,
     Object? commandCountWhenLastSaved = null,
+    Object? loadedProject = freezed,
   }) {
     return _then(_value.copyWith(
       isFullscreen: null == isFullscreen
@@ -74,6 +77,10 @@ class _$WorkspaceStateCopyWithImpl<$Res, $Val extends WorkspaceState>
           ? _value.commandCountWhenLastSaved
           : commandCountWhenLastSaved // ignore: cast_nullable_to_non_nullable
               as int,
+      loadedProject: freezed == loadedProject
+          ? _value.loadedProject
+          : loadedProject // ignore: cast_nullable_to_non_nullable
+              as Project?,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$WorkspaceStateImplCopyWith<$Res>
       {bool isFullscreen,
       bool isPerformingIOTask,
       bool hasUnsavedChanges,
-      int commandCountWhenLastSaved});
+      int commandCountWhenLastSaved,
+      Project? loadedProject});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$WorkspaceStateImplCopyWithImpl<$Res>
     Object? isPerformingIOTask = null,
     Object? hasUnsavedChanges = null,
     Object? commandCountWhenLastSaved = null,
+    Object? loadedProject = freezed,
   }) {
     return _then(_$WorkspaceStateImpl(
       isFullscreen: null == isFullscreen
@@ -126,6 +135,10 @@ class __$$WorkspaceStateImplCopyWithImpl<$Res>
           ? _value.commandCountWhenLastSaved
           : commandCountWhenLastSaved // ignore: cast_nullable_to_non_nullable
               as int,
+      loadedProject: freezed == loadedProject
+          ? _value.loadedProject
+          : loadedProject // ignore: cast_nullable_to_non_nullable
+              as Project?,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$WorkspaceStateImpl implements _WorkspaceState {
       {required this.isFullscreen,
       required this.isPerformingIOTask,
       required this.hasUnsavedChanges,
-      required this.commandCountWhenLastSaved});
+      required this.commandCountWhenLastSaved,
+      this.loadedProject});
 
   @override
   final bool isFullscreen;
@@ -147,10 +161,12 @@ class _$WorkspaceStateImpl implements _WorkspaceState {
   final bool hasUnsavedChanges;
   @override
   final int commandCountWhenLastSaved;
+  @override
+  final Project? loadedProject;
 
   @override
   String toString() {
-    return 'WorkspaceState(isFullscreen: $isFullscreen, isPerformingIOTask: $isPerformingIOTask, hasUnsavedChanges: $hasUnsavedChanges, commandCountWhenLastSaved: $commandCountWhenLastSaved)';
+    return 'WorkspaceState(isFullscreen: $isFullscreen, isPerformingIOTask: $isPerformingIOTask, hasUnsavedChanges: $hasUnsavedChanges, commandCountWhenLastSaved: $commandCountWhenLastSaved, loadedProject: $loadedProject)';
   }
 
   @override
@@ -166,12 +182,14 @@ class _$WorkspaceStateImpl implements _WorkspaceState {
                 other.hasUnsavedChanges == hasUnsavedChanges) &&
             (identical(other.commandCountWhenLastSaved,
                     commandCountWhenLastSaved) ||
-                other.commandCountWhenLastSaved == commandCountWhenLastSaved));
+                other.commandCountWhenLastSaved == commandCountWhenLastSaved) &&
+            (identical(other.loadedProject, loadedProject) ||
+                other.loadedProject == loadedProject));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isFullscreen, isPerformingIOTask,
-      hasUnsavedChanges, commandCountWhenLastSaved);
+      hasUnsavedChanges, commandCountWhenLastSaved, loadedProject);
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +204,8 @@ abstract class _WorkspaceState implements WorkspaceState {
       {required final bool isFullscreen,
       required final bool isPerformingIOTask,
       required final bool hasUnsavedChanges,
-      required final int commandCountWhenLastSaved}) = _$WorkspaceStateImpl;
+      required final int commandCountWhenLastSaved,
+      final Project? loadedProject}) = _$WorkspaceStateImpl;
 
   @override
   bool get isFullscreen;
@@ -196,6 +215,8 @@ abstract class _WorkspaceState implements WorkspaceState {
   bool get hasUnsavedChanges;
   @override
   int get commandCountWhenLastSaved;
+  @override
+  Project? get loadedProject;
   @override
   @JsonKey(ignore: true)
   _$$WorkspaceStateImplCopyWith<_$WorkspaceStateImpl> get copyWith =>
