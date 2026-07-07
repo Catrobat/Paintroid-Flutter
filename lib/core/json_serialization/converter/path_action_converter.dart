@@ -44,7 +44,6 @@ class PathActionConverter
           'x': action.x,
           'y': action.y,
         };
-      // --- ADDED CUBIC TO SERIALIZATION ---
       case == CubicToAction:
         action as CubicToAction;
         return {
