@@ -7,7 +7,7 @@ part of 'watercolor_tool_provider.dart';
 // **************************************************************************
 
 String _$watercolorToolProviderHash() =>
-    r'd9cd556d81025f88e04d078fbde0865d071161f9';
+    r'd1cd84c8b658e1388c5da4a44850cd39faaf53e2';
 
 /// See also [WatercolorToolProvider].
 @ProviderFor(WatercolorToolProvider)

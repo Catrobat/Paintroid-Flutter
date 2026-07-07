@@ -108,7 +108,7 @@ class __$$AdvancedSettingsStateDataImplCopyWithImpl<$Res>
 
 class _$AdvancedSettingsStateDataImpl implements _AdvancedSettingsStateData {
   const _$AdvancedSettingsStateDataImpl(
-      {this.isAntialiasingEnabled = false, this.isSmoothingEnabled = false});
+      {this.isAntialiasingEnabled = true, this.isSmoothingEnabled = true});
 
   @override
   @JsonKey()

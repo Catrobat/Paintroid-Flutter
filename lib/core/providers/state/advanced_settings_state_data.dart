@@ -5,7 +5,7 @@ part 'advanced_settings_state_data.freezed.dart';
 @freezed
 class AdvancedSettingsStateData with _$AdvancedSettingsStateData {
   const factory AdvancedSettingsStateData({
-    @Default(false) bool isAntialiasingEnabled,
-    @Default(false) bool isSmoothingEnabled,
+    @Default(true) bool isAntialiasingEnabled,
+    @Default(true) bool isSmoothingEnabled,
   }) = _AdvancedSettingsStateData;
 }

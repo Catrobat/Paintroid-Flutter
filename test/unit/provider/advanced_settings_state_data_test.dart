@@ -7,8 +7,8 @@ void main() {
       
       const state = AdvancedSettingsStateData();
 
-      expect(state.isAntialiasingEnabled, isFalse);
-      expect(state.isSmoothingEnabled, isFalse);
+      expect(state.isAntialiasingEnabled, isTrue);
+      expect(state.isSmoothingEnabled, isTrue);
     });
   });
 }

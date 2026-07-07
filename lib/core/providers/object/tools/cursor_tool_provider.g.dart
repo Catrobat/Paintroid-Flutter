@@ -7,7 +7,7 @@ part of 'cursor_tool_provider.dart';
 // **************************************************************************
 
 String _$cursorToolProviderHash() =>
-    r'3d71164af06a30920e54814e04a468ce625909f1';
+    r'7df39e9559d47b868e6670428a2f5d9cb06862a7';
 
 /// See also [CursorToolProvider].
 @ProviderFor(CursorToolProvider)
