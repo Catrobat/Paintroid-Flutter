@@ -46,6 +46,8 @@ class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
         size: initialCanvasSize,
       );
 
+  void setCanvasSize(Size size) => state = state.copyWith(size: size);
+
   Future<void> updateCachedImage() async {
     state = state.copyWith(isCachingCommand: true);
     final recorder = state.graphicFactory.createPictureRecorder();

@@ -34,7 +34,9 @@ class LegacyModelTransformer {
 
     // 2. Map all native commands
     for (final legacyCmd in model.commands) {
-      if (legacyCmd is! Map) continue;
+      if (legacyCmd is! Map) {
+        continue;
+      }
 
       final type = legacyCmd['type'] as String;
       switch (type) {

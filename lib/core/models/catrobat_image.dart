@@ -6,6 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
+import 'package:paintroid/core/backward_compatibility/legacy_model_parser.dart';
+import 'package:paintroid/core/backward_compatibility/legacy_model_transformer.dart';
 
 part 'catrobat_image.g.dart';
 
@@ -25,8 +28,8 @@ class CatrobatImage {
     this.backgroundImage, {
     int? version,
     this.magicValue = 'CATROBAT',
-  }) : version = version ??
-            VersionStrategyManager.strategy.getCatrobatImageVersion();
+  }) : version =
+           version ?? VersionStrategyManager.strategy.getCatrobatImageVersion();
 
   Uint8List toBytes() {
     Map<String, dynamic> jsonMap = toJson();
@@ -35,9 +38,36 @@ class CatrobatImage {
   }
 
   static CatrobatImage fromBytes(Uint8List bytes) {
-    String jsonString = utf8.decode(bytes);
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-    return CatrobatImage.fromJson(jsonMap);
+    try {
+      String jsonString = utf8.decode(bytes);
+      Map<String, dynamic> jsonMap = json.decode(jsonString);
+      return CatrobatImage.fromJson(jsonMap);
+    } catch (_) {
+      try {
+        final reader = KryoReader(bytes);
+        if (bytes.length >= 8 &&
+            bytes[0] == 0x43 &&
+            bytes[1] == 0x41 &&
+            bytes[2] == 0x54 &&
+            bytes[3] == 0x52 &&
+            bytes[4] == 0x4F &&
+            bytes[5] == 0x42 &&
+            bytes[6] == 0x41 &&
+            (bytes[7] == 0x54 || bytes[7] == 0xD4)) {
+          reader.readBytes(8); // Consumes "CATROBAT" magic string (raw ASCII)
+          reader.readInt32();  // Consumes version
+          reader.readInt32();  // Consumes width
+          reader.readString(); // Consumes backgroundImage string
+        }
+        final legacyModel = LegacyCommandManagerModel.deserialize(reader);
+        final image = LegacyModelTransformer.transform(legacyModel);
+        return image;
+      } catch (e) {
+        throw FormatException(
+          'Failed to parse CatrobatImage: Not a valid JSON or legacy binary format. Error: $e',
+        );
+      }
+    }
   }
 
   Map<String, dynamic> toJson() => _$CatrobatImageToJson(this);

@@ -8,7 +8,7 @@ class LegacySerializablePath {
   LegacySerializablePath(this.actions);
 
   factory LegacySerializablePath.deserialize(KryoReader reader) {
-    final size = reader.readInt32();
+    final int size = reader.readInt32();
     final List<LegacySerializableAction> actions = [];
     for (int i = 0; i < size; i++) {
       final action = KryoClassRegistry.readClassAndObject(reader);
