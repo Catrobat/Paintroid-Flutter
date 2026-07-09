@@ -27,6 +27,9 @@ class LegacyCommandManagerModel {
 
     final List<dynamic> commands = [];
     for (int i = 0; i < size; i++) {
+      if (!reader.hasRemaining) {
+        break;
+      }
       final String? className = KryoClassRegistry.readClassName(reader);
       if (className != null) {
         commands.add(_deserializeCommand(className, reader));
@@ -50,8 +53,8 @@ class LegacyCommandManagerModel {
           'height': height,
         };
       case 'PathCommand':
-        final paint = KryoClassRegistry.readClassAndObject(reader);
-        final path = KryoClassRegistry.readClassAndObject(reader);
+        final paint = LegacyPaint.deserialize(reader);
+        final path = LegacySerializablePath.deserialize(reader);
         return {'type': 'PathCommand', 'paint': paint, 'path': path};
       case 'AddEmptyLayerCommand':
         return {'type': 'AddEmptyLayerCommand'};
@@ -110,7 +113,7 @@ class LegacyCommandManagerModel {
         final int height = reader.readInt32();
         return {'type': 'ResizeCommand', 'width': width, 'height': height};
       case 'CutCommand':
-        final position = KryoClassRegistry.readClassAndObject(reader);
+        final position = LegacyPoint.deserialize(reader);
         final double width = reader.readFloat();
         final double height = reader.readFloat();
         final double rotation = reader.readFloat() * math.pi / 180.0;
@@ -124,26 +127,26 @@ class LegacyCommandManagerModel {
       case 'ResetCommand':
         return {'type': 'ResetCommand'};
       case 'SprayCommand':
-        final sprayedPoints = KryoClassRegistry.readClassAndObject(reader);
-        final paint = KryoClassRegistry.readClassAndObject(reader);
+        final sprayedPoints = LegacyFloatArray.deserialize(reader).values;
+        final paint = LegacyPaint.deserialize(reader);
         return {
           'type': 'SprayCommand',
           'sprayedPoints': sprayedPoints,
           'paint': paint,
         };
       case 'PointCommand':
-        final point = LegacyPointF.deserialize(reader);
-        final paint = KryoClassRegistry.readClassAndObject(reader);
+        final point = LegacyPoint.deserialize(reader);
+        final paint = LegacyPaint.deserialize(reader);
         return {'type': 'PointCommand', 'point': point, 'paint': paint};
       case 'TextToolCommand':
-        final text = KryoClassRegistry.readClassAndObject(reader);
-        final paint = KryoClassRegistry.readClassAndObject(reader);
+        final text = LegacyStringArray.deserialize(reader).values;
+        final paint = LegacyPaint.deserialize(reader);
         final offset = reader.readFloat();
         final width = reader.readFloat();
         final height = reader.readFloat();
-        final position = KryoClassRegistry.readClassAndObject(reader);
+        final position = LegacyPointF.deserialize(reader);
         final rotation = reader.readFloat() * math.pi / 180.0;
-        final typeface = KryoClassRegistry.readClassAndObject(reader);
+        final typeface = LegacySerializableTypeface.deserialize(reader);
         return {
           'type': 'TextToolCommand',
           'multilineText': text,
@@ -157,7 +160,7 @@ class LegacyCommandManagerModel {
         };
       case 'ClipboardCommand':
         final bitmapBytes = readPngBytes(reader);
-        final coordinates = KryoClassRegistry.readClassAndObject(reader);
+        final coordinates = LegacyPoint.deserialize(reader);
         final width = reader.readFloat();
         final height = reader.readFloat();
         final rotation = reader.readFloat() * math.pi / 180.0;
@@ -174,7 +177,7 @@ class LegacyCommandManagerModel {
         final List<dynamic> pointPath = [];
         final size = reader.readInt32();
         for (int i = 0; i < size; i++) {
-          pointPath.add(KryoClassRegistry.readClassAndObject(reader));
+          pointPath.add(LegacyPointF.deserialize(reader));
         }
         final maxPressure = reader.readFloat();
         final maxSize = reader.readFloat();
@@ -188,8 +191,8 @@ class LegacyCommandManagerModel {
           'minSize': minSize,
         };
       case 'ClippingCommand':
-        final bitmap = KryoClassRegistry.readClassAndObject(reader);
-        final pathBitmap = KryoClassRegistry.readClassAndObject(reader);
+        final bitmap = readPngBytes(reader);
+        final pathBitmap = readPngBytes(reader);
         return {
           'type': 'ClippingCommand',
           'bitmap': bitmap,
@@ -208,9 +211,9 @@ class LegacyCommandManagerModel {
         final shape = KryoClassRegistry.readClassAndObject(reader);
         final pointX = reader.readInt32();
         final pointY = reader.readInt32();
-        final rect = KryoClassRegistry.readClassAndObject(reader);
+        final rect = LegacyRectF.deserialize(reader);
         final rotation = reader.readFloat() * math.pi / 180.0;
-        final paint = KryoClassRegistry.readClassAndObject(reader);
+        final paint = LegacyPaint.deserialize(reader);
         return {
           'type': 'GeometricFillCommand',
           'shapeDrawable': shape,
@@ -222,8 +225,8 @@ class LegacyCommandManagerModel {
         };
       case 'FillCommand':
         final tolerance = reader.readFloat();
-        final pixel = KryoClassRegistry.readClassAndObject(reader);
-        final paint = KryoClassRegistry.readClassAndObject(reader);
+        final pixel = LegacyPoint.deserialize(reader);
+        final paint = LegacyPaint.deserialize(reader);
         return {
           'type': 'FillCommand',
           'colorTolerance': tolerance,
