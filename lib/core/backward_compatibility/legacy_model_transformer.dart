@@ -18,10 +18,20 @@ import 'package:paintroid/core/models/catrobat_image.dart';
 import 'package:paintroid/core/backward_compatibility/models/models.dart';
 import 'package:paintroid/core/backward_compatibility/legacy_model_parser.dart';
 
+class LegacyTransformResult {
+  final CatrobatImage image;
+  final bool hasUnsupportedCommands;
+
+  LegacyTransformResult(this.image, this.hasUnsupportedCommands);
+}
+
 class LegacyModelTransformer {
-  static CatrobatImage transform(LegacyCommandManagerModel model) {
+  static LegacyTransformResult transformWithFallback(
+    LegacyCommandManagerModel model,
+  ) {
     int width = 800;
     int height = 600;
+    bool hasUnsupportedCommands = false;
 
     final initial = model.initialCommand;
     if (initial is Map && initial['type'] == 'SetDimensionCommand') {
@@ -140,9 +150,11 @@ class LegacyModelTransformer {
 
           final boxWidth = rect.right - rect.left;
           final boxHeight = rect.bottom - rect.top;
+          final double pointX = (legacyCmd['pointX'] as num).toDouble();
+          final double pointY = (legacyCmd['pointY'] as num).toDouble();
           final center = Offset(
-            (rect.left + rect.right) / 2,
-            (rect.top + rect.bottom) / 2,
+            pointX + (rect.left + rect.right) / 2,
+            pointY + (rect.top + rect.bottom) / 2,
           );
           final paint = _transformPaint(legacyPaint);
           final style = _mapShapeStyle(legacyPaint.style);
@@ -330,17 +342,26 @@ class LegacyModelTransformer {
           commands.clear();
           break;
 
+
+
         default:
+          hasUnsupportedCommands = true;
           break;
       }
     }
 
-    return CatrobatImage(
+    final image = CatrobatImage(
       commands,
       width,
       height,
       '',
     );
+
+    return LegacyTransformResult(image, hasUnsupportedCommands);
+  }
+
+  static CatrobatImage transform(LegacyCommandManagerModel model) {
+    return transformWithFallback(model).image;
   }
 
   static Paint _transformPaint(LegacyPaint legacy) {
