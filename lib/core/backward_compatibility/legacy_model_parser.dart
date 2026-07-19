@@ -23,9 +23,23 @@ class LegacyCommandManagerModel {
     }
     final dynamic initialCommand = _deserializeCommand(initClassName, reader);
 
-    final int size = reader.readInt32();
-
+    final int nextByte = reader.readByte();
+    int size = 0;
     final List<dynamic> commands = [];
+
+    if (nextByte == 0) {
+      size = 0;
+    } else if (nextByte == 1 || nextByte >= 11) {
+      // It's a collection class name ID (e.g. ArrayList). Backtrack and consume it.
+      reader.position = reader.position - 1;
+      KryoClassRegistry.readClassName(reader);
+      size = reader.readInt32();
+    } else {
+      // It's a raw size integer. Backtrack and read it.
+      reader.position = reader.position - 1;
+      size = reader.readInt32();
+    }
+
     for (int i = 0; i < size; i++) {
       if (!reader.hasRemaining) {
         break;
@@ -34,6 +48,11 @@ class LegacyCommandManagerModel {
       if (className != null) {
         commands.add(_deserializeCommand(className, reader));
       }
+    }
+
+    // Read the trailing ColorHistory if present (takes at least 8 bytes: 4 size + 4 color)
+    if (reader.remaining >= 8) {
+      LegacyColorHistory.deserialize(reader);
     }
 
     return LegacyCommandManagerModel(

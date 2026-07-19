@@ -15,6 +15,8 @@ import 'package:paintroid/core/providers/object/permission_service.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 import 'package:paintroid/core/utils/save_image_failure.dart';
+import 'package:flutter/foundation.dart';
+import 'package:paintroid/ui/utils/toast_utils.dart';
 
 extension on File {
   String? get extension {
@@ -69,7 +71,16 @@ class LoadImageFromFileManager with LoggableMixin {
           case 'catrobat':
           case 'bin':
             Uint8List bytes = await file.readAsBytes();
+
             CatrobatImage catrobatImage = CatrobatImage.fromBytes(bytes);
+
+            if (catrobatImage.hasUnsupportedCommands) {
+              ToastUtils.showShortToast(
+                message:
+                    'Some legacy tools are unsupported and were safely ignored.',
+              );
+            }
+
             Image? backgroundImage = await rebuildBackgroundImage(
               catrobatImage,
             );

@@ -114,7 +114,7 @@ void main() {
         alpha: 255,
       );
 
-      final legacyRect = LegacyRectF(10.0, 20.0, 50.0, 60.0);
+      final legacyRect = LegacyRectF(-20.0, -20.0, 20.0, 20.0);
 
       final legacyCmd1 = {
         'type': 'GeometricFillCommand',

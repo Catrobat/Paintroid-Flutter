@@ -61,8 +61,18 @@ class KryoClassRegistry {
     if (encodedId == 0) {
       return null;
     }
+    if (encodedId == 1) {
+      String? dynamicClassName = reader.readString();
+      if (dynamicClassName != null) {
+        final className = dynamicClassName.split('.').last;
+        final assignedId = reader.nextDynamicClassId++;
+        reader.dynamicClassMap[assignedId] = className;
+        return className;
+      }
+      return null;
+    }
     final int classId = encodedId - 2;
-    final className = classMap[classId];
+    final className = classMap[classId] ?? reader.dynamicClassMap[classId];
     if (className == null) {
       throw FormatException(
         'Unknown or unregistered legacy class ID: $classId',

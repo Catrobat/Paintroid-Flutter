@@ -21,6 +21,9 @@ class CatrobatImage {
   final Iterable<Command> commands;
   final String backgroundImage;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool hasUnsupportedCommands = false;
+
   CatrobatImage(
     this.commands,
     this.width,
@@ -55,12 +58,16 @@ class CatrobatImage {
             bytes[6] == 0x41 &&
             (bytes[7] == 0x54 || bytes[7] == 0xD4)) {
           reader.readBytes(8); // Consumes "CATROBAT" magic string (raw ASCII)
-          reader.readInt32();  // Consumes version
-          reader.readInt32();  // Consumes width
+          reader.readInt32(); // Consumes version
+          reader.readInt32(); // Consumes width
           reader.readString(); // Consumes backgroundImage string
         }
         final legacyModel = LegacyCommandManagerModel.deserialize(reader);
-        final image = LegacyModelTransformer.transform(legacyModel);
+        final transformResult = LegacyModelTransformer.transformWithFallback(
+          legacyModel,
+        );
+        final image = transformResult.image;
+        image.hasUnsupportedCommands = transformResult.hasUnsupportedCommands;
         return image;
       } catch (e) {
         throw FormatException(

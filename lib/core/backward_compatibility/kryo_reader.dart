@@ -4,6 +4,8 @@ import 'dart:typed_data';
 class KryoReader {
   final Uint8List _bytes;
   int _position = 0;
+  final Map<int, String> dynamicClassMap = {};
+  int nextDynamicClassId = 70;
 
   KryoReader(this._bytes);
 
@@ -178,4 +180,3 @@ class KryoReader {
     return utf8.decode(bytes);
   }
 }
-
