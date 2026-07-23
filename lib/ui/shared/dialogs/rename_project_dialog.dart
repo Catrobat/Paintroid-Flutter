@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/text_input_field.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 Future<String?> showRenameDialog(BuildContext context, String name) async {
+  final localizations = AppLocalizations.of(context);
   final TextEditingController textFieldController = TextEditingController()
     ..text = name;
 
@@ -13,14 +15,14 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
     context: context,
     builder: (context) {
       return GenericDialog(
-        title: 'Rename $name',
+        title: localizations.projectRenameTitle(name),
         actions: [
           GenericDialogAction(
-              title: 'CANCEL',
+              title: localizations.cancelButtonText.toUpperCase(),
               onPressed: () => Navigator.of(context).pop(),
               identifier: WidgetIdentifier.genericDialogActionCancel),
           GenericDialogAction(
-            title: 'RENAME',
+            title: localizations.projectRename.toUpperCase(),
             onPressed: () {
               final formState = formKey.currentState;
               if (formState == null || !formState.validate()) {
@@ -41,7 +43,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
                 controller: textFieldController,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Please specify a project name';
+                    return localizations.dialogErrorProjectName;
                   }
                   return null;
                 },
