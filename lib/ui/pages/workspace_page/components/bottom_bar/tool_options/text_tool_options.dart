@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/providers/object/tools/text_tool_options_state_provider.dart';
 import 'package:paintroid/ui/pages/landing_page/components/toggle_style_button.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class TextToolOptions extends ConsumerStatefulWidget {
   const TextToolOptions({super.key});
@@ -33,6 +34,7 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final options = ref.watch(textToolOptionsStateProvider);
     final notifier = ref.read(textToolOptionsStateProvider.notifier);
 
@@ -86,21 +88,24 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
               ),
               const Spacer(),
               ToggleStyleButton(
-                label: 'U',
+                label: localizations.textToolDialogUnderlineShortcut,
                 selected: options.isUnderline,
                 onTap: notifier.toggleUnderline,
+                mode: 'U',
               ),
               const SizedBox(width: 8),
               ToggleStyleButton(
-                label: 'I',
+                label: localizations.textToolDialogItalicShortcut,
                 selected: options.isItalic,
                 onTap: notifier.toggleItalic,
+                mode: 'I',
               ),
               const SizedBox(width: 8),
               ToggleStyleButton(
-                label: 'B',
+                label: localizations.textToolDialogBoldShortcut,
                 selected: options.isBold,
                 onTap: notifier.toggleBold,
+                mode: 'B',
               ),
             ],
           ),
@@ -112,9 +117,9 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
           child: Row(
             children: [
               'Roboto',
-              'Sans Serif',
-              'Serif',
-              'Monospace',
+              localizations.textToolDialogFontSansSerif,
+              localizations.textToolDialogFontSerif,
+              localizations.textToolDialogFontMonospace,
               'Open Sans',
               'Inter',
               'Wind',
@@ -149,7 +154,7 @@ class _TextToolOptionsState extends ConsumerState<TextToolOptions> {
             controller: _textController,
             onChanged: notifier.updateText,
             decoration: InputDecoration(
-              hintText: 'Enter Text',
+              hintText: localizations.textToolDialogInputHint,
               filled: true,
               fillColor:
                   PaintroidTheme.of(context).onSurfaceColor.withAlpha(50),

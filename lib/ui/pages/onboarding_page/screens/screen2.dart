@@ -5,6 +5,7 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bo
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({super.key});
@@ -14,20 +15,11 @@ class Screen2 extends StatefulWidget {
 }
 
 class _Screen2State extends State<Screen2> {
-  List<String> titles = ['Tools', 'Current', 'Color', 'Layers', 'Undo', 'Redo'];
+  List<String> titles = [];
+  List<String> descriptions = [];
 
-  List<String> descriptions = [
-    'Switch to the tool you want to use.',
-    'Shows the currently used tool and opens its options.',
-    'Shows the currently used color and opens the color picker.',
-    'Opens the layer menu and lets you manage your layers.',
-    'Tap to undo your previous action.',
-    'Tap to redo an undone action.',
-  ];
-
-  String titleText = 'More possibilities';
-  String descText =
-      'Use the top bar to open the overflow menu and to undo or redo changes';
+  String titleText = '';
+  String descText = '';
 
   void onPressed(int i) {
     setState(() {
@@ -50,21 +42,41 @@ class _Screen2State extends State<Screen2> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
+    titles = [
+      localizations.bottomNavigationTools,
+      localizations.bottomNavigationCurrent,
+      localizations.bottomNavigationColor,
+      localizations.bottomNavigationLayers,
+      localizations.buttonUndo,
+      localizations.buttonRedo
+    ];
+
+    descriptions = [
+      localizations.introBottomNavigationToolsDescription,
+      localizations.introBottomNavigationCurrentDescription,
+      localizations.introBottomNavigationColorDescription,
+      localizations.introBottomNavigationLayersDescription,
+      localizations.helpContentUndo,
+      localizations.helpContentRedo
+    ];
+
     var title = Text(
-      titleText,
+      titleText != '' ? titleText : localizations.morePossibilities,
       style: PaintroidTheme.of(context).titleStyle,
       textAlign: TextAlign.start,
     );
 
     var desc = Text(
-      descText,
+      descText != '' ? descText : localizations.introPossibilitiesText,
       style: PaintroidTheme.of(context).descStyle,
       textAlign: TextAlign.start,
     );
 
     return Scaffold(
       appBar: OnboardingPageAppBar(
-        title: 'Pocket Paint',
+        title: localizations.pocketpaintAppName,
         onPressed: [undo, redo],
       ),
       backgroundColor: Colors.grey.shade400,
@@ -105,24 +117,24 @@ class _Screen2State extends State<Screen2> {
       bottomNavigationBar: OnboardingPageBottomNavigationBar(
         onPressedFunctions: [tools, current, color, layers],
         barItems: [
-          const BottomNavigationBarItem(
-            label: 'Tools',
+          BottomNavigationBarItem(
+            label: localizations.bottomNavigationTools,
             icon: BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
-          const BottomNavigationBarItem(
-            label: 'Current',
+          BottomNavigationBarItem(
+            label: localizations.bottomNavigationCurrent,
             icon: BottomBarIcon(asset: 'assets/svg/ic_hand.svg'),
           ),
           BottomNavigationBarItem(
-            label: 'Color',
+            label: localizations.bottomNavigationColor,
             icon: Icon(
               Icons.check_box_outline_blank,
               size: 24,
               color: PaintroidTheme.of(context).onSurfaceColor,
             ),
           ),
-          const BottomNavigationBarItem(
-              label: 'Layers',
+          BottomNavigationBarItem(
+              label: localizations.bottomNavigationLayers,
               icon: BottomBarIcon(asset: 'assets/svg/ic_layers.svg')),
         ],
       ),

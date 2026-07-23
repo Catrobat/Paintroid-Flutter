@@ -152,7 +152,8 @@ class IOHandler {
     ref.read(workspaceStateProvider.notifier).updateProject();
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
-      ..resetCanvasWithNewCommands([]);
+      ..resetCanvasWithNewCommands([])
+      ..requestResetView();
     ref.read(appBarProvider).update();
     return true;
   }

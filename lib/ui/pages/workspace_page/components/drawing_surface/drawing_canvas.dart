@@ -141,6 +141,10 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
         _resetCanvasScale(fitToScreen: isFullscreen);
       },
     );
+    ref.listen<int>(
+      canvasStateProvider.select((state) => state.resetViewSignal),
+      (_, __) => _resetCanvasScale(),
+    );
     return Listener(
       onPointerDown: (event) {
         _onPointerDown(event);

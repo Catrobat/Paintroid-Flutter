@@ -1,0 +1,7 @@
+arb-dir: assets/lang
+template-arb-file: colorpicker_translations_en.arb
+nullable-getter: false
+
+output-dir: lib/src/localization
+output-localization-file: colorpicker_localizations.dart
+output-class: ColorPickerLocalizations
