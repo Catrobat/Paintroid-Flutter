@@ -21,11 +21,21 @@ class ColorPicker extends ConsumerStatefulWidget {
     required this.currentColor,
     required this.onColorChanged,
     this.snapshotImage,
+    this.pipetteLabel = 'PIPETTE',
+    this.saveChangesTitle = 'Save changes?',
+    this.saveChangesContent = 'Do you want to save your changes?',
+    this.noLabel = 'NO',
+    this.yesLabel = 'YES',
   });
 
   final Color currentColor;
   final void Function(Color) onColorChanged;
   final ui.Image? snapshotImage;
+  final String pipetteLabel;
+  final String saveChangesTitle;
+  final String saveChangesContent;
+  final String noLabel;
+  final String yesLabel;
 
   @override
   ConsumerState<ColorPicker> createState() => _ColorPickerState();
@@ -130,6 +140,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                         Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: PipetteToolButton(
+                            label: widget.pipetteLabel,
                             onTap: () async {
                               if (widget.snapshotImage != null) {
                                 final pickedColor = await Navigator.push<Color>(
@@ -138,6 +149,11 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                                     builder: (context) => PipettePage(
                                       snapshot: widget.snapshotImage!,
                                       initialColor: displayColor,
+                                      saveChangesTitle: widget.saveChangesTitle,
+                                      saveChangesContent:
+                                          widget.saveChangesContent,
+                                      noLabel: widget.noLabel,
+                                      yesLabel: widget.yesLabel,
                                     ),
                                   ),
                                 );

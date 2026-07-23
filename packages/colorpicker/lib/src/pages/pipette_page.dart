@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:colorpicker/src/constants/colorpicker_colors.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +6,19 @@ import 'package:flutter/material.dart';
 class PipettePage extends StatefulWidget {
   final ui.Image snapshot;
   final Color initialColor;
+  final String saveChangesTitle;
+  final String saveChangesContent;
+  final String noLabel;
+  final String yesLabel;
 
   const PipettePage({
     super.key,
     required this.snapshot,
     required this.initialColor,
+    this.saveChangesTitle = 'Save changes?',
+    this.saveChangesContent = 'Do you want to save your changes?',
+    this.noLabel = 'NO',
+    this.yesLabel = 'YES',
   });
 
   @override
@@ -20,11 +29,23 @@ class _PipettePageState extends State<PipettePage> {
   Offset? _currentPosition;
   Color _selectedColor = Colors.transparent;
   bool _isProcessing = false;
+  ByteData? _imageBytes;
 
   @override
   void initState() {
     super.initState();
     _selectedColor = widget.initialColor;
+    _loadImageBytes();
+  }
+
+  Future<void> _loadImageBytes() async {
+    final byteData =
+        await widget.snapshot.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (mounted) {
+      setState(() {
+        _imageBytes = byteData;
+      });
+    }
   }
 
   void _updatePosition(Offset position, Size size) {
@@ -65,7 +86,7 @@ class _PipettePageState extends State<PipettePage> {
       return;
     }
 
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final byteData = _imageBytes;
     if (byteData == null) {
       _isProcessing = false;
       return;
@@ -93,16 +114,16 @@ class _PipettePageState extends State<PipettePage> {
     return await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Save changes?'),
-            content: const Text('Do you want to save your changes?'),
+            title: Text(widget.saveChangesTitle),
+            content: Text(widget.saveChangesContent),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('NO'),
+                child: Text(widget.noLabel),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('YES'),
+                child: Text(widget.yesLabel),
               ),
             ],
           ),
@@ -201,34 +222,31 @@ class _PipettePageState extends State<PipettePage> {
   }
 
   Widget _buildLoupe() {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 3),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: Container(
-          color: _selectedColor,
-          child: Center(
-            child: Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        const RawMagnifier(
+          decoration: MagnifierDecoration(
+            shape: CircleBorder(
+              side: BorderSide(
+                color: Colors.white,
+                width: 3,
               ),
             ),
           ),
+          size: Size(100, 100),
+          magnificationScale: 2.0,
+          focalPointOffset: Offset(0, 70),
         ),
-      ),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 1),
+          ),
+        ),
+      ],
     );
   }
 }

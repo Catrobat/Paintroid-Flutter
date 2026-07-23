@@ -1315,6 +1315,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Used to display a zoomed in part of the drawing surface'**
   String get zoomWindowDescription;
+
+  /// No description provided for @pipette.
+  ///
+  /// In en, this message translates to:
+  /// **'PIPETTE'**
+  String get pipette;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes?'**
+  String get saveChanges;
+
+  /// No description provided for @saveChangesContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to save your changes?'**
+  String get saveChangesContent;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'YES'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'NO'**
+  String get no;
 }
 
 class _AppLocalizationsDelegate

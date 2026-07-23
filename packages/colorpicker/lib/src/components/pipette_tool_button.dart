@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PipetteToolButton extends StatelessWidget {
-  const PipetteToolButton({super.key, this.onTap});
+  const PipetteToolButton({super.key, this.onTap, this.label = 'PIPETTE'});
 
   final VoidCallback? onTap;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +25,24 @@ class PipetteToolButton extends StatelessWidget {
             ),
           ],
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Icon(
+            const Spacer(),
+            const Icon(
               Icons.auto_fix_normal,
               color: Colors.black,
               size: 20,
             ),
-            Spacer(),
+            const Spacer(),
             Text(
-              'PIPETTE',
-              style: TextStyle(
+              label,
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

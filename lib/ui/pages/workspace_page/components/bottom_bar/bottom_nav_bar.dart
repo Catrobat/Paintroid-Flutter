@@ -124,10 +124,8 @@ void _showToolBottomSheet(BuildContext context) {
   double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
-    builder: (BuildContext context) => SizedBox(
-      height: screenHeight * 0.5,
-      child: const ToolsBottomSheet(),
-    ),
+    builder: (BuildContext context) =>
+        SizedBox(height: screenHeight * 0.5, child: const ToolsBottomSheet()),
   );
 }
 
@@ -141,6 +139,7 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
     initialColor = initialColor.withValues(alpha: 1.0);
   }
   final snapshot = ref.read(canvasStateProvider).cachedImage;
+  final localizations = AppLocalizations.of(context);
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
@@ -149,6 +148,11 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
         child: ColorPicker(
           currentColor: initialColor,
           snapshotImage: snapshot,
+          pipetteLabel: localizations.pipette,
+          saveChangesTitle: localizations.saveChanges,
+          saveChangesContent: localizations.saveChangesContent,
+          yesLabel: localizations.yes,
+          noLabel: localizations.no,
           onColorChanged: (newColor) {
             ref.read(paintProvider.notifier).updateColor(newColor);
           },

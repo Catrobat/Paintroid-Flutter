@@ -669,4 +669,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get zoomWindowDescription =>
       'Zeigt einen vergrößerten Bereich der Zeichenfläche an.';
+
+  @override
+  String get pipette => 'PIPETTE';
+
+  @override
+  String get saveChanges => 'Save changes?';
+
+  @override
+  String get saveChangesContent => 'Do you want to save your changes?';
+
+  @override
+  String get yes => 'YES';
+
+  @override
+  String get no => 'NO';
 }

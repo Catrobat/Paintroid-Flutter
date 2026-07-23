@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:colorpicker/src/colorpicker.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 import 'package:colorpicker/src/components/color_comparison.dart';
 import 'package:colorpicker/src/components/pipette_tool_button.dart';
 import 'package:colorpicker/src/pages/pipette_page.dart';
@@ -13,6 +14,7 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -32,6 +34,7 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -63,6 +66,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -88,6 +92,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: initialColor,
@@ -121,6 +126,7 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -145,6 +151,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -166,13 +173,13 @@ void main() {
       ),
     );
 
-    expect(find.byType(ClipOval), findsNothing);
+    expect(find.byType(RawMagnifier), findsNothing);
 
     final gesture =
         await tester.startGesture(tester.getCenter(pipetteBodyGestureDetector));
     await tester.pump();
 
-    expect(find.byType(ClipOval), findsOneWidget);
+    expect(find.byType(RawMagnifier), findsOneWidget);
 
     await gesture.up();
     await tester.pumpAndSettle();
@@ -185,6 +192,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -201,6 +209,11 @@ void main() {
     await tester.tap(find.byType(PipetteToolButton));
     await tester.pumpAndSettle();
 
+    await tester.runAsync(() async {
+      await Future.delayed(const Duration(milliseconds: 200));
+    });
+    await tester.pumpAndSettle();
+
     final pipetteBodyGestureDetector = find.descendant(
       of: find.byType(PipettePage),
       matching: find.byWidgetPredicate(
@@ -210,9 +223,6 @@ void main() {
 
     await tester.drag(pipetteBodyGestureDetector, const Offset(10, 10));
     await tester.pumpAndSettle();
-    await tester.runAsync(() async {
-      await Future.delayed(const Duration(milliseconds: 200));
-    });
 
     await tester.tap(find.byIcon(Icons.check));
     await tester.pumpAndSettle();
@@ -230,6 +240,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: Colors.blue,
@@ -246,6 +257,11 @@ void main() {
     await tester.tap(find.byType(PipetteToolButton));
     await tester.pumpAndSettle();
 
+    await tester.runAsync(() async {
+      await Future.delayed(const Duration(milliseconds: 200));
+    });
+    await tester.pumpAndSettle();
+
     final pipetteBodyGestureDetector = find.descendant(
       of: find.byType(PipettePage),
       matching: find.byWidgetPredicate(
@@ -255,9 +271,6 @@ void main() {
 
     await tester.drag(pipetteBodyGestureDetector, const Offset(10, 10));
     await tester.pumpAndSettle();
-    await tester.runAsync(() async {
-      await Future.delayed(const Duration(milliseconds: 200));
-    });
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
@@ -282,6 +295,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: ColorPickerLocalizations.localizationsDelegates,
           home: Scaffold(
             body: ColorPicker(
               currentColor: initialColor,
@@ -302,6 +316,11 @@ void main() {
     await tester.tap(find.byType(PipetteToolButton));
     await tester.pumpAndSettle();
 
+    await tester.runAsync(() async {
+      await Future.delayed(const Duration(milliseconds: 200));
+    });
+    await tester.pumpAndSettle();
+
     final pipetteBodyGestureDetector = find.descendant(
       of: find.byType(PipettePage),
       matching: find.byWidgetPredicate(
@@ -311,9 +330,6 @@ void main() {
 
     await tester.drag(pipetteBodyGestureDetector, const Offset(10, 10));
     await tester.pumpAndSettle();
-    await tester.runAsync(() async {
-      await Future.delayed(const Duration(milliseconds: 200));
-    });
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();

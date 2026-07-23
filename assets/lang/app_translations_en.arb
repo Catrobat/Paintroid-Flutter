@@ -202,5 +202,10 @@
   "pocketpaintToolIconDescription": "Current tool icon",
   "dialogScaleTitle": "Image is too big to load",
   "dialogScaleMessage": "The image is too big to load. Tap OK to scale down the image automatically.",
-  "zoomWindowDescription": "Used to display a zoomed in part of the drawing surface"
+  "zoomWindowDescription": "Used to display a zoomed in part of the drawing surface",
+  "pipette": "PIPETTE",
+  "saveChanges": "Save changes?",
+  "saveChangesContent": "Do you want to save your changes?",
+  "yes": "YES",
+  "no": "NO"
 }

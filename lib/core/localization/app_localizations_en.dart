@@ -660,4 +660,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get zoomWindowDescription =>
       'Used to display a zoomed in part of the drawing surface';
+
+  @override
+  String get pipette => 'PIPETTE';
+
+  @override
+  String get saveChanges => 'Save changes?';
+
+  @override
+  String get saveChangesContent => 'Do you want to save your changes?';
+
+  @override
+  String get yes => 'YES';
+
+  @override
+  String get no => 'NO';
 }
