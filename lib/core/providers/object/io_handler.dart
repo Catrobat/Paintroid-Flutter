@@ -110,7 +110,7 @@ class IOHandler {
   /// - The unsaved work was saved successfully
   Future<bool> handleUnsavedChanges(BuildContext context, State state) async {
     final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
-    if (!workspaceStateNotifier.hasSavedLastWork) {
+    if (!workspaceStateNotifier.hasSavedLastWork || workspaceStateNotifier.hasUnsavedChanges) {
       final shouldDiscard = await showDiscardChangesDialog(context);
       if (shouldDiscard == null || !state.mounted) return false;
       if (!shouldDiscard) {
