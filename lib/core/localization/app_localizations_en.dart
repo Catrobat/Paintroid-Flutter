@@ -30,10 +30,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myProjects => 'My Projects';
 
   @override
-  String get projectRenameTitle => 'Rename __name__';
+  String projectRenameTitle(Object name) {
+    return 'Rename $name';
+  }
 
   @override
-  String get projectDeleteTitle => 'Delete __name__';
+  String projectDeleteTitle(Object name) {
+    return 'Delete $name';
+  }
 
   @override
   String get projectDeleteDialog =>
@@ -577,8 +581,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pocketpaintAboutTitle => 'About';
 
   @override
-  String get pocketpaintAboutContent =>
-      'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the __license__.\nFor precise details of the license see the link below.';
+  String pocketpaintAboutContent(Object license) {
+    return 'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the $license.\nFor precise details of the license see the link below.';
+  }
 
   @override
   String get pocketpaintAboutUrlLicenseDescription =>

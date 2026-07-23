@@ -287,7 +287,7 @@ void main() {
       await tester.tap(find.text(localizations.deleteButtonText));
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(GenericDialog, localizations.projectDeleteTitle.replaceAll('__name__', 'project$position')),
+      expect(find.widgetWithText(GenericDialog, localizations.projectDeleteTitle('project$position')),
           findsOneWidget);
       expect(find.text(localizations.projectDeleteDialog),
           findsOneWidget);
@@ -299,7 +299,7 @@ void main() {
       await tester
           .tap(find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase()));
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(GenericDialog, localizations.projectDeleteTitle.replaceAll('__name__', 'project$position')),
+      expect(find.widgetWithText(GenericDialog, localizations.projectDeleteTitle('project$position')),
           findsNothing);
     });
   }
@@ -321,7 +321,7 @@ void main() {
       await tester.tap(find.text(localizations.projectRename));
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(GenericDialog, localizations.projectRenameTitle.replaceAll('__name__', 'project$position')),
+      expect(find.widgetWithText(GenericDialog, localizations.projectRenameTitle('project$position')),
           findsOneWidget);
       expect(find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase()),
           findsOneWidget);
@@ -332,7 +332,7 @@ void main() {
       await tester
           .tap(find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase()));
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(GenericDialog, localizations.projectRenameTitle.replaceAll('__name__', 'project$position')),
+      expect(find.widgetWithText(GenericDialog, localizations.projectRenameTitle('project$position')),
           findsNothing);
     });
   }

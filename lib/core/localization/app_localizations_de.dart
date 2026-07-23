@@ -30,10 +30,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get myProjects => 'Meine Projekte';
 
   @override
-  String get projectRenameTitle => '__name__ umbenennen';
+  String projectRenameTitle(Object name) {
+    return '$name umbenennen';
+  }
 
   @override
-  String get projectDeleteTitle => '__name__ löschen';
+  String projectDeleteTitle(Object name) {
+    return '$name löschen';
+  }
 
   @override
   String get projectDeleteDialog => 'Projekt wirklich löschen?';
@@ -497,7 +501,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get dialogSmoothing => 'Glättung';
 
   @override
-  String get dialogZoomWindowEnabled => 'Enabled';
+  String get dialogZoomWindowEnabled => 'Aktiviert';
 
   @override
   String get dialogSaveJpgOptionQuality => 'Qualität';
@@ -586,8 +590,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pocketpaintAboutTitle => 'Über';
 
   @override
-  String get pocketpaintAboutContent =>
-      'Pocket Paint ist ein Bild-Editor, der Teil des Catrobat Projektes ist.\n\nCatrobat ist eine visuelle Programmiersprache welche kreative Tools für Smartphones bereitstellt.\n\n Der Source-Code von Pocket Paint steht hauptsächlich unter der __license__ Lizenz.\n Für genaue Angaben zu der Lizenz, beachte den Link unten.';
+  String pocketpaintAboutContent(Object license) {
+    return 'Pocket Paint ist ein Bild-Editor, der Teil des Catrobat Projektes ist.\n\nCatrobat ist eine visuelle Programmiersprache welche kreative Tools für Smartphones bereitstellt.\n\n Der Source-Code von Pocket Paint steht hauptsächlich unter der $license Lizenz.\n Für genaue Angaben zu der Lizenz, beachte den Link unten.';
+  }
 
   @override
   String get pocketpaintAboutUrlLicenseDescription =>

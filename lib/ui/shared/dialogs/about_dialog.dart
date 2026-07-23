@@ -74,7 +74,7 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
             TextSpan(
               style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
               children: [
-                TextSpan(text: '${localizations.pocketpaintAboutContent.replaceAll("__license__", license)}\n\n'),
+                TextSpan(text: '${localizations.pocketpaintAboutContent(license)}\n\n'),
                 _clickableText(
                   '${localizations.pocketpaintAboutUrlLicenseDescription}\n',
                   urlLicense,

@@ -8,7 +8,7 @@ Future<bool?> showDeleteDialog(BuildContext context, String name){
   return showGeneralDialog<bool>(
     context: context,
     pageBuilder: (_, __, ___) => GenericDialog(
-            title: localizations.projectDeleteTitle.replaceAll('__name__', name),
+            title: localizations.projectDeleteTitle(name),
             text: localizations.projectDeleteDialog,
             actions: [
               GenericDialogAction(

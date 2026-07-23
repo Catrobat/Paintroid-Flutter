@@ -492,7 +492,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final deleteProjectDialog =
-          find.widgetWithText(GenericDialog, localizations.projectDeleteTitle.replaceAll('__name__', 'project$position'));
+          find.widgetWithText(GenericDialog, localizations.projectDeleteTitle('project$position'));
       expect(deleteProjectDialog, findsOneWidget);
       expect(find.text(localizations.projectDeleteDialog),
           findsOneWidget);
@@ -537,7 +537,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final renameProjectDialog =
-          find.widgetWithText(GenericDialog, localizations.projectRenameTitle.replaceAll('__name__', 'project$position'));
+          find.widgetWithText(GenericDialog, localizations.projectRenameTitle('project$position'));
       expect(renameProjectDialog, findsOneWidget);
       final cancelButton =
           find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase());

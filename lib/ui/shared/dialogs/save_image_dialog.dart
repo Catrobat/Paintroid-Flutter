@@ -5,7 +5,6 @@ import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/ui/shared/image_format_info.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
-// import 'package:sqflite/utils/utils.dart';
 
 Future<ImageMetaData?> showSaveImageDialog(
         BuildContext context, bool savingProject) =>

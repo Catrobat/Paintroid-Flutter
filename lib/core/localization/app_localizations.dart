@@ -143,14 +143,14 @@ abstract class AppLocalizations {
   /// No description provided for @projectRenameTitle.
   ///
   /// In en, this message translates to:
-  /// **'Rename __name__'**
-  String get projectRenameTitle;
+  /// **'Rename {name}'**
+  String projectRenameTitle(Object name);
 
   /// No description provided for @projectDeleteTitle.
   ///
   /// In en, this message translates to:
-  /// **'Delete __name__'**
-  String get projectDeleteTitle;
+  /// **'Delete {name}'**
+  String projectDeleteTitle(Object name);
 
   /// No description provided for @projectDeleteDialog.
   ///
@@ -1181,8 +1181,8 @@ abstract class AppLocalizations {
   /// No description provided for @pocketpaintAboutContent.
   ///
   /// In en, this message translates to:
-  /// **'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the __license__.\nFor precise details of the license see the link below.'**
-  String get pocketpaintAboutContent;
+  /// **'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the {license}.\nFor precise details of the license see the link below.'**
+  String pocketpaintAboutContent(Object license);
 
   /// No description provided for @pocketpaintAboutUrlLicenseDescription.
   ///

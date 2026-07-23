@@ -15,7 +15,7 @@ Future<String?> showRenameDialog(BuildContext context, String name) async {
     context: context,
     builder: (context) {
       return GenericDialog(
-        title: localizations.projectRenameTitle.replaceAll('__name__', name),
+        title: localizations.projectRenameTitle(name),
         actions: [
           GenericDialogAction(
               title: localizations.cancelButtonText.toUpperCase(),
