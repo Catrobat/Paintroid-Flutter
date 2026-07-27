@@ -142,7 +142,7 @@ void main() {
           'width': 800,
           'height': 600,
         },
-        commands: [legacyCmd1, legacyCmd2],
+        commands: [legacyCmd2, legacyCmd1],
       );
 
       final image = LegacyModelTransformer.transform(model);
@@ -220,7 +220,7 @@ void main() {
           'width': 800,
           'height': 600,
         },
-        commands: [legacyClipboard, legacyCut],
+        commands: [legacyCut, legacyClipboard],
       );
 
       final image = LegacyModelTransformer.transform(model);
@@ -380,11 +380,11 @@ void main() {
             'height': 200,
           },
           commands: [
-            legacyPathCmd,
-            legacyRotate,
-            legacyFlip,
-            legacyCrop,
             legacyResize,
+            legacyCrop,
+            legacyFlip,
+            legacyRotate,
+            legacyPathCmd,
           ],
         );
 
@@ -410,8 +410,8 @@ void main() {
             'height': 100,
           },
           commands: [
-            legacyPathCmd,
             {'type': 'ResetCommand'},
+            legacyPathCmd,
           ],
         );
         final imageReset = LegacyModelTransformer.transform(modelReset);
