@@ -10,6 +10,7 @@ import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:colorpicker/src/state/recent_color_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorpicker/src/constants/colorpicker_colors.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 class ColorPicker extends ConsumerStatefulWidget {
   const ColorPicker({
@@ -83,6 +84,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
 
   @override
   Widget build(BuildContext context) {
+    final localizations = ColorPickerLocalizations.of(context);
     final colorPickerState = ref.watch(colorPickerStateProvider);
     final opacity = colorPickerState.currentOpacity;
     final baseColor = colorPickerState.currentColor ?? widget.currentColor;
@@ -180,8 +182,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('CANCEL',
-                      style: TextStyle(
+                  child: Text(localizations.colorPickerCancel.toUpperCase(),
+                      style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),
@@ -194,8 +196,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                     widget.onColorChanged(displayColor);
                     Navigator.pop(context);
                   },
-                  child: const Text('APPLY',
-                      style: TextStyle(
+                  child: Text(localizations.colorPickerApply.toUpperCase(),
+                      style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),

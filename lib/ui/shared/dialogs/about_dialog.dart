@@ -6,6 +6,7 @@ import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/images/pocketpaint_logo_small.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 Future<bool?> showMyAboutDialog(BuildContext context, String version) =>
     showGeneralDialog<bool>(
@@ -25,10 +26,6 @@ class MyAboutDialog extends ConsumerStatefulWidget {
 
 class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
   static const license = 'GNU Affero General Public License, v3';
-  static const content =
-      'Pocket Paint is a picture editing library that is part of the Catrobat project.\n\nCatrobat is a visual programming language and set of creativity tools for smartphones.\n\nThe source code of Pocket Paint is mainly licensed under the $license.\nFor precise details of the license see the link below\n';
-  static const urlLicenseDescription = '\nPocket Paint source code license';
-  static const urlCatrobatDescription = '\nAbout Catrobat';
   static const urlLicense = 'https://developer.catrobat.org/licenses';
   static const urlCatrobat = 'https://catrobat.org';
 
@@ -44,16 +41,17 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final urlTextStyle = TextStyle(
       color: PaintroidTheme.of(context).orangeColor,
       fontSize: 18,
       decoration: TextDecoration.underline,
     );
     return GenericDialog(
-      title: 'About',
+      title: localizations.pocketpaintAboutTitle,
       actions: [
         GenericDialogAction(
-          title: 'DONE',
+          title: localizations.done.toUpperCase(),
           onPressed: () => Navigator.of(context).pop(true),
           identifier: WidgetIdentifier.genericDialogActionDone,
         ),
@@ -76,14 +74,14 @@ class _MyAboutDialogState extends ConsumerState<MyAboutDialog> {
             TextSpan(
               style: TextStyle(color: PaintroidTheme.of(context).shadowColor),
               children: [
-                const TextSpan(text: content),
+                TextSpan(text: '${localizations.pocketpaintAboutContent(license)}\n\n'),
                 _clickableText(
-                  urlLicenseDescription,
+                  '${localizations.pocketpaintAboutUrlLicenseDescription}\n',
                   urlLicense,
                   urlTextStyle,
                 ),
                 _clickableText(
-                  urlCatrobatDescription,
+                  localizations.pocketpaintAboutUrlCatrobatDescription,
                   urlCatrobat,
                   urlTextStyle,
                 ),

@@ -1,0 +1,22 @@
+{
+  "@@locale": "de",
+  "colorPickerTitle": "Farbauswahl",
+  "colorPickerTabIcon": "Farbauswahl-Tab-Symbol",
+  "colorRed": "Rot",
+  "colorGreen": "Grün",
+  "colorBlue": "Blau",
+  "colorAlpha": "Alpha",
+  "colorHex": "HEX",
+  "colorPickerApply": "Anwenden",
+  "colorPickerCancel": "Abbrechen",
+  "colorPickerCurrentColor": "aktuell",
+  "colorPickerNewColor": "neu",
+  "colorPickerPipette": "Pipette",
+  "colorPickerSaveDialogTitle": "Änderungen speichern?",
+  "colorPickerSaveDialogMsg": "Möchtest du deine Änderungen speichern?",
+  "colorPickerNo": "nein",
+  "colorPickerYes": "ja",
+  "colorPickerHistoryRecentlyUsed": "recently used",
+  "colorPickerPicker": "Farbauswahl",
+  "colorPickerWheel": "Farbkreis"
+}
