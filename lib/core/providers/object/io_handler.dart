@@ -181,6 +181,7 @@ class IOHandler {
           ..resetCanvasWithNewCommands([]);
         ref.read(workspaceStateProvider.notifier).updateProject();
         ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
+        ref.read(appBarProvider.notifier).update();
         return true;
       },
       err: (failure) async {
@@ -215,6 +216,7 @@ class IOHandler {
           ref.read(workspaceStateProvider.notifier).updateProject();
           ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
         }
+        ref.read(appBarProvider.notifier).update();
 
         return true;
       },
