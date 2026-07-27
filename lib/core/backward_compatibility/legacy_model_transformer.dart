@@ -382,7 +382,7 @@ class LegacyModelTransformer {
     }
 
     // 2. Map all native commands
-    for (final legacyCmd in model.commands) {
+    for (final legacyCmd in model.commands.toList().reversed) {
       processCommand(legacyCmd);
     }
 
