@@ -130,6 +130,7 @@ class IOHandler {
         ref.read(canvasStateProvider.notifier)
           ..setBackgroundImage(img)
           ..resetCanvasWithNewCommands([]);
+        ref.read(appBarProvider.notifier).update();
         return true;
       },
       err: (failure) async {
@@ -162,6 +163,7 @@ class IOHandler {
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
         }
+        ref.read(appBarProvider.notifier).update();
 
         return true;
       },

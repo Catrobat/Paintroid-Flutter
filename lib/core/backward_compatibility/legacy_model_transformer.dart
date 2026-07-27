@@ -35,21 +35,41 @@ class LegacyModelTransformer {
 
     // 1. Resolve canvas dimensions from SetDimensionCommand
     final initial = model.initialCommand;
-    if (initial is Map && initial['type'] == 'SetDimensionCommand') {
-      width = initial['width'] as int;
-      height = initial['height'] as int;
+    Map? dimensionCmd;
+    if (initial is Map) {
+      if (initial['type'] == 'SetDimensionCommand') {
+        dimensionCmd = initial;
+      } else if (initial['type'] == 'CompositeCommand') {
+        final List<dynamic> subCommands = initial['commands'] as List<dynamic>;
+        for (final cmd in subCommands) {
+          if (cmd is Map && cmd['type'] == 'SetDimensionCommand') {
+            dimensionCmd = cmd;
+            break;
+          }
+        }
+      }
+    }
+
+    if (dimensionCmd != null) {
+      width = dimensionCmd['width'] as int;
+      height = dimensionCmd['height'] as int;
     }
 
     final List<Command> commands = [];
 
-    // 2. Map all native commands
-    for (final legacyCmd in model.commands) {
+    void processCommand(dynamic legacyCmd) {
       if (legacyCmd is! Map) {
-        continue;
+        return;
       }
 
       final type = legacyCmd['type'] as String;
       switch (type) {
+        case 'CompositeCommand':
+          final subCmds = legacyCmd['commands'] as List<dynamic>;
+          for (final subCmd in subCmds) {
+            processCommand(subCmd);
+          }
+          break;
         case 'PathCommand':
           final legacyPaint = legacyCmd['paint'] as LegacyPaint;
           final legacyPath = legacyCmd['path'] as LegacySerializablePath;
@@ -250,6 +270,14 @@ class LegacyModelTransformer {
           }
           break;
 
+        case 'LoadCommand':
+          final bitmapBytes = legacyCmd['bitmap'] as Uint8List;
+          final paint = Paint()..color = Colors.black;
+          commands.add(
+            ClipboardCommand(paint, bitmapBytes, Offset.zero, 1.0, 0.0),
+          );
+          break;
+
         case 'AddEmptyLayerCommand':
         case 'SelectLayerCommand':
         case 'RemoveLayerCommand':
@@ -351,6 +379,11 @@ class LegacyModelTransformer {
           hasUnsupportedCommands = true;
           break;
       }
+    }
+
+    // 2. Map all native commands
+    for (final legacyCmd in model.commands) {
+      processCommand(legacyCmd);
     }
 
     final image = CatrobatImage(

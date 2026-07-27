@@ -6,7 +6,7 @@ class LegacyStringArray {
   LegacyStringArray(this.values);
 
   factory LegacyStringArray.deserialize(KryoReader reader) {
-    final size = reader.readVarInt(true);
+    final size = reader.readInt32();
     final List<String> values = [];
     for (int i = 0; i < size; i++) {
       final str = reader.readString();

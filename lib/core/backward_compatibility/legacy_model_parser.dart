@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:developer' as developer;
 import 'package:paintroid/core/backward_compatibility/kryo_class_registry.dart';
 import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
 import 'package:paintroid/core/backward_compatibility/models/models.dart';
@@ -15,44 +16,55 @@ class LegacyCommandManagerModel {
 
   /// Deserializes the CommandManagerModel structure from the Kryo binary reader.
   factory LegacyCommandManagerModel.deserialize(KryoReader reader) {
+    developer.log('LEGACY_MODEL_PARSER: Starting deserialization at position ${reader.position}', name: 'Paintroid.Legacy');
+    
     final String? initClassName = KryoClassRegistry.readClassName(reader);
     if (initClassName == null) {
+      developer.log('LEGACY_MODEL_PARSER: initialCommand className was null!', name: 'Paintroid.Legacy', level: 1000);
       throw FormatException(
         'Legacy CommandManagerModel initialCommand cannot be null.',
       );
     }
+    
+    developer.log('LEGACY_MODEL_PARSER: initialCommand class: $initClassName', name: 'Paintroid.Legacy');
     final dynamic initialCommand = _deserializeCommand(initClassName, reader);
 
-    final int nextByte = reader.readByte();
-    int size = 0;
     final List<dynamic> commands = [];
-
-    if (nextByte == 0) {
-      size = 0;
-    } else if (nextByte == 1 || nextByte >= 11) {
-      // It's a collection class name ID (e.g. ArrayList). Backtrack and consume it.
-      reader.position = reader.position - 1;
-      KryoClassRegistry.readClassName(reader);
+    int size = 0;
+    try {
       size = reader.readInt32();
-    } else {
-      // It's a raw size integer. Backtrack and read it.
-      reader.position = reader.position - 1;
-      size = reader.readInt32();
+      developer.log('LEGACY_MODEL_PARSER: Command list size: $size', name: 'Paintroid.Legacy');
+    } catch (e) {
+      developer.log('LEGACY_MODEL_PARSER: Error reading command list size: $e', name: 'Paintroid.Legacy', level: 900);
     }
 
     for (int i = 0; i < size; i++) {
       if (!reader.hasRemaining) {
+        developer.log('LEGACY_MODEL_PARSER: Premature end of stream at command $i of $size', name: 'Paintroid.Legacy', level: 900);
         break;
       }
-      final String? className = KryoClassRegistry.readClassName(reader);
-      if (className != null) {
-        commands.add(_deserializeCommand(className, reader));
+      try {
+        final String? className = KryoClassRegistry.readClassName(reader);
+        if (className != null) {
+          commands.add(_deserializeCommand(className, reader));
+        } else {
+          developer.log('LEGACY_MODEL_PARSER: Command $i class name was null', name: 'Paintroid.Legacy');
+        }
+      } catch (e) {
+        developer.log('LEGACY_MODEL_PARSER: Error deserializing command $i: $e', name: 'Paintroid.Legacy', level: 900);
+        // Attempt to continue or skip if possible? Hard in binary without knowing object size.
+        // For now, let's stop to avoid total corruption.
+        break;
       }
     }
 
+    developer.log('LEGACY_MODEL_PARSER: Deserialization finished. Total commands: ${commands.length}', name: 'Paintroid.Legacy');
+
     // Read the trailing ColorHistory if present (takes at least 8 bytes: 4 size + 4 color)
     if (reader.remaining >= 8) {
-      LegacyColorHistory.deserialize(reader);
+      try {
+        LegacyColorHistory.deserialize(reader);
+      } catch (_) {}
     }
 
     return LegacyCommandManagerModel(
@@ -177,6 +189,9 @@ class LegacyCommandManagerModel {
           'rotation': rotation,
           'typeface': typeface,
         };
+      case 'LoadCommand':
+        final bitmapBytes = readPngBytes(reader);
+        return {'type': 'LoadCommand', 'bitmap': bitmapBytes};
       case 'ClipboardCommand':
         final bitmapBytes = readPngBytes(reader);
         final coordinates = LegacyPoint.deserialize(reader);
@@ -251,6 +266,19 @@ class LegacyCommandManagerModel {
           'colorTolerance': tolerance,
           'clickedPixel': pixel,
           'paint': paint,
+        };
+      case 'CompositeCommand':
+        final int size = reader.readInt32();
+        final List<dynamic> commands = [];
+        for (int i = 0; i < size; i++) {
+          final String? cmdClassName = KryoClassRegistry.readClassName(reader);
+          if (cmdClassName != null) {
+            commands.add(_deserializeCommand(cmdClassName, reader));
+          }
+        }
+        return {
+          'type': 'CompositeCommand',
+          'commands': commands,
         };
       default:
         return {'type': className};

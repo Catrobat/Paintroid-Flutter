@@ -97,10 +97,10 @@ void main() {
       () {
         // String format tests including ASCII optimization MSB mask
         final bytes = Uint8List.fromList([
-          0x00, // null
-          0x01, // empty string
-          0x04, 0x43, 0x61, 0xF4, // "Cat" (MSB set on 't': 0xF4)
-          0x05, 0x44, 0x61, 0x72, 0x74, // "Dart" (standard)
+          0x80, // null (Kryo 5 format)
+          0x81, // empty string (Kryo 5 format)
+          0x43, 0x61, 0xF4, // "Cat" (ASCII optimized: MSB set on 't')
+          0x85, 0x44, 0x61, 0x72, 0x74, // "Dart" (Kryo 5 UTF-8/standard format)
         ]);
         final reader = KryoReader(bytes);
 
