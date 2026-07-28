@@ -1,5 +1,8 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
+import 'package:colorpicker/src/pages/pipette_page.dart';
+import 'package:colorpicker/src/components/pipette_tool_button.dart';
 import 'package:colorpicker/src/components/color_comparison.dart';
 import 'package:colorpicker/src/components/opacity_slider.dart';
 import 'package:colorpicker/src/components/recent_colors_section_widget.dart';
@@ -17,10 +20,22 @@ class ColorPicker extends ConsumerStatefulWidget {
     super.key,
     required this.currentColor,
     required this.onColorChanged,
+    this.snapshotImage,
+    this.pipetteLabel = 'PIPETTE',
+    this.saveChangesTitle = 'Save changes?',
+    this.saveChangesContent = 'Do you want to save your changes?',
+    this.noLabel = 'NO',
+    this.yesLabel = 'YES',
   });
 
   final Color currentColor;
   final void Function(Color) onColorChanged;
+  final ui.Image? snapshotImage;
+  final String pipetteLabel;
+  final String saveChangesTitle;
+  final String saveChangesContent;
+  final String noLabel;
+  final String yesLabel;
 
   @override
   ConsumerState<ColorPicker> createState() => _ColorPickerState();
@@ -114,9 +129,42 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ColorComparison(
-                      currentColor: widget.currentColor,
-                      newColor: displayColor,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ColorComparison(
+                          currentColor: widget.currentColor,
+                          newColor: displayColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: PipetteToolButton(
+                            label: widget.pipetteLabel,
+                            onTap: () async {
+                              if (widget.snapshotImage != null) {
+                                final pickedColor = await Navigator.push<Color>(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PipettePage(
+                                      snapshot: widget.snapshotImage!,
+                                      initialColor: displayColor,
+                                      saveChangesTitle: widget.saveChangesTitle,
+                                      saveChangesContent:
+                                          widget.saveChangesContent,
+                                      noLabel: widget.noLabel,
+                                      yesLabel: widget.yesLabel,
+                                    ),
+                                  ),
+                                );
+                                if (pickedColor != null) {
+                                  _handleColorAndOpacityChange(pickedColor);
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     RecentColorsSectionWidget(
                         onColorSelected: _handleColorAndOpacityChange),
