@@ -7,7 +7,8 @@ import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_actions/move_to_action.dart';
+import 'package:paintroid/core/models/path_actions/line_to_action.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 

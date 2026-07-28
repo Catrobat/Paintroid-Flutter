@@ -8,7 +8,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/ell
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
@@ -27,8 +27,8 @@ class DummyCommandFactory {
         DummyVersionStrategy(pathCommandVersion: version));
     List<Command> commands = [];
     for (int i = 0; i < numberOfCommands; i++) {
-      PathWithActionHistory originalPath =
-          DummyPathFactory.createPathWithActionHistory(i * numberOfCommands);
+      PathModel originalPath =
+          DummyPathFactory.createPathModel(i * numberOfCommands);
       Paint originalPaint = DummyPaintFactory.createPaint();
       PathCommand command =
           commandFactory.createPathCommand(originalPath, originalPaint);
@@ -38,7 +38,7 @@ class DummyCommandFactory {
   }
 
   static PathCommand createPathCommand(
-    PathWithActionHistory path,
+    PathModel path,
     Paint paint, {
     int version = Version.v1,
   }) {
@@ -48,7 +48,7 @@ class DummyCommandFactory {
   }
 
   static LineCommand createLineCommand(
-    PathWithActionHistory path,
+    PathModel path,
     Paint paint,
     Offset startPoint,
     Offset endPoint, {

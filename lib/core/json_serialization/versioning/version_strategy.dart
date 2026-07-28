@@ -24,6 +24,7 @@ abstract class IVersionStrategy {
   int getDeleteRegionCommandVersion();
 
   int getColorChangedCommandVersion();
+  int getPathModelVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -69,6 +70,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getColorChangedCommandVersion() =>
       SerializerVersion.COLOR_CHANGED_COMMAND_VERSION;
+
+  @override
+  int getPathModelVersion() => SerializerVersion.PATH_MODEL_VERSION;
 }
 
 class VersionStrategyManager {

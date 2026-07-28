@@ -5,15 +5,14 @@ import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/json_serialization/converter/paint_converter.dart';
-import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
 
 part 'path_command.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PathCommand extends GraphicCommand {
   final String type;
   final int version;
@@ -28,12 +27,11 @@ class PathCommand extends GraphicCommand {
   }) : version =
             version ?? VersionStrategyManager.strategy.getPathCommandVersion();
 
-  @PathWithActionHistoryConverter()
-  final PathWithActionHistory path;
+  final PathModel path;
 
   @override
   void call(Canvas canvas) {
-    canvas.drawPath(path.path, paint);
+    canvas.drawPath(path.nativePath, paint);
   }
 
   @override
@@ -43,10 +41,12 @@ class PathCommand extends GraphicCommand {
   Map<String, dynamic> toJson() => _$PathCommandToJson(this);
 
   factory PathCommand.fromJson(Map<String, dynamic> json) {
-    int version = json['version'] as int;
+    int? version = json['version'] as int?;
 
     switch (version) {
       case Version.v1:
+        return _$PathCommandFromJson(json);
+      case null:
         return _$PathCommandFromJson(json);
       case Version.v2:
       // For different versions of PathCommand the deserialization

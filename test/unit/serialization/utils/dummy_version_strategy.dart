@@ -14,6 +14,7 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int deleteRegionCommandVersion;
   final int textCommandVersion;
   final int colorChangedCommandVersion;
+  final int pathModelVersion;
 
   DummyVersionStrategy({
     this.pathCommandVersion = SerializerVersion.PATH_COMMAND_VERSION,
@@ -33,6 +34,7 @@ class DummyVersionStrategy implements IVersionStrategy {
     this.textCommandVersion = SerializerVersion.TEXT_COMMAND_VERSION,
     this.colorChangedCommandVersion =
         SerializerVersion.COLOR_CHANGED_COMMAND_VERSION,
+    this.pathModelVersion = SerializerVersion.PATH_MODEL_VERSION,
   });
 
   @override
@@ -70,4 +72,7 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getColorChangedCommandVersion() => colorChangedCommandVersion;
+
+  @override
+  int getPathModelVersion() => pathModelVersion;
 }

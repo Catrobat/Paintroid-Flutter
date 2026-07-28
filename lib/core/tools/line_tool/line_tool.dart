@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
-import 'package:paintroid/core/commands/path_with_action_history.dart';
+import 'package:paintroid/core/models/path_model.dart';
 import 'package:paintroid/core/tools/line_tool/vertex.dart';
 import 'package:paintroid/core/tools/line_tool/vertex_stack.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -192,8 +192,8 @@ class LineTool extends Tool with EquatableMixin {
     outgoingGhostPathCommand = null;
   }
 
-  PathWithActionHistory _createPath(Offset startPoint, Offset endPoint) {
-    var pathToDraw = graphicFactory.createPathWithActionHistory()
+  PathModel _createPath(Offset startPoint, Offset endPoint) {
+    var pathToDraw = graphicFactory.createPathModel()
       ..moveTo(startPoint.dx, startPoint.dy)
       ..lineTo(endPoint.dx, endPoint.dy);
     return pathToDraw;
