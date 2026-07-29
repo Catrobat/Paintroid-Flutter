@@ -26,11 +26,21 @@ void main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   const platform = MethodChannel('org.catrobat.paintroid/file_handler');
   String? initialFileUri;
 
   try {
     initialFileUri = await platform.invokeMethod('getInitialFile');
+  } on MissingPluginException {
+    // file_handler channel is Android-only; no-op on iOS.
   } on PlatformException catch (e) {
     log("Failed to get initial file: '${e.message}'.");
   }

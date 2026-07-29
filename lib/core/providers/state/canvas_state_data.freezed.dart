@@ -22,6 +22,7 @@ mixin _$CanvasStateData {
   CommandManager get commandManager => throw _privateConstructorUsedError;
   GraphicFactory get graphicFactory => throw _privateConstructorUsedError;
   bool get isCachingCommand => throw _privateConstructorUsedError;
+  int get resetViewSignal => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CanvasStateDataCopyWith<CanvasStateData> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $CanvasStateDataCopyWith<$Res> {
       ui.Size size,
       CommandManager commandManager,
       GraphicFactory graphicFactory,
-      bool isCachingCommand});
+      bool isCachingCommand,
+      int resetViewSignal});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
     Object? commandManager = null,
     Object? graphicFactory = null,
     Object? isCachingCommand = null,
+    Object? resetViewSignal = null,
   }) {
     return _then(_value.copyWith(
       backgroundImage: freezed == backgroundImage
@@ -88,6 +91,10 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
           ? _value.isCachingCommand
           : isCachingCommand // ignore: cast_nullable_to_non_nullable
               as bool,
+      resetViewSignal: null == resetViewSignal
+          ? _value.resetViewSignal
+          : resetViewSignal // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$CanvasStateDataImplCopyWith<$Res>
       ui.Size size,
       CommandManager commandManager,
       GraphicFactory graphicFactory,
-      bool isCachingCommand});
+      bool isCachingCommand,
+      int resetViewSignal});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
     Object? commandManager = null,
     Object? graphicFactory = null,
     Object? isCachingCommand = null,
+    Object? resetViewSignal = null,
   }) {
     return _then(_$CanvasStateDataImpl(
       backgroundImage: freezed == backgroundImage
@@ -152,6 +161,10 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
           ? _value.isCachingCommand
           : isCachingCommand // ignore: cast_nullable_to_non_nullable
               as bool,
+      resetViewSignal: null == resetViewSignal
+          ? _value.resetViewSignal
+          : resetViewSignal // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -165,7 +178,8 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
       required this.size,
       required this.commandManager,
       required this.graphicFactory,
-      this.isCachingCommand = false});
+      this.isCachingCommand = false,
+      this.resetViewSignal = 0});
 
   @override
   final ui.Image? backgroundImage;
@@ -180,10 +194,13 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
   @override
   @JsonKey()
   final bool isCachingCommand;
+  @override
+  @JsonKey()
+  final int resetViewSignal;
 
   @override
   String toString() {
-    return 'CanvasStateData(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory, isCachingCommand: $isCachingCommand)';
+    return 'CanvasStateData(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory, isCachingCommand: $isCachingCommand, resetViewSignal: $resetViewSignal)';
   }
 
   @override
@@ -201,12 +218,14 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
             (identical(other.graphicFactory, graphicFactory) ||
                 other.graphicFactory == graphicFactory) &&
             (identical(other.isCachingCommand, isCachingCommand) ||
-                other.isCachingCommand == isCachingCommand));
+                other.isCachingCommand == isCachingCommand) &&
+            (identical(other.resetViewSignal, resetViewSignal) ||
+                other.resetViewSignal == resetViewSignal));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, backgroundImage, cachedImage,
-      size, commandManager, graphicFactory, isCachingCommand);
+      size, commandManager, graphicFactory, isCachingCommand, resetViewSignal);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +242,8 @@ abstract class _CanvasStateData implements CanvasStateData {
       required final ui.Size size,
       required final CommandManager commandManager,
       required final GraphicFactory graphicFactory,
-      final bool isCachingCommand}) = _$CanvasStateDataImpl;
+      final bool isCachingCommand,
+      final int resetViewSignal}) = _$CanvasStateDataImpl;
 
   @override
   ui.Image? get backgroundImage;
@@ -237,6 +257,8 @@ abstract class _CanvasStateData implements CanvasStateData {
   GraphicFactory get graphicFactory;
   @override
   bool get isCachingCommand;
+  @override
+  int get resetViewSignal;
   @override
   @JsonKey(ignore: true)
   _$$CanvasStateDataImplCopyWith<_$CanvasStateDataImpl> get copyWith =>

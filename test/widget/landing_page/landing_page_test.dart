@@ -30,6 +30,7 @@ import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
 import '../../utils/test_constants.dart';
 import 'landing_page_test.mocks.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 @GenerateMocks([ProjectDatabase, ProjectDAO, IImageService, IFileService])
 void main() {
@@ -44,6 +45,7 @@ void main() {
   final testFile = File(filePath);
   late ui.Image dummyImage;
   final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
+  late AppLocalizations localizations;
 
   Project createProject(String name) => Project(
         name: name,
@@ -74,6 +76,24 @@ void main() {
     dummyImage = await createTestImage(width: 1080, height: 1920);
   });
 
+  Future<void> initializeAppAndLocalizations(WidgetTester tester) async {
+    final appBarFinder = find.byType(AppBar);
+    if (tester.any(appBarFinder)) {
+      localizations = AppLocalizations.of(tester.element(appBarFinder.first));
+      return;
+    }
+
+    final mainAppFinder = find.byType(MaterialApp);
+    if (tester.any(mainAppFinder)) {
+      localizations = AppLocalizations.of(tester.element(mainAppFinder.first));
+      return;
+    }
+
+    expect(false, isTrue,
+        reason:
+            'Localizations not found. Ensure MaterialApp or AppBar is present.');
+  }
+
   testWidgets('Should have a top app bar', (tester) async {
     when(database.projectDAO).thenReturn(dao);
     when(dao.getProjects()).thenAnswer((_) => Future.value([]));
@@ -89,11 +109,13 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
-      final titleFinder = find.widgetWithText(AppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(AppBar, localizations.pocketpaintAppName);
       expect(titleFinder, findsOneWidget);
     },
   );
@@ -116,7 +138,9 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -125,10 +149,10 @@ void main() {
       await tester.tap(mainOverflowMenu);
       await tester.pumpAndSettle();
 
-      expect(find.text('Rate us!'), findsOneWidget);
-      expect(find.text('Help'), findsOneWidget);
-      expect(find.text('About'), findsOneWidget);
-      expect(find.text('Feedback'), findsOneWidget);
+      expect(find.text(localizations.menuRateUs), findsOneWidget);
+      expect(find.text(localizations.helpTitle), findsOneWidget);
+      expect(find.text(localizations.pocketpaintAboutTitle), findsOneWidget);
+      expect(find.text(localizations.menuFeedback), findsOneWidget);
     },
   );
 
@@ -139,6 +163,7 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
 
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
 
       final mainOverflowMenu = find.byType(MainOverflowMenu);
@@ -147,7 +172,7 @@ void main() {
       await tester.tap(mainOverflowMenu);
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Rate us!'));
+      await tester.tap(find.text(localizations.menuRateUs));
       await tester.pumpAndSettle();
 
       expect(mainOverflowMenu, findsOneWidget);
@@ -179,7 +204,9 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -191,7 +218,7 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(TopAppBar, localizations.pocketpaintAppName);
       expect(titleFinder, findsOneWidget);
 
       final overflowMenuButtonFinder = find.widgetWithIcon(
@@ -212,7 +239,7 @@ void main() {
 
       await tester.pageBack();
       await tester.pumpAndSettle();
-      expect(find.text('My Projects'), findsOneWidget);
+      expect(find.text(localizations.myProjects), findsOneWidget);
     },
   );
 
@@ -227,7 +254,9 @@ void main() {
           .thenAnswer((_) => Future.value(false));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -240,7 +269,7 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(TopAppBar, localizations.pocketpaintAppName);
       expect(titleFinder, findsOneWidget);
 
       final overflowMenuButtonFinder = find.widgetWithIcon(
@@ -262,18 +291,18 @@ void main() {
       await tester.tap(overflowMenuButtonFinder);
       await tester.pumpAndSettle();
 
-      final saveProjectButton = find.text('Save project');
+      final saveProjectButton = find.text(localizations.menuSaveProject);
       expect(saveProjectButton, findsOneWidget);
 
       await tester.tap(saveProjectButton);
       await tester.pumpAndSettle();
 
-      final textFormField = find.widgetWithText(TextFormField, 'Project name');
+      final textFormField = find.widgetWithText(TextFormField, localizations.dialogSaveProjectName);
       expect(textFormField, findsOneWidget);
 
       await tester.enterText(textFormField, 'project');
 
-      final saveButton = find.widgetWithText(TextButton, 'Save');
+      final saveButton = find.widgetWithText(TextButton, localizations.saveButtonText.toUpperCase());
       expect(saveButton, findsOneWidget);
 
       await tester.tap(saveButton);
@@ -291,7 +320,7 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final titleFinder2 = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      final titleFinder2 = find.widgetWithText(TopAppBar, localizations.pocketpaintAppName);
       expect(titleFinder2, findsOneWidget);
 
       final overflowMenuButtonFinder2 = find.widgetWithIcon(
@@ -307,11 +336,13 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
-      expect(find.text('My Projects'), findsOneWidget);
+      expect(find.text(localizations.myProjects), findsOneWidget);
     },
   );
 
@@ -335,14 +366,16 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
       verify(imageService.getProjectPreview(filePath)).called(5);
       expect(find.byType(ProjectOverflowMenu), findsNWidgets(5));
       final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-      expect(find.text('last modified: ${dateFormat.format(date)}'),
+      expect(find.text('${localizations.detailsLastModified}: ${dateFormat.format(date)}'),
           findsNWidgets(4));
       for (int i = 1; i < 5; i++) {
         expect(find.text(projects[i].name), findsOneWidget);
@@ -357,7 +390,9 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -372,9 +407,9 @@ void main() {
       await tester.tap(overflowMenu);
       await tester.pumpAndSettle();
 
-      expect(find.text('Delete'), findsOneWidget);
-      expect(find.text('Details'), findsOneWidget);
-      expect(find.text('Rename'), findsOneWidget);
+      expect(find.text(localizations.projectDelete), findsOneWidget);
+      expect(find.text(localizations.projectDetails), findsOneWidget);
+      expect(find.text(localizations.projectRename), findsOneWidget);
     },
   );
 
@@ -385,7 +420,9 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -398,7 +435,7 @@ void main() {
       await tester.tap(overflowMenu);
       await tester.pumpAndSettle();
 
-      final detailsOption = find.text('Details');
+      final detailsOption = find.text(localizations.projectDetails);
       expect(detailsOption, findsOneWidget);
 
       when(imageService.getProjectPreview(filePath))
@@ -414,15 +451,15 @@ void main() {
 
       expect(find.widgetWithText(ProjectDetailsDialog, 'project$position'),
           findsOneWidget);
-      expect(find.text('Resolution: 1080 X 1920'), findsOneWidget);
-      expect(find.text('Last modified: ${formatter.format(date)}'),
+      expect(find.text('${localizations.detailsResolution}: 1080 X 1920'), findsOneWidget);
+      expect(find.text('${localizations.detailsLastModified}: ${formatter.format(date)}'),
           findsOneWidget);
-      expect(find.text('Creation date: ${formatter.format(date)}'),
+      expect(find.text('${localizations.detailsCreationDate}: ${formatter.format(date)}'),
           findsOneWidget);
-      expect(find.text('Size: ${filesize(testFile.lengthSync())}'),
+      expect(find.text('${localizations.detailsSize}: ${filesize(testFile.lengthSync())}'),
           findsOneWidget);
 
-      final okButton = find.widgetWithText(TextButton, 'OK');
+      final okButton = find.widgetWithText(TextButton, localizations.done.toUpperCase());
       expect(okButton, findsOneWidget);
       await tester.tap(okButton);
       await tester.pumpAndSettle();
@@ -438,7 +475,9 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -451,21 +490,21 @@ void main() {
       await tester.tap(overflowMenu);
       await tester.pumpAndSettle();
 
-      final deleteOption = find.text('Delete');
+      final deleteOption = find.text(localizations.projectDelete);
       expect(deleteOption, findsOneWidget);
 
       await tester.tap(deleteOption);
       await tester.pumpAndSettle();
 
       final deleteProjectDialog =
-          find.widgetWithText(GenericDialog, 'Delete project$position');
+          find.widgetWithText(GenericDialog, localizations.projectDeleteTitle('project$position'));
       expect(deleteProjectDialog, findsOneWidget);
-      expect(find.text('Do you really want to delete your project?'),
+      expect(find.text(localizations.projectDeleteDialog),
           findsOneWidget);
       final cancelButton =
-          find.widgetWithText(GenericDialogActionButton, 'Cancel');
+          find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase());
       final deleteButton =
-          find.widgetWithText(GenericDialogActionButton, 'Delete');
+          find.widgetWithText(GenericDialogActionButton, localizations.deleteButtonText.toUpperCase());
       expect(cancelButton, findsOneWidget);
       expect(deleteButton, findsOneWidget);
       await tester.tap(cancelButton);
@@ -481,7 +520,9 @@ void main() {
       when(dao.getProjects()).thenAnswer((_) => Future.value(projects));
       when(imageService.getProjectPreview(filePath))
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -494,19 +535,19 @@ void main() {
       await tester.tap(overflowMenu);
       await tester.pumpAndSettle();
 
-      final renameOption = find.text('Rename');
+      final renameOption = find.text(localizations.projectRename);
       expect(renameOption, findsOneWidget);
 
       await tester.tap(renameOption);
       await tester.pumpAndSettle();
 
       final renameProjectDialog =
-          find.widgetWithText(GenericDialog, 'Rename project$position');
+          find.widgetWithText(GenericDialog, localizations.projectRenameTitle('project$position'));
       expect(renameProjectDialog, findsOneWidget);
       final cancelButton =
-          find.widgetWithText(GenericDialogActionButton, 'CANCEL');
+          find.widgetWithText(GenericDialogActionButton, localizations.cancelButtonText.toUpperCase());
       final renameButton =
-          find.widgetWithText(GenericDialogActionButton, 'RENAME');
+          find.widgetWithText(GenericDialogActionButton, localizations.projectRename.toUpperCase());
 
       expect(cancelButton, findsOneWidget);
       expect(renameButton, findsOneWidget);
@@ -524,7 +565,9 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -539,18 +582,18 @@ void main() {
         buildNumber: '1',
         buildSignature: 'testSignature',
       );
-      final about = find.text('About');
+      final about = find.text(localizations.pocketpaintAboutTitle);
       await tester.tap(about);
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(MyAboutDialog, 'About'), findsOneWidget);
+      expect(find.widgetWithText(MyAboutDialog, localizations.pocketpaintAboutTitle), findsOneWidget);
       expect(find.text('Version 1.0.0'), findsOneWidget);
 
-      final doneButton = find.widgetWithText(GenericDialogActionButton, 'DONE');
+      final doneButton = find.widgetWithText(GenericDialogActionButton, localizations.done.toUpperCase());
       expect(doneButton, findsOneWidget);
       await tester.tap(doneButton);
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(MyAboutDialog, 'About'), findsNothing);
+      expect(find.widgetWithText(MyAboutDialog, localizations.pocketpaintAboutTitle), findsNothing);
     },
   );
 
@@ -559,7 +602,9 @@ void main() {
     (tester) async {
       when(database.projectDAO).thenReturn(dao);
       when(dao.getProjects()).thenAnswer((_) => Future.value([]));
+
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -571,7 +616,7 @@ void main() {
       expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.byType(NavigationBar), findsOneWidget);
 
-      final titleFinder = find.widgetWithText(TopAppBar, 'Pocket Paint');
+      final titleFinder = find.widgetWithText(TopAppBar, localizations.pocketpaintAppName);
       expect(titleFinder, findsOneWidget);
 
       final overflowMenuButtonFinder = find.widgetWithIcon(
@@ -582,7 +627,7 @@ void main() {
 
       await tester.pageBack();
       await tester.pumpAndSettle();
-      expect(find.text('My Projects'), findsOneWidget);
+      expect(find.text(localizations.myProjects), findsOneWidget);
     },
   );
 
@@ -601,6 +646,7 @@ void main() {
           .thenReturn(Result.ok(testFile.readAsBytesSync()));
 
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
       verify(database.projectDAO);
       verify(dao.getProjects());
@@ -618,25 +664,25 @@ void main() {
       await tester.tap(overflowMenuButtonFinder);
       await tester.pumpAndSettle();
 
-      final saveProjectButton = find.text('Save project');
+      final saveProjectButton = find.text(localizations.menuSaveProject);
       expect(saveProjectButton, findsOneWidget);
 
       await tester.tap(saveProjectButton);
       await tester.pumpAndSettle();
 
-      final textFormField = find.widgetWithText(TextFormField, 'Project name');
+      final textFormField = find.widgetWithText(TextFormField, localizations.dialogSaveProjectName);
       expect(textFormField, findsOneWidget);
 
       await tester.enterText(textFormField, 'project');
 
-      final saveButton = find.widgetWithText(TextButton, 'Save');
+      final saveButton = find.widgetWithText(TextButton, localizations.saveButtonText.toUpperCase());
       expect(saveButton, findsOneWidget);
 
       await tester.tap(saveButton);
       await tester.pumpAndSettle();
 
       final confirmationDialogFinder =
-          find.widgetWithText(GenericDialog, 'Overwrite');
+          find.widgetWithText(GenericDialog, localizations.overwriteButtonText.toUpperCase());
 
       expect(confirmationDialogFinder, findsOneWidget);
     },

@@ -10,6 +10,7 @@ import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_opt
 import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_options/widgets/stroke_width_slider.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 import '../../utils/bottom_nav_bar_interactions.dart';
 
@@ -37,6 +38,7 @@ void main() {
           home: const WorkspacePage(),
           localizationsDelegates: const [
             AppLocalizations.delegate,
+            ColorPickerLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
         ),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:paintroid/ui/shared/images/pocketpaint_intro_landscape.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class Screen4 extends StatelessWidget {
   const Screen4({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Container(
       color: PaintroidTheme.of(context).surfaceColor,
       padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
@@ -19,7 +21,7 @@ class Screen4 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Landscape',
+                localizations.landscape,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 24,
@@ -32,7 +34,7 @@ class Screen4 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Pocket Paint also supports drawing in landscape mode to give you the best painting experience.',
+                localizations.introLandscapeText,
                 style: TextStyle(
                   color: PaintroidTheme.of(context).onSurfaceColor,
                   fontSize: 15,

@@ -70,19 +70,19 @@ void main() {
         late final String label;
         switch (option) {
           case OverflowMenuOption.fullscreen:
-            label = localizations.fullscreen;
+            label = localizations.menuHideMenu;
             break;
           case OverflowMenuOption.saveImage:
-            label = localizations.saveImage;
+            label = localizations.menuSaveImage;
             break;
           case OverflowMenuOption.loadImage:
-            label = localizations.loadImage;
+            label = localizations.menuLoadImage;
             break;
           case OverflowMenuOption.newImage:
-            label = localizations.newImage;
+            label = localizations.menuNewImage;
             break;
           case OverflowMenuOption.saveProject:
-            label = localizations.saveProject;
+            label = localizations.menuSaveProject;
             break;
         }
         expect(find.text(label), findsOneWidget,
@@ -105,9 +105,9 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.newImage));
+      await tester.tap(find.text(localizations.menuNewImage));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.discard));
+      await tester.tap(find.text(localizations.discardButtonText.toUpperCase()));
       await tester.pumpAndSettle();
 
       final after = await UIInteraction.getPixelColor(
@@ -126,9 +126,9 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.newImage));
+      await tester.tap(find.text(localizations.menuNewImage));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.save));
+      await tester.tap(find.text(localizations.saveButtonText.toUpperCase()));
       await tester.pumpAndSettle();
 
       expect(find.byType(SaveImageDialog), findsOneWidget);
@@ -141,7 +141,7 @@ void main() {
       await initializeAppAndLocalizations(tester);
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.saveImage));
+      await tester.tap(find.text(localizations.menuSaveImage));
       await tester.pumpAndSettle();
 
       expect(find.byType(SaveImageDialog), findsOneWidget);
@@ -154,7 +154,7 @@ void main() {
       await initializeAppAndLocalizations(tester);
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.saveProject));
+      await tester.tap(find.text(localizations.menuSaveProject));
       await tester.pumpAndSettle();
 
       expect(find.byType(SaveImageDialog), findsOneWidget);
@@ -171,7 +171,7 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.fullscreen));
+      await tester.tap(find.text(localizations.menuHideMenu));
       await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsNothing);
@@ -195,7 +195,7 @@ void main() {
       await initializeAppAndLocalizations(tester);
       await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.fullscreen));
+      await tester.tap(find.text(localizations.menuHideMenu));
       await tester.pumpAndSettle();
       expect(find.byType(AppBar), findsNothing);
 
@@ -219,8 +219,8 @@ void main() {
       await tester.pageBack();
       await tester.pumpAndSettle();
 
-      expect(find.text(localizations.discard), findsOneWidget);
-      expect(find.text(localizations.save), findsOneWidget);
+      expect(find.text(localizations.discardButtonText.toUpperCase()), findsOneWidget);
+      expect(find.text(localizations.saveButtonText.toUpperCase()), findsOneWidget);
     });
   }
 
@@ -236,7 +236,7 @@ void main() {
       expect(find.byType(DrawingCanvas), findsOneWidget);
       await tester.pageBack();
       await tester.pumpAndSettle();
-      await tester.tap(find.text(localizations.discard));
+      await tester.tap(find.text(localizations.discardButtonText.toUpperCase()));
       await tester.pumpAndSettle();
 
       expect(find.byType(DrawingCanvas), findsNothing);

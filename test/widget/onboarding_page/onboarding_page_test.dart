@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -9,47 +8,16 @@ import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_ap
 import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
 import '../../utils/test_utils.dart';
 
 void main() {
   late Widget sut;
-  final List<String> descriptions = [
-    'Tap on the symbols on the bottom bar to change the color or the brush size.',
-    'Move your finger to move the canvas.',
-    'Remove parts of the image like with an eraser.',
-    'Draw a straight line.',
-    'Choose a shape and tap on the checkmark to insert the selected shape.',
-    'Tap on the image to fill an area with the selected color.',
-    'Move your finger on the image to create a spray can pattern.',
-    'Position the cursor where you want to draw. Tap to activate the cursor. Move your finger to draw. Tap again to deactivate.',
-    'Write text and format it. Resize the text box afterwards. Tap on the checkmark to insert the text on the image.',
-    'Move and resize the rectangle to cover the area you want to stamp. Tap on copy or cut to select the area. Move it, then tap on paste to stamp.',
-    'Use to transform the image.',
-    'Import an image from the gallery to the stamp tool.',
-    'Tap on the image to select a color.',
-    'Similar to the brush tool with a watercolor effect. However you can also change the strength of the brush with the slider in the color menu.',
-    'Move your finger on the image on different drawings to smudge them.',
-    'Mark area which should not be erased.',
-  ];
-  final List<String> titles = [
-    'Brush',
-    'Hand',
-    'Eraser',
-    'Line',
-    'Shapes',
-    'Fill',
-    'Spray can',
-    'Cursor',
-    'Text',
-    'Stamp',
-    'Transform',
-    'Import image',
-    'Pipette',
-    'Watercolor',
-    'Smudge',
-    'Clip area',
-  ];
+  late AppLocalizations localizations;
+  List<String> descriptions = [];
+  
+  List<String> titles = [];
 
   setUp(() {
     final lightTheme = LightPaintroidThemeData();
@@ -67,29 +35,46 @@ void main() {
           theme: lightTheme.materialThemeData,
           darkTheme: darkTheme.materialThemeData,
           home: const OnboardingPage(),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         ),
       ),
     );
   });
 
+  Future<void> initializeAppAndLocalizations(WidgetTester tester) async {
+    final appBarFinder = find.byType(AppBar);
+    if (tester.any(appBarFinder)) {
+      localizations = AppLocalizations.of(tester.element(find.byType(OnboardingPage)));
+      return;
+    }
+
+    final mainAppFinder = find.byType(MaterialApp);
+    if (tester.any(mainAppFinder)) {
+      localizations = AppLocalizations.of(tester.element(find.byType(OnboardingPage)));
+      return;
+    }
+
+    expect(false, isTrue,
+        reason:
+            'Localizations not found. Ensure MaterialApp or AppBar is present.');
+  }
+
+
   testWidgets(
     'screen1 test',
     (tester) async {
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
-      expect(find.text('Welcome To Pocket Paint'), findsOneWidget);
+      expect(find.text(localizations.welcomeToPocketPaint), findsOneWidget);
       expect(
-        find.text(
-          'With Pocket Paint there are no limits to your creativity. If you are new, start the intro, or skip it if you are already familiar with Pocket Paint.',
-        ),
+        find.text(localizations.introWelcomeText),
         findsOneWidget,
       );
       expect(find.byType(SmoothPageIndicator), findsOneWidget);
-      expect(find.text('NEXT'), findsOneWidget);
-      expect(find.text('SKIP'), findsOneWidget);
+      expect(find.text(localizations.next.toUpperCase()), findsOneWidget);
+      expect(find.text(localizations.skip.toUpperCase()), findsOneWidget);
     },
   );
 
@@ -97,15 +82,14 @@ void main() {
     'screen2 test',
     (tester) async {
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
-      final nextButton = find.text('NEXT');
+      final nextButton = find.text(localizations.next.toUpperCase());
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
-      expect(find.text('More possibilities'), findsOneWidget);
+      expect(find.text(localizations.morePossibilities), findsOneWidget);
       expect(
-        find.text(
-          'Use the top bar to open the overflow menu and to undo or redo changes',
-        ),
+        find.text(localizations.introPossibilitiesText),
         findsOneWidget,
       );
 
@@ -115,54 +99,53 @@ void main() {
       final undoButton = find.byKey(const Key('undoButton'));
       await tester.tap(undoButton);
       await tester.pumpAndSettle();
-      expect(find.text('Undo'), findsOneWidget);
-      expect(find.text('Tap to undo your previous action.'), findsOneWidget);
+      expect(find.text(localizations.buttonUndo), findsOneWidget);
+      expect(find.text(localizations.helpContentUndo), findsOneWidget);
 
       expect(find.byKey(const Key('redoButton')), findsOneWidget);
       final redoButton = find.byKey(const Key('redoButton'));
       await tester.tap(redoButton);
       await tester.pumpAndSettle();
-      expect(find.text('Redo'), findsOneWidget);
-      expect(find.text('Tap to redo an undone action.'), findsOneWidget);
+      expect(find.text(localizations.buttonRedo), findsOneWidget);
+      expect(find.text(localizations.helpContentRedo), findsOneWidget);
 
       expect(find.byType(OnboardingPageBottomNavigationBar), findsOneWidget);
 
-      expect(find.text('Tools'), findsOneWidget);
-      final toolsButton = find.text('Tools');
+      expect(find.text(localizations.bottomNavigationTools), findsOneWidget);
+      final toolsButton = find.text(localizations.bottomNavigationTools);
       await tester.tap(toolsButton);
       await tester.pumpAndSettle();
-      expect(find.text('Tools'), findsNWidgets(2));
-      expect(find.text('Switch to the tool you want to use.'), findsOneWidget);
+      expect(find.text(localizations.dialogToolsTitle), findsNWidgets(2));
+      expect(find.text(localizations.introBottomNavigationToolsDescription), findsOneWidget);
 
-      expect(find.text('Current'), findsOneWidget);
-      final currentButton = find.text('Current');
+      expect(find.text(localizations.bottomNavigationCurrent), findsOneWidget);
+      final currentButton = find.text(localizations.bottomNavigationCurrent);
       await tester.tap(currentButton);
       await tester.pumpAndSettle();
-      expect(find.text('Current'), findsNWidgets(2));
-      expect(find.text('Shows the currently used tool and opens its options.'),
+      expect(find.text(localizations.bottomNavigationCurrent), findsNWidgets(2));
+      expect(find.text(localizations.introBottomNavigationCurrentDescription),
           findsOneWidget);
 
-      expect(find.text('Color'), findsOneWidget);
-      final colorButton = find.text('Color');
+      expect(find.text(localizations.bottomNavigationColor), findsOneWidget);
+      final colorButton = find.text(localizations.bottomNavigationColor);
       await tester.tap(colorButton);
       await tester.pumpAndSettle();
-      expect(find.text('Color'), findsNWidgets(2));
+      expect(find.text(localizations.bottomNavigationColor), findsNWidgets(2));
       expect(
-          find.text(
-              'Shows the currently used color and opens the color picker.'),
+          find.text(localizations.introBottomNavigationColorDescription),
           findsOneWidget);
 
-      expect(find.text('Layers'), findsOneWidget);
-      final layersButton = find.text('Layers');
+      expect(find.text(localizations.bottomNavigationLayers), findsOneWidget);
+      final layersButton = find.text(localizations.bottomNavigationLayers);
       await tester.tap(layersButton);
       await tester.pumpAndSettle();
-      expect(find.text('Layers'), findsNWidgets(2));
-      expect(find.text('Opens the layer menu and lets you manage your layers.'),
+      expect(find.text(localizations.layersTitle), findsNWidgets(2));
+      expect(find.text(localizations.introBottomNavigationLayersDescription),
           findsOneWidget);
 
       expect(find.byType(SmoothPageIndicator), findsOneWidget);
-      expect(find.text('NEXT'), findsOneWidget);
-      expect(find.text('SKIP'), findsOneWidget);
+      expect(find.text(localizations.next.toUpperCase()), findsOneWidget);
+      expect(find.text(localizations.skip.toUpperCase()), findsOneWidget);
     },
   );
 
@@ -170,18 +153,57 @@ void main() {
     'screen3 test',
     (tester) async {
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
-      final nextButton = find.text('NEXT');
+      final nextButton = find.text(localizations.next.toUpperCase());
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
-      expect(find.text('Tools'), findsOneWidget);
-      expect(find.text('Select the tool you want to use.'), findsOneWidget);
+      expect(find.text(localizations.dialogToolsTitle), findsOneWidget);
+      expect(find.text(localizations.introToolMoreInformation), findsOneWidget);
 
       expect(find.byType(OnboardingPageAppBar), findsNothing);
 
       expect(find.byType(OnboardingPageBottomNavigationBar), findsNWidgets(4));
+      
+      titles = [
+        localizations.buttonBrush, 
+        localizations.buttonHand,
+        localizations.buttonEraser,
+        localizations.buttonLine,
+        localizations.buttonShape,
+        localizations.buttonFill,
+        localizations.buttonSprayCan,
+        localizations.buttonCursor,
+        localizations.buttonText,
+        localizations.buttonClipboard,
+        localizations.buttonTransform,
+        localizations.buttonImportImage,
+        localizations.buttonPipette,
+        localizations.buttonWatercolor,
+        localizations.buttonSmudge,
+        localizations.buttonClip
+      ];
+
+      descriptions = [
+        localizations.helpContentBrush, 
+        localizations.helpContentHand,
+        localizations.helpContentEraser,
+        localizations.helpContentLine,
+        localizations.helpContentShape,
+        localizations.helpContentFill,
+        localizations.helpContentSprayCan,
+        localizations.helpContentCursor,
+        localizations.helpContentText,
+        localizations.helpContentClipboard,
+        localizations.helpContentTransform,
+        localizations.helpContentImportPng,
+        localizations.helpContentEyedropper,
+        localizations.helpContentWatercolor,
+        localizations.helpContentSmudge,
+        localizations.helpContentClip
+      ];
 
       for (int i = 0; i < 16; i++) {
         expect(find.text(titles[i]), findsOneWidget);
@@ -193,8 +215,8 @@ void main() {
       }
 
       expect(find.byType(SmoothPageIndicator), findsOneWidget);
-      expect(find.text('NEXT'), findsOneWidget);
-      expect(find.text('SKIP'), findsOneWidget);
+      expect(find.text(localizations.next.toUpperCase()), findsOneWidget);
+      expect(find.text(localizations.skip.toUpperCase()), findsOneWidget);
     },
   );
 
@@ -202,23 +224,23 @@ void main() {
     'screen4 test',
     (tester) async {
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
-      final nextButton = find.text('NEXT');
+      final nextButton = find.text(localizations.next.toUpperCase());
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
-      expect(find.text('Landscape'), findsOneWidget);
+      expect(find.text(localizations.landscape), findsOneWidget);
       expect(
-          find.text(
-              'Pocket Paint also supports drawing in landscape mode to give you the best painting experience.'),
+          find.text(localizations.introLandscapeText),
           findsOneWidget);
 
       expect(find.byType(SmoothPageIndicator), findsOneWidget);
-      expect(find.text('NEXT'), findsOneWidget);
-      expect(find.text('SKIP'), findsOneWidget);
+      expect(find.text(localizations.next.toUpperCase()), findsOneWidget);
+      expect(find.text(localizations.skip.toUpperCase()), findsOneWidget);
     },
   );
 
@@ -226,8 +248,9 @@ void main() {
     'screen5 test',
     (tester) async {
       await tester.pumpWidget(sut);
+      await initializeAppAndLocalizations(tester);
       await tester.pumpAndSettle();
-      final nextButton = find.text('NEXT');
+      final nextButton = find.text(localizations.next.toUpperCase());
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
@@ -236,14 +259,14 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
-      expect(find.text('You are all set. Enjoy Pocket Paint.'), findsOneWidget);
-      expect(find.text('Get started and create a new masterpiece.'),
+      expect(find.text(localizations.enjoyPocketPaint), findsOneWidget);
+      expect(find.text(localizations.introGetStarted),
           findsOneWidget);
 
       expect(find.byType(SmoothPageIndicator), findsOneWidget);
-      expect(find.text('NEXT'), findsNothing);
-      expect(find.text('SKIP'), findsNothing);
-      expect(find.text("LET'S GO"), findsOneWidget);
+      expect(find.text(localizations.next.toUpperCase()), findsNothing);
+      expect(find.text(localizations.skip.toUpperCase()), findsNothing);
+      expect(find.text(localizations.letsGo.toUpperCase()), findsOneWidget);
     },
   );
 }

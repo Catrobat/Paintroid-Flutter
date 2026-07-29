@@ -5,6 +5,7 @@ import 'package:colorpicker/colorpicker.dart';
 
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
+import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/tool_options_visibility_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
@@ -34,15 +35,15 @@ class BottomNavBar extends ConsumerWidget {
         destinations: [
           NavigationDestination(
             key: const ValueKey(BottomNavBarItem.TOOLS),
-            label: localizations.tools,
+            label: localizations.bottomNavigationTools,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
           ),
           NavigationDestination(
-            label: currentToolData.name,
+            label: currentToolData.type.localizedName(localizations),
             icon: BottomBarIcon(asset: currentToolData.svgAssetPath),
           ),
           NavigationDestination(
-            label: localizations.color,
+            label: localizations.bottomNavigationColor,
             icon: InkWell(
               child: Stack(
                 alignment: Alignment.center,
@@ -81,7 +82,7 @@ class BottomNavBar extends ConsumerWidget {
             ),
           ),
           NavigationDestination(
-            label: localizations.layers,
+            label: localizations.bottomNavigationLayers,
             icon: const BottomBarIcon(asset: 'assets/svg/ic_layers.svg'),
           ),
         ],
@@ -123,10 +124,8 @@ void _showToolBottomSheet(BuildContext context) {
   double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
-    builder: (BuildContext context) => SizedBox(
-      height: screenHeight * 0.5,
-      child: const ToolsBottomSheet(),
-    ),
+    builder: (BuildContext context) =>
+        SizedBox(height: screenHeight * 0.5, child: const ToolsBottomSheet()),
   );
 }
 
@@ -139,7 +138,8 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
   if (initialColor.a == 0) {
     initialColor = initialColor.withValues(alpha: 1.0);
   }
-
+  final snapshot = ref.read(canvasStateProvider).cachedImage;
+  final localizations = AppLocalizations.of(context);
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
@@ -147,6 +147,12 @@ void _showColorPicker(BuildContext context, WidgetRef ref) {
         clipBehavior: Clip.antiAlias,
         child: ColorPicker(
           currentColor: initialColor,
+          snapshotImage: snapshot,
+          pipetteLabel: localizations.pipette,
+          saveChangesTitle: localizations.saveChanges,
+          saveChangesContent: localizations.saveChangesContent,
+          yesLabel: localizations.yes,
+          noLabel: localizations.no,
           onColorChanged: (newColor) {
             ref.read(paintProvider.notifier).updateColor(newColor);
           },

@@ -8,6 +8,8 @@ import 'package:paintroid/ui/shared/icon_button_with_label.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
 
+import 'package:paintroid/core/localization/app_localizations.dart';
+
 class ToolButton extends StatelessWidget {
   final ToolData toolData;
 
@@ -18,6 +20,7 @@ class ToolButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Consumer(
       builder: (context, ref, child) {
         return SizedBox(
@@ -34,7 +37,7 @@ class ToolButton extends StatelessWidget {
                 width: 30.0,
                 color: PaintroidTheme.of(context).onSurfaceColor,
               ),
-              label: toolData.name,
+              label: toolData.type.localizedName(localizations),
               key: ValueKey(toolData.name),
               onPressed: () {
                 Navigator.pop(context);

@@ -8,6 +8,7 @@ import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/shared/loading_overlay.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:colorpicker/colorpicker.dart';
 
 class App extends StatelessWidget {
   final bool showOnboardingPage;
@@ -29,11 +30,12 @@ class App extends StatelessWidget {
         darkTheme: _darkTheme.materialThemeData,
         localizationsDelegates: const [
           AppLocalizations.delegate,
+          ColorPickerLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: AppLocalizations.supportedLocales,
+        supportedLocales: AppLocalizations.supportedLocales + ColorPickerLocalizations.supportedLocales,
         initialRoute: '/',
         onGenerateRoute: (settings) {
           switch (settings.name) {
