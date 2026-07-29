@@ -8,11 +8,13 @@ import 'package:paintroid/ui/pages/onboarding_page/onboarding_page.dart';
 import 'package:paintroid/ui/pages/workspace_page/workspace_page.dart';
 import 'package:paintroid/ui/shared/loading_overlay.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:colorpicker/colorpicker.dart';
 
 class App extends StatelessWidget {
   final bool showOnboardingPage;
+  final String? initialFileUri;
 
-  App({super.key, required this.showOnboardingPage});
+  App({super.key, required this.showOnboardingPage,this.initialFileUri});
 
   final _lightTheme = LightPaintroidThemeData();
   final _darkTheme = DarkPaintroidThemeData();
@@ -28,11 +30,12 @@ class App extends StatelessWidget {
         darkTheme: _darkTheme.materialThemeData,
         localizationsDelegates: const [
           AppLocalizations.delegate,
+          ColorPickerLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: AppLocalizations.supportedLocales,
+        supportedLocales: AppLocalizations.supportedLocales + ColorPickerLocalizations.supportedLocales,
         initialRoute: '/',
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -42,7 +45,7 @@ class App extends StatelessWidget {
                     ? const OnboardingPage(
                         navigateTo: LandingPage(title: 'Pocket Paint'),
                       )
-                    : const LandingPage(title: 'Pocket Paint'),
+                    :LandingPage(title: 'Pocket Paint',initialFileUri:initialFileUri),                   
               );
             case '/PocketPaint':
               return MaterialPageRoute(
@@ -66,7 +69,7 @@ class App extends StatelessWidget {
               child: child,
             );
           },
-          child: const LandingPage(title: 'Pocket Paint'),
+          child:  LandingPage(title: 'Pocket Paint',initialFileUri:initialFileUri),          
         ),
       ),
     );

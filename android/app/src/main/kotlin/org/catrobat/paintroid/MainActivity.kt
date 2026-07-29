@@ -2,7 +2,9 @@ package org.catrobat.paintroid
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.NonNull
@@ -15,6 +17,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.IOException
 
 class MainActivity : FlutterActivity() {
+    private var initialFileUri: String? = null
     private val hasWritePermission: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
                 ContextCompat.checkSelfPermission(
@@ -26,22 +29,64 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         setupPhotoLibraryChannel(flutterEngine)
         setupDeviceChannel(flutterEngine)
+        setupFileHandlerChannel(flutterEngine)
+        handleIntent(intent)
+    }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val action = intent?.action
+        val data: Uri? = intent?.data
+        if ((Intent.ACTION_VIEW == action || Intent.ACTION_EDIT == action) && data != null) {
+            initialFileUri = data.toString()
+        }
+    }
+
+    private fun setupFileHandlerChannel(flutterEngine: FlutterEngine) {
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/file_handler"
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getInitialFile" -> {
+                    result.success(initialFileUri)
+                    initialFileUri = null
+                }
+                "getFileBytes" -> {
+                    val uriString = call.argument<String>("uri")
+                    if (uriString != null) {
+                        try {
+                            val uri = Uri.parse(uriString)
+                            val bytes = contentResolver.openInputStream(uri)?.use { it.readBytes() }
+                            result.success(bytes)
+                        } catch (e: Exception) {
+                            result.error("IO_ERROR", "Failed to read URI: ${e.message}", null)
+                        }
+                    } else {
+                        result.error("INVALID_ARGUMENT", "URI is null", null)
+                    }
+                }
+                else -> result.notImplemented()
+            }
+        }
     }
 
     private fun setupDeviceChannel(flutterEngine: FlutterEngine) {
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/device"
         ).apply {
-            setMethodCallHandler { call, result ->
-                when (call.method) {
-                    "getHeightInPixels" -> {
-                        val windowMetrics = WindowMetricsCalculator.getOrCreate()
-                            .computeMaximumWindowMetrics(activity)
-                        val height = windowMetrics.bounds.height()
-                        result.success(height.toDouble())
-                    }
-                    else -> result.notImplemented()
+        setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getHeightInPixels" -> {
+                    val windowMetrics = WindowMetricsCalculator.getOrCreate()
+                        .computeMaximumWindowMetrics(activity)
+                    val height = windowMetrics.bounds.height()
+                    result.success(height.toDouble())
                 }
+               else -> result.notImplemented()
+            }
             }
         }
     }
@@ -50,24 +95,24 @@ class MainActivity : FlutterActivity() {
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger, "org.catrobat.paintroid/photo_library"
         ).apply {
-            setMethodCallHandler { call, result ->
-                when (call.method) {
-                    "saveToPhotos" -> {
-                        if (!hasWritePermission) {
-                            result.error(
-                                "PERMISSION_DENIED",
-                                "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
-                                null
-                            )
-                            return@setMethodCallHandler
-                        }
-                        val (filename, imageData) = extractImageData(call, result)
-                            ?: return@setMethodCallHandler
+        setMethodCallHandler { call, result ->
+            when (call.method) {
+                "saveToPhotos" -> {
+                    if (!hasWritePermission) {
+                        result.error(
+                            "PERMISSION_DENIED",
+                            "User explicitly denied WRITE_EXTERNAL_STORAGE permission",
+                            null
+                        )
+                        return@setMethodCallHandler
+                    }
+                    val (filename, imageData) = extractImageData(call, result)
+                        ?: return@setMethodCallHandler
                         saveImageToPictures(filename, imageData)
                         result.success(null)
-                    }
-                    else -> result.notImplemented()
                 }
+                else -> result.notImplemented()
+            }
             }
         }
     }
@@ -99,7 +144,7 @@ class MainActivity : FlutterActivity() {
             return null
         }
         val imageData = call.argument<ByteArray>("data") ?: run {
-            result.error(
+          result.error(
                 "INVALID_IMAGE_DATA",
                 "Image data is either not supplied or not of type UInt8List",
                 null

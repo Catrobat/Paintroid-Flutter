@@ -5,12 +5,14 @@ import 'package:paintroid/core/providers/object/shapes_tool_options_state_provid
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class ShapesToolShapeStyleOptions extends ConsumerWidget {
   const ShapesToolShapeStyleOptions({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context);
     final currentShapeStyle =
         ref.watch(shapesToolOptionsStateProvider).shapeStyle;
     final shapeStyleItems = [
@@ -18,7 +20,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
         padding: const EdgeInsets.only(left: 8.0),
         child: CustomActionChip(
           key: const ValueKey(WidgetIdentifier.outlineStyleChip),
-          hint: 'Outline',
+          hint: localizations.shapeToolDialogOutlineTitle,
           chipIcon: Icon(
             Icons.square_outlined,
             color: PaintroidTheme.of(context).shadowColor,
@@ -33,7 +35,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.fillStyleChip),
-        hint: 'Fill',
+        hint: localizations.shapeToolDialogFillTitle,
         chipIcon: Icon(
           Icons.square,
           color: PaintroidTheme.of(context).shadowColor,
@@ -47,7 +49,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.dashedStyleChip),
-        hint: 'Dashed',
+        hint: localizations.shapeToolDialogDashed,
         chipIcon: Icon(
           Icons.border_style_outlined,
           color: PaintroidTheme.of(context).shadowColor,
@@ -61,7 +63,7 @@ class ShapesToolShapeStyleOptions extends ConsumerWidget {
       ),
       CustomActionChip(
         key: const ValueKey(WidgetIdentifier.fillAndDashedStyleChip),
-        hint: 'Fill & Dashed',
+        hint: localizations.shapeToolDialogFillDashed,
         chipIcon: Icon(
           Icons.texture,
           color: PaintroidTheme.of(context).shadowColor,

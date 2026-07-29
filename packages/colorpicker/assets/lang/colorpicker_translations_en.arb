@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "colorPickerTitle": "Colour picker",
+  "colorPickerTabIcon": "Colour picker tab icon",
+  "colorRed": "Red",
+  "colorGreen": "Green",
+  "colorBlue": "Blue",
+  "colorAlpha": "Alpha",
+  "colorHex": "HEX",
+  "colorPickerApply": "Apply",
+  "colorPickerCancel": "Cancel",
+  "colorPickerCurrentColor": "current",
+  "colorPickerNewColor": "new",
+  "colorPickerPipette": "Pipette",
+  "colorPickerSaveDialogTitle": "Save changes?",
+  "colorPickerSaveDialogMsg": "Do you want to save your changes?",
+  "colorPickerNo": "no",
+  "colorPickerYes": "yes",
+  "colorPickerHistoryRecentlyUsed": "recently used",
+  "colorPickerPicker": "Picker",
+  "colorPickerWheel": "Wheel"
+}

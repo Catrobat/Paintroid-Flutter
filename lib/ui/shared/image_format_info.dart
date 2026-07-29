@@ -2,28 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:paintroid/core/enums/image_format.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 extension on ImageFormat {
-  TextSpan get info {
+  TextSpan info(AppLocalizations localizations) {
     switch (this) {
       case ImageFormat.png:
-        return const TextSpan(
-            text: 'Lossless compression. Transparency is preserved');
+        return TextSpan(
+            text: localizations.pocketpaintPngMessageDialog);
       case ImageFormat.jpg:
-        return const TextSpan(
-          text: 'Takes up ',
-          children: [
-            TextSpan(
-              text: 'minimal storage space.\nNo transparency ',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            TextSpan(text: 'is remembered.'),
-          ],
+        return TextSpan(
+          text: localizations.pocketpaintJpgMessageDialog,
         );
       case ImageFormat.catrobatImage:
-        return const TextSpan(
-            text: 'Pocket Paint\'s native image format. '
-                'This format remembers commands and layers.');
+        return TextSpan(
+            text: localizations.pocketpaintCatrobatMessageDialog);
     }
   }
 }
@@ -35,6 +28,7 @@ class ImageFormatInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Row(
       children: [
         Icon(Icons.info_outline, color: PaintroidTheme.of(context).shadowColor),
@@ -44,7 +38,7 @@ class ImageFormatInfo extends StatelessWidget {
         ),
         Flexible(
           child: Text.rich(
-            format.info,
+            format.info(localizations),
             style: TextStyle(
               fontSize: 11,
               color: PaintroidTheme.of(context).shadowColor,

@@ -6,3 +6,4 @@ export 'src/components/color_comparison.dart';
 export 'src/components/opacity_slider.dart';
 export 'src/components/slider_indicator_shape.dart';
 export 'src/components/color_wheel.dart';
+export 'src/localization/colorpicker_localizations.dart';
