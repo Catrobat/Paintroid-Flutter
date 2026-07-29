@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,6 +26,9 @@ void main() {
     final darkTheme = DarkPaintroidThemeData();
 
     sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider.overrideWithValue(const Size(600, 600)),
+      ],
       child: PaintroidTheme(
         lightTheme: lightTheme,
         darkTheme: darkTheme,

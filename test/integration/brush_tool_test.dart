@@ -5,9 +5,9 @@ import 'package:integration_test/integration_test.dart';
 import 'package:paintroid/app.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/core/utils/color_utils.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 
-import '../utils/canvas_positions.dart';
-import '../utils/ui_interaction.dart';
+import '../utils/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +19,10 @@ void main() {
 
   setUp(() async {
     sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider
+            .overrideWithValue(TestConstants.standardDeviceSize),
+      ],
       child: App(
         showOnboardingPage: false,
       ),

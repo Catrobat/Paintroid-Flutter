@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -15,7 +16,12 @@ void main() {
   late Widget sut;
 
   setUp(() async {
-    sut = ProviderScope(child: App(showOnboardingPage: false));
+    sut = ProviderScope(
+      overrides: [
+        IDeviceService.sizeProvider.overrideWithValue(const Size(600, 600)),
+      ],
+      child: App(showOnboardingPage: false),
+    );
   });
 
   Future<void> selectClipboardTool(WidgetTester tester) async {

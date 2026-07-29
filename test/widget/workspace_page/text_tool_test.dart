@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -11,7 +12,9 @@ void main() {
 
   late Widget sut;
 
-  setUp(() async => sut = ProviderScope(child: App(showOnboardingPage: false)));
+  setUp(() async => sut = ProviderScope(overrides: [
+        IDeviceService.sizeProvider.overrideWithValue(const Size(600, 600)),
+      ], child: App(showOnboardingPage: false)));
 
   testWidgets('[TEXT_TOOL]: selecting text tool shows checkmark',
       (WidgetTester tester) async {
@@ -26,7 +29,7 @@ void main() {
     expect(WidgetFinder.checkMark, findsOneWidget);
   });
 
-    testWidgets('[TEXT_TOOL]: selecting other tools hide the checkmark',
+  testWidgets('[TEXT_TOOL]: selecting other tools hide the checkmark',
       (WidgetTester tester) async {
     UIInteraction.initialize(tester);
     await tester.pumpWidget(sut);

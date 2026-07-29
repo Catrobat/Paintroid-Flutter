@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
-import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
@@ -195,17 +194,14 @@ class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
             }
           },
           child: Center(
-            child: ref.watch(IDeviceService.sizeProvider).map(
-                  data: (_) => FittedBox(
-                    fit: BoxFit.contain,
-                    child: CanvasPainter(key: _canvasPainterKey),
-                  ),
-                  error: (_) => Container(),
-                  loading: (_) => Container(),
-                ),
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: CanvasPainter(key: _canvasPainterKey),
+            ),
           ),
         ),
       ),
     );
   }
 }
+
