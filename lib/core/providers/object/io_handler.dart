@@ -22,6 +22,7 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
+import 'package:paintroid/core/utils/name_generator.dart';
 import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/load_image_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
@@ -37,7 +38,12 @@ class IOHandler {
   /// Returns [true] if the image was saved successfully
   Future<bool> saveImage(BuildContext context) async {
     final workspaceStateNotifier = ref.read(workspaceStateProvider.notifier);
-    final imageMetaData = await showSaveImageDialog(context, false);
+    final defaultName = await NameGenerator.getNextImageName();
+    final imageMetaData = await showSaveImageDialog(
+      context,
+      false,
+      defaultName: defaultName,
+    );
     if (imageMetaData == null) {
       return false;
     }

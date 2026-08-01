@@ -11,6 +11,7 @@ import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/io_handler.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
+import 'package:paintroid/core/utils/name_generator.dart';
 import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/ui/shared/pop_menu_button.dart';
@@ -141,15 +142,19 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
   }
 
   Future<void> _saveProject() async {
-    final imageData = await showSaveImageDialog(context, true);
+    final db = await ref.read(ProjectDatabase.provider.future);
+    final defaultName = await NameGenerator.getNextProjectName(db);
+    final imageData = await showSaveImageDialog(
+      context,
+      true,
+      defaultName: defaultName,
+    );
 
     if (imageData == null) {
       return;
     }
 
     final catrobatImageData = imageData as CatrobatImageMetaData;
-
-    final db = await ref.read(ProjectDatabase.provider.future);
 
     if (!await _checkIfFileExistsAndConfirmOverwrite(catrobatImageData, db)) {
       return;

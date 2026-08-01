@@ -7,18 +7,28 @@ import 'package:paintroid/ui/theme/theme.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 
 Future<ImageMetaData?> showSaveImageDialog(
-        BuildContext context, bool savingProject) =>
+  BuildContext context,
+  bool savingProject, {
+  String? defaultName,
+}) =>
     showGeneralDialog<ImageMetaData?>(
         context: context,
-        pageBuilder: (_, __, ___) =>
-            SaveImageDialog(savingProject: savingProject),
+        pageBuilder: (_, __, ___) => SaveImageDialog(
+              savingProject: savingProject,
+              defaultName: defaultName,
+            ),
         barrierDismissible: true,
         barrierLabel: 'Dismiss save image dialog box');
 
 class SaveImageDialog extends StatefulWidget {
   final bool savingProject;
+  final String? defaultName;
 
-  const SaveImageDialog({super.key, required this.savingProject});
+  const SaveImageDialog({
+    super.key,
+    required this.savingProject,
+    this.defaultName,
+  });
 
   @override
   State<SaveImageDialog> createState() => _SaveImageDialogState();
@@ -36,6 +46,10 @@ class _SaveImageDialogState extends State<SaveImageDialog> {
 
     if (widget.savingProject) {
       selectedFormat = ImageFormat.catrobatImage;
+    }
+
+    if (widget.defaultName != null) {
+      nameFieldController.text = widget.defaultName!;
     }
   }
 
