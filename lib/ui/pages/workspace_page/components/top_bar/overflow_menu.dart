@@ -87,7 +87,7 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
         break;
-      case OverflowMenuOption.advancedSettings: // <--- ADDED THIS BLOCK
+      case OverflowMenuOption.advancedSettings: 
         showDialog(
           context: context,
           builder: (context) => const AdvancedSettingsDialog(),

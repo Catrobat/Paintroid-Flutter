@@ -87,7 +87,8 @@ class ClipboardCommand extends GraphicCommand with LoggableMixin {
       imageWidth,
       imageHeight,
     );
-    final imagePaint = ui.Paint()..filterQuality = ui.FilterQuality.high;
+    final imagePaint = ui.Paint()
+      ..filterQuality = paint.isAntiAlias ? ui.FilterQuality.high : ui.FilterQuality.none;      
     canvas.drawImageRect(_runtimeImage!, src, dst, imagePaint);
     canvas.restore();
   }
