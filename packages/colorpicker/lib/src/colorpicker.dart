@@ -1,5 +1,8 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
+import 'package:colorpicker/src/pages/pipette_page.dart';
+import 'package:colorpicker/src/components/pipette_tool_button.dart';
 import 'package:colorpicker/src/components/color_comparison.dart';
 import 'package:colorpicker/src/components/opacity_slider.dart';
 import 'package:colorpicker/src/components/recent_colors_section_widget.dart';
@@ -10,16 +13,29 @@ import 'package:colorpicker/src/state/color_picker_state_provider.dart';
 import 'package:colorpicker/src/state/recent_color_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorpicker/src/constants/colorpicker_colors.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 class ColorPicker extends ConsumerStatefulWidget {
   const ColorPicker({
     super.key,
     required this.currentColor,
     required this.onColorChanged,
+    this.snapshotImage,
+    this.pipetteLabel = 'PIPETTE',
+    this.saveChangesTitle = 'Save changes?',
+    this.saveChangesContent = 'Do you want to save your changes?',
+    this.noLabel = 'NO',
+    this.yesLabel = 'YES',
   });
 
   final Color currentColor;
   final void Function(Color) onColorChanged;
+  final ui.Image? snapshotImage;
+  final String pipetteLabel;
+  final String saveChangesTitle;
+  final String saveChangesContent;
+  final String noLabel;
+  final String yesLabel;
 
   @override
   ConsumerState<ColorPicker> createState() => _ColorPickerState();
@@ -83,6 +99,7 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
 
   @override
   Widget build(BuildContext context) {
+    final localizations = ColorPickerLocalizations.of(context);
     final colorPickerState = ref.watch(colorPickerStateProvider);
     final opacity = colorPickerState.currentOpacity;
     final baseColor = colorPickerState.currentColor ?? widget.currentColor;
@@ -112,9 +129,42 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ColorComparison(
-                      currentColor: widget.currentColor,
-                      newColor: displayColor,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ColorComparison(
+                          currentColor: widget.currentColor,
+                          newColor: displayColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: PipetteToolButton(
+                            label: widget.pipetteLabel,
+                            onTap: () async {
+                              if (widget.snapshotImage != null) {
+                                final pickedColor = await Navigator.push<Color>(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PipettePage(
+                                      snapshot: widget.snapshotImage!,
+                                      initialColor: displayColor,
+                                      saveChangesTitle: widget.saveChangesTitle,
+                                      saveChangesContent:
+                                          widget.saveChangesContent,
+                                      noLabel: widget.noLabel,
+                                      yesLabel: widget.yesLabel,
+                                    ),
+                                  ),
+                                );
+                                if (pickedColor != null) {
+                                  _handleColorAndOpacityChange(pickedColor);
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     RecentColorsSectionWidget(
                         onColorSelected: _handleColorAndOpacityChange),
@@ -180,8 +230,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('CANCEL',
-                      style: TextStyle(
+                  child: Text(localizations.colorPickerCancel.toUpperCase(),
+                      style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),
@@ -194,8 +244,8 @@ class _ColorPickerState extends ConsumerState<ColorPicker>
                     widget.onColorChanged(displayColor);
                     Navigator.pop(context);
                   },
-                  child: const Text('APPLY',
-                      style: TextStyle(
+                  child: Text(localizations.colorPickerApply.toUpperCase(),
+                      style: const TextStyle(
                           color: ColorPickerColors.oceanBlue,
                           fontWeight: FontWeight.w500)),
                 ),

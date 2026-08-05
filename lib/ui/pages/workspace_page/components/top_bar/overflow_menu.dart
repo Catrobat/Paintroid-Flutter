@@ -25,19 +25,18 @@ enum OverflowMenuOption {
   newImage,
   advancedSettings;
 
-  String localizedLabel(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+  String localizedLabel(AppLocalizations localizations) {
     switch (this) {
       case OverflowMenuOption.fullscreen:
-        return localizations.fullscreen;
+        return localizations.menuHideMenu;
       case OverflowMenuOption.saveImage:
-        return localizations.saveImage;
+        return localizations.menuSaveImage;
       case OverflowMenuOption.loadImage:
-        return localizations.loadImage;
+        return localizations.menuLoadImage;
       case OverflowMenuOption.newImage:
-        return localizations.newImage;
+        return localizations.menuNewImage;
       case OverflowMenuOption.saveProject:
-        return localizations.saveProject;
+        return localizations.menuSaveProject;
       case OverflowMenuOption.advancedSettings:
         return 'Advanced Settings';
     }
@@ -56,13 +55,14 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return StyledPopMenuButton<OverflowMenuOption>(
       onSelected: _handleSelectedOption,
       itemBuilder: (BuildContext context) => OverflowMenuOption.values
           .map((option) => PopupMenuItem(
               value: option,
               child: Text(
-                option.localizedLabel(context),
+                option.localizedLabel(localizations),
                 style: PaintroidTheme.of(context).textTheme.bodyMedium,
               )))
           .toList(),

@@ -1048,6 +1048,15 @@ class MockCanvasStateProvider extends _i1.Mock
       ) as _i18.Logger);
 
   @override
+  void requestResetView() => super.noSuchMethod(
+        Invocation.method(
+          #requestResetView,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i17.CanvasStateData build() => (super.noSuchMethod(
         Invocation.method(
           #build,

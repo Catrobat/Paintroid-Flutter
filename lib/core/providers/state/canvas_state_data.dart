@@ -17,5 +17,6 @@ class CanvasStateData with _$CanvasStateData {
     required CommandManager commandManager,
     required GraphicFactory graphicFactory,
     @Default(false) bool isCachingCommand,
+    @Default(0) int resetViewSignal,
   }) = _CanvasStateData;
 }

@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+
+class PipetteToolButton extends StatelessWidget {
+  const PipetteToolButton({super.key, this.onTap, this.label = 'PIPETTE'});
+
+  final VoidCallback? onTap;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 50.0,
+        width: 148.0,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 204, 204, 204),
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            const Icon(
+              Icons.auto_fix_normal,
+              color: Colors.black,
+              size: 20,
+            ),
+            const Spacer(),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+}

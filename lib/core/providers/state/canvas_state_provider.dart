@@ -18,6 +18,9 @@ part 'canvas_state_provider.g.dart';
 class CanvasStateProvider extends _$CanvasStateProvider with LoggableMixin {
   Size initialCanvasSize = Size.zero;
 
+  void requestResetView() =>
+      state = state.copyWith(resetViewSignal: state.resetViewSignal + 1);
+
   @override
   CanvasStateData build() {
     initialCanvasSize = ref.watch(IDeviceService.sizeProvider).when(

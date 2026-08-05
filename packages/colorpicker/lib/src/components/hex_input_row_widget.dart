@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:colorpicker/src/utils/upper_case_text_formatter.dart';
 import 'package:colorpicker/src/utils/hex_input_formatter.dart';
+import 'package:colorpicker/src/localization/colorpicker_localizations.dart';
 
 class HexInputRowWidget extends StatelessWidget {
   const HexInputRowWidget({
@@ -19,14 +20,15 @@ class HexInputRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = ColorPickerLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          const SizedBox(
+          SizedBox(
             width: 55,
-            child: Text('HEX', style: TextStyle(fontSize: 14)),
+            child: Text(localizations.colorHex, style: const TextStyle(fontSize: 14)),
           ),
           Expanded(
             child: TextField(
