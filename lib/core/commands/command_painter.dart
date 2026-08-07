@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/clipboard_tool.dart';
+import 'package:paintroid/core/tools/implementation/import_tool.dart';
 import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/implementation/text_tool.dart';
@@ -65,6 +66,10 @@ class CommandPainter extends CustomPainter {
         break;
       case ToolType.CLIPBOARD:
         (currentTool as ClipboardTool).paint(canvas, size);
+        break;
+      case ToolType.IMPORT:
+        (currentTool as ImportTool).paint(canvas, size);
+        break;
       case ToolType.TEXT:
         (currentTool as TextTool).drawGuides(canvas, ref.read(paintProvider));
         break;

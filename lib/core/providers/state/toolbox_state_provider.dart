@@ -5,6 +5,9 @@ import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_painter_provider.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/clipboard_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/import_tool_provider.dart';
+import 'package:paintroid/core/providers/object/load_image_from_photo_library.dart';
+import 'package:paintroid/core/tools/implementation/import_tool.dart';
 import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
@@ -94,6 +97,14 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
       case ToolType.CLIPBOARD:
         state = state.copyWith(currentTool: ref.read(clipboardToolProvider));
         ref.read(canvasPainterProvider.notifier).repaint();
+        break;
+      case ToolType.IMPORT:
+        final importTool = ref.read(importToolProvider);
+        state = state.copyWith(currentTool: importTool);
+        ref.read(canvasPainterProvider.notifier).repaint();
+        importTool.pickImage(ref.read(LoadImageFromPhotoLibrary.provider)).then((_) {
+          ref.read(canvasPainterProvider.notifier).repaint();
+        });
         break;
       case ToolType.PIPETTE:
         state = state.copyWith(currentTool: ref.read(pipetteToolProvider));
