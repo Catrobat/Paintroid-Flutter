@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:paintroid/core/models/database/project.dart';
 
 part 'workspace_state.freezed.dart';
 
@@ -10,5 +11,6 @@ class WorkspaceState with _$WorkspaceState {
     required bool isPerformingIOTask,
     required bool hasUnsavedChanges,
     required int commandCountWhenLastSaved,
+    Project? loadedProject
   }) = _WorkspaceState;
 }

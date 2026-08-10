@@ -92,6 +92,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       }
     });
   }
+
   Future<List<Project>> _getProjects() async {
     return database.projectDAO.getProjects();
   }
@@ -118,6 +119,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   void _clearCanvas() {
+    ref.read(workspaceStateProvider.notifier).updateProject();
     ref.read(canvasStateProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
@@ -129,7 +131,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       ref.read(workspaceStateProvider.notifier).performIOTask(() async {
         await ref.read(IDeviceService.sizeProvider.future);
         bool loaded = await _loadProject(ioHandler, project);
-        if (loaded) _navigateToPocketPaint();
+        if (loaded) {
+          ref.read(workspaceStateProvider.notifier).updateProject(loadProject: project);
+          _navigateToPocketPaint();
+        }
       });
     }
   }
@@ -237,8 +242,9 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             icon: Icons.file_download,
             hint: localizations.menuLoadImage,
             onPressed: () async {
+              _clearCanvas();
               final bool imageLoaded =
-                  await ioHandler.loadImage(context, this, false);
+                  await ioHandler.loadImage(context, this, unsavedChanges: false);
               if (imageLoaded && mounted) {
                 _navigateToPocketPaint();
               }

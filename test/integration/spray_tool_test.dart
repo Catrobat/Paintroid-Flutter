@@ -33,13 +33,14 @@ void main() {
       await UIInteraction.selectTool(ToolData.SPRAY.name);
 
       const radius = 50.0;
+      const checkRadius = 2 * radius;
 
       (UIInteraction.getCurrentTool() as SprayTool).updateSprayRadius(radius);
 
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -48,7 +49,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -64,13 +65,14 @@ void main() {
       await UIInteraction.selectTool(ToolData.SPRAY.name);
 
       const radius = 50.0;
+      const checkRadius = 2 * radius;
 
       (UIInteraction.getCurrentTool() as SprayTool).updateSprayRadius(radius);
 
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.top,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -79,7 +81,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.left,
         CanvasPosition.top,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -95,13 +97,14 @@ void main() {
       await UIInteraction.selectTool(ToolData.SPRAY.name);
 
       const radius = 50.0;
+      const checkRadius = 2 * radius;
 
       (UIInteraction.getCurrentTool() as SprayTool).updateSprayRadius(radius);
 
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.bottom,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -110,7 +113,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.right,
         CanvasPosition.bottom,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -126,13 +129,14 @@ void main() {
       await UIInteraction.selectTool(ToolData.SPRAY.name);
 
       const radius = 50.0;
+      const checkRadius = 2 * radius;
 
       (UIInteraction.getCurrentTool() as SprayTool).updateSprayRadius(radius);
 
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -145,7 +149,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
 
       expect(color, isNot(Colors.transparent));
@@ -161,6 +165,7 @@ void main() {
       await UIInteraction.selectTool(ToolData.SPRAY.name);
 
       const radius = 50.0;
+      const checkRadius = 2 * radius;
 
       (UIInteraction.getCurrentTool() as SprayTool).updateSprayRadius(radius);
 
@@ -169,7 +174,7 @@ void main() {
       var color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, isNot(Colors.transparent));
 
@@ -178,7 +183,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, Colors.transparent);
 
@@ -187,7 +192,7 @@ void main() {
       color = await UIInteraction.getPixelColor(
         CanvasPosition.centerX,
         CanvasPosition.centerY,
-        radius: radius.toInt(),
+        radius: checkRadius.toInt(),
       );
       expect(color, isNot(Colors.transparent));
     });

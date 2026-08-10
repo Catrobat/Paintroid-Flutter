@@ -26,9 +26,13 @@ import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar
 import 'package:paintroid/ui/shared/dialogs/about_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/generic_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/project_details_dialog.dart';
+import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 
 import 'landing_page_test.mocks.dart';
+import '../utils/ui_interaction.dart';
+import '../utils/canvas_positions.dart';
+import 'package:paintroid/core/tools/tool_data.dart';
 
 @GenerateMocks(
     [ProjectDatabase, ProjectDAO, IImageService, IFileService, IDeviceService])
@@ -512,6 +516,66 @@ void main() {
       await tester.pumpWidget(sut);
 
       expect(find.byType(Scaffold), findsOneWidget);
+    });
+  }
+
+  if (testID == -1 || testID == 15) {
+    testWidgets(
+          '[LANDING_PAGE]: Should show save project with new project and unsaved changes on return',
+          (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await tester.pumpAndSettle();
+
+      await tester.pumpAndSettle();
+      await UIInteraction.selectTool(ToolData.BRUSH.name);
+      await UIInteraction.tapAt(CanvasPosition.center);
+      await tester.pumpAndSettle();
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, localizations.saveButtonText.toUpperCase()));
+      await tester.pumpAndSettle();
+      
+      expect(find.byType(SaveImageDialog), findsOneWidget);
+    });
+  }
+
+  if (testID == -1 || testID == 16) {
+    testWidgets(
+          '[LANDING_PAGE]: Should show overwrite confirmation for existing project name on return',
+          (WidgetTester tester) async {
+      const projectName = 'existing-project';
+      final existingProject = createTestProject('$projectName.catrobat-image');
+
+      when(mockDao.getProjects())
+          .thenAnswer((_) => Future.value([existingProject]));
+      when(mockFileService.checkIfFileExistsInApplicationDirectory(
+              '$projectName.catrobat-image'))
+          .thenAnswer((_) => Future.value(true));
+
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await tester.pumpAndSettle();
+
+      await UIInteraction.selectTool(ToolData.BRUSH.name);
+      await UIInteraction.tapAt(CanvasPosition.center);
+      await tester.pumpAndSettle();
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, localizations.saveButtonText.toUpperCase()));
+      await tester.pumpAndSettle();
+
+      final projectNameField =
+          find.widgetWithText(TextFormField, localizations.dialogSaveProjectName);
+      await tester.enterText(projectNameField, projectName);
+      await tester.tap(find.widgetWithText(TextButton, localizations.saveButtonText.toUpperCase()));
+      await tester.pumpAndSettle();
+
+      expect(find.widgetWithText(GenericDialog, localizations.overwriteButtonText.toUpperCase()), findsOneWidget);
     });
   }
 }
