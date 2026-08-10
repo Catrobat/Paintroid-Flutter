@@ -4,6 +4,7 @@ import 'package:paintroid/ui/pages/onboarding_page/components/bottom_nav_bar_con
 import 'package:paintroid/ui/shared/bottom_nav_bar_icon.dart';
 import 'package:paintroid/ui/shared/icon_svg.dart';
 import 'package:paintroid/ui/theme/theme.dart';
+import 'package:paintroid/ui/pages/onboarding_page/components/onboarding_page_bottom_nav_bar.dart';
 import 'package:paintroid/core/localization/app_localizations.dart';
 
 class Screen3 extends StatefulWidget {
@@ -48,50 +49,20 @@ class _Screen3State extends State<Screen3> {
     });
   }
 
-  void brush() => toolPressed(0);
+  List<BottomNavItemData> _getBottomNavItems(int l, int r) {
+  return List.generate(
+    r - l + 1,
+    (i) {
+      final index = l + i;
 
-  void hand() => toolPressed(1);
-
-  void eraser() => toolPressed(2);
-
-  void line() => toolPressed(3);
-
-  void shapes() => toolPressed(4);
-
-  void fill() => toolPressed(5);
-
-  void sprayCan() => toolPressed(6);
-
-  void cursor() => toolPressed(7);
-
-  void text() => toolPressed(8);
-
-  void stamp() => toolPressed(9);
-
-  void transform() => toolPressed(10);
-
-  void importImage() => toolPressed(11);
-
-  void pipette() => toolPressed(12);
-
-  void watercolor() => toolPressed(13);
-
-  void smudge() => toolPressed(14);
-
-  void clipArea() => toolPressed(15);
-
-  List<BottomNavigationBarItem> _getBottomNavigationBarItems(int l, int r) {
-    List<BottomNavigationBarItem> items = List.generate(
-      r - l + 1,
-      (i) {
-        return BottomNavigationBarItem(
-          label: titles[l + i],
-          icon: BottomBarIcon(asset: icons[l + i]),
-        );
-      },
-    );
-    return items;
-  }
+      return BottomNavItemData(
+        label: titles[index],
+        icon: BottomBarIcon(asset: icons[index]),
+        onPressed: () => toolPressed(index),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -196,28 +167,27 @@ class _Screen3State extends State<Screen3> {
             ),
           ],
         ),
-      ),
+      ),         
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           BottomNavigationBarContainer(
-            navBarItems: _getBottomNavigationBarItems(0, 3),
-            onPressedFunctions: [brush, hand, eraser, line],
+              items: _getBottomNavItems(0, 3),
+            
           ),
           BottomNavigationBarContainer(
-            navBarItems: _getBottomNavigationBarItems(4, 7),
-            onPressedFunctions: [shapes, fill, sprayCan, cursor],
+              items: _getBottomNavItems(4, 7),
+            
+          ),
+            BottomNavigationBarContainer(
+              items: _getBottomNavItems(8, 11),
+            
           ),
           BottomNavigationBarContainer(
-            navBarItems: _getBottomNavigationBarItems(8, 11),
-            onPressedFunctions: [text, stamp, transform, importImage],
-          ),
-          BottomNavigationBarContainer(
-            navBarItems: _getBottomNavigationBarItems(12, 15),
-            onPressedFunctions: [pipette, watercolor, smudge, clipArea],
-          ),
-        ],
-      ),
+              items: _getBottomNavItems(12, 15),
+            ),
+          ],
+        )
     );
   }
 }
