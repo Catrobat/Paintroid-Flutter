@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,7 @@ abstract class Tool {
 
   void onCancel();
 
-  void onCheckmark(Paint paint);
+  FutureOr<void> onCheckmark(Paint paint);
 
   void onPlus();
 

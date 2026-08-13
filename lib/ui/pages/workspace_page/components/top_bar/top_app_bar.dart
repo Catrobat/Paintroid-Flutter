@@ -7,8 +7,9 @@ import 'package:paintroid/core/providers/state/app_bar_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
-import 'package:paintroid/core/tools/implementation/text_tool.dart';
+import 'package:paintroid/core/tools/implementation/import_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
+import 'package:paintroid/core/tools/implementation/text_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/overflow_menu.dart';
 import 'package:paintroid/ui/shared/action_button.dart';
@@ -66,6 +67,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   ) {
     var nextTool = commandManager.getNextTool(actionType);
     if (currentTool.type == nextTool.type) return;
+    if (nextTool.type == ToolType.IMPORT) return;
     ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
   }
 
@@ -74,9 +76,11 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
         currentTool is LineTool && currentTool.vertexStack.isNotEmpty;
     final isShapeTool = currentTool.type == ToolType.SHAPES;
     final isTextTool = currentTool is TextTool;
-    if (isLineTool || isShapeTool || isTextTool) {
-      return () {
-        currentTool.onCheckmark(ref.read(paintProvider));
+    final isImportTool = currentTool is ImportTool &&
+        currentTool.importedImage != null;
+    if (isLineTool || isShapeTool || isTextTool || isImportTool) {
+      return () async {
+        await currentTool.onCheckmark(ref.read(paintProvider));
         ref.read(appBarProvider.notifier).update();
         ref
             .read(canvasStateProvider.notifier)

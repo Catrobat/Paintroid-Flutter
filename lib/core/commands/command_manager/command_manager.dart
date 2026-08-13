@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/import_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -25,6 +26,7 @@ class CommandManager {
   final List<Command> _redoStack = [];
 
   void addGraphicCommand(GraphicCommand command) {
+    _redoStack.clear();
     _undoStack.add(command);
   }
 
@@ -120,6 +122,8 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == ClipboardCommand) {
       return ToolData.CLIPBOARD;
+    } else if (command.runtimeType == ImportCommand) {
+      return ToolData.IMPORT;
     } else if (command.runtimeType == TextCommand) {
       return ToolData.TEXT;
     } else if (command.runtimeType == SprayCommand) {
