@@ -21,21 +21,48 @@ class ImportTool extends Tool {
     super.hasFinalizeFunctionality = true,
   });
 
-  Future<void> pickImage(LoadImageFromPhotoLibrary loadImageFromPhotoLibrary) async {
+  Future<void> pickImage(
+    LoadImageFromPhotoLibrary loadImageFromPhotoLibrary,
+    ui.Size canvasSize,
+  ) async {
     final result = await loadImageFromPhotoLibrary.call();
     result.match(
       (image) {
-        importedImage = image;
-        // Keep the provider-created box centered on the canvas and reset its
-        // transform for each newly selected image.
-        boundingBox.width = image.width.toDouble();
-        boundingBox.height = image.height.toDouble();
-        boundingBox.angle = 0.0;
+        setImage(image, canvasSize);
       },
       (failure) {
         // If failed or cancelled, we don't change anything
       },
     );
+  }
+
+  void setImage(ui.Image image, ui.Size canvasSize) {
+    importedImage = image;
+
+    boundingBox.center = canvasSize.center(ui.Offset.zero);
+
+    double initialWidth = image.width.toDouble();
+    double initialHeight = image.height.toDouble();
+
+    const double minInteractionSize = 100.0;
+    if (initialWidth < minInteractionSize || initialHeight < minInteractionSize) {
+      final double scale =
+          dart_math.max(minInteractionSize / initialWidth, minInteractionSize / initialHeight);
+      initialWidth *= scale;
+      initialHeight *= scale;
+    }
+
+    final double maxW = canvasSize.width * 0.8;
+    final double maxH = canvasSize.height * 0.8;
+    if (initialWidth > maxW || initialHeight > maxH) {
+      final double scale = dart_math.min(maxW / initialWidth, maxH / initialHeight);
+      initialWidth *= scale;
+      initialHeight *= scale;
+    }
+
+    boundingBox.width = initialWidth;
+    boundingBox.height = initialHeight;
+    boundingBox.angle = 0.0;
   }
 
   @override
@@ -66,26 +93,10 @@ class ImportTool extends Tool {
   }
 
   void paint(Canvas canvas, Size size) {
-    boundingBox.drawGuides(canvas);
     final image = importedImage;
     if (image == null) return;
-    if (image.width == 0 || image.height == 0) return;
 
-    final rect = boundingBox.rect;
-    if (rect.width <= 0 || rect.height <= 0) return;
-
-    double previewScale = 1.0;
-    if (image.width > 0 &&
-        image.height > 0 &&
-        rect.width > 0 &&
-        rect.height > 0) {
-      final double widthScale = rect.width / image.width.toDouble();
-      final double heightScale = rect.height / image.height.toDouble();
-      previewScale = dart_math.min(widthScale, heightScale);
-    }
-
-    final double scaledWidth = image.width.toDouble() * previewScale;
-    final double scaledHeight = image.height.toDouble() * previewScale;
+    boundingBox.drawGuides(canvas);
 
     final src = ui.Rect.fromLTWH(
       0,
@@ -94,14 +105,14 @@ class ImportTool extends Tool {
       image.height.toDouble(),
     );
     final dst = ui.Rect.fromLTWH(
-      -scaledWidth / 2,
-      -scaledHeight / 2,
-      scaledWidth,
-      scaledHeight,
+      -boundingBox.width / 2,
+      -boundingBox.height / 2,
+      boundingBox.width,
+      boundingBox.height,
     );
 
     canvas.save();
-    canvas.translate(rect.center.dx, rect.center.dy);
+    canvas.translate(boundingBox.center.dx, boundingBox.center.dy);
     canvas.rotate(boundingBox.angle);
     final paintImage = Paint()..filterQuality = FilterQuality.high;
     canvas.drawImageRect(image, src, dst, paintImage);
@@ -117,23 +128,11 @@ class ImportTool extends Tool {
     if (byteData == null) return;
     final bytes = byteData.buffer.asUint8List();
 
-    final pasteOffset = boundingBox.rect.center;
+    final pasteOffset = boundingBox.center;
     final pasteRotation = boundingBox.angle;
+    final double pasteScale = boundingBox.width / image.width.toDouble();
 
-    double pasteScale = 1.0;
-    if (image.width > 0 &&
-        image.height > 0 &&
-        boundingBox.rect.width > 0 &&
-        boundingBox.rect.height > 0) {
-      final double widthScale = boundingBox.rect.width / image.width.toDouble();
-      final double heightScale =
-          boundingBox.rect.height / image.height.toDouble();
-      pasteScale = dart_math.min(widthScale, heightScale);
-    } else if (image.width > 0 && boundingBox.rect.width > 0) {
-      pasteScale = boundingBox.rect.width / image.width.toDouble();
-    }
-
-    final command = commandFactory.createClipboardCommand(
+    final command = commandFactory.createImportCommand(
       paint,
       bytes,
       pasteOffset,
@@ -142,7 +141,6 @@ class ImportTool extends Tool {
     );
     await command.prepareForRuntime();
     commandManager.addGraphicCommand(command);
-    importedImage = null;
   }
 
   @override

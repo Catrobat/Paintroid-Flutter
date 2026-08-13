@@ -12,7 +12,7 @@ import 'package:paintroid/core/tools/bounding_box.dart';
 import 'package:paintroid/core/tools/implementation/import_tool.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/import_command.dart';
 import 'package:paintroid/core/providers/object/load_image_from_photo_library.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 
@@ -23,7 +23,7 @@ import 'import_tool_test.mocks.dart';
   BoundingBox,
   CommandManager,
   CommandFactory,
-  ClipboardCommand,
+  ImportCommand,
   ui.Image,
   LoadImageFromPhotoLibrary,
 ])
@@ -43,6 +43,9 @@ void main() {
     mockPicker = MockLoadImageFromPhotoLibrary();
 
     when(boundingBox.rect).thenReturn(const ui.Rect.fromLTWH(0, 0, 100, 100));
+    when(boundingBox.center).thenReturn(const ui.Offset(50, 50));
+    when(boundingBox.width).thenReturn(100.0);
+    when(boundingBox.height).thenReturn(100.0);
     when(boundingBox.angle).thenReturn(0.0);
     when(boundingBox.currentAction).thenReturn(BoundingBoxAction.none);
 
@@ -60,9 +63,10 @@ void main() {
       when(mockImage.height).thenReturn(150);
       when(mockPicker.call()).thenAnswer((_) async => Result.ok(mockImage));
 
-      await sut.pickImage(mockPicker);
+      await sut.pickImage(mockPicker, const ui.Size(400, 300));
 
       expect(sut.importedImage, equals(mockImage));
+      verify(boundingBox.center = const ui.Offset(200, 150)).called(1);
       verify(boundingBox.width = 200.0).called(1);
       verify(boundingBox.height = 150.0).called(1);
       verify(boundingBox.angle = 0.0).called(1);
@@ -73,7 +77,7 @@ void main() {
       when(mockPicker.call()).thenAnswer((_) async =>
           const Result.err(LoadImageFailure.permissionDenied));
 
-      await sut.pickImage(mockPicker);
+      await sut.pickImage(mockPicker, const ui.Size(400, 300));
 
       expect(sut.importedImage, same(mockImage));
       verifyNever(boundingBox.width = any);
@@ -115,23 +119,23 @@ void main() {
       await sut.onCheckmark(ui.Paint());
 
       verifyNever(
-          commandFactory.createClipboardCommand(any, any, any, any, any));
+          commandFactory.createImportCommand(any, any, any, any, any));
       verifyNever(commandManager.addGraphicCommand(any));
     });
 
-    test('creates a transformed clipboard command and clears the preview',
+    test('creates a transformed import command and keeps the preview',
         () async {
       final image = await ClipboardIntegrationTestUtils.createTestImage(50, 50);
       sut.importedImage = image;
 
-      final command = MockClipboardCommand();
-      when(commandFactory.createClipboardCommand(any, any, any, any, any))
+      final command = MockImportCommand();
+      when(commandFactory.createImportCommand(any, any, any, any, any))
           .thenReturn(command);
       when(command.prepareForRuntime()).thenAnswer((_) async {});
 
       await sut.onCheckmark(ui.Paint());
 
-      final imageBytes = verify(commandFactory.createClipboardCommand(
+      final imageBytes = verify(commandFactory.createImportCommand(
         any,
         captureAny,
         const ui.Offset(50, 50),
@@ -140,8 +144,8 @@ void main() {
       )).captured.single as Uint8List;
       expect(imageBytes, isNotEmpty);
       verify(command.prepareForRuntime()).called(1);
-      verify(commandManager.addGraphicCommand(command)).called(1);
-      expect(sut.importedImage, isNull);
+      verify(commandManager.addGraphicCommand(any)).called(1);
+      expect(sut.importedImage, isNotNull);
     });
   });
 }

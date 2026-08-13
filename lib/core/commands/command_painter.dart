@@ -23,10 +23,11 @@ class CommandPainter extends CustomPainter {
   final ui.Image? cachedImage;
 
   CommandPainter(this.ref, {this.cachedImage})
-      : currentTool = ref.read(toolBoxStateProvider).currentTool,
-        commandManager = ref.read(commandManagerProvider),
-        isCachingCommand = ref.read(
-            canvasStateProvider.select((state) => state.isCachingCommand));
+    : currentTool = ref.read(toolBoxStateProvider).currentTool,
+      commandManager = ref.read(commandManagerProvider),
+      isCachingCommand = ref.read(
+        canvasStateProvider.select((state) => state.isCachingCommand),
+      );
 
   final WidgetRef ref;
 
@@ -38,9 +39,10 @@ class CommandPainter extends CustomPainter {
       canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     }
 
-    bool isEraserDrawing = currentTool.type == ToolType.ERASER &&
-                           currentTool is BrushTool &&
-                           ((currentTool as BrushTool).isDrawing || isCachingCommand);
+    bool isEraserDrawing =
+        currentTool.type == ToolType.ERASER &&
+        currentTool is BrushTool &&
+        ((currentTool as BrushTool).isDrawing || isCachingCommand);
 
     if (isEraserDrawing) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
@@ -61,8 +63,10 @@ class CommandPainter extends CustomPainter {
         break;
       case ToolType.CURSOR:
         commandManager.executeLastCommand(canvas);
-        (currentTool as CursorTool)
-            .drawCursorIcon(canvas, ref.read(paintProvider));
+        (currentTool as CursorTool).drawCursorIcon(
+          canvas,
+          ref.read(paintProvider),
+        );
         break;
       case ToolType.CLIPBOARD:
         (currentTool as ClipboardTool).paint(canvas, size);
@@ -83,7 +87,7 @@ class CommandPainter extends CustomPainter {
         }
         break;
     }
-    
+
     if (isEraserDrawing) {
       canvas.restore();
     }

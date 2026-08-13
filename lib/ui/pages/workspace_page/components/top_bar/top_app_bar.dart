@@ -67,6 +67,7 @@ class TopAppBar extends ConsumerWidget implements PreferredSizeWidget {
   ) {
     var nextTool = commandManager.getNextTool(actionType);
     if (currentTool.type == nextTool.type) return;
+    if (nextTool.type == ToolType.IMPORT) return;
     ref.read(toolBoxStateProvider.notifier).switchTool(nextTool);
   }
 
