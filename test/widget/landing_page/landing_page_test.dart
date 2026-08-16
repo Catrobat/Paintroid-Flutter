@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -736,6 +737,30 @@ void main() {
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should reuse the projects future across rebuilds while the list is loading',
+    (tester) async {
+      final projectsCompleter = Completer<List<Project>>();
+      when(database.projectDAO).thenReturn(dao);
+      when(dao.getProjects()).thenAnswer((_) => projectsCompleter.future);
+
+      await tester.pumpWidget(sut);
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsWidgets);
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+
+      expect(find.byType(CircularProgressIndicator), findsWidgets);
+
+      projectsCompleter.complete([]);
+      await tester.pumpAndSettle();
+
+      verify(dao.getProjects()).called(1);
     },
   );
 }
