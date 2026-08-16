@@ -39,6 +39,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   late ProjectDatabase database;
   late IFileService fileService;
   late IImageService imageService;
+  Future<List<Project>>? _projectsFuture;
+  ProjectDatabase? _projectsLoadedFrom;
 
   @override
   void initState() {
@@ -96,9 +98,15 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     return database.projectDAO.getProjects();
   }
 
+  void _refreshProjectsFuture() {
+    _projectsFuture = _getProjects();
+  }
+
   Future<void> _navigateToPocketPaint() async {
     await Navigator.pushNamed(context, '/PocketPaint');
-     if (mounted){setState(() {});}
+    if (mounted) {
+      setState(_refreshProjectsFuture);
+    }
   }
 
   Future<bool> _loadProject(IOHandler ioHandler, Project project) async {
@@ -141,7 +149,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
     final db = ref.watch(ProjectDatabase.provider);
     db.when(
-      data: (value) => database = value,
+      data: (value) {
+        database = value;
+        if (!identical(_projectsLoadedFrom, value)) {
+          _projectsLoadedFrom = value;
+          _refreshProjectsFuture();
+        }
+      },
       error: (err, stacktrace) =>
           ToastUtils.showShortToast(message: 'Error: $err'),
       loading: () {},
@@ -158,7 +172,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         actions: const [MainOverflowMenu()],
       ),
       body: FutureBuilder(
-        future: _getProjects(),
+        future: _projectsFuture,
         builder: (BuildContext context, AsyncSnapshot<List<Project>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
