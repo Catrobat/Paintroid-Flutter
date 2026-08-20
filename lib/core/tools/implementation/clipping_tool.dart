@@ -15,7 +15,7 @@ class ClippingTool extends Tool {
   final CanvasStateProvider canvasStateProvider;
 
   @visibleForTesting
-  late PathWithActionHistory pathToDraw;
+  PathWithActionHistory? pathToDraw;
   Offset? _startPoint;
   GraphicCommand? _activePreviewCommand;
   GraphicCommand? _liveDrawingCommand;
@@ -58,18 +58,21 @@ class ClippingTool extends Tool {
       ..moveTo(point.dx, point.dy);
 
     final newLiveDrawingCommand =
-        commandFactory.createClipPathCommand(pathToDraw, paint);
+        commandFactory.createClipPathCommand(pathToDraw!, paint);
     commandManager.addGraphicCommand(newLiveDrawingCommand);
     _liveDrawingCommand = newLiveDrawingCommand;
   }
 
   @override
   void onDrag(Offset point, Paint paint) {
-    pathToDraw.lineTo(point.dx, point.dy);
+    pathToDraw?.lineTo(point.dx, point.dy);
   }
 
   @override
   void onUp(Offset point, Paint paint) {
+    final path = pathToDraw;
+    if (path == null) return;
+
     bool requiresRefresh = false;
     if (_liveDrawingCommand != null) {
       commandManager.removeCommand(_liveDrawingCommand!);
@@ -78,67 +81,67 @@ class ClippingTool extends Tool {
     }
 
     bool pointAddedInUp = false;
-    if (pathToDraw.actions.isNotEmpty) {
-      final lastAction = pathToDraw.actions.last;
+    if (path.actions.isNotEmpty) {
+      final lastAction = path.actions.last;
       bool isSameAsLastPoint = false;
 
       if (lastAction is LineToAction) {
         isSameAsLastPoint =
             (lastAction.x == point.dx && lastAction.y == point.dy);
-      } else if (lastAction is MoveToAction && pathToDraw.actions.length == 1) {
+      } else if (lastAction is MoveToAction && path.actions.length == 1) {
         isSameAsLastPoint =
             (lastAction.x == point.dx && lastAction.y == point.dy);
       }
 
       if (!isSameAsLastPoint) {
-        pathToDraw.lineTo(point.dx, point.dy);
+        path.lineTo(point.dx, point.dy);
         pointAddedInUp = true;
       }
     } else {
-      pathToDraw.moveTo(point.dx, point.dy);
-      pathToDraw.lineTo(point.dx, point.dy);
+      path.moveTo(point.dx, point.dy);
+      path.lineTo(point.dx, point.dy);
       pointAddedInUp = true;
     }
 
     Offset currentEndPoint = point;
-    if (pathToDraw.actions.isNotEmpty) {
-      if (pathToDraw.actions.last is LineToAction) {
-        final lastLineTo = pathToDraw.actions.last as LineToAction;
+    if (path.actions.isNotEmpty) {
+      if (path.actions.last is LineToAction) {
+        final lastLineTo = path.actions.last as LineToAction;
         currentEndPoint = Offset(lastLineTo.x, lastLineTo.y);
-      } else if (pathToDraw.actions.last is MoveToAction) {
-        final lastMoveTo = pathToDraw.actions.last as MoveToAction;
+      } else if (path.actions.last is MoveToAction) {
+        final lastMoveTo = path.actions.last as MoveToAction;
         currentEndPoint = Offset(lastMoveTo.x, lastMoveTo.y);
       }
     }
 
     GraphicCommand newPreviewCommand;
-    if (_startPoint != null && pathToDraw.actions.isNotEmpty) {
+    if (_startPoint != null && path.actions.isNotEmpty) {
       bool needsSolidClosingLine = !(currentEndPoint.dx == _startPoint!.dx &&
           currentEndPoint.dy == _startPoint!.dy);
 
       bool isEffectivelySingleTap =
-          pathToDraw.actions.length <= (pointAddedInUp ? 2 : 1) &&
+          path.actions.length <= (pointAddedInUp ? 2 : 1) &&
               (currentEndPoint.dx == _startPoint!.dx &&
                   currentEndPoint.dy == _startPoint!.dy);
 
       if (needsSolidClosingLine && !isEffectivelySingleTap) {
         newPreviewCommand = commandFactory.createClipPathCommand(
-          pathToDraw,
+          path,
           paint,
           startPoint: currentEndPoint,
           endPoint: _startPoint!,
         );
       } else {
-        pathToDraw.close();
+        path.close();
         newPreviewCommand = commandFactory.createClipPathCommand(
-          pathToDraw,
+          path,
           paint,
         );
       }
     } else {
-      pathToDraw.close();
+      path.close();
       newPreviewCommand = commandFactory.createClipPathCommand(
-        pathToDraw,
+        path,
         paint,
       );
     }
@@ -195,11 +198,12 @@ class ClippingTool extends Tool {
       requiresRefresh = true;
     }
 
-    if (pathToDraw.actions.isNotEmpty) {
-      pathToDraw.close();
+    final path = pathToDraw;
+    if (path != null && path.actions.isNotEmpty) {
+      path.close();
 
       final cropCommand =
-          commandFactory.createClipAreaCommand(pathToDraw, paint);
+          commandFactory.createClipAreaCommand(path, paint);
       commandManager.addGraphicCommand(cropCommand);
       requiresRefresh = true;
     }
