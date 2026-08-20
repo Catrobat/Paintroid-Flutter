@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:developer' as developer;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
+import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
+import 'package:paintroid/core/backward_compatibility/legacy_model_parser.dart';
+import 'package:paintroid/core/backward_compatibility/legacy_model_transformer.dart';
 
 part 'catrobat_image.g.dart';
 
@@ -18,6 +22,9 @@ class CatrobatImage {
   final Iterable<Command> commands;
   final String backgroundImage;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool hasUnsupportedCommands = false;
+
   CatrobatImage(
     this.commands,
     this.width,
@@ -25,8 +32,8 @@ class CatrobatImage {
     this.backgroundImage, {
     int? version,
     this.magicValue = 'CATROBAT',
-  }) : version = version ??
-            VersionStrategyManager.strategy.getCatrobatImageVersion();
+  }) : version =
+           version ?? VersionStrategyManager.strategy.getCatrobatImageVersion();
 
   Uint8List toBytes() {
     Map<String, dynamic> jsonMap = toJson();
@@ -35,9 +42,59 @@ class CatrobatImage {
   }
 
   static CatrobatImage fromBytes(Uint8List bytes) {
-    String jsonString = utf8.decode(bytes);
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-    return CatrobatImage.fromJson(jsonMap);
+    try {
+      String jsonString = utf8.decode(bytes, allowMalformed: true);
+      if (jsonString.startsWith('{') && jsonString.contains('"magicValue"')) {
+        Map<String, dynamic> jsonMap = json.decode(jsonString);
+        developer.log('CATROBAT_IMAGE: Parsing as JSON format.', name: 'Paintroid.Load');
+        return CatrobatImage.fromJson(jsonMap);
+      }
+    } catch (_) {}
+
+    try {
+      developer.log('CATROBAT_IMAGE: Attempting fallback binary parsing. Bytes: ${bytes.length}', name: 'Paintroid.Load');
+      final sample = bytes.sublist(0, bytes.length > 32 ? 32 : bytes.length);
+      developer.log('CATROBAT_IMAGE: Bytes prefix: $sample', name: 'Paintroid.Load');
+
+      final reader = KryoReader(bytes);
+      int version = 0;
+
+      if (bytes.length >= 8 &&
+          bytes[0] == 0x43 &&
+          bytes[1] == 0x41 &&
+          bytes[2] == 0x54 &&
+          bytes[3] == 0x52 &&
+          bytes[4] == 0x4F &&
+          bytes[5] == 0x42 &&
+          bytes[6] == 0x41 &&
+          (bytes[7] == 0x54 || bytes[7] == 0xD4)) {
+        final magic = reader.readBytes(8); // Consume magic
+        version = reader.readInt32(); // Consume version
+        developer.log('CATROBAT_IMAGE: Header matched! Magic: ${String.fromCharCodes(magic)}, Version: $version', name: 'Paintroid.Load');
+      } else {
+        developer.log('CATROBAT_IMAGE: Binary header did NOT match! Trying raw stream.', name: 'Paintroid.Load', level: 900);
+      }
+
+      final legacyModel = LegacyCommandManagerModel.deserialize(reader);
+      final transformResult = LegacyModelTransformer.transformWithFallback(
+        legacyModel,
+      );
+      final image = transformResult.image;
+      final resultImage = CatrobatImage(
+        image.commands,
+        image.width,
+        image.height,
+        image.backgroundImage,
+        version: version > 0 ? version : image.version,
+      );
+      resultImage.hasUnsupportedCommands = transformResult.hasUnsupportedCommands;
+      return resultImage;
+    } catch (e, st) {
+      developer.log('CATROBAT_IMAGE: Critical failure during binary parsing: $e', name: 'Paintroid.Load', level: 1000, error: e, stackTrace: st);
+      throw FormatException(
+        'Failed to parse CatrobatImage: Not a valid JSON or legacy binary format. Error: $e',
+      );
+    }
   }
 
   Map<String, dynamic> toJson() => _$CatrobatImageToJson(this);

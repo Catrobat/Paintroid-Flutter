@@ -1,0 +1,15 @@
+export 'legacy_point.dart';
+export 'legacy_point_f.dart';
+export 'legacy_rect_f.dart';
+export 'legacy_paint.dart';
+export 'legacy_color_history.dart';
+export 'legacy_float_array.dart';
+export 'legacy_string_array.dart';
+export 'legacy_serializable_action.dart';
+export 'legacy_serializable_path_move.dart';
+export 'legacy_serializable_path_line.dart';
+export 'legacy_serializable_path_quad.dart';
+export 'legacy_serializable_path_cube.dart';
+export 'legacy_serializable_path_rewind.dart';
+export 'legacy_serializable_path.dart';
+export 'legacy_serializable_typeface.dart';
