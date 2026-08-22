@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -28,13 +29,19 @@ class CommandManager {
     _undoStack.add(command);
   }
 
+  void removeCommand(Command commandToRemove) {
+    _undoStack.remove(commandToRemove);
+  }
+
   void setUndoStack(List<Command> commands) {
     _undoStack.clear();
     _undoStack.addAll(commands);
   }
 
   void executeLastCommand(Canvas canvas) {
-    if (_undoStack.isEmpty) return;
+    if (_undoStack.isEmpty) {
+      return;
+    }
     final lastCommand = _undoStack.last;
     if (lastCommand is GraphicCommand) {
       lastCommand.call(canvas);
@@ -50,7 +57,9 @@ class CommandManager {
   }
 
   void discardLastCommand() {
-    if (_undoStack.isNotEmpty) _undoStack.removeLast();
+    if (_undoStack.isNotEmpty) {
+      _undoStack.removeLast();
+    }
   }
 
   void clearUndoStack({Iterable<Command>? newCommands}) {
@@ -128,6 +137,8 @@ class CommandManager {
       return ToolData.SHAPES;
     } else if (command.runtimeType == HeartShapeCommand) {
       return ToolData.SHAPES;
+    } else if (command.runtimeType == ClipAreaCommand) {
+      return ToolData.CLIPPING;
     } else if (command is PathCommand) {
       if (command.isCursorPath) {
         return ToolData.CURSOR;

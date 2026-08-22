@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -23,16 +24,14 @@ class CommandFactory {
     PathWithActionHistory path,
     Paint paint, {
     bool isCursor = false,
-  }) =>
-      PathCommand(path, paint, isCursorPath: isCursor);
+  }) => PathCommand(path, paint, isCursorPath: isCursor);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,
     Paint paint,
     Offset startPoint,
     Offset endPoint,
-  ) =>
-      LineCommand(path, paint, startPoint, endPoint);
+  ) => LineCommand(path, paint, startPoint, endPoint);
 
   SquareShapeCommand createSquareShapeCommand(
     Paint paint,
@@ -41,9 +40,14 @@ class CommandFactory {
     Offset bottomLeft,
     Offset bottomRight,
     ShapeStyle style,
-  ) =>
-      SquareShapeCommand(
-          paint, topLeft, topRight, bottomLeft, bottomRight, style);
+  ) => SquareShapeCommand(
+    paint,
+    topLeft,
+    topRight,
+    bottomLeft,
+    bottomRight,
+    style,
+  );
 
   EllipseShapeCommand createEllipseShapeCommand(
     Paint paint,
@@ -52,15 +56,7 @@ class CommandFactory {
     Offset center,
     ShapeStyle style,
     double angle,
-  ) =>
-      EllipseShapeCommand(
-        paint,
-        radiusX,
-        radiusY,
-        center,
-        style,
-        angle,
-      );
+  ) => EllipseShapeCommand(paint, radiusX, radiusY, center, style, angle);
 
   ClipboardCommand createClipboardCommand(
     Paint paint,
@@ -68,14 +64,7 @@ class CommandFactory {
     ui.Offset offset,
     double scale,
     double rotation,
-  ) =>
-      ClipboardCommand(
-        paint,
-        imageData,
-        offset,
-        scale,
-        rotation,
-      );
+  ) => ClipboardCommand(paint, imageData, offset, scale, rotation);
 
   TextCommand createTextCommand(
     Offset point,
@@ -86,17 +75,16 @@ class CommandFactory {
     double rotationAngle, {
     double scaleX = 1.0,
     double scaleY = 1.0,
-  }) =>
-      TextCommand(
-        point,
-        text,
-        style,
-        fontSize,
-        paint,
-        rotationAngle: rotationAngle,
-        scaleX: scaleX,
-        scaleY: scaleY,
-      );
+  }) => TextCommand(
+    point,
+    text,
+    style,
+    fontSize,
+    paint,
+    rotationAngle: rotationAngle,
+    scaleX: scaleX,
+    scaleY: scaleY,
+  );
 
   StarShapeCommand createStarShapeCommand(
     Paint paint,
@@ -106,16 +94,15 @@ class CommandFactory {
     ShapeStyle style,
     double radiusX,
     double radiusY,
-  ) =>
-      StarShapeCommand(
-        paint,
-        numPoints,
-        angle,
-        center,
-        style,
-        radiusX,
-        radiusY,
-      );
+  ) => StarShapeCommand(
+    paint,
+    numPoints,
+    angle,
+    center,
+    style,
+    radiusX,
+    radiusY,
+  );
 
   HeartShapeCommand createHeartShapeCommand(
     Paint paint,
@@ -124,8 +111,7 @@ class CommandFactory {
     double angle,
     Offset center,
     ShapeStyle style,
-  ) =>
-      HeartShapeCommand(paint, width, height, angle, center, style);
+  ) => HeartShapeCommand(paint, width, height, angle, center, style);
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
     return SprayCommand(points, paint);
@@ -138,6 +124,12 @@ class CommandFactory {
         Paint(),
         region,
       );
+
+  ClipAreaCommand createClipAreaCommand(
+    PathWithActionHistory path,
+    Paint paint,
+  ) =>
+      ClipAreaCommand(path, paint);
 
   ColorChangedCommand createColorChangedCommand(
     Color oldColor,

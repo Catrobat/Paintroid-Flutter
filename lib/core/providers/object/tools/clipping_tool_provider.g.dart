@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'canvas_state_provider.dart';
+part of 'clipping_tool_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$canvasStateProviderHash() =>
-    r'e0cd5a879590dfa2b4e9e45a896624927f0e9541';
+String _$clippingToolProviderHash() =>
+    r'10381b6a787aef98e726b246d488001814bcb1e5';
 
-/// See also [CanvasStateProvider].
-@ProviderFor(CanvasStateProvider)
-final canvasStateProvider =
-    NotifierProvider<CanvasStateProvider, CanvasStateData>.internal(
-  CanvasStateProvider.new,
-  name: r'canvasStateProvider',
+/// See also [ClippingToolProvider].
+@ProviderFor(ClippingToolProvider)
+final clippingToolProvider =
+    AutoDisposeNotifierProvider<ClippingToolProvider, ClippingTool>.internal(
+  ClippingToolProvider.new,
+  name: r'clippingToolProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$canvasStateProviderHash,
+      : _$clippingToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CanvasStateProvider = Notifier<CanvasStateData>;
+typedef _$ClippingToolProvider = AutoDisposeNotifier<ClippingTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

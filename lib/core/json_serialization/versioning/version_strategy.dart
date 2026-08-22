@@ -23,6 +23,8 @@ abstract class IVersionStrategy {
 
   int getDeleteRegionCommandVersion();
 
+  int getClipAreaCommandVersion();
+
   int getColorChangedCommandVersion();
 }
 
@@ -65,6 +67,10 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getDeleteRegionCommandVersion() =>
       SerializerVersion.DELETE_REGION_COMMAND_VERSION;
+
+  @override
+  int getClipAreaCommandVersion() =>
+      SerializerVersion.CLIP_AREA_COMMAND_VERSION;
 
   @override
   int getColorChangedCommandVersion() =>

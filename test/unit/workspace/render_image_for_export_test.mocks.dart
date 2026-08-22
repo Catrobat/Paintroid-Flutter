@@ -707,6 +707,15 @@ class MockCommandManager extends _i1.Mock implements _i6.CommandManager {
       );
 
   @override
+  void removeCommand(_i3.Command? commandToRemove) => super.noSuchMethod(
+        Invocation.method(
+          #removeCommand,
+          [commandToRemove],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void setUndoStack(List<_i3.Command>? commands) => super.noSuchMethod(
         Invocation.method(
           #setUndoStack,

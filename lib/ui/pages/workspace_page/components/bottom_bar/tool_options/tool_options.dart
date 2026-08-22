@@ -39,6 +39,7 @@ class ToolOptions extends ConsumerWidget {
           ToolType.SPRAY => const SprayToolOptions(),
           ToolType.CLIPBOARD => const ClipboardToolOptions(),
           ToolType.TEXT => const TextToolOptions(),
+          ToolType.CLIPPING => const StrokeToolOptions(),
           _ => Container(),
         },
       ),

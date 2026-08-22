@@ -47,7 +47,7 @@ class BackgroundLayer extends ConsumerWidget {
     return RepaintBoundary(
       child: CheckerboardPattern(
         child:
-        backgroundImage != null ? RawImage(image: backgroundImage) : null,
+            backgroundImage != null ? RawImage(image: backgroundImage) : null,
       ),
     );
   }
@@ -67,27 +67,29 @@ class PaintingLayer extends ConsumerWidget {
     final cachedImage = ref.watch(
       canvasStateProvider.select((state) => state.cachedImage),
     );
-    
-    final currentTool = ref.watch(toolBoxStateProvider.select((state) => state.currentTool));
-    final isCachingCommand = ref.watch(canvasStateProvider.select((state) => state.isCachingCommand));
-    
+
+    final currentTool =
+        ref.watch(toolBoxStateProvider.select((state) => state.currentTool));
+    final isCachingCommand = ref
+        .watch(canvasStateProvider.select((state) => state.isCachingCommand));
+
     bool isEraserDrawing = false;
     if (currentTool.type == ToolType.ERASER && currentTool is BrushTool) {
       isEraserDrawing = currentTool.isDrawing || isCachingCommand;
     }
 
     return RepaintBoundary(
-      child: CustomPaint(
-        foregroundPainter: CommandPainter(ref, cachedImage: cachedImage),
-        child: cachedImage != null && !isEraserDrawing
-            ? Opacity(
-          opacity: 0.99,
-          child: RawImage(
-            image: cachedImage,
-            filterQuality: FilterQuality.none,
-          ),
-        )
-            : null,
+      child: Opacity(
+        opacity: isEraserDrawing ? 0.99 : 1.0,
+        child: CustomPaint(
+          foregroundPainter: CommandPainter(ref, cachedImage: cachedImage),
+          child: cachedImage != null && !isEraserDrawing
+              ? RawImage(
+                  image: cachedImage,
+                  filterQuality: FilterQuality.none,
+                )
+              : null,
+        ),
       ),
     );
   }
