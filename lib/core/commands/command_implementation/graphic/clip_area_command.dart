@@ -31,17 +31,15 @@ class ClipAreaCommand extends GraphicCommand {
   void call(Canvas canvas) {
     final Rect canvasBounds = canvas.getLocalClipBounds();
 
-    Path areaToClear = Path.combine(
-      PathOperation.difference,
-      Path()..addRect(canvasBounds),
-      clipPathData.path,
-    );
+    canvas.saveLayer(canvasBounds, Paint()..blendMode = BlendMode.dstIn);
 
     canvas.drawPath(
-        areaToClear,
+        clipPathData.path,
         Paint()
-          ..blendMode = BlendMode.clear
+          ..color = const Color(0xFF000000)
           ..style = PaintingStyle.fill);
+
+    canvas.restore();
   }
 
   @override

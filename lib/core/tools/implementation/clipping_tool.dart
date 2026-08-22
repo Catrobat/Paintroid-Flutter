@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
@@ -9,16 +8,19 @@ import 'package:paintroid/core/tools/tool.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/clipping_tool_state_provider.dart';
 
+import 'package:path_drawing/path_drawing.dart';
+
 class ClippingTool extends Tool {
+  static const double _outerStrokeWidthOffset = 5.0;
+  static const double _dashLengthMultiplier = 2.0;
+  static const double _dashGapMultiplier = 2.0;
+
   final GraphicFactory graphicFactory;
   final ClippingToolState clippingToolState;
   final CanvasStateProvider canvasStateProvider;
 
   @visibleForTesting
   PathWithActionHistory? pathToDraw;
-  Offset? _startPoint;
-  GraphicCommand? _activePreviewCommand;
-  GraphicCommand? _liveDrawingCommand;
 
   ClippingTool({
     required super.commandFactory,
@@ -33,34 +35,16 @@ class ClippingTool extends Tool {
 
   @override
   void onDown(Offset point, Paint paint) {
-    bool requiresRefresh = false;
     if (clippingToolState.hasActiveClipPath) {
-      if (_activePreviewCommand != null) {
-        commandManager.removeCommand(_activePreviewCommand!);
-        _activePreviewCommand = null;
-        requiresRefresh = true;
-      }
       clippingToolState.clearClipPath();
+      pathToDraw = null;
     }
 
-    if (_liveDrawingCommand != null) {
-      commandManager.removeCommand(_liveDrawingCommand!);
-      _liveDrawingCommand = null;
-      requiresRefresh = true;
-    }
+    pathToDraw =
+        graphicFactory.createPathWithActionHistory()
+          ..moveTo(point.dx, point.dy);
 
-    if (requiresRefresh) {
-      canvasStateProvider.resetCanvasWithExistingCommands();
-    }
-
-    _startPoint = point;
-    pathToDraw = graphicFactory.createPathWithActionHistory()
-      ..moveTo(point.dx, point.dy);
-
-    final newLiveDrawingCommand =
-        commandFactory.createClipPathCommand(pathToDraw!, paint);
-    commandManager.addGraphicCommand(newLiveDrawingCommand);
-    _liveDrawingCommand = newLiveDrawingCommand;
+    canvasStateProvider.resetCanvasWithExistingCommands();
   }
 
   @override
@@ -69,18 +53,12 @@ class ClippingTool extends Tool {
   }
 
   @override
-  void onUp(Offset point, Paint paint) {
+  Future<void> onUp(Offset point, Paint paint) async {
     final path = pathToDraw;
-    if (path == null) return;
-
-    bool requiresRefresh = false;
-    if (_liveDrawingCommand != null) {
-      commandManager.removeCommand(_liveDrawingCommand!);
-      _liveDrawingCommand = null;
-      requiresRefresh = true;
+    if (path == null) {
+      return;
     }
 
-    bool pointAddedInUp = false;
     if (path.actions.isNotEmpty) {
       final lastAction = path.actions.last;
       bool isSameAsLastPoint = false;
@@ -88,130 +66,84 @@ class ClippingTool extends Tool {
       if (lastAction is LineToAction) {
         isSameAsLastPoint =
             (lastAction.x == point.dx && lastAction.y == point.dy);
-      } else if (lastAction is MoveToAction && path.actions.length == 1) {
+      } else if (lastAction is MoveToAction) {
         isSameAsLastPoint =
             (lastAction.x == point.dx && lastAction.y == point.dy);
       }
 
       if (!isSameAsLastPoint) {
         path.lineTo(point.dx, point.dy);
-        pointAddedInUp = true;
-      }
-    } else {
-      path.moveTo(point.dx, point.dy);
-      path.lineTo(point.dx, point.dy);
-      pointAddedInUp = true;
-    }
-
-    Offset currentEndPoint = point;
-    if (path.actions.isNotEmpty) {
-      if (path.actions.last is LineToAction) {
-        final lastLineTo = path.actions.last as LineToAction;
-        currentEndPoint = Offset(lastLineTo.x, lastLineTo.y);
-      } else if (path.actions.last is MoveToAction) {
-        final lastMoveTo = path.actions.last as MoveToAction;
-        currentEndPoint = Offset(lastMoveTo.x, lastMoveTo.y);
       }
     }
 
-    GraphicCommand newPreviewCommand;
-    if (_startPoint != null && path.actions.isNotEmpty) {
-      bool needsSolidClosingLine = !(currentEndPoint.dx == _startPoint!.dx &&
-          currentEndPoint.dy == _startPoint!.dy);
-
-      bool isEffectivelySingleTap =
-          path.actions.length <= (pointAddedInUp ? 2 : 1) &&
-              (currentEndPoint.dx == _startPoint!.dx &&
-                  currentEndPoint.dy == _startPoint!.dy);
-
-      if (needsSolidClosingLine && !isEffectivelySingleTap) {
-        newPreviewCommand = commandFactory.createClipPathCommand(
-          path,
-          paint,
-          startPoint: currentEndPoint,
-          endPoint: _startPoint!,
-        );
-      } else {
-        path.close();
-        newPreviewCommand = commandFactory.createClipPathCommand(
-          path,
-          paint,
-        );
-      }
-    } else {
-      path.close();
-      newPreviewCommand = commandFactory.createClipPathCommand(
-        path,
-        paint,
-      );
+    if (path.actions.length <= 1) {
+      pathToDraw = null;
+      await canvasStateProvider.resetCanvasWithExistingCommands();
+      return;
     }
-    commandManager.addGraphicCommand(newPreviewCommand);
-    _activePreviewCommand = newPreviewCommand;
+
+    path.close();
     clippingToolState.setHasActiveClipPath(true);
-    _startPoint = null;
 
-    if (requiresRefresh) {
-      canvasStateProvider.resetCanvasWithExistingCommands();
-    }
-    canvasStateProvider.updateCachedImage();
+    await canvasStateProvider.resetCanvasWithExistingCommands();
+    await canvasStateProvider.updateCachedImage();
   }
 
   @override
-  void onCancel() {
-    bool requiresRefresh = false;
-    if (_liveDrawingCommand != null) {
-      commandManager.removeCommand(_liveDrawingCommand!);
-      _liveDrawingCommand = null;
-      requiresRefresh = true;
-    }
-
-    if (clippingToolState.hasActiveClipPath) {
-      if (_activePreviewCommand != null) {
-        commandManager.removeCommand(_activePreviewCommand!);
-        _activePreviewCommand = null;
-        requiresRefresh = true;
-      }
-      clippingToolState.clearClipPath();
-    }
-
-    if (requiresRefresh) {
-      canvasStateProvider.resetCanvasWithExistingCommands();
-    }
-    _startPoint = null;
-  }
+  void onCancel() {}
 
   @override
   void onCheckmark(Paint paint) {
-    bool requiresRefresh = false;
-    if (clippingToolState.hasActiveClipPath) {
-      if (_activePreviewCommand != null) {
-        commandManager.removeCommand(_activePreviewCommand!);
-        _activePreviewCommand = null;
-        requiresRefresh = true;
-      }
-      clippingToolState.clearClipPath();
-    }
-
-    if (_liveDrawingCommand != null) {
-      commandManager.removeCommand(_liveDrawingCommand!);
-      _liveDrawingCommand = null;
-      requiresRefresh = true;
-    }
-
     final path = pathToDraw;
     if (path != null && path.actions.isNotEmpty) {
-      path.close();
-
-      final cropCommand =
-          commandFactory.createClipAreaCommand(path, paint);
+      final cropCommand = commandFactory.createClipAreaCommand(path, paint);
       commandManager.addGraphicCommand(cropCommand);
-      requiresRefresh = true;
-    }
 
-    if (requiresRefresh) {
+      clippingToolState.clearClipPath();
+      pathToDraw = null;
+
       canvasStateProvider.resetCanvasWithExistingCommands();
     }
-    _startPoint = null;
+  }
+
+  void draw(Canvas canvas, Paint paint) {
+    final pathData = pathToDraw;
+    if (pathData == null) return;
+
+    final double baseStrokeWidth = paint.strokeWidth;
+    final double outerStrokeWidth = baseStrokeWidth + _outerStrokeWidthOffset;
+
+    final double dashLength = baseStrokeWidth * _dashLengthMultiplier;
+    final double dashGap = baseStrokeWidth * _dashGapMultiplier;
+    final dashArray = CircularIntervalList<double>([dashLength, dashGap]);
+
+    final Color contrastColor =
+        (paint.color.toARGB32() & 0x00FFFFFF) == 0
+            ? Color(0xFFFFFFFF)
+            : Color(0xFF000000);
+
+    final borderPaint =
+        Paint()
+          ..color = contrastColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = outerStrokeWidth
+          ..strokeCap = paint.strokeCap
+          ..strokeJoin = paint.strokeJoin;
+
+    final innerPaint =
+        Paint()
+          ..color = paint.color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = baseStrokeWidth
+          ..strokeCap = paint.strokeCap
+          ..strokeJoin = paint.strokeJoin;
+
+    final path = Path()..addPath(pathData.path, Offset.zero);
+
+    final dashedPath = dashPath(path, dashArray: dashArray);
+
+    canvas.drawPath(dashedPath, borderPaint);
+    canvas.drawPath(dashedPath, innerPaint);
   }
 
   @override

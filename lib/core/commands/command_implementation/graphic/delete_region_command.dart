@@ -29,10 +29,12 @@ class DeleteRegionCommand extends GraphicCommand {
 
   @override
   void call(ui.Canvas canvas) {
+    canvas.saveLayer(region, ui.Paint()..blendMode = ui.BlendMode.src);
     final clearPaint = ui.Paint()
       ..blendMode = ui.BlendMode.clear
       ..style = ui.PaintingStyle.fill;
     canvas.drawRect(region, clearPaint);
+    canvas.restore();
   }
 
   @override

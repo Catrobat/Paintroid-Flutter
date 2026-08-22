@@ -13,8 +13,6 @@ class DummyVersionStrategy implements IVersionStrategy {
   final int clipboardCommandVersion;
   final int deleteRegionCommandVersion;
   final int textCommandVersion;
-  final int dashedPathCommandVersion;
-  final int clipPathCommandVersion;
   final int clipAreaCommandVersion;
   final int colorChangedCommandVersion;
 
@@ -34,9 +32,6 @@ class DummyVersionStrategy implements IVersionStrategy {
     this.deleteRegionCommandVersion =
         SerializerVersion.DELETE_REGION_COMMAND_VERSION,
     this.textCommandVersion = SerializerVersion.TEXT_COMMAND_VERSION,
-    this.dashedPathCommandVersion =
-        SerializerVersion.DASHED_PATH_COMMAND_VERSION,
-    this.clipPathCommandVersion = SerializerVersion.CLIP_PATH_COMMAND_VERSION,
     this.clipAreaCommandVersion = SerializerVersion.CLIP_AREA_COMMAND_VERSION,
     this.colorChangedCommandVersion =
         SerializerVersion.COLOR_CHANGED_COMMAND_VERSION,
@@ -74,12 +69,6 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getTextCommandVersion() => textCommandVersion;
-
-  @override
-  int getDashedPathCommandVersion() => dashedPathCommandVersion;
-
-  @override
-  int getClipPathCommandVersion() => clipPathCommandVersion;
 
   @override
   int getClipAreaCommandVersion() => clipAreaCommandVersion;

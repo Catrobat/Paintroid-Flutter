@@ -80,7 +80,7 @@ class PaintingLayer extends ConsumerWidget {
 
     return RepaintBoundary(
       child: Opacity(
-        opacity: 0.99,
+        opacity: isEraserDrawing ? 0.99 : 1.0,
         child: CustomPaint(
           foregroundPainter: CommandPainter(ref, cachedImage: cachedImage),
           child: cachedImage != null && !isEraserDrawing

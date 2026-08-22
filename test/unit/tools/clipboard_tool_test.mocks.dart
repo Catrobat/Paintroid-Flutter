@@ -3,54 +3,52 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i31;
-import 'dart:typed_data' as _i29;
+import 'dart:async' as _i30;
+import 'dart:typed_data' as _i28;
 import 'dart:ui' as _i2;
 
-import 'package:flutter/material.dart' as _i30;
-import 'package:logging/logging.dart' as _i18;
+import 'package:flutter/material.dart' as _i29;
+import 'package:logging/logging.dart' as _i17;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i22;
+import 'package:mockito/src/dummies.dart' as _i21;
 import 'package:paintroid/core/commands/command_factory/command_factory.dart'
-    as _i26;
+    as _i25;
 import 'package:paintroid/core/commands/command_implementation/command.dart'
     as _i3;
 import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart'
-    as _i16;
-import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart'
-    as _i6;
-import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart'
-    as _i10;
-import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart'
-    as _i17;
-import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart'
     as _i15;
+import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart'
+    as _i9;
+import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart'
+    as _i16;
+import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart'
+    as _i14;
 import 'package:paintroid/core/commands/command_implementation/graphic/graphic_command.dart'
-    as _i24;
+    as _i23;
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart'
-    as _i7;
+    as _i6;
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart'
     as _i5;
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart'
-    as _i9;
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart'
-    as _i13;
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart'
     as _i8;
-import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart'
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart'
     as _i12;
-import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart'
-    as _i14;
-import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart'
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart'
+    as _i7;
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart'
     as _i11;
+import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart'
+    as _i13;
+import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart'
+    as _i10;
 import 'package:paintroid/core/commands/command_manager/command_manager.dart'
-    as _i23;
-import 'package:paintroid/core/commands/path_with_action_history.dart' as _i27;
-import 'package:paintroid/core/enums/bounding_box_action.dart' as _i20;
-import 'package:paintroid/core/enums/bounding_box_resize_action.dart' as _i21;
-import 'package:paintroid/core/enums/shape_style.dart' as _i28;
-import 'package:paintroid/core/tools/bounding_box.dart' as _i19;
-import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i25;
+    as _i22;
+import 'package:paintroid/core/commands/path_with_action_history.dart' as _i26;
+import 'package:paintroid/core/enums/bounding_box_action.dart' as _i19;
+import 'package:paintroid/core/enums/bounding_box_resize_action.dart' as _i20;
+import 'package:paintroid/core/enums/shape_style.dart' as _i27;
+import 'package:paintroid/core/tools/bounding_box.dart' as _i18;
+import 'package:paintroid/core/tools/line_tool/vertex_stack.dart' as _i24;
 import 'package:paintroid/core/tools/tool_data.dart' as _i4;
 
 // ignore_for_file: type=lint
@@ -116,9 +114,8 @@ class _FakePathCommand_4 extends _i1.SmartFake implements _i5.PathCommand {
         );
 }
 
-class _FakeClipPathCommand_5 extends _i1.SmartFake
-    implements _i6.ClipPathCommand {
-  _FakeClipPathCommand_5(
+class _FakeLineCommand_5 extends _i1.SmartFake implements _i6.LineCommand {
+  _FakeLineCommand_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -127,8 +124,9 @@ class _FakeClipPathCommand_5 extends _i1.SmartFake
         );
 }
 
-class _FakeLineCommand_6 extends _i1.SmartFake implements _i7.LineCommand {
-  _FakeLineCommand_6(
+class _FakeSquareShapeCommand_6 extends _i1.SmartFake
+    implements _i7.SquareShapeCommand {
+  _FakeSquareShapeCommand_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -137,9 +135,9 @@ class _FakeLineCommand_6 extends _i1.SmartFake implements _i7.LineCommand {
         );
 }
 
-class _FakeSquareShapeCommand_7 extends _i1.SmartFake
-    implements _i8.SquareShapeCommand {
-  _FakeSquareShapeCommand_7(
+class _FakeEllipseShapeCommand_7 extends _i1.SmartFake
+    implements _i8.EllipseShapeCommand {
+  _FakeEllipseShapeCommand_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -148,9 +146,9 @@ class _FakeSquareShapeCommand_7 extends _i1.SmartFake
         );
 }
 
-class _FakeEllipseShapeCommand_8 extends _i1.SmartFake
-    implements _i9.EllipseShapeCommand {
-  _FakeEllipseShapeCommand_8(
+class _FakeClipboardCommand_8 extends _i1.SmartFake
+    implements _i9.ClipboardCommand {
+  _FakeClipboardCommand_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -159,9 +157,8 @@ class _FakeEllipseShapeCommand_8 extends _i1.SmartFake
         );
 }
 
-class _FakeClipboardCommand_9 extends _i1.SmartFake
-    implements _i10.ClipboardCommand {
-  _FakeClipboardCommand_9(
+class _FakeTextCommand_9 extends _i1.SmartFake implements _i10.TextCommand {
+  _FakeTextCommand_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -170,8 +167,9 @@ class _FakeClipboardCommand_9 extends _i1.SmartFake
         );
 }
 
-class _FakeTextCommand_10 extends _i1.SmartFake implements _i11.TextCommand {
-  _FakeTextCommand_10(
+class _FakeStarShapeCommand_10 extends _i1.SmartFake
+    implements _i11.StarShapeCommand {
+  _FakeStarShapeCommand_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -180,9 +178,9 @@ class _FakeTextCommand_10 extends _i1.SmartFake implements _i11.TextCommand {
         );
 }
 
-class _FakeStarShapeCommand_11 extends _i1.SmartFake
-    implements _i12.StarShapeCommand {
-  _FakeStarShapeCommand_11(
+class _FakeHeartShapeCommand_11 extends _i1.SmartFake
+    implements _i12.HeartShapeCommand {
+  _FakeHeartShapeCommand_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -191,9 +189,8 @@ class _FakeStarShapeCommand_11 extends _i1.SmartFake
         );
 }
 
-class _FakeHeartShapeCommand_12 extends _i1.SmartFake
-    implements _i13.HeartShapeCommand {
-  _FakeHeartShapeCommand_12(
+class _FakeSprayCommand_12 extends _i1.SmartFake implements _i13.SprayCommand {
+  _FakeSprayCommand_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -202,8 +199,9 @@ class _FakeHeartShapeCommand_12 extends _i1.SmartFake
         );
 }
 
-class _FakeSprayCommand_13 extends _i1.SmartFake implements _i14.SprayCommand {
-  _FakeSprayCommand_13(
+class _FakeDeleteRegionCommand_13 extends _i1.SmartFake
+    implements _i14.DeleteRegionCommand {
+  _FakeDeleteRegionCommand_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -212,9 +210,9 @@ class _FakeSprayCommand_13 extends _i1.SmartFake implements _i14.SprayCommand {
         );
 }
 
-class _FakeDeleteRegionCommand_14 extends _i1.SmartFake
-    implements _i15.DeleteRegionCommand {
-  _FakeDeleteRegionCommand_14(
+class _FakeClipAreaCommand_14 extends _i1.SmartFake
+    implements _i15.ClipAreaCommand {
+  _FakeClipAreaCommand_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -223,9 +221,9 @@ class _FakeDeleteRegionCommand_14 extends _i1.SmartFake
         );
 }
 
-class _FakeClipAreaCommand_15 extends _i1.SmartFake
-    implements _i16.ClipAreaCommand {
-  _FakeClipAreaCommand_15(
+class _FakeColorChangedCommand_15 extends _i1.SmartFake
+    implements _i16.ColorChangedCommand {
+  _FakeColorChangedCommand_15(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -234,9 +232,8 @@ class _FakeClipAreaCommand_15 extends _i1.SmartFake
         );
 }
 
-class _FakeColorChangedCommand_16 extends _i1.SmartFake
-    implements _i17.ColorChangedCommand {
-  _FakeColorChangedCommand_16(
+class _FakeLogger_16 extends _i1.SmartFake implements _i17.Logger {
+  _FakeLogger_16(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -245,18 +242,8 @@ class _FakeColorChangedCommand_16 extends _i1.SmartFake
         );
 }
 
-class _FakeLogger_17 extends _i1.SmartFake implements _i18.Logger {
-  _FakeLogger_17(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeImage_18 extends _i1.SmartFake implements _i2.Image {
-  _FakeImage_18(
+class _FakeImage_17 extends _i1.SmartFake implements _i2.Image {
+  _FakeImage_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -268,7 +255,7 @@ class _FakeImage_18 extends _i1.SmartFake implements _i2.Image {
 /// A class which mocks [BoundingBox].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
+class MockBoundingBox extends _i1.Mock implements _i18.BoundingBox {
   MockBoundingBox() {
     _i1.throwOnMissingStub(this);
   }
@@ -337,13 +324,13 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
       );
 
   @override
-  _i20.BoundingBoxAction get currentAction => (super.noSuchMethod(
+  _i19.BoundingBoxAction get currentAction => (super.noSuchMethod(
         Invocation.getter(#currentAction),
-        returnValue: _i20.BoundingBoxAction.none,
-      ) as _i20.BoundingBoxAction);
+        returnValue: _i19.BoundingBoxAction.none,
+      ) as _i19.BoundingBoxAction);
 
   @override
-  set currentAction(_i20.BoundingBoxAction? _currentAction) =>
+  set currentAction(_i19.BoundingBoxAction? _currentAction) =>
       super.noSuchMethod(
         Invocation.setter(
           #currentAction,
@@ -353,15 +340,15 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
       );
 
   @override
-  _i21.BoundingBoxResizeAction get currentBoundingBoxResizeAction =>
+  _i20.BoundingBoxResizeAction get currentBoundingBoxResizeAction =>
       (super.noSuchMethod(
         Invocation.getter(#currentBoundingBoxResizeAction),
-        returnValue: _i21.BoundingBoxResizeAction.none,
-      ) as _i21.BoundingBoxResizeAction);
+        returnValue: _i20.BoundingBoxResizeAction.none,
+      ) as _i20.BoundingBoxResizeAction);
 
   @override
   set currentBoundingBoxResizeAction(
-          _i21.BoundingBoxResizeAction? _currentBoundingBoxResizeAction) =>
+          _i20.BoundingBoxResizeAction? _currentBoundingBoxResizeAction) =>
       super.noSuchMethod(
         Invocation.setter(
           #currentBoundingBoxResizeAction,
@@ -409,7 +396,7 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
   @override
   _i2.Paint get boxPaint => (super.noSuchMethod(
         Invocation.getter(#boxPaint),
-        returnValue: _i22.dummyValue<_i2.Paint>(
+        returnValue: _i21.dummyValue<_i2.Paint>(
           this,
           Invocation.getter(#boxPaint),
         ),
@@ -427,7 +414,7 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
   @override
   _i2.Paint get handlePaint => (super.noSuchMethod(
         Invocation.getter(#handlePaint),
-        returnValue: _i22.dummyValue<_i2.Paint>(
+        returnValue: _i21.dummyValue<_i2.Paint>(
           this,
           Invocation.getter(#handlePaint),
         ),
@@ -445,7 +432,7 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
   @override
   _i2.Paint get rotationHandlePaint => (super.noSuchMethod(
         Invocation.getter(#rotationHandlePaint),
-        returnValue: _i22.dummyValue<_i2.Paint>(
+        returnValue: _i21.dummyValue<_i2.Paint>(
           this,
           Invocation.getter(#rotationHandlePaint),
         ),
@@ -534,7 +521,7 @@ class MockBoundingBox extends _i1.Mock implements _i19.BoundingBox {
 /// A class which mocks [CommandManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
+class MockCommandManager extends _i1.Mock implements _i22.CommandManager {
   MockCommandManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -552,7 +539,7 @@ class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
       ) as List<_i3.Command>);
 
   @override
-  void addGraphicCommand(_i24.GraphicCommand? command) => super.noSuchMethod(
+  void addGraphicCommand(_i23.GraphicCommand? command) => super.noSuchMethod(
         Invocation.method(
           #addGraphicCommand,
           [command],
@@ -628,8 +615,8 @@ class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
   @override
   void drawLineToolGhostPaths(
     _i2.Canvas? canvas,
-    _i7.LineCommand? ingoingGhostPathCommand,
-    _i7.LineCommand? outgoingGhostPathCommand,
+    _i6.LineCommand? ingoingGhostPathCommand,
+    _i6.LineCommand? outgoingGhostPathCommand,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -646,7 +633,7 @@ class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
   @override
   void drawLineToolVertices(
     _i2.Canvas? canvas,
-    _i25.VertexStack? vertexStack,
+    _i24.VertexStack? vertexStack,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -684,7 +671,7 @@ class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
       );
 
   @override
-  _i4.ToolData getNextTool(_i23.ActionType? actionType) => (super.noSuchMethod(
+  _i4.ToolData getNextTool(_i22.ActionType? actionType) => (super.noSuchMethod(
         Invocation.method(
           #getNextTool,
           [actionType],
@@ -699,26 +686,26 @@ class MockCommandManager extends _i1.Mock implements _i23.CommandManager {
       ) as _i4.ToolData);
 
   @override
-  List<_i7.LineCommand> getTopLineCommandSequence() => (super.noSuchMethod(
+  List<_i6.LineCommand> getTopLineCommandSequence() => (super.noSuchMethod(
         Invocation.method(
           #getTopLineCommandSequence,
           [],
         ),
-        returnValue: <_i7.LineCommand>[],
-      ) as List<_i7.LineCommand>);
+        returnValue: <_i6.LineCommand>[],
+      ) as List<_i6.LineCommand>);
 }
 
 /// A class which mocks [CommandFactory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
+class MockCommandFactory extends _i1.Mock implements _i25.CommandFactory {
   MockCommandFactory() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   _i5.PathCommand createPathCommand(
-    _i27.PathWithActionHistory? path,
+    _i26.PathWithActionHistory? path,
     _i2.Paint? paint, {
     bool? isCursor = false,
   }) =>
@@ -745,43 +732,8 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
       ) as _i5.PathCommand);
 
   @override
-  _i6.ClipPathCommand createClipPathCommand(
-    _i27.PathWithActionHistory? path,
-    _i2.Paint? paint, {
-    _i2.Offset? startPoint,
-    _i2.Offset? endPoint,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #createClipPathCommand,
-          [
-            path,
-            paint,
-          ],
-          {
-            #startPoint: startPoint,
-            #endPoint: endPoint,
-          },
-        ),
-        returnValue: _FakeClipPathCommand_5(
-          this,
-          Invocation.method(
-            #createClipPathCommand,
-            [
-              path,
-              paint,
-            ],
-            {
-              #startPoint: startPoint,
-              #endPoint: endPoint,
-            },
-          ),
-        ),
-      ) as _i6.ClipPathCommand);
-
-  @override
-  _i7.LineCommand createLineCommand(
-    _i27.PathWithActionHistory? path,
+  _i6.LineCommand createLineCommand(
+    _i26.PathWithActionHistory? path,
     _i2.Paint? paint,
     _i2.Offset? startPoint,
     _i2.Offset? endPoint,
@@ -796,7 +748,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             endPoint,
           ],
         ),
-        returnValue: _FakeLineCommand_6(
+        returnValue: _FakeLineCommand_5(
           this,
           Invocation.method(
             #createLineCommand,
@@ -808,16 +760,16 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i7.LineCommand);
+      ) as _i6.LineCommand);
 
   @override
-  _i8.SquareShapeCommand createSquareShapeCommand(
+  _i7.SquareShapeCommand createSquareShapeCommand(
     _i2.Paint? paint,
     _i2.Offset? topLeft,
     _i2.Offset? topRight,
     _i2.Offset? bottomLeft,
     _i2.Offset? bottomRight,
-    _i28.ShapeStyle? style,
+    _i27.ShapeStyle? style,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -831,7 +783,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             style,
           ],
         ),
-        returnValue: _FakeSquareShapeCommand_7(
+        returnValue: _FakeSquareShapeCommand_6(
           this,
           Invocation.method(
             #createSquareShapeCommand,
@@ -845,15 +797,15 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i8.SquareShapeCommand);
+      ) as _i7.SquareShapeCommand);
 
   @override
-  _i9.EllipseShapeCommand createEllipseShapeCommand(
+  _i8.EllipseShapeCommand createEllipseShapeCommand(
     _i2.Paint? paint,
     double? radiusX,
     double? radiusY,
     _i2.Offset? center,
-    _i28.ShapeStyle? style,
+    _i27.ShapeStyle? style,
     double? angle,
   ) =>
       (super.noSuchMethod(
@@ -868,7 +820,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             angle,
           ],
         ),
-        returnValue: _FakeEllipseShapeCommand_8(
+        returnValue: _FakeEllipseShapeCommand_7(
           this,
           Invocation.method(
             #createEllipseShapeCommand,
@@ -882,12 +834,12 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i9.EllipseShapeCommand);
+      ) as _i8.EllipseShapeCommand);
 
   @override
-  _i10.ClipboardCommand createClipboardCommand(
+  _i9.ClipboardCommand createClipboardCommand(
     _i2.Paint? paint,
-    _i29.Uint8List? imageData,
+    _i28.Uint8List? imageData,
     _i2.Offset? offset,
     double? scale,
     double? rotation,
@@ -903,7 +855,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             rotation,
           ],
         ),
-        returnValue: _FakeClipboardCommand_9(
+        returnValue: _FakeClipboardCommand_8(
           this,
           Invocation.method(
             #createClipboardCommand,
@@ -916,13 +868,13 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i10.ClipboardCommand);
+      ) as _i9.ClipboardCommand);
 
   @override
-  _i11.TextCommand createTextCommand(
+  _i10.TextCommand createTextCommand(
     _i2.Offset? point,
     String? text,
-    _i30.TextStyle? style,
+    _i29.TextStyle? style,
     double? fontSize,
     _i2.Paint? paint,
     double? rotationAngle, {
@@ -945,7 +897,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             #scaleY: scaleY,
           },
         ),
-        returnValue: _FakeTextCommand_10(
+        returnValue: _FakeTextCommand_9(
           this,
           Invocation.method(
             #createTextCommand,
@@ -963,15 +915,15 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             },
           ),
         ),
-      ) as _i11.TextCommand);
+      ) as _i10.TextCommand);
 
   @override
-  _i12.StarShapeCommand createStarShapeCommand(
+  _i11.StarShapeCommand createStarShapeCommand(
     _i2.Paint? paint,
     int? numPoints,
     double? angle,
     _i2.Offset? center,
-    _i28.ShapeStyle? style,
+    _i27.ShapeStyle? style,
     double? radiusX,
     double? radiusY,
   ) =>
@@ -988,7 +940,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             radiusY,
           ],
         ),
-        returnValue: _FakeStarShapeCommand_11(
+        returnValue: _FakeStarShapeCommand_10(
           this,
           Invocation.method(
             #createStarShapeCommand,
@@ -1003,16 +955,16 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i12.StarShapeCommand);
+      ) as _i11.StarShapeCommand);
 
   @override
-  _i13.HeartShapeCommand createHeartShapeCommand(
+  _i12.HeartShapeCommand createHeartShapeCommand(
     _i2.Paint? paint,
     double? width,
     double? height,
     double? angle,
     _i2.Offset? center,
-    _i28.ShapeStyle? style,
+    _i27.ShapeStyle? style,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1026,7 +978,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             style,
           ],
         ),
-        returnValue: _FakeHeartShapeCommand_12(
+        returnValue: _FakeHeartShapeCommand_11(
           this,
           Invocation.method(
             #createHeartShapeCommand,
@@ -1040,10 +992,10 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i13.HeartShapeCommand);
+      ) as _i12.HeartShapeCommand);
 
   @override
-  _i14.SprayCommand createSprayCommand(
+  _i13.SprayCommand createSprayCommand(
     List<_i2.Offset>? points,
     _i2.Paint? paint,
   ) =>
@@ -1055,7 +1007,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             paint,
           ],
         ),
-        returnValue: _FakeSprayCommand_13(
+        returnValue: _FakeSprayCommand_12(
           this,
           Invocation.method(
             #createSprayCommand,
@@ -1065,27 +1017,27 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i14.SprayCommand);
+      ) as _i13.SprayCommand);
 
   @override
-  _i15.DeleteRegionCommand createDeleteRegionCommand(_i2.Rect? region) =>
+  _i14.DeleteRegionCommand createDeleteRegionCommand(_i2.Rect? region) =>
       (super.noSuchMethod(
         Invocation.method(
           #createDeleteRegionCommand,
           [region],
         ),
-        returnValue: _FakeDeleteRegionCommand_14(
+        returnValue: _FakeDeleteRegionCommand_13(
           this,
           Invocation.method(
             #createDeleteRegionCommand,
             [region],
           ),
         ),
-      ) as _i15.DeleteRegionCommand);
+      ) as _i14.DeleteRegionCommand);
 
   @override
-  _i16.ClipAreaCommand createClipAreaCommand(
-    _i27.PathWithActionHistory? path,
+  _i15.ClipAreaCommand createClipAreaCommand(
+    _i26.PathWithActionHistory? path,
     _i2.Paint? paint,
   ) =>
       (super.noSuchMethod(
@@ -1096,7 +1048,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             paint,
           ],
         ),
-        returnValue: _FakeClipAreaCommand_15(
+        returnValue: _FakeClipAreaCommand_14(
           this,
           Invocation.method(
             #createClipAreaCommand,
@@ -1106,10 +1058,10 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i16.ClipAreaCommand);
+      ) as _i15.ClipAreaCommand);
 
   @override
-  _i17.ColorChangedCommand createColorChangedCommand(
+  _i16.ColorChangedCommand createColorChangedCommand(
     _i2.Color? oldColor,
     _i2.Color? newColor,
     _i2.Paint? paint,
@@ -1123,7 +1075,7 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             paint,
           ],
         ),
-        returnValue: _FakeColorChangedCommand_16(
+        returnValue: _FakeColorChangedCommand_15(
           this,
           Invocation.method(
             #createColorChangedCommand,
@@ -1134,22 +1086,22 @@ class MockCommandFactory extends _i1.Mock implements _i26.CommandFactory {
             ],
           ),
         ),
-      ) as _i17.ColorChangedCommand);
+      ) as _i16.ColorChangedCommand);
 }
 
 /// A class which mocks [ClipboardCommand].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockClipboardCommand extends _i1.Mock implements _i10.ClipboardCommand {
+class MockClipboardCommand extends _i1.Mock implements _i9.ClipboardCommand {
   MockClipboardCommand() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i29.Uint8List get imageData => (super.noSuchMethod(
+  _i28.Uint8List get imageData => (super.noSuchMethod(
         Invocation.getter(#imageData),
-        returnValue: _i29.Uint8List(0),
-      ) as _i29.Uint8List);
+        returnValue: _i28.Uint8List(0),
+      ) as _i28.Uint8List);
 
   @override
   _i2.Offset get offset => (super.noSuchMethod(
@@ -1181,7 +1133,7 @@ class MockClipboardCommand extends _i1.Mock implements _i10.ClipboardCommand {
   @override
   String get type => (super.noSuchMethod(
         Invocation.getter(#type),
-        returnValue: _i22.dummyValue<String>(
+        returnValue: _i21.dummyValue<String>(
           this,
           Invocation.getter(#type),
         ),
@@ -1196,30 +1148,30 @@ class MockClipboardCommand extends _i1.Mock implements _i10.ClipboardCommand {
   @override
   _i2.Paint get paint => (super.noSuchMethod(
         Invocation.getter(#paint),
-        returnValue: _i22.dummyValue<_i2.Paint>(
+        returnValue: _i21.dummyValue<_i2.Paint>(
           this,
           Invocation.getter(#paint),
         ),
       ) as _i2.Paint);
 
   @override
-  _i18.Logger get logger => (super.noSuchMethod(
+  _i17.Logger get logger => (super.noSuchMethod(
         Invocation.getter(#logger),
-        returnValue: _FakeLogger_17(
+        returnValue: _FakeLogger_16(
           this,
           Invocation.getter(#logger),
         ),
-      ) as _i18.Logger);
+      ) as _i17.Logger);
 
   @override
-  _i31.Future<void> prepareForRuntime() => (super.noSuchMethod(
+  _i30.Future<void> prepareForRuntime() => (super.noSuchMethod(
         Invocation.method(
           #prepareForRuntime,
           [],
         ),
-        returnValue: _i31.Future<void>.value(),
-        returnValueForMissingStub: _i31.Future<void>.value(),
-      ) as _i31.Future<void>);
+        returnValue: _i30.Future<void>.value(),
+        returnValueForMissingStub: _i30.Future<void>.value(),
+      ) as _i30.Future<void>);
 
   @override
   void call(_i2.Canvas? canvas) => super.noSuchMethod(
@@ -1282,7 +1234,7 @@ class MockImage extends _i1.Mock implements _i2.Image {
       );
 
   @override
-  _i31.Future<_i29.ByteData?> toByteData(
+  _i30.Future<_i28.ByteData?> toByteData(
           {_i2.ImageByteFormat? format = _i2.ImageByteFormat.rawRgba}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1290,8 +1242,8 @@ class MockImage extends _i1.Mock implements _i2.Image {
           [],
           {#format: format},
         ),
-        returnValue: _i31.Future<_i29.ByteData?>.value(),
-      ) as _i31.Future<_i29.ByteData?>);
+        returnValue: _i30.Future<_i28.ByteData?>.value(),
+      ) as _i30.Future<_i28.ByteData?>);
 
   @override
   _i2.Image clone() => (super.noSuchMethod(
@@ -1299,7 +1251,7 @@ class MockImage extends _i1.Mock implements _i2.Image {
           #clone,
           [],
         ),
-        returnValue: _FakeImage_18(
+        returnValue: _FakeImage_17(
           this,
           Invocation.method(
             #clone,

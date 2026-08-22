@@ -10,6 +10,7 @@ import 'package:paintroid/core/tools/implementation/clipboard_tool.dart';
 import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:paintroid/core/tools/implementation/shapes_tool.dart';
 import 'package:paintroid/core/tools/implementation/text_tool.dart';
+import 'package:paintroid/core/tools/implementation/clipping_tool.dart';
 import 'package:paintroid/core/tools/implementation/brush_tool.dart';
 import 'package:paintroid/core/tools/line_tool/line_tool.dart';
 import 'package:paintroid/core/tools/tool.dart';
@@ -65,8 +66,12 @@ class CommandPainter extends CustomPainter {
         break;
       case ToolType.CLIPBOARD:
         (currentTool as ClipboardTool).paint(canvas, size);
+        break;
       case ToolType.TEXT:
         (currentTool as TextTool).drawGuides(canvas, ref.read(paintProvider));
+        break;
+      case ToolType.CLIPPING:
+        (currentTool as ClippingTool).draw(canvas, ref.read(paintProvider));
         break;
       default:
         if (currentTool is BrushTool) {

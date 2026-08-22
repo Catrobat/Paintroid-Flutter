@@ -6,7 +6,6 @@ import 'package:paintroid/core/commands/command_implementation/graphic/clipboard
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clip_area_command.dart';
-import 'package:paintroid/core/commands/command_implementation/graphic/clip_path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/ellipse_shape_command.dart';
@@ -26,14 +25,6 @@ class CommandFactory {
     Paint paint, {
     bool isCursor = false,
   }) => PathCommand(path, paint, isCursorPath: isCursor);
-
-  ClipPathCommand createClipPathCommand(
-    PathWithActionHistory path,
-    Paint paint, {
-    Offset? startPoint,
-    Offset? endPoint,
-  }) =>
-      ClipPathCommand(path, paint, startPoint: startPoint, endPoint: endPoint);
 
   LineCommand createLineCommand(
     PathWithActionHistory path,
