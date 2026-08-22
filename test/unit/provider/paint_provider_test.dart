@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:paintroid/core/providers/state/advanced_settings_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/utils/color_utils.dart';
 
@@ -52,6 +53,21 @@ void main() {
       final state = container.read(paintProvider);
       expect(state.isAntiAlias, isFalse);
     });
+
+  test('toggling advancedSettingsProvider antialiasing updates paintProvider',
+      () {
+    container.read(paintProvider);
+
+    container
+        .read(advancedSettingsProvider.notifier)
+        .updateAntialiasing(false);
+    expect(container.read(paintProvider).isAntiAlias, isFalse);
+
+    container
+        .read(advancedSettingsProvider.notifier)
+        .updateAntialiasing(true);
+    expect(container.read(paintProvider).isAntiAlias, isTrue);
+  });
 
   test('build sets default values correctly', () {
     Paint paintState = container.read(paintProvider);

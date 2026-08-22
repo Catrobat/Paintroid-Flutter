@@ -13,10 +13,11 @@ class BrushTool extends Tool {
   int _lastEventTimestamp = 0;
   bool isDrawing = false;
   final bool Function() isSmoothingEnabled;
+  final int Function() _now;
 
-  static const double _smoothingSpeedThreshold = 0.0002;
-  static const double _smoothingDistanceFilter = 5.0;
-  static const double _smoothingTensionDivider = 7.0;
+  static const double _smoothingSpeedThreshold = 0.02;
+  static const double _smoothingDistanceFilter = 5;
+  static const double _smoothingTensionDivider = 3;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
@@ -30,7 +31,10 @@ class BrushTool extends Tool {
     this.isCursor = false,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
-  });
+    @visibleForTesting int Function()? now,
+  }) : _now = now ?? _systemNow;
+
+  static int _systemNow() => DateTime.now().millisecondsSinceEpoch;
 
   @override
   void onDown(Offset point, Paint paint) {
@@ -39,8 +43,8 @@ class BrushTool extends Tool {
       ..moveTo(point.dx, point.dy);
     _pointArray.clear();
     _pointArray.add(point);
-    _lastEventTimestamp = DateTime.now().millisecondsSinceEpoch;
-    
+    _lastEventTimestamp = _now();
+
     Paint savedPaint = graphicFactory.copyPaint(paint);
     final command = commandFactory.createPathCommand(
       pathToDraw,
@@ -64,19 +68,26 @@ class BrushTool extends Tool {
 
     _pointArray.add(point);
 
-    int currentTime = DateTime.now().millisecondsSinceEpoch;
+    int currentTime = _now();
     double distance = (point - _pointArray[_pointArray.length - 2]).distance;
     double timeDiff = (currentTime - _lastEventTimestamp).toDouble();
     if (timeDiff == 0) timeDiff = 1.0;
     
     double velocity = distance / timeDiff;
+    _lastEventTimestamp = currentTime;
 
-    if (!isSmoothingEnabled() || velocity < _smoothingSpeedThreshold || _pointArray.length < 3) {
+    if (!isSmoothingEnabled()) {
       pathToDraw.lineTo(point.dx, point.dy);
       return;
     }
 
-    _applySmoothing();
+    final int n = _pointArray.length;
+    if (velocity >= _smoothingSpeedThreshold && n >= 4) {
+      _appendSmoothedSegment();
+    } else {
+      final Offset target = _pointArray[n - 2];
+      pathToDraw.lineTo(target.dx, target.dy);
+    }
   }
 
   @override
@@ -86,45 +97,46 @@ class BrushTool extends Tool {
     if (_pointArray.length < 2 || pathToDraw.path.getBounds().size == Size.zero) {
       pathToDraw.lineTo(point.dx, point.dy);
       pathToDraw.close();
-    }
-    
-    _pointArray.clear(); 
-  }
-
-  void _applySmoothing() {
-    pathToDraw.reset();
-    pathToDraw.moveTo(_pointArray.first.dx, _pointArray.first.dy);
-
-    List<Offset> diffPointArray = List.filled(_pointArray.length, Offset.zero);
-    
-    for (int i = 1; i < _pointArray.length - 1; i++) {
-      diffPointArray[i] = Offset(
-        (_pointArray[i + 1].dx - _pointArray[i - 1].dx) / _smoothingTensionDivider,
-        (_pointArray[i + 1].dy - _pointArray[i - 1].dy) / _smoothingTensionDivider,
-      );
-    }
-    
-    for (int i = 0; i < _pointArray.length - 1; i++) {
-      if (i == 0) {
-        pathToDraw.cubicTo(
-          _pointArray[i].dx,
-          _pointArray[i].dy,
-          _pointArray[i + 1].dx - diffPointArray[i + 1].dx,
-          _pointArray[i + 1].dy - diffPointArray[i + 1].dy,
-          _pointArray[i + 1].dx,
-          _pointArray[i + 1].dy,
-        );
-      } else {
-        pathToDraw.cubicTo(
-          _pointArray[i].dx + diffPointArray[i].dx,
-          _pointArray[i].dy + diffPointArray[i].dy,
-          _pointArray[i + 1].dx - diffPointArray[i + 1].dx,
-          _pointArray[i + 1].dy - diffPointArray[i + 1].dy,
-          _pointArray[i + 1].dx,
-          _pointArray[i + 1].dy,
-        );
+    } else {
+      if (isSmoothingEnabled()) {
+        final Offset pending = _pointArray.last;
+        pathToDraw.lineTo(pending.dx, pending.dy);
+      }
+      if (point != _pointArray.last) {
+        pathToDraw.lineTo(point.dx, point.dy);
       }
     }
+
+    _pointArray.clear();
+  }
+
+  void _appendSmoothedSegment() {
+    final int n = _pointArray.length;
+    final Offset p0 = _pointArray[n - 4];
+    final Offset p1 = _pointArray[n - 3];
+    final Offset p2 = _pointArray[n - 2];
+    final Offset p3 = _pointArray[n - 1];
+
+    final Offset tangent1 = Offset(
+      (p2.dx - p0.dx) / _smoothingTensionDivider,
+      (p2.dy - p0.dy) / _smoothingTensionDivider,
+    );
+    final Offset tangent2 = Offset(
+      (p3.dx - p1.dx) / _smoothingTensionDivider,
+      (p3.dy - p1.dy) / _smoothingTensionDivider,
+    );
+
+    final Offset control1 = p1 + tangent1;
+    final Offset control2 = p2 - tangent2;
+
+    pathToDraw.cubicTo(
+      control1.dx,
+      control1.dy,
+      control2.dx,
+      control2.dy,
+      p2.dx,
+      p2.dy,
+    );
   }
 
   @override

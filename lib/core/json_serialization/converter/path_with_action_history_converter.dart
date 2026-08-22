@@ -19,6 +19,15 @@ class PathWithActionHistoryConverter
         pathWithActionHistory.moveTo(action.x, action.y);
       } else if (action is LineToAction) {
         pathWithActionHistory.lineTo(action.x, action.y);
+      } else if (action is CubicToAction) {
+        pathWithActionHistory.cubicTo(
+          action.x1,
+          action.y1,
+          action.x2,
+          action.y2,
+          action.x3,
+          action.y3,
+        );
       } else if (action is CloseAction) {
         pathWithActionHistory.close();
       }
