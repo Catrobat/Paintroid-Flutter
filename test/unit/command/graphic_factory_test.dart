@@ -25,7 +25,15 @@ void main() {
       const factory = GraphicFactory();
       final basePaint = Paint()..isAntiAlias = false;
       final resultPaint = factory.createWatercolorPaint(basePaint, 5.0);
-      
+
+      expect(resultPaint.isAntiAlias, isFalse);
+    });
+
+    test('copyPaint should inherit isAntiAlias from original', () {
+      const factory = GraphicFactory();
+      final basePaint = Paint()..isAntiAlias = false;
+      final resultPaint = factory.copyPaint(basePaint);
+
       expect(resultPaint.isAntiAlias, isFalse);
     });
   });
