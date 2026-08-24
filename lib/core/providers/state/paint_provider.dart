@@ -17,7 +17,11 @@ class PaintProvider extends _$PaintProvider {
       (_, isAntialiasingEnabled) => updateAntialiasing(isAntialiasingEnabled),
     );
 
-    final strokeWidth = 25.0;
+    return _createDefaultStrokePaint();
+  }
+
+  Paint _createDefaultStrokePaint() {
+    const double strokeWidth = 25.0;
     return ref.watch(graphicFactoryProvider).createPaint()
       ..style = PaintingStyle.stroke
       ..strokeJoin = StrokeJoin.round

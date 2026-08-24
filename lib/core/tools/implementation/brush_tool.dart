@@ -17,7 +17,7 @@ class BrushTool extends Tool {
 
   static const double _smoothingSpeedThreshold = 0.02;
   static const double _smoothingDistanceFilter = 5;
-  static const double _smoothingTensionDivider = 3;
+  static const double _smoothingTensionDivider = 7;
 
   @visibleForTesting
   late PathWithActionHistory pathToDraw;
@@ -56,58 +56,83 @@ class BrushTool extends Tool {
 
   @override
   void onDrag(Offset point, Paint paint) {
-    if (_pointArray.isNotEmpty) {
-      double distFromLast = (point - _pointArray.last).distance;
-      if (distFromLast < _smoothingDistanceFilter) {
-        if (isCursor) {
-          pathToDraw.lineTo(point.dx, point.dy);
-        }
-        return; 
+    if (_isWithinDistanceFilter(point)) {
+      if (isCursor) {
+        pathToDraw.lineTo(point.dx, point.dy);
       }
+      return;
     }
 
-    _pointArray.add(point);
-
-    int currentTime = _now();
-    double distance = (point - _pointArray[_pointArray.length - 2]).distance;
-    double timeDiff = (currentTime - _lastEventTimestamp).toDouble();
-    if (timeDiff == 0) timeDiff = 1.0;
-    
-    double velocity = distance / timeDiff;
-    _lastEventTimestamp = currentTime;
+    final double velocity = _recordPointAndMeasureVelocity(point);
 
     if (!isSmoothingEnabled()) {
       pathToDraw.lineTo(point.dx, point.dy);
       return;
     }
 
-    final int n = _pointArray.length;
-    if (velocity >= _smoothingSpeedThreshold && n >= 4) {
+    if (_canSmoothWithCurrentWindow(velocity)) {
       _appendSmoothedSegment();
     } else {
-      final Offset target = _pointArray[n - 2];
-      pathToDraw.lineTo(target.dx, target.dy);
+      _drawDelayedLineSegment();
     }
+  }
+
+  bool _isWithinDistanceFilter(Offset point) {
+    if (_pointArray.isEmpty) return false;
+    return (point - _pointArray.last).distance < _smoothingDistanceFilter;
+  }
+
+  double _recordPointAndMeasureVelocity(Offset point) {
+    _pointArray.add(point);
+
+    final int currentTime = _now();
+    final double distance =
+        (point - _pointArray[_pointArray.length - 2]).distance;
+    double timeDiff = (currentTime - _lastEventTimestamp).toDouble();
+    if (timeDiff == 0) timeDiff = 1.0;
+
+    _lastEventTimestamp = currentTime;
+    return distance / timeDiff;
+  }
+
+  bool _canSmoothWithCurrentWindow(double velocity) {
+    return velocity >= _smoothingSpeedThreshold && _pointArray.length >= 4;
+  }
+
+  void _drawDelayedLineSegment() {
+    final Offset target = _pointArray[_pointArray.length - 2];
+    pathToDraw.lineTo(target.dx, target.dy);
   }
 
   @override
   void onUp(Offset point, Paint paint) {
     isDrawing = false;
 
-    if (_pointArray.length < 2 || pathToDraw.path.getBounds().size == Size.zero) {
+    if (_isDegenerateStroke()) {
       pathToDraw.lineTo(point.dx, point.dy);
       pathToDraw.close();
     } else {
-      if (isSmoothingEnabled()) {
-        final Offset pending = _pointArray.last;
-        pathToDraw.lineTo(pending.dx, pending.dy);
-      }
-      if (point != _pointArray.last) {
-        pathToDraw.lineTo(point.dx, point.dy);
-      }
+      _flushPendingSmoothedPoint();
+      _drawFinalLiftOffPoint(point);
     }
 
     _pointArray.clear();
+  }
+
+  bool _isDegenerateStroke() {
+    return _pointArray.length < 2 ||
+        pathToDraw.path.getBounds().size == Size.zero;
+  }
+
+  void _flushPendingSmoothedPoint() {
+    if (!isSmoothingEnabled()) return;
+    final Offset pending = _pointArray.last;
+    pathToDraw.lineTo(pending.dx, pending.dy);
+  }
+
+  void _drawFinalLiftOffPoint(Offset point) {
+    if (point == _pointArray.last) return;
+    pathToDraw.lineTo(point.dx, point.dy);
   }
 
   void _appendSmoothedSegment() {
@@ -117,17 +142,11 @@ class BrushTool extends Tool {
     final Offset p2 = _pointArray[n - 2];
     final Offset p3 = _pointArray[n - 1];
 
-    final Offset tangent1 = Offset(
-      (p2.dx - p0.dx) / _smoothingTensionDivider,
-      (p2.dy - p0.dy) / _smoothingTensionDivider,
-    );
-    final Offset tangent2 = Offset(
-      (p3.dx - p1.dx) / _smoothingTensionDivider,
-      (p3.dy - p1.dy) / _smoothingTensionDivider,
-    );
+    final Offset tangentAtP1 = _estimateTangent(p0, p2);
+    final Offset tangentAtP2 = _estimateTangent(p1, p3);
 
-    final Offset control1 = p1 + tangent1;
-    final Offset control2 = p2 - tangent2;
+    final Offset control1 = p1 + tangentAtP1;
+    final Offset control2 = p2 - tangentAtP2;
 
     pathToDraw.cubicTo(
       control1.dx,
@@ -136,6 +155,13 @@ class BrushTool extends Tool {
       control2.dy,
       p2.dx,
       p2.dy,
+    );
+  }
+
+  Offset _estimateTangent(Offset before, Offset after) {
+    return Offset(
+      (after.dx - before.dx) / _smoothingTensionDivider,
+      (after.dy - before.dy) / _smoothingTensionDivider,
     );
   }
 
