@@ -10,6 +10,7 @@ import 'package:paintroid/core/models/database/project.dart';
 import 'package:paintroid/core/models/image_meta_data.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/io_handler.dart';
+import 'package:paintroid/core/providers/state/advanced_settings_panel_visibility_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/shared/dialogs/overwrite_dialog.dart';
 import 'package:paintroid/ui/shared/dialogs/save_image_dialog.dart';
@@ -21,7 +22,8 @@ enum OverflowMenuOption {
   saveImage,
   saveProject,
   loadImage,
-  newImage;
+  newImage,
+  advancedSettings;
 
   String localizedLabel(AppLocalizations localizations) {
     switch (this) {
@@ -35,6 +37,8 @@ enum OverflowMenuOption {
         return localizations.menuNewImage;
       case OverflowMenuOption.saveProject:
         return localizations.menuSaveProject;
+      case OverflowMenuOption.advancedSettings:
+        return localizations.menuAdvanced;
     }
   }
 }
@@ -82,6 +86,9 @@ class _OverflowMenuState extends ConsumerState<OverflowMenu> {
         break;
       case OverflowMenuOption.newImage:
         ioHandler.newImage(context, this);
+        break;
+      case OverflowMenuOption.advancedSettings:
+        ref.read(advancedSettingsPanelVisibilityProvider.notifier).show();
         break;
     }
   }

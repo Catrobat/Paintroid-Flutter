@@ -65,4 +65,22 @@ void main() {
     sut.onCheckmark(paint);
     expect(sut.commandManager.undoStack.length, 1);
   });
+
+  group('Antialiasing consumption', () {
+    test('ShapeCommand inherits isAntiAlias=true from the shared paint', () {
+      final aaPaint = Paint()..isAntiAlias = true;
+      sut.shapeType = ShapeType.square;
+      sut.onCheckmark(aaPaint);
+      final command = sut.commandManager.undoStack.last as SquareShapeCommand;
+      expect(command.paint.isAntiAlias, isTrue);
+    });
+
+    test('ShapeCommand inherits isAntiAlias=false from the shared paint', () {
+      final noAaPaint = Paint()..isAntiAlias = false;
+      sut.shapeType = ShapeType.square;
+      sut.onCheckmark(noAaPaint);
+      final command = sut.commandManager.undoStack.last as SquareShapeCommand;
+      expect(command.paint.isAntiAlias, isFalse);
+    });
+  });
 }

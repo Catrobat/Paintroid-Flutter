@@ -894,6 +894,15 @@ class MockPaintProvider extends _i1.Mock implements _i27.PaintProvider {
       );
 
   @override
+  void updateAntialiasing(bool? isAntialiasingEnabled) => super.noSuchMethod(
+        Invocation.method(
+          #updateAntialiasing,
+          [isAntialiasingEnabled],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void updateStrokeCap(_i16.StrokeCap? newStrokeCap) => super.noSuchMethod(
         Invocation.method(
           #updateStrokeCap,

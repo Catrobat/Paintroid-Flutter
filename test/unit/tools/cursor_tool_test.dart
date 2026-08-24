@@ -25,6 +25,7 @@ void main() {
       commandFactory: const CommandFactory(),
       commandManager: CommandManager(),
       graphicFactory: const GraphicFactory(),
+      isSmoothingEnabled: () => false,
       canvasCenter: canvasCenter,
       type: ToolType.CURSOR,
     );

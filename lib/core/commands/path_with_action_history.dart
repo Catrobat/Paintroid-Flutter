@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:paintroid/core/json_serialization/converter/path_action_converter.dart';
 import 'package:paintroid/core/json_serialization/converter/path_with_action_history_converter.dart';
 
-class PathWithActionHistory  {
+class PathWithActionHistory {
   PathWithActionHistory();
 
   final path = Path();
@@ -21,6 +21,22 @@ class PathWithActionHistory  {
   void lineTo(double x, double y) {
     actions.add(LineToAction(x, y));
     path.lineTo(x, y);
+  }
+
+  void cubicTo(
+    double x1,
+    double y1,
+    double x2,
+    double y2,
+    double x3,
+    double y3,
+  ) {
+    actions.add(CubicToAction(x1, y1, x2, y2, x3, y3));
+    path.cubicTo(x1, y1, x2, y2, x3, y3);
+  }
+  void reset() {
+    path.reset(); 
+    actions.clear();
   }
 
   void close() {
@@ -86,6 +102,28 @@ class LineToAction extends PathAction {
 
   @override
   int get hashCode => Object.hash(x, y);
+}
+
+class CubicToAction extends PathAction {
+  final double x1, y1, x2, y2, x3, y3;
+
+  const CubicToAction(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is CubicToAction) {
+      return x1 == other.x1 &&
+          y1 == other.y1 &&
+          x2 == other.x2 &&
+          y2 == other.y2 &&
+          x3 == other.x3 &&
+          y3 == other.y3;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => Object.hash(x1, y1, x2, y2, x3, y3);
 }
 
 class CloseAction extends PathAction {

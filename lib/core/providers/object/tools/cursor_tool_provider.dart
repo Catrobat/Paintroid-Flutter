@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:paintroid/core/providers/state/advanced_settings_provider.dart';
 import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
 import 'package:paintroid/core/tools/implementation/cursor_tool.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,6 +21,7 @@ class CursorToolProvider extends _$CursorToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
+      isSmoothingEnabled: () => ref.read(advancedSettingsProvider).isSmoothingEnabled,
       canvasCenter: canvasCenter,
       type: ToolType.CURSOR,
     );
