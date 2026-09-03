@@ -62,6 +62,7 @@ dev_dependencies:
 
 
 flutter:
+  generate: true
   uses-material-design: true
   fonts:
     - family: Inter

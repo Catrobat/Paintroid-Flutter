@@ -7,12 +7,14 @@ import 'package:paintroid/core/providers/state/toolbox_state_provider.dart';
 import 'package:paintroid/core/utils/widget_identifier.dart';
 import 'package:paintroid/ui/shared/custom_action_chip.dart';
 import 'package:paintroid/ui/theme/data/paintroid_theme.dart';
+import 'package:paintroid/core/localization/app_localizations.dart';
 
 class ShapesToolShapeTypeOptions extends ConsumerWidget {
   const ShapesToolShapeTypeOptions({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context);
     final currentTool = ref.read(toolBoxStateProvider).currentTool;
     final shapeToolSelected = currentTool.type == ToolType.SHAPES;
     final shapesToolOptionsState = ref.watch(shapesToolOptionsStateProvider);
@@ -23,7 +25,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
           key: const ValueKey(
             WidgetIdentifier.squareShapeTypeChip,
           ),
-          hint: 'Square',
+          hint: localizations.shapeToolDialogRectTitle,
           chipBackgroundColor:
               shapesToolOptionsState.shapeType == ShapeType.square
                   ? PaintroidTheme.of(context).primaryColor
@@ -41,7 +43,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.ellipseShapeTypeChip,
         ),
-        hint: 'Ellipse',
+        hint: localizations.shapeToolDialogEllipseTitle,
         chipBackgroundColor:
             shapesToolOptionsState.shapeType == ShapeType.ellipse
                 ? PaintroidTheme.of(context).primaryColor
@@ -58,7 +60,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.starShapeTypeChip,
         ),
-        hint: 'Star',
+        hint: localizations.shapeToolDialogStarTitle,
         chipBackgroundColor: shapesToolOptionsState.shapeType == ShapeType.star
             ? PaintroidTheme.of(context).primaryColor
             : Colors.white,
@@ -74,7 +76,7 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
         key: const ValueKey(
           WidgetIdentifier.heartShapeTypeChip,
         ),
-        hint: 'Heart',
+        hint: localizations.shapeToolDialogHeartTitle,
         chipBackgroundColor: shapesToolOptionsState.shapeType == ShapeType.heart
             ? PaintroidTheme.of(context).primaryColor
             : Colors.white,
