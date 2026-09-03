@@ -19,6 +19,8 @@ abstract class IVersionStrategy {
 
   int getSprayCommandVersion();
 
+  int getFillCommandVersion();
+
   int getClipboardCommandVersion();
 
   int getDeleteRegionCommandVersion();
@@ -57,6 +59,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
 
   @override
   int getSprayCommandVersion() => SerializerVersion.SPRAY_COMMAND_VERSION;
+
+  @override
+  int getFillCommandVersion() => SerializerVersion.FILL_COMMAND_VERSION;
 
   @override
   int getClipboardCommandVersion() =>

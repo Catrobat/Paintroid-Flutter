@@ -7,6 +7,7 @@ import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/clipboard_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/cursor_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
+import 'package:paintroid/core/providers/object/tools/fill_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/line_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/pipette_tool_provider.dart';
@@ -16,6 +17,7 @@ import 'package:paintroid/core/providers/object/tools/watercolor_tool_provider.d
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/providers/state/spray_tool_provider.dart';
 import 'package:paintroid/core/providers/state/toolbox_state_data.dart';
+import 'package:paintroid/core/tools/implementation/fill_tool.dart';
 import 'package:paintroid/core/tools/implementation/spray_tool.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 import 'package:paintroid/ui/utils/toast_utils.dart';
@@ -59,6 +61,10 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
       final currentRadius = (state.currentTool as SprayTool).sprayRadius;
       ref.read(paintProvider.notifier).updateStrokeWidth(currentRadius);
     }
+    if (state.currentTool is FillTool) {
+      final prevStrokeSize = (state.currentTool as FillTool).prevStrokeSize;
+      ref.read(paintProvider.notifier).updateStrokeWidth(prevStrokeSize);
+    }
     switch (data.type) {
       case ToolType.BRUSH:
         state = state.copyWith(currentTool: ref.read(brushToolProvider));
@@ -74,6 +80,12 @@ class ToolBoxStateProvider extends _$ToolBoxStateProvider {
         break;
       case ToolType.LINE:
         state = state.copyWith(currentTool: ref.read(lineToolProvider));
+        break;
+      case ToolType.FILL:
+        state = state.copyWith(currentTool: ref.read(fillToolProvider));
+        final currentStrokeWidth = ref.read(paintProvider).strokeWidth;
+        (state.currentTool as FillTool).savePrevStrokeSize(currentStrokeWidth);
+        ref.read(paintProvider.notifier).updateStrokeWidth(1);
         break;
       case ToolType.SHAPES:
         state = state.copyWith(currentTool: ref.read(shapesToolProvider));

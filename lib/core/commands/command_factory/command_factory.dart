@@ -12,6 +12,7 @@ import 'package:paintroid/core/commands/command_implementation/graphic/shape/hea
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/spray_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/fill_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/color_changed_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/enums/shape_style.dart';
@@ -129,6 +130,10 @@ class CommandFactory {
 
   SprayCommand createSprayCommand(List<Offset> points, Paint paint) {
     return SprayCommand(points, paint);
+  }
+
+  FillCommand createFillCommand(List<Offset> points, Paint paint) {
+    return FillCommand(points, paint);
   }
 
   DeleteRegionCommand createDeleteRegionCommand(
