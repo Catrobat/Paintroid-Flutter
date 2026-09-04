@@ -54,8 +54,6 @@ class KryoClassRegistry {
     55: 'LayerOpacityCommand',
   };
 
-  /// Decodes a class registration ID from the stream and resolves its class name.
-  /// Kryo writes class references as: registrationID + 2 (0 represents null).
   static String? readClassName(KryoReader reader) {
     final int encodedId = reader.readVarInt(true);
     if (encodedId == 0) {
@@ -71,7 +69,6 @@ class KryoClassRegistry {
     return className;
   }
 
-  /// Deserializes registered objects from the Kryo binary stream.
   static dynamic readClassAndObject(KryoReader reader) {
     final String? className = readClassName(reader);
     if (className == null) {
@@ -106,7 +103,6 @@ class KryoClassRegistry {
       case 'SerializablePathCube':
         return LegacySerializablePathCube.deserialize(reader);
       default:
-        // Returns the class name to be handled dynamically by specific command parsers
         return className;
     }
   }

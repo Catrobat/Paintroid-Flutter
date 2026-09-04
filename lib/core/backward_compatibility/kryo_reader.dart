@@ -103,7 +103,6 @@ class KryoReader {
     if (optimizePositive) {
       return result;
     } else {
-      // Decode ZigZag encoding for signed integers
       return (result >> 1) ^ -(result & 1);
     }
   }
@@ -151,7 +150,6 @@ class KryoReader {
     if (optimizePositive) {
       return result;
     } else {
-      // Decode ZigZag encoding
       return (result >> 1) ^ -(result & 1);
     }
   }
@@ -168,7 +166,6 @@ class KryoReader {
     final int charCount = length - 1;
     final bytes = readBytes(charCount);
 
-    // Handle Kryo ASCII optimization (MSB flag on the last byte)
     if (bytes.isNotEmpty && (bytes.last & 0x80) != 0) {
       final List<int> decodedBytes = List<int>.from(bytes);
       decodedBytes[decodedBytes.length - 1] &= 0x7F;

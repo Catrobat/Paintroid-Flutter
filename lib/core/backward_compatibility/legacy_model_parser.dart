@@ -10,7 +10,6 @@ class LegacyCommandManagerModel {
     required this.commands,
   });
 
-  /// Deserializes the CommandManagerModel structure from the Kryo binary reader.
   factory LegacyCommandManagerModel.deserialize(KryoReader reader) {
     final String? initClassName = KryoClassRegistry.readClassName(reader);
     if (initClassName == null) {
