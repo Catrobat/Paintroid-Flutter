@@ -18,6 +18,13 @@ class _Screen2State extends State<Screen2> {
   List<String> titles = [];
   List<String> descriptions = [];
 
+  List<String> icons = [
+    'assets/svg/ic_tools.svg',
+    'assets/svg/ic_hand.svg',
+    '',
+    'assets/svg/ic_layers.svg'
+  ];
+
   String titleText = '';
   String descText = '';
 
@@ -28,17 +35,24 @@ class _Screen2State extends State<Screen2> {
     });
   }
 
-  void tools() => onPressed(0);
-
-  void current() => onPressed(1);
-
-  void color() => onPressed(2);
-
-  void layers() => onPressed(3);
-
   void undo() => onPressed(4);
 
   void redo() => onPressed(5);
+
+  List<BottomNavItemData> _getBottomNavItems(int l, int r) {
+  return List.generate(
+    r - l + 1,
+    (i) {
+      final index = l + i;
+
+      return BottomNavItemData(
+        label: titles[index],
+        icon: index != 2 ? BottomBarIcon(asset: icons[index]) : Icon(Icons.check_box_outline_blank, size: 24, color: PaintroidTheme.of(context).onSurfaceColor),
+        onPressed: () => onPressed(index),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -115,29 +129,8 @@ class _Screen2State extends State<Screen2> {
         ),
       ),
       bottomNavigationBar: OnboardingPageBottomNavigationBar(
-        onPressedFunctions: [tools, current, color, layers],
-        barItems: [
-          BottomNavigationBarItem(
-            label: localizations.bottomNavigationTools,
-            icon: BottomBarIcon(asset: 'assets/svg/ic_tools.svg'),
-          ),
-          BottomNavigationBarItem(
-            label: localizations.bottomNavigationCurrent,
-            icon: BottomBarIcon(asset: 'assets/svg/ic_hand.svg'),
-          ),
-          BottomNavigationBarItem(
-            label: localizations.bottomNavigationColor,
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              size: 24,
-              color: PaintroidTheme.of(context).onSurfaceColor,
-            ),
-          ),
-          BottomNavigationBarItem(
-              label: localizations.bottomNavigationLayers,
-              icon: BottomBarIcon(asset: 'assets/svg/ic_layers.svg')),
-        ],
-      ),
+        items: _getBottomNavItems(0, 3),
+      )
     );
   }
 }
