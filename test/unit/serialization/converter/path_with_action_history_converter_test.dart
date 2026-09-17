@@ -40,4 +40,19 @@ void main() {
 
     expect(path, equals(deserializedPath));
   });
+
+  test('Test converter for PathWithActionHistory with a CubicToAction', () {
+    PathWithActionHistory path = PathWithActionHistory()
+      ..moveTo(0, 0)
+      ..cubicTo(1, 2, 3, 4, 5, 6)
+      ..close();
+
+    var json = converter.toJson(path);
+
+    PathWithActionHistory deserializedPath = converter.fromJson(json);
+
+    expect(path, equals(deserializedPath));
+    expect(deserializedPath.actions[1], isA<CubicToAction>());
+    expect(deserializedPath.path.getBounds(), equals(path.path.getBounds()));
+  });
 }

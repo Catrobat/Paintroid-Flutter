@@ -5,6 +5,7 @@ class EraserTool extends BrushTool {
   EraserTool({
     required super.commandFactory,
     required super.commandManager,
+    required super.isSmoothingEnabled,
     required super.graphicFactory,
     required super.type,
   });

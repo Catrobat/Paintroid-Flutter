@@ -40,7 +40,8 @@ class GraphicFactory {
     return Paint()
       ..color = basePaint.color.withAlpha(255)
       ..style = PaintingStyle.fill
-      ..strokeWidth = basePaint.strokeWidth;
+      ..strokeWidth = basePaint.strokeWidth
+      ..isAntiAlias = basePaint.isAntiAlias;
   }
 
   static Paint createStrokePaint(Paint basePaint) {
@@ -49,7 +50,8 @@ class GraphicFactory {
       ..style = PaintingStyle.stroke
       ..strokeWidth = basePaint.strokeWidth
       ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.round;
+      ..strokeJoin = StrokeJoin.round
+      ..isAntiAlias = basePaint.isAntiAlias;
   }
 
   PathWithActionHistory createPathWithActionHistory() =>
@@ -66,7 +68,7 @@ class GraphicFactory {
       ..strokeWidth = originalPaint.strokeWidth
       ..style = originalPaint.style
       ..blendMode = originalPaint.blendMode
-      ..isAntiAlias = true
+      ..isAntiAlias = originalPaint.isAntiAlias
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, blurSigma);
   }
 

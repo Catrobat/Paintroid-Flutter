@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paintroid/core/commands/command_factory/command_factory.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
@@ -135,5 +136,21 @@ void main() {
     sut.onDown(pointD, paint);
     sut.onUp(pointD, paint);
     expect(sut.vertexStack.last.vertexCenter, pointD);
+  });
+
+  group('Antialiasing consumption', () {
+    test('LineCommand inherits isAntiAlias=true from the shared paint', () {
+      final aaPaint = Paint()..isAntiAlias = true;
+      sut.onDown(pointA, aaPaint);
+      final command = sut.commandManager.undoStack.first as LineCommand;
+      expect(command.paint.isAntiAlias, isTrue);
+    });
+
+    test('LineCommand inherits isAntiAlias=false from the shared paint', () {
+      final noAaPaint = Paint()..isAntiAlias = false;
+      sut.onDown(pointA, noAaPaint);
+      final command = sut.commandManager.undoStack.first as LineCommand;
+      expect(command.paint.isAntiAlias, isFalse);
+    });
   });
 }

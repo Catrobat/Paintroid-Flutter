@@ -102,4 +102,20 @@ void main() {
       expect(sut.commandManager.undoStack.length, 0);
     });
   });
+
+  group('Antialiasing consumption', () {
+    test('SprayCommand inherits isAntiAlias=true from the shared paint', () {
+      final aaPaint = Paint()..isAntiAlias = true;
+      sut.onDown(pointA, aaPaint);
+      final sprayCommand = sut.commandManager.undoStack.first as SprayCommand;
+      expect(sprayCommand.paint.isAntiAlias, isTrue);
+    });
+
+    test('SprayCommand inherits isAntiAlias=false from the shared paint', () {
+      final noAaPaint = Paint()..isAntiAlias = false;
+      sut.onDown(pointA, noAaPaint);
+      final sprayCommand = sut.commandManager.undoStack.first as SprayCommand;
+      expect(sprayCommand.paint.isAntiAlias, isFalse);
+    });
+  });
 }

@@ -36,6 +36,19 @@ void main() {
     expect(lineToAction, equals(deserializedLineToAction));
   });
 
+  test('Test converter for CubicToAction', () {
+    CubicToAction cubicToAction =
+        const CubicToAction(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+
+    var json = converter.toJson(cubicToAction);
+
+    PathAction deserializedCubicToAction = converter.fromJson(json);
+
+    expect(deserializedCubicToAction, isA<CubicToAction>());
+    deserializedCubicToAction as CubicToAction;
+    expect(cubicToAction, equals(deserializedCubicToAction));
+  });
+
   test('Test converter for CloseAction', () {
     CloseAction closeAction = const CloseAction();
 

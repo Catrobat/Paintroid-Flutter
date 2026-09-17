@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:paintroid/core/providers/state/advanced_settings_provider.dart';
 import 'package:paintroid/core/providers/state/paint_provider.dart';
 import 'package:paintroid/core/utils/color_utils.dart';
 
@@ -37,6 +38,35 @@ void main() {
     BlendMode newMode = BlendMode.clear;
     container.read(paintProvider.notifier).updateBlendMode(newMode);
     expect(container.read(paintProvider).blendMode, newMode);
+  });
+  test('updateAntialiasing should update the active paint', () {
+    final notifier = container.read(paintProvider.notifier);
+    notifier.updateAntialiasing(false);
+    final state = container.read(paintProvider);
+    expect(state.isAntiAlias, isFalse);
+  });
+
+  test('strokeWidth <= 1 should force antialiasing off', () {
+      final notifier = container.read(paintProvider.notifier);
+      notifier.updateAntialiasing(true);
+      notifier.updateStrokeWidth(1.0);
+      final state = container.read(paintProvider);
+      expect(state.isAntiAlias, isFalse);
+    });
+
+  test('toggling advancedSettingsProvider antialiasing updates paintProvider',
+      () {
+    container.read(paintProvider);
+
+    container
+        .read(advancedSettingsProvider.notifier)
+        .updateAntialiasing(false);
+    expect(container.read(paintProvider).isAntiAlias, isFalse);
+
+    container
+        .read(advancedSettingsProvider.notifier)
+        .updateAntialiasing(true);
+    expect(container.read(paintProvider).isAntiAlias, isTrue);
   });
 
   test('build sets default values correctly', () {

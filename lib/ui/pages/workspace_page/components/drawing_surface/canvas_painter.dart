@@ -80,8 +80,11 @@ class PaintingLayer extends ConsumerWidget {
       child: CustomPaint(
         foregroundPainter: CommandPainter(ref, cachedImage: cachedImage),
         child: cachedImage != null && !isEraserDrawing
-            ? Opacity(
-          opacity: 0.99,
+            ? ColorFiltered(
+          colorFilter: const ColorFilter.mode(
+            Colors.transparent,
+            BlendMode.dst,
+          ),
           child: RawImage(
             image: cachedImage,
             filterQuality: FilterQuality.none,

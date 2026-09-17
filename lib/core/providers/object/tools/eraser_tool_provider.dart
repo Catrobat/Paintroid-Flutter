@@ -1,4 +1,5 @@
 
+import 'package:paintroid/core/providers/state/advanced_settings_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:paintroid/core/commands/command_factory/command_factory_provider.dart';
@@ -17,6 +18,7 @@ class EraserToolProvider extends _$EraserToolProvider {
       commandManager: ref.watch(commandManagerProvider),
       commandFactory: ref.watch(commandFactoryProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
+      isSmoothingEnabled: () => ref.read(advancedSettingsProvider).isSmoothingEnabled,
       type: ToolType.ERASER,
     );
   }

@@ -8,6 +8,7 @@ class WatercolorTool extends BrushTool {
     required super.commandFactory,
     required super.commandManager,
     required super.graphicFactory,
+    required super.isSmoothingEnabled,
     required super.type,
     super.hasAddFunctionality = false,
     super.hasFinalizeFunctionality = false,
