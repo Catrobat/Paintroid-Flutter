@@ -21,6 +21,8 @@ abstract class IVersionStrategy {
 
   int getClipboardCommandVersion();
 
+  int getImportCommandVersion();
+
   int getDeleteRegionCommandVersion();
 
   int getColorChangedCommandVersion();
@@ -61,6 +63,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getClipboardCommandVersion() =>
       SerializerVersion.CLIPBOARD_COMMAND_VERSION;
+
+  @override
+  int getImportCommandVersion() => SerializerVersion.IMPORT_COMMAND_VERSION;
 
   @override
   int getDeleteRegionCommandVersion() =>

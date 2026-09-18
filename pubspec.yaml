@@ -42,6 +42,8 @@ dependencies:
   path_drawing: ^1.0.1
   colorpicker:
     path: packages/colorpicker
+  webview_flutter: ^4.14.1
+  webview_flutter_android: ^4.12.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/import_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
@@ -31,6 +32,8 @@ abstract class Command with EquatableMixin {
         return EllipseShapeCommand.fromJson(json);
       case SerializerType.CLIPBOARD_COMMAND:
         return ClipboardCommand.fromJson(json);
+      case SerializerType.IMPORT_COMMAND:
+        return ImportCommand.fromJson(json);
       case SerializerType.DELETE_REGION_COMMAND:
         return DeleteRegionCommand.fromJson(json);
       case SerializerType.TEXT_COMMAND:

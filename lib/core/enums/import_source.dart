@@ -1,0 +1,1 @@
+enum ImportSource { gallery, stickers }
