@@ -10,6 +10,7 @@ import 'package:paintroid/ui/theme/theme.dart';
 
 import 'package:paintroid/core/localization/app_localizations.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
+import 'package:paintroid/core/enums/import_source.dart';
 import 'package:paintroid/ui/shared/dialogs/import_image_dialog.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/import_tool/stickers_gallery_page.dart';
 import 'package:paintroid/core/providers/object/tools/import_tool_provider.dart';
@@ -21,10 +22,7 @@ import 'dart:ui' as ui;
 class ToolButton extends StatelessWidget {
   final ToolData toolData;
 
-  const ToolButton({
-    super.key,
-    required this.toolData,
-  });
+  const ToolButton({super.key, required this.toolData});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +32,7 @@ class ToolButton extends StatelessWidget {
         return SizedBox(
           width: 50.0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 8.0,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             child: IconButtonWithLabel(
               icon: IconSvg(
                 path: toolData.svgAssetPath,
@@ -51,7 +46,9 @@ class ToolButton extends StatelessWidget {
                 final toolboxNotifier = ref.read(toolBoxStateProvider.notifier);
                 final importTool = ref.read(importToolProvider);
                 final canvasNotifier = ref.read(canvasPainterProvider.notifier);
-                final photoLibrary = ref.read(LoadImageFromPhotoLibrary.provider);
+                final photoLibrary = ref.read(
+                  LoadImageFromPhotoLibrary.provider,
+                );
                 final canvasSize = ref.read(canvasStateProvider).size;
                 final navigator = Navigator.of(context);
 
