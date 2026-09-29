@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/clipboard_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/import_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/delete_region_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/text_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
@@ -70,6 +71,21 @@ class CommandFactory {
     double rotation,
   ) =>
       ClipboardCommand(
+        paint,
+        imageData,
+        offset,
+        scale,
+        rotation,
+      );
+
+  ImportCommand createImportCommand(
+    Paint paint,
+    Uint8List imageData,
+    ui.Offset offset,
+    double scale,
+    double rotation,
+  ) =>
+      ImportCommand(
         paint,
         imageData,
         offset,
