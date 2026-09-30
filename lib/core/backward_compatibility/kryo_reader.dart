@@ -4,6 +4,8 @@ import 'dart:typed_data';
 class KryoReader {
   final Uint8List _bytes;
   int _position = 0;
+  final Map<int, String> dynamicClassMap = {};
+  int nextDynamicClassId = 56;
 
   KryoReader(this._bytes);
 
@@ -157,25 +159,50 @@ class KryoReader {
   }
 
   String? readString() {
-    final int length = readVarInt(true);
-    if (length == 0) {
-      return null;
-    }
-    if (length == 1) {
-      return '';
-    }
+    if (!hasRemaining) return null;
+    final int firstByte = _bytes[_position];
+    final bool isUtf8OrSpecial = (firstByte & 0x80) != 0;
 
-    final int charCount = length - 1;
-    final bytes = readBytes(charCount);
+    if (!isUtf8OrSpecial) {
+      // ASCII Optimized string (no length byte, ends with MSB-set character)
+      final List<int> asciiBytes = [];
+      while (hasRemaining) {
+        final int b = readByte();
+        if ((b & 0x80) == 0) {
+          asciiBytes.add(b);
+        } else {
+          asciiBytes.add(b & 0x7F);
+          break;
+        }
+      }
+      return ascii.decode(asciiBytes);
+    } else {
+      // Null, empty, or UTF-8 string
+      final int first = readByte();
+      int result = first & 0x3F;
+      if ((first & 0x40) != 0) {
+        int shift = 6;
+        while (hasRemaining) {
+          final int b = readByte();
+          result |= (b & 0x7F) << shift;
+          if ((b & 0x80) == 0) {
+            break;
+          }
+          shift += 7;
+        }
+      }
 
-    // Handle Kryo ASCII optimization (MSB flag on the last byte)
-    if (bytes.isNotEmpty && (bytes.last & 0x80) != 0) {
-      final List<int> decodedBytes = List<int>.from(bytes);
-      decodedBytes[decodedBytes.length - 1] &= 0x7F;
-      return ascii.decode(decodedBytes);
+      final int charCount = result;
+      if (charCount == 0) {
+        return null;
+      }
+      if (charCount == 1) {
+        return '';
+      }
+
+      final int byteCount = charCount - 1;
+      final bytes = readBytes(byteCount);
+      return utf8.decode(bytes, allowMalformed: true);
     }
-
-    return utf8.decode(bytes);
   }
 }
-
