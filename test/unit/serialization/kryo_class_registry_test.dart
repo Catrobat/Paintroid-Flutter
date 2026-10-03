@@ -135,6 +135,26 @@ void main() {
       expect(model.commands[1]['type'], equals('SelectLayerCommand'));
       expect(model.commands[1]['layerIndex'], equals(1));
     });
+
+    test('deserialize should parse LayerOpacityCommand with opacityPercentage', () {
+      final bytes = Uint8List.fromList([
+        0x11, // SetDimensionCommand (15 + 2 = 17)
+        0x20, 0x03, 0x00, 0x00, // width = 800
+        0x58, 0x02, 0x00, 0x00, // height = 600
+        0x01, 0x00, 0x00, 0x00, // command list size = 1
+
+        0x39, // LayerOpacityCommand (55 + 2 = 57 -> 0x39)
+        0x02, 0x00, 0x00, 0x00, // layerIndex = 2
+        0x32, 0x00, 0x00, 0x00, // opacityPercentage = 50
+      ]);
+      final reader = KryoReader(bytes);
+      final model = LegacyCommandManagerModel.deserialize(reader);
+
+      expect(model.commands.length, equals(1));
+      expect(model.commands[0]['type'], equals('LayerOpacityCommand'));
+      expect(model.commands[0]['layerIndex'], equals(2));
+      expect(model.commands[0]['opacityPercentage'], equals(50));
+    });
   });
 
   group('Legacy Path and Action Deserialization Tests', () {

@@ -75,11 +75,11 @@ class LegacyCommandManagerModel {
         };
       case 'LayerOpacityCommand':
         final int layerIndex = reader.readInt32();
-        final double opacity = reader.readFloat();
+        final int opacityPercentage = reader.readInt32();
         return {
           'type': 'LayerOpacityCommand',
           'layerIndex': layerIndex,
-          'opacity': opacity,
+          'opacityPercentage': opacityPercentage,
         };
       case 'FlipCommand':
         final int flipDirection = reader.readInt32();

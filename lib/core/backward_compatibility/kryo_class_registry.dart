@@ -62,9 +62,7 @@ class KryoClassRegistry {
     final int classId = encodedId - 2;
     final className = classMap[classId];
     if (className == null) {
-      throw FormatException(
-        'Unknown or unregistered legacy class ID: $classId',
-      );
+      return 'UnknownCommand_$classId';
     }
     return className;
   }
