@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:paintroid/core/backward_compatibility/kryo_class_registry.dart';
 import 'package:paintroid/core/backward_compatibility/kryo_reader.dart';
+import 'package:paintroid/core/backward_compatibility/models/models.dart';
 
 class LegacyCommandManagerModel {
   final dynamic initialCommand;
@@ -111,7 +113,7 @@ class LegacyCommandManagerModel {
         final position = KryoClassRegistry.readClassAndObject(reader);
         final double width = reader.readFloat();
         final double height = reader.readFloat();
-        final double rotation = reader.readFloat();
+        final double rotation = reader.readFloat() * math.pi / 180.0;
         return {
           'type': 'CutCommand',
           'position': position,
@@ -130,7 +132,7 @@ class LegacyCommandManagerModel {
           'paint': paint,
         };
       case 'PointCommand':
-        final point = KryoClassRegistry.readClassAndObject(reader);
+        final point = LegacyPointF.deserialize(reader);
         final paint = KryoClassRegistry.readClassAndObject(reader);
         return {'type': 'PointCommand', 'point': point, 'paint': paint};
       case 'TextToolCommand':
@@ -140,7 +142,7 @@ class LegacyCommandManagerModel {
         final width = reader.readFloat();
         final height = reader.readFloat();
         final position = KryoClassRegistry.readClassAndObject(reader);
-        final rotation = reader.readFloat();
+        final rotation = reader.readFloat() * math.pi / 180.0;
         final typeface = KryoClassRegistry.readClassAndObject(reader);
         return {
           'type': 'TextToolCommand',
@@ -158,7 +160,7 @@ class LegacyCommandManagerModel {
         final coordinates = KryoClassRegistry.readClassAndObject(reader);
         final width = reader.readFloat();
         final height = reader.readFloat();
-        final rotation = reader.readFloat();
+        final rotation = reader.readFloat() * math.pi / 180.0;
         return {
           'type': 'ClipboardCommand',
           'bitmap': bitmapBytes,
@@ -207,7 +209,7 @@ class LegacyCommandManagerModel {
         final pointX = reader.readInt32();
         final pointY = reader.readInt32();
         final rect = KryoClassRegistry.readClassAndObject(reader);
-        final rotation = reader.readFloat();
+        final rotation = reader.readFloat() * math.pi / 180.0;
         final paint = KryoClassRegistry.readClassAndObject(reader);
         return {
           'type': 'GeometricFillCommand',

@@ -23,7 +23,6 @@ class LegacyModelTransformer {
     int width = 800;
     int height = 600;
 
-    // 1. Resolve canvas dimensions from SetDimensionCommand
     final initial = model.initialCommand;
     if (initial is Map && initial['type'] == 'SetDimensionCommand') {
       width = initial['width'] as int;
@@ -32,7 +31,6 @@ class LegacyModelTransformer {
 
     final List<Command> commands = [];
 
-    // 2. Map all native commands
     for (final legacyCmd in model.commands) {
       if (legacyCmd is! Map) continue;
 
@@ -208,7 +206,7 @@ class LegacyModelTransformer {
             commands.add(
               StarShapeCommand(
                 paint,
-                5, // Default number of points for legacy star
+                5,
                 rotation,
                 center,
                 style,
@@ -226,9 +224,9 @@ class LegacyModelTransformer {
             final opacity = layer['opacity'] as int;
 
             final scale = 1.0;
-            final offset = Offset.zero;
+            final offset = Offset(width / 2, height / 2);
             final paint = Paint()
-              ..color = Colors.black.withValues(alpha: opacity / 255.0);
+              ..color = Colors.black.withValues(alpha: opacity / 100.0);
 
             commands.add(
               ClipboardCommand(paint, bitmapBytes, offset, scale, 0.0),
@@ -242,7 +240,6 @@ class LegacyModelTransformer {
         case 'MergeLayersCommand':
         case 'ReorderLayersCommand':
         case 'LayerOpacityCommand':
-          // Safely ignored to flatten multi-layer legacy drawings onto the modern single canvas.
           break;
 
         case 'RotateCommand':
@@ -250,7 +247,7 @@ class LegacyModelTransformer {
           final double oldW = width.toDouble();
           final double oldH = height.toDouble();
 
-          if (rotateDirection == 1) {
+          if (rotateDirection == 0) {
             _transformAccumulatedCommands(
               commands,
               (p) => Offset(oldH - p.dy, p.dx),
@@ -260,7 +257,7 @@ class LegacyModelTransformer {
             final temp = width;
             width = height;
             height = temp;
-          } else if (rotateDirection == 2) {
+          } else if (rotateDirection == 1) {
             _transformAccumulatedCommands(
               commands,
               (p) => Offset(p.dy, oldW - p.dx),
@@ -278,17 +275,17 @@ class LegacyModelTransformer {
           final double currentW = width.toDouble();
           final double currentH = height.toDouble();
 
-          if (flipDirection == 1) {
-            _transformAccumulatedCommands(
-              commands,
-              (p) => Offset(currentW - p.dx, p.dy),
-              swapSize: false,
-              mapAngle: (a) => -a,
-            );
-          } else if (flipDirection == 2) {
+          if (flipDirection == 0) {
             _transformAccumulatedCommands(
               commands,
               (p) => Offset(p.dx, currentH - p.dy),
+              swapSize: false,
+              mapAngle: (a) => -a,
+            );
+          } else if (flipDirection == 1) {
+            _transformAccumulatedCommands(
+              commands,
+              (p) => Offset(currentW - p.dx, p.dy),
               swapSize: false,
               mapAngle: (a) => -a,
             );
@@ -307,8 +304,8 @@ class LegacyModelTransformer {
             swapSize: false,
             mapAngle: (a) => a,
           );
-          width = (right - left).toInt();
-          height = (bottom - top).toInt();
+          width = (right + 1 - left).toInt();
+          height = (bottom + 1 - top).toInt();
           break;
 
         case 'ResizeCommand':
@@ -340,7 +337,7 @@ class LegacyModelTransformer {
       commands,
       width,
       height,
-      '', // Background image is empty by default for backward compatibility
+      '',
     );
   }
 
@@ -353,11 +350,15 @@ class LegacyModelTransformer {
       ..style = PaintingStyle.values[legacy.style]
       ..strokeJoin = StrokeJoin.values[legacy.strokeJoin];
 
+    if (legacy.alpha == 0) {
+      paint.blendMode = BlendMode.clear;
+    }
+
     if (legacy.hadFilter) {
-      paint.maskFilter = MaskFilter.blur(
-        BlurStyle.inner,
-        legacy.alpha.toDouble(),
-      );
+      double blurRadius = legacy.alpha * (150.0 - 20.0) / 255.0 + 20.0;
+      blurRadius = 150.0 - blurRadius + 20.0;
+      final sigma = blurRadius * 0.57735 + 0.5;
+      paint.maskFilter = MaskFilter.blur(BlurStyle.inner, sigma);
     }
     return paint;
   }

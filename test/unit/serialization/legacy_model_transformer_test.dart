@@ -279,8 +279,8 @@ void main() {
       final legacyLoadLayers = {
         'type': 'LoadLayerListCommand',
         'layers': [
-          {'bitmap': pngHeader, 'opacity': 128},
-          {'bitmap': pngHeader, 'opacity': 255},
+          {'bitmap': pngHeader, 'opacity': 50},
+          {'bitmap': pngHeader, 'opacity': 100},
         ],
       };
 
@@ -295,7 +295,7 @@ void main() {
       final legacyOpacity = {
         'type': 'LayerOpacityCommand',
         'layerIndex': 1,
-        'opacity': 0.5,
+        'opacity': 50,
       };
 
       final model = LegacyCommandManagerModel(
@@ -322,10 +322,10 @@ void main() {
       expect(commands[1], isA<ClipboardCommand>());
 
       final layer1 = commands[0] as ClipboardCommand;
-      expect(layer1.offset, equals(Offset.zero));
+      expect(layer1.offset, equals(const Offset(400, 300)));
       expect(layer1.scale, equals(1.0));
       expect(layer1.rotation, equals(0.0));
-      expect(layer1.paint.color.a, closeTo(128 / 255, 0.01));
+      expect(layer1.paint.color.a, closeTo(50 / 100, 0.01));
 
       final layer2 = commands[1] as ClipboardCommand;
       expect(layer2.paint.color.a, equals(1.0));
@@ -355,7 +355,7 @@ void main() {
           'path': legacyPath,
         };
 
-        final legacyRotate = {'type': 'RotateCommand', 'rotateDirection': 1};
+        final legacyRotate = {'type': 'RotateCommand', 'rotateDirection': 0};
 
         final legacyFlip = {'type': 'FlipCommand', 'flipDirection': 1};
 
@@ -399,8 +399,8 @@ void main() {
         final pathCmd = commands[0] as PathCommand;
         expect(pathCmd.path.actions.length, equals(1));
         final moveAction = pathCmd.path.actions[0] as MoveToAction;
-        expect(moveAction.x, closeTo(30.0, 0.01));
-        expect(moveAction.y, closeTo(10.0, 0.01));
+        expect(moveAction.x, closeTo(29.41, 0.05));
+        expect(moveAction.y, closeTo(9.80, 0.05));
 
         // Test ResetCommand
         final modelReset = LegacyCommandManagerModel(
