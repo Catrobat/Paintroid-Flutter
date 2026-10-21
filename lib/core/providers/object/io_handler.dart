@@ -98,7 +98,11 @@ class IOHandler {
         );
 
         await db.projectDAO.insertProject(projectNew);
+      } else {
+        project.lastModified = DateTime.now();
+        await db.projectDAO.insertProject(project);
       }
+
       workspaceStateNotifier.updateLastSavedCommandCount();
       return true;
     }
@@ -175,6 +179,8 @@ class IOHandler {
         ref.read(canvasStateProvider.notifier)
           ..setBackgroundImage(img)
           ..resetCanvasWithNewCommands([]);
+        ref.read(workspaceStateProvider.notifier).updateProject();
+        ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
         return true;
       },
       err: (failure) async {
@@ -202,6 +208,8 @@ class IOHandler {
           canvasStateNotifier.resetCanvasWithNewCommands(commands);
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
+          ref.read(workspaceStateProvider.notifier).updateProject();
+          ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
         }
 
         return true;

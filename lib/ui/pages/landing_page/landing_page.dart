@@ -103,8 +103,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   Future<bool> _loadProject(IOHandler ioHandler, Project project) async {
-    project.lastModified = DateTime.now();
-    await database.projectDAO.insertProject(project);
     return fileService.getFile(project.path).when(
       ok: (file) async {
         return await ioHandler.loadFromFiles(Result.ok(file));
