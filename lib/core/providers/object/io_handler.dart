@@ -181,6 +181,7 @@ class IOHandler {
           ..resetCanvasWithNewCommands([]);
         ref.read(workspaceStateProvider.notifier).updateProject();
         ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
+        ref.read(appBarProvider.notifier).update();
         return true;
       },
       err: (failure) async {
@@ -204,13 +205,18 @@ class IOHandler {
             : canvasStateNotifier
                 .setBackgroundImage(imageFromFile.rasterImage!);
         if (imageFromFile.catrobatImage != null) {
-          final commands = imageFromFile.catrobatImage!.commands;
+          final catrobatImage = imageFromFile.catrobatImage!;
+          canvasStateNotifier.setCanvasSize(
+            Size(catrobatImage.width.toDouble(), catrobatImage.height.toDouble()),
+          );
+          final commands = catrobatImage.commands;
           canvasStateNotifier.resetCanvasWithNewCommands(commands);
         } else {
           canvasStateNotifier.resetCanvasWithNewCommands([]);
           ref.read(workspaceStateProvider.notifier).updateProject();
           ref.read(workspaceStateProvider.notifier).markUnsavedChanges();
         }
+        ref.read(appBarProvider.notifier).update();
 
         return true;
       },

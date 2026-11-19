@@ -18,24 +18,57 @@ import 'package:paintroid/core/models/catrobat_image.dart';
 import 'package:paintroid/core/backward_compatibility/models/models.dart';
 import 'package:paintroid/core/backward_compatibility/legacy_model_parser.dart';
 
+class LegacyTransformResult {
+  final CatrobatImage image;
+  final bool hasUnsupportedCommands;
+
+  LegacyTransformResult(this.image, this.hasUnsupportedCommands);
+}
+
 class LegacyModelTransformer {
-  static CatrobatImage transform(LegacyCommandManagerModel model) {
+  static LegacyTransformResult transformWithFallback(
+    LegacyCommandManagerModel model,
+  ) {
     int width = 800;
     int height = 600;
+    bool hasUnsupportedCommands = false;
 
     final initial = model.initialCommand;
-    if (initial is Map && initial['type'] == 'SetDimensionCommand') {
-      width = initial['width'] as int;
-      height = initial['height'] as int;
+    Map? dimensionCmd;
+    if (initial is Map) {
+      if (initial['type'] == 'SetDimensionCommand') {
+        dimensionCmd = initial;
+      } else if (initial['type'] == 'CompositeCommand') {
+        final List<dynamic> subCommands = initial['commands'] as List<dynamic>;
+        for (final cmd in subCommands) {
+          if (cmd is Map && cmd['type'] == 'SetDimensionCommand') {
+            dimensionCmd = cmd;
+            break;
+          }
+        }
+      }
+    }
+
+    if (dimensionCmd != null) {
+      width = dimensionCmd['width'] as int;
+      height = dimensionCmd['height'] as int;
     }
 
     final List<Command> commands = [];
 
-    for (final legacyCmd in model.commands) {
-      if (legacyCmd is! Map) continue;
+    void processCommand(dynamic legacyCmd) {
+      if (legacyCmd is! Map) {
+        return;
+      }
 
       final type = legacyCmd['type'] as String;
       switch (type) {
+        case 'CompositeCommand':
+          final subCmds = legacyCmd['commands'] as List<dynamic>;
+          for (final subCmd in subCmds) {
+            processCommand(subCmd);
+          }
+          break;
         case 'PathCommand':
           final legacyPaint = legacyCmd['paint'] as LegacyPaint;
           final legacyPath = legacyCmd['path'] as LegacySerializablePath;
@@ -138,9 +171,11 @@ class LegacyModelTransformer {
 
           final boxWidth = rect.right - rect.left;
           final boxHeight = rect.bottom - rect.top;
+          final double pointX = (legacyCmd['pointX'] as num).toDouble();
+          final double pointY = (legacyCmd['pointY'] as num).toDouble();
           final center = Offset(
-            (rect.left + rect.right) / 2,
-            (rect.top + rect.bottom) / 2,
+            pointX + (rect.left + rect.right) / 2,
+            pointY + (rect.top + rect.bottom) / 2,
           );
           final paint = _transformPaint(legacyPaint);
           final style = _mapShapeStyle(legacyPaint.style);
@@ -232,6 +267,14 @@ class LegacyModelTransformer {
               ClipboardCommand(paint, bitmapBytes, offset, scale, 0.0),
             );
           }
+          break;
+
+        case 'LoadCommand':
+          final bitmapBytes = legacyCmd['bitmap'] as Uint8List;
+          final paint = Paint()..color = Colors.black;
+          commands.add(
+            ClipboardCommand(paint, bitmapBytes, Offset.zero, 1.0, 0.0),
+          );
           break;
 
         case 'AddEmptyLayerCommand':
@@ -328,17 +371,31 @@ class LegacyModelTransformer {
           commands.clear();
           break;
 
+
+
         default:
+          hasUnsupportedCommands = true;
           break;
       }
     }
 
-    return CatrobatImage(
+    // 2. Map all native commands
+    for (final legacyCmd in model.commands.toList().reversed) {
+      processCommand(legacyCmd);
+    }
+
+    final image = CatrobatImage(
       commands,
       width,
       height,
       '',
     );
+
+    return LegacyTransformResult(image, hasUnsupportedCommands);
+  }
+
+  static CatrobatImage transform(LegacyCommandManagerModel model) {
+    return transformWithFallback(model).image;
   }
 
   static Paint _transformPaint(LegacyPaint legacy) {
