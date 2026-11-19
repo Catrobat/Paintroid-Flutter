@@ -8,7 +8,6 @@ import 'package:paintroid/ui/pages/workspace_page/components/bottom_bar/tool_opt
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/drawing_canvas.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/exit_fullscreen_button.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/top_bar/top_app_bar.dart';
-import 'package:paintroid/ui/shared/dialogs/discard_changes_dialog.dart';
 import 'package:toast/toast.dart';
 
 class WorkspacePage extends ConsumerStatefulWidget {
@@ -49,21 +48,11 @@ class _WorkspaceScreenState extends ConsumerState<WorkspacePage> {
           workspaceStateNotifier.toggleFullscreen(false);
           return;
         }
-        if (!workspaceStateNotifier.hasSavedLastWork) {
-          final shouldDiscard = await showDiscardChangesDialog(context);
 
-          if (shouldDiscard == null) {
-            return;
-          }
+        final shouldContinue = await ioHandler.handleUnsavedChanges(context, this);
 
-          if (!shouldDiscard && context.mounted) {
-            bool savedImage = await ioHandler.saveImage(context);
-            if (!savedImage) {
-              return;
-            }
-          }
-        }
-        if (!context.mounted) return;
+
+        if (!context.mounted || !shouldContinue) return;
         Navigator.pop(context);
       },
       child: Scaffold(

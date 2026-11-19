@@ -20,10 +20,14 @@ import 'package:paintroid/core/commands/command_implementation/graphic/color_cha
 enum ActionType { UNDO, REDO }
 
 class CommandManager {
-  CommandManager();
-
+  CommandManager({
+    this.onUndo,
+  });
+  
   final List<Command> _undoStack = [];
   final List<Command> _redoStack = [];
+
+  final VoidCallback? onUndo;
 
   void addGraphicCommand(GraphicCommand command) {
     _redoStack.clear();
@@ -94,6 +98,7 @@ class CommandManager {
   void undo() {
     final lastCommand = _undoStack.removeLast();
     _redoStack.add(lastCommand);
+    onUndo?.call();
   }
 
   List<Command> get redoStack => _redoStack;

@@ -70,6 +70,7 @@ void main() {
       expect(redoStackLength, 1);
 
       await UIInteraction.clickBackButton();
+      await UIInteraction.clickDiscard();
       await UIInteraction.createNewImage();
 
       redoStackLength = UIInteraction.getRedoStackLength();

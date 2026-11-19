@@ -1,6 +1,7 @@
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:paintroid/core/models/database/project.dart';
 
 part 'workspace_state_notifier.g.dart';
 
@@ -24,6 +25,10 @@ class WorkspaceStateProvider extends _$WorkspaceStateProvider {
 
   void markUnsavedChanges() {
     state = state.copyWith(hasUnsavedChanges: true);
+  }
+
+  void updateProject({ Project? loadProject }) {
+    state = state.copyWith(loadedProject: loadProject);
   }
 
   void updateLastSavedCommandCount() {
