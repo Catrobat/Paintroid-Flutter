@@ -1,0 +1,12 @@
+{
+    "@@locale": "zh-CN",
+    "fullscreen": "全屏",
+    "saveImage": "保存图像",
+    "loadImage": "载入图像",
+    "newImage": "新建图像",
+    "saveProject": "保存项目",
+    "tools": "工具",
+    "brush": "画笔",
+    "color": "颜色",
+    "layers": "图层"
+}

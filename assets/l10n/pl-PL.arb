@@ -1,0 +1,12 @@
+{
+    "@@locale": "pl",
+    "fullscreen": "Cały ekran",
+    "saveImage": "Zapisz obraz",
+    "loadImage": "Załaduj obraz",
+    "newImage": "Nowy obraz",
+    "saveProject": "Zapisz projekt",
+    "tools": "Narzędzia",
+    "brush": "Pędzel",
+    "color": "Kolor",
+    "layers": "Warstwy"
+}

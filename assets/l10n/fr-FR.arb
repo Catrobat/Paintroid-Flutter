@@ -1,0 +1,12 @@
+{
+    "@@locale": "fr",
+    "fullscreen": "Plein écran",
+    "saveImage": "Sauvegarder l'image",
+    "loadImage": "Charger l'image",
+    "newImage": "Nouvelle image",
+    "saveProject": "Save project",
+    "tools": "Outils",
+    "brush": "Pinceau",
+    "color": "Couleur",
+    "layers": "Couches"
+}

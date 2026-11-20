@@ -1,0 +1,12 @@
+{
+    "@@locale": "cs",
+    "fullscreen": "Celá obrazovka",
+    "saveImage": "Uložit obrázek",
+    "loadImage": "Načíst obrázek",
+    "newImage": "Nový obrázek",
+    "saveProject": "Save project",
+    "tools": "Nástroje",
+    "brush": "Štětec",
+    "color": "Color",
+    "layers": "Vrstvy"
+}
